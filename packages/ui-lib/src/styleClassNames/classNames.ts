@@ -65,7 +65,7 @@ const styles = Object.freeze({
 		justifyLabel && `text-${justifyLabel}`,
 	],
 	responsiveContainer: [
-		'bg-inverse min-h-full min-w-full sm:!rounded-none md:min-w-min md:min-h-min md:!rounded px-12',
+		'bg-inverse min-h-full h-full min-w-full sm:!rounded-none md:min-w-min md:min-h-min md:!rounded px-12',
 	],
 	padd: 'md:pt-12 md:pb-14',
 });

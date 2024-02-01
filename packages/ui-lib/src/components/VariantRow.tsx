@@ -53,6 +53,7 @@ export default function ProductVariantRow({ variant }: ProductVariantRowProps) {
 					basePrice={variant.basePrice}
 					salePrice={variant.salePrice}
 					discount={variant.discount}
+					isDiscount={variant.isDiscount}
 					showDiscount={true}
 					showOriginalPrice={true}
 				/>

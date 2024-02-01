@@ -55,11 +55,3 @@ ContinueSignUp.getLayoutContext = (): LayoutContextProps => ({
 });
 
 export default ContinueSignUp;
-const styles = {
-	gradient: [
-		'bg-gradient-to-b',
-		'from-primary',
-		'to-secondary',
-		'p-0 lg:p-16 h-max',
-	],
-};

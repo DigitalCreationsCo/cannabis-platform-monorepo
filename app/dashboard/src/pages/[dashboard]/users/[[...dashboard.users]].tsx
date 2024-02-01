@@ -8,9 +8,9 @@ import {
 	Icons,
 	Page,
 	PageHeader,
-	usePagination,
 	Paragraph,
 	Row,
+	usePagination,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
 import axios from 'axios';
@@ -53,7 +53,7 @@ function Users({ users }: UsersDashboardProps) {
 	};
 
 	return (
-		<Page>
+		<Page className="lg:min-h-[710px]">
 			<PageHeader
 				title="Users"
 				Icon={Icons.User2}

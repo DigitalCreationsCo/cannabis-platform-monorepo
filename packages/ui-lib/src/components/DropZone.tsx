@@ -9,12 +9,14 @@ export interface DropZoneProps {
 	title?: string;
 	imageSize?: string;
 	maxFiles?: number;
+	buttonText?: string;
 }
 
 export default function DropZone({
 	onChange,
 	title = 'Drag & drop image here',
-	imageSize = 'Upload 280*280 image',
+	imageSize = '', // 'Upload 280*280 image',
+	buttonText = 'Select files',
 	maxFiles = 3,
 }: DropZoneProps) {
 	const onDrop = useCallback(
@@ -49,7 +51,7 @@ export default function DropZone({
 			<H6>{title}</H6>
 			<div className="w-[200px] mx-auto"></div>
 			<Button type="button" onClick={open}>
-				Select files
+				{buttonText}
 			</Button>
 			<Small>{imageSize}</Small>
 		</div>

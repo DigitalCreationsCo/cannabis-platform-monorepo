@@ -178,7 +178,7 @@ export default function EnterOTPForm({
 					onChange={handleChange}
 					error={!!touched.passcode && !!errors.passcode}
 				/>
-				<FlexBox className="py-2 space-y-8">
+				<FlexBox className="py-2 space-y-8 grow content-stretch">
 					<Button
 						type="submit"
 						className="place-self-center"
@@ -193,26 +193,24 @@ export default function EnterOTPForm({
 						Sign In
 					</Button>
 
-					<FlexBox className="m-auto space-y-2">
-						<Button
-							className="underline"
-							transparent
-							onClick={resendOTP}
-							disabled={!canSend}
-						>
-							Resend Code
-						</Button>
+					<Button
+						className="underline"
+						transparent
+						onClick={resendOTP}
+						disabled={!canSend}
+					>
+						Resend Code
+					</Button>
 
-						<Button
-							className="underline"
-							bg={'transparent'}
-							hover={'transparent'}
-							onClick={prevFormStep}
-						>
-							<IconWrapper Icon={Icons.ArrowLeft} className="text-dark pr-2" />
-							Change email
-						</Button>
-					</FlexBox>
+					<Button
+						className="underline"
+						bg={'transparent'}
+						hover={'transparent'}
+						onClick={prevFormStep}
+					>
+						<IconWrapper Icon={Icons.ArrowLeft} className="text-dark pr-2" />
+						Change email
+					</Button>
 				</FlexBox>
 			</Grid>
 		</form>

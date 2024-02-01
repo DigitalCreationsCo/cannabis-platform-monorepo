@@ -45,12 +45,10 @@ function StartPage() {
 			{/* <ImageBackDrop video={friendsVideo}></ImageBackDrop> */}
 			<FlexBox className="mx-auto flex p-4 px-8 md:px-20 w-full space-x-2 items-center space-y-2 lg:space-y-8">
 				<div className="flex flex-col self-center text-center lg:py-4">
-					<H1
-						color="light"
-						className="mx-auto text-center text-[1.5rem] md:text-[2rem] lg:text-[3rem] whitespace-pre-line overflow-x-visible border-b border-transparent text-inverse w-lg font-semibold tracking-wide"
-					>
+					<H1 className="text-light mx-auto text-center text-[1.5rem] md:text-[2rem] lg:text-[3rem] whitespace-pre-line overflow-x-visible border-b border-transparent w-lg font-semibold tracking-wide">
 						{/* {TextContent.info.SAME_DAY_DELIVERY}&nbsp;🌴 */}
-						{TextContent.info.TOP_SHELF_CANNABIS_DELIVERED_DAILY}&nbsp;🌴
+						{/* {TextContent.info.TOP_SHELF_CANNABIS_DELIVERED_DAILY}&nbsp;🌴 */}
+						We Deliver Top-Shelf Cannabis Daily&nbsp;🌴
 					</H1>
 					{/* <Button
 										size="lg"
@@ -60,7 +58,9 @@ function StartPage() {
 										onClick={openCheckAgeModalOrEnterSite}
 									> */}
 					<H3 className="text-xl md:text-2xl lg:text-4xl">
-						{TextContent.info.ENJOY_BUD_WITH_YOUR_BUDS}
+						{/* {TextContent.info.ENJOY_BUD_WITH_YOUR_BUDS} */}
+						{/* So You Can Enjoy Bud With Your Buds */}
+						Enjoy Bud With Your Buds
 					</H3>
 					{/* </Button> */}
 				</div>
@@ -160,33 +160,42 @@ const ImageBackDrop = ({
 
 const HowItWorks = () => {
 	return (
-		<FlexBox className="w-full md:w-full lg:px-20 md:flex-row justify-center gap-8 lg:gap-12 py-4 mx-auto text-xl">
-			<FlexBox className="md:max-w-[300px] xl:max-w-[240px] 2xl:max-w-[320px] flex-row md:flex-col items-center gap-4 text-center text-md">
-				<IconWrapper
-					Icon={Icons.MobileAdd}
-					iconSize={window.innerWidth < 1000 ? 60 : 76}
-				/>
-				<Paragraph>
-					Sign up below for free and get a delivery text message daily.
+		<div className="text-xl pt-2 pb-4 lg:pb-6">
+			<FlexBox className="w-full md:w-full lg:px-20 md:flex-row justify-center gap-8 lg:gap-12 pb-6 mx-auto text-xl">
+				<FlexBox className="md:max-w-[300px] xl:max-w-[240px] 2xl:max-w-[320px] flex-row md:flex-col items-center gap-4 text-center">
+					<IconWrapper
+						Icon={Icons.MobileAdd}
+						iconSize={window.innerWidth < 1000 ? 60 : 76}
+					/>
+					<Paragraph className="xl:text-2xl">
+						Sign up below for free and get a daily deal via text message.
+					</Paragraph>
+				</FlexBox>
+				<FlexBox className="md:max-w-[300px] xl:max-w-[240px] 2xl:max-w-[320px] flex-row md:flex-col items-center gap-4 text-center">
+					<IconWrapper
+						Icon={Icons.MobileCheck}
+						iconSize={window.innerWidth < 1000 ? 60 : 76}
+					/>
+					<Paragraph className="lg:text-2xl">
+						If interested just reply with the number of packs you want.
+					</Paragraph>
+				</FlexBox>
+				<FlexBox className="md:max-w-[300px] xl:max-w-[240px] 2xl:max-w-[320px] flex-row md:flex-col items-center gap-4 text-center">
+					<IconWrapper
+						Icon={Icons.MobilityServices}
+						iconSize={window.innerWidth < 1000 ? 60 : 76}
+					/>
+					<Paragraph className="lg:text-2xl">
+						Your weed will be delivered to your doorstep the same day.*
+					</Paragraph>
+				</FlexBox>
+			</FlexBox>
+			<div>
+				<Paragraph className="text-center ">
+					* {TextContent.info.TIME_GUARANTEE}
 				</Paragraph>
-			</FlexBox>
-			<FlexBox className="md:max-w-[300px] xl:max-w-[240px] 2xl:max-w-[320px] flex-row md:flex-col items-center gap-4 text-center text-md">
-				<IconWrapper
-					Icon={Icons.MobileCheck}
-					iconSize={window.innerWidth < 1000 ? 60 : 76}
-				/>
-				<Paragraph>
-					If interested just reply with the number of packs you want.
-				</Paragraph>
-			</FlexBox>
-			<FlexBox className="md:max-w-[300px] xl:max-w-[240px] 2xl:max-w-[320px] flex-row md:flex-col items-center gap-4 text-center text-md">
-				<IconWrapper
-					Icon={Icons.MobilityServices}
-					iconSize={window.innerWidth < 1000 ? 60 : 76}
-				/>
-				<Paragraph>Your weed will be delivered to your doorstep.</Paragraph>
-			</FlexBox>
-		</FlexBox>
+			</div>
+		</div>
 	);
 };
 
@@ -202,11 +211,12 @@ const SignUpForm = () => {
 
 	return (
 		<Card className="!rounded w-11/12 mx-auto text-dark text-center lg:!py-12">
-			<H4>SIGN UP FOR GRAS</H4>
-			<Paragraph className="font-semibold">
-				Your daily text offering you great deals on weed delivery
+			<H4>SIGN UP BELOW</H4>
+			<Paragraph className="font-semibold text-xl pt-4">
+				We'll send you a daily deal via text message with great deals on good
+				weed.
 			</Paragraph>
-			<Paragraph className="mx-auto">
+			<Paragraph className="mx-auto pt-2">
 				<Button
 					onClick={openLoginModal}
 					bg="transparent"

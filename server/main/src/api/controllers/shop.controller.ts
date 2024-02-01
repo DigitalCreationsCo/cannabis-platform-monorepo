@@ -77,7 +77,7 @@ export default class ShopController {
 			// update order status
 			await ShopDA.updateOrderFulfillmentStatus(orderId, 'Processing');
 
-			const POSIntegration = await ShopDA.getPOSIntegrationService(
+			const POSIntegration = await IntegrationService.getPOSIntegrationService(
 				order.organization.pos,
 			);
 
