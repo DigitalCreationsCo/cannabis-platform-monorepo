@@ -12,7 +12,7 @@ import Link from 'next/link';
 
 export default function AddUser() {
 	return (
-		<Page>
+		<Page className="lg:min-h-[710px]">
 			<PageHeader
 				title="Add Dispensary Staff"
 				Icon={Icons.User2}

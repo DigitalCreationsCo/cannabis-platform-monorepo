@@ -65,7 +65,9 @@ function TextField({
 			{label && (
 				<FlexBox className="items-start w-full">
 					<label className={twMerge(styles.label_f(justifyLabel))}>
-						<Paragraph className="text-primary">{label}</Paragraph>
+						<Paragraph className="text-primary whitespace-nowrap">
+							{label}
+						</Paragraph>
 					</label>
 				</FlexBox>
 			)}
@@ -84,6 +86,7 @@ function TextField({
 					/>
 				)}
 				<input
+					aria-label={label || name}
 					ref={inputRef}
 					onFocus={() => {
 						if (onfocus) onfocus;

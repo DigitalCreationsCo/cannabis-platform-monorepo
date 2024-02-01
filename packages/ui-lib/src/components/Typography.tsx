@@ -47,7 +47,7 @@ export const H1 = ({
 				'xl:leading-tight',
 				'font-encode',
 				styles['cursor-inherit'],
-				'text-4xl font-bold whitespace-normal',
+				'text-4xl font-semibold whitespace-normal',
 				(color === 'light' && 'text-inverse') ||
 					(color === 'dark' && 'text-dark') ||
 					'text-inherit',
@@ -72,7 +72,7 @@ export const H2 = ({
 				'font-encode',
 				'tracking-wider',
 				styles['cursor-inherit'],
-				'font-bold text-3xl whitespace-normal',
+				'font-semibold text-3xl whitespace-normal',
 				(color === 'light' && 'text-inverse') ||
 					(color === 'dark' && 'text-dark') ||
 					'text-inherit',
@@ -97,7 +97,7 @@ export const H3 = ({
 				'font-encode',
 				'tracking-wider',
 				styles['cursor-inherit'],
-				'font-bold text-2xl whitespace-normal',
+				'font-semibold text-2xl whitespace-normal',
 				(color === 'light' && 'text-inverse') ||
 					(color === 'dark' && 'text-dark') ||
 					'text-inherit',
@@ -192,8 +192,9 @@ export const Paragraph = ({
 	return (
 		<p
 			className={twMerge(
-				'font-onest',
-				'font-light',
+				'font-encode',
+				'font-normal',
+				'text-lg',
 				'tracking-wider',
 				styles['cursor-inherit'],
 				'whitespace-pre-line',

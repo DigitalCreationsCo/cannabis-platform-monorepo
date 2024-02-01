@@ -3,7 +3,7 @@
 // @ts-nocheck
 
 import {
-	calcSalePrice,
+	calculateSalePrice,
 	getDashboardSite,
 	renderAddress,
 	TextContent,
@@ -145,7 +145,7 @@ export default function OrderDetails({
 		variant: ProductVariantWithDetails,
 		quantity: number,
 	) => {
-		const salePrice = calcSalePrice(variant.basePrice, variant.discount);
+		const salePrice = calculateSalePrice(variant.basePrice, variant.discount);
 
 		const addItem: any = {
 			discount: variant.discount,
@@ -171,7 +171,7 @@ export default function OrderDetails({
 	};
 
 	return (
-		<Page>
+		<Page className="lg:min-h-[710px]">
 			<PageHeader title={`Order #${order.id}`} Icon={Icons.DeliveryTruck}>
 				<Link href={getDashboardSite('/orders')}>
 					<Button className="bg-inverse hover:bg-inverse active:bg-accent-soft place-self-start">
@@ -292,6 +292,7 @@ export default function OrderDetails({
 								basePrice={item.basePrice}
 								discount={item.discount}
 								salePrice={item.salePrice}
+								isDiscount={item.isDiscount}
 							/>
 
 							{/* {orderStatus === 'Pending' ? (

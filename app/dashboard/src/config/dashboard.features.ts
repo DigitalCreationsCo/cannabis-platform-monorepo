@@ -4,7 +4,8 @@ type FeatureType =
 	| 'users'
 	| 'delivery_tracking'
 	| 'storefront'
-	| 'weed_text';
+	| 'weed_text'
+	| 'checkout_widget';
 
 type Config = Record<FeatureType, { enabled: boolean }>;
 export type FeatureConfigInterface = Readonly<Config>;
@@ -27,6 +28,9 @@ const config: Config = Object.freeze({
 	},
 	weed_text: {
 		enabled: true,
+	},
+	checkout_widget: {
+		enabled: false,
 	},
 });
 

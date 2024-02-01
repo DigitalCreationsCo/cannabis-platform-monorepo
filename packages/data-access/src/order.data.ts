@@ -124,19 +124,9 @@ export async function createOrder(order: OrderCreateType) {
 							name: item.name,
 							sku: item.sku,
 							size: item.size,
-							quantity: item.quantity,
-							organizationId: _order.organization.id,
-							organizationName: _order.organization.name,
-							rating: 0,
-							discount: 0,
-							basePrice: item.basePrice,
-							salePrice: item.basePrice,
-							isDiscount: false,
-							stock: item.quantity,
-							currency: item.currency || 'USD',
 							product: {
 								connectOrCreate: {
-									where: { id: item.productId ?? '' },
+									where: { id: item.productId },
 									create: {
 										name: item.name,
 										description: '',
@@ -145,6 +135,19 @@ export async function createOrder(order: OrderCreateType) {
 									},
 								},
 							},
+							quantity: item.quantity,
+							organization: {
+								connect: { id: _order.organization.id },
+							},
+							// organizationId: _order.organization.id,
+							// organizationName: _order.organization.name,
+							rating: 0,
+							discount: 0,
+							basePrice: item.basePrice,
+							salePrice: item.basePrice,
+							isDiscount: false,
+							stock: item.quantity,
+							currency: item.currency || 'USD',
 							images:
 								(item.images && {
 									connectOrCreate: item.images.map((image) => ({
@@ -274,7 +277,7 @@ export async function updateOrderWithOrderItems(order: any) {
 					where: { id: variantId },
 					create: {
 						...rest,
-						sku: Number(item.sku),
+						sku: item.sku,
 						size: Number(item.size),
 						quantity: Number(item.quantity),
 						basePrice: Number(item.basePrice),
@@ -284,7 +287,7 @@ export async function updateOrderWithOrderItems(order: any) {
 					},
 					update: {
 						...rest,
-						sku: Number(item.sku),
+						sku: item.sku,
 						size: Number(item.size),
 						quantity: Number(item.quantity),
 						basePrice: Number(item.basePrice),

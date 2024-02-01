@@ -1,9 +1,12 @@
-type FeatureType = 'categories';
+type FeatureType = 'categories' | 'storefront';
 type Config = Record<FeatureType, { enabled: boolean }>;
 export type FeatureConfigInterface = Readonly<Config>;
 
 const config: Config = Object.freeze({
 	categories: {
+		enabled: false,
+	},
+	storefront: {
 		enabled: false,
 	},
 });

@@ -80,7 +80,7 @@
     "cluster:start": "make apply && APPLY_FILE=k8s/ make deploy",
     "cluster:nodes": "kubectl get nodes",
     "cluster:apply": "APPLY_FILE=$0 make deploy",
-    "cluster:delete-failed-pods": "kubectl get pods --all-namespaces | grep $0 | awk '{print $2 \" --namespace=\" $1}' | xargs kubectl delete pod",
+    "cluster:prune": "kubectl get pods --all-namespaces | grep $0 | awk '{print $2 \" --namespace=\" $1}' | xargs kubectl delete pod",
     "cluster:get-proxy": "sh scripts/get-proxy-config.sh",
     "install:playwright": "playwright install",
     "postinstall": "yarn is-ci || yarn is-docker || yarn husky install && chmod +x scripts",
@@ -90,7 +90,8 @@
     "sms:get-phone-numbers": "dotenv -e .env.production -- node server/dispatch/src/lib/sms/get-active-phonenumbers.mjs",
     "read-csr": "openssl req -text -in $0 -noout",
     "read-cert": "openssl x509 -in $0 -text -noout",
-    "deps:sync": "yarn syncpack fix-mismatches"
+    "deps:sync": "yarn syncpack fix-mismatches",
+    "snippet": "node scripts/create-snippet.js"
   },
   "engines": {
     "node": "18.19.0",

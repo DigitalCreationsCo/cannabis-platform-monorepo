@@ -36,6 +36,7 @@ function ProductItem({
 						salePrice={product.salePrice}
 						discount={product.discount}
 						quantity={product.quantity}
+						isDiscount={product.isDiscount}
 						showDiscount
 					/>
 				</View>

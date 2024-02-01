@@ -20,13 +20,20 @@ interface AxiosErrorCustom extends AxiosError {
 	config: AxiosConfigCustom;
 }
 
-interface AxiosResponseCustom extends AxiosResponse {
+export interface AxiosResponseCustom<T> extends AxiosResponse {
 	data: {
-		success: boolean;
+		success: 'true' | 'false';
 		message?: string;
-		payload?: any;
+		payload?: T;
 		error?: string;
 	};
+}
+
+export interface ResponseDataEnvelope<T> {
+	success: 'true' | 'false';
+	message?: string;
+	payload?: T;
+	error?: string;
 }
 
 const instance = axios.create({
@@ -36,7 +43,7 @@ const instance = axios.create({
 });
 
 axios.interceptors.response.use(
-	(response: AxiosResponseCustom) => {
+	(response: AxiosResponseCustom<any>) => {
 		return response;
 	},
 	(error: AxiosErrorCustom) => {
