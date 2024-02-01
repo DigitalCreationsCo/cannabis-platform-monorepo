@@ -12,6 +12,8 @@ export interface CheckBoxProps
 }
 
 function CheckBox({
+	name,
+	onChange,
 	LabelComponent = Paragraph,
 	error,
 	label,
@@ -21,7 +23,7 @@ function CheckBox({
 }: CheckBoxProps) {
 	const styles = {
 		checkboxContainer:
-			'flex flex-row space-x-2 py-8 md:py-4 md:self-start w-full',
+			'flex flex-row space-x-4 py-8 md:py-4 md:self-start w-full',
 		helperText: error && 'input-error border-2',
 	};
 
@@ -29,16 +31,17 @@ function CheckBox({
 		<div className={twMerge(styles.checkboxContainer, className)}>
 			<input
 				className="cursor-pointer bg-primary accent-primary-light"
-				style={{ height: '30px', width: '30px' }}
+				style={{ minHeight: '30px', minWidth: '30px' }}
 				type="checkbox"
-				id={inputProps.name}
+				id={name}
+				onChange={onChange}
 				{...inputProps}
 			/>
-			<FlexBox className={twMerge('flex-col', styles.helperText)}>
+			<FlexBox className={twMerge('flex-col w-full', styles.helperText)}>
 				{helperText && <LabelComponent>{helperText}</LabelComponent>}
 				{label && (
 					<LabelComponent>
-						<Label className="cursor-pointer" htmlFor={inputProps.name}>
+						<Label className="cursor-pointer w-full" htmlFor={name}>
 							{label}
 						</Label>
 					</LabelComponent>

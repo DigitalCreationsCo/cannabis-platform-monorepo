@@ -1,5 +1,5 @@
 import { axios, urlBuilder } from '@cd/core-lib';
-import { type WeedTextDeal } from '@cd/data-access';
+import { type DailyDeal } from '@cd/data-access';
 import nc from 'next-connect';
 import NextCors from 'nextjs-cors';
 import NodeCache from 'node-cache';
@@ -19,9 +19,8 @@ const cache = new NodeCache({ stdTTL: 30 });
 const handler = nc();
 handler.get(async (req: any, res: any) => {
 	try {
-		const jwt = await createAnonymousJWT({});
-		req.headers['authorization'] = `Bearer ${jwt}`;
-		console.info('jwt: ', jwt);
+		// req.headers['authorization'] = `Bearer ${jwt}`;
+		// console.info('jwt: ', jwt);
 
 		await NextCors(req, res, {
 			methods: ['GET'],
@@ -37,7 +36,7 @@ handler.get(async (req: any, res: any) => {
 			req,
 			res,
 		);
-		// res.setHeader('Cache-Control', 'public, s-maxage=120');
+		res.setHeader('Cache-Control', 'public, s-maxage=120');
 		const organizationId = req.headers['organization-id'] as string;
 
 		// const { id } = req.query;
@@ -88,18 +87,14 @@ handler.post(async (req: any, res: any) => {
 			res,
 		);
 
-		const weedTextDeal: WeedTextDeal = req.body;
+		const DailyDeal: DailyDeal = req.body;
 
-		const response = await axios.post(
-			urlBuilder.sms.dailyDeal(),
-			weedTextDeal,
-			{
-				headers: {
-					'Content-Type': 'application/json',
-					...req.headers,
-				},
+		const response = await axios.post(urlBuilder.sms.dailyDeal(), DailyDeal, {
+			headers: {
+				'Content-Type': 'application/json',
+				...req.headers,
 			},
-		);
+		});
 		if (response.data.success == 'false') throw new Error(response.data.error);
 		return res.status(response.status).json({
 			success: 'true',

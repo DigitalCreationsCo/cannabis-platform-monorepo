@@ -10,8 +10,8 @@ import {
 	Grid,
 	H6,
 	Icons,
-	usePagination,
 	OrderRow,
+	usePagination,
 	Page,
 	PageHeader,
 	Row,
@@ -30,7 +30,7 @@ function Orders({ orders }: OrdersDashboardProps) {
 	const { current, PaginationButtons } = usePagination(orders);
 
 	return (
-		<Page className={twMerge('sm:px-4 md:pr-16')}>
+		<Page className={twMerge('lg:min-h-[710px] sm:px-4 md:pr-16')}>
 			<PageHeader title="Orders" Icon={Icons.WatsonHealthDicomOverlay} />
 
 			<Grid className="gap-2">

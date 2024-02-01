@@ -21,7 +21,7 @@ function PreviewFullScreenWidget({ organization }: PreviewFullScreenProps) {
 
 	const _widgetScript = crypto.decrypt(_w);
 	return (
-		<Page className={'relative h-screen pb-4'}>
+		<Page className={'lg:min-h-[710px] relative h-screen pb-4'}>
 			<div className="top-0 z-1 m-auto border rounded p-4">
 				<H4>{`You are previewing Delivery by Gras with ${organization.name}`}</H4>
 			</div>

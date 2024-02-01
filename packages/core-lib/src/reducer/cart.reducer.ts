@@ -18,7 +18,7 @@ import {
 	type SimpleCart,
 	type ThunkArgumentsType,
 } from '../types';
-import { calcSalePrice, pruneData, urlBuilder } from '../utils';
+import { calculateSalePrice, pruneData, urlBuilder } from '../utils';
 import { type ShopStateProps } from './shop.reducer';
 import { type UserStateProps } from './user.reducer';
 // import { NavigationService } from "../../navigation";
@@ -555,7 +555,7 @@ function getItemDiscountPrice(item: ProductVariantWithDetails) {
 		item.discount !== undefined
 	) {
 		discount = item.discount;
-		return calcSalePrice(item.basePrice, discount);
+		return calculateSalePrice(item.basePrice, item.isDiscount, discount);
 	} else return item.basePrice;
 }
 

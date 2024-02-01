@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {
+	type ProductVariantWithDetails,
+	type DailyDealWithProductDetails,
+	type DailyDealCreateWithSkus,
 	type OrderCreateType,
 	type OrderStatus,
 	type OrderWithShopDetails,
@@ -7,7 +10,29 @@ import {
 	type OrderCreateMinimalFields,
 	type ProductVariant,
 } from '@cd/data-access';
+import IntegrationService from '../../lib/point-of-sale';
 import { getTravelDistanceFromCoordinates } from './geo.util';
+
+/** 
+ * orderStatusList,
+	isValidOrderRecord,
+	checkOrderIsCompleteOrCanceled,
+	calculateSalePrice,
+	getCurrencySymbol,
+	convertCentsToDollars,
+	convertDollarsToWholeNumber,
+	calculateTransactionFees,
+	calculateTransactionTotal,
+	calculateDeliveryFeeFromSubtotal,
+	convertMetersToMiles,
+	calculateMileageFee,
+	calculatePlatformFee,
+	buildOrderRecord,
+	multiplyAllItemsForOrder,
+	getDailyDealProductsAndCalculateTotal,
+	calculateSubtotal,
+	calculateProductSaleAtQuantity,
+*/
 
 const orderStatusList: OrderStatus[] = [
 	'Pending',
@@ -42,12 +67,18 @@ const checkOrderIsCompleteOrCanceled = (order: OrderWithShopDetails) =>
  * @param discount a flat number representing percentage off
  * @returns
  */
-function calcSalePrice(price: number, discount: number) {
+function calculateSalePrice(
+	price: number,
+	isDiscount: boolean,
+	discount: number,
+) {
 	const _discountPercentage = discount / 100;
 	const _price = price;
-	return _price === discount * price
-		? _price
-		: _price - price * _discountPercentage;
+	return isDiscount
+		? _price === discount * price
+			? _price
+			: _price - price * _discountPercentage
+		: price;
 }
 
 /**
@@ -91,13 +122,13 @@ function convertDollarsToWholeNumber(value: number | string) {
 function calculateTransactionFees(
 	order: OrderWithShopDetails,
 ): OrderWithShopDetails {
-	// weedTextDeals include taxes and fees in the price.
+	// DailyDeals include taxes and fees in the price.
 	if (order.isWeedTextOrder) {
 		return order;
 	} else {
 		const { subtotal, distance } = order;
 
-		const deliveryFee = calculateDeliveryFee(subtotal);
+		const deliveryFee = calculateDeliveryFeeFromSubtotal(subtotal);
 		const mileageFee = calculateMileageFee(distance);
 		const platformFee = calculatePlatformFee(subtotal);
 
@@ -133,7 +164,7 @@ function calculateTransactionTotal({
  * @param subtotal
  * @returns number
  */
-function calculateDeliveryFee(subtotal: number) {
+function calculateDeliveryFeeFromSubtotal(subtotal: number) {
 	return Math.round(subtotal * Number(process.env.NEXT_PUBLIC_DELIVERY_FEE));
 }
 
@@ -169,7 +200,7 @@ function calculatePlatformFee(subtotal: number) {
 	return Math.round(subtotal * Number(process.env.NEXT_PUBLIC_PLATFORM_FEE!));
 }
 
-export async function buildOrderRecord({
+async function buildOrderRecord({
 	type = 'delivery',
 	organization,
 	customer,
@@ -198,7 +229,7 @@ export async function buildOrderRecord({
 
 		mileageFee = mileageFee ?? calculateMileageFee(distance);
 		platformFee = platformFee ?? calculatePlatformFee(subtotal);
-		deliveryFee = deliveryFee ?? calculateDeliveryFee(subtotal);
+		deliveryFee = deliveryFee ?? calculateDeliveryFeeFromSubtotal(subtotal);
 
 		total =
 			total ?? calculateTransactionTotal({ subtotal, deliveryFee, mileageFee });
@@ -247,19 +278,104 @@ function multiplyAllItemsForOrder(items: ProductVariant[], numOrders: number) {
 	});
 }
 
+async function getDailyDealProductsAndCalculateTotal(
+	deal: DailyDealCreateWithSkus,
+) {
+	if (
+		!deal.products.length ||
+		deal.products.length === 0 ||
+		!deal.products[0].sku
+	) {
+		throw new Error('No products were provided');
+	}
+
+	if (!deal.organization) {
+		throw new Error('No organization was provided');
+	}
+
+	const { products: skus } = deal;
+	const posIntegration = await IntegrationService.getPOSIntegrationService(
+		deal.organization.pos,
+	);
+
+	// fetch products from integrated point of sale
+	const products = (await Promise.all(
+		skus.map(async ({ sku }) => {
+			return await posIntegration.getProduct(sku);
+		}),
+	)) as ProductVariantWithDetails[];
+
+	const subtotal = calculateSubtotal(products);
+	const deliveryFee = calculateDeliveryFeeFromSubtotal(subtotal);
+
+	const dealWithProducts: DailyDealWithProductDetails = {
+		...deal,
+		products,
+		total: calculateTransactionTotal({
+			subtotal,
+			deliveryFee,
+			mileageFee: 0, // mileage fee is calculated after the order is placed. The dispensary pays for this fee for daily deals.
+		}),
+		isExpired: false,
+	};
+
+	return dealWithProducts;
+}
+
+function calculateSubtotal(products: ProductVariantWithDetails[]) {
+	return products.reduce((sum, item) => {
+		const { basePrice, salePrice, discount, isDiscount, quantity } = item;
+		return (
+			sum +
+			calculateProductSaleAtQuantity({
+				basePrice,
+				salePrice,
+				isDiscount,
+				discount,
+				quantity,
+			})
+		);
+	}, 0);
+}
+
+// discount is a flat number representing percentage off
+function calculateProductSaleAtQuantity({
+	basePrice,
+	discount = 0,
+	isDiscount = false,
+	salePrice = 0,
+	quantity,
+}: {
+	basePrice: number;
+	discount?: number;
+	isDiscount?: boolean;
+	salePrice?: number;
+	quantity: number;
+}) {
+	let price = basePrice * quantity;
+	if (salePrice && salePrice > 0 && isDiscount) {
+		price = salePrice * quantity;
+	}
+	return isDiscount ? price - Math.round(price * (discount / 100)) : price;
+}
+
 export {
-	multiplyAllItemsForOrder,
-	isValidOrderRecord,
 	orderStatusList,
+	isValidOrderRecord,
 	checkOrderIsCompleteOrCanceled,
-	calcSalePrice,
+	calculateSalePrice,
 	getCurrencySymbol,
 	convertCentsToDollars,
 	convertDollarsToWholeNumber,
 	calculateTransactionFees,
-	calculatePlatformFee,
-	calculateDeliveryFee,
-	calculateMileageFee,
-	convertMetersToMiles,
 	calculateTransactionTotal,
+	calculateDeliveryFeeFromSubtotal,
+	convertMetersToMiles,
+	calculateMileageFee,
+	calculatePlatformFee,
+	buildOrderRecord,
+	multiplyAllItemsForOrder,
+	getDailyDealProductsAndCalculateTotal,
+	calculateSubtotal,
+	calculateProductSaleAtQuantity,
 };

@@ -18,6 +18,7 @@ module.exports = {
 				'core',
 				'db',
 				'main',
+				'sms',
 				'dispatch',
 				'image',
 				'payments',

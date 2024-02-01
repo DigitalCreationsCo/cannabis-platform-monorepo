@@ -30,7 +30,7 @@ handler.get(async (req: any, res: any) => {
 
 		await superTokensNextWrapper(
 			async (next) => {
-				return await verifySession()(req, res, next);
+				return await verifySession({ sessionRequired: false })(req, res, next);
 			},
 			req,
 			res,

@@ -181,7 +181,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
 	/* eslint-disable */
 
 	return (
-		<Page>
+		<Page className="lg:min-h-[710px]">
 			<PageHeader
 				title={`User: ${user?.firstName}`}
 				Icon={Icons.ShoppingBagOutlined}

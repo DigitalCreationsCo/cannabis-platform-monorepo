@@ -1,3 +1,5 @@
+/* eslint-disable sonarjs/cognitive-complexity */
+/* eslint-disable sonarjs/no-small-switch */
 import { type UserDispensaryStaffWithDispensaryDetails } from '@cd/data-access/src';
 import { type AnyAction, type MiddlewareAPI } from '@reduxjs/toolkit';
 import { TextContent } from '../constants';
@@ -6,7 +8,7 @@ import { type UserFromDBAuthResponse, type AppState } from '../types';
 import { hasMembershipRoleAccess, isEmpty } from '../utils';
 
 const dispensaryMiddleware =
-	(store: MiddlewareAPI) => (next: any) => (action: AnyAction) => {
+	(store: MiddlewareAPI) => (next: any) => async (action: AnyAction) => {
 		try {
 			next(action);
 
@@ -14,20 +16,20 @@ const dispensaryMiddleware =
 			const dispensaryState = store.getState()
 				.dispensary as AppState['dispensary'];
 
-			if (
-				typeof window !== 'undefined' &&
-				window.location.pathname === '/' &&
-				userState.isSignedIn
-			) {
-				console.info(
-					'dispensary middleware navigate to dashboard: ',
-					TextContent.href.dashboard_f(dispensaryState.dispensary?.id),
-				);
-				window.location.href = TextContent.href.dashboard_f(
-					dispensaryState.dispensary?.id,
-				);
+			// allow for easy linking
+			if (typeof window !== 'undefined' && userState.isSignedIn) {
+				switch (window.location.pathname) {
+					case '/daily-deals':
+						window.location.href = TextContent.href.daily_deals_weed_text_f(
+							dispensaryState.dispensary?.id,
+						);
+						break;
+					default:
+						break;
+				}
 			}
 
+			// handle async signin user
 			if (action.type === 'user/signinUserSync') {
 				const payload = action.payload as UserFromDBAuthResponse;
 				const user = payload.user as UserDispensaryStaffWithDispensaryDetails;
@@ -50,12 +52,12 @@ const dispensaryMiddleware =
 						'dispensary middleware organization',
 						user.memberships[0],
 					);
-					store.dispatch(dispensaryActions.setDispensary(organization));
+					await store.dispatch(dispensaryActions.setDispensary(organization));
 				} else if (
 					hasMembershipRoleAccess(user, 'MEMBER') &&
 					user.memberships?.[0].organizationId
 				) {
-					store.dispatch(
+					await store.dispatch(
 						dispensaryActions.getDispensaryById(
 							user.memberships?.[0].organizationId,
 						) as unknown as AnyAction,

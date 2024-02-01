@@ -5,4 +5,5 @@ interface Window {
 	GrasDeliveryWidget: any;
 }
 
+declare module '*.png';
 declare module 'url-state';

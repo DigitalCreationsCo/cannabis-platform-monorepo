@@ -1,5 +1,6 @@
 import { axios } from '@cd/core-lib';
 import prisma from '@cd/data-access';
+import DailyDealScheduler from './scheduler';
 import server from './server';
 
 const port = process.env.SERVER_PORT || 6051;
@@ -7,8 +8,8 @@ const port = process.env.SERVER_PORT || 6051;
 pingSupertokens()
 	.then(() => connectDb())
 	.then(() => {
-		runWeedTextDailyDealScheduledJob();
-
+		// start the cron job scheduler
+		DailyDealScheduler.start();
 		server.listen(port, () => {
 			console.info(
 				` 📞 Server-SMS is starting in ${process.env.NODE_ENV} mode.`,
@@ -74,9 +75,4 @@ async function connectDb() {
 	}
 }
 
-async function runWeedTextDailyDealScheduledJob() {
-	// get daily deal from from database
-	// schedule a chron job to send the daily deal to DailyStory SMS api, targeting the appropriate customer segment
-	// save the daily deal to redis
-}
 export { connectDb, server };

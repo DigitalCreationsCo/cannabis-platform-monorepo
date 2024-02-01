@@ -1,5 +1,5 @@
 {
-	"proxy-main": {
+	"proxy-sms": {
 		"source": 6052,
 		"target": 6051,
 		"hostname": "localhost",

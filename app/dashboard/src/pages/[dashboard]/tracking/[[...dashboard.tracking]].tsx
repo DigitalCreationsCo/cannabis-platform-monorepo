@@ -27,7 +27,7 @@ function DashboardTrackingPage({ orders }: TrackingProps) {
 		mapBox: 'w-90 h-90 border rounded',
 	};
 	return (
-		<Page className={twMerge('sm:px-4 md:pr-16')}>
+		<Page className={twMerge('lg:min-h-[710px] sm:px-4 md:pr-16')}>
 			<PageHeader title="Tracking" Icon={Icons.DeliveryTruck} />
 			<Grid className="gap-2">
 				<div className={twMerge(styles.mapBox)}></div>

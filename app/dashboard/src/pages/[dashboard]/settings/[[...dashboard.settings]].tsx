@@ -20,7 +20,7 @@ function Settings({
 	if (!organization) throw new Error();
 
 	return (
-		<Page className={twMerge('sm:px-4 md:pr-16')}>
+		<Page className={twMerge('lg:min-h-[710px] sm:px-4 md:pr-16')}>
 			<PageHeader title="Settings" Icon={Icons.Settings} />
 
 			<div className="tabs">
@@ -34,7 +34,10 @@ function Settings({
 					<Button className="p-2">Site Settings</Button>
 				</Link>
 				<Link
-					className="tab pl-0"
+					className={twMerge(
+						'tab pl-0',
+						FeatureConfig.checkout_widget.enabled ? '' : 'hidden',
+					)}
 					href={TextContent.href.setup_widget_f(organization.id)}
 				>
 					<Button className="p-2">Widget Setup</Button>

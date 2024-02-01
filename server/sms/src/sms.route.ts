@@ -1,320 +1,35 @@
-import {
-	axios,
-	buildOrderRecord,
-	isValidOrderRecord,
-	multiplyAllItemsForOrder,
-	urlBuilder,
-} from '@cd/core-lib';
-import SMSModule from '@cd/core-lib/lib/sms';
-import {
-	createWeedTextDeal,
-	type OrderCreateType,
-	type WeedTextDeal,
-	type WeedTextDealWithOrganization,
-	findUserWithDetailsByPhone,
-	findDailyDealsByOrganization,
-	findDailyDeal,
-} from '@cd/data-access';
 import { Router } from 'express';
-import nodeCache from 'node-cache';
-const redisWeedText = {};
+import { DailyDealsController as DailyDealsCtrl } from './daily-deals.controller';
 
-const dailyDealCache = new nodeCache({ stdTTL: 86400, checkperiod: 86400 });
 const router = Router();
 
 /* =================================
 SMS Routes
 
-"/daily-deal/:id"					GET getDailyDealById
+"/daily-deals/:id"					GET getDailyDealById
 
-"/daily-deal/organization/:id"		GET getDailyDealsByOrganization
+"/daily-deals"						GET getActiveDailyDeals
 
-"/daily-deal"						POST createDailyDeal
+"/daily-deals"						POST createDailyDeal
+
+"/daily-deals/organization/:id"		GET getDailyDealsByOrganization
 
 "/daily-deal-sms-response"          POST weedTextSmsResponse
 
 ================================= */
 
-/**
- * getDailyDealById
- */
-router.route('/daily-deal/:id').get(async (req, res) => {
-	try {
-		const { id } = req.params;
+router.route('/daily-deals/:id').get(DailyDealsCtrl.getDailyDealById);
 
-		if (!id) throw new Error('No deal id provided');
+router.route('/daily-deals').get(DailyDealsCtrl.getActiveDailyDeals);
 
-		const dailyDeal = await getDailyDeal(id);
+router.route('/daily-deals').post(DailyDealsCtrl.createDailyDeal);
 
-		if (!dailyDeal) throw new Error('No deal found');
+router
+	.route('/daily-deals/organization/:id')
+	.get(DailyDealsCtrl.getManyDailyDealsByOrganization);
 
-		return res.status(201).json({
-			success: 'true',
-			message: ' You created a new Daily Deal.',
-			payload: dailyDeal,
-		});
-	} catch (error) {
-		console.error(`getDailyDealById: ${error}`);
-		if (
-			error.message === 'No deal id provided' ||
-			error.message === 'No deal found'
-		) {
-			return res.status(400).json({ success: 'false', error: error.message });
-		}
-		return res.status(500).json({ success: 'false', error: error.message });
-	}
-});
-
-/**
- * getDailyDealsByOrganization
- */
-router.route('/daily-deal/organization/:id').get(async (req, res) => {
-	try {
-		const { id } = req.params;
-
-		if (!id) throw new Error('No dispensary id provided');
-
-		const dailyDeals = await findDailyDealsByOrganization(id);
-
-		if (!dailyDeals.length) throw new Error('No deal was found');
-
-		return res.status(200).json({
-			success: 'true',
-			payload: dailyDeals,
-		});
-	} catch (error) {
-		console.error(`getDailyDealsByOrganization: ${error}`);
-		return res.status(500).json({ success: 'false', error: error.message });
-	}
-});
-
-/**
- * createDailyDeal
- */
-router.route('/daily-deal').post(async (req, res) => {
-	try {
-		const weedTextDeal: WeedTextDeal = req.body;
-		const data = await createWeedTextDeal(weedTextDeal);
-
-		console.debug(' Successfully created weedTextDeal record.');
-		return res.status(201).json({
-			success: 'true',
-			message: ' You created a new Daily Deal.',
-			payload: data,
-		});
-	} catch (error) {
-		console.error(`saveWeedTextDeal: ${error}`);
-		return res.status(500).json({ success: 'false', error: error.message });
-	}
-});
-
-// sms platform received inbound message, keyword automation and webhook sends the inbound to this endpoint for order processing
-// sms platform automation records the customer response, adds the payload from the weedtext outgoing message, and sends both payloads here
-
-// ! OPTION: sms platform can save the response to redis, and this endpoint can subscribe to redis db
-// no webhook needed, just a subscription to redis db
-// keep the webhook as a fallback, in case the subscription fails
-router.route('/daily-deal-sms-response').post(async (req, res) => {
-	try {
-		const dailyWeedTextDeal = await isValidWeedTextOrderRequest(req.body);
-		if (dailyWeedTextDeal) {
-			const { numOrders, phoneNumber, dealId } = req.body;
-
-			// limit the number of db lookups and ajax calls, for the lowest latency possible
-			await processWeedTextOrder({
-				dailyDeal: dailyWeedTextDeal,
-				numOrders,
-				phoneNumber,
-				dealId,
-			});
-
-			// sendOrderConfirmation via sms
-			sendOrderConfirmationSMS(phoneNumber);
-			return res.status(200).json({
-				success: 'true',
-				message: 'Order created Successfully',
-			});
-		} else {
-			// do nothing, it's not a valid request
-			return res
-				.status(400)
-				.json({ success: 'false', message: 'Invalid Request' });
-		}
-	} catch (error) {
-		console.error(`weedTextSmsResponse: ${error}`);
-		return res.status(500).json({ success: 'false', error: error.message });
-	}
-});
+router
+	.route('/daily-deal-sms-response')
+	.post(DailyDealsCtrl.handleWeedTextOrder);
 
 export default router;
-
-/**
- * createOrder via ajax to server/main, sendNewOrderEmail from server/main
- * , startFulfillment
- * @param numOrders
- * @param phoneNumber
- * @param deal
- */
-async function processWeedTextOrder({
-	dailyDeal,
-	numOrders,
-	phoneNumber,
-	dealId,
-}: {
-	dealId: string;
-	numOrders: number;
-	phoneNumber: string;
-	dailyDeal: WeedTextDealWithOrganization;
-}) {
-	try {
-		// send ajax request to server/main for order processing
-		// create an order using the phoneNumber of the customers,
-		// get user by phonenumber -> from a cached list of users. if not found, get from db and cache
-		const order: OrderCreateType = await buildOrderFromWeedTextRequest({
-			dailyDeal,
-			numOrders,
-			customerPhoneNumber: phoneNumber,
-			dealId,
-		});
-
-		if (!isValidOrderRecord(order)) {
-			throw new Error('Invalid Order');
-		}
-
-		const createdOrder = await axios.post(urlBuilder.main.orders(), order);
-
-		// send ajax request for payment service to charge the customer's card
-		await axios.post(urlBuilder.payment.chargeCustomer(), {
-			order: createdOrder,
-		});
-
-		// a successful stripe webhook response will start the fulfillment process
-	} catch (error) {
-		console.error(error);
-	}
-}
-
-async function buildOrderFromWeedTextRequest({
-	dailyDeal,
-	numOrders,
-	customerPhoneNumber,
-	dealId,
-}: {
-	dealId: string;
-	numOrders: number;
-	customerPhoneNumber: string;
-	dailyDeal: WeedTextDealWithOrganization;
-}): Promise<OrderCreateType> {
-	try {
-		const customer = await findUserWithDetailsByPhone(customerPhoneNumber);
-
-		const { organization, ...deal } = dailyDeal;
-
-		// GET ITEMS FROM DAILY DEAL
-		const items = multiplyAllItemsForOrder([], numOrders);
-
-		return await buildOrderRecord({
-			type: 'delivery',
-			organizationId: organization.id,
-			subtotal: deal.total,
-			total: deal.total,
-			taxFactor: 0,
-			taxAmount: 0,
-			organization,
-			customer,
-			customerId: customer.id,
-			isWeedTextOrder: true,
-			destinationAddress: customer.address[0],
-			items,
-		});
-	} catch (error) {
-		console.error(error);
-		throw new Error('buildOrderFromWeedTextRequest: ' + error.message);
-	}
-}
-
-async function sendOrderConfirmationSMS(phone: string) {
-	SMSModule.send(
-		'new_order',
-		phone,
-		`Thanks for ordering. We will send you an update when your order is on the way!`,
-	);
-}
-
-const isValidWeedTextOrderRequest = async (
-	body: Record<string, any>,
-): Promise<WeedTextDealWithOrganization | false> => {
-	try {
-		// check body for required fields
-		const isValidRequestPayload = (body) =>
-			body &&
-			body.date &&
-			body.id &&
-			body.phoneNumber &&
-			body.numOrders &&
-			typeof body.numOrders === 'number';
-
-		if (!isValidRequestPayload(body)) {
-			return false;
-		} else {
-			const dailyDeal = await getDailyDeal(body.dealId);
-
-			if (!dailyDeal) return false;
-
-			return isOrderPlacedAtAValidTime(body.date, dailyDeal) && dailyDeal;
-			// check the time of the request, if it's not from today, return false
-		}
-	} catch (error) {
-		console.error(error);
-		return false;
-	}
-};
-
-function isOrderPlacedAtAValidTime(date: any, deal: WeedTextDeal) {
-	const { startTime, endTime } = deal;
-	// check the time of the request, if it's not from today, don't process it
-	// compare date to today's date
-	// if order date is today and the order time is between the deal's hours, return true
-	// else return false
-	return (
-		new Date().toDateString === new Date(date).toDateString &&
-		new Date(date) >= startTime &&
-		new Date(date) <= endTime
-	);
-}
-
-const getDailyDeal = async (
-	dealId: string,
-): Promise<WeedTextDealWithOrganization | false> => {
-	// get dailydeal from memory cache
-	let dailyDeal = await dailyDealCache.get<WeedTextDealWithOrganization>(
-		dealId,
-	);
-	if (!dailyDeal) {
-		// get dailydeal from redis
-		dailyDeal = await redisWeedText.get(dealId);
-		if (!dailyDeal) {
-			// get dailydeal from db
-			dailyDeal = (await findDailyDeal(dealId)) as WeedTextDealWithOrganization;
-			if (!dailyDeal) {
-				return false;
-			} else {
-				cacheDailyDeal(dailyDeal);
-			}
-		}
-	}
-	return dailyDeal.isExpired && dailyDeal;
-};
-
-const cacheDailyDeal = async (deal: WeedTextDealWithOrganization) => {
-	try {
-		await dailyDealCache.set<WeedTextDealWithOrganization>(
-			deal.id,
-			deal,
-			86400,
-		);
-		await redisWeedText.setEx(deal.id, deal, 86400);
-	} catch (error) {
-		console.error('cacheDailyDeal: ', error);
-	}
-};

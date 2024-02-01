@@ -66,7 +66,7 @@ export const getNavLinkGroups = (id = 'undefined'): NavLinkType[] =>
 			href: TextContent.href.setup_widget_f(id),
 			title: 'Widget Setup',
 			icon: Icons.Tools,
-			enabled: true,
+			enabled: FeatureConfig.checkout_widget.enabled,
 		},
 		{
 			href: TextContent.href.daily_deals_weed_text_f(id),
