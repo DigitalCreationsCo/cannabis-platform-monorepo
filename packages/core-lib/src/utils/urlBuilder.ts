@@ -132,8 +132,19 @@ const urlBuilder = {
 		createContact: () => `${urlBuilder.dailyStory.baseUrl}/api/v1/contact/`,
 		addTagsToContact: (id: string) =>
 			urlBuilder.dailyStory.baseUrl + `/api/v2/contact/${id}/tags`,
-		sendEmail: (id: string) =>
-			urlBuilder.dailyStory.baseUrl + `/api/v1/email/send/${id}`,
+
+		sendEmail: ({
+			id,
+			email = null,
+			dsid = null,
+		}: {
+			id: string;
+			email?: string | null;
+			dsid?: string | null;
+		}) =>
+			urlBuilder.dailyStory.baseUrl +
+			`/api/v1/email/send/${id}?dsid=${dsid}&email=${email}`,
+
 		sendTransactionalEmail: ({
 			email = null,
 			dsid = null,

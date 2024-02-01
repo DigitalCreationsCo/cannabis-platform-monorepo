@@ -4,15 +4,15 @@ import axios from 'axios';
 import nc from 'next-connect';
 import { type ContactUsFormResponse } from 'components/landing-page/ContactUs';
 
+const EMAIL_ID_INTERNAL_CONTACT_US_NOTICE = '55062';
+
 const handler = nc();
 handler.post(async (req: any, res: any) => {
 	try {
-		const CONTACT_US_EMAIL_ID = '55062';
-
 		const {
 			firstName,
 			lastName,
-			email,
+			email: fromEmail,
 			title,
 			company,
 			phone,
@@ -23,18 +23,71 @@ handler.post(async (req: any, res: any) => {
 			message,
 		}: ContactUsFormResponse = req.body;
 
-		const response = await axios
+		// create a contact with tag 'contact us', 'dispensary lead'
+		// set automations for the tags
+		// send an email to Gras with the contact information
+		// send an email to the contact with information about Gras
+
+		const response = await axios.post<DailyStoryData>(
+			urlBuilder.dailyStory.createOrEditLead(),
+			{
+				leadId: 0,
+				campaignId: 16116,
+				leadSource: 'contact-us',
+				leadSourceId: null,
+				leadOrigin: 'Organic',
+				segments: [14461],
+				firstName,
+				lastName,
+				email: fromEmail,
+				title,
+				company,
+				phone,
+				mobilePhone: phone,
+				city,
+				region: state,
+				postalCode: zipcode,
+				howDidYouHearAboutUs,
+				message,
+			},
+			{
+				headers: {
+					...applicationHeaders,
+					authorization: `Bearer ${process.env.DAILYSTORY_API_KEY}`,
+				},
+			},
+		);
+
+		if (response.data.Status !== true)
+			throw new Error("Failed to send 'contact us' email");
+		console.info('created contact-us lead', response.data.Response);
+
+		console.info('body: ', JSON.stringify(req.body, null, 2));
+		// send the form submission to Gras via email
+		await axios
 			.post<DailyStoryData>(
-				urlBuilder.dailyStory.sendTransactionalEmail({ email }),
+				urlBuilder.dailyStory.sendEmail({
+					id: EMAIL_ID_INTERNAL_CONTACT_US_NOTICE,
+					email: 'leads@grascannabis.org',
+				}),
 				{
-					subject: 'Gras: new Contact Us form submission',
-					from: email,
-					body: `
+					firstName,
+					lastName,
+					fromEmail,
+					title,
+					company,
+					phone,
+					city,
+					state,
+					zipcode,
+					howDidYouHearAboutUs,
+					message,
+					plaintext: JSON.stringify(`
 				A partner request was submitted by ${firstName} ${lastName} at ${company}.
 
 				Contact Information:
 				${firstName} ${lastName}
-				${email}
+				${fromEmail}
 				${title}
 				${company}
 				${phone}
@@ -46,13 +99,11 @@ handler.post(async (req: any, res: any) => {
 
 				The request message:
 				${message}
-                
-                An automated reply was sent to ${firstName} at ${email}.
-                
-                Send a reply to ${firstName} at ${email} to continue the conversation!
 
+		        An automated email has been sent to ${firstName} at ${fromEmail}.
 
-                `,
+		        Send a new email to ${fromEmail} to continue the conversation!
+		        `),
 				},
 				{
 					headers: {
@@ -61,50 +112,10 @@ handler.post(async (req: any, res: any) => {
 					},
 				},
 			)
-			.then(
-				async () => {
-					console.info('contact us email sent');
-
-					return await axios.post<DailyStoryData>(
-						urlBuilder.dailyStory.createOrEditLead(),
-						{
-							leadId: 0,
-							campaignId: 16116,
-							leadSource: 'Contact Us',
-							leadSourceId: null,
-							leadOrigin: 'Organic',
-							segments: [14461],
-							firstName,
-							lastName,
-							email,
-							title,
-							company,
-							phone,
-							mobilePhone: phone,
-							city,
-							region: state,
-							postalCode: zipcode,
-							howDidYouHearAboutUs,
-							message,
-						},
-						{
-							headers: {
-								...applicationHeaders,
-								authorization: `Bearer ${process.env.DAILYSTORY_API_KEY}`,
-							},
-						},
-					);
-				},
-				(err) => {
-					console.info('failed to send contact us email', err);
-					throw new Error(err);
-				},
-			);
-
-		if (response.data.Status !== true)
-			throw new Error("Failed to send 'contact us' email");
-
-		console.info('created contact-us lead', response.data.Response);
+			.then((response) => {
+				console.info('contact us email sent');
+				console.info('response', response.data.Response);
+			});
 		return res
 			.status(response.status)
 			.json({ success: 'true', payload: response.data.Response });
