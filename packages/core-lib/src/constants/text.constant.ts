@@ -15,6 +15,8 @@ const TextContent = Object.freeze({
 		ACCEPT_ORDER: 'Do you want to accept the order?',
 		CONFIRM_ADD_TO_CART: `Your bag contains an item from another shop.
     Do you want to empty the bag and add this item instead?`,
+		CONTACT_US: 'Contact us',
+
 		CREATE_ACCOUNT: '',
 
 		READY_CHECKOUT: `You're ready to checkout.`,
@@ -153,7 +155,6 @@ const TextContent = Object.freeze({
 		CANNABIS_DELIVERED_TODAY: `Cannabis,${'\xa0'}Delivered${'\xa0'}Today🌴`,
 		COMPANY_NAME: 'Gras',
 		CONTACT_SUPPORT: `For support, dial ${process.env.NEXT_PUBLIC_SUPPORT_PHONE}.`,
-		CONTACT_US: 'Contact us',
 		ENJOY_BUD_WITH_YOUR_BUDS: 'Enjoy bud with your buds',
 
 		DELIVERY_BY_GRAS: `Delivery by Gras`,

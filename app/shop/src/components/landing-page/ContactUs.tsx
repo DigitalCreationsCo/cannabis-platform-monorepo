@@ -174,7 +174,10 @@ export default function ContactUsForm() {
 
 					<div className="mt-12">
 						<Paragraph className="text-2xl text-light leading-relaxed">
-							{`To best serve you, let's get to know your delivery need. Tell us about your business, and we'll arrange a free consultation call to discuss how we can help.`}
+							{`To best serve you, let's get to know your delivery need. Tell us about your business, and we'll arrange a free consultation call to discuss how we can help. 
+							`}
+							{/* How many miles from your business do you want to deliver?
+							How many orders do you expect to deliver per week? */}
 						</Paragraph>
 					</div>
 				</div>
@@ -316,6 +319,7 @@ export default function ContactUsForm() {
 						/>
 						<div className="mt-16 col-span-2 place-self-center mx-2">
 							<Button
+								type="submit"
 								loading={loadingButton}
 								size="lg"
 								bg="secondary-light"
