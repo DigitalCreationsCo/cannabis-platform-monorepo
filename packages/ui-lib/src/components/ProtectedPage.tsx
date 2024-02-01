@@ -28,30 +28,36 @@ function ProtectedPage({
 	const isAdminPage = adminPages.find((page) => router.pathname.includes(page));
 
 	if (isProtectedPage && !user.isSignedIn) {
+		console.info('ProtectedPage: user is not signed in');
 		router.push('/');
 	}
 	if (isMemberPage && !hasMembershipRoleAccess(user.user, 'MEMBER')) {
+		console.info('ProtectedPage: user is not a member');
 		router.push('/');
 	}
 	if (isAdminPage && !hasMembershipRoleAccess(user.user, 'ADMIN')) {
+		console.info('ProtectedPage: user is not an admin');
 		router.push('/');
 	}
 
-	useEffect(() => {
-		if (isProtectedPage && !user.isSignedIn) {
-			router.push('/');
-		}
-	}, [user]);
-	useEffect(() => {
-		if (isMemberPage && !hasMembershipRoleAccess(user.user, 'MEMBER')) {
-			router.push('/');
-		}
-	}, [user]);
-	useEffect(() => {
-		if (isAdminPage && !hasMembershipRoleAccess(user.user, 'MEMBER')) {
-			router.push('/');
-		}
-	}, [user]);
+	// useEffect(() => {
+	// 	if (isProtectedPage && !user.isSignedIn) {
+	// 		console.info('ProtectedPage: user is not signed in');
+	// 		router.push('/');
+	// 	}
+	// }, [user]);
+	// useEffect(() => {
+	// 	if (isMemberPage && !hasMembershipRoleAccess(user.user, 'MEMBER')) {
+	// 		console.info('ProtectedPage: user is not a member');
+	// 		router.push('/');
+	// 	}
+	// }, [user]);
+	// useEffect(() => {
+	// 	if (isAdminPage && !hasMembershipRoleAccess(user.user, 'MEMBER')) {
+	// 		console.info('ProtectedPage: user is not an admin');
+	// 		router.push('/');
+	// 	}
+	// }, [user]);
 
 	if (user.isLoading) return <LoadingPage />;
 

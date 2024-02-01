@@ -15,6 +15,8 @@ const TextContent = Object.freeze({
 		ACCEPT_ORDER: 'Do you want to accept the order?',
 		CONFIRM_ADD_TO_CART: `Your bag contains an item from another shop.
     Do you want to empty the bag and add this item instead?`,
+		CONTACT_US: 'Contact us',
+
 		CREATE_ACCOUNT: '',
 
 		READY_CHECKOUT: `You're ready to checkout.`,
@@ -86,13 +88,15 @@ const TextContent = Object.freeze({
 	Please visit grascannabis.org.`,
 		DISPENSARY_JOINING: `Helping you serve the world with cannabis.`,
 
-		DISPENSARIES_START_HERE: 'Dispensaries, get started here',
+		DISPENSARIES_START_HERE: 'Dispensaries, Get Started here',
 		DISPENSARY_STRIPE_ACCOUNT: `If your dispensary uses stripe for payments, you can connect your stripe account here, by entering your stripe ID. If you don't have a stripe account, Gras will create one for you.`,
 		CONNECT_MY_STRIPE: `Connect my stripe account`,
 		CONNECTING_TO_STRIPE: `connecting to stripe`,
 		I_DONT_HAVE_STRIPE: `I don't have a stripe account`,
 		ENTER_OR_GO_TO_ACCOUNT:
 			'You can enter the Gras site, or view your account.',
+
+		GET_STARTED: 'Get Started',
 		MY_ACCOUNT: 'My Account',
 		MY_ORDERS: `My Orders`,
 
@@ -174,7 +178,10 @@ const TextContent = Object.freeze({
 			`${
 				organizationName || 'Your favorite Dispensary'
 			} is partnering with Gras to offer you home delivery.`,
-		FULL_SERVICE_CANNABIS_DELIVERY: `Easy & Secure \n Cannabis Delivery`,
+		EASY_AND_SECURE_DELIVERY: `Easy and Secure \n Cannabis Delivery`,
+		FAST_AND_SECURE_DELIVERY: `Fast and Secure \n Cannabis Delivery`,
+		FAST_AND_EASY_DELIVERY: `Fast and Easy \n Cannabis Delivery`,
+		FULL_SERVICE_CANNABIS_DELIVERY: `Full Service \n Cannabis Delivery`,
 		GRAS_WILL_DELIVER_STRAIGHT_TO_YOUR_DOOR:
 			'Gras will deliver your order straight to your door.',
 		GRAS_DELIVERS_FOR_DISPENSARIES:
@@ -343,7 +350,7 @@ const TextContent = Object.freeze({
 		createAccountFQUrl: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/signup/create-account`,
 		createAccount: `/signup/create-account`,
 		blog: `/blog`,
-		services: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/services`,
+		work_with_us: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/work-with-us`,
 		storefront_f: (subdomain: string) =>
 			`${process.env.NEXT_PUBLIC_SHOP_APP_URL}/browse/${subdomain}`,
 

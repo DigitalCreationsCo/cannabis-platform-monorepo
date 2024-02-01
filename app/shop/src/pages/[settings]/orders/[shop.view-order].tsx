@@ -96,6 +96,7 @@ function ViewOrder({ orderId }: { orderId: string }) {
 										basePrice={item.basePrice}
 										discount={item.discount}
 										salePrice={item.salePrice}
+										isDiscount={item.isDiscount}
 									/>
 								</Row>
 							))}

@@ -106,8 +106,8 @@ function App({ Component, ...rest }: CustomAppProps) {
 			<SuperTokensWrapper>
 				<ReduxProvider store={store}>
 					<PersistGate persistor={persistor} loading={<LoadingPage />}>
-						<LocationProvider />
 						<ModalProvider />
+						<LocationProvider />
 						<ToastProvider />
 						<Elements
 							stripe={stripePromise}

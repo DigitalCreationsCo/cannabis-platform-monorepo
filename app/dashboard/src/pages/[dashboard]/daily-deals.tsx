@@ -1,6 +1,21 @@
-import { axios, showTime, urlBuilder, type AppState } from '@cd/core-lib';
+/* eslint-disable sonarjs/no-duplicated-branches */
 import {
-	type WeedTextDeal,
+	axios,
+	modalActions,
+	modalTypes,
+	selectDispensaryState,
+	showDay,
+	showTime,
+	urlBuilder,
+	useAppDispatch,
+	useAppSelector,
+	type AppState,
+	type ResponseDataEnvelope,
+} from '@cd/core-lib';
+import { type DailyStoryData } from '@cd/core-lib/lib/DailyStory.api';
+import {
+	type USStateAbbreviated,
+	type DailyDeal,
 	type OrderWithFullDetails,
 	type OrganizationWithDashboardDetails,
 	type ProductWithDashboardDetails,
@@ -8,14 +23,26 @@ import {
 } from '@cd/data-access';
 import {
 	Button,
+	FlexBox,
 	Grid,
 	Icons,
 	Page,
 	PageHeader,
+	Paragraph,
+	TextField,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
+import { type AxiosResponse } from 'axios';
+import { useFormik } from 'formik';
+import NodeCache from 'node-cache';
+import { useState } from 'react';
+import { toast } from 'react-hot-toast';
 import { connect } from 'react-redux';
+import Supertokens from 'supertokens-node';
+import Session from 'supertokens-node/recipe/session';
 import { twMerge } from 'tailwind-merge';
+import * as yup from 'yup';
+import { backendConfig } from 'config/backendConfig';
 import { wrapper } from 'store';
 
 interface DashboardProps {
@@ -23,85 +50,239 @@ interface DashboardProps {
 	user: UserDispensaryStaff;
 	products: ProductWithDashboardDetails[];
 	orders: OrderWithFullDetails[];
-	dailyDeals: WeedTextDeal[];
+	dailyDeals: DailyDeal[];
 }
 
-// PAGES NEED BETTER ERROR HANDLING WHEN SERVICES ARE NOT AVAILABLE, OR AUTH FAILS
+const cache = new NodeCache({ stdTTL: 30 });
 
 function DailyDealsPage(props: DashboardProps) {
 	const { user, organization, products, orders, dailyDeals } = props;
-	console.info('props ', props);
-	// const dailyDeals: WeedTextDeal[] = [
-	// 	{
-	// 		title: 'You dont want to miss this!',
-	// 		dealId: '123',
-	// 		startTime: new Date(),
-	// 		// set date for tomorrow
-	// 		endTime: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
-	// 		products: [
-	// 			{
-	// 				name: 'Product 1',
-	// 				id: '1',
-	// 				sku: 1234567,
-	// 				organizationId: '1234',
-	// 				organizationName: 'Golden Nugget Dispensary',
-	// 				productId: '123',
-	// 				rating: 4.3,
-	// 				unit: 'g',
-	// 				size: 7,
-	// 				quantity: 1,
-	// 				basePrice: 3599,
-	// 				discount: 3,
-	// 				isDiscount: true,
-	// 				salePrice: 3499,
-	// 				currency: 'USD',
-	// 				stock: 100,
-	// 				createdAt: new Date(),
-	// 				updatedAt: new Date(),
-	// 			},
-	// 		],
-	// 		subtotal: 19799,
-	// 	},
-	// ];
 
+	const dispatch = useAppDispatch();
+	async function openNewDailyDealModal() {
+		dispatch(
+			modalActions.openModal({
+				modalType: modalTypes.NewDailyDealModal,
+			}),
+		);
+	}
 	const DailyDeals = () => (
-		<>
-			{dailyDeals?.length ? (
-				dailyDeals.map((deal, index) => (
-					<div
-						key={`daily-deal-${index + 1}`}
-						className="border rounded w-[386px] p-2"
-					>
-						{deal.title}
-						<br />
-						{'starts ' + showTime(deal.startTime)}
-					</div>
-				))
-			) : (
-				<></>
-			)}
-		</>
+		<div className="my-4 flex grow">
+			<Grid className="flex grow flex-col md:flex-row gap-2 flex-wrap">
+				{dailyDeals?.length ? (
+					dailyDeals.map((deal, index) => (
+						<div
+							key={`daily-deal-${index + 1}`}
+							className="border rounded w-[386px] p-2"
+						>
+							<FlexBox className="w-full flex-row justify-between">
+								<Paragraph>
+									{deal.title}
+									<br />
+									{`starts ${showTime(deal.startTime)} ${showDay(
+										deal.startTime,
+									)}`}
+								</Paragraph>
+								<FlexBox>
+									<Paragraph className="text-red-800">
+										{deal.isExpired ? 'expired' : 'active'}
+									</Paragraph>
+								</FlexBox>
+							</FlexBox>
+						</div>
+					))
+				) : (
+					<Paragraph>You have no deals. Try adding one.</Paragraph>
+				)}
+			</Grid>
+			<div>
+				<Button
+					className="md:hidden mt-2 px-4 bg-inverse active:bg-accent-soft place-self-end self-end justify-self-end"
+					hover="accent-soft"
+					onClick={openNewDailyDealModal}
+				>
+					new Daily Deal
+				</Button>
+			</div>
+		</div>
 	);
 
 	return (
-		<Page className={twMerge('sm:px-4')}>
+		<Page className={twMerge('lg:min-h-[710px] sm:px-4 pb-4 lg:pb-24')}>
 			<PageHeader
 				iconColor={'primary'}
 				title={`Daily Deals`}
-				subTitle={`Campaigns`}
-				Icon={Icons.CalendarAdd}
+				subTitle={`Daily Deals are sent to customers text message`}
+				Icon={Icons.Mobile}
 			>
 				<Button
-					className="px-4 bg-inverse active:bg-accent-soft place-self-start"
+					className="hidden my-4 md:block px-4 bg-inverse active:bg-accent-soft place-self-start"
 					hover="accent-soft"
+					onClick={openNewDailyDealModal}
 				>
-					+ new Daily Deal
+					new Daily Deal
 				</Button>
 			</PageHeader>
-			<Grid className="mt-2 gap-2">
-				<DailyDeals />
-			</Grid>
+
+			<DailyDeals />
+			<hr />
+			<SendDailyDealsInviteForm />
 		</Page>
+	);
+}
+
+function SendDailyDealsInviteForm() {
+	const { dispensary } = useAppSelector(selectDispensaryState);
+	const { city, state, zipcode } = dispensary.address;
+
+	const [loadingButton, setLoadingButton] = useState(false);
+	const initialValues: {
+		firstName: string;
+		lastName: string;
+		phone: string;
+		email: string;
+		city?: string;
+		state?: USStateAbbreviated;
+		zipcode?: number;
+	} = {
+		firstName: '',
+		lastName: '',
+		phone: '',
+		email: '',
+		city,
+		state: state as USStateAbbreviated,
+		zipcode,
+	};
+	const {
+		resetForm,
+		values,
+		errors,
+		touched,
+		handleBlur,
+		handleChange,
+		handleSubmit,
+		validateForm,
+	} = useFormik({
+		initialValues,
+		onSubmit,
+		validationSchema: yup.object().shape({
+			firstName: yup.string().required('First name is required'),
+			lastName: yup.string().required('Last name is required'),
+			phone: yup.string().required('Phone number is required'),
+			email: yup.string().email().required('Email is required'),
+		}),
+	});
+	function notifyValidation() {
+		validateForm().then((errors) => {
+			if (errors && Object.values(errors).length > 0) {
+				toast.error(
+					Object.values(errors)[0].toString() || 'Error sending invite link',
+				);
+			}
+		});
+	}
+	async function onSubmit() {
+		try {
+			setLoadingButton(true);
+			const response = await axios.post<
+				ResponseDataEnvelope<DailyStoryData>,
+				AxiosResponse<ResponseDataEnvelope<DailyStoryData>>,
+				{
+					email: string;
+					mobilePhone: string;
+					firstName: string;
+					lastName: string;
+					city?: string;
+					region?: string;
+					postalCode?: number;
+				}
+			>(urlBuilder.dashboard + '/api/daily-deals/contact', {
+				email: values.email,
+				mobilePhone: values.phone,
+				firstName: values.firstName,
+				lastName: values.lastName,
+				city: values.city,
+				region: values.state,
+				postalCode: values.zipcode,
+			});
+
+			if (!response.data.success || response.data.success === 'false')
+				throw new Error(response.data.error);
+
+			toast.success(`Sent invite link to ${values.firstName}!`);
+			setLoadingButton(false);
+			resetForm();
+		} catch (error: any) {
+			console.error('send invite link: ', error);
+			setLoadingButton(false);
+			toast.error(error.message);
+		}
+	}
+	return (
+		<div className="">
+			<Paragraph>
+				{/* {`Send your customers an invite link to share with their friends. When their friends
+				place their first order, your customer will receive a $10 credit to their account.`} */}
+				Invite a customer to Daily Deals
+			</Paragraph>
+			<Grid className="grid-cols-2 max-w-lg">
+				<TextField
+					containerClassName="px-2 col-span-1"
+					name="firstName"
+					label="* first name"
+					placeholder="first name"
+					value={values?.firstName}
+					onBlur={handleBlur}
+					onChange={handleChange}
+					error={!!touched.firstName && !!errors.firstName}
+					helperText={touched.firstName && errors.firstName}
+				/>
+				<TextField
+					containerClassName="px-2 col-span-1"
+					name="lastName"
+					label="* last name"
+					placeholder="last name"
+					value={values?.lastName}
+					onBlur={handleBlur}
+					onChange={handleChange}
+					error={!!touched.lastName && !!errors.lastName}
+				/>
+				<TextField
+					containerClassName="px-2 col-span-1"
+					name="phone"
+					label="* phone"
+					placeholder="phone"
+					value={values?.phone}
+					onBlur={handleBlur}
+					onChange={handleChange}
+					error={!!touched.phone && !!errors.phone}
+				/>
+				<TextField
+					containerClassName="px-2 col-span-1"
+					name="email"
+					label="* email"
+					placeholder="email"
+					value={values?.email}
+					onBlur={handleBlur}
+					onChange={handleChange}
+					error={!!touched.email && !!errors.email}
+				/>
+			</Grid>
+			<Button
+				type="submit"
+				loading={loadingButton}
+				onClick={(e) => {
+					e.preventDefault();
+					e.stopPropagation();
+					notifyValidation();
+					handleSubmit();
+				}}
+				className="mx-2 my-4 px-4 bg-inverse active:bg-accent-soft"
+				hover="accent-soft"
+			>
+				Send Invite Link
+			</Button>
+		</div>
 	);
 }
 
@@ -121,30 +302,73 @@ function mapStateToProps(state: AppState) {
 }
 
 export const getServerSideProps = wrapper.getServerSideProps(
-	(store) =>
-		async ({ query }: any) => {
+	() =>
+		async ({ query, req, res }: any) => {
+			res.setHeader('Cache-Control', 'private, s-maxage=120');
+
+			if (!query.dashboard) throw new Error();
+
+			Supertokens.init(backendConfig());
+
+			let dailyDeals;
+			let session;
+
 			try {
-				if (!query.dashboard) throw new Error();
-				const response = await axios.get(
-					urlBuilder.dashboard + '/api/daily-deals',
-					{
-						headers: {
-							'organization-id': query.dashboard,
-						},
+				session = await Session.getSession(req, res, {
+					overrideGlobalClaimValidators: () => {
+						// this makes it so that no custom session claims are checked
+						return [];
 					},
-				);
+				});
 
-				if (!response.data.success || response.data.success === 'false')
-					throw new Error(response.data.error);
+				if (cache.has(`daily-deals/${query.dashboard}`)) {
+					dailyDeals = cache.get(`daily-deals/${query.dashboard}`);
+				} else {
+					const response = await axios.get<ResponseDataEnvelope<DailyDeal[]>>(
+						urlBuilder.dashboard + '/api/daily-deals',
+						{
+							headers: {
+								'organization-id': query.dashboard,
+								Authorization: `Bearer ${session.getAccessToken()}`,
+							},
+						},
+					);
 
+					if (!response.data.success || response.data.success === 'false')
+						throw new Error(response.data.error);
+
+					dailyDeals = response.data.payload;
+					cache.set(`daily-deals/${query.dashboard}`, dailyDeals, 120);
+				}
 				return {
-					props: { dailyDeals: response.data },
+					props: { dailyDeals },
 				};
-			} catch (error) {
-				console.log('DailyDealsPage: ', error);
-				return {
-					notFound: true,
-				};
+			} catch (err) {
+				console.log('DailyDealsPage: ', err);
+
+				if (err.type === Session.Error.TRY_REFRESH_TOKEN) {
+					// in this case, the session is still valid, only the access token has expired.
+					// The refresh token is not sent to this route as it's tied to the /api/auth/session/refresh API paths.
+					// So we must send a "signal" to the frontend which will then call the
+					// refresh API and reload the page.
+
+					// return { props: { fromSupertokens: 'needs-refresh' } };
+					return { props: { dailyDeals: [] } }; // this works offline
+					// or return {fromSupertokens: 'needs-refresh'} in case of getInitialProps
+				} else if (err.type === Session.Error.UNAUTHORISED) {
+					// in this case, there is no session, or it has been revoked on the backend.
+					// either way, sending this response will make the frontend try and refresh
+					// which will fail and redirect the user to the login screen.
+
+					// return { props: { fromSupertokens: 'needs-refresh' } };
+					return { props: { dailyDeals: [] } }; // this works offline
+				}
+
+				throw err;
+
+				// return {
+				// 	notFound: true,
+				// };
 			}
 		},
 );

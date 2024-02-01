@@ -119,12 +119,42 @@ const urlBuilder = {
 	sms: {
 		baseUrl: smsUrl + '/api/v1',
 		dailyDealById: (id: string) =>
-			urlBuilder.sms.baseUrl + `/sms/daily-deal/${id}`,
+			urlBuilder.sms.baseUrl + `/sms/daily-deals/${id}`,
 		dailyDealsByOrganization: (id: string) =>
 			urlBuilder.sms.baseUrl + `/sms/daily-deals/organization/${id}`,
-		dailyDeal: () => urlBuilder.sms.baseUrl + `/sms/daily-deal`,
+		dailyDeal: () => urlBuilder.sms.baseUrl + `/sms/daily-deals`,
 		dailyDealSmsResponse: () =>
 			urlBuilder.sms.baseUrl + `/sms/daily-deal-sms-response`,
+	},
+
+	dailyStory: {
+		baseUrl: process.env.NEXT_PUBLIC_DAILYSTORY_API_URL,
+		createContact: () => `${urlBuilder.dailyStory.baseUrl}/api/v1/contact/`,
+		addTagsToContact: (id: string) =>
+			urlBuilder.dailyStory.baseUrl + `/api/v2/contact/${id}/tags`,
+
+		sendEmail: ({
+			id,
+			email = null,
+			dsid = null,
+		}: {
+			id: string;
+			email?: string | null;
+			dsid?: string | null;
+		}) =>
+			urlBuilder.dailyStory.baseUrl +
+			`/api/v1/email/send/${id}?dsid=${dsid}&email=${email}`,
+
+		sendTransactionalEmail: ({
+			email = null,
+			dsid = null,
+		}: {
+			email?: string | null;
+			dsid?: string | null;
+		}) =>
+			urlBuilder.dailyStory.baseUrl +
+			`/api/v1/email/transactional/?dsid=${dsid}&email=${email}`,
+		createOrEditLead: () => urlBuilder.dailyStory.baseUrl + `/api/v1/lead/`,
 	},
 };
 

@@ -14,7 +14,6 @@ import {
 	findProductsByOrg,
 	findProductsByText,
 	findProductWithDetails,
-	type POS,
 	updateOrder,
 	updateOrderWithOrderItems,
 	updateVariantQuantity,
@@ -26,7 +25,6 @@ import {
 	type PurchaseCreate,
 } from '@cd/data-access';
 import { type MongoClient } from 'mongodb';
-import { type POSIntegration } from '../../integrations/integration.types';
 
 /* =================================
 Order Data Access - Data class for Order SQL Table and dispatchOrders Mongo Collection
@@ -35,8 +33,6 @@ members:
 useMongoDB
 createOrder
 createPurchase
-
-processDispensaryPOSOrder
 
 getOrdersByUser
 getOrdersByOrganization
@@ -96,45 +92,6 @@ export default class ShopDA {
 	static async createPurchase(purchase: PurchaseCreate) {
 		try {
 			return await createPurchase(purchase);
-		} catch (error: any) {
-			console.error(error.message);
-			throw new Error(error.message);
-		}
-	}
-
-	static async getPOSIntegrationService(pos: POS) {
-		try {
-			let POSIntegrationService: POSIntegration;
-			switch (pos) {
-				case 'dutchie':
-					// Note:
-					// dutchiePOS delivery does not sync to metrc.
-					// use metrc integration to record delivery
-					POSIntegrationService = await (
-						await import('../../integrations/dutchiePOS')
-					).default;
-					break;
-				case 'blaze':
-					POSIntegrationService = await (
-						await import('../../integrations/blazePOS')
-					).default;
-					break;
-				case 'weedmaps':
-					POSIntegrationService = await (
-						await import('../../integrations/weedmapsPOS')
-					).default;
-					break;
-				case 'none':
-					POSIntegrationService = await (
-						await import('../../integrations/metrcInventory')
-					).default;
-					break;
-				default:
-					POSIntegrationService = await (
-						await import('../../integrations/metrcInventory')
-					).default;
-			}
-			return POSIntegrationService;
 		} catch (error: any) {
 			console.error(error.message);
 			throw new Error(error.message);

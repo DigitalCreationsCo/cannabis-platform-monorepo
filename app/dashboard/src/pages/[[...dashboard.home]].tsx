@@ -12,7 +12,6 @@ import {
 	H1,
 	H3,
 	Page,
-	Paragraph,
 	SignInButton,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
@@ -52,7 +51,7 @@ function DashboardStart() {
 								transparent
 								className="hover:bg-primary-light p-4"
 							>
-								<Paragraph>{`Create a Dispensary account`}</Paragraph>
+								{`Create a Dispensary account`}
 							</Button>
 						</Link>
 					</FlexBox>

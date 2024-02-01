@@ -114,7 +114,7 @@ function FormStepProvider({
 				isComplete,
 			}}
 		>
-			<div
+			{/* <div
 				className={twMerge([
 					stepPosition === 'bottom' && '!hidden',
 					'relative bottom-0 flex p-8',
@@ -133,7 +133,7 @@ function FormStepProvider({
 						</li>
 					))}
 				</ul>
-			</div>
+			</div> */}
 			<FormStepComponent {...formComponentProps} />
 			<div
 				className={twMerge([

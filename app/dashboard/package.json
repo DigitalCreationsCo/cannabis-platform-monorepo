@@ -5,6 +5,7 @@
     "@cd/eslint-config": "workspace:*",
     "@cd/ui-lib": "workspace:*",
     "@reduxjs/toolkit": "1.9.2",
+    "api": "6.1.1",
     "axios": "1.2.1",
     "boarding.js": "3.5.2",
     "busboy": "1.6.0",

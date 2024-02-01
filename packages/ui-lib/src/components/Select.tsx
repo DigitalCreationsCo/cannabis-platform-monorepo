@@ -2,7 +2,7 @@ import React, { type SelectHTMLAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { styles } from '../styleClassNames';
 import FlexBox from './FlexBox';
-import { Small } from './Typography';
+import { Paragraph } from './Typography';
 
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
 	multiple?: React.SelectHTMLAttributes<HTMLSelectElement>['multiple'];
@@ -27,7 +27,7 @@ export default function Select({
 			{label && (
 				<FlexBox className="items-start w-full flex-row">
 					<label className={twMerge(styles.label_f())}>
-						<Small className="text-primary">{label}</Small>
+						<Paragraph className="text-primary">{label}</Paragraph>
 					</label>
 				</FlexBox>
 			)}

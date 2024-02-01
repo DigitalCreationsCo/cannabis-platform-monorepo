@@ -105,6 +105,15 @@ async function clearRecords() {
 
 			await prisma.user.deleteMany();
 			console.info('clear prisma.user');
+
+			await prisma.dailyDeal.deleteMany();
+			console.info('clear prisma.dailyDeal');
+
+			await prisma.featuresBackend.deleteMany();
+			console.info('clear prisma.featuresBackend');
+
+			await prisma.featuresFrontend.deleteMany();
+			console.info('clear prisma.featuresFrontend');
 		})
 		.catch((err) => {
 			console.error('Clear Records Error: ', err.message);

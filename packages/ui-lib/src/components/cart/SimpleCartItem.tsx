@@ -48,6 +48,7 @@ function SimpleCartItem({
 									basePrice={product.basePrice}
 									salePrice={product.salePrice}
 									discount={product.discount}
+									isDiscount={product.isDiscount}
 									quantity={quantity}
 									useStaticQuantity={!staticQuantity}
 								/>
@@ -60,6 +61,7 @@ function SimpleCartItem({
 						basePrice={product.basePrice}
 						salePrice={product.salePrice}
 						discount={product.discount}
+						isDiscount={product.isDiscount}
 						quantity={quantity}
 						useStaticQuantity={staticQuantity}
 					/>
