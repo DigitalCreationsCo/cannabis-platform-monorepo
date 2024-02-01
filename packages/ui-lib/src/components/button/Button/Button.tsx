@@ -5,7 +5,7 @@ import LoadingDots from '../../LoadingDots';
 import { Paragraph } from '../../Typography';
 
 export interface ButtonProps
-	extends PropsWithChildren<React.HTMLAttributes<HTMLButtonElement>> {
+	extends PropsWithChildren<React.ButtonHTMLAttributes<HTMLButtonElement>> {
 	size?: 'lg' | 'sm' | 'md';
 	bg?:
 		| 'primary'
@@ -36,7 +36,6 @@ export interface ButtonProps
 	onClick?: React.EventHandler<React.MouseEvent<HTMLButtonElement>>;
 	onClickCapture?: React.EventHandler<React.MouseEvent<HTMLButtonElement>>;
 	icon?: any;
-	type?: React.ButtonHTMLAttributes<HTMLButtonElement>['type'];
 }
 
 // eslint-disable-next-line sonarjs/cognitive-complexity

@@ -9,9 +9,15 @@ declare module '*.mp4' {
 }
 
 interface Window {
+	// brevo
 	BrevoConversationsID?: string;
 	BrevoConversations?: any;
 	BrevoConversationsSetup: any;
+
+	// hotjar
 	hj: any;
 	_hjSettings: any;
+
+	// dailystory
+	_dsSettings: any;
 }
