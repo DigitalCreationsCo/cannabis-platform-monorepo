@@ -3971,6 +3971,7 @@ __metadata:
     "@reduxjs/toolkit": 1.9.2
     "@stripe/react-stripe-js": 2.4.0
     "@stripe/stripe-js": 2.3.0
+    "@t3-oss/env-nextjs": 0.8.0
     "@tailwindcss/typography": 0.5.8
     "@testing-library/dom": 9.3.1
     "@testing-library/jest-dom": 5.16.5
@@ -4045,6 +4046,7 @@ __metadata:
     ts-jest: 29.0.3
     typescript: 4.9.3
     yup: 0.32.11
+    zod: 3.22.4
   languageName: unknown
   linkType: soft
 
@@ -12120,6 +12122,34 @@ __metadata:
   version: 0.1.5
   resolution: "@swc/types@npm:0.1.5"
   checksum: 6aee11f62d3d805a64848e0bd5f0e0e615f958e327a9e1260056c368d7d28764d89e38bd8005a536c9bf18afbcd303edd84099d60df34a2975d62540f61df13b
+  languageName: node
+  linkType: hard
+
+"@t3-oss/env-core@npm:0.8.0":
+  version: 0.8.0
+  resolution: "@t3-oss/env-core@npm:0.8.0"
+  peerDependencies:
+    typescript: ">=5.0.0"
+    zod: ^3.0.0
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  checksum: 8978e83a07ef9d9f779faad1829b5624a857047948f3870b27bec7d21dd6ee27414aa83774df6929e911ff7aadf78f660e1f1b0ce21f87b218fd99a141fe6036
+  languageName: node
+  linkType: hard
+
+"@t3-oss/env-nextjs@npm:0.8.0":
+  version: 0.8.0
+  resolution: "@t3-oss/env-nextjs@npm:0.8.0"
+  dependencies:
+    "@t3-oss/env-core": 0.8.0
+  peerDependencies:
+    typescript: ">=5.0.0"
+    zod: ^3.0.0
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  checksum: 9a8705f7223aa693eb2c24a2c0a2e7aa33ffdc7729d6c04c2ce413b6df897cd963e6bfaaca9ebf5de77f7e3c7a092161570bcd995e52cb6d41aa4681e7020cbb
   languageName: node
   linkType: hard
 
@@ -41621,5 +41651,12 @@ __metadata:
   version: 3.21.4
   resolution: "zod@npm:3.21.4"
   checksum: f185ba87342ff16f7a06686767c2b2a7af41110c7edf7c1974095d8db7a73792696bcb4a00853de0d2edeb34a5b2ea6a55871bc864227dace682a0a28de33e1f
+  languageName: node
+  linkType: hard
+
+"zod@npm:3.22.4":
+  version: 3.22.4
+  resolution: "zod@npm:3.22.4"
+  checksum: 80bfd7f8039b24fddeb0718a2ec7c02aa9856e4838d6aa4864335a047b6b37a3273b191ef335bf0b2002e5c514ef261ffcda5a589fb084a48c336ffc4cdbab7f
   languageName: node
   linkType: hard

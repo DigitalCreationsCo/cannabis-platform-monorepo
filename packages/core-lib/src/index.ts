@@ -1,3 +1,24 @@
+// const auth = import('./auth').then((module) => module);
+// const axiosInstance = import('./axiosInstance').then((module) => module);
+// const constants = import('./constants').then;
+// const hooks = import('./hooks').then((module) => module);
+// const middleware = import('./middleware').then((module) => module);
+// const reducer = import('./reducer').then((module) => module);
+// const types = import('./types').then((module) => module);
+// const utils = import('./utils').then((module) => module);
+// const dummyData = import('./dummyData').then((module) => module);
+
+// export {
+// 	auth,
+// 	axiosInstance,
+// 	constants,
+// 	hooks,
+// 	middleware,
+// 	reducer,
+// 	types,
+// 	utils,
+// 	dummyData,
+// };
 export * from './auth';
 export * from './axiosInstance';
 export * from './constants';

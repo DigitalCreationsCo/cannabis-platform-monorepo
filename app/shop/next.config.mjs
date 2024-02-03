@@ -8,8 +8,9 @@ import {
 	PHASE_PRODUCTION_BUILD,
 	PHASE_TEST,
 } from 'next/constants.js';
-import loadEnv from './src/config/loadEnv.mjs';
+import loadEnv from './src/env/loadEnv.mjs';
 
+console.info('import meta url', import.meta.url);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const _env =
@@ -107,6 +108,7 @@ Memory Usage:`,
 				if (isStaging) return 'http://localhost:6001';
 				if (isTest) return 'http://localhost:6001';
 			})(),
+			DAILYSTORY_API_KEY: process.env.DAILYSTORY_API_KEY,
 			NEXT_PUBLIC_HELP_APP_URL: process.env.NEXT_PUBLIC_HELP_APP_URL,
 			NEXT_PUBLIC_BLOG_APP_URL: process.env.NEXT_PUBLIC_BLOG_APP_URL,
 			NEXT_PUBLIC_LOW_STOCK_THRESHOLD: 7,

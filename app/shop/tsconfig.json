@@ -18,7 +18,13 @@
 			"@cd/data-access": ["../../../packages/data-access/src/index"],
 			"@cd/data-access/*": ["../../../packages/data-access/*"],
 			"@cd/eslint-config": ["../../../packages/eslint-config/src/index"]
-		}
+		},
+		"plugins": [
+			{
+				"name": "next"
+			}
+		],
+		"strictNullChecks": true
 	},
 	"exclude": ["**/node_modules", "**/.*/**", "./.next/**"],
 	"include": [
@@ -30,6 +36,7 @@
 		"**/*.cjs",
 		"**/*.mjs",
 		"**/*.jsx",
-		"**/*.json"
+		"**/*.json",
+		".next/types/**/*.ts"
 	]
 }
