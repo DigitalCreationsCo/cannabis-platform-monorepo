@@ -3,6 +3,7 @@ import {
 	TextContent,
 	urlBuilder,
 	usStatesAbbreviationList,
+	applicationHeaders,
 } from '@cd/core-lib';
 import { type DailyStoryData } from '@cd/core-lib/lib/DailyStory.api';
 import { type USStateAbbreviated } from '@cd/data-access';
@@ -119,7 +120,9 @@ export default function ContactUsForm() {
 				ResponseDataEnvelope<DailyStoryData>,
 				AxiosResponse<ResponseDataEnvelope<DailyStoryData>>,
 				ContactUsFormResponse
-			>(urlBuilder.shop + '/api/contact-us', values);
+			>('/api/contact-us', values, {
+				headers: { ...applicationHeaders },
+			});
 
 			console.info('Contact Us: ', response.data);
 			if (!response.data.success || response.data.success === 'false')

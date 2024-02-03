@@ -120,7 +120,7 @@ handler.post(async (req: any, res: any) => {
 			.status(response.status)
 			.json({ success: 'true', payload: response.data.Response });
 	} catch (error: any) {
-		console.error('POST api/contact-us: ', error.message);
+		console.error('POST api/contact-us: ', error);
 		return res.json({ success: 'false', error: error.message });
 	}
 });
