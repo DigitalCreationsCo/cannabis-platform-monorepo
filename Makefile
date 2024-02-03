@@ -19,8 +19,11 @@ docker-tag:
 docker-push:
 	docker push grasadmin/$(IMAGE):$(TAG)
 
+docker-deploy:
+	scripts/docker-deploy-app.sh $(IMAGE) $(TAG) $(PORT)
+
 create-docker-secret:
-	scripts/docker_secret.sh
+	scripts/docker-secret.sh
 	
 init:
 	terraform -chdir=./terraform init --backend-config=backend
