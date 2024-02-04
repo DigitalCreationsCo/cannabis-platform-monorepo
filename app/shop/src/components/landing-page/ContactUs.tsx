@@ -1,7 +1,6 @@
 import {
 	type ResponseDataEnvelope,
 	TextContent,
-	urlBuilder,
 	usStatesAbbreviationList,
 	applicationHeaders,
 } from '@cd/core-lib';
@@ -43,6 +42,8 @@ export type ContactUsFormResponse = {
 	allowProcessResponse: boolean;
 	title: string;
 	company: string;
+	serviceAreaRange: number | null;
+	weeklyDeliveries: number | null;
 };
 
 const howDidYouHearAboutUsOptions: {
@@ -70,6 +71,10 @@ export default function ContactUsForm() {
 		allowProcessResponse: false,
 		title: '',
 		company: '',
+		// How many miles from your store do you want to deliver?*
+		// How many orders do you expect to deliver per week?*
+		serviceAreaRange: null,
+		weeklyDeliveries: null,
 	};
 	const {
 		resetForm,
@@ -102,6 +107,12 @@ export default function ContactUsForm() {
 			allowProcessResponse: yup.boolean().isTrue('Please agree to the terms'),
 			title: yup.string().required('Title is required'),
 			company: yup.string().required('Company is required'),
+			serviceAreaRange: yup
+				.number()
+				.required('How many miles from your store do you want to deliver?'),
+			weeklyDeliveries: yup
+				.number()
+				.required('How many orders do you expect to deliver per week?'),
 		}),
 	});
 	function notifyValidation() {
@@ -177,10 +188,8 @@ export default function ContactUsForm() {
 
 					<div className="mt-12">
 						<Paragraph className="text-2xl text-light leading-relaxed">
-							{`To best serve you, let's get to know your delivery need. Tell us about your business, and we'll arrange a free consultation call to discuss how we can help. 
+							{`To best serve you, tell us about your delivery need. We'll arrange a free consultation call to discuss how we can help! 
 							`}
-							{/* How many miles from your business do you want to deliver?
-							How many orders do you expect to deliver per week? */}
 						</Paragraph>
 					</div>
 				</div>
@@ -292,12 +301,36 @@ export default function ContactUsForm() {
 							error={!!touched.zipcode && !!errors.zipcode}
 							helperText={touched.zipcode && errors.zipcode}
 						/>
+						<TextField
+							containerClassName="px-2 col-span-2"
+							name="serviceAreaRange"
+							type="number"
+							label="How many miles from your store do you want to deliver?"
+							placeholder=""
+							value={values.serviceAreaRange as number}
+							onBlur={handleBlur}
+							onChange={handleChange}
+							error={!!touched.serviceAreaRange && !!errors.serviceAreaRange}
+							helperText={touched.serviceAreaRange && errors.serviceAreaRange}
+						/>
+						<TextField
+							containerClassName="px-2 col-span-2"
+							type="number"
+							name="weeklyDeliveries"
+							placeholder=""
+							label="How many orders do you expect to deliver per week?"
+							value={values.weeklyDeliveries as number}
+							onBlur={handleBlur}
+							onChange={handleChange}
+							error={!!touched.weeklyDeliveries && !!errors.weeklyDeliveries}
+							helperText={touched.weeklyDeliveries && errors.weeklyDeliveries}
+						/>
 						<TextArea
 							rows={4}
 							containerClassName="px-2 col-span-2"
 							name="message"
 							label=" message"
-							placeholder="Tell us about your delivery need"
+							placeholder="Tell us anything else you'd like us to know."
 							value={values?.message}
 							onBlur={handleBlur}
 							onChange={handleChange}
