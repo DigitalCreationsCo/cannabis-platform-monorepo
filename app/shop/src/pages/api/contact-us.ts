@@ -20,6 +20,8 @@ handler.post(async (req: any, res: any) => {
 			state,
 			zipcode,
 			howDidYouHearAboutUs,
+			serviceAreaRange,
+			weeklyDeliveries,
 			message,
 		}: ContactUsFormResponse = req.body;
 
@@ -48,6 +50,8 @@ handler.post(async (req: any, res: any) => {
 				region: state,
 				postalCode: zipcode,
 				howDidYouHearAboutUs,
+				serviceAreaRange,
+				weeklyDeliveries,
 				message,
 			},
 			{
@@ -81,6 +85,8 @@ handler.post(async (req: any, res: any) => {
 					state,
 					zipcode,
 					howDidYouHearAboutUs,
+					serviceAreaRange,
+					weeklyDeliveries,
 					message,
 					plaintext: JSON.stringify(`
 				A partner request was submitted by ${firstName} ${lastName} at ${company}.
@@ -94,13 +100,14 @@ handler.post(async (req: any, res: any) => {
 				${city}
 				${state}
 				${zipcode}
-
+				How many miles from your store do you want to deliver? ${serviceAreaRange}
+				How many orders do you expect to deliver per week? ${weeklyDeliveries}
 				How did you hear about us? ${howDidYouHearAboutUs}
 
 				The request message:
 				${message}
 
-		        An automated email has been sent to ${firstName} at ${fromEmail}.
+		        A sign-up link has been sent to ${firstName} at ${fromEmail}.
 
 		        Send a new email to ${fromEmail} to continue the conversation!
 		        `),

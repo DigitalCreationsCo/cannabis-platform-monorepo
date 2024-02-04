@@ -20,10 +20,14 @@ const dashboardBaseUrl =
 // eslint-disable-next-line sonarjs/cognitive-complexity
 export default async function middleware(req: NextRequest) {
 	const subdomain =
-		req.headers.get('host')?.split('.')[0].split(':')[0] || 'localhost';
+		// req.headers.get('host')?.split('.')[0].split(':')[0] || 'localhost';
+		req.nextUrl.hostname === 'localhost'
+			? 'localhost'
+			: req.nextUrl.hostname.split('.')[0];
 
 	const pagesAllowOver21Only = ['/browse', '/checkout', '/support'];
 
+	console.info('url ', req.nextUrl);
 	let url;
 	switch (true) {
 		case subdomain === 'www':
@@ -62,6 +66,12 @@ export default async function middleware(req: NextRequest) {
 				url.pathname = '/';
 				return NextResponse.redirect(url);
 			}
+
+			if (url.pathname === '/signup/create-dispensary-account') {
+				url.href = `${dashboardBaseUrl}/signup/create-dispensary-account/${url.search}`;
+				return NextResponse.redirect(url);
+			}
+
 			return NextResponse.next();
 			break;
 
