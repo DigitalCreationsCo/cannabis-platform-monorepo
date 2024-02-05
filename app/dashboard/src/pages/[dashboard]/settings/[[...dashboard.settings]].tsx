@@ -19,29 +19,43 @@ function Settings({
 }) {
 	if (!organization) throw new Error();
 
+	const settings = [
+		{
+			name: 'site-settings',
+			href: TextContent.href.site_f(organization.id),
+			title: 'Site Settings',
+			icon: Icons.CategoryOutlined,
+			enabled: FeatureConfig.storefront.enabled,
+		},
+		{
+			name: 'widget-setup',
+			href: TextContent.href.setup_widget_f(organization.id),
+			title: 'Widget Setup',
+			icon: Icons.WifiBridgeAlt,
+			enabled: FeatureConfig.checkout_widget.enabled,
+		},
+		{
+			name: 'payment-settings',
+			href: TextContent.href.payment_settings_f(organization.id),
+			title: 'Billing & Payments',
+			icon: Icons.Payment,
+			enabled: true,
+		},
+	];
 	return (
 		<Page className={twMerge('lg:min-h-[710px] sm:px-4 md:pr-16')}>
 			<PageHeader title="Settings" Icon={Icons.Settings} />
 
 			<div className="tabs">
-				<Link
-					className={twMerge(
-						'tab pl-0',
-						FeatureConfig.storefront.enabled ? '' : 'hidden',
-					)}
-					href={TextContent.href.site_f(organization.id)}
-				>
-					<Button className="p-2">Site Settings</Button>
-				</Link>
-				<Link
-					className={twMerge(
-						'tab pl-0',
-						FeatureConfig.checkout_widget.enabled ? '' : 'hidden',
-					)}
-					href={TextContent.href.setup_widget_f(organization.id)}
-				>
-					<Button className="p-2">Widget Setup</Button>
-				</Link>
+				{settings.map((setting) => (
+					<Link
+						key={setting.name}
+						className={twMerge('tab pl-0', setting.enabled ? '' : 'hidden')}
+						href={setting.href}
+					>
+						<Button className="p-2">{setting.title}</Button>
+					</Link>
+				))}
 			</div>
 		</Page>
 	);

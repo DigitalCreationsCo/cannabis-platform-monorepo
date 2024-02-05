@@ -65,9 +65,14 @@
 
     --rounded-btn: 0;
   } */
+
 }
 
 @layer utilities {
+	.page-height {
+		height: calc(100% - 64px);
+	}
+
 	.image-cropper {
 		width: 100px;
 		height: 100px;
@@ -75,6 +80,7 @@
 		overflow: hidden;
 		border-radius: 50%;
 	}
+
 	.profile-pic {
 	  display: inline;
 	  margin: 0 auto;
