@@ -1,4 +1,4 @@
-import { isArray, selectDispensaryState, TextContent } from '@cd/core-lib';
+import { selectDispensaryState, TextContent } from '@cd/core-lib';
 import { Icons, NavLink, type NavLinkType } from '@cd/ui-lib';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
