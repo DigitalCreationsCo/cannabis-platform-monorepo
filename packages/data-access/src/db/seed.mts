@@ -18,14 +18,46 @@ import {
 	type Vendor,
 } from '@prisma/client';
 import axios from 'axios';
-import { type DailyDealCreateWithSkus } from 'sms.data.js';
-import {
-	type OrganizationWithOrderDetails,
-	type OrganizationCreateType,
-} from '../organization.types.js';
+import { type OrganizationCreateType } from '../organization.types.js';
 import { type ReviewWithUserDetails } from '../product.data.js';
 
 const prisma = new PrismaClient();
+
+const createSubscriptionPlans = async () => {
+	const subscriptionPlans: Prisma.SubscriptionPlanCreateInput[] = [
+		{
+			id: '1',
+			name: 'Express Premium',
+			description:
+				'Premium value delivery service, including on-demand delivery and daily deals service.',
+			price: 1000000,
+			currency: 'USD',
+			deliveryLimit: 20,
+			featuresDelivery: true,
+			featuresPickup: false,
+			featuresDailyDeals: true,
+			createdAt: new Date(),
+			updatedAt: new Date(),
+		},
+		{
+			id: '2',
+			name: 'Express Gold',
+			description: 'Express Gold',
+			price: 1000000,
+			deliveryLimit: 99,
+			featuresDelivery: true,
+			featuresPickup: false,
+			featuresDailyDeals: true,
+			createdAt: new Date(),
+			updatedAt: new Date(),
+		},
+	];
+	await prisma.subscriptionPlan.createMany({
+		data: subscriptionPlans,
+		skipDuplicates: true,
+	});
+	console.info('create prisma.subscriptionPlan records');
+};
 
 const createFeaturesBackend = async () => {
 	await prisma.featuresBackend.createMany({
@@ -307,6 +339,11 @@ async function createOrganizations() {
 						deliveredAt: new Date(),
 					},
 				},
+				subscriptionPlan: {
+					connect: {
+						id: '1',
+					},
+				},
 				siteSetting: {
 					create: {
 						title: 'Curaleaf MD Reisterstown',
@@ -396,6 +433,11 @@ async function createOrganizations() {
 						updatedAt: new Date(),
 					},
 				},
+				subscriptionPlan: {
+					connect: {
+						id: '1',
+					},
+				},
 				images: {
 					createMany: {
 						data: [
@@ -466,6 +508,11 @@ async function createOrganizations() {
 						},
 						createdAt: new Date(),
 						updatedAt: new Date(),
+					},
+				},
+				subscriptionPlan: {
+					connect: {
+						id: '1',
 					},
 				},
 				images: {
@@ -715,6 +762,11 @@ async function createOrganizations() {
 						updatedAt: new Date(),
 					},
 				},
+				subscriptionPlan: {
+					connect: {
+						id: '1',
+					},
+				},
 				schedule: {
 					createMany: {
 						data: [
@@ -830,6 +882,11 @@ async function createOrganizations() {
 						},
 						createdAt: new Date(),
 						updatedAt: new Date(),
+					},
+				},
+				subscriptionPlan: {
+					connect: {
+						id: '1',
 					},
 				},
 				images: {
@@ -2740,6 +2797,8 @@ async function main() {
 
 		createFeaturesBackend();
 		createFeaturesFrontend();
+
+		createSubscriptionPlans();
 	} catch (e) {
 		throw new Error(e);
 	}

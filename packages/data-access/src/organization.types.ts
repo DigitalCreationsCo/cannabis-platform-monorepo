@@ -1,4 +1,5 @@
 import {
+	type SubscriptionPlan,
 	type Category,
 	type CategoryList,
 	type Coordinates,
@@ -67,6 +68,7 @@ export type OrganizationWithDashboardDetails = Organization & {
 	categoryList: CategoryList;
 	categories?: Category[];
 	siteSetting: SiteSetting;
+	subscriptionPlan: SubscriptionPlan;
 	schedule: Schedule[];
 	subdomain: SubDomain;
 	vendor: Vendor;

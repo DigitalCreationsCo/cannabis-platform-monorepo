@@ -516,9 +516,9 @@ model Organization {
   productVariants          ProductVariant[]    @relation("variantOrganization")
   siteSetting              SiteSetting?
   memberships              Membership[]        @relation("MembershipToOrganization")
-  subscribedForDelivery    Boolean             @default(true)
-  subscribedForPickup      Boolean             @default(false)
-  subscribedForWeedText    Boolean             @default(true)
+  isSubscriptionActive     Boolean             @default(false)
+  subscriptionPlanId       String              @default("")
+  subscriptionPlan         SubscriptionPlan    @relation(fields: [subscriptionPlanId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   dailyDeals               DailyDeal[]
 
   vendor                   Vendor?             @relation(fields: [vendorId, vendorName], references: [id, name])
@@ -540,6 +540,25 @@ model Organization {
   @@index([vendorId])
   @@index([subdomainId])
   @@unique([id, name])
+}
+
+model SubscriptionPlan {
+  id            String       @id @unique
+  name          String
+  description   String
+  isActive      Boolean      @default(false)
+  featuresDelivery    Boolean             @default(true)
+  deliveryLimit Int
+  featuresPickup      Boolean             @default(false)
+  featuresDailyDeals    Boolean             @default(true)
+  price         Int
+  currency      CurrencyName @default(USD)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  organizations  Organization[]
+
+  @@index([id])
+  @@index([name])
 }
 
 enum POS {

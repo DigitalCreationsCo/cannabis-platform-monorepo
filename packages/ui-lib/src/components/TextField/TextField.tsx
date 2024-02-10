@@ -80,7 +80,7 @@ function TextField({
 							onClickIcon && onClickIcon(e);
 						}}
 						className={twMerge(
-							'bg-transparent hover:bg-transparent md:hover:bg-transparent focus:bg-transparent shadow-none px-0 pl-2 m-0 w-min h-min place-self-center',
+							'bg-transparent hover:bg-transparent md:hover:bg-transparent focus:bg-transparent shadow-none px-0 pl-2 m-0 h-min w-min place-self-center',
 						)}
 						Icon={insertIcon}
 					/>

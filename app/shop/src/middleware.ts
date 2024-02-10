@@ -27,7 +27,6 @@ export default async function middleware(req: NextRequest) {
 
 	const pagesAllowOver21Only = ['/browse', '/checkout', '/support'];
 
-	console.info('url ', req.nextUrl);
 	let url;
 	switch (true) {
 		case subdomain === 'www':
