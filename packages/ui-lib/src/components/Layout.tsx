@@ -21,7 +21,7 @@ interface LayoutContextProps {
 	showHeader?: boolean;
 	showFooter?: boolean;
 	showSideNavOnDesktop?: boolean;
-	TopBarComponent?: React.ElementType;
+	TopBarComponent?: React.ElementType | null;
 }
 
 interface LayoutProps extends LayoutContextProps, PropsWithChildren {
@@ -43,7 +43,7 @@ function Layout({
 	showTopBar = true,
 	showFooter = true,
 	SideNavComponent,
-	TopBarComponent,
+	TopBarComponent = null,
 	signOut,
 	onSearchChange,
 	placeholder,

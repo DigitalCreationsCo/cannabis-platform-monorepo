@@ -1,0 +1,9 @@
+{
+    "shop-proxy": {
+      "source": 3012,
+      "target": 3002,
+      "hostname": "localhost",
+      "key": "../../proxy-certs/localhost.key",
+      "cert": "../../proxy-certs/localhost.crt"
+    }
+  }
