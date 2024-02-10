@@ -365,6 +365,8 @@ const TextContent = Object.freeze({
 		site: `/site-settings`,
 		site_f: (id: string) => `/${id}/settings/site-settings`,
 		setup_widget_f: (id: string) => `/${id}/settings/setup-widget`,
+		payment_settings_f: (id: string) => `/${id}/settings/billing-and-payments`,
+		pricing_plans_f: (id: string) => `/${id}/settings/choose-a-plan`,
 		preview_fullscreen_widget_f: (id: string) =>
 			`/${id}/settings/preview-fullscreen`,
 		daily_deals_weed_text_f: (id: string) => `/${id}/daily-deals`,
