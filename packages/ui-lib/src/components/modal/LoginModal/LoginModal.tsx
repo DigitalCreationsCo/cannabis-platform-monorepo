@@ -3,7 +3,7 @@ import { twMerge } from 'tailwind-merge';
 import { styles } from '../../../styleClassNames';
 import Modal from '../Modal';
 import EnterPasscode from './EnterPassCodeForm';
-import LoginModalHeader from './LoginModalHeader';
+import LoginModalHeader from './LoginHeader';
 import SendPasscode from './SendPassCodeForm';
 
 interface LoginModalProps {

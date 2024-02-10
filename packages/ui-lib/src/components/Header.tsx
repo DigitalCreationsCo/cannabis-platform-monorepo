@@ -25,6 +25,7 @@ function Header({
 	children,
 }: HeaderProps) {
 	const headerContainerStyle = [
+		'bg-inherit',
 		'flex flex-row',
 		'lg:px-16 xl:pl-0 xl:pr-16',
 		'lg:justify-end lg:right-0',
@@ -36,9 +37,10 @@ function Header({
 		'lg:justify-end lg:h-fit',
 		'lg:pt-2',
 		'shadow-md lg:shadow-none',
+		'justify-end',
 	];
 	return (
-		<div className={twMerge(headerContainerStyle)}>
+		<div className={twMerge(headerContainerStyle, 'text-inherit')}>
 			<div className={twMerge(headerStyle)}>
 				{(showDrawer && (
 					<CategoriesMenu drawerComponentId={drawerComponentId} />
