@@ -25,7 +25,9 @@ import {
 } from '../organization.types.js';
 import { type ReviewWithUserDetails } from '../product.data.js';
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+	datasources: { db: { url: process.env.DATABASE_URL } },
+});
 
 const createSubscriptionPlans = async () => {
 	const subscriptionPlans: Prisma.SubscriptionPlanCreateInput[] = [

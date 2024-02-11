@@ -1,5 +1,5 @@
 import Telnyx from 'telnyx';
-import { dispatchEvents } from '../../../src';
+import { dispatchEvents } from '../../../';
 
 class TelnyxApi {
 	telnyx: any;
