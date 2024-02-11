@@ -39,23 +39,6 @@ const supertokensArguments = {
 	signOut: () => signOut,
 };
 
-// const
-// thunkArguments: {
-//   store: Store;
-//   // supertokens: {
-//   //     signUp?: any;
-//   //     signIn?: any;
-//   //     signOut: any;
-//   // };
-//   supertokens: any;
-//   hello?: string;
-// } = {
-//   store: null,
-//   supertokens: {
-//     signOut
-//   }
-// };
-
 const makeStore = () => {
 	const thunkArguments: { store: Store | null; supertokens: any } = {
 		store: null,
