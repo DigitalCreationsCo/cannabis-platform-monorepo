@@ -1,6 +1,11 @@
-import { hasMembershipRoleAccess, selectUserState } from '@cd/core-lib';
+import {
+	hasMembershipRoleAccess,
+	selectDriverState,
+	selectUserState,
+} from '@cd/core-lib';
+import { type UserWithDetails } from '@cd/data-access/src';
 import { useRouter } from 'next/router';
-import { useEffect, type PropsWithChildren } from 'react';
+import { type PropsWithChildren } from 'react';
 import { useSelector } from 'react-redux';
 import LoadingPage from './LoadingPage';
 
@@ -16,7 +21,14 @@ function ProtectedPage({
 	children,
 }: ProtectedPageProps & PropsWithChildren) {
 	const router = useRouter();
-	const user = useSelector(selectUserState);
+	let { user, isSignedIn, isLoading } = useSelector(selectUserState);
+	const driverState = useSelector(selectDriverState);
+	// handle driver state also
+	if (typeof user === 'undefined') {
+		isSignedIn = driverState.isSignedIn;
+		isLoading = driverState.isLoading;
+		user = driverState.driver.user as UserWithDetails;
+	}
 
 	const anyPrivatePage = protectedPages?.concat(memberPages, adminPages);
 	const isProtectedPage = anyPrivatePage.find((page) =>
@@ -27,39 +39,39 @@ function ProtectedPage({
 	);
 	const isAdminPage = adminPages.find((page) => router.pathname.includes(page));
 
-	if (isProtectedPage && !user.isSignedIn) {
+	if (isProtectedPage && !isSignedIn) {
 		console.info('ProtectedPage: user is not signed in');
 		router.push('/');
 	}
-	if (isMemberPage && !hasMembershipRoleAccess(user.user, 'MEMBER')) {
+	if (isMemberPage && !hasMembershipRoleAccess(user, 'MEMBER')) {
 		console.info('ProtectedPage: user is not a member');
 		router.push('/');
 	}
-	if (isAdminPage && !hasMembershipRoleAccess(user.user, 'ADMIN')) {
+	if (isAdminPage && !hasMembershipRoleAccess(user, 'ADMIN')) {
 		console.info('ProtectedPage: user is not an admin');
 		router.push('/');
 	}
 
 	// useEffect(() => {
-	// 	if (isProtectedPage && !user.isSignedIn) {
+	// 	if (isProtectedPage && !isSignedIn) {
 	// 		console.info('ProtectedPage: user is not signed in');
 	// 		router.push('/');
 	// 	}
 	// }, [user]);
 	// useEffect(() => {
-	// 	if (isMemberPage && !hasMembershipRoleAccess(user.user, 'MEMBER')) {
+	// 	if (isMemberPage && !hasMembershipRoleAccess(user, 'MEMBER')) {
 	// 		console.info('ProtectedPage: user is not a member');
 	// 		router.push('/');
 	// 	}
 	// }, [user]);
 	// useEffect(() => {
-	// 	if (isAdminPage && !hasMembershipRoleAccess(user.user, 'MEMBER')) {
+	// 	if (isAdminPage && !hasMembershipRoleAccess(user, 'MEMBER')) {
 	// 		console.info('ProtectedPage: user is not an admin');
 	// 		router.push('/');
 	// 	}
 	// }, [user]);
 
-	if (user.isLoading) return <LoadingPage />;
+	if (isLoading) return <LoadingPage />;
 
 	return <>{children}</>;
 }

@@ -1,4 +1,4 @@
-import { TextContent } from '@cd/core-lib';
+import { selectDriverState, TextContent, useAppSelector } from '@cd/core-lib';
 import {
 	LoginHeader,
 	FlexBox,
@@ -8,6 +8,7 @@ import {
 	Center,
 	Paragraph,
 	FormStepProvider,
+	H3,
 } from '@cd/ui-lib';
 import LoginModal from '@cd/ui-lib/src/components/modal/LoginModal';
 import EnterOTPForm from '@cd/ui-lib/src/components/modal/LoginModal/EnterPassCodeForm';
@@ -16,6 +17,8 @@ import SendOTPForm from '@cd/ui-lib/src/components/modal/LoginModal/SendPassCode
 import { useState, useMemo } from 'react';
 
 function DriveSignIn() {
+	const { driver, isSignedIn } = useAppSelector(selectDriverState);
+
 	const [formStep, setFormStep] = useState(0);
 
 	const prevFormStep = () => setFormStep((currentStep) => currentStep - 1);
@@ -38,9 +41,9 @@ function DriveSignIn() {
 
 	return (
 		<Page className="bg-secondary text-light p-0 sm:p-0 md:p-0 lg:p-0">
-			<Center className="space-y-4">
+			<Center className="space-y-6 m-auto">
 				<LoginHeader />
-				<Paragraph>{TextContent.account.SIGNIN}</Paragraph>
+				<H3>DRIVER HUB</H3>
 				<FormStepComponent
 					prevFormStep={prevFormStep}
 					nextFormStep={nextFormStep}
@@ -48,6 +51,8 @@ function DriveSignIn() {
 					setInputValue={setInputValue}
 					dispatchCloseModal={() => null}
 				/>
+				{!isSignedIn && 'Please sign in'}
+				{isSignedIn && driver.email + ' is signed in as a driver'}
 			</Center>
 		</Page>
 	);

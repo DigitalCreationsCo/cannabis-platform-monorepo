@@ -9,7 +9,7 @@ import { type PropsWithChildren } from 'react';
 import { useSelector } from 'react-redux';
 
 const LayoutContainer = (props: LayoutContextProps & PropsWithChildren) => {
-	const user = useSelector((state: AppState) => state.user);
+	const { driver, isSignedIn } = useSelector((state: AppState) => state.driver);
 	const { modalVisible } = useSelector(selectModalState);
 
 	const dispatch = useAppDispatch();
@@ -25,7 +25,7 @@ const LayoutContainer = (props: LayoutContextProps & PropsWithChildren) => {
 			showSideNavOnDesktop={false}
 			SideNavComponent={() => <>SideNavComponent</>}
 			signOut={signOut}
-			isSession={user.isSignedIn}
+			isSession={isSignedIn}
 			showFooter={false}
 			{...props}
 		>
