@@ -209,13 +209,13 @@ export async function findDriverWithDetailsByEmail(
 
 		return driver;
 	} catch (error: any) {
-		console.error('findDriverWithDetailsByEmail: ', error.message);
+		console.error('findDriverWithDetailsByEmail: ', error);
 
 		if (error.code === 'P2025')
 			throw new Error(
 				'The driver was not found. Please check the email address and try again.',
 			);
-		throw new Error('An error occurred while finding the driver.');
+		throw new Error(error.message);
 	}
 }
 
@@ -257,13 +257,13 @@ export async function findDriverWithDetailsByPhone(
 			},
 		};
 	} catch (error: any) {
-		console.error('findDriverWithDetailsByPhone: ', error.message);
+		console.error('findDriverWithDetailsByPhone: ', error);
 
 		if (error.code === 'P2025')
 			throw new Error(
 				'The driver was not found. Please check the phone number and try again.',
 			);
-		throw new Error('An error occurred while finding the driver.');
+		throw new Error(error.message);
 	}
 }
 
@@ -289,10 +289,10 @@ export async function findDriverWithDetailsById(
 		if (!driver) throw new Error('The driver was not found.');
 		return driver;
 	} catch (error: any) {
-		console.error('findDriverWithDetailsById: ', error.message);
+		console.error('findDriverWithDetailsById: ', error);
 
 		if (error.code === 'P2025') throw new Error('The driver was not found.');
-		throw new Error('An error occurred while finding the driver.');
+		throw new Error(error.message);
 	}
 }
 

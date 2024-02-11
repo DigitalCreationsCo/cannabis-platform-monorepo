@@ -61,6 +61,13 @@ export const backendConfig = (): AuthConfig => {
 									);
 								}
 							},
+							consumeCode: async (input) => {
+								try {
+									return await oi.consumeCode(input);
+								} catch (error) {
+									throw new Error(error.message);
+								}
+							},
 						};
 					},
 					apis: (oi) => {

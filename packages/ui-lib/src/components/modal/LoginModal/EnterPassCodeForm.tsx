@@ -82,6 +82,8 @@ export default function EnterOTPForm({
 
 			console.info('OTP signin response', response);
 
+			if (!response) throw new Error('The driver was not found.');
+
 			if (response.status === 'INCORRECT_USER_INPUT_CODE_ERROR') {
 				throw new Error(`Invalid passcode. Please try again.
 						  You have ${
