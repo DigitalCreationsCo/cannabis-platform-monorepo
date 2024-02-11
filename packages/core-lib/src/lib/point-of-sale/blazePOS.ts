@@ -7,7 +7,7 @@ import { type POSIntegration } from './integration.types';
 
 const BlazePOS: POSIntegration = class {
 	static getBlaze() {
-		// assert value
+		// assert va lue
 		// return process.env.DUTCHIE_API_ENDPOINT;
 	}
 
