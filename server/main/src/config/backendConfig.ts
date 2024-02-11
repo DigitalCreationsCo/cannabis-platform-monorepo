@@ -139,18 +139,23 @@ export const backendConfig = (): AuthConfig => {
 											}
 											break;
 										case 'DRIVER_USER':
-											if (response.user.emails[0]) {
-												user = await DriverDA.getDriverByEmail(
-													response.user.emails[0],
-												);
-											} else if (response.user.phoneNumbers[0]) {
-												user = await DriverDA.getDriverByPhone(
-													getPhoneWithoutDialCode(
-														response.user.phoneNumbers[0],
-													),
-												);
-											} else {
-												user = await DriverDA.getDriverById(response.user.id);
+											try {
+												if (response.user.emails[0]) {
+													user = await DriverDA.getDriverByEmail(
+														response.user.emails[0],
+													);
+												} else if (response.user.phoneNumbers[0]) {
+													user = await DriverDA.getDriverByPhone(
+														getPhoneWithoutDialCode(
+															response.user.phoneNumbers[0],
+														),
+													);
+												} else {
+													user = await DriverDA.getDriverById(response.user.id);
+												}
+											} catch (error) {
+												console.error('consumeCodePOST: ', error);
+												throw new Error(error.message);
 											}
 									}
 
