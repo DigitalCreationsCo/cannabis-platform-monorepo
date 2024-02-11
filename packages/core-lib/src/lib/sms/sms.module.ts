@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { TextContent, type dispatchEvents } from '../../src';
+import { TextContent, type dispatchEvents } from '../../';
 import { type SMSAPI } from './Telnyx/telnyx';
 
 class SMSModule {

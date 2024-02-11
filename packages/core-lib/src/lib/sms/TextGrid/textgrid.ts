@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import axios from 'axios';
-import { dispatchEvents } from '../../../src';
+import { dispatchEvents } from '../../../';
 
 class SMSModule {
 	smsApi: 'TextGrid' | 'Telnyx';
