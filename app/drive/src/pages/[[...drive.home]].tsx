@@ -1,19 +1,14 @@
-import { selectDriverState, TextContent, useAppSelector } from '@cd/core-lib';
+import { selectDriverState, useAppSelector } from '@cd/core-lib';
 import {
 	LoginHeader,
-	FlexBox,
-	H1,
 	Page,
 	type LayoutContextProps,
 	Center,
-	Paragraph,
-	FormStepProvider,
 	H3,
+	SendPassCodeForm,
+	EnterPassCodeForm,
 } from '@cd/ui-lib';
-import LoginModal from '@cd/ui-lib/src/components/modal/LoginModal';
-import EnterOTPForm from '@cd/ui-lib/src/components/modal/LoginModal/EnterPassCodeForm';
 import { type LoginFormComponentProps } from '@cd/ui-lib/src/components/modal/LoginModal/LoginModal';
-import SendOTPForm from '@cd/ui-lib/src/components/modal/LoginModal/SendPassCodeForm';
 import { useState, useMemo } from 'react';
 
 function DriveSignIn() {
@@ -30,7 +25,10 @@ function DriveSignIn() {
 	const FormStepComponents: (({
 		prevFormStep,
 		nextFormStep,
-	}: LoginFormComponentProps) => JSX.Element)[] = [SendOTPForm, EnterOTPForm];
+	}: LoginFormComponentProps) => JSX.Element)[] = [
+		SendPassCodeForm,
+		EnterPassCodeForm,
+	];
 
 	const FormStepComponent = useMemo(
 		() => FormStepComponents[formStep],

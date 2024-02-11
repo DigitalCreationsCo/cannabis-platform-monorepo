@@ -2,11 +2,11 @@ import {
 	type UserWithDetails,
 	type OrderWithDispatchDetails,
 } from '@cd/data-access';
-import { variants } from '../../src/dummyData';
+import { variants } from '../../dummyData';
 import { type POSIntegration } from './integration.types';
 
-const WeedmapsPOS: POSIntegration = class {
-	static getWeedmapsEndpoint() {
+const DutchiePOS: POSIntegration = class {
+	static getDutchieEndpoint() {
 		// assert value
 		// return process.env.DUTCHIE_API_ENDPOINT;
 	}
@@ -25,10 +25,17 @@ const WeedmapsPOS: POSIntegration = class {
 
 	static async processPickupOrder(order: OrderWithDispatchDetails['order']) {
 		try {
+			// const client = createClient({
+			// 	url: process.env.DUTCHIE_API_ENDPOINT +
+			// 	fetchOptions: {
+			// 		headers: { authorization: 'Bearer ' + process.env.DUTCHIE_API_KEY },
+			// 	},
+			// });
+			// const query = gql``;
 			return;
 		} catch (error: any) {
 			console.error(
-				'weedmapsPOSIntegration processPickupOrder: ',
+				'dutchiePOSIntegration processPickupOrder: ',
 				error.message,
 			);
 			throw new Error(error.message);
@@ -37,10 +44,11 @@ const WeedmapsPOS: POSIntegration = class {
 
 	static async processDeliveryOrder(order: OrderWithDispatchDetails['order']) {
 		try {
+			// const query = gql``;
 			return;
 		} catch (error: any) {
 			console.error(
-				'weedmapsPOSIntegration processDeliveryOrder: ',
+				'dutchiePOSIntegration processDeliveryOrder: ',
 				error.message,
 			);
 			throw new Error(error.message);
@@ -48,4 +56,4 @@ const WeedmapsPOS: POSIntegration = class {
 	}
 };
 
-export default WeedmapsPOS;
+export default DutchiePOS;

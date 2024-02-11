@@ -1,7 +1,7 @@
 import {
 	type ProductVariantWithDetails,
 	type OrderWithDispatchDetails,
-	UserWithDetails,
+	type UserWithDetails,
 } from '@cd/data-access';
 
 export interface POSIntegration {

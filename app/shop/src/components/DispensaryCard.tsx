@@ -103,8 +103,8 @@ function DispensaryCard({
 					</Paragraph> */}
 					<FlexBox className="z-5 absolute bottom-0 left-0 flex-col p-2 px-4">
 						<Paragraph className="text-inverse text-xl font-semibold drop-shadow">
-							{(dispensary?.subscribedForDelivery && 'Accepting Delivery') ||
-								(dispensary?.subscribedForPickup && 'Order for Pickup')}
+							{(dispensary?.isSubscribedForDelivery && 'Accepting Delivery') ||
+								(dispensary?.isSubscribedForPickup && 'Order for Pickup')}
 						</Paragraph>
 					</FlexBox>
 				</ImageBackDrop>

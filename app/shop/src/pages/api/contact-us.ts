@@ -1,5 +1,5 @@
 import { applicationHeaders, urlBuilder } from '@cd/core-lib';
-import { type DailyStoryData } from '@cd/core-lib/lib/DailyStory.api';
+import { type DailyStoryData } from '@cd/core-lib/src/lib/DailyStory.api';
 import axios from 'axios';
 import nc from 'next-connect';
 import { type ContactUsFormResponse } from 'components/landing-page/ContactUs';

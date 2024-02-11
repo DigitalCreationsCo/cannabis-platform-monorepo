@@ -10,7 +10,7 @@ import {
 	type OrderCreateMinimalFields,
 	type ProductVariant,
 } from '@cd/data-access';
-import IntegrationService from '../../lib/point-of-sale';
+import IntegrationService from '../lib/point-of-sale';
 import { getTravelDistanceFromCoordinates } from './geo.util';
 
 /** 

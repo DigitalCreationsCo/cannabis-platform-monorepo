@@ -51,11 +51,17 @@ function ProtectedPage({
 		console.info('ProtectedPage: user is not signed in');
 		router.push('/');
 	}
-	if (isMemberPage && !hasMembershipRoleAccess(user, 'MEMBER')) {
+	if (
+		isMemberPage &&
+		!hasMembershipRoleAccess(user as UserWithDetails, 'MEMBER')
+	) {
 		console.info('ProtectedPage: user is not a member');
 		router.push('/');
 	}
-	if (isAdminPage && !hasMembershipRoleAccess(user, 'ADMIN')) {
+	if (
+		isAdminPage &&
+		!hasMembershipRoleAccess(user as UserWithDetails, 'ADMIN')
+	) {
 		console.info('ProtectedPage: user is not an admin');
 		router.push('/');
 	}

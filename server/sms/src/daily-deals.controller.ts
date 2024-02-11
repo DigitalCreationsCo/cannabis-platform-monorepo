@@ -7,7 +7,7 @@ import {
 	showTime,
 	getDailyDealProductsAndCalculateTotal,
 } from '@cd/core-lib';
-import SMS from '@cd/core-lib/lib/sms/sms.module';
+import SMS from '@cd/core-lib/src/lib/sms/sms.module';
 import {
 	type DailyDealCreateWithSkus,
 	findDailyDeal,

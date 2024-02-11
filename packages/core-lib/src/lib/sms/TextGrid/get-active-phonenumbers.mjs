@@ -12,8 +12,7 @@ try {
 		{
 			headers: {
 				// eslint-disable-next-line prettier/prettier
-							'Authorization':
-								`Bearer ${Buffer.from(
+				Authorization: `Bearer ${Buffer.from(
 					`${process.env.TEXTGRID_ACCOUNT_SID}:${process.env.TEXTGRID_AUTHTOKEN}`,
 				).toString('base64')}`,
 			},

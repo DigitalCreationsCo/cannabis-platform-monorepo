@@ -85,7 +85,7 @@ function Storefront({ subdomain }: { subdomain: string }) {
 		<FlexBox
 			className={`flex-col text-[${organization.siteSetting.primaryColor}]`}
 		>
-			{organization.subscribedForDelivery ? (
+			{organization.isSubscribedForDelivery ? (
 				<FlexBox className="flex-row">
 					<IconWrapper Icon={icons.Truck} iconSize={28} />
 					<Paragraph className="whitespace-pre text-lg font-semibold tracking-wider">
@@ -93,7 +93,7 @@ function Storefront({ subdomain }: { subdomain: string }) {
 					</Paragraph>
 				</FlexBox>
 			) : null}
-			{organization.subscribedForPickup ? (
+			{organization.isSubscribedForPickup ? (
 				<FlexBox className="flex-col">
 					<FlexBox className="flex-row">
 						<IconWrapper Icon={icons.CurrencyDollar} iconSize={28} />
@@ -108,8 +108,8 @@ function Storefront({ subdomain }: { subdomain: string }) {
 					</H4>
 				</FlexBox>
 			) : null}
-			{!organization.subscribedForDelivery &&
-			!organization.subscribedForPickup ? (
+			{!organization.isSubscribedForDelivery &&
+			!organization.isSubscribedForPickup ? (
 				<Paragraph className="text-lg text-dark-soft tracking-wider">
 					{TextContent.error.DISPENSARY_NOT_ACCEPTING_PAYMENTS}
 				</Paragraph>
@@ -119,7 +119,7 @@ function Storefront({ subdomain }: { subdomain: string }) {
 
 	const Contact = () => (
 		<div>
-			{organization.subscribedForPickup ? (
+			{organization.isSubscribedForPickup ? (
 				<FlexBox className="flex-row items-center">
 					<IconWrapper Icon={icons.Phone} iconSize={28} />
 					<Link href={`tel:${organization.dialCode + organization.phone}`}>

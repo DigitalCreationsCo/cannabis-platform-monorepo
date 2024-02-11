@@ -3,8 +3,8 @@ import {
 	type Organization,
 	type UserWithDetails,
 } from '@cd/data-access';
-import { BrevoMailer } from '@cd/core-lib/lib/brevo-mailer';
-import { TextContent } from '../../src';
+import { TextContent } from '../../constants';
+import { BrevoMailer } from '../brevo-mailer';
 
 export class EmailService {
 	static async createScheduledNewsletterCampaign({

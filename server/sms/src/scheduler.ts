@@ -1,4 +1,4 @@
-import SMS from '@cd/core-lib/lib/sms';
+import SMS from '@cd/core-lib/src/lib/sms';
 import { findActiveDailyDeals, setExpiredDailyDeals } from '@cd/data-access';
 import { schedule } from 'node-cron';
 import {
