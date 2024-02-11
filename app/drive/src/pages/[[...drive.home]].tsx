@@ -5,15 +5,50 @@ import {
 	H1,
 	Page,
 	type LayoutContextProps,
+	Center,
+	Paragraph,
+	FormStepProvider,
 } from '@cd/ui-lib';
+import LoginModal from '@cd/ui-lib/src/components/modal/LoginModal';
+import EnterOTPForm from '@cd/ui-lib/src/components/modal/LoginModal/EnterPassCodeForm';
+import { type LoginFormComponentProps } from '@cd/ui-lib/src/components/modal/LoginModal/LoginModal';
+import SendOTPForm from '@cd/ui-lib/src/components/modal/LoginModal/SendPassCodeForm';
+import { useState, useMemo } from 'react';
 
 function DriveSignIn() {
+	const [formStep, setFormStep] = useState(0);
+
+	const prevFormStep = () => setFormStep((currentStep) => currentStep - 1);
+	const nextFormStep = () =>
+		setFormStep((currentStep) =>
+			currentStep <= 1 ? currentStep + 1 : currentStep,
+		);
+
+	const FormStepComponents: (({
+		prevFormStep,
+		nextFormStep,
+	}: LoginFormComponentProps) => JSX.Element)[] = [SendOTPForm, EnterOTPForm];
+
+	const FormStepComponent = useMemo(
+		() => FormStepComponents[formStep],
+		[formStep],
+	);
+
+	const [inputValue, setInputValue] = useState('');
+
 	return (
 		<Page className="bg-secondary text-light p-0 sm:p-0 md:p-0 lg:p-0">
-			<FlexBox>
-				<H1>{TextContent.account.SIGNIN}</H1>
+			<Center className="space-y-4">
 				<LoginHeader />
-			</FlexBox>
+				<Paragraph>{TextContent.account.SIGNIN}</Paragraph>
+				<FormStepComponent
+					prevFormStep={prevFormStep}
+					nextFormStep={nextFormStep}
+					inputValue={inputValue}
+					setInputValue={setInputValue}
+					dispatchCloseModal={() => null}
+				/>
+			</Center>
 		</Page>
 	);
 }

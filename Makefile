@@ -10,17 +10,14 @@ docker-build-nocache-output:
 docker-build-debug:
 	docker build -t grasadmin/$(BUILD_CONTEXT):$(TAG) -f Dockerfile.$(BUILD_TYPE) --build-arg=BUILD_TYPE=$(BUILD_TYPE) --build-arg=BUILD_CONTEXT=$(BUILD_CONTEXT) --build-arg=PORT=$(PORT) --progress=plain .
 
-docker-build-supertokens:
-	docker build -t grasadmin/supertokens:7.0 -f Dockerfile.supertokens .
-
 docker-tag:
 	docker tag $(IMAGE) grasadmin/$(IMAGE):$(TAG)
 
 docker-push:
 	docker push grasadmin/$(IMAGE):$(TAG)
 
-docker-deploy:
-	scripts/docker-deploy-app.sh $(IMAGE) $(TAG) $(PORT)
+deploy-app:
+	scripts/deploy-app.sh $(IMAGE) $(TAG) $(PORT)
 
 create-docker-secret:
 	scripts/docker-secret.sh
