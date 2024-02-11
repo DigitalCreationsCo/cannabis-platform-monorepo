@@ -5,6 +5,7 @@ import {
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { type AppState, type ThunkArgumentsType } from '../types';
 import { updateOnlineStatus } from './action/updateOnlineStatus';
+import { userActions } from './user.reducer';
 
 const signOutUserAsync = createAsyncThunk<
 	void,
@@ -91,6 +92,16 @@ export const driverSlice = createSlice({
 			}: { payload: { driver: DriverWithSessionJoin; token: string } },
 		) => {
 			const { token, driver } = payload;
+
+			if (!driver || !driver.user || !token) {
+				state.isLoading = false;
+				state.isSuccess = false;
+				state.isSignedIn = false;
+				state.isError = true;
+				state.errorMessage = 'Driver or token is not defined.';
+				return;
+			}
+
 			state.token = token;
 			state.driver = driver;
 			state.isSignedIn = true;
@@ -135,6 +146,17 @@ export const driverSlice = createSlice({
 		},
 	},
 	extraReducers: (builder) => {
+		// handle signin driver by handling user signin action - not used in leui of passing signin action to login component
+
+		// builder.addCase(userActions.signinUserSync, (state, { payload }) => {
+		// 	const { token, driver } = payload;
+		// 	state.token = token;
+		// 	state.driver = driver;
+		// 	state.isSignedIn = true;
+		// 	state.isLoading = false;
+		// 	state.isSuccess = true;
+		// 	state.isError = false;
+		// }),
 		builder.addCase(updateOnlineStatus.fulfilled, (state, { payload }) => {
 			const { isOnline } = payload;
 			state.driver.driverSession['isOnline'] = isOnline;

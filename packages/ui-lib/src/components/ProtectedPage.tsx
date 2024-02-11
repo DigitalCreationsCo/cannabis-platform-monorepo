@@ -27,14 +27,14 @@ function ProtectedPage({
 	let user, isSignedIn, isLoading;
 	switch (true) {
 		case typeof userState !== 'undefined':
-			user = userState.user as UserWithDetails;
-			isSignedIn = userState.isSignedIn;
-			isLoading = userState.isLoading;
+			user = userState?.user as UserWithDetails;
+			isSignedIn = userState?.isSignedIn;
+			isLoading = userState?.isLoading;
 			break;
 		case typeof driverState !== 'undefined':
-			user = driverState.driver.user as UserWithDetails;
-			isSignedIn = driverState.isSignedIn;
-			isLoading = driverState.isLoading;
+			user = driverState?.driver?.user as UserWithDetails;
+			isSignedIn = driverState?.isSignedIn;
+			isLoading = driverState?.isLoading;
 			break;
 	}
 

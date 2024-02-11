@@ -28,6 +28,7 @@ export default function EnterOTPForm({
 	prevFormStep,
 	inputValue,
 	dispatchCloseModal,
+	signInSyncAction = userActions.signinUserSync,
 }: LoginFormComponentProps) {
 	const [, setCookie] = useCookies(['yesOver21']);
 	const [loadingButton, setLoadingButton] = useState(false);
@@ -110,11 +111,12 @@ export default function EnterOTPForm({
 				console.debug('set yesOver21 cookie to true');
 			}
 			dispatch(
-				userActions.signinUserSync({
+				signInSyncAction({
 					token,
 					user: user as UserWithDetails,
 				}),
 			);
+			setLoadingButton(false);
 			toast.success(TextContent.account.SIGNING_IN, { duration: 5000 });
 			dispatchCloseModal();
 		} catch (error: any) {
@@ -163,7 +165,7 @@ export default function EnterOTPForm({
 
 	return (
 		<form>
-			<Grid className="relative space-y-2 md:w-2/3 m-auto">
+			<Grid className="space-y-2 w-2/3 m-auto">
 				<Paragraph>A one time passcode was sent to {inputValue}.</Paragraph>
 				<TextField
 					containerClassName="m-auto lg:flex-col lg:items-start"

@@ -20,8 +20,6 @@ import { type AuthConfig } from '../../interfaces';
 import { DriverDA, UserDA } from '../api/data-access';
 
 const baseDomain = process.env.NEXT_PUBLIC_APP_DOMAIN || 'grascannabis.org';
-const dashboardDomain =
-	process.env.NEXT_PUBLIC_DASHBOARD_APP_URL || 'https://app.grascannabis.org';
 const apiDomain = process.env.BACKEND_URL || `https://backend.grascannabis.org`;
 const apiBasePath = '/api/v1';
 
