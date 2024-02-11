@@ -54,20 +54,25 @@ export const frontendConfig = () => {
 						return {
 							...oi,
 							consumeCode: async (input) => {
-								console.info('oi.consumeCode input: ', input);
-								console.info(
-									'oi.consumeCode input.userContext: ',
-									input.userContext,
-								);
+								try {
+									console.info('oi.consumeCode input: ', input);
+									console.info(
+										'oi.consumeCode input.userContext: ',
+										input.userContext,
+									);
 
-								const response = await oi.consumeCode(input);
-								console.info('oi.consumeCode response: ', response);
+									const response = await oi.consumeCode(input);
+									console.info('oi.consumeCode response: ', response);
 
-								console.info(
-									'oi.consumeCode response.user: ',
-									response.status === 'OK' && (response.user as any),
-								);
-								return response;
+									console.info(
+										'oi.consumeCode response.user: ',
+										response.status === 'OK' && (response.user as any),
+									);
+									return response;
+								} catch (error) {
+									console.info('frontend config consumeCode: ', error);
+									throw new Error(error.message);
+								}
 							},
 						};
 					},
