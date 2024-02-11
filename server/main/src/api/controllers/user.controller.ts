@@ -4,7 +4,7 @@ import {
 	isArray,
 	normalizeUserData,
 } from '@cd/core-lib';
-import { EmailService } from '@cd/core-lib/lib/email/EmailService';
+import { EmailService } from '@cd/core-lib/src/lib/email/EmailService';
 import { type UserWithDetails, type AddressCreateType } from '@cd/data-access';
 import { ShopDA, UserDA } from '../data-access';
 

@@ -20,6 +20,7 @@ export const GrasSignature = ({
 		<h1
 			className={twMerge(
 				'font-gras',
+				'tracking-wide',
 				'overflow-visible z-50',
 				styles['cursor-inherit'],
 				'text-5xl font-bold whitespace-normal',

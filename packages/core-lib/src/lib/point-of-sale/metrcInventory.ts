@@ -6,8 +6,8 @@ import {
 	type ProductVariantWithDetails,
 	type UserWithDetails,
 } from '@cd/data-access';
-import { axios, formatToTimeZone, TimeZoneMap } from '../../src';
-import { variants } from '../../src/dummyData';
+import { axios, formatToTimeZone, TimeZoneMap } from '../..';
+import { variants } from '../../dummyData';
 import { type POSIntegration } from './integration.types';
 
 const MetrcIntegration: POSIntegration = class {

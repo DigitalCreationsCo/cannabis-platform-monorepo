@@ -2760,6 +2760,7 @@ async function main() {
 		);
 		console.debug(`\nSeeding database at ${process.env.DATABASE_URL}`);
 
+		await createSubscriptionPlans();
 		await createCompliance();
 		await createDrivers();
 
@@ -2795,10 +2796,8 @@ async function main() {
 			await createDailyDeals();
 		}, 10000);
 
-		createFeaturesBackend();
-		createFeaturesFrontend();
-
-		createSubscriptionPlans();
+		await createFeaturesBackend();
+		await createFeaturesFrontend();
 	} catch (e) {
 		throw new Error(e);
 	}

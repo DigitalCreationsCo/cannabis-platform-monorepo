@@ -516,7 +516,9 @@ model Organization {
   productVariants          ProductVariant[]    @relation("variantOrganization")
   siteSetting              SiteSetting?
   memberships              Membership[]        @relation("MembershipToOrganization")
-  isSubscriptionActive     Boolean             @default(false)
+  isSubscribedForDelivery  Boolean             @default(false)
+  isSubscribedForPickup    Boolean             @default(false)
+  isSubscribedForDailyDeals    Boolean             @default(false)
   subscriptionPlanId       String              @default("")
   subscriptionPlan         SubscriptionPlan    @relation(fields: [subscriptionPlanId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   dailyDeals               DailyDeal[]

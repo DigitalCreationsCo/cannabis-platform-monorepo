@@ -20,8 +20,7 @@ try {
 		{
 			headers: {
 				// eslint-disable-next-line prettier/prettier
-				'Authorization':
-					`Bearer ${token}`,
+				Authorization: `Bearer ${token}`,
 			},
 		},
 	).then((response) => {
@@ -59,8 +58,7 @@ try {
 					{
 						headers: {
 							// eslint-disable-next-line prettier/prettier
-							'Authorization':
-								`Bearer ${token}`,
+							Authorization: `Bearer ${token}`,
 							'Content-Type': 'application/x-www-form-urlencoded',
 						},
 					},

@@ -4,7 +4,7 @@ import {
 	usStatesAbbreviationList,
 	applicationHeaders,
 } from '@cd/core-lib';
-import { type DailyStoryData } from '@cd/core-lib/lib/DailyStory.api';
+import { type DailyStoryData } from '@cd/core-lib/src/lib/DailyStory.api';
 import { type USStateAbbreviated } from '@cd/data-access';
 import {
 	TextField,

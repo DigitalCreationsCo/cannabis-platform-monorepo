@@ -1,5 +1,8 @@
-import { UserWithDetails, type OrderWithDispatchDetails } from '@cd/data-access';
-import { variants } from '../../src/dummyData';
+import {
+	type UserWithDetails,
+	type OrderWithDispatchDetails,
+} from '@cd/data-access';
+import { variants } from '../../dummyData';
 import { type POSIntegration } from './integration.types';
 
 const BlazePOS: POSIntegration = class {

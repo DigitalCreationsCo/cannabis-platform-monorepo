@@ -12,7 +12,7 @@ import {
 	type AppState,
 	type ResponseDataEnvelope,
 } from '@cd/core-lib';
-import { type DailyStoryData } from '@cd/core-lib/lib/DailyStory.api';
+import { type DailyStoryData } from '@cd/core-lib/src/lib/DailyStory.api';
 import {
 	type USStateAbbreviated,
 	type DailyDeal,
@@ -42,8 +42,8 @@ import Supertokens from 'supertokens-node';
 import Session from 'supertokens-node/recipe/session';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
-import { backendConfig } from 'config/backendConfig';
-import { wrapper } from 'store';
+import { backendConfig } from '../../config/backendConfig';
+import { wrapper } from '../../store';
 
 interface DashboardProps {
 	organization: OrganizationWithDashboardDetails;

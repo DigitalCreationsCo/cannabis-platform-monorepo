@@ -1,5 +1,5 @@
 import { getGeoCoordinatesFromAddress } from '@cd/core-lib';
-import { EmailService } from '@cd/core-lib/lib/email/EmailService';
+import { EmailService } from '@cd/core-lib/src/lib/email/EmailService';
 import { type AddressPayload, type DriverCreateType } from '@cd/data-access';
 import { DriverDA } from '../data-access';
 
