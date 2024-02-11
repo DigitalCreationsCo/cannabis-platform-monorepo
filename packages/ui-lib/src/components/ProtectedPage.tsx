@@ -21,13 +21,21 @@ function ProtectedPage({
 	children,
 }: ProtectedPageProps & PropsWithChildren) {
 	const router = useRouter();
-	let { user, isSignedIn, isLoading } = useSelector(selectUserState);
+	const userState = useSelector(selectUserState);
 	const driverState = useSelector(selectDriverState);
-	// handle driver state also
-	if (typeof user === 'undefined') {
-		isSignedIn = driverState.isSignedIn;
-		isLoading = driverState.isLoading;
-		user = driverState.driver.user as UserWithDetails;
+
+	let user, isSignedIn, isLoading;
+	switch (true) {
+		case typeof userState !== 'undefined':
+			user = userState.user as UserWithDetails;
+			isSignedIn = userState.isSignedIn;
+			isLoading = userState.isLoading;
+			break;
+		case typeof driverState !== 'undefined':
+			user = driverState.driver.user as UserWithDetails;
+			isSignedIn = driverState.isSignedIn;
+			isLoading = driverState.isLoading;
+			break;
 	}
 
 	const anyPrivatePage = protectedPages?.concat(memberPages, adminPages);
