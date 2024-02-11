@@ -78,4 +78,5 @@ export interface LoginFormComponentProps {
 	inputValue: string;
 	setInputValue: (value: string) => void;
 	dispatchCloseModal: () => void;
+	signInSyncAction?: any;
 }

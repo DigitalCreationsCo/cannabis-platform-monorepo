@@ -1,4 +1,4 @@
-import { selectDriverState, useAppSelector } from '@cd/core-lib';
+import { driverActions, selectDriverState, useAppSelector } from '@cd/core-lib';
 import {
 	LoginHeader,
 	Page,
@@ -12,7 +12,8 @@ import { type LoginFormComponentProps } from '@cd/ui-lib/src/components/modal/Lo
 import { useState, useMemo } from 'react';
 
 function DriveSignIn() {
-	const { driver, isSignedIn } = useAppSelector(selectDriverState);
+	const { driver, isSignedIn, isError, errorMessage } =
+		useAppSelector(selectDriverState);
 
 	const [formStep, setFormStep] = useState(0);
 
@@ -48,8 +49,9 @@ function DriveSignIn() {
 					inputValue={inputValue}
 					setInputValue={setInputValue}
 					dispatchCloseModal={() => null}
+					signInSyncAction={driverActions.signinDriverSync}
 				/>
-				{!isSignedIn && 'Please sign in'}
+				{!isSignedIn || !isError ? 'Please sign in' : 'Error: ' + errorMessage}
 				{isSignedIn && driver.email + ' is signed in as a driver'}
 			</Center>
 		</Page>

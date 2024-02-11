@@ -76,11 +76,12 @@ const DriverSignInHandlePassCode = () => {
 				setLoading(true);
 				if (payload.status === 'OK' && payload.flowType === 'USER_INPUT_CODE') {
 					const response = await handleDriverAppOTPCodeAPI(payload);
-					const { _user } = response;
+					const user = response.userFromDb.user,
+						token = response.userFromDb.token;
 					dispatch(
 						driverActions.signinDriverSync({
-							token: _user.token,
-							driver: _user.user as DriverWithSessionJoin,
+							token,
+							driver: user as DriverWithSessionJoin,
 						}),
 					);
 					router.replace('(tabs)');
