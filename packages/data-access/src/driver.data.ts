@@ -204,7 +204,7 @@ export async function findDriverWithDetailsByEmail(
 
 		if (!driver)
 			throw new Error(
-				"Sorry, we couldn't find a driver with that email address.",
+				'The driver was not found. Please check the email address and try again.',
 			);
 
 		return driver;
@@ -213,7 +213,7 @@ export async function findDriverWithDetailsByEmail(
 
 		if (error.code === 'P2025')
 			throw new Error(
-				"Sorry, we couldn't find a driver with that email address.",
+				'The driver was not found. Please check the email address and try again.',
 			);
 		throw new Error('An error occurred while finding the driver.');
 	}
@@ -245,7 +245,7 @@ export async function findDriverWithDetailsByPhone(
 
 		if (!user || !user.driver)
 			throw new Error(
-				"Sorry, we couldn't find a driver with that phone number.",
+				'The driver was not found. Please check the phone number and try again.',
 			);
 
 		const { driver, ...userData } = user;
@@ -261,7 +261,7 @@ export async function findDriverWithDetailsByPhone(
 
 		if (error.code === 'P2025')
 			throw new Error(
-				"Sorry, we couldn't find a driver with that phone number.",
+				'The driver was not found. Please check the phone number and try again.',
 			);
 		throw new Error('An error occurred while finding the driver.');
 	}
@@ -286,13 +286,12 @@ export async function findDriverWithDetailsById(
 			},
 		});
 
-		if (!driver) throw new Error("Sorry, we couldn't find a driver.");
+		if (!driver) throw new Error('The driver was not found.');
 		return driver;
 	} catch (error: any) {
 		console.error('findDriverWithDetailsById: ', error.message);
 
-		if (error.code === 'P2025')
-			throw new Error("Sorry, we couldn't find a driver.");
+		if (error.code === 'P2025') throw new Error('The driver was not found.');
 		throw new Error('An error occurred while finding the driver.');
 	}
 }
