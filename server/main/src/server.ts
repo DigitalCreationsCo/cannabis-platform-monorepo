@@ -28,6 +28,8 @@ import { backendConfig, jwtClient } from './config';
 
 const shopDomain = process.env.NEXT_PUBLIC_SHOP_APP_URL;
 const dashboardDomain = process.env.NEXT_PUBLIC_DASHBOARD_APP_URL;
+const driveDomain =
+	process.env.NEXT_PUBLIC_DRIVE_APP_URL || 'http://localhost:3002';
 
 try {
 	Supertokens.init(backendConfig());
@@ -89,7 +91,7 @@ export function authenticateToken() {
 const app = express();
 app.use(
 	cors({
-		origin: [shopDomain, dashboardDomain],
+		origin: [shopDomain, dashboardDomain, driveDomain],
 		allowedHeaders: [
 			'content-type',
 			'app-user',

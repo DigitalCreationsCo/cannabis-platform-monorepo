@@ -4,14 +4,14 @@ import {
 	locationReducer,
 	modalReducer,
 	shopReducer,
-	userReducer,
 	type AppStore,
 	crashMiddleware,
 	locationMiddleware,
 	loggerMiddleware,
+	driverReducer,
+	socketReducer,
 } from '@cd/core-lib';
 import { combineReducers, configureStore, type Store } from '@reduxjs/toolkit';
-import { serialize, deserialize } from 'json-immutable';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 import {
 	FLUSH,
@@ -30,11 +30,9 @@ const middlewares = [locationMiddleware, crashMiddleware, loggerMiddleware];
 
 const rootReducer = combineReducers({
 	modal: modalReducer,
-	user: userReducer,
+	driver: driverReducer,
 	location: locationReducer,
-	shop: shopReducer,
-	cart: cartReducer,
-	blog: blogReducer,
+	socket: socketReducer,
 });
 
 const hydratableReducer = (state: any, action: any) => {
