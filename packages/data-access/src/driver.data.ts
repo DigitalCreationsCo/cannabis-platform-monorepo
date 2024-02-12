@@ -24,9 +24,7 @@ export async function createDriver(userData: DriverCreateType) {
 		return await prisma.driver.create({
 			data: {
 				email: userData.email,
-				driverSession: {
-					create: {},
-				},
+				licenseNumber: null,
 				user: {
 					connectOrCreate: {
 						where: {
@@ -41,17 +39,32 @@ export async function createDriver(userData: DriverCreateType) {
 							termsAccepted: true,
 							dialCode: userData.dialCode,
 							phone: userData.phone,
-							address: {
-								create: {
-									...addressData,
-									coordinates: {
-										create: {
-											longitude: Number(coordinates?.longitude),
-											latitude: Number(coordinates?.latitude),
-										},
-									},
-								},
-							},
+							isLegalAge: userData.isLegalAge,
+							isSignUpComplete: true,
+							idVerified: true,
+							isSubscribedForWeedText: false,
+							// address: {
+							// 	connectOrCreate: {
+							// 		where: {
+							// 			id: addressData.id,
+							// 		},
+							// 		create: {
+							// 			street1: addressData.street1,
+							// 			street2: addressData.street2,
+							// 			city: addressData.city,
+							// 			state: addressData.state,
+							// 			zipcode: addressData.zipcode,
+							// 			country: addressData.country,
+							// 			countryCode: addressData.countryCode,
+							// 			coordinates: {
+							// 				create: {
+							// 					longitude: Number(coordinates?.longitude),
+							// 					latitude: Number(coordinates?.latitude),
+							// 				},
+							// 			},
+							// 		},
+							// 	},
+							// },
 							profilePicture: {
 								create: {
 									location: userData.profilePicture?.location,
@@ -60,6 +73,9 @@ export async function createDriver(userData: DriverCreateType) {
 						},
 					},
 				},
+				// driverSession: {
+				// 	create: {},
+				// },
 			},
 			include: {
 				driverSession: true,
@@ -72,11 +88,14 @@ export async function createDriver(userData: DriverCreateType) {
 			},
 		});
 	} catch (error: any) {
+		console.info('create Driver: ', error);
 		if (error.code === 'P2002' || error.code === 'P2014')
 			throw new Error(
 				'This driver exists already. Please choose a different username or email.',
 			);
-		throw new Error(error.message);
+		throw new Error(
+			'An error occurred while creating the driver. Please try again.',
+		);
 	}
 }
 

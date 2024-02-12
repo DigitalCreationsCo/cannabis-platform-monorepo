@@ -26,7 +26,7 @@ import {
 import storage from 'redux-persist/lib/storage';
 import { signOut } from 'supertokens-auth-react/recipe/session';
 
-const middlewares = [locationMiddleware, crashMiddleware, loggerMiddleware];
+const middlewares = [crashMiddleware, locationMiddleware, loggerMiddleware];
 
 const rootReducer = combineReducers({
 	modal: modalReducer,
