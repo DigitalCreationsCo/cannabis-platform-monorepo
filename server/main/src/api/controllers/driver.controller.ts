@@ -31,6 +31,8 @@ export default class DriverController {
 					.status(404)
 					.json({ success: 'false', error: 'Driver could not be created.' });
 
+			// create a stripe account for the driver here
+
 			// send new driver email
 			EmailService.sendNewDeliveryPersonEmail({ user: driver });
 
