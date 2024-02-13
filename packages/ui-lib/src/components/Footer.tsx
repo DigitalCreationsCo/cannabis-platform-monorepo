@@ -12,7 +12,7 @@ import { styles } from '../styleClassNames';
 import CopyRight from './CopyRight';
 import FlexBox from './FlexBox';
 import Grid from './Grid';
-import { GrasSignature, H4, Paragraph } from './Typography';
+import { GrasSignature, H4, H6, Paragraph } from './Typography';
 
 export default function Footer() {
 	const navigation = [
@@ -46,23 +46,23 @@ export default function Footer() {
 	return (
 		<>
 			<FlexBox className={twMerge(styles.FOOTER.container, 'text-light')}>
-				<Grid className="overflow-x-hidden mx-auto md:mt-5 grid max-w-screen-xl pb-16 lg:pb-0 grid-rows-auto gap-10 lg:gap-4 lg:grid-cols-8 overflow-visible">
-					<div className="row-start-2 lg:row-span-5 lg:col-span-2 lg:col-start-2 lg:row-start-auto">
-						<div className="flex w-full flex-col flex-wrap lg:ml-0 space-y-3">
+				<Grid className="overflow-x-hidden mx-auto md:mt-5 grid w-3/4 md:w-full max-w-screen-xl pb-16 lg:pb-0 grid-rows-auto gap-10 lg:gap-4 md:grid-cols-8 overflow-visible">
+					<div className="row-start-2 md:row-span-5 md:col-span-2 md:col-start-2 md:row-start-auto">
+						<div className="flex w-full flex-col flex-wrap md:ml-0 space-y-3">
 							{navigation.map((item, index) => (
 								<Link
 									key={index}
 									href={replaceRelativePath(item.href)}
 									className="w-fit"
 								>
-									<Paragraph className="text-lg text-inverse underline lg:no-underline hover:underline lg:text-lg">
+									<Paragraph className="text-inverse underline lg:no-underline hover:underline">
 										{item.name}
 									</Paragraph>
 								</Link>
 							))}
 						</div>
 					</div>
-					<div className="row-start-3 lg:row-span-3 lg:col-span-2 lg:row-start-auto">
+					<div className="row-start-3 md:row-span-3 md:col-span-2 md:row-start-auto">
 						<div className="flex-col space-y-3 flex w-full flex-wrap lg:ml-0">
 							{legal.map((item, index) => (
 								<Link
@@ -71,15 +71,15 @@ export default function Footer() {
 									passHref
 									className="w-fit"
 								>
-									<Paragraph className="text-lg text-inverse underline lg:no-underline hover:underline lg:text-lg">
+									<Paragraph className="text-inverse underline lg:no-underline hover:underline">
 										{item.name}
 									</Paragraph>
 								</Link>
 							))}
 						</div>
 					</div>
-					<div className="lg:col-span-3 flex flex-col-reverse lg:flex-col lg:space-y-4">
-						<div className="lg:col-span-3 lg:row-span-5 row-start-5 lg:row-start-auto">
+					<div className="md:col-span-3 flex flex-col-reverse md:flex-col md:space-y-4">
+						<div className="md:col-span-3 md:row-span-5 row-start-5 md:row-start-auto">
 							<FlexBox className="flex-row items-center">
 								<Link href={getShopSite('/')} className="z-50">
 									<GrasSignature className="text-inverse">Gras</GrasSignature>
@@ -88,20 +88,20 @@ export default function Footer() {
 									href={getShopSite('/')}
 									className="p-0.25 ml-4 bg-inverse w-fit rounded-full"
 								>
-									<Image alt="Gras" width={50} height={50} src={logo} />
+									<Image alt="Gras" width={40} height={40} src={logo} />
 								</Link>
 							</FlexBox>
 
-							<Paragraph className="lg:text-lg mt-8 max-w-md text-white">
+							<Paragraph className="mt-8 max-w-sm text-white">
 								{TextContent.info.ABOUT_GRAS_AND_MISSION}
 							</Paragraph>
-							<CopyRight className="lg:text-lg" />
+							<CopyRight />
 						</div>
-						<div className="pb-12 lg:pb-0">
-							<Paragraph className="text-lg text-inverse font-semibold">
+						<div className="pb-12 md:pb-0">
+							<Paragraph className="text-inverse font-semibold">
 								Follow us
 							</Paragraph>
-							<FlexBox className="mt-5 flex-row space-x-5 text-inverse">
+							<FlexBox className="mt-4 flex-row space-x-5 text-inverse">
 								<a
 									href="https://twitter.com/gras_cannabis"
 									target="_blank"
@@ -137,8 +137,8 @@ export default function Footer() {
 							</FlexBox>
 						</div>
 					</div>
-					<div className="row-start-1 row-span-1 lg:col-start-6 lg:row-start-auto pt-4">
-						<H4 color="light">{TextContent.info.CANNABIS_DELIVERED}</H4>
+					<div className="row-start-1 row-span-1 md:col-start-6 md:row-start-auto pt-4 md:pt-0">
+						<H6 color="light">{TextContent.info.CANNABIS_DELIVERED}</H6>
 					</div>
 				</Grid>
 			</FlexBox>

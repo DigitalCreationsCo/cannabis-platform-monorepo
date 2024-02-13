@@ -57,8 +57,8 @@ function TopBar({ signOut }: TopBarProps) {
 				<Link href={'/'} className="z-50">
 					<GrasSignature className="text-secondary pt-0.5">Gras</GrasSignature>
 				</Link>
-				<Link href={'/'} className="shrink-0">
-					<Image alt="Gras" width={55} height={55} src={logo} />
+				<Link href={'/'}>
+					<Image alt="Gras" width={40} height={40} src={logo} />
 				</Link>
 				<Link href={'/'}>
 					<Paragraph className={twMerge(styles.TOPBAR.tagline)}>

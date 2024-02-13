@@ -1,4 +1,5 @@
 import { type HTMLAttributes } from 'react';
+import { twMerge } from 'tailwind-merge';
 import { TextContent } from '../../../core-lib/src';
 import { Tiny } from './Typography';
 
@@ -9,7 +10,7 @@ function CopyRight({
 	prepend?: string;
 }) {
 	return (
-		<Tiny className={props.className}>
+		<Tiny className={twMerge('lg:text-md', props.className)}>
 			{prepend} {TextContent.legal.COPYRIGHT}
 		</Tiny>
 	);
