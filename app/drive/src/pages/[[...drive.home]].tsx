@@ -9,6 +9,7 @@ import {
 	EnterPassCodeForm,
 } from '@cd/ui-lib';
 import { type LoginFormComponentProps } from '@cd/ui-lib/src/components/modal/LoginModal/LoginModal';
+import { default as Router } from 'next/router';
 import { useState, useMemo } from 'react';
 
 function DriveSignIn() {
@@ -38,6 +39,10 @@ function DriveSignIn() {
 
 	const [inputValue, setInputValue] = useState('');
 
+	if (isSignedIn) {
+		Router.push('/drive');
+	}
+
 	return (
 		<Page className="bg-secondary text-light p-0 sm:p-0 md:p-0 lg:p-0">
 			<Center className="space-y-6 m-auto">
@@ -51,8 +56,11 @@ function DriveSignIn() {
 					dispatchCloseModal={() => null}
 					signInSyncAction={driverActions.signinDriverSync}
 				/>
-				{!isSignedIn || !isError ? 'Please sign in' : 'Error: ' + errorMessage}
-				{isSignedIn && driver.email + ' is signed in as a driver'}
+				{isSignedIn
+					? driver.email + ' is signed in as a driver'
+					: isError
+					? 'Error: ' + errorMessage
+					: 'Please sign in'}
 			</Center>
 		</Page>
 	);

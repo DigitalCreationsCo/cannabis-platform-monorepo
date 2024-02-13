@@ -6,6 +6,8 @@ import {
 	isEmpty,
 	parseUrlFriendlyStringToObject,
 	type SocketEventPayload,
+	Client,
+	type SocketMessage,
 } from '@cd/core-lib';
 import {
 	logger,
@@ -15,6 +17,13 @@ import {
 import { createAdapter } from '@socket.io/redis-adapter';
 import express from 'express';
 import { Server } from 'socket.io';
+import ClusterInit from './master/cluster-init';
+import {
+	redisDispatchClientsController,
+	subscribeDispatchSockets,
+	redisDispatchSockets,
+	redisDispatchRoomsController,
+} from './redis-dispatch';
 import {
 	tokenRoutes,
 	fleetConfigRoutes,
@@ -23,17 +32,6 @@ import {
 	taskRoutes,
 	deliveryVehicleRoutes,
 } from './routes';
-import {
-	Client,
-	type SocketMessage,
-} from '../../../packages/core-lib/src/types/dispatch.types';
-import ClusterInit from './master/cluster-init';
-import {
-	redisDispatchClientsController,
-	subscribeDispatchSockets,
-	redisDispatchSockets,
-	redisDispatchRoomsController,
-} from './redis-dispatch';
 
 try {
 	const app = express();

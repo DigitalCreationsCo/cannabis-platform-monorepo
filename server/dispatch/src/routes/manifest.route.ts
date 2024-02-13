@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { isEmpty } from '@cd/core-lib';
 import { Router } from 'express';
-import { StateService } from 'lib/fleet';
-import ManifestService from 'lib/fleet/ManifestService';
-import { ServiceUtils } from 'lib/fleet/utils/ServiceUtils';
+import { StateService } from '../lib/fleet';
+import ManifestService from '../lib/fleet/ManifestService';
+import { ServiceUtils } from '../lib/fleet/utils/ServiceUtils';
 
 const manifestRoutes = Router();
 /**

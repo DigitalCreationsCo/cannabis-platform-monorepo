@@ -3870,6 +3870,7 @@ __metadata:
     "@cd/data-access": "workspace:*"
     "@cd/eslint-config": "workspace:*"
     "@cd/ui-lib": "workspace:*"
+    "@googlemaps/react-wrapper": ^1.1.35
     "@next/env": 13.2.4
     "@paralleldrive/cuid2": 2.2.1
     "@reduxjs/toolkit": 1.9.2
@@ -3884,6 +3885,7 @@ __metadata:
     "@typeform/embed-react": 2.28.0
     "@types/enzyme": 3.10.13
     "@types/formidable": 2.0.5
+    "@types/google.maps": ^3.55.2
     "@types/jest": 29.2.4
     "@types/node": 18.11.10
     "@types/react-dom": 18.0.11
@@ -4492,6 +4494,9 @@ __metadata:
     axios: 1.2.1
     babel-plugin-css-modules-transform: 1.6.2
     babel-plugin-inline-dotenv: 1.7.0
+    babel-plugin-module-resolver: ^5.0.0
+    babel-plugin-tsconfig-paths: ^1.0.3
+    babel-plugin-tsconfig-paths-module-resolver: ^1.0.4
     babel-watch: 7.7.2
     concurrently: 8.0.1
     cors: 2.8.5
@@ -6875,6 +6880,26 @@ __metadata:
   dependencies:
     google-gax: ^4.0.5
   checksum: 8d012639e41b14fb38d5bbfd42be8c573d4ba62e748f15b81906c42c6d436581899d676eb753695e171c2afbbd62901e854139eef55e261c3f066340736fa55a
+  languageName: node
+  linkType: hard
+
+"@googlemaps/js-api-loader@npm:^1.13.2":
+  version: 1.16.2
+  resolution: "@googlemaps/js-api-loader@npm:1.16.2"
+  dependencies:
+    fast-deep-equal: ^3.1.3
+  checksum: 122ee57cc6a936e50358aedc4e79042353590467210e901fb42d4e7d9123c248c4db5cd5407a350cb5bea6de9e9ef1a508c08ba593475285d90bc4b93db42f51
+  languageName: node
+  linkType: hard
+
+"@googlemaps/react-wrapper@npm:^1.1.35":
+  version: 1.1.35
+  resolution: "@googlemaps/react-wrapper@npm:1.1.35"
+  dependencies:
+    "@googlemaps/js-api-loader": ^1.13.2
+  peerDependencies:
+    react: ">=16.8.0"
+  checksum: 76fa473b1bc617c157b58fb8087b61c54e07484c4e983bb25269d7afa025f3d30b77e0cb0cbd37bcd33a0c3d1f3c43c9c070aed2e2a726773eee3d26788c4abf
   languageName: node
   linkType: hard
 
@@ -12820,6 +12845,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/google.maps@npm:^3.55.2":
+  version: 3.55.2
+  resolution: "@types/google.maps@npm:3.55.2"
+  checksum: c0b554fddb0a59ddbe7cfb1ef8bc4aeacd9660b726546ec75fca62619680572338ceb3bcc5c63b035c87e6cc91532fa78f7f0d1aa2b5be4ac7fdebcffb396b39
+  languageName: node
+  linkType: hard
+
 "@types/graceful-fs@npm:^4.1.3":
   version: 4.1.9
   resolution: "@types/graceful-fs@npm:4.1.9"
@@ -15826,7 +15858,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-plugin-module-resolver@npm:5.0.0":
+"babel-plugin-module-resolver@npm:5.0.0, babel-plugin-module-resolver@npm:^5.0.0":
   version: 5.0.0
   resolution: "babel-plugin-module-resolver@npm:5.0.0"
   dependencies:
@@ -15944,6 +15976,25 @@ __metadata:
   peerDependencies:
     "@babel/core": ^7.0.0-0
   checksum: 41140449d740188d5f9e16726d9e7370f435e36b94acc12a070e8d25822d071fae82cb192bda7b8bed21226fda170b95dcfd8337ec3fd95e901989eca6898447
+  languageName: node
+  linkType: hard
+
+"babel-plugin-tsconfig-paths-module-resolver@npm:^1.0.4":
+  version: 1.0.4
+  resolution: "babel-plugin-tsconfig-paths-module-resolver@npm:1.0.4"
+  dependencies:
+    babel-plugin-module-resolver: ^4.1.0
+    tsconfig-paths: ^3.11.0
+  checksum: 517a663e53578485d7cfad46bbd7b5d01462cb19fc7dee058bb75684453af9fb7636c92245994d6645bc0a8abe2c648cf7d83391ae6f3e8d33569b0821733fde
+  languageName: node
+  linkType: hard
+
+"babel-plugin-tsconfig-paths@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "babel-plugin-tsconfig-paths@npm:1.0.3"
+  peerDependencies:
+    "@babel/core": ^7.9.0
+  checksum: 857a106ccf9fbc782108b2e08225e0e1af029e24193ba550af501a4e8f8e1bc5e8f2a48ecd1ffd2cb2e5eec2e3c2eeb4dcb44e658e2b28066397064cefc3318c
   languageName: node
   linkType: hard
 
@@ -39287,7 +39338,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsconfig-paths@npm:^3.14.1, tsconfig-paths@npm:^3.15.0":
+"tsconfig-paths@npm:^3.11.0, tsconfig-paths@npm:^3.14.1, tsconfig-paths@npm:^3.15.0":
   version: 3.15.0
   resolution: "tsconfig-paths@npm:3.15.0"
   dependencies:

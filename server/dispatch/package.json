@@ -29,6 +29,9 @@
     "@typescript-eslint/parser": "5.45.0",
     "babel-plugin-css-modules-transform": "1.6.2",
     "babel-plugin-inline-dotenv": "1.7.0",
+    "babel-plugin-module-resolver": "^5.0.0",
+    "babel-plugin-tsconfig-paths": "^1.0.3",
+    "babel-plugin-tsconfig-paths-module-resolver": "^1.0.4",
     "babel-watch": "7.7.2",
     "concurrently": "8.0.1",
     "dotenv": "16.0.3",
@@ -55,13 +58,13 @@
   "private": true,
   "scripts": {
     "build": "rm -rf ./dist && dotenv -e ../../.env.production -- babel ./src --out-dir dist --extensions \".ts,.tsx\"",
-    "build:ci": "rm -rf ./dist && dotenv -e ../../.env.production -- babel ./src --out-dir dist --extensions \".ts,.tsx\"",
+    "build:ci": "dotenv -e ../../.env.production -- babel ./src --out-dir dist --extensions \".ts,.tsx\"",
     "clean": "rm -rf ./.next ./out ./dist ./build ./node_modules ./coverage ./tsconfig.tsbuildinfo",
-    "start": "dotenv -e ../../.env.production -- pm2-runtime ecosystem.config.js",
+    "start": "dotenv -e ../../.env.production -- node dist",
     "test:unit": "echo \"Tests are not ready for use.\" && exit 0",
     "test:unit-ci": "echo \"Tests are not ready for use.\" && exit 0",
     "test:fix": "../../node_modules/jest/bin/jest.js --detectOpenHandles",
-    "watch": "rm -rf ./node_modules/.cache && dotenv -e ../../.env.development -- babel-watch -e \".ts\" -c ./babel.config.js --watch ./src --inspect -- ./src/index.ts"
+    "watch": "rm -rf ./node_modules/.cache && dotenv -e ../../.env.development -- babel-watch -e \".ts\" -c ./babel.config.js ./src/index.ts"
   },
   "version": "0.0.1"
 }

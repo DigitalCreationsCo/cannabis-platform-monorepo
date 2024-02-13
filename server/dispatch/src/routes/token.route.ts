@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Router } from 'express';
-import { AuthTokenUtils } from 'lib/fleet/auth/AuthTokenUtils';
-import { ServiceUtils } from 'lib/fleet/utils/ServiceUtils';
+import { AuthTokenUtils } from '../lib/fleet/auth/AuthTokenUtils';
+import { ServiceUtils } from '../lib/fleet/utils/ServiceUtils';
 
 export enum TokenType {
 	DELIVERY_DRIVER,

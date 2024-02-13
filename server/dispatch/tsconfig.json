@@ -2,14 +2,17 @@
 	"$schema": "https://json.schemastore.org/tsconfig",
 	"extends": "../../tsconfig.base.json",
 	"compilerOptions": {
-		"baseUrl": "./src",
 		"strict": true,
 		"target": "ES2015",
 		"lib": ["ES2015"],
 		"module": "es2020",
 		"moduleResolution": "node",
+		"noEmit": false,
+		"outDir": "./dist",
+		"baseUrl": "./src",
 		"paths": {
 			"@cd/core-lib": ["../../../packages/core-lib/src/index"],
+			"@cd/core-lib/*": ["../../../packages/core-lib/*"],
 			"@cd/data-access": ["../../../packages/data-access/src/index"],
 			"@cd/eslint-config": ["../../../packages/eslint-config/src/index"]
 		}
@@ -23,7 +26,6 @@
 		"**/*.mjs",
 		"**/*.jsx",
 		"**/*.json",
-		"../../packages/core-lib/src/types/dispatch.types.ts"
 	],
 	"exclude": ["**/.*/", "dist"]
 }
