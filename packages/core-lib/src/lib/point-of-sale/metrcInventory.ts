@@ -1,12 +1,9 @@
 import {
-	type OrderWithFullDetails,
 	type USStateAbbreviated,
 	type OrderWithDispatchDetails,
-	type Package,
 	type ProductVariantWithDetails,
 	type UserWithDetails,
 } from '@cd/data-access';
-import { axios, formatToTimeZone, TimeZoneMap } from '../..';
 import { variants } from '../../dummyData';
 import { type POSIntegration } from './integration.types';
 

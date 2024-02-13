@@ -23,7 +23,7 @@ export const GrasSignature = ({
 				'tracking-wide',
 				'overflow-visible z-50',
 				styles['cursor-inherit'],
-				'text-5xl font-bold whitespace-normal',
+				'text-4xl font-bold whitespace-normal',
 				(color === 'light' && 'text-inverse') ||
 					(color === 'dark' && 'text-dark') ||
 					'text-inherit',
@@ -145,6 +145,7 @@ export const H5 = ({
 	return (
 		<h5
 			className={twMerge(
+				'font-encode',
 				'tracking-wider',
 				styles['cursor-inherit'],
 				'font-semibold text-lg whitespace-normal',
@@ -195,8 +196,8 @@ export const Paragraph = ({
 			className={twMerge(
 				'font-encode',
 				'font-normal',
-				'text-lg',
-				'tracking-wider',
+				'text-sm',
+				'tracking-[1px]',
 				styles['cursor-inherit'],
 				'whitespace-pre-line',
 				(color === 'light' && 'text-inverse') ||

@@ -182,7 +182,7 @@ function UserSignUpQuickForm() {
 		>
 			<H4 id="user-signup-step-1">Create your account</H4>
 
-			<Grid className="grid-cols-2 space-y-4">
+			<Grid className="grid-cols-2 gap-4">
 				<Paragraph className="col-span-2">
 					* Please fill the required fields.
 				</Paragraph>
@@ -200,28 +200,28 @@ function UserSignUpQuickForm() {
 						helperText={touched.phone && errors.phone}
 					/>
 				</FlexBox>
-				<FlexBox className="col-span-2 flex-row space-x-4">
-					<TextField
-						name="firstName"
-						label="* first name"
-						placeholder="your first name"
-						onBlur={handleBlur}
-						onChange={handleChange}
-						value={values.firstName}
-						error={!!touched.firstName && !!errors.firstName}
-						helperText={touched.firstName && errors.firstName}
-					/>
-					<TextField
-						name="lastName"
-						label="* last name"
-						placeholder="your last name"
-						value={values.lastName}
-						onBlur={handleBlur}
-						onChange={handleChange}
-						error={!!touched.lastName && !!errors.lastName}
-						helperText={touched.lastName && errors.lastName}
-					/>
-				</FlexBox>
+				<TextField
+					containerClassName="col-span-1 md:col-span-2"
+					name="firstName"
+					label="* first name"
+					placeholder="your first name"
+					onBlur={handleBlur}
+					onChange={handleChange}
+					value={values.firstName}
+					error={!!touched.firstName && !!errors.firstName}
+					helperText={touched.firstName && errors.firstName}
+				/>
+				<TextField
+					containerClassName="col-span-1 md:col-span-2"
+					name="lastName"
+					label="* last name"
+					placeholder="your last name"
+					value={values.lastName}
+					onBlur={handleBlur}
+					onChange={handleChange}
+					error={!!touched.lastName && !!errors.lastName}
+					helperText={touched.lastName && errors.lastName}
+				/>
 				<TextField
 					containerClassName="col-span-2"
 					name="email"

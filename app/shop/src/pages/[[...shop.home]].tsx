@@ -12,8 +12,10 @@ import {
 	Card,
 	FlexBox,
 	H1,
+	H2,
 	H3,
 	H4,
+	H5,
 	IconWrapper,
 	Page,
 	Paragraph,
@@ -44,8 +46,8 @@ function StartPage() {
 		<Page className="bg-secondary text-light p-0 sm:p-0 md:p-0 lg:p-0">
 			{/* <ImageBackDrop video={friendsVideo}></ImageBackDrop> */}
 			<FlexBox className="mx-auto flex p-4 px-8 md:px-20 w-full space-x-2 items-center space-y-2 lg:space-y-8">
-				<div className="flex flex-col self-center text-center lg:py-4">
-					<H1 className="text-light mx-auto text-center text-[1.5rem] md:text-[2rem] lg:text-[3rem] whitespace-pre-line overflow-x-visible border-b border-transparent w-lg font-semibold tracking-wide">
+				<div className="flex flex-col self-center text-center lg:py-2">
+					<H1 className="text-[1.4rem] md:text-4xl text-light mx-auto text-center whitespace-pre-line overflow-x-visible border-b border-transparent w-lg font-semibold tracking-wide">
 						{/* {TextContent.info.SAME_DAY_DELIVERY}&nbsp;🌴 */}
 						{/* {TextContent.info.TOP_SHELF_CANNABIS_DELIVERED_DAILY}&nbsp;🌴 */}
 						We Deliver Top-Shelf Cannabis Daily&nbsp;🌴
@@ -57,16 +59,16 @@ function StartPage() {
 										className="uppercase hover:bg-primary-light p-8 self-end"
 										onClick={openCheckAgeModalOrEnterSite}
 									> */}
-					<H3 className="text-xl md:text-2xl lg:text-4xl">
+					<H2 className="text-[1.2rem] md:text-3xl">
 						{/* {TextContent.info.ENJOY_BUD_WITH_YOUR_BUDS} */}
 						{/* So You Can Enjoy Bud With Your Buds */}
 						Enjoy Bud With Your Buds
-					</H3>
+					</H2>
 					{/* </Button> */}
 				</div>
 				<div className="mx-auto items-center self-center">
 					<video
-						className="w-full lg:max-w-3xl 2xl:max-w-5xl"
+						className="w-full sm:max-w-xl lg:max-w-2xl"
 						style={{
 							// position: 'absolute',
 							aspectRatio: 'auto',
@@ -86,23 +88,26 @@ function StartPage() {
 				</div>
 				<HowItWorks />
 			</FlexBox>
+
 			<SignUpForm />
 
-			<div className="w-full px-8 md:px-16 lg:w-4/5 mx-auto py-20">
+			<div className="px-8 w-5/6 mx-auto pt-20">
 				<hr className="border-2" />
 			</div>
 			{!isSignedIn && (
-				<FlexBox className={twMerge('hidden sm:block py-2 w-fit mx-auto')}>
-					<H4 className="text-center font-normal">
+				<FlexBox
+					className={twMerge('hidden sm:block py-2 w-fit mx-auto mt-16')}
+				>
+					<H5 className="text-center font-normal">
 						{TextContent.account.DISPENSARIES_START_HERE}
-					</H4>
+					</H5>
 					<Link href={getDashboardSite('/signup/create-dispensary-account')}>
 						<Button
 							bg="primary"
 							transparent
-							className="hover:bg-primary-light px-4"
+							className="hover:bg-primary-light m-2 px-4 mx-auto"
 						>
-							<Paragraph color="light">
+							<Paragraph className="text-md">
 								{TextContent.account.CREATE_DISPENSARY_ACCOUNT}
 							</Paragraph>
 						</Button>
@@ -160,41 +165,42 @@ const ImageBackDrop = ({
 
 const HowItWorks = () => {
 	return (
-		<div className="text-xl pt-2 pb-4 lg:pb-6">
-			<FlexBox className="w-full md:w-full lg:px-20 md:flex-row justify-center gap-8 lg:gap-12 pb-6 mx-auto text-xl">
-				<FlexBox className="md:max-w-[300px] xl:max-w-[240px] 2xl:max-w-[320px] flex-row md:flex-col items-center gap-4 text-center">
+		<div className="pt-2 pb-4 lg:pb-6">
+			<FlexBox className="w-full md:w-full lg:px-20 sm:flex-row justify-center gap-8 mx-auto text-xl">
+				<FlexBox className="md:max-w-[180px] xl:max-w-[240px] 2xl:max-w-[240px] flex-row sm:flex-col items-center gap-4 text-center">
 					<IconWrapper
 						Icon={Icons.MobileAdd}
-						iconSize={window.innerWidth < 1000 ? 60 : 76}
+						iconSize={window.innerWidth < 1000 ? 48 : 60}
 					/>
-					<Paragraph className="xl:text-2xl">
+					<Paragraph className="text-sm md:text-lg">
 						Sign up below for free and get a daily deal via text message.
 					</Paragraph>
 				</FlexBox>
-				<FlexBox className="md:max-w-[300px] xl:max-w-[240px] 2xl:max-w-[320px] flex-row md:flex-col items-center gap-4 text-center">
+				<FlexBox className="md:max-w-[180px] xl:max-w-[240px] 2xl:max-w-[240px] flex-row sm:flex-col items-center gap-4 text-center">
 					<IconWrapper
 						Icon={Icons.MobileCheck}
-						iconSize={window.innerWidth < 1000 ? 60 : 76}
+						iconSize={window.innerWidth < 1000 ? 48 : 60}
 					/>
-					<Paragraph className="lg:text-2xl">
+					<Paragraph className="text-sm md:text-lg">
 						If interested just reply with the number of packs you want.
 					</Paragraph>
 				</FlexBox>
-				<FlexBox className="md:max-w-[300px] xl:max-w-[240px] 2xl:max-w-[320px] flex-row md:flex-col items-center gap-4 text-center">
+				<FlexBox className="md:max-w-[180px] xl:max-w-[240px] 2xl:max-w-[240px] flex-row sm:flex-col items-center gap-4 text-center">
 					<IconWrapper
 						Icon={Icons.MobilityServices}
-						iconSize={window.innerWidth < 1000 ? 60 : 76}
+						iconSize={window.innerWidth < 1000 ? 48 : 60}
 					/>
-					<Paragraph className="lg:text-2xl">
-						Your weed will be delivered to your doorstep the same day.*
+					<Paragraph className="text-sm md:text-lg">
+						{/* Your weed will be delivered to your doorstep the same day.* */}
+						Your weed will be delivered to your doorstep the same day.
 					</Paragraph>
 				</FlexBox>
 			</FlexBox>
-			<div>
-				<Paragraph className="text-center ">
+			{/* <div>
+				<Paragraph className="text-center">
 					* {TextContent.info.TIME_GUARANTEE}
 				</Paragraph>
-			</div>
+			</div> */}
 		</div>
 	);
 };
@@ -210,22 +216,20 @@ const SignUpForm = () => {
 	}
 
 	return (
-		<Card className="!rounded w-11/12 mx-auto text-dark text-center lg:!py-12">
-			<H4>SIGN UP BELOW</H4>
-			<Paragraph className="font-semibold text-xl pt-4">
+		<Card className="!rounded w-3/4 md:!w-2/3 lg:max-w-[800px] mx-auto text-dark text-center lg:!py-8">
+			<H5>SIGN UP BELOW</H5>
+			<H5 className="pt-2">
 				We'll send you a daily deal via text message with great deals on good
 				weed.
-			</Paragraph>
-			<Paragraph className="mx-auto pt-2">
-				<Button
-					onClick={openLoginModal}
-					bg="transparent"
-					hover="transparent"
-					className="underline self-center text-blue-700"
-				>
-					(Already A Member? Sign In)
-				</Button>
-			</Paragraph>
+			</H5>
+			<Button
+				onClick={openLoginModal}
+				bg="transparent"
+				hover="transparent"
+				className="underline self-center text-blue-700"
+			>
+				(Already A Member? Sign In)
+			</Button>
 			<ContinueSignUp />
 		</Card>
 	);

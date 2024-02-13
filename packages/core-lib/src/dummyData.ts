@@ -10,7 +10,7 @@ import {
 	type DailyDeal,
 } from '@cd/data-access';
 import { createId } from '@paralleldrive/cuid2';
-import { calculateDeliveryDeadline } from './utils';
+import { calculateDeliveryDeadline } from './utils/time.util';
 
 const userDispensaryStaff: UserDispensaryStaff = {
 	id: 'bf346k4u7xq030hr6wvgiwao',

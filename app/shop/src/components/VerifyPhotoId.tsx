@@ -5,6 +5,8 @@ import {
 	DropZone,
 	FlexBox,
 	H3,
+	H4,
+	H5,
 	Paragraph,
 	UploadImageBox,
 	useFormContext,
@@ -160,11 +162,15 @@ const VerifyPhotoId = () => {
 			}}
 		>
 			<Center className="m-auto w-3/4 space-y-4 md:pb-0">
-				<H3 id="verify-id-step-2">21+ only. We'll need to see your ID</H3>
-				<Paragraph>
-					Submit a photo of the front and back of your state ID or driver's
-					license.
-				</Paragraph>
+				<FlexBox className="space-y-2">
+					<H5 id="verify-id-step-2" className="m-auto">
+						21+ only. We'll need to see your ID
+					</H5>
+					<Paragraph className="m-auto">
+						Submit a photo of the front and back of your state ID or driver's
+						license.
+					</Paragraph>
+				</FlexBox>
 				<div id="verify-id-step-3" className="h-[200px] w-[240px]">
 					{frontImage ? (
 						<UploadImageBox fill={true} onClick={() => setFrontImage(null)}>

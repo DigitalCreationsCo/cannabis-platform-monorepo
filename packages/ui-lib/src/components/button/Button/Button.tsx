@@ -66,9 +66,10 @@ export default function Button({
 		],
 		noClickWhileLoading: loading && 'cursor-not-allowed',
 		size: [
+			'text-inherit',
 			(size === 'lg' && 'text-xl min-w-[180px] min-h-[70px]') ||
 				(size === 'sm' && 'text-md h-[30px]') ||
-				'min-w-[140px] text-lg h-10',
+				'min-w-[140px] text-md h-10',
 		],
 		bg: [
 			(disabled && 'bg-accent') ||
@@ -130,7 +131,7 @@ export default function Button({
 			) : typeof children?.valueOf() === 'string' ? (
 				<Paragraph
 					className={twMerge(
-						size === 'lg' ? 'text-xl' : '',
+						size === 'lg' ? 'text-xl' : 'text-md',
 						'font-medium',
 						'text-inherit',
 					)}
