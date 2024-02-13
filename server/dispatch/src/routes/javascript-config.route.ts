@@ -1,8 +1,8 @@
 import type { ServerResponse } from 'http';
 import cors from 'cors';
 import { Router } from 'express';
-import { BackendUtils } from 'lib/fleet/utils/BackendUtils';
-import { ServiceUtils } from 'lib/fleet/utils/ServiceUtils';
+import { BackendUtils } from '../lib/fleet/utils/BackendUtils';
+import { ServiceUtils } from '../lib/fleet/utils/ServiceUtils';
 
 const javascriptConfigRoutes = Router();
 javascriptConfigRoutes.get(

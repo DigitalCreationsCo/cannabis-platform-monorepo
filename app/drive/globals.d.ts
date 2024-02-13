@@ -8,7 +8,11 @@ declare module '*.mp4' {
 	export default string;
 }
 
+// export namespace google {}
+
 interface Window {
+	// google: any;
+
 	// brevo
 	BrevoConversationsID?: string;
 	BrevoConversations?: any;

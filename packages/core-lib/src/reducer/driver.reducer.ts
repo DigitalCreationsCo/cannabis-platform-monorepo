@@ -87,11 +87,10 @@ export const driverSlice = createSlice({
 		 */
 		signinDriverSync: (
 			state,
-			{
-				payload,
-			}: { payload: { driver: DriverWithSessionJoin; token: string } },
+			{ payload }: { payload: { user: DriverWithSessionJoin; token: string } },
 		) => {
-			const { token, driver } = payload;
+			console.info('signinDriverSync payload:', payload);
+			const { token, user: driver } = payload;
 
 			if (!driver || !driver.user || !token) {
 				state.isLoading = false;
@@ -108,6 +107,7 @@ export const driverSlice = createSlice({
 			state.isLoading = false;
 			state.isSuccess = true;
 			state.isError = false;
+			state.errorMessage = '';
 		},
 
 		updateCoordinates: (

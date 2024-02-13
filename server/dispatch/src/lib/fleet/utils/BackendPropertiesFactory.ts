@@ -36,12 +36,13 @@ export class BackendPropertiesFactory {
 	}
 
 	public static createFromBuffer(input: Buffer) {
+		console.info('\nCreating BackendProperties from buffer..');
 		const properties: BackendProperties =
 			BackendPropertiesFactory.loadPropertiesFromBuffer(input);
 		return this.create(
 			BackendPropertiesFactory.getPropertyFromKey(
 				properties,
-				'PROVIDER_ID_PROP_KEY',
+				BackendPropertiesFactory.PROVIDER_ID_PROP_KEY,
 			),
 			BackendPropertiesFactory.getPropertyFromKey(
 				properties,
@@ -80,7 +81,8 @@ export class BackendPropertiesFactory {
 	}
 
 	private static getPropertyFromKey(properties: any, key: string) {
-		if (!properties[key]) throw new Error('Could not find property: ' + key);
-		return properties[key]();
+		if (typeof properties[key] === 'undefined')
+			throw new Error('Could not find property: ' + key);
+		return properties[key];
 	}
 }
