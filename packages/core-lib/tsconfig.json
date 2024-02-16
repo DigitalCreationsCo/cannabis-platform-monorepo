@@ -14,15 +14,15 @@
 		}
 	},
 	"exclude": ["**/node_modules", "**/.*/", "dist", "build", "**/test/*"],
-	// "include": [
-	// 	"next-env.d.ts",
-	// 	"**/*.ts",
-	// 	"**/*.tsx",
-	// 	"**/*.mts",
-	// 	"**/*.js",
-	// 	"**/*.cjs",
-	// 	"**/*.mjs",
-	// 	"**/*.jsx",
-	// 	"**/*.json"
-	// ]
+	"include": [
+		"next-env.d.ts",
+		"**/*.ts",
+		"**/*.tsx",
+		"**/*.mts",
+		"**/*.js",
+		"**/*.cjs",
+		"**/*.mjs",
+		"**/*.jsx",
+		"**/*.json"
+	]
 }

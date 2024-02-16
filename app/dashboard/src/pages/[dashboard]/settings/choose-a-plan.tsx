@@ -15,11 +15,14 @@ import {
 } from '@cd/ui-lib';
 import icons from '@cd/ui-lib/src/icons';
 import NodeCache from 'node-cache';
+import { useState } from 'react';
 import Supertokens from 'supertokens-node';
-import { backendConfig } from 'config/backendConfig';
-import { wrapper } from 'store';
+import { twMerge } from 'tailwind-merge';
+import { backendConfig } from '../../../config/backendConfig';
+import { wrapper } from '../../../store';
 
 function PricingPlans({ plans }: { plans: SubscriptionPlan[] }) {
+	const [selectedPlan, setSelectPlan] = useState<SubscriptionPlan | null>(null);
 	const plansDummyData: SubscriptionPlan[] = [
 		{
 			id: '1',
@@ -73,7 +76,10 @@ function PricingPlans({ plans }: { plans: SubscriptionPlan[] }) {
 				{plansDummyData.map((plan, index) => (
 					<Card
 						key={`plan-${index}`}
-						className={`flex !shadow-lg flex-col mx-10 my-auto max-w-[480px] items-center space-y-2 !py-24`}
+						className={twMerge(
+							plan === selectedPlan && 'border border-primary-light',
+							`flex !shadow-lg flex-col mx-10 my-auto max-w-[480px] items-center space-y-2 !py-24`,
+						)}
 					>
 						<H2 className="inline-flex">
 							{getCurrencySymbol(plan.currency) +
@@ -114,6 +120,7 @@ function PricingPlans({ plans }: { plans: SubscriptionPlan[] }) {
 								colorMap[plan.id]['active']
 							} focus:bg-${colorMap[plan.id]['active']}`}
 							size="lg"
+							onClick={() => setSelectPlan(plan)}
 						>
 							Choose Plan
 						</Button>

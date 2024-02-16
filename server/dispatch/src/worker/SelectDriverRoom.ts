@@ -3,9 +3,9 @@ import {
 	SMSTemplate,
 	SocketMessageTemplate,
 	TextContent,
+	type Client,
 } from '@cd/core-lib';
 import { type OrderWithDispatchDetails } from '@cd/data-access';
-import { type Client } from '../../../../packages/core-lib/src/types/dispatch.types';
 import Messager from '../message';
 import WorkerRoom from './WorkerRoom';
 

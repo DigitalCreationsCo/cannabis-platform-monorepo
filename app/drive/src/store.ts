@@ -8,6 +8,7 @@ import {
 	crashMiddleware,
 	locationMiddleware,
 	loggerMiddleware,
+	socketMiddleware,
 	driverReducer,
 	socketReducer,
 } from '@cd/core-lib';
@@ -26,12 +27,11 @@ import {
 import storage from 'redux-persist/lib/storage';
 import { signOut } from 'supertokens-auth-react/recipe/session';
 
-const middlewares = [locationMiddleware, crashMiddleware, loggerMiddleware];
+const middlewares = [crashMiddleware, loggerMiddleware];
 
 const rootReducer = combineReducers({
 	modal: modalReducer,
 	driver: driverReducer,
-	location: locationReducer,
 	socket: socketReducer,
 });
 
@@ -91,6 +91,7 @@ const makeStore = () => {
 					},
 				}),
 				...middlewares,
+				socketMiddleware,
 			],
 		});
 		// @ts-ignore

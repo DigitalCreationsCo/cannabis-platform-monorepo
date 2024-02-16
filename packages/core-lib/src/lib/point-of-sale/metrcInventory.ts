@@ -7,7 +7,7 @@ import {
 import { variants } from '../../dummyData';
 import { type POSIntegration } from './integration.types';
 
-const MetrcIntegration: POSIntegration = class {
+export const MetrcIntegration: POSIntegration = class {
 	static getMetricStateEndpoint(operatingState: USStateAbbreviated) {
 		switch (operatingState) {
 			case 'MD':
@@ -83,5 +83,3 @@ const MetrcIntegration: POSIntegration = class {
 		}
 	}
 };
-
-export default MetrcIntegration;

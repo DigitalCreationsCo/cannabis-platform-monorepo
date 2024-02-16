@@ -5,7 +5,7 @@ import {
 import { variants } from '../../dummyData';
 import { type POSIntegration } from './integration.types';
 
-const BlazePOS: POSIntegration = class {
+export const BlazePOS: POSIntegration = class {
 	static getBlaze() {
 		// assert va lue
 		// return process.env.DUTCHIE_API_ENDPOINT;
@@ -46,5 +46,3 @@ const BlazePOS: POSIntegration = class {
 		}
 	}
 };
-
-export default BlazePOS;

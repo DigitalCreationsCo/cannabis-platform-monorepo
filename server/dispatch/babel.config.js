@@ -5,6 +5,7 @@ module.exports = function (config) {
 	const nodeEnv = process.env.NODE_ENV || 'development';
 	return {
 		presets: ['@babel/preset-env', '@babel/preset-typescript'],
+		plugins: [['babel-plugin-inline-import']],
 		env: {
 			development: {
 				plugins: [

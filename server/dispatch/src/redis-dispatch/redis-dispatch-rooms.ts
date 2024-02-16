@@ -1,9 +1,5 @@
 import console from 'console';
-import { isEmpty } from '@cd/core-lib';
-import {
-	type Client,
-	type RoomType,
-} from '@cd/core-lib/src/types/dispatch.types';
+import { isEmpty, type Client, type RoomType } from '@cd/core-lib';
 import { createClient } from 'redis';
 import type WorkerRoom from '../worker/WorkerRoom';
 

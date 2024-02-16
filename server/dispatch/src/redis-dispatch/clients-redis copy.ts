@@ -1,5 +1,4 @@
-import { isEmpty } from '@cd/core-lib';
-import { type Client } from '@cd/core-lib/src/types/dispatch.types';
+import { type Client, isEmpty } from '@cd/core-lib';
 import { createClient } from 'redis';
 
 // what is a 'client' in this case?

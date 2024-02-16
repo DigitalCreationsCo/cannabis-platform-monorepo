@@ -10,8 +10,8 @@ import {
 	type SocketMessage,
 } from '@cd/core-lib';
 import {
-	logger,
 	createRequestLogger,
+	logger,
 	createErrorLogger,
 } from '@cd/core-lib/src/lib/logger';
 import { createAdapter } from '@socket.io/redis-adapter';

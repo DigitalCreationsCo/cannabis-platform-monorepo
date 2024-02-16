@@ -5,7 +5,7 @@ import {
 import { variants } from '../../dummyData';
 import { type POSIntegration } from './integration.types';
 
-const WeedmapsPOS: POSIntegration = class {
+export const WeedmapsPOS: POSIntegration = class {
 	static getWeedmapsEndpoint() {
 		// assert value
 		// return process.env.DUTCHIE_API_ENDPOINT;
@@ -47,5 +47,3 @@ const WeedmapsPOS: POSIntegration = class {
 		}
 	}
 };
-
-export default WeedmapsPOS;

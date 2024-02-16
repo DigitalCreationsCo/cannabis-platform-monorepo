@@ -12,7 +12,7 @@
 		"baseUrl": "./src",
 		"paths": {
 			"@cd/core-lib": ["../../../packages/core-lib/src/index"],
-			"@cd/core-lib/*": ["../../../packages/core-lib/*"],
+			"@cd/core-lib/*": ["../../packages/core-lib/*"],
 			"@cd/data-access": ["../../../packages/data-access/src/index"],
 			"@cd/eslint-config": ["../../../packages/eslint-config/src/index"]
 		}

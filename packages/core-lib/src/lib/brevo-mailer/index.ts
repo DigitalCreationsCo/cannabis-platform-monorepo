@@ -4,20 +4,21 @@ import {
 	type Organization,
 	type DriverWithDetails,
 } from '@cd/data-access';
-import * as brevo from '@getbrevo/brevo';
 import { buildNewsletterTemplate } from './newsletter-template';
 
 const _BryantEmail = 'bryantmejia@grascannabis.org';
 
 export class BrevoMailer {
-	private emailsApi: brevo.TransactionalEmailsApi;
-	private campaignsApi: brevo.EmailCampaignsApi;
+	brevo: any;
+	private emailsApi: typeof this.brevo.TransactionalEmailsApi;
+	private campaignsApi: typeof this.brevo.EmailCampaignsApi;
 
 	constructor() {
-		this.emailsApi = new brevo.TransactionalEmailsApi();
+		import('@getbrevo/brevo').then((brevo) => (this.brevo = brevo.default));
+		this.emailsApi = new this.brevo.TransactionalEmailsApi();
 		this.emailsApi.setApiKey(0, process.env.BREVO_API_KEY as string);
 
-		this.campaignsApi = new brevo.EmailCampaignsApi();
+		this.campaignsApi = new this.brevo.EmailCampaignsApi();
 		this.campaignsApi.setApiKey(0, process.env.BREVO_API_KEY as string);
 	}
 
@@ -33,7 +34,7 @@ export class BrevoMailer {
 		}[],
 	) {
 		try {
-			const newsLetterEmailCampaign = new brevo.CreateEmailCampaign();
+			const newsLetterEmailCampaign = new this.brevo.CreateEmailCampaign();
 
 			newsLetterEmailCampaign.name = subject;
 			newsLetterEmailCampaign.subject = subject;

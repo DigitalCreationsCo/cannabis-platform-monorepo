@@ -14,6 +14,7 @@ import { getProperty } from '../utils';
 import { urlBuilder } from '../utils/urlBuilder';
 
 const socketMiddleware = (store: any) => {
+	console.info('socket middleware');
 	/**
 	 * Get orderId from socket key (socket.id) ?
 	 * @param socketKey
@@ -48,6 +49,7 @@ const socketMiddleware = (store: any) => {
 			store.dispatch(socketActions.setError(action.payload.error));
 		}
 
+		console.info('socket middleware action: ', action.type);
 		// socket event handlers
 		if (socketActions.openConnection.match(action)) {
 			console.info('socket_middleware: connecting to dispatch server');
@@ -111,12 +113,12 @@ const socketMiddleware = (store: any) => {
 				store.dispatch(socketActions.closingConnection());
 			}
 
-			dispatch_socket.on(SocketEvent.connection, async () => {
+			dispatch_socket?.on(SocketEvent.connection, async () => {
 				store.dispatch(socketActions.connectionEstablished());
 				dispatch_socket?.emit(SocketEvent.connect_client, { id, phone });
 			});
 
-			dispatch_socket.on(
+			dispatch_socket?.on(
 				SocketEvent.new_order,
 				({
 					message,
@@ -135,7 +137,7 @@ const socketMiddleware = (store: any) => {
 			// and emit driver added event to order room
 			// display message to user
 			// save order in order queue state
-			dispatch_socket.on(
+			dispatch_socket?.on(
 				SocketEvent.order_assigned,
 				({ message }: SocketEventPayload<any>) => {
 					try {
@@ -174,7 +176,7 @@ const socketMiddleware = (store: any) => {
 				},
 			);
 
-			dispatch_socket.on(
+			dispatch_socket?.on(
 				SocketEvent.order_assigned_to_another_driver,
 				({ message }) => {
 					console.info('order assigned to another driver', message);
@@ -183,14 +185,14 @@ const socketMiddleware = (store: any) => {
 				},
 			);
 
-			dispatch_socket.on(SocketEvent.disconnect, () => {
+			dispatch_socket?.on(SocketEvent.disconnect, () => {
 				console.info('disconnecting from dispatch socket.');
 				delete socketMap['dispatch_socket'];
 			});
 		}
 
 		if (socketActions.acceptOrder.match(action)) {
-			dispatch_socket.emit(SocketEvent.accept_order, {
+			dispatch_socket?.emit(SocketEvent.accept_order, {
 				data: { id, phone, orderId: action.payload.orderId },
 			});
 		}
@@ -404,8 +406,10 @@ const socketMiddleware = (store: any) => {
 				} // is a orderSocket
 			} // socketMap iterate
 		} // isActiveDelivery
+
 		// handle for the proper disconnect on closing, using orderId for discretion
 		if (socketActions.closingConnection.match(action)) {
+			console.info('socket-middleware: closing connection ');
 			try {
 				store.dispatch(driverActions.updateOnlineStatus(false));
 				if (dispatch_socket) {
@@ -420,6 +424,7 @@ const socketMiddleware = (store: any) => {
 			}
 		}
 	};
+	console.info('socket middleware end');
 };
 
 export default socketMiddleware;

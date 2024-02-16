@@ -10,14 +10,22 @@ import {
 } from '@cd/core-lib';
 import {
 	Button,
+	Center,
 	ErrorBoundary,
 	FlexBox,
 	H1,
 	H2,
+	IconWrapper,
 	LoadingDots,
 	Page,
+	Paragraph,
+	TextField,
 } from '@cd/ui-lib';
+import icons from '@cd/ui-lib/src/icons';
 import { Wrapper, Status } from '@googlemaps/react-wrapper';
+import { errors } from 'formidable';
+import { AnimatePresence, motion } from 'framer-motion';
+import { set } from 'immer/dist/internal';
 import { useRef, useEffect, useState } from 'react';
 
 const center = { lat: -34.397, lng: 150.644 };
@@ -42,28 +50,61 @@ function MapScreen() {
 		connectionOpenInit,
 		connectionCloseInit,
 		isConnectedToDispatch,
+		isError,
 		errorMessage,
 		message,
 		incomingOrder: { newOrder },
 	} = useAppSelector(selectSocketState);
 
+	const [connectionIsBusy, setConnectionIsBusy] = useState(false);
+
 	useAfterMount(() => {
+		setConnectionIsBusy(true);
+		console.info('use after mount, updateOnlineStatus:', updateOnlineStatus);
 		updateOnlineStatus
 			? dispatch(socketActions.openConnection())
 			: dispatch(socketActions.closingConnection());
-		// }
 	}, [updateOnlineStatus]);
+
+	useEffect(() => {
+		console.info('connect close init:', connectionCloseInit);
+		setConnectionIsBusy(false);
+	}, [connectionOpenInit, isConnectedToDispatch]);
 
 	const { driver } = useAppSelector(selectDriverState);
 	const dispatch = useAppDispatch();
 
 	return (
-		<Page className="text-light bg-secondary px-4 pb-0">
+		<Page className="text-light bg-secondary px-4 pb-0 h-[90vh]">
 			<H1>{`Hi, ${driver.user.firstName}`}</H1>
 			<H2>go online to start delivering</H2>
-			<FlexBox className="grow place-content-end">
+
+			<div className="my-8 h-full">
+				<AnimatePresence>
+					{isOnline ? (
+						<Wrapper
+							apiKey={process.env.NEXT_PUBLIC_MAPS_API_KEY_DRIVE_PWA as string}
+							render={render}
+						/>
+					) : (
+						<motion.div
+							initial={{ scale: 0, opacity: 0 }}
+							animate={{ scale: 1, opacity: 1 }}
+							exit={{ scale: 0, opacity: 0 }}
+							className="h-full"
+						>
+							<Center className="h-full">
+								<IconWrapper Icon={icons.Earth} iconSize={66} />
+							</Center>
+						</motion.div>
+					)}
+				</AnimatePresence>
+			</div>
+
+			<FlexBox className="place-content-end items-center">
 				<Button
 					size="lg"
+					loading={connectionIsBusy}
 					disabled={connectionOpenInit}
 					onClick={() => setUpdateOnlineStatus(!updateOnlineStatus)}
 				>
@@ -71,11 +112,8 @@ function MapScreen() {
 						? TextContent.dispatch.status.STOP_DELIVERING
 						: TextContent.dispatch.status.START_DELIVERING}
 				</Button>
+				<Paragraph>{isError && errorMessage}</Paragraph>
 			</FlexBox>
-			{/* <Wrapper
-				apiKey={process.env.NEXT_PUBLIC_MAPS_API_KEY_DRIVE_PWA as string}
-				render={render}
-			/> */}
 		</Page>
 	);
 }
@@ -89,14 +127,23 @@ function MyMapComponent({
 }) {
 	const ref = useRef<HTMLDivElement>(null);
 
-	// useEffect(() => {
-	// 	new window.google.maps.Map(ref.current!, {
-	// 		center,
-	// 		zoom,
-	// 	});
-	// });
+	useEffect(() => {
+		new window.google.maps.Map(ref.current!, {
+			center,
+			zoom,
+		});
+	});
 
-	return <div ref={ref} id="map" className="w-[200px] h-[200px]" />;
+	return (
+		<motion.div
+			initial={{ scale: 0, opacity: 0 }}
+			animate={{ scale: 1, opacity: 1 }}
+			exit={{ scale: 0, opacity: 0 }}
+			className="h-full w-full"
+		>
+			<div ref={ref} id="map" className="h-full w-full rounded" />
+		</motion.div>
+	);
 }
 
 export default MapScreen;

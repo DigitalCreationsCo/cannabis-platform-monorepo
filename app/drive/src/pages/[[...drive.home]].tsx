@@ -7,6 +7,7 @@ import {
 	H3,
 	SendPassCodeForm,
 	EnterPassCodeForm,
+	Paragraph,
 } from '@cd/ui-lib';
 import { type LoginFormComponentProps } from '@cd/ui-lib/src/components/modal/LoginModal/LoginModal';
 import { default as Router } from 'next/router';
@@ -56,11 +57,9 @@ function DriveSignIn() {
 					dispatchCloseModal={() => null}
 					signInSyncAction={driverActions.signinDriverSync}
 				/>
-				{isSignedIn
-					? driver.email + ' is signed in as a driver'
-					: isError
-					? 'Error: ' + errorMessage
-					: 'Please sign in'}
+				<Paragraph className="text-red-400 font-semibold">
+					{isError ? 'Error: ' + errorMessage : ''}
+				</Paragraph>
 			</Center>
 		</Page>
 	);
