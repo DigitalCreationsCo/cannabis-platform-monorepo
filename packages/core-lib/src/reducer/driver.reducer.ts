@@ -165,7 +165,7 @@ export const driverSlice = createSlice({
 			state.isError = false;
 		}),
 			builder.addCase(updateOnlineStatus.pending, (state) => {
-				state.isLoading = true;
+				// state.isLoading = true;
 			}),
 			builder.addCase(
 				updateOnlineStatus.rejected,

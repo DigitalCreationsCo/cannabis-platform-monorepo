@@ -5,7 +5,7 @@ import {
 } from '@cd/data-access';
 import { type POSIntegration } from './integration.types';
 
-const DutchiePOS: POSIntegration = class {
+export const DutchiePOS: POSIntegration = class {
 	static getDutchieEndpoint() {
 		// assert value
 		// return process.env.DUTCHIE_API_ENDPOINT;
@@ -55,8 +55,6 @@ const DutchiePOS: POSIntegration = class {
 		}
 	}
 };
-
-export default DutchiePOS;
 
 const variants: ProductVariant[] = [
 	{

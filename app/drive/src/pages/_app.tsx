@@ -19,7 +19,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session from 'supertokens-auth-react/recipe/session';
-import { LayoutContainer, LocationProvider } from '../components';
+import { LayoutContainer } from '../components';
 import { frontendConfig } from '../config/frontendConfig';
 import { wrapper } from '../store';
 import '../styles/anim8-gradient.css';
@@ -54,10 +54,6 @@ function App({ Component, ...rest }: CustomAppProps) {
 
 	const [routerLoading, setRouterLoading] = useState(true);
 	const router = useRouter();
-
-	// useEffect(() => {
-	// 	router.isReady && setRouterLoading(false);
-	// }, [router.isReady]);
 
 	useEffect(() => {
 		if (router.isReady) {
@@ -99,7 +95,6 @@ function App({ Component, ...rest }: CustomAppProps) {
 				<ReduxProvider store={store}>
 					<PersistGate persistor={persistor} loading={<LoadingPage />}>
 						<ModalProvider />
-						<LocationProvider />
 						<ToastProvider />
 						<Elements
 							stripe={stripePromise}

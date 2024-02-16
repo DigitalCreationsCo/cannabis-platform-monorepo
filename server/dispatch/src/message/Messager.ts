@@ -1,6 +1,5 @@
-import { type Client } from '@cd/core-lib';
+import { type Client, SMSModule } from '@cd/core-lib';
 import { FeatureConfig } from '../config/dispatch.features';
-import SMSModule from '@cd/core-lib/src/lib/sms/sms.module'
 
 class Messager {
 	static async sendAll(event: any, recipients: Client[], data: string) {

@@ -2,7 +2,7 @@
 import { type POS } from '@cd/data-access';
 import { type POSIntegration } from './integration.types';
 
-export default class IntegrationService {
+export class IntegrationService {
 	static async getPOSIntegrationService(pos: POS) {
 		try {
 			let POSIntegrationService: POSIntegration;
@@ -11,23 +11,27 @@ export default class IntegrationService {
 					// Note:
 					// dutchiePOS delivery does not sync to metrc.
 					// use metrc integration to record delivery to metrc
-					POSIntegrationService = await (await import('./dutchiePOS')).default;
+					POSIntegrationService = await (
+						await import('./dutchiePOS')
+					).DutchiePOS;
 					break;
 				case 'blaze':
-					POSIntegrationService = await (await import('./blazePOS')).default;
+					POSIntegrationService = await (await import('./blazePOS')).BlazePOS;
 					break;
 				case 'weedmaps':
-					POSIntegrationService = await (await import('./weedmapsPOS')).default;
+					POSIntegrationService = await (
+						await import('./weedmapsPOS')
+					).WeedmapsPOS;
 					break;
 				case 'none':
 					POSIntegrationService = await (
 						await import('./metrcInventory')
-					).default;
+					).MetrcIntegration;
 					break;
 				default:
 					POSIntegrationService = await (
 						await import('./metrcInventory')
-					).default;
+					).MetrcIntegration;
 			}
 			return POSIntegrationService;
 		} catch (error: any) {
@@ -46,27 +50,27 @@ export default class IntegrationService {
 					// use metrc integration to record delivery to metrc
 					InventoryIntegrationService = await (
 						await import('./dutchiePOS')
-					).default;
+					).DutchiePOS;
 					break;
 				case 'blaze':
 					InventoryIntegrationService = await (
 						await import('./blazePOS')
-					).default;
+					).BlazePOS;
 					break;
 				case 'weedmaps':
 					InventoryIntegrationService = await (
 						await import('./weedmapsPOS')
-					).default;
+					).WeedmapsPOS;
 					break;
 				case 'none':
 					InventoryIntegrationService = await (
 						await import('./metrcInventory')
-					).default;
+					).MetrcIntegration;
 					break;
 				default:
 					InventoryIntegrationService = await (
 						await import('./metrcInventory')
-					).default;
+					).MetrcIntegration;
 			}
 			return InventoryIntegrationService;
 		} catch (error: any) {

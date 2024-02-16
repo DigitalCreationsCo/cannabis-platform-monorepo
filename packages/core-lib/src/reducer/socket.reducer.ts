@@ -56,7 +56,7 @@ export const addOrderAndOptimizeRoute = createAsyncThunk<
 		thunkAPI.dispatch(socketActions.clearOrderRequest());
 	} catch (error) {
 		console.info('addOrderAndOptimizeRoute: ', error);
-		thunkAPI.rejectWithValue(error.message);
+		thunkAPI.rejectWithValue({ error: error.message });
 	}
 });
 
@@ -72,7 +72,7 @@ export const sortDispatchRoute = createAsyncThunk<
 		return { sortedRoute };
 	} catch (error) {
 		console.info('sortDispatchRoute: ', error);
-		thunkAPI.rejectWithValue(error.message);
+		thunkAPI.rejectWithValue({ error: error.message });
 	}
 });
 
@@ -111,6 +111,7 @@ export type SocketStateType = {
 	connectionOpenInit: boolean;
 	connectionCloseInit: boolean;
 	isConnectedToDispatch: boolean;
+	isError: boolean;
 	errorMessage: string;
 	message: string;
 	dispatchOrders: OrderWithDispatchDetails['order'][];
@@ -124,6 +125,7 @@ const initialState: SocketStateType = {
 	connectionOpenInit: false,
 	connectionCloseInit: false,
 	isConnectedToDispatch: false,
+	isError: false,
 	errorMessage: '',
 	message: '',
 	dispatchOrders: [],
@@ -139,6 +141,7 @@ const socketSlice = createSlice({
 		openConnection: (state) => {
 			state.connectionOpenInit = true;
 			state.connectionCloseInit = false;
+			state.isError = false;
 		},
 		closingConnection: (state) => {
 			state.connectionOpenInit = false;
@@ -149,6 +152,7 @@ const socketSlice = createSlice({
 			state.connectionOpenInit = false;
 			state.connectionCloseInit = false;
 			state.isConnectedToDispatch = true;
+			state.isError = false;
 			state.errorMessage = '';
 			console.info('connection established. ready to send and receive data.');
 		},
@@ -156,7 +160,7 @@ const socketSlice = createSlice({
 			state.connectionOpenInit = false;
 			state.connectionCloseInit = false;
 			state.isConnectedToDispatch = false;
-			state.errorMessage = '';
+			// state.errorMessage = '';
 			console.info('connection is closed.');
 		},
 		receiveNewOrderRequest: (
@@ -237,6 +241,7 @@ const socketSlice = createSlice({
 		setError: (state, { payload }) => {
 			const error = payload;
 			console.error('socket error: ', error);
+			state.isError = true;
 			state.errorMessage = error;
 			state.connectionOpenInit = false;
 			state.connectionCloseInit = false;
@@ -267,10 +272,15 @@ const socketSlice = createSlice({
 		// 		state.errorMessage = error;
 		// 	});
 
-		builder.addCase(updateOnlineStatus.rejected, (state) => {
+		builder.addCase(updateOnlineStatus.rejected, (state, { payload }: any) => {
+			const { error } = payload;
+
 			state.connectionOpenInit = false;
 			state.connectionCloseInit = true;
 			console.info('updateOnlineStatus rejected, closing connection');
+
+			state.isError = true;
+			state.errorMessage = error;
 		});
 
 		builder.addCase(
@@ -283,6 +293,10 @@ const socketSlice = createSlice({
 		builder.addCase(addOrderAndOptimizeRoute.pending, () => {});
 		builder.addCase(addOrderAndOptimizeRoute.rejected, (state, { payload }) => {
 			console.info('addOrderAndOptimizeRoute', payload);
+			const { error } = payload;
+
+			state.isError = true;
+			state.errorMessage = error;
 		});
 		builder.addCase(sortDispatchRoute.fulfilled, (state, { payload }) => {
 			const { sortedRoute } = payload;
@@ -291,6 +305,11 @@ const socketSlice = createSlice({
 		builder.addCase(sortDispatchRoute.pending, () => {});
 		builder.addCase(sortDispatchRoute.rejected, (state, { payload }) => {
 			console.info('addOrderAndOptimizeRoute', payload);
+
+			const { error } = payload;
+
+			state.isError = true;
+			state.errorMessage = error;
 		});
 	},
 	// [testAsyncAction.fulfilled]: () => {},

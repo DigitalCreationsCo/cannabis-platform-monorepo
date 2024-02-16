@@ -55,7 +55,7 @@ function Layout({
 	const styles = {
 		main: 'bg-inherit flex-1',
 		isModalOverlay:
-			isModalVisible && 'w-full relative bg-inherit overscroll-none',
+			isModalVisible && 'w-full relative bg-inherit overscroll-none h-full',
 	};
 
 	useEffect(() => {
