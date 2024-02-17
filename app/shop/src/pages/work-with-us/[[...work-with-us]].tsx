@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Page, type LayoutContextProps } from '@cd/ui-lib';
 import Head from 'next/head';
+import Image from 'next/image';
 import { useEffect } from 'react';
 import { twMerge } from 'tailwind-merge';
 import Benefits from 'components/landing-page/benefits/Benefits';
@@ -9,6 +10,7 @@ import { ContactUs, Hero, ServicesTopBar } from '../../components/landing-page';
 import {
 	benefitDataDeliveryThatWorksForYou,
 	benefitDataStableBusinessAndGrowth,
+	benefitDataTrackYourOrders,
 } from '../../components/landing-page/benefits/benefit-data';
 import { partners } from '../../components/landing-page/partners/partners-data';
 
@@ -54,8 +56,9 @@ export default function DispensaryLandingPage() {
 			</Head>
 			<Hero />
 			<Partners partners={partners} />
-			<Benefits data={benefitDataDeliveryThatWorksForYou} />
-			<Benefits data={benefitDataStableBusinessAndGrowth} />
+			<Benefits id="benefit-1" data={benefitDataDeliveryThatWorksForYou} />
+			<Benefits id="benefit-1" data={benefitDataTrackYourOrders}></Benefits>
+			<Benefits id="benefit-2" data={benefitDataStableBusinessAndGrowth} />
 			<ContactUs />
 		</Page>
 	);

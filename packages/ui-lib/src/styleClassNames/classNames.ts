@@ -68,6 +68,8 @@ const styles = Object.freeze({
 		'bg-inverse min-h-full h-full min-w-full sm:!rounded-none md:min-w-min md:min-h-min md:!rounded px-12',
 	],
 	padd: 'md:pt-12 md:pb-14',
+	textShadow: 'drop-shadow-[0px_3px_1px_#a8a8a8]',
+	textShadowLg: 'drop-shadow-[0px_10px_10px_#a8a8a8]',
 });
 
 export default styles;

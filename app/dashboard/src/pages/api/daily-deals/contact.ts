@@ -1,5 +1,4 @@
 import { applicationHeaders, urlBuilder } from '@cd/core-lib';
-import { type DailyStoryData } from '@cd/core-lib/src/lib/DailyStory.api';
 import axios, { type AxiosResponse } from 'axios';
 import nc from 'next-connect';
 
@@ -8,13 +7,13 @@ handler.post(async (req: any, res: any) => {
 	try {
 		console.info('creating contact: ', req.body);
 		const response = await axios
-			.post<DailyStoryData>(urlBuilder.dailyStory.createContact(), req.body, {
+			.post<any>(urlBuilder.dailyStory.createContact(), req.body, {
 				headers: {
 					...applicationHeaders,
 					authorization: `Bearer ${process.env.DAILYSTORY_API_KEY}`,
 				},
 			})
-			.then<AxiosResponse<DailyStoryData>>(async ({ data }) => {
+			.then<AxiosResponse<any>>(async ({ data }) => {
 				return await axios.post(
 					urlBuilder.dailyStory.addTagsToContact(data.Response.id),
 					['daily-deals'],

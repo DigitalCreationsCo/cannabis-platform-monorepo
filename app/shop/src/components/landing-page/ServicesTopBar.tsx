@@ -26,9 +26,9 @@ export default function ServicesTopBar() {
 					</Paragraph>
 				</Link>
 			</FlexBox>
-			<FlexBox className="flex flex-row items-center md:space-x-4 md:pr-2">
+			{/* <FlexBox className="flex flex-row items-center md:space-x-4 md:pr-2">
 				<GetStartedButton />
-			</FlexBox>
+			</FlexBox> */}
 		</div>
 	);
 }

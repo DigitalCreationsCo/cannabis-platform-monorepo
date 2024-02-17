@@ -1,4 +1,12 @@
-import { FlexBox, H3, Paragraph, IconWrapper, H5 } from '@cd/ui-lib';
+import {
+	FlexBox,
+	H3,
+	Paragraph,
+	IconWrapper,
+	H5,
+	H4,
+	styles,
+} from '@cd/ui-lib';
 import Image from 'next/image';
 import { type HTMLAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
@@ -21,8 +29,9 @@ export default function Benefits({
 		<div
 			id={props.id}
 			className={twMerge(
+				'relative',
 				'gap-8',
-				'py-12',
+				'py-16',
 				`${data.image && imagePosition === 'right' ? 'lg:justify-end' : ''}`,
 				props.className,
 			)}
@@ -33,47 +42,52 @@ export default function Benefits({
 				)}
 			>
 				{data.title && (
-					<H3 className="px-4 drop-shadow-xl mt-3 text-center text-4xl font-bold leading-snug tracking-wider lg:text-4xl lg:leading-tight">
+					<H3
+						className={twMerge(
+							styles.textShadow,
+							'mt-3 text-center text-4xl font-bold leading-snug tracking-wider lg:text-4xl lg:leading-tight',
+						)}
+					>
 						{data.title}
 					</H3>
 				)}
 				{data.description && (
-					<Paragraph className="m-auto py-4 text-justify leading-normal lg:text-lg xl:text-lg">
+					<H4 className="w-3/4 text-xl text-center leading-normal">
 						{data.description}
-					</Paragraph>
+					</H4>
 				)}
 				<FlexBox
 					className={twMerge(
 						'flex flex-col md:flex-row flex-wrap items-center justify-center gap-8',
 					)}
 				>
-					<FlexBox
-						className={twMerge(
-							'max-w-md',
-							'gap-2 justify-around',
-							'xl:' + orientation,
-						)}
-					>
-						{data.bullets.map((item: any, index: any) => (
-							<Benefit
-								key={index}
-								title={item.title}
-								icon={item.icon}
-								description={item.desc}
-							/>
-						))}
-					</FlexBox>
+					{data.bullets.length > 0 && (
+						<FlexBox
+							className={twMerge(
+								'max-w-md',
+								'gap-y-8 justify-around',
+								'xl:' + orientation,
+							)}
+						>
+							{data.bullets.map((item: any, index: any) => (
+								<Benefit
+									key={index}
+									title={item.title}
+									icon={item.icon}
+									description={item.description}
+								/>
+							))}
+						</FlexBox>
+					)}
 
 					{data.image && (
 						<div
-							className={`flex items-center justify-center ${
+							className={`max-w-3xl m-8 flex items-center justify-center ${
 								imagePosition === 'right' ? 'lg:order-1' : ''
 							}`}
 						>
 							<Image
-								className="bg-inverse border-2 rounded-full"
-								height={300}
-								width={300}
+								className="bg-inverse shadow-lg rounded w-lg"
 								src={data.image}
 								alt="Benefits"
 								placeholder="blur"
@@ -81,6 +95,7 @@ export default function Benefits({
 							/>
 						</div>
 					)}
+					{props.children}
 				</FlexBox>
 			</FlexBox>
 		</div>
@@ -89,20 +104,22 @@ export default function Benefits({
 
 export function Benefit(props: BenefitData['bullets'][number]) {
 	return (
-		<div className="m-auto w-full flex max-w-[440px] px-2 items-center space-x-3">
-			<div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-orange-300">
-				<IconWrapper iconSize={32} Icon={props.icon} />
-			</div>
-			<div className="w-full">
-				<H5 className="text-xl whitespace-nowrap font-medium ">
-					{props.title}
-				</H5>
-				{props.description && (
-					<Paragraph className="text-dark mt-1 text-lg">
-						{props.description}
-					</Paragraph>
-				)}
-			</div>
+		<div className="m-auto w-full flex flex-col max-w-[440px] px-2 items-center space-x-3">
+			<H5 className="text-xl text-center whitespace-nowrap font-medium ">
+				{props.title}
+			</H5>
+			<FlexBox className="w-full flex-row items-center gap-4">
+				<div className="flex h-11 w-11 shadow-lg shrink-0 items-center justify-center rounded-md bg-orange-300">
+					<IconWrapper iconSize={32} Icon={props.icon} />
+				</div>
+				<div>
+					{props.description && (
+						<Paragraph className="text-dark mt-1 text-lg">
+							{props.description}
+						</Paragraph>
+					)}
+				</div>
+			</FlexBox>
 		</div>
 	);
 }

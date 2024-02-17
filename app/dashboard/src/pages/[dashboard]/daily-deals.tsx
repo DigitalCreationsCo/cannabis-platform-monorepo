@@ -12,7 +12,6 @@ import {
 	type AppState,
 	type ResponseDataEnvelope,
 } from '@cd/core-lib';
-import { type DailyStoryData } from '@cd/core-lib/src/lib/DailyStory.api';
 import {
 	type USStateAbbreviated,
 	type DailyDeal,
@@ -185,8 +184,8 @@ function SendDailyDealsInviteForm() {
 		try {
 			setLoadingButton(true);
 			const response = await axios.post<
-				ResponseDataEnvelope<DailyStoryData>,
-				AxiosResponse<ResponseDataEnvelope<DailyStoryData>>,
+				ResponseDataEnvelope<any>,
+				AxiosResponse<ResponseDataEnvelope<any>>,
 				{
 					email: string;
 					mobilePhone: string;
