@@ -64,12 +64,8 @@ function MapScreen() {
 		updateOnlineStatus
 			? dispatch(socketActions.openConnection())
 			: dispatch(socketActions.closingConnection());
+		setConnectionIsBusy(connectionOpenInit || connectionCloseInit);
 	}, [updateOnlineStatus]);
-
-	useEffect(() => {
-		console.info('connect close init:', connectionCloseInit);
-		setConnectionIsBusy(false);
-	}, [connectionOpenInit, isConnectedToDispatch]);
 
 	const { driver } = useAppSelector(selectDriverState);
 	const dispatch = useAppDispatch();
@@ -131,6 +127,11 @@ function MyMapComponent({
 		new window.google.maps.Map(ref.current!, {
 			center,
 			zoom,
+			mapTypeControl: false,
+			rotateControl: false,
+			streetViewControl: false,
+			fullscreenControl: false,
+			keyboardShortcuts: false,
 		});
 	});
 

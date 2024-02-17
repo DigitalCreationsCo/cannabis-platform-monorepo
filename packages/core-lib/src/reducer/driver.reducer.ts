@@ -171,7 +171,7 @@ export const driverSlice = createSlice({
 				updateOnlineStatus.rejected,
 				(state, { payload }: any) => {
 					const { isOnline, error } = payload;
-					state.driver.driverSession['isOnline'] = !isOnline;
+					state.driver.driverSession['isOnline'] = false;
 					state.isLoading = false;
 					state.isError = true;
 					state.errorMessage = error;
