@@ -1,5 +1,5 @@
 import { TextContent } from '@cd/core-lib';
-import { Button, FlexBox, H1 } from '@cd/ui-lib';
+import { Button, FlexBox, H1, styles } from '@cd/ui-lib';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
 import heroImg from '../../../public/cannabis-delivered.jpg';
@@ -7,7 +7,12 @@ import heroImg from '../../../public/cannabis-delivered.jpg';
 function Hero() {
 	return (
 		<section className={twMerge('bg-inverse', 'pt-16')}>
-			<div className="text-center mt-16 sm:mt-0">
+			<div
+				className={twMerge(
+					'sm:' + styles.textShadow,
+					'text-center mt-16 sm:mt-0',
+				)}
+			>
 				<H1 className="pb-2 inline-block max-w-4xl whitespace-pre-line text-4xl font-bold text-secondary-light sm:text-6xl xl:text-7xl">
 					Fast&nbsp;
 				</H1>
@@ -32,7 +37,7 @@ function Hero() {
 					{/* full&#8209;service  */}
 				</p>
 				<FlexBox className="items-center gap-4 sm:flex-row justify-center lg:gap-8">
-					<Link href={'#contact-form'}>
+					<Link href={'#contact-us-header'} scroll={false}>
 						<Button
 							size="lg"
 							bg="secondary"
@@ -42,7 +47,7 @@ function Hero() {
 							{TextContent.prompt.CONTACT_US}
 						</Button>
 					</Link>
-					<Link href={'#benefit-one'} scroll={false}>
+					<Link href={'#benefit-1'} scroll={false}>
 						<Button
 							size="lg"
 							bg="secondary-light"

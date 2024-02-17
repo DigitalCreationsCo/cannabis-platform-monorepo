@@ -1,12 +1,12 @@
 import { Icons } from '@cd/ui-lib';
 import { type StaticImageData } from 'next/image';
+import FleetTrackingImage from '../../../../public/fleet-tracking-and-app-view.png';
 import benefitOneImg from '../../../../public/get-order.png';
 import benefitTwoImg from '../../../../public/pair-of-buds.png';
 
 export const benefitDataDeliveryThatWorksForYou: BenefitData = {
 	title: 'Delivery That Works For You',
-	description: `We help you process delivery orders.
-	// A Gras DeliveryPerson delivers quickly and safely to your customers. `,
+	description: `Offering flexible delivery service to suit your business.`,
 	image: benefitOneImg,
 	bullets: [
 		{
@@ -17,38 +17,37 @@ export const benefitDataDeliveryThatWorksForYou: BenefitData = {
 		},
 		{
 			title: `So Easy You'll Giggle`,
-			description: `Sign up and receive deliveries the same day.`,
+			description: `Fast and easy same-day delivery.`,
 			icon: Icons.CheckmarkOutline,
 		},
 		{
 			title: 'Same-Day Delivery',
-			description:
-				'We guarantee delivery within 2 hours in Baltimore, Maryland.',
+			description: 'We guarantee delivery within 2 hours in New York City',
 			icon: Icons.ShoppingBag,
 		},
 	],
 };
 
+export const benefitDataTrackYourOrders: BenefitData = {
+	title: 'Helping You Stay On Track',
+	description: `Track delivery drivers and orders, and easily make adjustments.`,
+	image: FleetTrackingImage,
+	bullets: [],
+};
+
 export const benefitDataStableBusinessAndGrowth = {
-	title: 'We Value Stable Business And Growth',
-	description: `Gras is investing in the growth of your dispensary. Our goal is for you to have your best years in business yet. `,
+	title: 'We Value Stable Business Growth',
+	description: `Your goals are our goals. We're here to help you grow.`,
 	image: benefitTwoImg,
 	bullets: [
 		{
-			title: 'Industry Compliant',
-			desc: 'We follow all state compliance guidelines for delivery and sale of cannabis.',
-			icon: Icons.TaskComplete,
-		},
-		{
 			title: 'Support When You Need It',
-			description:
-				"Gras support is available by phone, email and chat. We're only a phone call or a click away.",
+			description: 'Support is a phone call or a click away.',
 			icon: Icons.ServiceDesk,
 		},
 		{
-			title: 'Your Growth Is Our Goal',
-			description: `Gras is committed to long term growth. 
-			We believe in building a sustainable cannabis industry.`,
+			title: 'Your Goals Are Our Goals',
+			description: `Gras is committed to sustainable growth in the cannabis industry.`,
 			icon: Icons.IncreaseLevel,
 		},
 	],

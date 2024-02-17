@@ -150,12 +150,9 @@ export default function ContactUsForm() {
 		}
 	}
 	return (
-		<div className={twMerge('bg-secondary')}>
+		<div id="contact-us-header" className={twMerge('mt-16', 'bg-secondary')}>
 			<Grid className="py-12 lg:py-24 px-4 md:px-10 grid-cols-1 xl:grid-cols-2 xl:gap-x-32 auto-cols-max">
-				<div
-					id="contact-us-header"
-					className="pb-12 text-2xl text-light max-w-full md:max-w-2xl col-span-2 lg:col-span-1 xl:ml-auto"
-				>
+				<div className="pb-12 text-2xl text-light max-w-full md:max-w-2xl col-span-2 lg:col-span-1 xl:ml-auto">
 					<Paragraph className="leading-loose tracking-wider mb-2 max-w-md md:max-w-full text-xl md:my-6 md:text-3xl">
 						We deliver your business to more people.
 					</Paragraph>
