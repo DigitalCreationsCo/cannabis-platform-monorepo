@@ -1,5 +1,4 @@
 import { applicationHeaders, urlBuilder } from '@cd/core-lib';
-import { type DailyStoryData } from '@cd/core-lib/src/lib/DailyStory.api';
 import axios from 'axios';
 import nc from 'next-connect';
 import { type ContactUsFormResponse } from 'components/landing-page/ContactUs';
@@ -30,7 +29,7 @@ handler.post(async (req: any, res: any) => {
 		// send an email to Gras with the contact information
 		// send an email to the contact with information about Gras
 
-		const response = await axios.post<DailyStoryData>(
+		const response = await axios.post<any>(
 			urlBuilder.dailyStory.createOrEditLead(),
 			{
 				leadId: 0,
@@ -69,7 +68,7 @@ handler.post(async (req: any, res: any) => {
 		console.info('body: ', JSON.stringify(req.body, null, 2));
 		// send the form submission to Gras via email
 		await axios
-			.post<DailyStoryData>(
+			.post<any>(
 				urlBuilder.dailyStory.sendEmail({
 					id: EMAIL_ID_INTERNAL_CONTACT_US_NOTICE,
 					email: 'leads@grascannabis.org',

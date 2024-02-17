@@ -4,6 +4,7 @@ import React, {
 	type ReactEventHandler,
 	type SVGAttributes,
 } from 'react';
+import error from 'supertokens-node/lib/build/error';
 import { twMerge } from 'tailwind-merge';
 import { Paragraph } from '../../components/Typography';
 import { styles } from '../../styleClassNames';
@@ -16,6 +17,7 @@ type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
 	maxNumber?: number;
 	name?: string;
 	label?: string;
+	labelColor?: any;
 	justifyLabel?: 'left' | 'center' | 'right';
 	value?: string | number;
 	placeholder?: string;
@@ -39,6 +41,7 @@ function TextField({
 	error,
 	value,
 	label,
+	labelColor = 'text-primary',
 	justifyLabel,
 	placeholder,
 	defaultValue,
@@ -65,7 +68,7 @@ function TextField({
 			{label && (
 				<FlexBox className="items-start w-full">
 					<label className={twMerge(styles.label_f(justifyLabel))}>
-						<Paragraph className="text-primary whitespace-nowrap">
+						<Paragraph className={twMerge(labelColor, 'whitespace-wrap')}>
 							{label}
 						</Paragraph>
 					</label>
