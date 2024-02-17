@@ -17,6 +17,7 @@ type TextAreaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
 	maxNumber?: number;
 	name?: string;
 	label?: string;
+	labelColor?: any;
 	justifyLabel?: 'left' | 'center' | 'right';
 	value?: string | number;
 	placeholder?: string;
@@ -40,6 +41,7 @@ export default function TextArea({
 	error,
 	value,
 	label,
+	labelColor = 'text-primary',
 	justifyLabel,
 	placeholder,
 	defaultValue,
@@ -65,8 +67,8 @@ export default function TextArea({
 		>
 			{label && (
 				<FlexBox className="items-start w-full">
-					<label className={twMerge(styles.label_f(justifyLabel))}>
-						<Paragraph className="text-primary">{label}</Paragraph>
+					<label className={twMerge(labelColor, styles.label_f(justifyLabel))}>
+						<Paragraph>{label}</Paragraph>
 					</label>
 				</FlexBox>
 			)}

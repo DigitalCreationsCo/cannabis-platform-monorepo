@@ -165,14 +165,14 @@ const ImageBackDrop = ({
 
 const HowItWorks = () => {
 	return (
-		<div className="pt-2 pb-4 lg:pb-6">
+		<div className="py-8 md:pt-2">
 			<FlexBox className="w-full md:w-full lg:px-20 sm:flex-row justify-center gap-8 mx-auto text-xl">
 				<FlexBox className="md:max-w-[180px] xl:max-w-[240px] 2xl:max-w-[240px] flex-row sm:flex-col items-center gap-4 text-center">
 					<IconWrapper
 						Icon={Icons.MobileAdd}
 						iconSize={window.innerWidth < 1000 ? 48 : 60}
 					/>
-					<Paragraph className="text-sm md:text-lg">
+					<Paragraph className="text-md md:text-lg">
 						Sign up below for free and get a daily deal via text message.
 					</Paragraph>
 				</FlexBox>
@@ -181,7 +181,7 @@ const HowItWorks = () => {
 						Icon={Icons.MobileCheck}
 						iconSize={window.innerWidth < 1000 ? 48 : 60}
 					/>
-					<Paragraph className="text-sm md:text-lg">
+					<Paragraph className="text-md md:text-lg">
 						If interested just reply with the number of packs you want.
 					</Paragraph>
 				</FlexBox>
@@ -190,7 +190,7 @@ const HowItWorks = () => {
 						Icon={Icons.MobilityServices}
 						iconSize={window.innerWidth < 1000 ? 48 : 60}
 					/>
-					<Paragraph className="text-sm md:text-lg">
+					<Paragraph className="text-md md:text-lg">
 						{/* Your weed will be delivered to your doorstep the same day.* */}
 						Your weed will be delivered to your doorstep the same day.
 					</Paragraph>

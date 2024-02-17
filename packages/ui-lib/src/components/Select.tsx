@@ -11,6 +11,7 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
 	containerClassName?: string | string[];
 	setOption: any; // Dispatch<SetStateAction<string | number>>;
 	label?: string;
+	labelColor?: any;
 }
 export default function Select({
 	multiple = false,
@@ -20,14 +21,15 @@ export default function Select({
 	className,
 	setOption,
 	label,
+	labelColor = 'text-primary',
 	name,
 }: SelectProps) {
 	return (
 		<FlexBox className={twMerge(containerClassName)}>
 			{label && (
 				<FlexBox className="items-start w-full flex-row">
-					<label className={twMerge(styles.label_f())}>
-						<Paragraph className="text-primary">{label}</Paragraph>
+					<label className={twMerge(labelColor, styles.label_f())}>
+						<Paragraph>{label}</Paragraph>
 					</label>
 				</FlexBox>
 			)}

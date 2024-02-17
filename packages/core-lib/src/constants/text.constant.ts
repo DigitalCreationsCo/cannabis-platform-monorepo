@@ -15,7 +15,7 @@ const TextContent = Object.freeze({
 		ACCEPT_ORDER: 'Do you want to accept the order?',
 		CONFIRM_ADD_TO_CART: `Your bag contains an item from another shop.
     Do you want to empty the bag and add this item instead?`,
-		CONTACT_US: 'Contact us',
+		CONTACT_US: 'Contact Us',
 
 		CREATE_ACCOUNT: '',
 

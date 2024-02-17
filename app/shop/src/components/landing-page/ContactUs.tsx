@@ -4,7 +4,6 @@ import {
 	usStatesAbbreviationList,
 	applicationHeaders,
 } from '@cd/core-lib';
-import { type DailyStoryData } from '@cd/core-lib/src/lib/DailyStory.api';
 import { type USStateAbbreviated } from '@cd/data-access';
 import {
 	TextField,
@@ -128,8 +127,8 @@ export default function ContactUsForm() {
 		try {
 			setLoadingButton(true);
 			const response = await axios.post<
-				ResponseDataEnvelope<DailyStoryData>,
-				AxiosResponse<ResponseDataEnvelope<DailyStoryData>>,
+				ResponseDataEnvelope<any>,
+				AxiosResponse<ResponseDataEnvelope<any>>,
 				ContactUsFormResponse
 			>('/api/contact-us', values, {
 				headers: { ...applicationHeaders },
@@ -152,10 +151,10 @@ export default function ContactUsForm() {
 	}
 	return (
 		<div className={twMerge('bg-secondary')}>
-			<Grid className="py-24 lg:py-24 px-4 md:px-10 grid-cols-1 xl:grid-cols-2 xl:gap-x-32 auto-cols-max">
+			<Grid className="py-12 lg:py-24 px-4 md:px-10 grid-cols-1 xl:grid-cols-2 xl:gap-x-32 auto-cols-max">
 				<div
 					id="contact-us-header"
-					className="pb-16 text-2xl text-light max-w-full md:max-w-2xl col-span-2 lg:col-span-1 xl:ml-auto"
+					className="pb-12 text-2xl text-light max-w-full md:max-w-2xl col-span-2 lg:col-span-1 xl:ml-auto"
 				>
 					<Paragraph className="leading-loose tracking-wider mb-2 max-w-md md:max-w-full text-xl md:my-6 md:text-3xl">
 						We deliver your business to more people.
@@ -187,7 +186,7 @@ export default function ContactUsForm() {
 					</FlexBox>
 
 					<div className="mt-12">
-						<Paragraph className="text-2xl text-light leading-relaxed">
+						<Paragraph className="text-xl text-light leading-relaxed">
 							{`To best serve you, tell us about your delivery need. We'll arrange a free consultation call to discuss how we can help! 
 							`}
 						</Paragraph>
@@ -207,6 +206,7 @@ export default function ContactUsForm() {
 							containerClassName="px-2 col-span-1"
 							name="firstName"
 							label=" first name"
+							labelColor="text-light"
 							placeholder="first name"
 							value={values?.firstName}
 							onBlur={handleBlur}
@@ -218,6 +218,7 @@ export default function ContactUsForm() {
 							containerClassName="px-2 col-span-1"
 							name="lastName"
 							label=" last name"
+							labelColor="text-light"
 							placeholder="last name"
 							value={values?.lastName}
 							onBlur={handleBlur}
@@ -227,10 +228,11 @@ export default function ContactUsForm() {
 
 						<TextField
 							type="email"
-							containerClassName="px-2 xl:col-span-2"
+							containerClassName="px-2 col-span-2 lg:col-span-1"
 							name="email"
-							label=" email address"
-							placeholder="email address"
+							label="email"
+							labelColor="text-light"
+							placeholder="your email address"
 							value={values?.email}
 							onBlur={handleBlur}
 							onChange={handleChange}
@@ -240,6 +242,7 @@ export default function ContactUsForm() {
 							containerClassName="px-2 xl:col-span-1"
 							name="company"
 							label=" company"
+							labelColor="text-light"
 							placeholder="company"
 							value={values?.company}
 							onBlur={handleBlur}
@@ -250,6 +253,7 @@ export default function ContactUsForm() {
 							containerClassName="px-2 xl:col-span-1"
 							name="title"
 							label=" title"
+							labelColor="text-light"
 							placeholder="title"
 							value={values.title}
 							onBlur={handleBlur}
@@ -261,7 +265,8 @@ export default function ContactUsForm() {
 							containerClassName="px-2 xl:col-span-1"
 							type="tel"
 							name="phone"
-							label=" phone"
+							label="phone"
+							labelColor="text-light"
 							placeholder="phone"
 							value={values?.phone}
 							onBlur={handleBlur}
@@ -272,6 +277,7 @@ export default function ContactUsForm() {
 							containerClassName="px-2 xl:col-span-1"
 							name="city"
 							label=" city"
+							labelColor="text-light"
 							placeholder="city"
 							value={values.city}
 							onBlur={handleBlur}
@@ -284,7 +290,8 @@ export default function ContactUsForm() {
 							containerClassName="px-2 xl:col-span-auto"
 							name="state"
 							label=" state"
-							className="rounded border text-lg"
+							labelColor="text-light"
+							className="rounded border"
 							values={usStatesAbbreviationList}
 							setOption={handleChange}
 						/>
@@ -293,7 +300,8 @@ export default function ContactUsForm() {
 							containerClassName="px-2 xl:col-span-1"
 							name="zipcode"
 							label=" zipcode"
-							placeholder="Zipcode"
+							labelColor="text-light"
+							placeholder="zipcode"
 							type="number"
 							value={values.zipcode}
 							onBlur={handleBlur}
@@ -306,6 +314,7 @@ export default function ContactUsForm() {
 							name="serviceAreaRange"
 							type="number"
 							label="How many miles from your store do you want to deliver?"
+							labelColor="text-light"
 							placeholder=""
 							value={values.serviceAreaRange as number}
 							onBlur={handleBlur}
@@ -319,6 +328,7 @@ export default function ContactUsForm() {
 							name="weeklyDeliveries"
 							placeholder=""
 							label="How many orders do you expect to deliver per week?"
+							labelColor="text-light"
 							value={values.weeklyDeliveries as number}
 							onBlur={handleBlur}
 							onChange={handleChange}
@@ -330,6 +340,7 @@ export default function ContactUsForm() {
 							containerClassName="px-2 col-span-2"
 							name="message"
 							label=" message"
+							labelColor="text-light"
 							placeholder="Tell us anything else you'd like us to know."
 							value={values?.message}
 							onBlur={handleBlur}
@@ -341,6 +352,7 @@ export default function ContactUsForm() {
 							containerClassName="p-2 xl:col-span-2"
 							name="howDidYouHearAboutUs"
 							label="How did you hear about Gras?"
+							labelColor="text-light"
 							placeholder="howDidYouHearAboutUs"
 							value={values?.howDidYouHearAboutUs}
 							onBlur={handleBlur}
@@ -351,7 +363,7 @@ export default function ContactUsForm() {
 							name={'allowProcessResponse'}
 							onChange={handleChange}
 							checked={values.allowProcessResponse}
-							label="The contact information is only used to process your request. By clicking send, you agree to allow us to store the contact information in order to process your request."
+							label="We will only use your contact info to process this inquiry. By clicking Contact Us, you agree to allow us to store the contact information."
 						/>
 						<div className="mt-16 col-span-2 place-self-center mx-2">
 							<Button
