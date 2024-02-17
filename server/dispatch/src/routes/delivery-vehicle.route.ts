@@ -10,7 +10,7 @@ const deliveryVehicleRoutes = Router();
 
 deliveryVehicleRoutes.get('/:vehicleId', async (req, res) => {
 	res.setHeader('Content-Type', 'application/json');
-	res.setDefaultEncoding('utf-8');
+	// res.setDefaultEncoding = 'utf-8';
 
 	if (!req.params.vehicleId) {
 		console.error(

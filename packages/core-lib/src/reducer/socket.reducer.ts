@@ -39,7 +39,7 @@ export const goOnline = createAsyncThunk<
 		thunkAPI.dispatch(updateOnlineStatus(false));
 
 		return thunkAPI.rejectWithValue({
-			isOnline: onlineStatus,
+			isOnline: false,
 			error: error.message,
 		});
 	}

@@ -27,7 +27,7 @@ export const updateOnlineStatus = createAsyncThunk<
 	} catch (error) {
 		console.error('updateOnlineStatus error: ', error.message);
 		return thunkAPI.rejectWithValue({
-			isOnline: onlineStatus,
+			isOnline: !onlineStatus,
 			error: error.message,
 		});
 	}

@@ -1,6 +1,7 @@
 {
 	"version": "0.2.0",
 	"configurations": [
+		
 		{
 			"name": "Next.js: debug server-side",
 			"type": "node-terminal",
@@ -48,7 +49,20 @@
 				"uriFormat": "%s",
 				"action": "openExternally"
 			},
-			"sourceMaps": true
+			"sourceMaps": true,
+			"env": {
+				"BABEL_ENV": "development"
+			}
+		},
+		{
+			"name": "debug babel server-dispatch" ,
+			"request": "launch",
+
+			"cwd": "${workspaceFolder}/server/dispatch",
+			"type": "node",
+			"runtimeExecutable": "${workspaceFolder}/node_modules/.bin/babel-watch",
+			"program": "./src/index.ts",
+			"runtimeArgs": ["--nolazy"],
 		},
 		{
 			"name": "debug server-dispatch in chrome",
