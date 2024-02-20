@@ -9,6 +9,9 @@ declare module '*.mp4' {
 }
 
 interface Window {
+	// GTM
+	dataLayer: any;
+
 	// brevo
 	BrevoConversationsID?: string;
 	BrevoConversations?: any;

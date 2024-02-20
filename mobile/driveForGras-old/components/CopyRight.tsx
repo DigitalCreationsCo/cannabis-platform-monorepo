@@ -1,4 +1,4 @@
-// import TextContent from '@cd/core-lib/src/constants/text.constant';
+// import TextContent from '@cd/core-lib';
 import { Text } from './Themed';
 
 function CopyRight() {

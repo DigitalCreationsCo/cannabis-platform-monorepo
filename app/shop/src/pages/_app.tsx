@@ -14,6 +14,7 @@ import { AnimatePresence } from 'framer-motion';
 import { type AppProps } from 'next/app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import Script from 'next/script';
 import { useEffect, useState } from 'react';
 import { Provider as ReduxProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -55,10 +56,6 @@ function App({ Component, ...rest }: CustomAppProps) {
 	const [routerLoading, setRouterLoading] = useState(true);
 	const router = useRouter();
 
-	// useEffect(() => {
-	// 	router.isReady && setRouterLoading(false);
-	// }, [router.isReady]);
-
 	useEffect(() => {
 		if (router.isReady) {
 			setRouterLoading(false);
@@ -79,14 +76,6 @@ function App({ Component, ...rest }: CustomAppProps) {
 		}
 		doRefresh();
 	}, [pageProps.fromSupertokens]);
-
-	// useEffect(() => {
-	// 	!store.getState().shop.isLoading &&
-	// 		store.getState().shop.dispensaries.length === 0 &&
-	// 		store.dispatch(
-	// 			shopActions.getInitialDispensaries() as unknown as AnyAction,
-	// 		);
-	// }, [store]);
 
 	if (pageProps.fromSupertokens === 'needs-refresh') {
 		return null;
@@ -137,6 +126,7 @@ function App({ Component, ...rest }: CustomAppProps) {
 											<ErrorBoundary>
 												<>
 													<Component {...pageProps} />
+
 													{!routerLoading &&
 														(function (d, w, c: 'BrevoConversations') {
 															w.BrevoConversationsID =

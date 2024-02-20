@@ -1,6 +1,4 @@
-import { default as socketMiddleware } from '@cd/core-lib/src/middleware/socket.middleware';
-import { driverReducer } from '@cd/core-lib/src/reducer/driver.reducer';
-import { socketReducer } from '@cd/core-lib/src/reducer/socket.reducer';
+import { socketMiddleware, driverReducer, socketReducer } from '@cd/core-lib';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { combineReducers, configureStore, type Store } from '@reduxjs/toolkit';
 import {

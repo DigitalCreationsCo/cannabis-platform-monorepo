@@ -1,6 +1,9 @@
-import { TextContent } from '@cd/core-lib/src/constants';
-import { driverActions } from '@cd/core-lib/src/reducer/driver.reducer';
-import { useAppDispatch, useAppSelector } from '@cd/core-lib/src/types';
+import {
+	useAppDispatch,
+	useAppSelector,
+	TextContent,
+	driverActions,
+} from '@cd/core-lib';
 import { Button, Center, Container, FlexBox, Screen, Text } from '@components';
 import { styles } from '@styles';
 

@@ -1,10 +1,11 @@
 import {
 	driverActions,
 	selectDriverState,
-} from '@cd/core-lib/src/reducer/driver.reducer';
-import { socketActions } from '@cd/core-lib/src/reducer/socket.reducer';
-import { userActions } from '@cd/core-lib/src/reducer/user.reducer';
-import { useAppDispatch, useAppSelector } from '@cd/core-lib/src/types';
+	socketActions,
+	userActions,
+	useAppDispatch,
+	useAppSelector,
+} from '@cd/core-lib';
 import { useRealm } from '@realm/react';
 import * as Location from 'expo-location';
 import { useEffect, useState } from 'react';
@@ -27,18 +28,18 @@ import { useEffect, useState } from 'react';
 export const useLocation = async () => {
 	const { isOnline } = useAppSelector(selectDriverState).driver.driverSession;
 
-	const realm = useRealm();
+	// const realm = useRealm();
 	// const [pauseSync, togglePauseSync] = useState(false);
 
-	useEffect(() => {
-		if (!isOnline && realm.syncSession?.state === 'active') {
-			realm.syncSession.pause();
-			// togglePauseSync(true);
-		} else if (isOnline && realm.syncSession?.state === 'inactive') {
-			realm.syncSession.resume();
-			// togglePauseSync(false);
-		}
-	}, [isOnline]);
+	// useEffect(() => {
+	// 	if (!isOnline && realm.syncSession?.state === 'active') {
+	// 		realm.syncSession.pause();
+	// 		// togglePauseSync(true);
+	// 	} else if (isOnline && realm.syncSession?.state === 'inactive') {
+	// 		realm.syncSession.resume();
+	// 		// togglePauseSync(false);
+	// 	}
+	// }, [isOnline]);
 
 	const dispatch = useAppDispatch();
 
