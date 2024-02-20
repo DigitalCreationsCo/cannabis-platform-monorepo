@@ -1,14 +1,12 @@
-import TextContent from '@cd/core-lib/src/constants/text.constant';
-import useAfterMount from '@cd/core-lib/src/hooks/useAfterMount';
-import { selectDriverState } from '@cd/core-lib/src/reducer/driver.reducer';
 import {
 	selectSocketState,
 	socketActions,
-} from '@cd/core-lib/src/reducer/socket.reducer';
-import {
+	useAfterMount,
+	TextContent,
+	selectDriverState,
 	useAppDispatch,
 	useAppSelector,
-} from '@cd/core-lib/src/types/redux.types';
+} from '@cd/core-lib';
 import { useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';

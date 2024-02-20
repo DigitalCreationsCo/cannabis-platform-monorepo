@@ -37,7 +37,7 @@ export default function RootLayout() {
 	return (
 		<ReduxProvider store={store}>
 			<PersistGate persistor={persistor}>
-				<AppProvider id={appId} baseUrl={baseUrl}>
+				{/* <AppProvider id={appId} baseUrl={baseUrl}>
 					<UserProvider fallback={<Slot />}>
 						<RealmProvider
 							schema={[DriverSession]}
@@ -48,19 +48,19 @@ export default function RootLayout() {
 									console.error(error);
 								},
 							}}
-						>
-							<SafeAreaProvider>
-								<ThemeProvider
-									value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
-								>
-									{/* Keep the splash screen open until the assets have loaded. In the future, we should just support async font loading with a native version of font-display. */}
-									{!loaded && <SplashScreen />}
-									{loaded && <Slot />}
-								</ThemeProvider>
-							</SafeAreaProvider>
-						</RealmProvider>
+						> */}
+				<SafeAreaProvider>
+					<ThemeProvider
+						value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
+					>
+						{/* Keep the splash screen open until the assets have loaded. In the future, we should just support async font loading with a native version of font-display. */}
+						{!loaded && <SplashScreen />}
+						{loaded && <Slot />}
+					</ThemeProvider>
+				</SafeAreaProvider>
+				{/* </RealmProvider>
 					</UserProvider>
-				</AppProvider>
+				</AppProvider> */}
 			</PersistGate>
 		</ReduxProvider>
 	);

@@ -1,7 +1,9 @@
-import { handleDriverAppOTPCodeAPI } from '@cd/core-lib/src/auth/OTP';
-import { TextContent } from '@cd/core-lib/src/constants';
-import { driverActions } from '@cd/core-lib/src/reducer/driver.reducer';
-import { useAppDispatch } from '@cd/core-lib/src/types';
+import {
+	handleDriverAppOTPCodeAPI,
+	TextContent,
+	driverActions,
+	useAppDispatch,
+} from '@cd/core-lib';
 import { type DriverWithSessionJoin } from '@cd/data-access';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useFormik } from 'formik';

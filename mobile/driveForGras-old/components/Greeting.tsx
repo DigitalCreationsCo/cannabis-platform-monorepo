@@ -1,5 +1,4 @@
-import { selectDriverState } from '@cd/core-lib/src/reducer/driver.reducer';
-import { useAppSelector } from '@cd/core-lib/src/types/redux.types';
+import { useAppSelector, selectDriverState } from '@cd/core-lib';
 import Icons from '../icons';
 import { Text, Row } from './Themed';
 

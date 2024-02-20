@@ -2,8 +2,8 @@
 import {
 	getOTPCodeEmailAPI,
 	getOTPCodePhoneAPI,
-} from '@cd/core-lib/src/auth/OTP';
-import TextContent from '@cd/core-lib/src/constants/text.constant';
+	TextContent,
+} from '@cd/core-lib';
 import { useRouter } from 'expo-router';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';

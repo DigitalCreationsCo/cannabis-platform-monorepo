@@ -1,5 +1,4 @@
-import { selectDriverState } from '@cd/core-lib/src/reducer/driver.reducer';
-import { useAppSelector } from '@cd/core-lib/src/types';
+import { useAppSelector, selectDriverState } from '@cd/core-lib';
 import { Redirect, Stack } from 'expo-router';
 import { useColorScheme } from 'react-native';
 import { useLocation } from '../../hooks';
