@@ -88,10 +88,8 @@ function App({ Component, ...rest }: CustomAppProps) {
 
 	return (
 		<>
-			<Head>
-				<title>Grascannabis.org - Cannabis, Delivered.</title>
-				<meta name="Gras App" content="Built by Gras Cannabis Co." />
-			</Head>
+			<GrasHeadTags />
+
 			<SuperTokensWrapper>
 				<ReduxProvider store={store}>
 					<PersistGate persistor={persistor} loading={<LoadingPage />}>
@@ -187,3 +185,50 @@ function App({ Component, ...rest }: CustomAppProps) {
 }
 
 export default wrapper.withRedux(App);
+
+const GrasHeadTags = () => (
+	<Head>
+		{/* <!-- HTML Meta Tags --> */}
+		<title>Grascannabis.org - Cannabis, Delivered.</title>
+		<meta name="Gras App" content="Built by Gras Cannabis Co." />
+		<meta
+			name="description"
+			content="Delivering in the New York City metropolitan area"
+		></meta>
+
+		{/* <!-- Facebook Meta Tags --> */}
+		<meta property="og:url" content="https://grascannabis.org"></meta>
+		<meta property="og:type" content="website"></meta>
+		<meta
+			property="og:title"
+			content="Grascannabis.org - Cannabis, Delivered."
+		></meta>
+		<meta
+			property="og:description"
+			content="Delivering in the New York City metropolitan area"
+		></meta>
+		<meta
+			property="og:image"
+			content="https://storage.googleapis.com/38d6acd65b23d751-image-dispensary/gras/Gras%20(2).png"
+		></meta>
+
+		{/* <!-- Twitter Meta Tags --> */}
+		<meta name="twitter:card" content="summary_large_image"></meta>
+		<meta property="twitter:domain" content="grascannabis.org"></meta>
+		<meta property="twitter:url" content="https://grascannabis.org"></meta>
+		<meta
+			name="twitter:title"
+			content="Grascannabis.org - Cannabis, Delivered."
+		></meta>
+		<meta
+			name="twitter:description"
+			content="Delivering in the New York City metropolitan area"
+		></meta>
+		<meta
+			name="twitter:image"
+			content="https://storage.googleapis.com/38d6acd65b23d751-image-dispensary/gras/Gras%20(2).png"
+		></meta>
+
+		{/* <!-- Meta Tags Generated via https://opengraph.dev --> */}
+	</Head>
+);

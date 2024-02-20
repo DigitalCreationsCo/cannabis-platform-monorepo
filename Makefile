@@ -17,7 +17,7 @@ docker-push:
 	docker push grasadmin/$(IMAGE):$(TAG)
 
 deploy-app:
-	scripts/deploy-app.sh $(IMAGE) $(TAG) $(PORT)
+	./scripts/docker-deploy-app.sh $(IMAGE) $(TAG) $(PORT)
 
 create-docker-secret:
 	scripts/docker-secret.sh
