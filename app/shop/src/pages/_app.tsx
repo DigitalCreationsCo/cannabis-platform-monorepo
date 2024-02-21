@@ -88,6 +88,9 @@ function App({ Component, ...rest }: CustomAppProps) {
 
 	return (
 		<>
+		{<script type="text/javascript"
+src="https://onsite.optimonk.com/script.js?account=222798"
+async></script>}
 			<GrasHeadTags />
 
 			<SuperTokensWrapper>
@@ -124,7 +127,6 @@ function App({ Component, ...rest }: CustomAppProps) {
 											<ErrorBoundary>
 												<>
 													<Component {...pageProps} />
-
 													{!routerLoading &&
 														(function (d, w, c: 'BrevoConversations') {
 															w.BrevoConversationsID =
