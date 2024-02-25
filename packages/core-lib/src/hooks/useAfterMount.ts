@@ -1,7 +1,7 @@
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 const useAfterMount = (func: () => void, deps: any[]) => {
-	const didMount = useRef(false);
+	const didMount = React.useRef(false);
 
 	useEffect(() => {
 		if (didMount.current) func();

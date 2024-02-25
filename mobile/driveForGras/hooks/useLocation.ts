@@ -5,7 +5,7 @@ import {useSelector } from 'react-redux'
 import { useRealm } from '@realm/react';
 import * as Location from 'expo-location';
 import { useEffect, useState } from 'react';
-import { useAppDispatch } from '@cd/core-lib/src/types';
+import { useDispatch } from 'react-redux';
 
 // driver location updates will store data in several places,
 // under several conditions:
@@ -38,7 +38,7 @@ export const useLocation = async () => {
 	// 	}
 	// }, [isOnline]);
 
-	const dispatch = useAppDispatch();
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		/**

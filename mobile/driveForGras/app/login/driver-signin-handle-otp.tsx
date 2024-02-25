@@ -3,7 +3,6 @@ import {
 } from '@cd/core-lib/src/auth/OTP';
 import TextContent from '@cd/core-lib/src/constants/text.constant';
 import { driverActions } from '@cd/core-lib/src/reducer/driver.reducer';
-import { useAppDispatch } from '@cd/core-lib/src/types/redux.types';
 import { type DriverWithSessionJoin } from '@cd/data-access';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useFormik } from 'formik';
@@ -15,16 +14,18 @@ import {
 	Center,
 	Container,
 	FlexBox,
+	Padding,
 	Screen,
 	Text,
 	TextField,
 	View,
 } from '@components';
 import { styles } from '@styles';
+import { useDispatch } from 'react-redux';
 
 const DriverSignInHandlePassCode = () => {
 	const router = useRouter();
-	const dispatch = useAppDispatch();
+	const dispatch = useDispatch();
 
 	const [loading, setLoading] = useState(false);
 
@@ -83,7 +84,7 @@ const DriverSignInHandlePassCode = () => {
 					dispatch(
 						driverActions.signinDriverSync({
 							token,
-							driver: user as DriverWithSessionJoin,
+							user: user as DriverWithSessionJoin,
 						}),
 					);
 					router.replace('(tabs)');
@@ -139,6 +140,7 @@ const DriverSignInHandlePassCode = () => {
 			>
 				{loading ? 'Lighting up...' : TextContent.account.SIGNIN}
 			</Button>
+			<Padding/>
 		</Container>
 	);
 };
