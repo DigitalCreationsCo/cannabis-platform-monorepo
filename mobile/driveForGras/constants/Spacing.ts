@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Dimensions } from 'react-native';
-// const { width, height } = Dimensions.get('window');
-const { width, height } = {width: 500, height: 500};
+const { width, height } = Dimensions.get('window');
 
 export const spacing = {
 	0: 0,

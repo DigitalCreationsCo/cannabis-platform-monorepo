@@ -89,11 +89,11 @@ const DriverMapScreen = () => {
 	return (
 		<View>
 			<Greeting />
-			<View style={{ height: height / 3, width }}>
+			<View style={{ height: '50%', width }}>
 				<MapView
 					showsUserLocation
 					followsUserLocation
-					showsMyLocationButton={true}
+					showsMyLocationButton
 					style={{ height: '100%', width: '100%' }}
 					provider={PROVIDER_GOOGLE}
 				/>
@@ -102,6 +102,7 @@ const DriverMapScreen = () => {
 			{_displayTestVars}
 
 			<Center>
+				<Text>env: {process.env.NEXT_PUBLIC_MAPS_API_KEY_DRIVE_PWA}</Text>
 				<Text style={{ color: 'red' }}>{errorMessage || ''}</Text>
 			</Center>
 			<Button
