@@ -99,10 +99,14 @@ export const userSlice = createSlice({
 			state.isSuccess = true;
 			state.isError = false;
 
-			document.cookie = 'yesOver21=true;path=/';
-			if (!user.isSignUpComplete) {
-				document.cookie = 'isSignUpComplete=false;path=/';
+			// optional document for non browser environment
+			if (document) {
+				document.cookie = 'yesOver21=true;path=/';
+				if (!user.isSignUpComplete) {
+					document.cookie = 'isSignUpComplete=false;path=/';
+				}
 			}
+			
 			// window.location.reload();
 		},
 		updateOrders: (
@@ -128,7 +132,11 @@ export const userSlice = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder.addCase(signOutUserAsync.fulfilled, () => {
-			document.cookie = 'yesOver21=false;path=/';
+			// optional document for non browser environment
+			if (document) {
+				document.cookie = 'yesOver21=false;path=/';
+			}
+
 			// 	// window.location.href = '/';
 			// clear dispensary state on user signout
 			return initialState;

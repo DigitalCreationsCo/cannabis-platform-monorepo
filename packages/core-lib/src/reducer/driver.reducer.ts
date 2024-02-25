@@ -5,7 +5,7 @@ import {
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { type AppState, type ThunkArgumentsType } from '../types';
 import { updateOnlineStatus } from './action/updateOnlineStatus';
-import { userActions } from './user.reducer';
+// import { userActions } from './user.reducer';
 
 const signOutUserAsync = createAsyncThunk<
 	void,

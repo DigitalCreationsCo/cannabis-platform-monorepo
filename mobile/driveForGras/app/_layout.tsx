@@ -1,58 +1,67 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { FontAwesome } from '@expo/vector-icons';
+import {
+	ThemeProvider,
+	DarkTheme,
+	DefaultTheme,
+} from '@react-navigation/native';
+import { AppProvider, UserProvider, RealmProvider } from '@realm/react';
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
+import { Slot } from 'expo-router';
+import * as React from 'react';
 import { useEffect } from 'react';
-
-import { useColorScheme } from '@/components/useColorScheme';
+import { useColorScheme } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Provider as ReduxProvider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { appId, baseUrl } from '../atlasConfig.json';
+import { store, persistor } from '../redux/store';
+import { DriverSession } from '../schema/DriverSession';
 
 export {
-  // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
+	// Catch any errors thrown by the Layout component.
+	ErrorBoundary,
 } from 'expo-router';
 
-export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(tabs)',
-};
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
-
 export default function RootLayout() {
-  const [loaded, error] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-    ...FontAwesome.font,
-  });
+	const [loaded, error] = useFonts({
+		SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+		...FontAwesome.font,
+	});
+	// Expo Router uses Error Boundaries to catch errors in the navigation tree.
+	useEffect(() => {
+		if (error) throw error;
+	}, [error]);
 
-  // Expo Router uses Error Boundaries to catch errors in the navigation tree.
-  useEffect(() => {
-    if (error) throw error;
-  }, [error]);
+	const colorScheme = useColorScheme();
 
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
-  }
-
-  return <RootLayoutNav />;
-}
-
-function RootLayoutNav() {
-  const colorScheme = useColorScheme();
-
-  return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-      </Stack>
-    </ThemeProvider>
-  );
+	return (
+		<ReduxProvider store={store}>
+			<PersistGate persistor={persistor}>
+				{/* <AppProvider id={appId} baseUrl={baseUrl}>
+					<UserProvider fallback={<Slot />}>
+						<RealmProvider
+							schema={[DriverSession]}
+							sync={{
+								flexible: true,
+								onError: (_session, error) => {
+									// Show sync errors in the console
+									console.error(error);
+								},
+							}}
+						> */}
+				<SafeAreaProvider>
+					<ThemeProvider
+						value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
+					>
+						{/* Keep the splash screen open until the assets have loaded. In the future, we should just support async font loading with a native version of font-display. */}
+						{!loaded && <></>}
+						{loaded && <Slot />}
+					</ThemeProvider>
+				</SafeAreaProvider>
+				{/* </RealmProvider>
+					</UserProvider>
+				</AppProvider> */}
+			</PersistGate>
+		</ReduxProvider>
+	);
 }
