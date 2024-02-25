@@ -11,7 +11,7 @@
     "start": "EXPO_USE_METRO_WORKSPACE_ROOT=1 NODE_ENV='development' expo start",
     "start:dev": "EXPO_USE_METRO_WORKSPACE_ROOT=1 NODE_ENV='development' expo start --dev-client -c",
     "start:production": "EXPO_USE_METRO_WORKSPACE_ROOT=1 NODE_ENV='production' npx expo start --no-dev --minify -c",
-    "start:cold": "yarn clean && yarn build:deps && NODE_ENV='development' expo start -c",
+    "start:cold": "yarn clean && yarn build:deps && yarn prebuild && EXPO_USE_METRO_WORKSPACE_ROOT=1 NODE_ENV='development' expo start -c",
     "android": "EXPO_USE_METRO_WORKSPACE_ROOT=1 NODE_ENV='development' expo run:android",
     "ios": "EXPO_USE_METRO_WORKSPACE_ROOT=1 NODE_ENV='development' expo run:ios",
     "web": "EXPO_USE_METRO_WORKSPACE_ROOT=1 NODE_ENV='development' expo start --web",

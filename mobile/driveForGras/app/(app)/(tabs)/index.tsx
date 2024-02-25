@@ -1,14 +1,22 @@
-import useAfterMount from '@cd/core-lib/src/hooks/useAfterMount';
 import TextContent from '@cd/core-lib/src/constants/text.constant';
 import { selectDriverState } from '@cd/core-lib/src/reducer/driver.reducer';
 import { socketActions, selectSocketState } from '@cd/core-lib/src/reducer/socket.reducer';
 import {useSelector, useDispatch } from 'react-redux'
 import { useRouter } from 'expo-router';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { Button, Center, Greeting, Screen, Text, View } from '@components';
 import { spacing } from '@constants';
 import { useLocation } from '../../../hooks';
+
+const useAfterMount = (func: () => void, deps: any[]) => {
+	const didMount = useRef(false);
+
+	useEffect(() => {
+		if (didMount.current) func();
+		else didMount.current = true;
+	}, deps);
+};
 
 const DriverMapScreen = () => {
 	useLocation();
@@ -87,11 +95,11 @@ const DriverMapScreen = () => {
 					followsUserLocation
 					showsMyLocationButton={true}
 					style={{ height: '100%', width: '100%' }}
-					// provider={PROVIDER_GOOGLE}
+					provider={PROVIDER_GOOGLE}
 				/>
 			</View>
 
-			{/* {_displayTestVars} */}
+			{_displayTestVars}
 
 			<Center>
 				<Text style={{ color: 'red' }}>{errorMessage || ''}</Text>
