@@ -1,4 +1,5 @@
-import { socketMiddleware, driverReducer, socketReducer } from '@cd/core-lib';
+import { driverReducer, socketReducer } from '@cd/core-lib/src/reducer';
+import socketMiddleware from '@cd/core-lib/src/middleware/socket.middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { combineReducers, configureStore, type Store } from '@reduxjs/toolkit';
 import {
@@ -57,7 +58,7 @@ const makeStore = () => {
 				},
 			}),
 			socketMiddleware,
-		],
+		] as any,
 	});
 	thunkArguments.store = store;
 
