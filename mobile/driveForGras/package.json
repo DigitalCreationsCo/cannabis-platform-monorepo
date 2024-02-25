@@ -2,6 +2,9 @@
   "name": "@cd/mobile-driveforgras",
   "main": "expo-router/entry",
   "version": "1.0.0",
+  "installConfig": {
+    "hoistingLimits": "workspaces"
+  },
   "scripts": {
     "prebuild": "npx expo prebuild",
     "start": "NODE_ENV='development' expo start",
@@ -20,15 +23,6 @@
   },
   "jest": {
     "preset": "jest-expo"
-  },
-  "workspaces": {
-    "nohoist": [
-      "babel-preset-expo",
-      "expo",
-      "expo*",
-      "react-native/**",
-      "react-native*"
-    ]
   },
   "dependencies": {
     "@expo/vector-icons": "14.0.0",
