@@ -1,7 +1,10 @@
 import TextContent from '@cd/core-lib/src/constants/text.constant';
 import { selectDriverState } from '@cd/core-lib/src/reducer/driver.reducer';
-import { socketActions, selectSocketState } from '@cd/core-lib/src/reducer/socket.reducer';
-import {useSelector, useDispatch } from 'react-redux'
+import {
+	socketActions,
+	selectSocketState,
+} from '@cd/core-lib/src/reducer/socket.reducer';
+import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
@@ -50,6 +53,10 @@ const DriverMapScreen = () => {
 		}
 	}, [newOrder]);
 
+	const displayStatusPrompt = isOnline
+		? ''
+		: 'Tap Go Online to start delivering orders.';
+
 	const _displayTestVars = useMemo(
 		() => (
 			<View>
@@ -95,15 +102,16 @@ const DriverMapScreen = () => {
 					followsUserLocation
 					showsMyLocationButton
 					style={{ height: '100%', width: '100%' }}
-					provider={PROVIDER_GOOGLE}
+					// provider={PROVIDER_GOOGLE}
 				/>
 			</View>
 
-			{_displayTestVars}
+			{/* {_displayTestVars} */}
 
 			<Center>
-				<Text>env: {process.env.NEXT_PUBLIC_MAPS_API_KEY_DRIVE_PWA}</Text>
+				{/* <Text>env: {process.env.NEXT_PUBLIC_MAPS_API_KEY_DRIVE_PWA}</Text> */}
 				<Text style={{ color: 'red' }}>{errorMessage || ''}</Text>
+				<Text>{displayStatusPrompt}</Text>
 			</Center>
 			<Button
 				disabled={connectionOpenInit}

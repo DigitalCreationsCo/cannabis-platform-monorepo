@@ -88,9 +88,20 @@ function App({ Component, ...rest }: CustomAppProps) {
 
 	return (
 		<>
-		{<script type="text/javascript"
-src="https://onsite.optimonk.com/script.js?account=222798"
-async></script>}
+			{/* <!-- Google Tag Manager --> */}
+			{typeof window !== 'undefined' &&
+				(function (w, d, s: 'script', l: 'dataLayer', i: string) {
+					w[l] = w[l] || [];
+					w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+					const f = d.getElementsByTagName(s)[0],
+						j = d.createElement(s),
+						dl = l != 'dataLayer' ? '&l=' + l : '';
+					j.async = true;
+					j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+					f.parentNode?.insertBefore(j, f);
+				})(window, document, 'script', 'dataLayer', 'GTM-WC46C5C2')}
+			{/* <!-- End Google Tag Manager --> */}
+
 			<GrasHeadTags />
 
 			<SuperTokensWrapper>
@@ -127,6 +138,23 @@ async></script>}
 											<ErrorBoundary>
 												<>
 													<Component {...pageProps} />
+
+													{/* // <!-- Google Tag Manager (noscript) --> */}
+													{!routerLoading && (
+														<noscript>
+															<iframe
+																title="google-tag-manager-noscript"
+																src="https://www.googletagmanager.com/ns.html?id=GTM-WC46C5C2"
+																height="0"
+																width="0"
+																style={{
+																	display: 'none',
+																	visibility: 'hidden',
+																}}
+															></iframe>
+														</noscript>
+													)}
+
 													{!routerLoading &&
 														(function (d, w, c: 'BrevoConversations') {
 															w.BrevoConversationsID =
@@ -142,6 +170,7 @@ async></script>}
 																'https://conversations-widget.brevo.com/brevo-conversations.js';
 															if (d.head) d.head.appendChild(s);
 														})(document, window, 'BrevoConversations')}
+
 													{process.env.NODE_ENV === 'production' &&
 														!routerLoading &&
 														(function (

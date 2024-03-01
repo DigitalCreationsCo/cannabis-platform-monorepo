@@ -23,9 +23,7 @@ import {
 } from '@cd/ui-lib';
 import icons from '@cd/ui-lib/src/icons';
 import { Wrapper, Status } from '@googlemaps/react-wrapper';
-import { errors } from 'formidable';
 import { AnimatePresence, motion } from 'framer-motion';
-import { set } from 'immer/dist/internal';
 import { useRef, useEffect, useState } from 'react';
 
 const center = { lat: -34.397, lng: 150.644 };
