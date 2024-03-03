@@ -13,8 +13,16 @@ const dispensaryMiddleware =
 			next(action);
 
 			const userState = store.getState().user as AppState['user'];
+
+			console.info('dispensary middleware userState', userState);
 			const dispensaryState = store.getState()
 				.dispensary as AppState['dispensary'];
+
+			if (window.location.pathname === '/' && userState.isSignedIn) {
+				window.location.href = TextContent.href.dashboard_f(
+					dispensaryState.dispensary?.id,
+				);
+			}
 
 			// allow for easy linking
 			if (typeof window !== 'undefined' && userState.isSignedIn) {

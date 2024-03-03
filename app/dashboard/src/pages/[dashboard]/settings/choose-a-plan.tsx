@@ -1,35 +1,44 @@
-import { convertCentsToDollars, getCurrencySymbol } from '@cd/core-lib';
-import prisma, { type SubscriptionPlan } from '@cd/data-access';
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+import { type SubscriptionPlan } from '@cd/data-access';
 import {
 	Button,
 	Card,
 	FlexBox,
-	H1,
 	H2,
-	H3,
 	IconWrapper,
 	Page,
 	Paragraph,
-	Price,
 	type LayoutContextProps,
+	PageHeader,
 } from '@cd/ui-lib';
 import icons from '@cd/ui-lib/src/icons';
-import NodeCache from 'node-cache';
 import { useState } from 'react';
-import Supertokens from 'supertokens-node';
 import { twMerge } from 'tailwind-merge';
-import { backendConfig } from '../../../config/backendConfig';
-import { wrapper } from '../../../store';
 
 function PricingPlans({ plans }: { plans: SubscriptionPlan[] }) {
-	const [selectedPlan, setSelectPlan] = useState<SubscriptionPlan | null>(null);
+	const [selectPlanIndex, setSelectPlanIndex] = useState<number | null>(null);
 	const plansDummyData: SubscriptionPlan[] = [
 		{
 			id: '1',
+			name: 'Delivery Management',
+			description: `Use Gras to manage your in-house delivery operations`,
+			price: 11,
+			deliveryLimit: 32,
+			currency: 'USD',
+			isActive: true,
+			featuresDelivery: false,
+			featuresPickup: false,
+			featuresDailyDeals: false,
+			createdAt: new Date(),
+			updatedAt: new Date(),
+		},
+		{
+			id: '2',
 			name: 'Express Premium',
-			description:
-				'Premium value delivery service, including on-demand delivery and daily deals service.',
-			price: 1000000,
+			description: `Our fully-managed delivery service. 
+				Includes on-demand delivery and daily deals marketing`,
+			price: 20,
 			currency: 'USD',
 			deliveryLimit: 20,
 			isActive: true,
@@ -40,11 +49,12 @@ function PricingPlans({ plans }: { plans: SubscriptionPlan[] }) {
 			updatedAt: new Date(),
 		},
 		{
-			id: '2',
+			id: '3',
 			name: 'Express Gold',
-			description: 'Express Gold',
-			price: 1500000,
-			deliveryLimit: 32,
+			description: `Stand out to new customers in your area. 
+			Includes on-demand delivery and consumer marketing`,
+			price: 25,
+			deliveryLimit: 99,
 			currency: 'USD',
 			isActive: true,
 			featuresDelivery: true,
@@ -57,12 +67,18 @@ function PricingPlans({ plans }: { plans: SubscriptionPlan[] }) {
 
 	const colorMap: Record<string, any> = {
 		'1': {
+			text: 'text-dark',
+			main: 'gray-500',
+			accent: 'amber-300',
+			active: 'amber-400',
+		},
+		'2': {
 			text: 'text-light',
 			main: 'primary-light',
 			accent: '[#53ba70]',
 			active: 'primary',
 		},
-		'2': {
+		'3': {
 			text: 'text-dark',
 			main: 'amber-200',
 			accent: 'amber-300',
@@ -71,48 +87,91 @@ function PricingPlans({ plans }: { plans: SubscriptionPlan[] }) {
 	};
 
 	return (
-		<Page className={'m-auto h-[820px]'}>
-			<FlexBox className="flex-row justify-center m-auto self-center">
+		<Page className={'min-h-[820px]'}>
+			<PageHeader
+				title="Pick a plan that works best for your business"
+				className="mx-auto"
+			></PageHeader>
+			<FlexBox className="md:flex-row gap-4">
 				{plansDummyData.map((plan, index) => (
 					<Card
 						key={`plan-${index}`}
 						className={twMerge(
-							plan === selectedPlan && 'border border-primary-light',
-							`flex !shadow-lg flex-col mx-10 my-auto max-w-[480px] items-center space-y-2 !py-24`,
+							index === selectPlanIndex
+								? 'border-2 border-primary-light'
+								: 'border-2 border-transparent',
+							`flex !shadow-lg flex-col h-full mx-auto md:items-center px-8 bg-${
+								colorMap[plan.id]['accent']
+							}`,
 						)}
 					>
-						<H2 className="inline-flex">
-							{getCurrencySymbol(plan.currency) +
-								convertCentsToDollars(plan.price)}
-						</H2>
-						<H3 className="inline-flex">/month</H3>
-						<hr className="w-1/2" />
-						<H1 className={'text-' + colorMap[plan.id]['main']}>{plan.name}</H1>
-						<div>
+						<H2>{plan.name}</H2>
+
+						<Paragraph className="grow mt-2 font-semibold text-gray-500">
+							{plan.description}
+						</Paragraph>
+
+						<Paragraph className="font-semibold mt-4">
+							{/* {getCurrencySymbol(plan.currency) +
+								convertCentsToDollars(plan.price)}/month */}
+							{plan.price}% commission per delivery
+						</Paragraph>
+
+						<hr className="w-full my-4 border" />
+
+						<div className="space-y-2">
 							<FlexBox className="flex flex-row items-center space-x-2">
 								<IconWrapper
-									iconColor={'text-' + colorMap[plan.id]['main']}
-									Icon={plan.featuresDailyDeals ? icons.Checkmark : icons.XIcon}
+									iconColor={
+										plan.featuresDelivery
+											? colorMap[plan.id]['main']
+											: 'gray-300'
+									}
+									Icon={
+										plan.featuresDelivery
+											? icons.CheckmarkFilled
+											: icons.CloseFilled
+									}
 								/>
-								<Paragraph>{'Fast and Secure Delivery Service'}</Paragraph>
+								<Paragraph>{'Fast and Secure Delivery by Gras'}</Paragraph>
 							</FlexBox>
 							<FlexBox className="flex flex-row items-center space-x-2">
 								<IconWrapper
-									Icon={plan.featuresDailyDeals ? icons.Checkmark : icons.XIcon}
+									iconColor={
+										plan.deliveryLimit > 0
+											? colorMap[plan.id]['main']
+											: 'gray-300'
+									}
+									Icon={
+										plan.deliveryLimit > 0
+											? icons.CheckmarkFilled
+											: icons.CloseFilled
+									}
 								/>
 								<Paragraph>
 									{plan.deliveryLimit === 99
 										? `Unlimited Daily Deliveries`
-										: `Includes ${plan.deliveryLimit} daily deliveries`}
+										: `${plan.deliveryLimit} daily deliveries`}
 								</Paragraph>
 							</FlexBox>
 							<FlexBox className="flex flex-row items-center space-x-2">
 								<IconWrapper
-									Icon={plan.featuresDailyDeals ? icons.Checkmark : icons.XIcon}
+									iconColor={
+										plan.featuresDailyDeals
+											? colorMap[plan.id]['main']
+											: 'gray-300'
+									}
+									Icon={
+										plan.featuresDailyDeals
+											? icons.CheckmarkFilled
+											: icons.CloseFilled
+									}
 								/>
-								<Paragraph>{'includes Daily Deals marketing'}</Paragraph>
+								<Paragraph>{'Includes Daily Deals marketing'}</Paragraph>
+								{/* <div className='underline tool-tip' data-tip='hello'>Learn more</div> */}
 							</FlexBox>
 						</div>
+
 						<Button
 							className={`${colorMap[plan.id]['text']} !mt-12 bg-${
 								colorMap[plan.id]['main']
@@ -120,13 +179,32 @@ function PricingPlans({ plans }: { plans: SubscriptionPlan[] }) {
 								colorMap[plan.id]['active']
 							} focus:bg-${colorMap[plan.id]['active']}`}
 							size="lg"
-							onClick={() => setSelectPlan(plan)}
+							onClick={() => setSelectPlanIndex(index)}
 						>
 							Choose Plan
 						</Button>
 					</Card>
 				))}
 			</FlexBox>
+
+			<div className="p-8 items-center">
+				<Paragraph className="">
+					Do you have questions about your plan?{' '}
+					<span
+						onClick={() => {
+							window?.BrevoConversations &&
+								window?.BrevoConversations?.openChat();
+						}}
+						className="underline"
+					>
+						Get Support
+					</span>
+				</Paragraph>
+			</div>
+			{/* <div className='p-8 items-center'>
+				<H5 className=''>What else is included in your plan?</H5>
+
+			</div> */}
 		</Page>
 	);
 }
