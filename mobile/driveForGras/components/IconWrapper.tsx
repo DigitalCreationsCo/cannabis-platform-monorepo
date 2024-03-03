@@ -1,23 +1,24 @@
-import { type SVGAttributes } from 'react';
+import { type ThemeProps, useThemeColor } from './Themed';
 
-export type IconProps = {
+export type IconProps = ThemeProps & {
 	Icon: any;
-	className?: string;
 	size?: number;
-	iconColor?: string;
 	theme?: 'light' | 'dark';
+	color?: string;
 };
 export default function IconWrapper({
 	theme,
 	Icon,
-	className,
 	size = 20,
-	iconColor = theme === 'dark' ? 'light' : 'primary',
+	color,
 	...props
 }: IconProps) {
-	return (
-		<div>
-			<Icon height={size} width={size} {...props} />
-		</div>
+	const { lightColor, darkColor } = props;
+	const iconColor = useThemeColor(
+		{ light: lightColor, dark: darkColor },
+		'primary',
 	);
+	color = color || iconColor;
+
+	return <Icon size={size} color={color} {...props} />;
 }

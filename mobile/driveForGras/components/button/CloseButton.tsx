@@ -1,4 +1,3 @@
-import { type SVGAttributes } from 'react';
 import Icons from '@expo/vector-icons/MaterialIcons';
 import { View } from '../Themed';
 import IconButton from './IconButton';
@@ -11,7 +10,7 @@ interface CloseButtonProps {
 }
 
 function CloseButton({
-	Icon = <Icons name='close' />,
+	Icon = <Icons name="close" />,
 	className,
 	...props
 }: CloseButtonProps) {

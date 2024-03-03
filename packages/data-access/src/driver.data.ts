@@ -120,7 +120,7 @@ export async function updateDriverOnlineStatus(id: string, isOnline: boolean) {
 		});
 	} catch (error: any) {
 		if (error.code === 'P2025') throw new Error(error.meta.cause);
-		throw new Error(error.message);
+		throw new Error('An error occurred updating the status');
 	}
 }
 

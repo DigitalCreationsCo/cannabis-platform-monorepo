@@ -1,16 +1,18 @@
 import TextContent from '@cd/core-lib/src/constants/text.constant';
+import { updateOnlineStatus } from '@cd/core-lib/src/reducer/action/updateOnlineStatus';
 import { selectDriverState } from '@cd/core-lib/src/reducer/driver.reducer';
 import {
 	socketActions,
 	selectSocketState,
 } from '@cd/core-lib/src/reducer/socket.reducer';
-import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import { useSelector, useDispatch } from 'react-redux';
 import { Button, Center, Greeting, Screen, Text, View } from '@components';
 import { spacing } from '@constants';
 import { useLocation } from '../../../hooks';
+import newOrder from '../new-order';
 
 const useAfterMount = (func: () => void, deps: any[]) => {
 	const didMount = useRef(false);
@@ -40,9 +42,14 @@ const DriverMapScreen = () => {
 
 	useAfterMount(() => {
 		updateOnlineStatus
-			? dispatch(socketActions.openConnection())
-			: dispatch(socketActions.closingConnection());
-		// }
+			? (() => {
+					setConnectMessage('Connecting...');
+					dispatch(socketActions.openConnection());
+			  })()
+			: (() => {
+					setConnectMessage('Closing connection');
+					dispatch(socketActions.closingConnection());
+			  })();
 	}, [updateOnlineStatus]);
 
 	const router = useRouter();
@@ -55,7 +62,43 @@ const DriverMapScreen = () => {
 
 	const displayStatusPrompt = isOnline
 		? ''
-		: 'Tap Go Online to start delivering orders.';
+		: 'Tap Go Online to start delivering';
+
+	const [connectMessage, setConnectMessage] = useState(
+		TextContent.dispatch.status.STOP_DELIVERING,
+	);
+
+	// flash connected message when connected to dispatch
+	let switchBool = true;
+	let interval: NodeJS.Timeout;
+	useEffect(() => {
+		if (isOnline === true) {
+			interval = setInterval(() => {
+				switch (switchBool) {
+					case true:
+						setConnectMessage('Waiting for orders..');
+						break;
+					case false:
+						setConnectMessage(TextContent.dispatch.status.STOP_DELIVERING);
+						break;
+					default:
+						setConnectMessage(TextContent.dispatch.status.STOP_DELIVERING);
+				}
+				switchBool = !switchBool;
+			}, 3000);
+		} else {
+			clearInterval(interval);
+			setConnectMessage(TextContent.dispatch.status.STOP_DELIVERING);
+		}
+
+		if (connectionCloseInit) {
+			clearInterval(interval);
+		}
+
+		return () => {
+			clearInterval(interval);
+		};
+	}, [isOnline]);
 
 	const _displayTestVars = useMemo(
 		() => (
@@ -109,7 +152,6 @@ const DriverMapScreen = () => {
 			{/* {_displayTestVars} */}
 
 			<Center>
-				{/* <Text>env: {process.env.NEXT_PUBLIC_MAPS_API_KEY_DRIVE_PWA}</Text> */}
 				<Text style={{ color: 'red' }}>{errorMessage || ''}</Text>
 				<Text>{displayStatusPrompt}</Text>
 			</Center>
@@ -118,7 +160,7 @@ const DriverMapScreen = () => {
 				onPress={() => setUpdateOnlineStatus(!updateOnlineStatus)}
 			>
 				{isOnline
-					? TextContent.dispatch.status.STOP_DELIVERING
+					? connectMessage
 					: TextContent.dispatch.status.START_DELIVERING}
 			</Button>
 		</View>

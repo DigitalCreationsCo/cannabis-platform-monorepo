@@ -1,8 +1,10 @@
 /* eslint-disable sonarjs/no-duplicated-branches */
 import { pruneData, TextContent } from '@cd/core-lib';
+import { IntegrationService } from '@cd/core-lib/src/lib/point-of-sale/IntegrationService';
 import {
 	type OrderWithFullDetails,
 	type OrderCreateType,
+	type OrderWithDispatchDetails,
 } from '@cd/data-access';
 import { createId } from '@paralleldrive/cuid2';
 import { ShopDA } from '../data-access';
@@ -72,7 +74,7 @@ export default class ShopController {
 				},
 				destinationAddress: true,
 				route: true,
-			})) as OrderWithFullDetails;
+			})) as unknown as OrderWithDispatchDetails['order'];
 
 			// update order status
 			await ShopDA.updateOrderFulfillmentStatus(orderId, 'Processing');

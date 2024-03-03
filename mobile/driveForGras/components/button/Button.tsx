@@ -6,7 +6,7 @@ import Center from '../atomic/Center';
 import LoadingDots from '../LoadingDots';
 import { Text, type ThemeProps, useThemeColor } from '../Themed';
 
-type ButtonProps = TouchableOpacityProps &
+export type ButtonProps = TouchableOpacityProps &
 	ThemeProps & {
 		// size?: 'lg' | 'sm' | 'md';
 		// bg?:
@@ -22,8 +22,8 @@ type ButtonProps = TouchableOpacityProps &
 		// borderColor?: string;
 		// className?: string;
 		// disabled?: boolean;
-		primary: boolean;
-		secondary: boolean;
+		primary?: boolean;
+		secondary?: boolean;
 		loading?: boolean;
 		// onPress?: (event: GestureResponderEvent) => void;
 		// icon?: any;
@@ -62,6 +62,8 @@ export default function Button({
 	const buttonStyle = props.secondary
 		? styles.view.buttonSecondary
 		: styles.view.buttonPrimary;
+
+	const textStyle = props.secondary ? styles.text.secondary : styles.text.p;
 	return (
 		<TouchableOpacity
 			style={[{ backgroundColor, borderColor }, buttonStyle, style]}
@@ -74,7 +76,7 @@ export default function Button({
 					<LoadingDots />
 				</Center>
 			) : (
-				<Text style={[styles.text.p, { color, fontWeight: '500' }]}>
+				<Text style={[textStyle, { color, fontWeight: '500' }]}>
 					{props.children}
 				</Text>
 			)}

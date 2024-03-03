@@ -1564,6 +1564,7 @@ const createOrders = async () => {
 	// ORDER
 	const orders: Prisma.OrderCreateInput[] = [
 		{
+			id: 'clmwcjxec0000vk9bc7u79p81',
 			deliveryFee: 9999,
 			platformFee: 1200,
 			mileageFee: 1425,

@@ -1,4 +1,8 @@
-import { calculateProductSaleAtQuantity } from '@cd/core-lib/src/utils/transaction.util';
+import {
+	calculateProductSaleAtQuantity,
+	convertCentsToDollars,
+} from '@cd/core-lib/src/utils/transaction.util';
+import { type TextStyle } from 'react-native';
 import { View, Text } from './Themed';
 
 type PriceProps = {
@@ -10,6 +14,7 @@ type PriceProps = {
 	locale?: string; // country
 	showDiscount?: boolean;
 	showOriginalPrice?: boolean;
+	textStyle?: TextStyle;
 };
 
 function Price({
@@ -21,13 +26,13 @@ function Price({
 	showDiscount = false,
 	showOriginalPrice = false,
 	locale = 'en-us',
+	textStyle,
 }: PriceProps) {
 	const _currencySymbol: any = { 'en-us': '$' };
 
 	const base = basePrice * quantity;
 
-	// const toDollars = (value: number): string => convertCentsToDollars(value);
-	const toDollars = (value: number): string => value.toString();
+	const toDollars = (value: number): string => convertCentsToDollars(value);
 
 	return (
 		<View>
@@ -35,7 +40,7 @@ function Price({
 				<Text>{_currencySymbol[locale] + toDollars(base)}</Text>
 			)}
 			{showDiscount && discount > 0 && <Text>`${discount}% off`</Text>}
-			<Text>
+			<Text style={textStyle}>
 				{_currencySymbol[locale] +
 					toDollars(
 						calculateProductSaleAtQuantity({
