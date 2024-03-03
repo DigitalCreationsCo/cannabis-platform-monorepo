@@ -19,7 +19,7 @@
 // 	utils,
 // 	dummyData,
 // };
-
+import * as SMSModule from './lib/sms';
 export * from './auth';
 export * from './axiosInstance';
 export * from './constants';
@@ -30,6 +30,8 @@ export * from './types';
 export * from './utils';
 export * from './dummyData';
 // export * from './lib'; // import lib files directly from the lib folder
+// eslint-disable-next-line import/no-cycle
+export { SMSModule };
 
 // async function loadAsyncModules(module: Promise<any>) {
 //     return await module;

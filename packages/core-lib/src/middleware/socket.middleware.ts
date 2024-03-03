@@ -2,7 +2,9 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import { type OrderWithDispatchDetails } from '@cd/data-access';
+import { type Store } from '@reduxjs/toolkit';
 import { io, type Socket } from 'socket.io-client';
+import { type AppState } from 'types';
 import { driverActions } from '../reducer/driver.reducer';
 import { socketActions } from '../reducer/socket.reducer';
 import {
@@ -13,34 +15,76 @@ import {
 import { getProperty } from '../utils';
 import { urlBuilder } from '../utils/urlBuilder';
 
-const socketMiddleware = (store: any) => {
-	console.info('socket middleware');
-	/**
-	 * Get orderId from socket key (socket.id) ?
-	 * @param socketKey
-	 * @returns orderId
-	 */
-	function getOrderIdFromSocketKey(socketKey: string) {
-		return socketKey && socketKey.split(':')[1];
-	}
-
-	/**
-	 * Get socket connection from socketMap
-	 * @param orderId
-	 * @returns Socket | null
-	 */
-	function getSocket(socketKey: string) {
-		// const socketKey = 'order:' + orderId;
-		return getProperty(socketMap, socketKey);
-	}
-
-	const socketMap: Record<string, Socket> = {};
-
-	let dispatch_socket: Socket | null;
-
+const socketMiddleware = (store: Store<AppState>) => {
 	// eslint-disable-next-line sonarjs/cognitive-complexity
 	return (next: any) => async (action: any) => {
 		next(action);
+
+		const socketMap: Record<string, Socket> = {};
+		let dispatch_socket = getSocket('dispatch_socket');
+
+		/**
+		 * Get socket connection from socketMap
+		 * @param orderId
+		 * @returns Socket | null
+		 */
+		function getSocket(socketKey: string): Socket | null {
+			// const socketKey = 'order:' + orderId;
+			if (getProperty(socketMap, socketKey))
+				return getProperty(socketMap, socketKey);
+			return null;
+		}
+
+		/**
+		 * Get orderId from socket key (socket.id) ?
+		 * @param socketKey
+		 * @returns orderId
+		 */
+		function getOrderIdFromSocketKey(socketKey: string) {
+			return socketKey && socketKey.split(':')[1];
+		}
+
+		async function connectSocketOrTimeoutError(): Promise<string> {
+			console.info('dispatch socket', getSocket('dispatch_socket'));
+
+			if (!getSocket('dispatch_socket')) {
+				dispatch_socket = io(urlBuilder.dispatch.connect(), {
+					// query: { token },
+					autoConnect: true,
+					transports: ['websocket'],
+					// jsonp: false,
+				});
+
+				console.debug(' connected new dispatch_socket');
+			} else {
+				socketMap['dispatch_socket'].connect();
+				console.debug(' reconnected dispatch_socket');
+			}
+
+			return await Promise.race([
+				new Promise((resolve, reject) => {
+					dispatch_socket.on('connect', () => {
+						resolve(dispatch_socket);
+					});
+					dispatch_socket.on('connect_error', (err) => {
+						reject(err);
+					});
+					dispatch_socket.on('connect_timeout', (err) => {
+						reject(err);
+					});
+					dispatch_socket.on('error', (err) => {
+						reject(err);
+					});
+				}),
+				new Promise((resolve, reject) => {
+					setTimeout(() => {
+						reject(new Error('Error connecting dispatch socket.'));
+					}, 2000);
+				}),
+			]);
+		}
+
+		// if (!dispatch_socket && isOnline) await connectSocketOrTimeoutError();
 
 		const { id, phone } = store.getState().driver.driver.user;
 
@@ -49,11 +93,8 @@ const socketMiddleware = (store: any) => {
 			store.dispatch(socketActions.setError(action.payload.error));
 		}
 
-		console.info('socket middleware action: ', action.type);
 		// socket event handlers
 		if (socketActions.openConnection.match(action)) {
-			console.info('socket_middleware: connecting to dispatch server');
-
 			// GET JWT FROM ST SESSION, THEN SEND JWT TO DISPATCH SERVER
 			// const token = await Session.getAccessToken();
 			// if (token === undefined) {
@@ -70,41 +111,7 @@ const socketMiddleware = (store: any) => {
 			// 2. if failure, update driver status isOnline false
 
 			try {
-				async function connectSocketOrTimeout(): Promise<string> {
-					dispatch_socket = io(urlBuilder.dispatch.connect(), {
-						// query: { token },
-						autoConnect: true,
-						transports: ['websocket'],
-						// jsonp: false,
-					});
-
-					console.debug('creating dispatch_socket');
-
-					return await Promise.race([
-						new Promise((resolve, reject) => {
-							dispatch_socket.on('connect', () => {
-								resolve(dispatch_socket);
-							});
-							dispatch_socket.on('connect_error', (err) => {
-								reject(err);
-							});
-							dispatch_socket.on('connect_timeout', (err) => {
-								reject(err);
-							});
-							dispatch_socket.on('error', (err) => {
-								reject(err);
-							});
-						}),
-						new Promise((resolve, reject) => {
-							setTimeout(() => {
-								reject(new Error('Error connecting dispatch socket.'));
-							}, 2000);
-						}),
-					]);
-				}
-
-				dispatch_socket = await connectSocketOrTimeout();
-				socketMap['dispatch_socket'] = dispatch_socket;
+				await connectSocketOrTimeoutError();
 
 				store.dispatch(driverActions.updateOnlineStatus(true));
 			} catch (error) {
@@ -186,8 +193,8 @@ const socketMiddleware = (store: any) => {
 			);
 
 			dispatch_socket?.on(SocketEvent.disconnect, () => {
-				console.info('disconnecting from dispatch socket.');
-				delete socketMap['dispatch_socket'];
+				// console.info('disconnecting from dispatch socket.');
+				// delete socketMap['dispatch_socket'];
 			});
 		}
 
@@ -363,14 +370,14 @@ const socketMiddleware = (store: any) => {
 
 					// dispatch socket disconnect
 					dispatch_socket?.on(SocketEvent.disconnect, () => {
-						console.info('disconnect dispatch socket again, to be sure.');
-						delete socketMap['dispatch_socket'];
+						// should dispatch socket be cleared? I think not in case of error status
+						// delete socketMap['dispatch_socket'];
 					});
 
 					// order socket disconnect
 					_order_socket_connection.on(SocketEvent.disconnect, () => {
-						console.info('disconnecting from socket room: ' + socketKey);
 						delete socketMap[socketKey];
+						console.info('disconnected from socket room: ' + socketKey);
 					});
 
 					// old comment: handle middleware after the action is executed
@@ -391,7 +398,7 @@ const socketMiddleware = (store: any) => {
 							);
 
 							// handle disconnect from room
-							// delete socketMap[socketKey];
+							delete socketMap[socketKey];
 						}
 						const remainingRoute = store.getState().socket.remainingRoute;
 						console.info(
@@ -412,10 +419,9 @@ const socketMiddleware = (store: any) => {
 			console.info('socket-middleware: closing connection ');
 			try {
 				store.dispatch(driverActions.updateOnlineStatus(false));
-				if (dispatch_socket) {
-					dispatch_socket.close();
+				if (socketMap['dispatch_socket']) {
+					socketMap['dispatch_socket'].close();
 					delete socketMap['dispatch_socket'];
-					dispatch_socket = null;
 				}
 				store.dispatch(socketActions.connectionClosed());
 			} catch (error) {
@@ -424,7 +430,6 @@ const socketMiddleware = (store: any) => {
 			}
 		}
 	};
-	console.info('socket middleware end');
 };
 
 export default socketMiddleware;

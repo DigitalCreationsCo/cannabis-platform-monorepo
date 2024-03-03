@@ -107,7 +107,6 @@ return both of them, concat to routeList
 // );
 
 export type SocketStateType = {
-	socketMap: Record<string, Socket>;
 	connectionOpenInit: boolean;
 	connectionCloseInit: boolean;
 	isConnectedToDispatch: boolean;
@@ -121,7 +120,6 @@ export type SocketStateType = {
 };
 
 const initialState: SocketStateType = {
-	socketMap: {},
 	connectionOpenInit: false,
 	connectionCloseInit: false,
 	isConnectedToDispatch: false,
