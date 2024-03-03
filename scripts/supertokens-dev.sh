@@ -1,3 +1,5 @@
+#!/bin/sh
+
 #  Local development image for supertokens
 docker run \
 	--name supertokens \
