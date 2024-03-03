@@ -1,6 +1,7 @@
+import socketMiddleware from '@cd/core-lib/src/middleware/socket.middleware';
+import stateChangeLogger from '@cd/core-lib/src/middleware/state.middleware';
 import { driverReducer } from '@cd/core-lib/src/reducer/driver.reducer';
 import { socketReducer } from '@cd/core-lib/src/reducer/socket.reducer';
-import socketMiddleware from '@cd/core-lib/src/middleware/socket.middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { combineReducers, configureStore, type Store } from '@reduxjs/toolkit';
 import {
@@ -26,6 +27,9 @@ const config = {
 	storage: AsyncStorage,
 };
 
+const additionalMiddlewaresInDevMode =
+	process.env.NODE_ENV !== 'production' ? [stateChangeLogger] : [];
+
 // TEST HOW REDUX STORE REACTS IN HOT RELOADING
 // IF ISSUES, ADD THIS CODE
 // if (module.hot) {
@@ -49,17 +53,19 @@ const makeStore = () => {
 	const store = configureStore({
 		devTools: process.env.NODE_ENV !== 'production',
 		reducer: persistReducer(config, rootReducer),
-		middleware: (getDefaultMiddleware) => [
-			...getDefaultMiddleware({
-				serializableCheck: {
-					ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-				},
-				thunk: {
-					extraArgument: thunkArguments,
-				},
-			}),
-			socketMiddleware,
-		] as any,
+		middleware: (getDefaultMiddleware) =>
+			[
+				...getDefaultMiddleware({
+					serializableCheck: {
+						ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+					},
+					thunk: {
+						extraArgument: thunkArguments,
+					},
+				}),
+				socketMiddleware,
+				...additionalMiddlewaresInDevMode,
+			] as any,
 	});
 	thunkArguments.store = store;
 

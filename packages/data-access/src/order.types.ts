@@ -127,7 +127,7 @@ export type PurchaseCreate = Prisma.PurchaseCreateArgs['data'];
 export type OrderWithDispatchDetails = {
 	order: Order & {
 		customer: User;
-		organization: OrganizationWithDashboardDetails;
+		organization: OrganizationWithOrderDetails;
 		driver: DriverWithDetails | null;
 		route: RouteWithCoordinates;
 		destinationAddress: AddressWithCoordinates;

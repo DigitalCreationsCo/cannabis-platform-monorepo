@@ -1,9 +1,16 @@
-import { type TextStyle, type ViewStyle } from 'react-native';
+import {
+	type TextStyle,
+	type ViewStyle,
+	type TextInputProps,
+} from 'react-native';
 import { fontSize, shadow, spacing } from './constants';
 
-const textStyles = Object.freeze<Record<string, TextStyle>>({
+const textStyles = Object.freeze<
+	Record<'h' | 'p' | 'secondary' | 'error', TextStyle>
+>({
 	h: { fontSize: fontSize.lg, letterSpacing: 0.4 },
 	p: { fontSize: fontSize.sm, letterSpacing: 0.4 },
+	secondary: { textDecorationLine: 'underline' },
 	error: {
 		fontSize: fontSize.sm,
 		color: '#dd1616',
@@ -12,7 +19,17 @@ const textStyles = Object.freeze<Record<string, TextStyle>>({
 	},
 });
 
-const viewStyles = Object.freeze<Record<string, ViewStyle>>({
+const viewStyles = Object.freeze<
+	Record<
+		| 'container'
+		| 'row'
+		| 'center'
+		| 'padding'
+		| 'buttonPrimary'
+		| 'buttonSecondary',
+		ViewStyle
+	>
+>({
 	container: {
 		width: '100%',
 		height: '100%',
@@ -45,7 +62,9 @@ const viewStyles = Object.freeze<Record<string, ViewStyle>>({
 	},
 });
 
-const inputStyles = Object.freeze<Record<string, ViewStyle>>({
+const inputStyles = Object.freeze<
+	Record<'textFieldContainer' | 'textField', TextInputProps['style']>
+>({
 	textFieldContainer: {
 		borderWidth: 1,
 		borderColor: 'green',

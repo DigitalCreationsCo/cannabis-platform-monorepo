@@ -22,11 +22,11 @@ class SelectDriverRoom extends WorkerRoom {
 			dispatchEvents.new_order,
 			(order: OrderWithDispatchDetails['order']) => {
 				clients.forEach((client) => {
-					this.messager.sendSMS({
-						event: dispatchEvents.new_order,
-						phone: client.phone,
-						data: SMSTemplate.driver.new_order_f(order),
-					});
+					// this.messager.sendSMS({
+					// 	event: dispatchEvents.new_order,
+					// 	phone: client.phone,
+					// 	data: SMSTemplate.driver.new_order_f(order),
+					// });
 					this.messager.sendSocketMessage({
 						event: dispatchEvents.new_order,
 						socketId: client.socketId,
@@ -54,12 +54,12 @@ class SelectDriverRoom extends WorkerRoom {
 							(acceptingC) => acceptingC.userId === client.userId,
 						)
 					) {
-						this.messager.sendSMS({
-							event: dispatchEvents.order_assigned_to_another_driver,
-							phone: client.phone,
-							data: TextContent.dispatch.status
-								.ORDER_ASSIGNED_TO_ANOTHER_DRIVER,
-						});
+						// this.messager.sendSMS({
+						// 	event: dispatchEvents.order_assigned_to_another_driver,
+						// 	phone: client.phone,
+						// 	data: TextContent.dispatch.status
+						// 		.ORDER_ASSIGNED_TO_ANOTHER_DRIVER,
+						// });
 						this.messager.sendSocketMessage({
 							event: dispatchEvents.order_assigned_to_another_driver,
 							socketId: client.socketId,
@@ -77,11 +77,11 @@ class SelectDriverRoom extends WorkerRoom {
 						console.info(
 							`${this.id}: client ${client.userId} accepted order ${client.orderId}`,
 						);
-						this.messager.sendSMS({
-							event: dispatchEvents.order_assigned,
-							phone: client.phone,
-							data: TextContent.dispatch.status.ACCEPT_ORDER,
-						});
+						// this.messager.sendSMS({
+						// 	event: dispatchEvents.order_assigned,
+						// 	phone: client.phone,
+						// 	data: TextContent.dispatch.status.ACCEPT_ORDER,
+						// });
 						this.messager.sendSocketMessage({
 							event: dispatchEvents.order_assigned,
 							socketId: client.socketId,

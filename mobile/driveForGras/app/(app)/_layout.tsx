@@ -1,7 +1,7 @@
 import { selectDriverState } from '@cd/core-lib/src/reducer/driver.reducer';
-import {useSelector } from 'react-redux'
 import { Redirect, Stack } from 'expo-router';
 import { useColorScheme } from 'react-native';
+import { useSelector } from 'react-redux';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const unstable_settings = {
@@ -19,6 +19,7 @@ export default function AppStack() {
 			screenOptions={{
 				animation: 'simple_push',
 				animationTypeForReplace: 'push',
+				animationDuration: 200,
 				headerShown: false,
 				// headerTintColor: Colors[colorScheme ?? 'light'].tint,
 				// navigationBarColor: Colors[colorScheme ?? 'light'].background,

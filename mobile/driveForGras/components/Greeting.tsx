@@ -1,16 +1,18 @@
 import { selectDriverState } from '@cd/core-lib/src/reducer/driver.reducer';
 import Icons from '@expo/vector-icons/MaterialIcons';
-import { Text, Row } from './Themed';
-import {useSelector } from 'react-redux'
+import { useSelector } from 'react-redux';
+import { Padding } from './atomic';
+import IconWrapper from './IconWrapper';
+import { Text } from './Themed';
 
 export default function Greeting() {
 	const {
 		user: { username },
 	} = useSelector(selectDriverState).driver;
 	return (
-		<Row>
+		<Padding style={{ flexDirection: 'row', alignItems: 'center' }}>
 			<Text>Good day{(username && `, ${username}`) || ''}!</Text>
-			<Icons name="nature" />
-		</Row>
+			<IconWrapper Icon={() => <Icons name="local-taxi" size={32} />} />
+		</Padding>
 	);
 }
