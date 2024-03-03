@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { TextContent, type dispatchEvents } from '../../';
-import { type SMSAPI } from './Telnyx/telnyx';
+import { TextContent } from '../..';
+import { type dispatchEvents } from '../../types/socket.types';
+import { type SMSAPI } from './Telnyx/telnyx.mjs';
 
 class SMSModule {
 	apiName: SMSApiProvider;
@@ -13,7 +14,7 @@ class SMSModule {
 				);
 				break;
 			case 'Telnyx':
-				import('./Telnyx/telnyx').then(
+				import('./Telnyx/telnyx.mjs').then(
 					(Telnyx) => (this.smsApi = Telnyx.default),
 				);
 				break;

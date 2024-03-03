@@ -14,14 +14,31 @@ export const updateOnlineStatus = createAsyncThunk<
 	try {
 		const state = thunkAPI.getState() as AppState;
 		const id = state.driver.driver.user.id;
-		const response = await axios.post(urlBuilder.main.driverUpdateStatus(), {
-			id,
-			onlineStatus,
-		});
-		if (response.data.success === 'false') throw new Error(response.data.error);
+		const token = state.driver.token;
+		const status = state.driver.driver.driverSession.isOnline;
+		// if updateStatus does not match the current status, then update the status in db
+		// otherwise ignore
+
+		let response;
+		if (status !== onlineStatus) {
+			response = await axios.post(
+				urlBuilder.main.driverUpdateStatus(),
+				{
+					id,
+					onlineStatus,
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				},
+			);
+			if (response.data.success === 'false')
+				throw new Error(response.data.error);
+		}
+
 		return {
-			...response.data,
-			success: 'true',
+			success: response?.data.success || 'true',
 			isOnline: onlineStatus,
 		};
 	} catch (error) {
