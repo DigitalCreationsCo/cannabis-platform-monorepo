@@ -1,25 +1,29 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { TextContent } from '../..';
-import { type dispatchEvents } from '../../types/socket.types';
-import { type SMSAPI } from './Telnyx/telnyx.mjs';
+import { TextContent } from '../constants';
+import { type dispatchEvents } from '../types/socket.types';
+
+export type SMSAPI = {
+	send: (event: any, phoneTo: string, data: string) => Promise<any>;
+};
 
 class SMSModule {
 	apiName: SMSApiProvider;
 	smsApi: SMSAPI | undefined;
 	constructor(apiName: SMSApiProvider) {
 		switch (apiName) {
-			case 'TextGrid':
-				import('./TextGrid/textgrid').then(
-					(TextGrid) => (this.smsApi = TextGrid.default),
-				);
-				break;
-			case 'Telnyx':
-				import('./Telnyx/telnyx.mjs').then(
-					(Telnyx) => (this.smsApi = Telnyx.default),
-				);
-				break;
+			// case 'TextGrid':
+			// 	import('./TextGrid/textgrid').then(
+			// 		(TextGrid) => (this.smsApi = TextGrid.default),
+			// 	);
+			// 	break;
+			// case 'Telnyx':
+			// 	import('./Telnyx/telnyx.mjs').then(
+			// 		(Telnyx) => (this.smsApi = Telnyx.default),
+			// 	);
+			// 	break;
 			case 'DailyStory':
-				import('./DailyStory/dailystory').then(
+				// eslint-disable-next-line import/no-cycle
+				import('../lib/DailyStory/dailystory').then(
 					(DailyStory) => (this.smsApi = DailyStory.default),
 				);
 				break;

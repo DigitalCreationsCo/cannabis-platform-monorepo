@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import axios from 'axios';
-import { dispatchEvents } from '../../..';
+import { dispatchEvents } from '../../types/socket.types';
 
 class SMSModule {
 	smsApi: 'DailyStory';

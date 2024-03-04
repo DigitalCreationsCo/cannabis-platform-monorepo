@@ -1,4 +1,4 @@
-import { type Client, isEmpty } from '@cd/core-lib';
+import { Client, isEmpty } from '@cd/core-lib';
 import { createClient } from 'redis';
 
 const redisDispatchClients = createClient({
@@ -23,7 +23,26 @@ class RedisDispatchClientsController {
 			.catch((error: any) => {
 				console.error('saveClient: ', error);
 			});
-		console.info('saved client to redis: ', client);
+		console.debug(`RedisDispatchClientsController saveClient`, { client });
+	}
+
+	async mergeClient(client: Client) {
+		const prevClient = await this.getOneClientByPhone(client.phone);
+
+		const mergeClient = Object.entries(client)
+			.filter(([key, value]) => value !== undefined)
+			.reduce((client: any, [key, value]) => {
+				client[key] = value;
+				return client;
+			}, prevClient);
+
+		await redisDispatchClients
+			.SET(client.phone, JSON.stringify({ ...mergeClient }))
+			.catch((error: any) => {
+				console.error('saveClient: ', error);
+			});
+		console.info('merged client to redis: ', mergeClient);
+		return new Client({ ...mergeClient });
 	}
 
 	async getManyClientsByPhone(idList: { phone: string }[]) {

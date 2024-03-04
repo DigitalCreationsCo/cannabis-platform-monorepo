@@ -55,13 +55,15 @@ export default class DriverDA {
 		createDriverData: DriverCreateType,
 	) {
 		try {
+			console.info('createDriverAndDriverSession', createDriverData);
+
 			const driver = await createDriver(createDriverData);
 			const driverSession = await driverSessions.insertOne({
 				id: driver.id,
-				email: driver.email,
-				phone: driver.user.phone,
-				firstName: driver.user.firstName,
-				lastName: driver.user.lastName,
+				email: createDriverData.email,
+				phone: createDriverData.phone,
+				firstName: createDriverData.firstName,
+				lastName: createDriverData.lastName,
 				isOnline: false,
 				isActiveDelivery: false,
 				currentCoordinates: getCoordinatePairFromCoordinates(

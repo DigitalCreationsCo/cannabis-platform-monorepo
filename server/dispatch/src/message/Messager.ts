@@ -43,10 +43,11 @@ class Messager {
 		data,
 	}: {
 		event: any;
-		socketId: string | undefined;
+		socketId: string;
 		data?: string;
 	}) {
-		console.info(`emit socket event ${event} to ${socketId}, data: ${data}`);
+		console.debug('sendSocketMessage', { event, socketId, data });
+		io.to(socketId).emit(event, data);
 	}
 }
 

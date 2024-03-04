@@ -18,13 +18,12 @@ import {
 	type Vendor,
 } from '@prisma/client';
 import axios from 'axios';
-import { type DailyDealCreateWithSkus } from 'sms.data.js';
-import {
-	type OrganizationWithOrderDetails,
-	type OrganizationCreateType,
-} from '../organization.types.js';
+import { type DriverCreateType } from '../driver.types.js';
+import { type OrganizationCreateType } from '../organization.types.js';
 import { type ReviewWithUserDetails } from '../product.data.js';
 
+const token =
+	'eyJraWQiOiJzLTcwNGFiZDY3LTBmYmMtNDc1My04YWM0LTJjMWZlYTBiNDY2MiIsInR5cCI6IkpXVCIsImFsZyI6IlJTMjU2In0.eyJpYXQiOjE3MDk0Njg2NTYsImV4cCI6NDg2MzA2ODY1NiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo2MDAxIiwic291cmNlIjoibWljcm9zZXJ2aWNlIn0.apLHMSL7UcI67yfm3OvnX2YiT4Cs19VB2lwUihQY7pJDCAPt7L8u-H7rHCQs5doMzQUdn_TxSNIr2ibCx6JI9txlsM6Z2cLzPVn7SdcWmt9O5PS9fT0eWO_gJIi-RSpTFAeHfwt8_sKxcXwPB5lmeK3koRBpXk7-hXd1JIF68qMRryq9HfP8xe6WyKaeYiSsVpf-oEWeJ-lUnZ4z1SgdgnCvTl85clqs7H9j7tfg6JlPtVZ0GM1YUr8Q6tY3pCRtB6i96kLVo8g_Y5V6Y3t0uLKOYT_GA-c_Oqr5FR0UT-B17ONTdCrHTDhk0_alQoXpogQlDZj47dDahV5RpgBlrQ';
 const prisma = new PrismaClient({
 	datasources: { db: { url: process.env.DATABASE_URL } },
 });
@@ -310,14 +309,26 @@ async function createOrganizations() {
 				},
 				orders: {
 					create: {
-						subtotal: 12000,
 						total: 12399,
 						taxFactor: 0.6,
 						taxAmount: 1239,
 						orderStatus: 'Pending',
-						customerId: 'bfhk6k4u7xq030hr6wvgiwao',
-						addressId: '5',
-						driverId: 'bf346k4u7x2b2hhr6wvgiwao',
+						subtotal: 12000,
+						customer: {
+							connect: {
+								id: 'bfhk6k4u7xq030hr6wvgiwao',
+							},
+						},
+						driver: {
+							connect: {
+								id: 'bf346k4u7x2b2hhr6wvgiwao',
+							},
+						},
+						destinationAddress: {
+							connect: {
+								id: '3',
+							},
+						},
 						purchase: {
 							create: {
 								paymentStatus: 'Pending',
@@ -541,9 +552,21 @@ async function createOrganizations() {
 						taxFactor: 0.6,
 						taxAmount: 1239,
 						orderStatus: 'Pending',
-						customerId: 'bfhk6k4u7xq030hr6wvgiwao',
-						addressId: '5',
-						driverId: 'bf346k4u7x2b2hhr6wvgiwao',
+						customer: {
+							connect: {
+								id: 'bfhk6k4u7xq030hr6wvgiwao',
+							},
+						},
+						destinationAddress: {
+							connect: {
+								id: '3',
+							},
+						},
+						driver: {
+							connect: {
+								id: 'bf346k4u7x2b2hhr6wvgiwao',
+							},
+						},
 						purchase: {
 							create: {
 								paymentStatus: 'Pending',
@@ -1069,6 +1092,9 @@ async function createOrganizations() {
 							subdomain: organization.subdomainId,
 						},
 						{
+							headers: {
+								Authorization: `Bearer ${token}`,
+							},
 							validateStatus: (status) =>
 								(status >= 200 && status <= 302) || status == 404,
 						},
@@ -1409,155 +1435,132 @@ const createCategories = async () => {
 
 const createDrivers = async () => {
 	// DRIVERS
-	await prisma.driver.upsert({
-		where: {
+	const drivers: DriverCreateType[] = [
+		{
+			driver: {
+				email: 'bmejiadeveloper2@gmail.com',
+			},
 			email: 'bmejiadeveloper2@gmail.com',
-		},
-		create: {
-			email: 'bmejiadeveloper2@gmail.com',
-			createdAt: new Date(),
-			updatedAt: new Date(),
-			user: {
-				create: {
+			id: 'bf346k4u7x2b2hhr6wvgiwao',
+			firstName: 'Bryant',
+			lastName: 'Mejia',
+			username: 'BigChiefa',
+			phone: '1232343456',
+			emailVerified: true,
+			isLegalAge: null,
+			idVerified: true,
+			isSignUpComplete: true,
+			dialCode: '1',
+			idFrontImage: '',
+			idBackImage: '',
+			termsAccepted: true,
+			address: [
+				{
+					street1: '1234 Main St',
+					city: 'Baltimore',
+					state: 'MD',
+					zipcode: 21202,
+					country: 'United_States',
+
+					countryCode: 'US',
+					coordinates: {
+						latitude: 39.2904,
+						longitude: -76.6122,
+					},
 					createdAt: new Date(),
 					updatedAt: new Date(),
-					id: 'bf346k4u7x2b2hhr6wvgiwao',
-					firstName: 'Bryant',
-					lastName: 'Mejia',
-					username: 'BigChiefa',
-					email: 'bmejiadeveloper2@gmail.com',
-					phone: '1232343456',
-					emailVerified: true,
-					isLegalAge: null,
-					idVerified: true,
-					isSignUpComplete: true,
-					dialCode: '1',
-					idFrontImage: '',
-					idBackImage: '',
-					termsAccepted: true,
-					address: {
-						create: {
-							street1: '1234 Main St',
-							city: 'Baltimore',
-							state: 'MD',
-							zipcode: 21202,
-							country: 'United_States',
-							countryCode: 'US',
-							createdAt: new Date(),
-							updatedAt: new Date(),
-						},
-					},
-					profilePicture: {
-						create: {
-							location:
-								'https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png',
-							blurhash: 'dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH',
-							createdAt: new Date(),
-							updatedAt: new Date(),
-						},
-					},
 				},
+			],
+			profilePicture: {
+				userId: 'bf346k4u7x2b2hhr6wvgiwao',
+				location:
+					'https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png',
+				blurhash: 'dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH',
+				createdAt: new Date(),
+				updatedAt: new Date(),
 			},
+			memberships: [],
 		},
-		update: {
-			email: 'bmejiadeveloper2@gmail.com',
-			createdAt: new Date(),
-			updatedAt: new Date(),
-			user: {
-				connect: {
-					email: 'bmejiadeveloper2@gmail.com',
-				},
-			},
-		},
-	});
-	await prisma.driver.upsert({
-		where: {
+		{
+			driver: { email: 'bryantmejia@grascannabis.org' },
+			email: 'bryantmejia@grascannabis.org',
 			id: 'jjyt0krxhwdmtg4um1cj56on',
-		},
-		create: {
-			email: 'bryantmejia@grascannabis.org',
-			createdAt: new Date(),
-			updatedAt: new Date(),
-			user: {
-				connectOrCreate: {
-					where: { id: 'jjyt0krxhwdmtg4um1cj56on' },
-					create: {
-						email: 'bryantmejia@grascannabis.org',
-						id: 'jjyt0krxhwdmtg4um1cj56on',
-						firstName: 'Bryant',
-						lastName: 'Mejia',
-						username: 'bmejia248',
-						emailVerified: true,
-						isLegalAge: true,
-						isSignUpComplete: true,
-						termsAccepted: true,
-						idVerified: true,
-						scannedDOB: '2023-09-02T19:45:01.192Z',
-						dialCode: '1',
-						phone: '5707901185',
-						address: {
-							connectOrCreate: {
-								where: { id: 'clm2fooj6000ovksiht6oif7z' },
-								create: {
-									id: 'clm2fooj6000ovksiht6oif7z',
-									street1: '832 Columbia Avenue',
-									street2: '',
-									city: 'Lancaster',
-									state: 'PA',
-									zipcode: 17603,
-									country: 'United_States',
-									countryCode: 'US',
-									coordinates: {
-										connectOrCreate: {
-											where: {
-												id: 'clm2fopi0000wvksikbl2upwp',
-											},
-											create: {
-												id: 'clm2fopi0000wvksikbl2upwp',
-												latitude: 40.0379959,
-												longitude: -76.3229132,
-												radius: null,
-												createdAt: '2023-09-02T19:45:36.791Z',
-												updatedAt: '2023-09-02T19:45:36.791Z',
-											},
-										},
-									},
-									createdAt: '2023-09-02T19:45:35.538Z',
-									updatedAt: '2023-09-02T19:45:36.791Z',
-								},
-							},
-						},
-						profilePicture: {
-							connectOrCreate: {
-								where: {
-									id: 'clm2foj6r000gvksi76ql2f8d',
-								},
-								create: {
-									id: 'clm2foj6r000gvksi76ql2f8d',
-									location:
-										'https://storage.cloud.google.com/image-user/avatar6.png?authuser=1',
-									blurhash: null,
-									createdAt: '2023-09-02T19:45:28.610Z',
-									updatedAt: '2023-09-02T19:45:28.610Z',
-								},
-							},
-						},
+			firstName: 'Bryant',
+			lastName: 'Mejia',
+			username: 'bmejia248',
+			emailVerified: true,
+			isLegalAge: true,
+			isSignUpComplete: true,
+			termsAccepted: true,
+			idVerified: true,
+			scannedDOB: '2023-09-02T19:45:01.192Z',
+			dialCode: '1',
+			phone: '5707901185',
+			address: [
+				{
+					id: 'clm2fooj6000ovksiht6oif7z',
+					street1: '832 Columbia Avenue',
+					street2: '',
+					city: 'Lancaster',
+					state: 'PA',
+					zipcode: 17603,
+					country: 'United_States',
+					countryCode: 'US',
+					coordinates: {
+						latitude: 40.0379959,
+						longitude: -76.3229132,
+						radius: null,
+						createdAt: '2023-09-02T19:45:36.791Z',
+						updatedAt: '2023-09-02T19:45:36.791Z',
 					},
+					createdAt: '2023-09-02T19:45:35.538Z',
+					updatedAt: '2023-09-02T19:45:36.791Z',
 				},
+			],
+			profilePicture: {
+				userId: 'jjyt0krxhwdmtg4um1cj56on',
+				id: 'clm2foj6r000gvksi76ql2f8d',
+				location:
+					'https://storage.cloud.google.com/image-user/avatar6.png?authuser=1',
+				blurhash: null,
+				createdAt: '2023-09-02T19:45:28.610Z',
+				updatedAt: '2023-09-02T19:45:28.610Z',
 			},
+			memberships: [],
 		},
-		update: {
-			email: 'bryantmejia@grascannabis.org',
-			createdAt: new Date(),
-			updatedAt: new Date(),
-			user: {
-				connect: {
-					email: 'bryantmejia@grascannabis.org',
-				},
-			},
-		},
+	];
+
+	drivers.forEach(async (driver) => {
+		try {
+			console.info(
+				'create driver record: ' + driver.email + ', ' + driver.firstName,
+			);
+
+			await axios
+				.post<OrganizationCreateType>(
+					process?.env?.NEXT_PUBLIC_SERVER_MAIN_URL + '/api/v1/driver',
+					driver,
+					{
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+						validateStatus: (status) =>
+							(status >= 200 && status <= 302) || status == 404,
+					},
+				)
+				.finally(() => {
+					console.info(
+						'created prisma driver record and mongo.driver_session record: ' +
+							driver.email +
+							', ' +
+							driver.firstName,
+					);
+				});
+		} catch (error) {
+			console.error('create Driver: ', error.message);
+			throw new Error(error.message);
+		}
 	});
-	console.info('create prisma.driver records');
 };
 
 const createOrders = async () => {

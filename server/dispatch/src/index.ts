@@ -1,5 +1,6 @@
 /* eslint-disable sonarjs/cognitive-complexity */
 /* eslint-disable sonarjs/no-duplicate-string */
+import cluster from 'cluster';
 import { createServer } from 'http';
 import {
 	dispatchEvents,
@@ -10,9 +11,9 @@ import {
 	type SocketMessage,
 } from '@cd/core-lib';
 import {
-	createRequestLogger,
 	logger,
 	createErrorLogger,
+	createRequestLogger,
 } from '@cd/core-lib/src/lib/logger';
 import { createAdapter } from '@socket.io/redis-adapter';
 import express from 'express';
@@ -38,6 +39,16 @@ try {
 	const httpServer = createServer(app);
 
 	app.use(createRequestLogger());
+	global.logger = logger;
+	const logProcess = cluster.isPrimary
+		? `Master: ${process.pid}`
+		: `Worker: ${process.pid}`;
+	console.log = (...args) => logger.info([logProcess, ...args]);
+	console.info = (...args) => logger.info([logProcess, ...args]);
+	console.warn = (...args) => logger.warn([logProcess, ...args]);
+	console.error = (...args) => logger.error([logProcess, ...args]);
+	console.debug = (...args) => logger.debug([logProcess, ...args]);
+
 	app.use('/api/v1/token', tokenRoutes);
 	app.use('/api/v1/tasks', taskRoutes);
 	app.use('/api/v1/delivery-vehicle', deliveryVehicleRoutes);
@@ -174,8 +185,6 @@ try {
 			}
 		}
 	});
-
-	global.logger = logger;
 
 	global.io = new Server(httpServer);
 	global.io.adapter(

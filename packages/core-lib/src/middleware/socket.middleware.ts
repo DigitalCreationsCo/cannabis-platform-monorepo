@@ -2,7 +2,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import { type OrderWithDispatchDetails } from '@cd/data-access';
-import { type Store } from '@reduxjs/toolkit';
+import { type MiddlewareAPI } from '@reduxjs/toolkit';
 import { io, type Socket } from 'socket.io-client';
 import { type AppState } from 'types';
 import { driverActions } from '../reducer/driver.reducer';
@@ -15,10 +15,12 @@ import {
 import { getProperty } from '../utils';
 import { urlBuilder } from '../utils/urlBuilder';
 
-const socketMiddleware = (store: Store<AppState>) => {
+const socketMiddleware = (store: MiddlewareAPI<any, AppState>) => {
 	// eslint-disable-next-line sonarjs/cognitive-complexity
 	return (next: any) => async (action: any) => {
-		next(action);
+		const result = next(action);
+
+		console.info('socket middleware', { store });
 
 		const socketMap: Record<string, Socket> = {};
 		let dispatch_socket = getSocket('dispatch_socket');
@@ -112,7 +114,6 @@ const socketMiddleware = (store: Store<AppState>) => {
 
 			try {
 				await connectSocketOrTimeoutError();
-
 				store.dispatch(driverActions.updateOnlineStatus(true));
 			} catch (error) {
 				console.error('updateOnlineStatus handle', error.message);
@@ -140,79 +141,84 @@ const socketMiddleware = (store: Store<AppState>) => {
 				},
 			);
 
+			// YES
 			// on order assigned event, create order socket connection to connect to order room,
 			// and emit driver added event to order room
 			// display message to user
 			// save order in order queue state
-			dispatch_socket?.on(
-				SocketEvent.order_assigned,
-				({ message }: SocketEventPayload<any>) => {
-					try {
-						const { newOrder } = store.getState().socket.incomingOrder;
+			// dispatch_socket?.on(
+			// 	SocketEvent.order_assigned,
+			// 	({ message }: SocketEventPayload<any>) => {
+			// 		try {
+			// 			const { newOrder } = store.getState().socket.incomingOrder;
 
-						// GET JWT FROM ST SESSION, THEN SEND JWT TO DISPATCH SERVER
-						// const token = await Session.getAccessToken();
-						// if (token === undefined) {
-						//     throw new Error("User is not logged in");
-						// }
-						// const socket = io.connect('http://localhost:3000', {
-						//     query: { token }
-						// });
+			// 			// GET JWT FROM ST SESSION, THEN SEND JWT TO DISPATCH SERVER
+			// 			// const token = await Session.getAccessToken();
+			// 			// if (token === undefined) {
+			// 			//     throw new Error("User is not logged in");
+			// 			// }
+			// 			// const socket = io.connect('http://localhost:3000', {
+			// 			//     query: { token }
+			// 			// });
 
-						// IF SUCCESS, SAVE SOCKET CONNECTION TO DISPATCH SERVER
-						// IMPLEMENT ASYNC FUNCTION
-						// IMPLEMENT ERROR HANDLING!
+			// 			// IF SUCCESS, SAVE SOCKET CONNECTION TO DISPATCH SERVER
+			// 			// IMPLEMENT ASYNC FUNCTION
+			// 			// IMPLEMENT ERROR HANDLING!
 
-						const socketKey = 'order:' + newOrder.id;
-						const order_socket = io(
-							urlBuilder.dispatch.connect() + '/' + socketKey,
-						);
-						socketMap[socketKey] = order_socket;
+			// 			const socketKey = 'order:' + newOrder.id;
+			// 			const order_socket = io(
+			// 				urlBuilder.dispatch.connect() + '/' + socketKey,
+			// 			);
+			// 			socketMap[socketKey] = order_socket;
 
-						order_socket.emit(SocketEvent.driver_added, {
-							id,
-							orderId: newOrder.id,
-						});
-						console.info('you are assigned the order: ', message);
-						store.dispatch(socketActions.setMessage(message));
-						store.dispatch(socketActions.addOrderAndOptimizeRoute(newOrder));
-					} catch (error) {
-						console.error('order assigned error: ', error.message);
-						store.dispatch(socketActions.setError(error.message));
-					}
-				},
-			);
+			// 			order_socket.emit(SocketEvent.driver_added, {
+			// 				id,
+			// 				orderId: newOrder.id,
+			// 			});
+			// 			console.info('you are assigned the order: ', message);
+			// 			store.dispatch(socketActions.setMessage(message));
+			// 			store.dispatch(socketActions.addOrderAndOptimizeRoute(newOrder));
+			// 		} catch (error) {
+			// 			console.error('order assigned error: ', error.message);
+			// 			store.dispatch(socketActions.setError(error.message));
+			// 		}
+			// 	},
+			// );
 
-			dispatch_socket?.on(
-				SocketEvent.order_assigned_to_another_driver,
-				({ message }) => {
-					console.info('order assigned to another driver', message);
-					store.dispatch(socketActions.setMessage(message));
-					store.dispatch(socketActions.clearOrderRequest());
-				},
-			);
+			// YES
+			// dispatch_socket?.on(
+			// 	SocketEvent.order_assigned_to_another_driver,
+			// 	({ message }) => {
+			// 		console.info('order assigned to another driver', message);
+			// 		store.dispatch(socketActions.setMessage(message));
+			// 		store.dispatch(socketActions.clearOrderRequest());
+			// 	},
+			// );
 
-			dispatch_socket?.on(SocketEvent.disconnect, () => {
-				// console.info('disconnecting from dispatch socket.');
-				// delete socketMap['dispatch_socket'];
-			});
+			// YES
+			// dispatch_socket?.on(SocketEvent.disconnect, () => {
+			// 	// console.info('disconnecting from dispatch socket.');
+			// 	// delete socketMap['dispatch_socket'];
+			// });
 		}
 
-		if (socketActions.acceptOrder.match(action)) {
-			dispatch_socket?.emit(SocketEvent.accept_order, {
-				data: { id, phone, orderId: action.payload.orderId },
-			});
-		}
+		// YES
+		// if (socketActions.acceptOrder.match(action)) {
+		// 	dispatch_socket?.emit(SocketEvent.accept_order, {
+		// 		data: { id, phone, orderId: action.payload.orderId },
+		// 	});
+		// }
 
-		if (socketActions.declineOrder.match(action)) {
-			dispatch_socket?.emit(SocketEvent.decline_order);
-			store.dispatch(
-				socketActions.setMessage(
-					'You declined this order. Stay online to receive more delivery orders!',
-				),
-			);
-			store.dispatch(socketActions.clearOrderRequest());
-		}
+		// YES
+		// if (socketActions.declineOrder.match(action)) {
+		// 	dispatch_socket?.emit(SocketEvent.decline_order);
+		// 	store.dispatch(
+		// 		socketActions.setMessage(
+		// 			'You declined this order. Stay online to receive more delivery orders!',
+		// 		),
+		// 	);
+		// 	store.dispatch(socketActions.clearOrderRequest());
+		// }
 
 		let socketKey: string;
 		let _order_socket_connection: Socket | null;
@@ -224,60 +230,53 @@ const socketMiddleware = (store: Store<AppState>) => {
 			// eslint-disable-next-line sonarjs/no-collapsible-if
 			if (isActiveDelivery === true) {
 				if (socketKey.startsWith('order:')) {
-					_order_socket_connection = getSocket(socketKey) as Socket;
-
-					_order_socket_connection.on(SocketEvent.connection, () => {
-						console.info('socket connection for ' + socketKey);
-					});
-
-					_order_socket_connection.on(SocketEvent.get_location, () => {
-						// const { geoLocation } = store.getState().user.user.location;
-						const geoLocation = [24, 24];
-
-						_order_socket_connection.emit(SocketEvent.send_location, {
-							data: { location: geoLocation },
-						});
-					});
-
-					_order_socket_connection.on(
-						SocketEvent.message,
-						({ type, message, data }) => {
-							console.info(
-								`Message Event: 
-		  type: ${type},
-		  message: ${message},
-		  data: ${data}`,
-							);
-						},
-					);
-
-					_order_socket_connection.on(
-						SocketEvent.navigate,
-						({ type }: { type: any }) => {
-							switch (type) {
-								case NavigateEvent.to_vendor:
-									store.dispatch(socketActions.updateDestinationType('vendor'));
-									break;
-								case NavigateEvent.to_customer:
-									store.dispatch(
-										socketActions.updateDestinationType('customer'),
-									);
-									break;
-							}
-						},
-					);
-
+					// YES
+					// _order_socket_connection = getSocket(socketKey) as Socket;
+					// _order_socket_connection.on(SocketEvent.connection, () => {
+					// 	console.info('socket connection for ' + socketKey);
+					// });
+					// _order_socket_connection.on(SocketEvent.get_location, () => {
+					// 	// const { geoLocation } = store.getState().user.user.location;
+					// 	const geoLocation = [24, 24];
+					// 	_order_socket_connection.emit(SocketEvent.send_location, {
+					// 		data: { location: geoLocation },
+					// 	});
+					// });
+					// YES
+					// 			_order_socket_connection.on(
+					// 				SocketEvent.message,
+					// 				({ type, message, data }) => {
+					// 					console.info(
+					// 						`Message Event:
+					//   type: ${type},
+					//   message: ${message},
+					//   data: ${data}`,
+					// 					);
+					// 				},
+					// 			);
+					// YES
+					// _order_socket_connection.on(
+					// 	SocketEvent.navigate,
+					// 	({ type }: { type: any }) => {
+					// 		switch (type) {
+					// 			case NavigateEvent.to_vendor:
+					// 				store.dispatch(socketActions.updateDestinationType('vendor'));
+					// 				break;
+					// 			case NavigateEvent.to_customer:
+					// 				store.dispatch(
+					// 					socketActions.updateDestinationType('customer'),
+					// 				);
+					// 				break;
+					// 		}
+					// 	},
+					// );
 					// ADVANCED USE CASE FOR HANDLING MULTIPLE DELIVERIES AND REAL-TIME LOCATION SHARING VVV
-
 					// if (driver.currentLocationUpdate.fulfilled.match(action)) {
 					// 	// Save location in the Route record as well.
 					// 	// connect route record to order record
-
 					// 	// frequency of this action call and subsequent socket event are in useLocationWatch hook
-
 					// 	// there is an order delivery active,
 					// 	// for every orderSocket that is active,
-
 					// 	// send the orderId for discrete handling by dispatch
 					// 	// socket transmisson will route to the room for the order,
 					// 	// and received by any clients listening in that order room
@@ -289,127 +288,122 @@ const socketMiddleware = (store: Store<AppState>) => {
 					// 		data: { orderId: orderId, geoLocation },
 					// 	});
 					// }
-
+					// YES
 					// if driver arrive to vendor for delivery,
 					// emit arrive event with a list of orderIds that match the vendorId
 					// the order Ids are used on delivery to emit the event to the applicable order socket rooms
-					if (socketActions.arriveToVendor.match(action)) {
-						const { vendorId } = action.payload;
-						// possible issue: this event is being emitted more than necessary to the socket rooms, and dispatch
-						// is handling the event more than is needed. ??
-
-						// V this code checks if the order is in the remaining routes state,
-						// and uses the order id to emit the event to the order socket room
-						const ordersListMatchVendor = store
-							.getState()
-							.socket.remainingRoute.filter((order) => {
-								console.info(
-									'vendorId match order? ',
-									order.organization.id === vendorId,
-								);
-								return order.organization.id === vendorId;
-							})
-							.map((order) => order.id);
-
-						console.info(
-							'orderLists from vendor length: ',
-							ordersListMatchVendor.length,
-						);
-
-						const socketOrderId = getOrderIdFromSocketKey(socketKey);
-						if (ordersListMatchVendor.includes(socketOrderId)) {
-							_order_socket_connection.emit(SocketEvent.navigate, {
-								type: NavigateEvent.arrive_to_vendor,
-								data: { orderIdList: ordersListMatchVendor },
-							});
-							console.info(
-								'event: ',
-								SocketEvent.navigate,
-								'type: ',
-								NavigateEvent.arrive_to_vendor,
-							);
-						}
-					}
-
+					// if (socketActions.arriveToVendor.match(action)) {
+					// 	const { vendorId } = action.payload;
+					// 	// possible issue: this event is being emitted more than necessary to the socket rooms, and dispatch
+					// 	// is handling the event more than is needed. ??
+					// 	// V this code checks if the order is in the remaining routes state,
+					// 	// and uses the order id to emit the event to the order socket room
+					// 	const ordersListMatchVendor = store
+					// 		.getState()
+					// 		.socket.remainingRoute.filter((order) => {
+					// 			console.info(
+					// 				'vendorId match order? ',
+					// 				order.organization.id === vendorId,
+					// 			);
+					// 			return order.organization.id === vendorId;
+					// 		})
+					// 		.map((order) => order.id);
+					// 	console.info(
+					// 		'orderLists from vendor length: ',
+					// 		ordersListMatchVendor.length,
+					// 	);
+					// 	const socketOrderId = getOrderIdFromSocketKey(socketKey);
+					// 	if (ordersListMatchVendor.includes(socketOrderId)) {
+					// 		_order_socket_connection.emit(SocketEvent.navigate, {
+					// 			type: NavigateEvent.arrive_to_vendor,
+					// 			data: { orderIdList: ordersListMatchVendor },
+					// 		});
+					// 		console.info(
+					// 			'event: ',
+					// 			SocketEvent.navigate,
+					// 			'type: ',
+					// 			NavigateEvent.arrive_to_vendor,
+					// 		);
+					// 	}
+					// }
+					// YES
 					// if driver pickup products for delivery, emit pickup product to order socket room
-					if (socketActions.pickupProducts.match(action)) {
-						// send socket events to all orders based on a list input of orderId
-						const { orderIdList } = action.payload;
-						const socketOrderId = getOrderIdFromSocketKey(socketKey);
-						if (orderIdList.includes(socketOrderId)) {
-							_order_socket_connection.emit(SocketEvent.navigate, {
-								type: NavigateEvent.pickup_product,
-								data: { orderId: socketOrderId },
-							});
-
-							console.info(
-								'event: ',
-								SocketEvent.navigate,
-								'type: ',
-								NavigateEvent.pickup_product,
-							);
-						}
-					}
-
+					// if (socketActions.pickupProducts.match(action)) {
+					// 	// send socket events to all orders based on a list input of orderId
+					// 	const { orderIdList } = action.payload;
+					// 	const socketOrderId = getOrderIdFromSocketKey(socketKey);
+					// 	if (orderIdList.includes(socketOrderId)) {
+					// 		_order_socket_connection.emit(SocketEvent.navigate, {
+					// 			type: NavigateEvent.pickup_product,
+					// 			data: { orderId: socketOrderId },
+					// 		});
+					// 		console.info(
+					// 			'event: ',
+					// 			SocketEvent.navigate,
+					// 			'type: ',
+					// 			NavigateEvent.pickup_product,
+					// 		);
+					// 	}
+					// }
+					// YES
 					// if driver arrive to customer for delivery, emit arrive event to order socket room
-					if (socketActions.arriveToCustomer.match(action)) {
-						const { orderId } = action.payload;
-						if (getOrderIdFromSocketKey(socketKey) === orderId) {
-							_order_socket_connection.emit(SocketEvent.navigate, {
-								type: NavigateEvent.arrive_to_customer,
-								data: { orderId: orderId },
-							});
-							console.info(
-								'event: ',
-								SocketEvent.navigate,
-								'type: ',
-								NavigateEvent.arrive_to_customer,
-							);
-						}
-					}
-
+					// if (socketActions.arriveToCustomer.match(action)) {
+					// 	const { orderId } = action.payload;
+					// 	if (getOrderIdFromSocketKey(socketKey) === orderId) {
+					// 		_order_socket_connection.emit(SocketEvent.navigate, {
+					// 			type: NavigateEvent.arrive_to_customer,
+					// 			data: { orderId: orderId },
+					// 		});
+					// 		console.info(
+					// 			'event: ',
+					// 			SocketEvent.navigate,
+					// 			'type: ',
+					// 			NavigateEvent.arrive_to_customer,
+					// 		);
+					// 	}
+					// }
+					// YES
 					// dispatch socket disconnect
-					dispatch_socket?.on(SocketEvent.disconnect, () => {
-						// should dispatch socket be cleared? I think not in case of error status
-						// delete socketMap['dispatch_socket'];
-					});
-
+					// dispatch_socket?.on(SocketEvent.disconnect, () => {
+					// 	// should dispatch socket be cleared? I think not in case of error status
+					// 	// delete socketMap['dispatch_socket'];
+					// });
+					// YES
 					// order socket disconnect
-					_order_socket_connection.on(SocketEvent.disconnect, () => {
-						delete socketMap[socketKey];
-						console.info('disconnected from socket room: ' + socketKey);
-					});
-
+					// _order_socket_connection.on(SocketEvent.disconnect, () => {
+					// 	delete socketMap[socketKey];
+					// 	console.info('disconnected from socket room: ' + socketKey);
+					// });
 					// old comment: handle middleware after the action is executed
 					// if remove completed order, emit deliver order event to order socket room
 					// if remainingRoutes is empty, dispatch ordersCompletedAll action
-					if (socketActions.removeCompletedOrder.match(action)) {
-						const { orderId } = action.payload;
-						if (getOrderIdFromSocketKey(socketKey) === orderId) {
-							_order_socket_connection.emit(SocketEvent.navigate, {
-								type: NavigateEvent.deliver_product,
-								data: { orderId: orderId },
-							});
-							console.info(
-								'event: ',
-								SocketEvent.navigate,
-								'type: ',
-								NavigateEvent.deliver_product,
-							);
-
-							// handle disconnect from room
-							delete socketMap[socketKey];
-						}
-						const remainingRoute = store.getState().socket.remainingRoute;
-						console.info(
-							'middleWare remainingRoute length: ',
-							remainingRoute.length,
-						);
-						if (remainingRoute.length === 0) {
-							console.info('all orders completed!');
-							store.dispatch(socketActions.ordersCompletedAll());
-						}
-					}
+					// YES
+					// if (socketActions.removeCompletedOrder.match(action)) {
+					// 	const { orderId } = action.payload;
+					// 	if (getOrderIdFromSocketKey(socketKey) === orderId) {
+					// 		_order_socket_connection.emit(SocketEvent.navigate, {
+					// 			type: NavigateEvent.deliver_product,
+					// 			data: { orderId: orderId },
+					// 		});
+					// 		console.info(
+					// 			'event: ',
+					// 			SocketEvent.navigate,
+					// 			'type: ',
+					// 			NavigateEvent.deliver_product,
+					// 		);
+					// 		// handle disconnect from room
+					// 		delete socketMap[socketKey];
+					// 	}
+					// 	const remainingRoute = store.getState().socket.remainingRoute;
+					// 	console.info(
+					// 		'middleWare remainingRoute length: ',
+					// 		remainingRoute.length,
+					// 	);
+					// 	if (remainingRoute.length === 0) {
+					// 		console.info('all orders completed!');
+					// 		store.dispatch(socketActions.ordersCompletedAll());
+					// 	}
+					// }
 				} // is a orderSocket
 			} // socketMap iterate
 		} // isActiveDelivery
@@ -429,6 +423,8 @@ const socketMiddleware = (store: Store<AppState>) => {
 				store.dispatch(socketActions.setError(error.message));
 			}
 		}
+
+		return result;
 	};
 };
 

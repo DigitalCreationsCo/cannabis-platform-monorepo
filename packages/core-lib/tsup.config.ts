@@ -14,7 +14,7 @@ export default defineConfig((options) => ({
 	outDir: 'dist',
 
 	// entryPoints: ['src/index.ts'],
-	entry: ['src/index.ts', 'src/lib/sms'],
+	entry: ['src/index.ts'],
 	// entry: ['src/**/*.ts'],
 	format: ['cjs', 'esm'],
 	target: ['es2015', 'node18'],

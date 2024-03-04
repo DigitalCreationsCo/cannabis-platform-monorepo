@@ -287,7 +287,7 @@ const TextContent = Object.freeze({
 			DELIVERY_DEADLINE_f: (order: OrderWithDispatchDetails['order']) =>
 				`Deliver order by ${showTime(order.deliveryDeadline)}`,
 			NAVIGATE_DELIVERY: `Navigate to start delivering your order.`,
-			NEW_ORDER: `New Order!`,
+			NEW_ORDER: `New Order`,
 			NEW_ORDER_FROM_GRAS: `New Order from Gras!`,
 			RECEIVED_NEW_ORDER: `You received a delivery order from Gras.`,
 			PICKUP_ADDRESS_f: (organization: OrganizationWithAddress) =>

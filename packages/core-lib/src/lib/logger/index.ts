@@ -1,31 +1,46 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable import/no-named-as-default-member */
+import path from 'path';
 import winston, { createLogger, format, info, transports } from 'winston';
 
-const consoleLog = new transports.Console();
-const remoteLog = new transports.Http({
+const logFormat = format.printf((info) => {
+	if (typeof info.message === 'object') {
+		info.message = JSON.stringify(info.message, null, 3);
+	}
+	return `${info.timestamp} ${info.level} [${info.label}]: ${info.message}`;
+});
+const console = new winston.transports.Console();
+const remote = new transports.Http({
 	host: 'localhost',
 	path: '/errors',
 });
 
-const logger = createLogger({
-	format: format.prettyPrint(),
-	// format: format.combine(
-	// 	format.combine(
-	// 		format.colorize(),
-	// 		format.timestamp(),
-	// 		format.align(),
-	// 		format.printf((debug) => {
-	// 			const { timestamp, level, message, ...args } = debug;
-
-	// 			const ts = timestamp.slice(0, 19).replace('T', ' ');
-	// 			return `${ts} [${level}]: ${JSON.stringify(message)}
-	// 			)} ${Object.keys(args).length ? JSON.stringify(args, null, 2) : ''}`;
-	// 		}),
-	// 	),
-	// ),
-	transports: [consoleLog],
+const logger = winston.createLogger({
+	level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
+	format: format.combine(
+		format.label({ label: path.basename(require.main!.filename) }),
+		format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+		format.splat(),
+		format.metadata({ fillExcept: ['message', 'level', 'timestamp', 'label'] }),
+	),
+	transports: [
+		new transports.Console({
+			format: format.combine(format.colorize(), logFormat),
+		}),
+		// new transports.File({
+		// 	filename: 'logs/combined.log',
+		// 	format: format.combine(
+		// 		// Render in one line in your log file.
+		// 		// If you use prettyPrint() here it will be really
+		// 		// difficult to exploit your logs files afterwards.
+		// 		format.json(),
+		// 	),
+		// }),
+	],
+	exitOnError: false,
 });
 
-function createRequestLogger(transports = [consoleLog]) {
+function createRequestLogger(transports = [console]) {
 	const requestLogger = createLogger({
 		format: getRequestLogFormatter(),
 		transports: transports,
@@ -37,7 +52,7 @@ function createRequestLogger(transports = [consoleLog]) {
 	};
 }
 
-function createErrorLogger(transports = [remoteLog, consoleLog]) {
+function createErrorLogger(transports = [remote, console]) {
 	const errLogger = createLogger({
 		level: 'error',
 		transports: transports,
@@ -62,11 +77,5 @@ function getRequestLogFormatter() {
 		}),
 	);
 }
-
-// console.log = (...args) => logger.info.call(logger, { ...args });
-// console.info = (...args) => logger.info.call(logger, { ...args });
-// console.warn = (...args) => logger.warn.call(logger, { ...args });
-// console.error = (...args) => logger.error.call(logger, { ...args });
-// console.debug = (...args) => logger.debug.call(logger, { ...args });
 
 export { logger, createRequestLogger, createErrorLogger };

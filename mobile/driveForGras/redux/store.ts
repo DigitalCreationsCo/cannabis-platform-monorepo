@@ -63,8 +63,8 @@ const makeStore = () => {
 						extraArgument: thunkArguments,
 					},
 				}),
-				socketMiddleware,
 				...additionalMiddlewaresInDevMode,
+				socketMiddleware,
 			] as any,
 	});
 	thunkArguments.store = store;

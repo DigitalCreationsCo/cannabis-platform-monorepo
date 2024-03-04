@@ -1,12 +1,7 @@
 import {
-	blogReducer,
-	cartReducer,
-	locationReducer,
 	modalReducer,
-	shopReducer,
 	type AppStore,
 	crashMiddleware,
-	locationMiddleware,
 	loggerMiddleware,
 	socketMiddleware,
 	driverReducer,

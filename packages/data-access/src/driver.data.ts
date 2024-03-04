@@ -43,28 +43,23 @@ export async function createDriver(userData: DriverCreateType) {
 							isSignUpComplete: true,
 							idVerified: true,
 							isSubscribedForWeedText: false,
-							// address: {
-							// 	connectOrCreate: {
-							// 		where: {
-							// 			id: addressData.id,
-							// 		},
-							// 		create: {
-							// 			street1: addressData.street1,
-							// 			street2: addressData.street2,
-							// 			city: addressData.city,
-							// 			state: addressData.state,
-							// 			zipcode: addressData.zipcode,
-							// 			country: addressData.country,
-							// 			countryCode: addressData.countryCode,
-							// 			coordinates: {
-							// 				create: {
-							// 					longitude: Number(coordinates?.longitude),
-							// 					latitude: Number(coordinates?.latitude),
-							// 				},
-							// 			},
-							// 		},
-							// 	},
-							// },
+							address: {
+								create: {
+									street1: addressData.street1,
+									street2: addressData.street2,
+									city: addressData.city,
+									state: addressData.state,
+									zipcode: addressData.zipcode,
+									country: addressData.country,
+									countryCode: addressData.countryCode,
+									coordinates: {
+										create: {
+											longitude: Number(coordinates?.longitude),
+											latitude: Number(coordinates?.latitude),
+										},
+									},
+								},
+							},
 							profilePicture: {
 								create: {
 									location: userData.profilePicture?.location,
@@ -73,9 +68,9 @@ export async function createDriver(userData: DriverCreateType) {
 						},
 					},
 				},
-				// driverSession: {
-				// 	create: {},
-				// },
+				driverSession: {
+					create: {},
+				},
 			},
 			include: {
 				driverSession: true,

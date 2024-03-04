@@ -29,14 +29,14 @@ export default class WorkerRoomController {
 							if (roomId.startsWith('select-driver')) {
 								// i think a better idea is to create this class instance on the master with all the clients passed in, and then send the instance to the worker
 								// currently sending the clients to the worker, and then creating the instance on the worker
-								this.sendToMaster('connected-on-worker', {
-									message: `${clients?.length} clients joining ${roomId}: Dispatching order to drivers`,
-									roomId,
-									orderId: getOrderIdFromRoom(roomId),
-								});
 								// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 								const room = new SelectDriverRoom(roomId, clients as Client[]);
 								await redisDispatchRoomsController.createRoom(room);
+								this.sendToMaster('connected-on-worker', {
+									message: `${clients?.length} clients joined ${roomId}.`,
+									roomId,
+									orderId: getOrderIdFromRoom(roomId),
+								});
 								room.emit(dispatchEvents.new_order, order);
 								break;
 							} else if (roomId.startsWith('deliver-order')) {
