@@ -31,19 +31,19 @@ export default function TabLayout() {
 			}}
 		>
 			<Tabs.Screen
+				name="index"
+				options={{
+					title: 'drive',
+					tabBarIcon: ({ color }) => <TabBarIcon name="map" color={color} />,
+				}}
+			/>
+			<Tabs.Screen
 				name="driver-history"
 				options={{
 					title: 'history',
 					tabBarIcon: ({ color }) => (
 						<TabBarIcon name="align-justify" color={color} />
 					),
-				}}
-			/>
-			<Tabs.Screen
-				name="index"
-				options={{
-					title: 'drive',
-					tabBarIcon: ({ color }) => <TabBarIcon name="map" color={color} />,
 				}}
 			/>
 			<Tabs.Screen

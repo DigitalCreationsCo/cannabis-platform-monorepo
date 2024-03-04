@@ -172,15 +172,16 @@ class DispatchDA {
 			const allDrivers = await this.driver_sessions_collection
 				?.find({ isOnline: true, isActiveDelivery: false })
 				.toArray();
-			console.debug(`${allDrivers?.length} total drivers available.`);
+
+			console.debug(`${allDrivers?.length} drivers available.`);
 
 			const radiusDeltaMeters =
 				(organization.address.coordinates?.radius || 5000) *
 				radiusFactor *
 				10000; // <- debugging (REMOVE THIS)
 			const radiusDeltaKilometers = radiusDeltaMeters / 1000;
-			console.info(
-				` finding drivers within range of ${radiusDeltaMeters}m / ${radiusDeltaKilometers}km.`,
+			console.debug(
+				`Search range is ${radiusDeltaMeters}m / ${radiusDeltaKilometers}km.`,
 			);
 
 			const dispensaryCoordinates = getGeoJsonPairFromCoordinates(
@@ -203,7 +204,7 @@ class DispatchDA {
 					{ $project: { _id: 0, id: 1, phone: 1, dialCode: 1 } },
 				])
 				.toArray()) as { id: string; phone: string; dialCode: string }[];
-			console.info('drivers found: ', driversFound?.length);
+			console.debug(`${driversFound.length} drivers found.`);
 			return driversFound || [];
 		} catch (error: any) {
 			console.error('findDriversWithinRange: ', error.message);

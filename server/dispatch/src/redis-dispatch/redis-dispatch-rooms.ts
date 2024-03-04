@@ -70,6 +70,7 @@ class RedisredisDispatchRoomsController {
 	}
 
 	async deleteRoom(roomId: string) {
+		console.info('deleteRoom', { roomId });
 		global.io.sockets.adapter.rooms.delete(roomId);
 		await redisDispatchRooms
 			.DEL(roomId)
@@ -83,7 +84,9 @@ class RedisredisDispatchRoomsController {
 				await this.deleteRoom(room.id);
 			}
 		});
-		console.debug('redisDispatchRooms closed ' + rooms.length + ' rooms');
+		console.debug(
+			'RedisredisDispatchRoomsController closed ' + rooms.length + ' rooms',
+		);
 	}
 }
 

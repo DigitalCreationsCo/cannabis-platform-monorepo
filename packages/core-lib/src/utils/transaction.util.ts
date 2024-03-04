@@ -10,7 +10,6 @@ import {
 	type OrderCreateMinimalFields,
 	type ProductVariant,
 } from '@cd/data-access';
-import { IntegrationService } from '../lib/point-of-sale/IntegrationService';
 import { getTravelDistanceFromCoordinates } from './geo.util';
 
 /** 
@@ -294,9 +293,9 @@ async function getDailyDealProductsAndCalculateTotal(
 	}
 
 	const { products: skus } = deal;
-	const posIntegration = await IntegrationService.getPOSIntegrationService(
-		deal.organization.pos,
-	);
+	const posIntegration = await (
+		await import('../lib/point-of-sale/IntegrationService')
+	).IntegrationService.getPOSIntegrationService(deal.organization.pos);
 
 	// fetch products from integrated point of sale
 	const products = (await Promise.all(

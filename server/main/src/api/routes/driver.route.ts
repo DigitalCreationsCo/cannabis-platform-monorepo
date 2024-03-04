@@ -2,8 +2,8 @@ import { Router } from 'express';
 import { driverCtrl } from '../controllers';
 const router = Router();
 
+// POST createDriver
 router.route('/').post(driverCtrl.createDriver);
-
 // '/' PUT updateDriver
 router.route('/').put(driverCtrl.updateDriver);
 // '/:id' GET getDriverById

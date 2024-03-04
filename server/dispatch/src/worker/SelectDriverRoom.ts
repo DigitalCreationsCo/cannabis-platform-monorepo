@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {
 	dispatchEvents,
 	SMSTemplate,
@@ -17,7 +18,10 @@ class SelectDriverRoom extends WorkerRoom {
 		super(room, clients);
 		this.messager = Messager;
 
-		// send new order notification to all clients
+		console.debug(`SelectDriver room ${room} created.`);
+		console.debug('listening for events');
+
+		// send new order notification
 		this.on(
 			dispatchEvents.new_order,
 			(order: OrderWithDispatchDetails['order']) => {
@@ -29,20 +33,20 @@ class SelectDriverRoom extends WorkerRoom {
 					// });
 					this.messager.sendSocketMessage({
 						event: dispatchEvents.new_order,
-						socketId: client.socketId,
+						socketId: client.socketId!,
 						data: SocketMessageTemplate.driver.new_order_f(order),
 					});
 				});
 			},
 		);
 
-		// decline order event
+		// handle decline order event
 		this.on(dispatchEvents.decline_order, (client: Client) => {
 			this.clientLeaveRoom(client);
 			this.emit(dispatchEvents.decline_order, client);
 		});
 
-		// on accept order event,
+		// handle accept order event
 		this.once(
 			dispatchEvents.accept_order,
 			async (acceptingClients: Client[]) => {

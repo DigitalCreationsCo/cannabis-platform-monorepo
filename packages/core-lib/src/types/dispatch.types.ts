@@ -59,10 +59,10 @@ export class Client {
 	phone: string;
 	orderId?: string;
 	constructor({ socketId, roomId, userId, phone, orderId }: Client) {
-		this.socketId = socketId || '';
-		this.roomId = roomId || '';
+		this.socketId = socketId || undefined;
+		this.roomId = roomId || undefined;
 		this.userId = userId;
 		this.phone = phone;
-		this.orderId = orderId || '';
+		this.orderId = orderId || undefined;
 	}
 }

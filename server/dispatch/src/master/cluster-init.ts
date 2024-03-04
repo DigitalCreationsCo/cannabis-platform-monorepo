@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable sonarjs/cognitive-complexity */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { type Worker } from 'cluster';
@@ -45,7 +46,7 @@ class ClusterController {
 						// eslint-disable-next-line sonarjs/no-small-switch
 						switch (action) {
 							case 'connected-on-worker':
-								console.info('connected-on-worker: ', payload.roomId);
+								console.debug({ ...payload });
 								break;
 							case 'add-driver-to-record':
 								console.info('payload: ', payload);
@@ -116,7 +117,8 @@ class ClusterController {
 				import('../data-access/DispatchDA').then(async (DispatchDA) => {
 					this.db = await DispatchDA.default;
 					this.db.dispatch_orders_changestream?.on('change', async (change) => {
-						console.info('document event:', change.operationType);
+						console.info({ event: change.operationType });
+
 						let order;
 						let queueStatus;
 						switch (change.operationType) {
@@ -181,51 +183,37 @@ class ClusterController {
 	async createSelectDriverRoom(order: OrderWithDispatchDetails['order']) {
 		try {
 			let radiusFactor = 1;
-			console.info(` dispatch is finding a driver for order:${order.id}.`);
 
+			console.debug(`Finding a driver for order:${order.id}.`);
 			let driversWithinRadius = await this.db?.findDriversWithinRadius(
 				order.organization,
 				radiusFactor,
 			);
 
-			console.info('driversWithinRadius: ', driversWithinRadius);
 			// if no drivers found, increase radius and find again
 			while (isEmpty(driversWithinRadius)) {
 				if (radiusFactor < 5) {
 					radiusFactor *= 1.5;
-					console.info('increasing radius to ', radiusFactor);
+					console.debug(
+						`A driver was not found. Search radius will be ${radiusFactor}`,
+					);
 					driversWithinRadius = await this.db?.findDriversWithinRadius(
 						order.organization,
 						radiusFactor,
 					);
-				} else throw new Error('0 drivers found within the delivery radius.');
+				} else throw new Error('A driver is not available.');
 			}
 
-			console.info(
-				`${driversWithinRadius?.length} drivers found within the delivery radius.`,
-			);
-
-			// dont get clients, rather update clients for every order
-			// const clients = await redisDispatchClientsController.getManyClientsByPhone(
-			// 	driversWithinDeliveryRange,
-			// );
-
-			const clients: Client[] = [];
 			// create client for each driver, update existing clients
 			const roomId = createRoomId('select-driver', order.id);
-			driversWithinRadius?.forEach(async (driver) => {
-				const client = new Client({
-					userId: driver.id,
-					phone: driver.phone,
-					orderId: order.id,
-					roomId,
-				});
-				console.log('client joining ', client, 'room ', roomId);
-				redisDispatchClientsController.saveClient(client);
-				clients.push(client);
-				console.info('pushed new client');
-			});
-			console.info('select-driver clients ', clients);
+
+			const clients = await updateDriverClients(
+				driversWithinRadius!,
+				order.id,
+				roomId,
+			);
+
+			console.debug(`driver clients`, { clients });
 			await this.subscribeToRoom(
 				clients,
 				roomId,
@@ -233,11 +221,9 @@ class ClusterController {
 				order,
 			);
 		} catch (error: any) {
-			console.error(
-				'A driver was not found for order' + order.id + ': ' + error.message,
-			);
+			console.error(`createSelectDriverRoom: ${error.message}`);
 			// throw new Error(
-			// 	'A driver was not found for order' + order.id + ': ' + error.message,
+			// error.message,
 			// );
 		}
 	}
@@ -265,14 +251,18 @@ class ClusterController {
 			// if no match, the user is smsOnly and we need to create a new client
 			// usersJoining.forEach(async (user) => {
 			// 	if (!checkClientsForUser(clients, user.id)) {
-			// 		const client = new Client({
-			// 			userId: user.id,
+			// 					// 		console.log(
+			// 	'client joining ',
+			// 	driver.id,
+			// 	', ',
+			// 	driver.phone,
+			// 	' in room ',
+			// 	roomId,
+			// );
+			// 		const client = redisDispatchClientsController.mergeClient({userId: user.id,
 			// 			phone: user.phone,
 			// 			orderId: order.id,
-			// 			roomId,
-			// 		});
-			// 		console.log('client joining ', client, 'room ', roomId);
-			// 		redisDispatchClientsController.saveClient(client);
+			// 			roomId,});
 			// 		clients.push(client);
 			// 		console.info('pushed new client');
 			// 	}
@@ -284,19 +274,26 @@ class ClusterController {
 				let client = await redisDispatchClientsController.getOneClientByPhone(
 					user.phone,
 				);
-				if (isEmpty(client))
+
+				if (isEmpty(client)) {
 					client = new Client({
 						userId: user.id,
 						phone: user.phone,
 						orderId: order.id,
 						roomId,
 					});
+
+					client = await redisDispatchClientsController.mergeClient({
+						...client,
+						roomId,
+						orderId: order.id,
+					});
+				} else {
+					await redisDispatchClientsController.saveClient(client);
+				}
+
 				console.log('client joining ', client, 'room ', roomId);
-				await redisDispatchClientsController.saveClient({
-					...client,
-					roomId,
-					orderId: order.id,
-				});
+
 				clients.push(client);
 				console.info('pushed new client');
 			});
@@ -317,7 +314,13 @@ class ClusterController {
 		order?: OrderWithDispatchDetails['order'],
 	) {
 		try {
-			console.info('subscribeToRoom clients ', clients);
+			console.info('subscribeToRoom', {
+				clients,
+				roomId,
+				message,
+				orderId: order!['id'],
+			});
+
 			// i dont think this block is needed, as the room is created on worker
 
 			// clients.forEach(
@@ -337,7 +340,7 @@ class ClusterController {
 				},
 			});
 		} catch (error: any) {
-			console.error('Dispatch: subscribeToRoom: ', error);
+			console.error('subscribeToRoom: ', error.message);
 			throw new Error(error.message);
 		}
 	}
@@ -348,3 +351,19 @@ class ClusterController {
 }
 
 export default ClusterController;
+
+async function updateDriverClients(
+	drivers: any[],
+	orderId: string,
+	roomId: string,
+): Promise<Client[]> {
+	return drivers.reduce(async (clients: Client[], driver) => {
+		const mergeClient = await redisDispatchClientsController.mergeClient({
+			userId: driver.id,
+			phone: driver.phone,
+			orderId,
+			roomId,
+		});
+		return [...clients, mergeClient];
+	}, []);
+}
