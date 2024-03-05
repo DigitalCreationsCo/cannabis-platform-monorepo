@@ -19,10 +19,10 @@ async function clearRecords() {
 				.db(process?.env?.LOCATION_DB_NS as string)
 				.collection('organizations_geolocate');
 			driver_sessions_collection = await client
-				.db(process?.env?.LOCATION_DB_NS as string)
+				.db(process?.env?.DISPATCH_DB_NS as string)
 				.collection('driver_sessions');
 			dispatch_orders_collection = await client
-				.db(process?.env?.LOCATION_DB_NS as string)
+				.db(process?.env?.DISPATCH_DB_NS as string)
 				.collection('dispatch_orders');
 		})
 		.then(async () => {
