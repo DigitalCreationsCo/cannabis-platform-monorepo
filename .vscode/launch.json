@@ -1,7 +1,6 @@
 {
 	"version": "0.2.0",
 	"configurations": [
-		
 		{
 			"name": "Next.js: debug server-side",
 			"type": "node-terminal",
@@ -39,7 +38,7 @@
 			"sourceMaps": true
 		},
 		{
-			"name": "debug server-dispatch in terminal" ,
+			"name": "debug server-dispatch in terminal",
 			"type": "node-terminal",
 			"request": "launch",
 			"cwd": "${workspaceFolder}/server/dispatch",
@@ -55,14 +54,14 @@
 			}
 		},
 		{
-			"name": "debug babel server-dispatch" ,
+			"name": "debug babel server-dispatch",
 			"request": "launch",
 
 			"cwd": "${workspaceFolder}/server/dispatch",
 			"type": "node",
 			"runtimeExecutable": "${workspaceFolder}/node_modules/.bin/babel-watch",
 			"program": "./src/index.ts",
-			"runtimeArgs": ["--nolazy"],
+			"runtimeArgs": ["--nolazy"]
 		},
 		{
 			"name": "debug server-dispatch in chrome",
@@ -77,6 +76,13 @@
 			"showAsyncStacks": true,
 			"skipFiles": ["node_modules"],
 			"outFiles": ["${workspaceRoot}/server/dispatch"]
-			}
+		},
+		{
+			"name": "debug database seed dev",
+			"type": "node-terminal",
+			"request": "launch",
+			"cwd": "${workspaceFolder}/packages/data-access",
+			"command": "yarn reseed"
+		}
 	]
 }
