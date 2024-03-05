@@ -82,7 +82,7 @@ export default class DriverController {
 				message: `Deleted driver ${id}`,
 			});
 		} catch (error: any) {
-			console.error('createDriver: ', error);
+			console.error('deleteDriverById: ', error);
 			if (error.message.includes(`This User exists already`))
 				return res.status(400).json({ success: 'false', error: error.message });
 			if (error.message.includes(`Record to delete does not exist.`))
