@@ -28,9 +28,10 @@ export async function createDriver(userData: DriverCreateType) {
 				user: {
 					connectOrCreate: {
 						where: {
-							email: userData.email,
+							id: userData.id,
 						},
 						create: {
+							id: userData.id,
 							email: userData.email,
 							emailVerified: false,
 							username: userData.username,

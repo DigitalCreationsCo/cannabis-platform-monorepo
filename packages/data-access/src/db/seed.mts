@@ -1,4 +1,5 @@
 /* eslint-disable sonarjs/no-duplicate-string */
+import { error } from 'console';
 import {
 	type DailyDeal,
 	PrismaClient,
@@ -1054,7 +1055,7 @@ async function createOrganizations() {
 			},
 		];
 
-		orgs.forEach(async (org) => {
+		for (const org of orgs) {
 			await prisma.organization
 				.create({
 					data: org,
@@ -1113,7 +1114,7 @@ async function createOrganizations() {
 				.catch((error) => {
 					throw new Error(`${org.name} was not created. ${error.message}`);
 				});
-		});
+		}
 	} catch (error) {
 		throw new Error(error.message);
 	}
@@ -1182,7 +1183,9 @@ const createUsers = async () => {
 		},
 	];
 
-	users.forEach(async (user) => await prisma.user.create({ data: user }));
+	for (const user of users) {
+		await prisma.user.create({ data: user });
+	}
 	console.info('create prisma.user records');
 };
 
@@ -1530,37 +1533,37 @@ const createDrivers = async () => {
 		},
 	];
 
-	drivers.forEach(async (driver) => {
-		try {
-			console.info(
-				'create driver record: ' + driver.email + ', ' + driver.firstName,
-			);
+	for (const driver of drivers) {
+		console.info(
+			'create driver record: ' + driver.firstName + ', ' + driver.email,
+		);
 
-			await axios
-				.post<OrganizationCreateType>(
-					process?.env?.NEXT_PUBLIC_SERVER_MAIN_URL + '/api/v1/driver',
-					driver,
-					{
-						headers: {
-							Authorization: `Bearer ${token}`,
-						},
-						validateStatus: (status) =>
-							(status >= 200 && status <= 302) || status == 404,
+		await Promise.resolve(
+			axios.post<OrganizationCreateType>(
+				process?.env?.NEXT_PUBLIC_SERVER_MAIN_URL + '/api/v1/driver',
+				driver,
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
 					},
-				)
-				.finally(() => {
-					console.info(
-						'created prisma driver record and mongo.driver_session record: ' +
-							driver.email +
-							', ' +
-							driver.firstName,
-					);
-				});
-		} catch (error) {
-			console.error('create Driver: ', error.message);
-			throw new Error(error.message);
-		}
-	});
+					validateStatus: (status) =>
+						(status >= 200 && status <= 302) || status == 404,
+				},
+			),
+		)
+			.then(() => {
+				console.info(
+					'created prisma driver record and mongo.driver_session record: ' +
+						driver.email +
+						', ' +
+						driver.firstName,
+				);
+			})
+			.catch((error) => {
+				console.error('create Driver: ', error.message);
+				throw new Error(error.message);
+			});
+	}
 };
 
 const createOrders = async () => {
@@ -1873,11 +1876,11 @@ const createOrders = async () => {
 			deliveredAt: new Date(),
 		},
 	];
-	orders.forEach(async (order) => {
-		return await prisma.order.create({
+	for (const order of orders) {
+		await prisma.order.create({
 			data: order,
 		});
-	});
+	}
 	console.info('create prisma.order records');
 };
 
@@ -1934,19 +1937,19 @@ async function createMemberships() {
 		// },
 	];
 
-	memberships.forEach(
-		async (membership) =>
-			await prisma.membership.create({
-				data: {
-					id: membership.id,
-					role: membership.role,
-					organizationId: membership.organizationId,
-					userId: membership.userId,
-					createdAt: membership.createdAt,
-					updatedAt: membership.updatedAt,
-				},
-			}),
-	);
+	for (const membership of memberships) {
+		await prisma.membership.create({
+			data: {
+				id: membership.id,
+				role: membership.role,
+				organizationId: membership.organizationId,
+				userId: membership.userId,
+				createdAt: membership.createdAt,
+				updatedAt: membership.updatedAt,
+			},
+		});
+	}
+
 	console.info('create prisma.membership records');
 }
 
@@ -2416,7 +2419,7 @@ const createProductsAndVariants = async () => {
 		},
 	];
 
-	products.forEach(async (product) => {
+	for (const product of products) {
 		await prisma.product.create({
 			data: {
 				...product,
@@ -2428,7 +2431,7 @@ const createProductsAndVariants = async () => {
 				// }
 			},
 		});
-	});
+	}
 	console.info('create prisma.product records');
 };
 
@@ -2643,12 +2646,11 @@ const createArticles = async () => {
 		},
 	];
 
-	articles.forEach(
-		async (article) =>
-			await prisma.article.create({
-				data: article,
-			}),
-	);
+	for (const article of articles) {
+		await prisma.article.create({
+			data: article,
+		});
+	}
 	console.info('create prisma.article records');
 };
 
@@ -2718,28 +2720,27 @@ const createReviews = async () => {
 			},
 		},
 	];
-	reviews.forEach(
-		async (review) =>
-			await prisma.review.create({
-				data: {
-					id: review.id,
-					rating: review.rating,
-					comment: review.comment,
-					user: {
-						connect: {
-							id: review.userId,
-						},
+	for (const review of reviews) {
+		await prisma.review.create({
+			data: {
+				id: review.id,
+				rating: review.rating,
+				comment: review.comment,
+				user: {
+					connect: {
+						id: review.userId,
 					},
-					product: {
-						connect: {
-							id: review.productId,
-						},
-					},
-					createdAt: review.createdAt,
-					updatedAt: review.updatedAt,
 				},
-			}),
-	);
+				product: {
+					connect: {
+						id: review.productId,
+					},
+				},
+				createdAt: review.createdAt,
+				updatedAt: review.updatedAt,
+			},
+		});
+	}
 	console.info('create prisma.review records');
 };
 
@@ -2770,44 +2771,55 @@ async function main() {
 		);
 		console.debug(`\nSeeding database at ${process.env.DATABASE_URL}`);
 
-		await createSubscriptionPlans();
-		await createCompliance();
-		await createDrivers();
+		await Promise.all([
+			await createSubscriptionPlans(),
+			await createCompliance(),
+			await createDrivers(),
+			await createAddresses(),
+		])
+			.then(async () => {
+				await Promise.all([
+					await createVendors(),
+					await createCoordinates(),
+					await createUsers(),
+				]);
+			})
+			.then(async () => {
+				await Promise.all([
+					await createOrganizations(),
 
-		await createAddresses();
+					// await createSchedules(); // appended to organizations
+					await createSubdomains(),
+					await createCategories(),
 
-		await createVendors();
-		await createCoordinates();
-		await createOrganizations();
-		await createUsers();
+					// await createOrders(); // appended to organization seed
 
-		// await createSchedules(); // appended to organizations
-		await createSubdomains();
-		await createCategories();
+					// await createVariants(); // appended to product seed
+					// await createReviews(); // appended to product seed
 
-		// await createOrders(); // appended to organization seed
+					await createVendorImages(),
+					// await createOrganizationImages(); //appended to organizations
+					// await createProductImages(); // appended to products
+					// await createUserImages(); // appended to user seed
+					await createArticles(),
+					// await createArticleImages(); // appended to article seed
+					await createSchedules(),
+				]);
+			})
+			.then(async () => {
+				await Promise.all([
+					await createMemberships(),
 
-		// await createVariants(); // appended to product seed
-		// await createReviews(); // appended to product seed
-
-		await createVendorImages();
-		// await createOrganizationImages(); //appended to organizations
-		// await createProductImages(); // appended to products
-		// await createUserImages(); // appended to user seed
-		await createArticles();
-		// await createArticleImages(); // appended to article seed
-
-		await createSchedules();
-		setTimeout(async () => {
-			console.info('waiting 30 seconds for records to be created');
-			await createMemberships();
-
-			await createProductsAndVariants();
-			await createDailyDeals();
-		}, 10000);
-
-		await createFeaturesBackend();
-		await createFeaturesFrontend();
+					await createProductsAndVariants(),
+					await createDailyDeals(),
+				]);
+			})
+			.then(async () => {
+				await Promise.all([
+					await createFeaturesBackend(),
+					await createFeaturesFrontend(),
+				]);
+			});
 	} catch (e) {
 		throw new Error(e);
 	}
