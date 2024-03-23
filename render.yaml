@@ -15,7 +15,7 @@ services:
       name: docker
   scaling:
     minInstances: 1         # Required
-    maxInstances: 2         # Required
+    maxInstances: 1         # Required
     targetMemoryPercent: 60 # Optional if targetCPUPercent is set (valid: 1-90)
     targetCPUPercent: 60 
   buildFilter:
