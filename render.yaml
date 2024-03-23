@@ -30,8 +30,8 @@ services:
       - packages/data-access/src/test/**
   region: ohio
   branch: production
-  domains: 
-    - backend.grascannabis.org
+  # domains: 
+  #   - backend.grascannabis.org
   routes:
     - type: rewrite
       source: /main/*
