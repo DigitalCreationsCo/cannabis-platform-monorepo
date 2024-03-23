@@ -1,8 +1,8 @@
 # Render.com services blueprint
 # define services for each directory in server directory
 
-previewsEnabled: true
-previewsExpireAfterDays: 1
+# previewsEnabled: true
+# previewsExpireAfterDays: 1
 services:
 - name: main
   type: web
