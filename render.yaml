@@ -32,10 +32,6 @@ services:
   branch: production
   # domains: 
   #   - backend.grascannabis.org
-  routes:
-    - type: rewrite
-      source: /main/*
-      destination: /
   healthCheckPath: /api/v1/healthcheck
   envVars:
     - key: BUILD_TYPE
