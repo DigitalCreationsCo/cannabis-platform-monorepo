@@ -13,11 +13,11 @@ services:
   registryCredential:
     fromRegistryCreds:
       name: docker
-  scaling:
-    minInstances: 1         # Required
-    maxInstances: 1         # Required
-    targetMemoryPercent: 60 # Optional if targetCPUPercent is set (valid: 1-90)
-    targetCPUPercent: 60 
+  # scaling:
+  #   minInstances: 1         # Required
+  #   maxInstances: 1         # Required
+  #   targetMemoryPercent: 60 # Optional if targetCPUPercent is set (valid: 1-90)
+  #   targetCPUPercent: 60 
   buildFilter:
     paths: # Only trigger a build with changes to these files
       - server/main
