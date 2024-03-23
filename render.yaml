@@ -30,7 +30,8 @@ services:
       - packages/data-access/src/test/**
   region: ohio
   branch: production
-  domains: backend.grascannabis.org/main
+  domains: 
+    - backend.grascannabis.org/main
   healthCheckPath: /api/v1/healthcheck
   envVars:
     - key: BUILD_TYPE
