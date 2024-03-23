@@ -31,7 +31,7 @@ services:
   region: ohio
   branch: production
   domains: 
-    - https://backend.grascannabis.org/main
+    - backend.grascannabis.org/main
   healthCheckPath: /api/v1/healthcheck
   envVars:
     - key: BUILD_TYPE
