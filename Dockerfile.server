@@ -1,3 +1,4 @@
+# syntax = docker/dockerfile:1.2
 FROM grasadmin/node_modules as cache
 
 FROM --platform=linux/amd64 node:18-alpine3.19 as build
@@ -30,8 +31,26 @@ ENV NEXT_PUBLIC_SERVER_PAYMENTS_URL="https://backend.grascannabis.org/payments"
 ENV NEXT_PUBLIC_SERVER_IMAGE_URL="https://backend.grascannabis.org/image"
 ENV NEXT_PUBLIC_SERVER_DISPATCH_URL="https://backend.grascannabis.org/dispatch"
 ENV NEXT_PUBLIC_SERVER_SMS_URL="https://backend.grascannabis.org/sms"
-
 ENV SUPERTOKENS_CONNECTION_URI=http://supertokens:3567
+
+RUN --mount=type=secret,id=aws,dst=/etc/secrets/aws cat /etc/secrets/aws
+RUN --mount=type=secret,id=brevo,dst=/etc/secrets/brevo cat /etc/secrets/brevo
+RUN --mount=type=secret,id=captcha,dst=/etc/secrets/captcha cat /etc/secrets/captcha
+RUN --mount=type=secret,id=cms,dst=/etc/secrets/cms cat /etc/secrets/cms
+RUN --mount=type=secret,id=crypto,dst=/etc/secrets/crypto cat /etc/secrets/crypto
+RUN --mount=type=secret,id=database,dst=/etc/secrets/database cat /etc/secrets/database
+RUN --mount=type=secret,id=dutchie,dst=/etc/secrets/dutchie cat /etc/secrets/dutchie
+RUN --mount=type=secret,id=locationiq,dst=/etc/secrets/locationiq cat /etc/secrets/locationiq
+RUN --mount=type=secret,id=make-webhook,dst=/etc/secrets/make-webhook cat /etc/secrets/make-webhook
+RUN --mount=type=secret,id=maps,dst=/etc/secrets/maps cat /etc/secrets/maps
+RUN --mount=type=secret,id=mongo,dst=/etc/secrets/mongo cat /etc/secrets/mongo
+RUN --mount=type=secret,id=openai,dst=/etc/secrets/openai cat /etc/secrets/openai
+RUN --mount=type=secret,id=redis,dst=/etc/secrets/redis cat /etc/secrets/redis
+RUN --mount=type=secret,id=sms,dst=/etc/secrets/sms cat /etc/secrets/sms
+RUN --mount=type=secret,id=storage,dst=/etc/secrets/storage cat /etc/secrets/storage
+RUN --mount=type=secret,id=stripe,dst=/etc/secrets/stripe cat /etc/secrets/stripe
+RUN --mount=type=secret,id=supertokens,dst=/etc/secrets/supertokens cat /etc/secrets/supertokens
+RUN --mount=type=secret,id=unsplash,dst=/etc/secrets/unsplash cat /etc/secrets/unsplash
 
 EXPOSE $SERVER_PORT
 
