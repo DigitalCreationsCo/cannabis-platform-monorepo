@@ -10,8 +10,7 @@ import {
 	createSlice,
 	type PayloadAction,
 } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { applicationHeaders } from '../axiosInstance';
+import { axios, applicationHeaders } from '../axiosInstance';
 import { type AppState } from '../types';
 import { urlBuilder, reconcileStateArray, isArray } from '../utils';
 import { type LocationStateProps } from './location.reducer';
@@ -31,6 +30,7 @@ export const getInitialDispensaries = createAsyncThunk(
 					},
 				},
 			);
+			console.info('getInitialDispensaries response ,', response);
 
 			// ADD AXIOS REPSONSE TYPE TO INSTANCE CONFIG!
 			if (response.data.success) return response.data.payload;

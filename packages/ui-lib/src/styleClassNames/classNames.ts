@@ -33,11 +33,11 @@ const styles = Object.freeze({
 	},
 	TOPBAR: {
 		topbar: [
-			'z-50 sticky flex flex-row px-2 bg-inverse items-center shadow max-h-[40px] justify-between lg:pl-20 lg:pr-8',
+			'z-50 sticky flex flex-row px-2 bg-inverse-soft items-center shadow min-h-[40px] justify-between space-x-5 lg:pl-5 lg:pr-8',
 		],
 		tagline: [
-			'pt-2 pl-2',
-			'text-md',
+			'p-0 m-0',
+			'text-sm',
 			'hidden',
 			'md:block',
 			'place-self-center',
