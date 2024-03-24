@@ -112,15 +112,12 @@ export function addressObjectIntoArray(user: any): UserCreateType {
  * @returns Array
  */
 export function reconcileStateArray<T>(state: T[], payload: T[]) {
-	// console.log('state ', state);
-	console.info('reconciling payload: ');
-	console.log(payload);
+	// console.info('reconciling payload: ');
+	// console.log(payload);
 	let s = state;
 	payload.forEach((item) => {
 		// @ts-ignore
 		const index = s.findIndex((i) => i.id === item.id);
-
-		console.info('index? ', index);
 		if (index === -1) {
 			s = [...s, item];
 		} else {

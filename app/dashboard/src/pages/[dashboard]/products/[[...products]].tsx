@@ -109,7 +109,7 @@ function Products({ products }: ProductsDashboardProps) {
 }
 
 Products.getLayoutContext = (): LayoutContextProps => ({
-	placeholder: 'Search Products',
+	searchPlaceholder: 'Search Products',
 	onSearchChange: (e) => {
 		if (e?.target) {
 			useSetProductSearch((e.target as HTMLInputElement).value);
