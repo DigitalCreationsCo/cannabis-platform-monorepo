@@ -1,4 +1,5 @@
-import { type Address, type Coordinates } from '@prisma/client';
+import { type Coordinates } from '@prisma/client';
+import { type AddressCreateType } from './address.types';
 import prisma from './db/prisma';
 
 export async function createAddress(address: any) {
@@ -14,7 +15,7 @@ export async function createAddress(address: any) {
 
 export async function addAddressToUser(
 	userId: string,
-	address: Address & { coordinates: Coordinates },
+	address: AddressCreateType & { coordinates: Coordinates },
 ) {
 	try {
 		return await prisma.address.create({
