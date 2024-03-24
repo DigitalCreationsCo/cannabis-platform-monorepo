@@ -14,25 +14,24 @@ import {
 	H3,
 	Page,
 	type LayoutContextProps,
+	FlexBox,
 } from '@cd/ui-lib';
-// import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import { DispensaryCard, InfoCard } from '../../components';
 // import { shopTour } from '../../tour';
 
 export default function MarketPlace() {
-	const marketplace = useSelector(selectShopState);
-	const dispensaries = useSelector(selectMarketPlaceDispensaries);
-	const isLoadedDispensaries = marketplace.isSuccess || !marketplace.isLoading;
-
-	const selectedLocation = useSelector(selectSelectedLocationState);
+	const marketplaceData = useSelector(selectShopState);
+	const { dispensaries } = marketplaceData;
+	// const isLoadedDispensaries = marketplace.isSuccess || !marketplace.isLoading;
 
 	const { user } = useSelector(selectUserState);
+	// const selectedLocation = useSelector(selectSelectedLocationState);
 
-	const grasArticles = useSelector(selectBlogsByTag('gras'));
-	const articles = useSelector(selectBlogState);
-	const isLoadedArticles = articles.isSuccess || !articles.isLoading;
+	// const grasArticles = useSelector(selectBlogsByTag('gras'));
+	// const articles = useSelector(selectBlogState);
+	// const isLoadedArticles = articles.isSuccess || !articles.isLoading;
 
 	// function startShopTour() {
 	// 	shopTour.start();
@@ -48,10 +47,11 @@ export default function MarketPlace() {
 		],
 	};
 
+	console.info('dispensaries: ', dispensaries);
 	return (
-		<Page gradient="pink" className="lg:px-0 pb-14">
-			<div className="cursor-default pt-2 md:pt-0 lg:px-8 xl:w-5/12">
-				<div id={'shop-tour-step1'} className="lg:w-fit">
+		<Page gradient="green" className="lg:px-0 pb-24 min-h-[510px]">
+			<div className="cursor-default pt-2 md:pt-0">
+				<div id={'shop-tour-step1'} className="">
 					<H1 color="light" className={twMerge(styles.responsiveHeading)}>
 						{TextContent.info.CANNABIS_DELIVERED}
 					</H1>
@@ -60,41 +60,25 @@ export default function MarketPlace() {
 					</H3>
 				</div>
 			</div>
+
+			<FlexBox className="flex-row w-full p-4">
+				<RenderMap />
+			</FlexBox>
+
 			{/* <H5 className="text-2xl px-8 lg:px-16">{`Gras delivers bud in ${
 				selectedLocation.address.city || 'Baltimore'
 			}`}</H5> */}
-			<Grid className="relative space-y-5">
-				<Carousel
-					infinite={process.env.NODE_ENV === 'development'}
-					title={`Find Dispensaries In ${
-						selectedLocation.address.city || 'Baltimore'
-					}`}
-					Component={DispensaryCard}
-					data={dispensaries}
-					dataKey={'dispensaries'}
-					autoplaySpeed={6000}
-					speed={90}
-				/>
-				<Carousel
-					Component={InfoCard}
-					infinite={false}
-					title={`What's New In Cannabis`}
-					data={grasArticles}
-					dataKey={'gras'}
-					autoplaySpeed={5000}
-					speed={90}
-				/>
-				{/* <Carousel
-          title={`Recommended Products`}
-          Component={ProductItem}
-          // data={dispensaries}
-          // data={_dispensaryCardMockData[0]}
-          data={_dispensaryCardMockData[0].products.map(product => product.variants[0])}
-          dataKey="dispensary"
-          autoplaySpeed={7000}
-        /> */}
 
-				{/* || <Center>
+			<Grid className="w-full relative space-y-5">
+				<Carousel
+					settings={{ infinite: true }}
+					data={dispensaries}
+					datatype="dispensary"
+					SliderComponent={DispensaryCard}
+				/>
+			</Grid>
+
+			{/* || <Center>
                     <H6 color='light' className='whitespace-pre-line'>
                         Want to see your favorite Dispensary?{'\n'}
                         Ask them to start a Gras account!</H6>
@@ -106,18 +90,34 @@ export default function MarketPlace() {
                 </Center>
                 } */}
 
-				{/* <FlexBox className="cursor-default bg-inverse shadow shadow-md shadow-lg hover:shadow-xl hover:scale-101 duration-500 p-12 rounded max-w-[559px] margin-auto place-self-center space-y-2">
+			{/* <FlexBox className="cursor-default bg-inverse shadow shadow-md shadow-lg hover:shadow-xl hover:scale-101 duration-500 p-12 rounded max-w-[559px] margin-auto place-self-center space-y-2">
                 <H2 className='font-black text-gray'>
                     What is Gras?</H2>
                 <H5>{`Gras is a home-grown service provider for cannabis lovers.
                     We serve the people of our communities, that enjoy cannabis, by offering a bridge of communication, clarity and support.`}</H5>
                     </FlexBox> */}
-			</Grid>
+			{/* </Grid> */}
 		</Page>
 	);
 }
 
 MarketPlace.getLayoutContext = (): LayoutContextProps => ({
 	showSideNav: true,
-	showHeader: false,
+	showHeader: true,
 });
+
+const RenderMap = () => {
+	return (
+		<iframe
+			title="embed-map"
+			className="w-full"
+			height="250"
+			width="250"
+			style={{ border: 0 }}
+			loading="eager"
+			allowFullScreen
+			referrerPolicy="no-referrer-when-downgrade"
+			src={`https://www.google.com/maps/embed/v1/place?key=${process.env.NEXT_PUBLIC_MAPS_EMBED_API_KEY}&q=New+York,NY&zoom=14`}
+		></iframe>
+	);
+};

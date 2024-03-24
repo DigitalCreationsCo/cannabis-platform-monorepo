@@ -13,8 +13,6 @@ import {
 	FlexBox,
 	H1,
 	H2,
-	H3,
-	H4,
 	H5,
 	IconWrapper,
 	Page,
@@ -24,12 +22,11 @@ import {
 import Icons from '@cd/ui-lib/src/icons';
 import { type StaticImageData } from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState, type PropsWithChildren } from 'react';
+import { type PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 import ContinueSignUp from 'components/form/ContinueSignUp';
-import friendsVideo from '../../public/Gras-community-clip.mp4';
 
-function StartPage() {
+function WeedTextSignUp() {
 	const { isSignedIn } = useAppSelector(selectUserState);
 	const dispatch = useAppDispatch();
 
@@ -45,7 +42,7 @@ function StartPage() {
 	return (
 		<Page className="bg-secondary text-light p-0 sm:p-0 md:p-0 lg:p-0">
 			{/* <ImageBackDrop video={friendsVideo}></ImageBackDrop> */}
-			<FlexBox className="mx-auto flex p-4 px-8 md:px-20 w-full space-x-2 items-center space-y-2 lg:space-y-8">
+			<FlexBox className="mx-auto flex p-4 px-8 md:px-20 w-full space-x-2 items-center space-y-8 lg:space-y-8">
 				<div className="flex flex-col self-center text-center lg:py-2">
 					<H1 className="text-[1.4rem] md:text-4xl text-light mx-auto text-center whitespace-pre-line overflow-x-visible border-b border-transparent w-lg font-semibold tracking-wide">
 						{/* {TextContent.info.SAME_DAY_DELIVERY}&nbsp;🌴 */}
@@ -66,32 +63,13 @@ function StartPage() {
 					</H2>
 					{/* </Button> */}
 				</div>
-				<div className="mx-auto items-center self-center">
-					<video
-						className="w-full sm:max-w-xl lg:max-w-2xl"
-						style={{
-							// position: 'absolute',
-							aspectRatio: 'auto',
-							// width: '100%',
-							// height: '100%',
-							// zIndex: -1,
-							objectFit: 'cover',
-							objectPosition: '40% 40%',
-							left: '0',
-							top: '0',
-						}}
-						src={friendsVideo}
-						autoPlay
-						loop
-						muted
-					/>
-				</div>
+
 				<HowItWorks />
 			</FlexBox>
 
 			<SignUpForm />
 
-			<div className="px-8 w-5/6 mx-auto pt-20">
+			{/* <div className="px-8 w-5/6 mx-auto pt-20">
 				<hr className="border-2" />
 			</div>
 			{!isSignedIn && (
@@ -113,7 +91,7 @@ function StartPage() {
 						</Button>
 					</Link>
 				</FlexBox>
-			)}
+			)} */}
 		</Page>
 	);
 }
@@ -235,8 +213,7 @@ const SignUpForm = () => {
 	);
 };
 
-StartPage.getLayoutContext = (): LayoutContextProps => ({
-	showHeader: false,
+WeedTextSignUp.getLayoutContext = (): LayoutContextProps => ({
 	showTopBar: true,
 });
-export default StartPage;
+export default WeedTextSignUp;

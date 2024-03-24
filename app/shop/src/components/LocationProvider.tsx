@@ -68,7 +68,8 @@ const LocationProvider = () => {
 							),
 						);
 				},
-				() => console.info('Geolocation is not supported by this browser.'),
+				(api) =>
+					console.info('Geolocation is not supported by this browser. ', api),
 			);
 		}
 	}, [enteredSite]);

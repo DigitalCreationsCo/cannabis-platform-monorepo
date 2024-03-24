@@ -19,6 +19,9 @@ const TextContent = Object.freeze({
 
 		CREATE_ACCOUNT: '',
 
+		"DO_YOU_KNOW_WHAT_YOU'RE_LOOKING_FOR":
+			'Do you know what you’re looking for?',
+
 		READY_CHECKOUT: `You're ready to checkout.`,
 		REVIEW_CHECKOUT: `Tap Checkout to pay`,
 		REVIEW_PLACE_ORDER: `Review your order. 
@@ -64,6 +67,7 @@ const TextContent = Object.freeze({
 		COUNTRY_REQUIRED: 'country is required',
 		COUNTRYCODE_REQUIRED: 'country code is required',
 		DISPENSARY_NAME_REQUIRED: 'Dispensary name is required',
+		SEND_YOU_OFFERS: 'Would you like us to send you offers?',
 		STRIPE_ID_REQUIRED: `Please enter your stripe ID`,
 	},
 
@@ -150,9 +154,9 @@ const TextContent = Object.freeze({
 		ABOUT_GRAS: `Gras is a home-grown service company. `,
 		ABOUT_GRAS_AND_MISSION: `Gras is a home-grown delivery company creating meaningful experiences for our customers and partners in the cannabis world, one${nbsp}delivery${nbsp}at${nbsp}a${nbsp}time. `,
 		BUILDING_TRUST_WITH_OUR_PARTNERS: `Gras is building a trusted community of partners and cannabis lovers.`,
-		CANNABIS_DELIVERED: `Cannabis,${'\xa0'}Delivered${'\xa0'}🌴${'\xa0'}🔥`,
-		CANNABIS_DELIVERED_TEXT: `Cannabis,${'\xa0'}Delivered`,
-		CANNABIS_DELIVERED_TODAY: `Cannabis,${'\xa0'}Delivered${'\xa0'}Today🌴`,
+		CANNABIS_DELIVERED: `Serving people and cannabis${'\xa0'}🌴${'\xa0'}🔥`,
+		CANNABIS_DELIVERED_TEXT: `Serving people${'\xa0'}and cannabis`,
+		CANNABIS_DELIVERED_TODAY: `Serving people${'\xa0'}and cannabis${'\xa0'}Today🌴`,
 		COMPANY_NAME: 'Gras',
 		CONTACT_SUPPORT: `For support, dial ${process.env.NEXT_PUBLIC_SUPPORT_PHONE}.`,
 		ENJOY_BUD_WITH_YOUR_BUDS: 'Enjoy bud with your buds',
@@ -350,6 +354,7 @@ const TextContent = Object.freeze({
 		createAccountFQUrl: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/signup/create-account`,
 		createAccount: `/signup/create-account`,
 		blog: `/blog`,
+		weedText: '/weed-text',
 		work_with_us: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/work-with-us`,
 		storefront_f: (subdomain: string) =>
 			`${process.env.NEXT_PUBLIC_SHOP_APP_URL}/browse/${subdomain}`,

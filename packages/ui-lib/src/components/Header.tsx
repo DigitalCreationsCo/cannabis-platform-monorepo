@@ -1,53 +1,62 @@
-import {
-	type ChangeEventHandler,
-	type PropsWithChildren,
-	type ReactEventHandler,
-} from 'react';
+import Link from 'next/link';
+import { type PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
+import { TextContent } from '../../../core-lib/src';
 import Icons from '../icons';
+import { styles } from '../styleClassNames';
+import { Button, IconButton } from './button';
+import FlexBox from './FlexBox';
 import IconWrapper from './IconWrapper';
-import SearchField from './SearchField';
 
 type HeaderProps = {
-	onSearchChange?: ChangeEventHandler<HTMLInputElement> &
-		ReactEventHandler<Element>;
-	placeholder?: string;
 	drawerComponentId?: string;
-	showDrawer?: boolean;
-	showSearch?: boolean;
+	showHeaderDrawer?: boolean;
 } & PropsWithChildren;
 function Header({
-	onSearchChange,
-	placeholder,
 	drawerComponentId,
-	showDrawer,
-	showSearch,
+	showHeaderDrawer = true,
 	children,
 }: HeaderProps) {
-	const headerContainerStyle = [
+	const container = [
+		'h-12 max-h-12',
+		'flex flex-row grow items-center',
 		'bg-inherit',
-		'flex flex-row',
-		'lg:px-16 xl:pl-0 xl:pr-16',
-		'lg:justify-end lg:right-0',
+		'space-x-4',
+		'px-4 lg:pr-12',
 	];
-	const headerStyle = [
-		'lg:pl-[188px]',
+	const header = [
 		'flex flex-row grow',
-		'w-full md:w-fit xl:w-fit',
-		'lg:justify-end lg:h-fit',
-		'lg:pt-2',
-		'shadow-md lg:shadow-none',
+		'lg:justify-end',
+		'space-x-4',
 		'justify-end',
 	];
 	return (
-		<div className={twMerge(headerContainerStyle, 'text-inherit')}>
-			<div className={twMerge(headerStyle)}>
-				{(showDrawer && (
+		<div className={twMerge(container, 'text-inherit')}>
+			<div className={twMerge(header)}>
+				{(showHeaderDrawer && (
 					<CategoriesMenu drawerComponentId={drawerComponentId} />
 				)) || <></>}
-				{(showSearch && (
-					<SearchField placeholder={placeholder} onChange={onSearchChange} />
-				)) || <></>}
+				<Link href={TextContent.href.browse}>
+					<Button
+						className={twMerge(styles.BUTTON.highlight)}
+						bg="transparent"
+						hover="transparent"
+						size="sm"
+					>
+						Nearby Dispensaries
+					</Button>
+				</Link>
+
+				<Link href={TextContent.href.weedText}>
+					<Button
+						className={twMerge(styles.BUTTON.highlight)}
+						bg="transparent"
+						hover="transparent"
+						size="sm"
+					>
+						Get Delivery
+					</Button>
+				</Link>
 			</div>
 			{children}
 		</div>
@@ -59,13 +68,20 @@ const CategoriesMenu = ({
 }: {
 	drawerComponentId?: string;
 }) => (
-	<label htmlFor={drawerComponentId} className={twMerge(drawerButtonStyle)}>
-		<IconWrapper
-			Icon={Icons.OpenPanelLeft}
-			iconSize={28}
-			className="text-inverse"
-		/>
-	</label>
+	<>
+		<label
+			htmlFor={drawerComponentId}
+			className={twMerge(drawerButtonStyle, styles.BUTTON.highlight)}
+		>
+			<IconButton
+				size="sm"
+				hover="transparent"
+				bg="transparent"
+				Icon={Icons.MenuSimple}
+				iconSize={28}
+			></IconButton>
+		</label>
+	</>
 );
 
 const drawerButtonStyle = ['btn btn-ghost rounded-none lg:hidden'];

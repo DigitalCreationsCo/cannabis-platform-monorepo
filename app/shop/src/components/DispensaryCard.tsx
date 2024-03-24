@@ -77,7 +77,7 @@ function DispensaryCard({
 	return (
 		<Link
 			href={formatDispensaryUrl(dispensary?.subdomainId)}
-			className="relative z-0 shadow-2xl"
+			className="z-0 shadow-2xl"
 		>
 			<CardWithData
 				data={dispensary}

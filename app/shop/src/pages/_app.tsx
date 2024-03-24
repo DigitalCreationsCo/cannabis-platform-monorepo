@@ -7,6 +7,7 @@ import {
 	ToastProvider,
 	type LayoutContextProps,
 	ErrorBoundary,
+	SearchField,
 } from '@cd/ui-lib';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
@@ -82,6 +83,10 @@ function App({ Component, ...rest }: CustomAppProps) {
 
 	const getLayoutContext = (): LayoutContextProps => ({
 		TopBarComponent: TopBar,
+		SearchComponent: SearchField,
+		showSearch: false,
+		showLocation: false,
+		onSearchChange: () => null,
 		...(Component.getLayoutContext && Component.getLayoutContext()),
 	});
 

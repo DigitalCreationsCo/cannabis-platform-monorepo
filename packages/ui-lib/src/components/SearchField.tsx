@@ -1,9 +1,10 @@
 import { useState, type ReactEventHandler } from 'react';
 import { twMerge } from 'tailwind-merge';
 import Icons from '../icons';
-import IconWrapper from './IconWrapper';
+import { IconButton } from './button';
+import FlexBox from './FlexBox';
 
-type SearchBarProps = {
+export type SearchBarProps = {
 	onChange?: ReactEventHandler;
 	placeholder?: string;
 };
@@ -12,31 +13,32 @@ function SearchBar({ placeholder = 'Search', onChange }: SearchBarProps) {
 	const focused = 'border-primary-light';
 	// const searchRef = useRef(null);
 	return (
-		<div
+		<FlexBox
 			onFocus={() => setFocused(true)}
 			onBlur={() => setFocused(false)}
 			className={twMerge([
-				'lg:rounded-full',
-				'flex flex-row grow items-center lg:self-center space-x-3',
-				'xl:max-w-[408px] xl:relative',
-				'h-[51px]',
-				'lg:shadow-md',
-				'pl-4',
-				'border-b-2 lg:border-l-2 border-inverse',
+				'flex-row grow items-center',
+				'border border-dark-soft rounded',
+				'bg-light',
 				isFocused && focused,
 			])}
 		>
-			<IconWrapper Icon={Icons.Search} iconColor="light" iconSize={28} />
 			<input
 				placeholder={placeholder}
 				className={twMerge([
-					'bg-inherit text-inverse placeholder:text-inverse-soft text-lg',
-					// 'outline-none',
-					'h-full w-full',
+					'w-full h-10',
+					'px-4',
+					'outline-none',
+					'rounded-l',
 				])}
 				onChange={onChange}
 			/>
-		</div>
+			<IconButton
+				Icon={Icons.Search}
+				iconSize={28}
+				className="rounded-none rounded-r-sm"
+			/>
+		</FlexBox>
 	);
 }
 
