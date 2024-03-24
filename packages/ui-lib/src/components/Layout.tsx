@@ -6,22 +6,27 @@ import {
 } from 'react';
 import { twMerge } from 'tailwind-merge';
 import AnimationWrapper from './AnimationWrapper';
+import { Button } from './button';
 import Footer from './Footer';
 import Header from './Header';
+import { type SearchBarProps } from './SearchField';
 import SideNavContainer from './SideNavContainer';
 
 interface LayoutContextProps {
 	onSearchChange?: ChangeEventHandler<HTMLInputElement> &
 		ReactEventHandler<Element>;
-	placeholder?: string;
 	showSearch?: boolean;
 	showHeaderDrawer?: boolean;
+	showNavigationBar?: boolean;
 	showSideNav?: boolean;
 	showTopBar?: boolean;
 	showHeader?: boolean;
 	showFooter?: boolean;
+	showLocation?: boolean;
 	showSideNavOnDesktop?: boolean;
 	TopBarComponent?: React.ElementType | null;
+	SearchComponent?: React.ElementType<SearchBarProps> | null;
+	searchPlaceholder?: string;
 }
 
 interface LayoutProps extends LayoutContextProps, PropsWithChildren {
@@ -42,11 +47,13 @@ function Layout({
 	showSearch = true,
 	showTopBar = true,
 	showFooter = true,
+	showLocation = true,
 	SideNavComponent,
 	TopBarComponent = null,
+	SearchComponent,
 	signOut,
 	onSearchChange,
-	placeholder,
+	searchPlaceholder,
 	isSession,
 	children,
 	isModalVisible,
@@ -83,19 +90,33 @@ function Layout({
 			)}
 		>
 			<div className={twMerge(styles.main)}>
-				{showTopBar && TopBarComponent && (
-					<TopBarComponent signOut={signOut} doesSessionExist={isSession} />
-				)}
-				{showHeader &&
-					((
-						<Header
-							showSearch={showSearch}
-							showDrawer={showHeaderDrawer}
-							placeholder={placeholder}
-							onSearchChange={onSearchChange}
-							drawerComponentId={drawerComponentId}
-						/>
-					) || <></>)}
+				{(showTopBar && TopBarComponent && (
+					<TopBarComponent
+						showSearch={showSearch}
+						signOut={signOut}
+						doesSessionExist={isSession}
+						showLocation={showLocation}
+						SearchComponent={
+							(SearchComponent && (
+								<SearchComponent
+									placeholder={searchPlaceholder}
+									onChange={onSearchChange}
+								/>
+							)) ||
+							null
+						}
+					/>
+				)) ||
+					null}
+
+				{(showHeader && (
+					<Header
+						showHeaderDrawer={showHeaderDrawer}
+						drawerComponentId={drawerComponentId}
+					></Header>
+				)) ||
+					null}
+
 				<SideNavContainer
 					showSideNavOnDesktop={showSideNavOnDesktop}
 					showSideNav={showSideNav}

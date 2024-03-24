@@ -4778,7 +4778,7 @@ __metadata:
     prettier: 2.8.0
     react: 18.2.0
     react-dom: 18.2.0
-    react-slick: ^0.29.0
+    react-slick: ^0.30.2
     rimraf: 4.4.1
     rollup: 3.20.2
     rollup-plugin-postcss: 4.0.2
@@ -34093,9 +34093,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-slick@npm:^0.29.0":
-  version: 0.29.0
-  resolution: "react-slick@npm:0.29.0"
+"react-slick@npm:^0.30.2":
+  version: 0.30.2
+  resolution: "react-slick@npm:0.30.2"
   dependencies:
     classnames: ^2.2.5
     enquire.js: ^2.1.6
@@ -34105,7 +34105,7 @@ __metadata:
   peerDependencies:
     react: ^0.14.0 || ^15.0.1 || ^16.0.0 || ^17.0.0 || ^18.0.0
     react-dom: ^0.14.0 || ^15.0.1 || ^16.0.0 || ^17.0.0 || ^18.0.0
-  checksum: 67ce4981914da8a76c6efb4bc8ee7ab69e04c33bd4b3517419ab2165679a3c701dae781556149713fe2c542f84188b7ca101ea58883537be5c05756408f48c8b
+  checksum: 7d415c745ca7d9d19947a6ce62ab866757310fbaf0941b14479cf2779f8db8951b037ab6a357a2d013518dd50fd41080dac7e7949cb201b4c6431f13c6e8975f
   languageName: node
   linkType: hard
 

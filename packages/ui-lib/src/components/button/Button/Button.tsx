@@ -95,15 +95,17 @@ export default function Button({
 		focus: ['focus:bg-' + bg],
 		hover: [
 			'transition ease-in-out duration-50',
-			(!disabled && hover === 'primary' && 'hover:bg-primary') ||
-				(hover === 'primary-light' && 'hover:bg-primary-light') ||
-				(hover === 'secondary' && 'hover:bg-secondary') ||
-				(hover === 'secondary-light' && 'hover:bg-secondary-light') ||
-				(hover === 'accent' && 'hover:bg-accent') ||
-				(hover === 'accent-soft' && 'hover:bg-accent-soft') ||
-				(hover === 'inverse' && 'hover:bg-inverse') ||
-				(hover === 'inverse-soft' && 'hover:bg-inverse-soft') ||
-				(hover === 'transparent' && 'hover:bg-transparent'),
+			(!disabled &&
+				((hover === 'primary' && 'hover:bg-primary') ||
+					(hover === 'primary-light' && 'hover:bg-primary-light') ||
+					(hover === 'secondary' && 'hover:bg-secondary') ||
+					(hover === 'secondary-light' && 'hover:bg-secondary-light') ||
+					(hover === 'accent' && 'hover:bg-accent') ||
+					(hover === 'accent-soft' && 'hover:bg-accent-soft') ||
+					(hover === 'inverse' && 'hover:bg-inverse') ||
+					(hover === 'inverse-soft' && 'hover:bg-inverse-soft') ||
+					(hover === 'transparent' && 'hover:bg-transparent'))) ||
+				'hover:bg-accent',
 		],
 		transparent: (transparent && 'opacity-90') || '',
 		border: [

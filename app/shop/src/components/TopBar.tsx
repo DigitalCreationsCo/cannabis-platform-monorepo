@@ -30,9 +30,17 @@ import logo from '../../public/logo.png';
 export type TopBarProps = {
 	doesSessionExist?: boolean;
 	signOut: () => void;
+	showSearch?: boolean;
+	SearchComponent: React.ReactNode | null;
+	showLocation?: boolean;
 };
 
-function TopBar({ signOut }: TopBarProps) {
+function TopBar({
+	signOut,
+	showSearch = true,
+	SearchComponent,
+	showLocation = true,
+}: TopBarProps) {
 	const dispatch = useDispatch();
 	const { user, isSignedIn } = useSelector(selectUserState);
 	const cart = useSelector(selectCartState);
@@ -53,19 +61,31 @@ function TopBar({ signOut }: TopBarProps) {
 
 	return (
 		<div className={twMerge(styles.TOPBAR.topbar)}>
-			<FlexBox className="flex-row items-center">
-				<Link href={'/'} className="z-50">
-					<GrasSignature className="text-secondary pt-0.5">Gras</GrasSignature>
-				</Link>
-				<Link href={'/'}>
-					<Image alt="Gras" width={40} height={40} src={logo} />
-				</Link>
+			<FlexBox className="">
+				<FlexBox className="flex-row items-center">
+					<Link href={'/'} className="z-50">
+						<GrasSignature className="text-secondary pt-1 pb-0 mb-0">
+							Gras
+						</GrasSignature>
+					</Link>
+					<Link href={'/'}>
+						<Image alt="Gras" width={40} height={40} src={logo} />
+					</Link>
+				</FlexBox>
 				<Link href={'/'}>
 					<Paragraph className={twMerge(styles.TOPBAR.tagline)}>
 						{TextContent.info.CANNABIS_DELIVERED_TEXT}
 					</Paragraph>
 				</Link>
 			</FlexBox>
+
+			{showLocation && (
+				// <Paragraph>Location: {user.address[0].zipcode || 10011}</Paragraph>
+				<Paragraph>Location: 10011</Paragraph>
+			)}
+
+			<div className="flex grow">{(showSearch && SearchComponent) || null}</div>
+
 			<FlexBox className="flex flex-row items-center md:space-x-4 md:pr-2">
 				{/* SHOW ACCOUNT DROPDOWN BUTTON OR SIGNIN */}
 				{isSignedIn && <_AccountDropDown />}

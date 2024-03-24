@@ -9,7 +9,7 @@ import FlexBox from './FlexBox';
 import { H1, H3 } from './Typography';
 
 const CheckAge = ({
-	redirect,
+	redirect = '/browse',
 	onContinue,
 }: {
 	onContinue?: () => void;
@@ -20,31 +20,68 @@ const CheckAge = ({
 
 	const [yesOver21, setYesOver21] = useState(false);
 	const toggleOver21 = () => setYesOver21(!yesOver21);
+	const [showNext, setShowNext] = useState(false);
 
 	const onSubmit = () => {
-		setCookie('yesOver21', 'true');
 		if (onContinue) onContinue();
-		router.push({ pathname: redirect }); // navigates back to the previous page, or the home page if there is no redirect URL
+		router.push({ pathname: redirect }); // navigates back to the previous page, or the browse page if there is no redirect param
 	};
 
 	return (
 		<Center className="w-full">
-			<H1>Welcome to Gras</H1>
-			<H3>{TextContent.prompt.ARE_YOU_LEGAL}</H3>
+			{!showNext ? (
+				<FlexBox className="p-4 space-y-4">
+					<H3>{TextContent.prompt.ARE_YOU_LEGAL}</H3>
+					<CheckBox
+						className="w-auto m-auto"
+						name={'checkAge'}
+						onChange={toggleOver21}
+						checked={yesOver21}
+						LabelComponent={H3}
+						label="I'm over 21"
+					/>
 
-			<FlexBox className="p-4 space-y-4">
-				<CheckBox
-					name={'checkAge'}
-					onChange={toggleOver21}
-					checked={yesOver21}
-					LabelComponent={H3}
-					label="I'm over 21"
-				/>
+					<Button
+						size="lg"
+						bg={'secondary-light'}
+						hover={'primary-light'}
+						disabled={!yesOver21}
+						onClick={() => {
+							setCookie('yesOver21', 'true');
+							setShowNext(true);
+						}}
+					>
+						Continue
+					</Button>
+				</FlexBox>
+			) : (
+				<FlexBox className="p-4 space-y-4">
+					<H3>{TextContent.prompt["DO_YOU_KNOW_WHAT_YOU'RE_LOOKING_FOR"]}</H3>
+					<H3>{TextContent.prompt['SEND_YOU_OFFERS']}</H3>
 
-				<Button size="lg" disabled={!yesOver21} onClick={onSubmit}>
-					Continue
-				</Button>
-			</FlexBox>
+					<Button
+						className="w-[300px]"
+						size="lg"
+						bg={'secondary-light'}
+						hover={'primary-light'}
+						disabled={!yesOver21}
+						onClick={onSubmit}
+					>
+						I know what I'm looking for
+					</Button>
+
+					<Button
+						className="w-[300px]"
+						size="lg"
+						bg={'secondary-light'}
+						hover={'primary-light'}
+						disabled={!yesOver21}
+						onClick={() => router.push('/weed-text')}
+					>
+						Send me offers
+					</Button>
+				</FlexBox>
+			)}
 		</Center>
 	);
 };

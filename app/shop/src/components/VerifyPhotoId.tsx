@@ -38,7 +38,8 @@ const VerifyPhotoId = () => {
 	}
 
 	useEffect(() => {
-		if (window.location.pathname != '/') startTour();
+		// if (window.location.pathname != '/')
+		// startTour();
 	}, []);
 
 	const { resetFormValues, nextFormStep, setFormValues } = useFormContext();
