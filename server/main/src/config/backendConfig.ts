@@ -34,6 +34,7 @@ export const backendConfig = (): AuthConfig => {
 	return {
 		framework: 'express',
 		supertokens: {
+			apiKey: process.env.SUPERTOKENS_CORE_API_KEY,
 			connectionURI: process.env.SUPERTOKENS_CONNECTION_URI,
 			// // enable for debugging
 			networkInterceptor: (request: HttpRequest, userContext: any) => {

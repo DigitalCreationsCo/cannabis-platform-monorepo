@@ -7,11 +7,13 @@ import IconWrapper from '../IconWrapper';
 type CarouselButtonProps = {
 	direction: 'left' | 'right' | 'up' | 'down';
 	onClick: (() => void) | undefined;
+	className?: string | string[];
 };
 
 export default function CarouselButton({
 	direction,
 	onClick,
+	className,
 }: CarouselButtonProps) {
 	const arrowIcon = () => {
 		switch (direction) {
@@ -29,18 +31,21 @@ export default function CarouselButton({
 	const styles = {
 		container: ['z-10 relative h-fit', 'hidden', 'md:block'],
 		carouselButton: [
-			'w-5 h-5 p-5',
+			'w-5 h-5 p-6',
 			'rounded-full',
-			'bg-inverse-soft hover:bg-accent-soft active:bg-accent',
+			'bg-transparent hover:bg-transparent hover:border-dark active:bg-transparent focus:bg-transparent focus:border focus:border-dark',
 		],
 	};
 
 	return (
-		<div className={twMerge(styles.container)}>
+		<div className={twMerge(styles.container, className)}>
 			<IconButton
 				size="sm"
 				onClick={onClick}
-				className={twMerge(styles.carouselButton, 'btn-circle')}
+				className={twMerge(
+					styles.carouselButton,
+					'btn-circle btn items-center content-center justify-center shadow-none',
+				)}
 				Icon={arrowIcon()}
 			/>
 		</div>

@@ -7,10 +7,12 @@ function Welcome() {
 	const router = useRouter();
 	const redirect = (router.query.redirect as string) || '/';
 	return (
-		<Page className={twMerge(styles.gradient, 'text-light p-0 m-0')}>
-			<div className="mx-auto items-center self-center">
-				<H1 className="text-center">Welcome to Gras</H1>
-				<H3 className="text-center">We Help You Enjoy Bud With Your Buds</H3>
+		<Page className={twMerge(styles.gradient, 'text-light p-0 m-0 lg:pt-8')}>
+			<div className="mx-auto items-center self-center space-y-4">
+				<div>
+					<H1 className="text-center">Welcome to Gras</H1>
+					<H3 className="text-center">We Help You Enjoy Bud With Your Buds</H3>
+				</div>
 				<video
 					className="w-full sm:max-w-xl lg:max-w-2xl"
 					style={{

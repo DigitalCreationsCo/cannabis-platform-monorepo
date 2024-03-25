@@ -1,12 +1,20 @@
+/* eslint-disable import/no-named-as-default-member */
+/* eslint-disable react/no-unknown-property */
 import {
+	getCoordinatePairFromCoordinates,
 	selectBlogsByTag,
 	selectBlogState,
+	selectLocationState,
 	selectMarketPlaceDispensaries,
 	selectSelectedLocationState,
 	selectShopState,
 	selectUserState,
 	TextContent,
 } from '@cd/core-lib';
+import {
+	type Coordinates,
+	type OrganizationWithShopDetails,
+} from '@cd/data-access';
 import {
 	Carousel,
 	Grid,
@@ -15,23 +23,44 @@ import {
 	Page,
 	type LayoutContextProps,
 	FlexBox,
+	H4,
 } from '@cd/ui-lib';
+import mapboxgl, { type MapboxGeoJSONFeature } from 'mapbox-gl';
+import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
+import useSWR, { type SWRResponse } from 'swr';
 import { twMerge } from 'tailwind-merge';
 import { DispensaryCard, InfoCard } from '../../components';
 // import { shopTour } from '../../tour';
 
+// /organization/zipcode=${zipcode}&limit=${limit}&radius=${radius}
 export default function MarketPlace() {
-	const marketplaceData = useSelector(selectShopState);
-	const { dispensaries } = marketplaceData;
-	// const isLoadedDispensaries = marketplace.isSuccess || !marketplace.isLoading;
-
 	const { user } = useSelector(selectUserState);
-	// const selectedLocation = useSelector(selectSelectedLocationState);
+	const { zipcode } = user.address[0];
+	const { radius } = useSelector(selectLocationState);
 
-	// const grasArticles = useSelector(selectBlogsByTag('gras'));
-	// const articles = useSelector(selectBlogState);
-	// const isLoadedArticles = articles.isSuccess || !articles.isLoading;
+	const { data, error, isLoading } = useSWR<
+		SWRResponse<OrganizationWithShopDetails[]>
+	>(
+		// `/api/organization/zipcode=${zipcode}&limit=${limit}&radius=${radius}`,2
+		`/api/organization?zipcode=${10011}&limit=${4}&radius=${10000}`, // hardcoded NYC zipcode for now
+		async (url: string) => {
+			const response = await fetch(url);
+			const json = await response.json();
+
+			if (!response.ok) {
+				throw new Error(
+					json.error.message || 'An error occurred while fetching the data',
+				);
+			}
+
+			return json;
+		},
+	);
+
+	const dispensaries = data?.payload || [];
+	console.info('dispensaries: ', dispensaries);
+	console.info('error: ', error);
 
 	// function startShopTour() {
 	// 	shopTour.start();
@@ -46,36 +75,52 @@ export default function MarketPlace() {
 			'text-4xl pb-0 px-4 whitespace-normal font-semi-bold hidden sm:block',
 		],
 	};
-
-	console.info('dispensaries: ', dispensaries);
 	return (
-		<Page gradient="green" className="lg:px-0 pb-24 min-h-[510px]">
+		<Page gradient="green" className="lg:px-0 pb-12 min-h-[440px]">
+			<link
+				href="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css"
+				rel="stylesheet"
+			/>
 			<div className="cursor-default pt-2 md:pt-0">
 				<div id={'shop-tour-step1'} className="">
-					<H1 color="light" className={twMerge(styles.responsiveHeading)}>
+					<H1
+						color="light"
+						className={twMerge(styles.responsiveHeading, 'drop-shadow')}
+					>
 						{TextContent.info.CANNABIS_DELIVERED}
 					</H1>
-					<H3 className="text-inverse px-4">
+					<H4 className="text-inverse px-6 leading-2 drop-shadow text-center sm:text-left">
+						Find dispensaries, edibles, and more near you
+					</H4>
+					{/* <H3 className="text-inverse px-4 drop-shadow-md">
 						Good day{user.firstName && `, ${user.firstName}`}!
-					</H3>
+					</H3> */}
 				</div>
 			</div>
 
-			<FlexBox className="flex-row w-full p-4">
-				<RenderMap />
-			</FlexBox>
+			{/* <FlexBox className="flex-row w-full p-4">
+				<RenderGoogleMap />
+			</FlexBox> */}
 
-			{/* <H5 className="text-2xl px-8 lg:px-16">{`Gras delivers bud in ${
+			<Grid className="relative grid-cols-3 border">
+				{/* <H5 className="text-2xl px-8 lg:px-16">{`Gras delivers bud in ${
 				selectedLocation.address.city || 'Baltimore'
 			}`}</H5> */}
 
-			<Grid className="w-full relative space-y-5">
-				<Carousel
-					settings={{ infinite: true }}
-					data={dispensaries}
-					datatype="dispensary"
-					SliderComponent={DispensaryCard}
-				/>
+				<div className="col-span-full lg:col-span-2 lg:col-start-1 lg:row-start-1 content-end p-5">
+					<Carousel
+						settings={{ infinite: false }}
+						error={error}
+						loading={isLoading}
+						data={dispensaries}
+						datatype="dispensary"
+						SliderComponent={DispensaryCard}
+					/>
+				</div>
+
+				<div className="p-4 row-start-1 col-span-3 lg:col-span-1">
+					<RenderMapBox data={dispensaries} />
+				</div>
 			</Grid>
 
 			{/* || <Center>
@@ -106,18 +151,117 @@ MarketPlace.getLayoutContext = (): LayoutContextProps => ({
 	showHeader: true,
 });
 
-const RenderMap = () => {
+// const RenderGoogleMap = () => {
+// 	return (
+// 		<iframe
+// 			title="embed-map"
+// 			className="w-full"
+// 			height="250"
+// 			width="250"
+// 			style={{ border: 0 }}
+// 			loading="eager"
+// 			allowFullScreen
+// 			referrerPolicy="no-referrer-when-downgrade"
+// 			src={`https://www.google.com/maps/embed/v1/place?key=${process.env.NEXT_PUBLIC_MAPS_EMBED_API_KEY}&q=New+York,NY&zoom=14`}
+// 		></iframe>
+// 	);
+// };
+
+const RenderMapBox = ({ data }: { data: any[] }) => {
+	mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_API_KEY as string;
+	const mapContainer = useRef(null);
+	const map = useRef<mapboxgl.Map | null>(null);
+	useEffect(() => {
+		if (map.current) return; // initialize map only once
+		// eslint-disable-next-line import/no-named-as-default-member
+		map.current = new mapboxgl.Map({
+			container: 'map',
+			style: 'mapbox://styles/mapbox/streets-v12',
+			zoom: 11.5,
+			center: [-74.006, 40.72],
+			attributionControl: false,
+			// center: [lng, lat],
+			// zoom: zoom,
+		});
+	}, []);
+
+	useEffect(() => {
+		function addMarkersToMapBox(geojson: any) {
+			// add markers to map
+			if (!map.current || !geojson) return;
+			for (const feature of geojson.features) {
+				// create a HTML element for each feature
+				const el = document.createElement('div');
+				el.className = 'marker';
+				el.style.backgroundImage = feature.properties.image;
+				el.style.width = `60px`;
+				el.style.height = `60px`;
+				el.textContent = feature.properties.message;
+				el.style.backgroundSize = '100%';
+				el.style.cursor = 'pointer';
+
+				el.addEventListener('click', () => {
+					window.alert(feature.properties.message);
+				});
+
+				// make a marker for each feature and add to the map
+				new mapboxgl.Marker(el)
+					.setLngLat(feature.geometry.coordinates)
+					.addTo(map.current);
+			}
+		}
+
+		if (data.length > 0 && map.current?.isStyleLoaded)
+			addMarkersToMapBox(generateGEOJSONDataFromDispensaries(data));
+	}, [data, map.current?.isStyleLoaded]);
+
+	function generateGEOJSONDataFromDispensaries(
+		data: OrganizationWithShopDetails[],
+	) {
+		return {
+			type: 'FeatureCollection',
+			features: data.map((dispensary) => {
+				const { address, name } = dispensary;
+				const [lng, lat] = getCoordinatePairFromCoordinates(
+					address.coordinates as Coordinates,
+				);
+				return {
+					type: 'Feature',
+					geometry: {
+						type: 'Point',
+						coordinates: [lng, lat],
+					},
+					properties: {
+						message: name,
+						image: dispensary.images[0].location,
+					},
+				};
+			}),
+		};
+	}
 	return (
-		<iframe
-			title="embed-map"
-			className="w-full"
-			height="250"
-			width="250"
-			style={{ border: 0 }}
-			loading="eager"
-			allowFullScreen
-			referrerPolicy="no-referrer-when-downgrade"
-			src={`https://www.google.com/maps/embed/v1/place?key=${process.env.NEXT_PUBLIC_MAPS_EMBED_API_KEY}&q=New+York,NY&zoom=14`}
-		></iframe>
+		<>
+			<div
+				id="map"
+				ref={mapContainer}
+				className="rounded overflow-hidden shadow"
+				style={{ width: '100%', height: '220px', float: 'right' }}
+			>
+				<style global jsx>{`
+					.mapbox-logo {
+						display: none;
+					}
+					.mapboxgl-ctrl-logo {
+						display: none !important;
+					}
+					.mapbox-improve-map {
+						display: none;
+					}
+					.mapboxgl-ctrl-compass {
+						display: none;
+					}
+				`}</style>
+			</div>
+		</>
 	);
 };

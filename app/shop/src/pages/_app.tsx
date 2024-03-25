@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable prefer-rest-params */
+import CacheProvider from '@cd/core-lib/src/lib/cache';
 import {
 	LoadingPage,
 	ModalProvider,
@@ -20,6 +21,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session from 'supertokens-auth-react/recipe/session';
+import { SWRConfig } from 'swr';
 import { LayoutContainer, LocationProvider, TopBar } from '../components';
 import { frontendConfig } from '../config/frontendConfig';
 import { wrapper } from '../store';
@@ -108,113 +110,123 @@ function App({ Component, ...rest }: CustomAppProps) {
 
 			<GrasHeadTags />
 
-			<SuperTokensWrapper>
-				<ReduxProvider store={store}>
-					<PersistGate persistor={persistor} loading={<LoadingPage />}>
-						<ModalProvider />
-						<LocationProvider />
-						<ToastProvider />
-						<Elements
-							stripe={stripePromise}
-							options={{
-								mode: 'setup',
-								currency: 'usd',
-								setup_future_usage: 'off_session',
-							}}
-						>
-							<AnimatePresence
-								mode="wait"
-								initial={false}
-								onExitComplete={() => window.scrollTo(0, 0)}
+			<SWRConfig
+				value={{
+					revalidateOnFocus: false,
+					provider: CacheProvider,
+				}}
+			>
+				<SuperTokensWrapper>
+					<ReduxProvider store={store}>
+						<PersistGate persistor={persistor} loading={<LoadingPage />}>
+							<ModalProvider />
+							<LocationProvider />
+							<ToastProvider />
+							<Elements
+								stripe={stripePromise}
+								options={{
+									mode: 'setup',
+									currency: 'usd',
+									setup_future_usage: 'off_session',
+								}}
 							>
-								{routerLoading ? (
-									<LoadingPage />
-								) : (
-									<LayoutContainer {...getLayoutContext()}>
-										<ProtectedPage
-											protectedPages={[
-												'/settings',
-												'/checkout',
-												// '/orders',
-												'/account',
-											]}
-										>
-											<ErrorBoundary>
-												<>
-													<Component {...pageProps} />
+								<AnimatePresence
+									mode="wait"
+									initial={false}
+									onExitComplete={() => window.scrollTo(0, 0)}
+								>
+									{routerLoading ? (
+										<LoadingPage />
+									) : (
+										<LayoutContainer {...getLayoutContext()}>
+											<ProtectedPage
+												protectedPages={[
+													'/settings',
+													'/checkout',
+													// '/orders',
+													'/account',
+												]}
+											>
+												<ErrorBoundary>
+													<>
+														<Component {...pageProps} />
 
-													{/* // <!-- Google Tag Manager (noscript) --> */}
-													{!routerLoading && (
-														<noscript>
-															<iframe
-																title="google-tag-manager-noscript"
-																src="https://www.googletagmanager.com/ns.html?id=GTM-WC46C5C2"
-																height="0"
-																width="0"
-																style={{
-																	display: 'none',
-																	visibility: 'hidden',
-																}}
-															></iframe>
-														</noscript>
-													)}
-
-													{!routerLoading &&
-														(function (d, w, c: 'BrevoConversations') {
-															w.BrevoConversationsID =
-																process.env.NEXT_PUBLIC_BREVO_CONVERSATIONS_ID;
-															w[c] =
-																w[c] ||
-																function (...args: any[]) {
-																	(w[c].q = w[c].q || []).push(...args);
-																};
-															const s = d.createElement('script');
-															s.async = true;
-															s.src =
-																'https://conversations-widget.brevo.com/brevo-conversations.js';
-															if (d.head) d.head.appendChild(s);
-														})(document, window, 'BrevoConversations')}
-
-													{process.env.NODE_ENV === 'production' &&
-														!routerLoading &&
-														(function (
-															h,
-															o,
-															t,
-															j,
-															a: HTMLHeadElement | undefined,
-															r: HTMLScriptElement | undefined,
-														) {
-															h.hj =
-																h.hj ||
-																function (...args: any[]) {
-																	(h.hj.q = h.hj.q || []).push(...args);
-																};
-															h._hjSettings = { hjid: 3708421, hjsv: 6 };
-															a = o.getElementsByTagName('head')[0];
-															r = o.createElement('script');
-															r.async = Boolean(1);
-															r.src =
-																t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
-															a.appendChild(r);
-														})(
-															window,
-															document,
-															'https://static.hotjar.com/c/hotjar-',
-															'.js?sv=',
-															undefined,
-															undefined,
+														{/* // <!-- Google Tag Manager (noscript) --> */}
+														{!routerLoading && (
+															<noscript>
+																<iframe
+																	title="google-tag-manager-noscript"
+																	src="https://www.googletagmanager.com/ns.html?id=GTM-WC46C5C2"
+																	height="0"
+																	width="0"
+																	style={{
+																		display: 'none',
+																		visibility: 'hidden',
+																	}}
+																></iframe>
+															</noscript>
 														)}
-												</>
-											</ErrorBoundary>
-										</ProtectedPage>
-									</LayoutContainer>
-								)}
-							</AnimatePresence>
-						</Elements>
-					</PersistGate>
-				</ReduxProvider>
-			</SuperTokensWrapper>
+
+														{!routerLoading &&
+															(function (d, w, c: 'BrevoConversations') {
+																w.BrevoConversationsID =
+																	process.env.NEXT_PUBLIC_BREVO_CONVERSATIONS_ID;
+																w[c] =
+																	w[c] ||
+																	function (...args: any[]) {
+																		(w[c].q = w[c].q || []).push(...args);
+																	};
+																const s = d.createElement('script');
+																s.async = true;
+																s.src =
+																	'https://conversations-widget.brevo.com/brevo-conversations.js';
+																if (d.head) d.head.appendChild(s);
+															})(document, window, 'BrevoConversations')}
+
+														{process.env.NODE_ENV === 'production' &&
+															!routerLoading &&
+															(function (
+																h,
+																o,
+																t,
+																j,
+																a: HTMLHeadElement | undefined,
+																r: HTMLScriptElement | undefined,
+															) {
+																h.hj =
+																	h.hj ||
+																	function (...args: any[]) {
+																		(h.hj.q = h.hj.q || []).push(...args);
+																	};
+																h._hjSettings = { hjid: 3708421, hjsv: 6 };
+																a = o.getElementsByTagName('head')[0];
+																r = o.createElement('script');
+																r.async = Boolean(1);
+																r.src =
+																	t +
+																	h._hjSettings.hjid +
+																	j +
+																	h._hjSettings.hjsv;
+																a.appendChild(r);
+															})(
+																window,
+																document,
+																'https://static.hotjar.com/c/hotjar-',
+																'.js?sv=',
+																undefined,
+																undefined,
+															)}
+													</>
+												</ErrorBoundary>
+											</ProtectedPage>
+										</LayoutContainer>
+									)}
+								</AnimatePresence>
+							</Elements>
+						</PersistGate>
+					</ReduxProvider>
+				</SuperTokensWrapper>
+			</SWRConfig>
 		</>
 	);
 }
