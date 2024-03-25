@@ -102,7 +102,7 @@ export default function MarketPlace() {
 				<RenderGoogleMap />
 			</FlexBox> */}
 
-			<Grid className="relative grid-cols-3 border">
+			<Grid className="relative grid-cols-3">
 				{/* <H5 className="text-2xl px-8 lg:px-16">{`Gras delivers bud in ${
 				selectedLocation.address.city || 'Baltimore'
 			}`}</H5> */}
