@@ -74,20 +74,20 @@ const LocationProvider = () => {
 		}
 	}, [enteredSite]);
 
-	useEffect(() => {
-		if (
-			coordinates.latitude &&
-			coordinates.longitude &&
-			enteredSite &&
-			!shopState.isLoading &&
-			!shopState.isError
-		) {
-			const getDispensaries = async () => {
-				dispatch(shopActions.getDispensariesLocal() as unknown as AnyAction);
-			};
-			getDispensaries();
-		}
-	}, [selectedLocation, coordinates, enteredSite]);
+	// useEffect(() => {
+	// 	if (
+	// 		coordinates.latitude &&
+	// 		coordinates.longitude &&
+	// 		enteredSite &&
+	// 		!shopState.isLoading &&
+	// 		!shopState.isError
+	// 	) {
+	// 		const getDispensaries = async () => {
+	// 			dispatch(shopActions.getDispensariesLocal() as unknown as AnyAction);
+	// 		};
+	// 		getDispensaries();
+	// 	}
+	// }, [selectedLocation, coordinates, enteredSite]);
 	return <></>;
 };
 

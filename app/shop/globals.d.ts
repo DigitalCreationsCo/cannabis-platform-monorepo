@@ -9,6 +9,9 @@ declare module '*.mp4' {
 }
 
 interface Window {
+	// mapbox
+	mapboxgl: any;
+
 	// GTM
 	dataLayer: any;
 

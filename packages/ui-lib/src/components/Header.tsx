@@ -27,18 +27,22 @@ function Header({
 	const header = [
 		'flex flex-row grow',
 		'lg:justify-end',
-		'space-x-4',
+		'space-x-2',
 		'justify-end',
 	];
 	return (
-		<div className={twMerge(container, 'text-inherit')}>
+		<div className={twMerge(container, 'bg-secondary-light', 'text-inherit')}>
 			<div className={twMerge(header)}>
 				{(showHeaderDrawer && (
 					<CategoriesMenu drawerComponentId={drawerComponentId} />
 				)) || <></>}
 				<Link href={TextContent.href.browse}>
 					<Button
-						className={twMerge(styles.BUTTON.highlight)}
+						className={twMerge(
+							styles.BUTTON.highlight,
+							'hover:border-light',
+							'text-light font-bold text-md',
+						)}
 						bg="transparent"
 						hover="transparent"
 						size="sm"
@@ -49,7 +53,11 @@ function Header({
 
 				<Link href={TextContent.href.weedText}>
 					<Button
-						className={twMerge(styles.BUTTON.highlight)}
+						className={twMerge(
+							styles.BUTTON.highlight,
+							'hover:border-light',
+							'text-light font-bold text-md',
+						)}
 						bg="transparent"
 						hover="transparent"
 						size="sm"

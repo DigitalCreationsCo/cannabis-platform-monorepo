@@ -13,7 +13,8 @@ const styles = Object.freeze({
 	],
 	dispensaryCard: [
 		'relative',
-		'w-[240px] md:min-w-[340px] md:w-[340px] h-[220px] p-4 overflow-hidden !rounded',
+		// 'w-[240px] md:min-w-[340px] md:w-[340px] h-[220px] p-4 overflow-hidden !rounded',
+		'!min-w-[240px] !min-h-[240px] !w-[240px] !h-[240px]',
 	],
 	infoCard: [
 		'relative',
@@ -52,7 +53,7 @@ const styles = Object.freeze({
 			'btn focus:!border-primary focus:!ring-primary focus:!outline-primary h-32 w-32 col-span-1 !rounded-full p-0 m-0 overflow-hidden',
 		],
 		highlight: [
-			'border border-transparent transition-10 hover:border hover:border-primary rounded-btn px-4 tracking-wide',
+			'border border-transparent transition-1 hover:border hover:border-primary rounded-btn px-4 tracking-wide',
 		],
 	},
 	FOOTER: {

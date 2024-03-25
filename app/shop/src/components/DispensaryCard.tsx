@@ -77,11 +77,15 @@ function DispensaryCard({
 	return (
 		<Link
 			href={formatDispensaryUrl(dispensary?.subdomainId)}
-			className="z-0 shadow-2xl"
+			className="shadow"
 		>
 			<CardWithData
 				data={dispensary}
-				className={twMerge([styles.dispensaryCard, className])}
+				className={twMerge([
+					styles.dispensaryCard,
+					'rounded overflow-hidden',
+					className,
+				])}
 			>
 				<ImageBackDrop src={dispensary?.images?.[0]?.location || logo.src}>
 					<FlexBox className="z-5 absolute left-0 flex-col p-2 px-4">
