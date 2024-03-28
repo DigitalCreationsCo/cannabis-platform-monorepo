@@ -55,3 +55,12 @@ resource "google_compute_network" "gras-network" {
   # Everything in this solution is deployed regionally
   routing_mode = "REGIONAL"
 }
+
+module "storage" {
+  source = "./storage"
+
+  project_id = var.project_id
+  region     = var.region
+  tf_state   = var.tf_state
+
+}
