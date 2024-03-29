@@ -64,7 +64,7 @@ function TopBar({
 			<FlexBox className="">
 				<FlexBox className="flex-row items-center">
 					<Link href={'/'} className="z-50">
-						<GrasSignature className="text-secondary pt-1 pb-0 mb-0">
+						<GrasSignature className="text-secondary pt-1 pb-0 mb-0 leading-3">
 							Gras
 						</GrasSignature>
 					</Link>

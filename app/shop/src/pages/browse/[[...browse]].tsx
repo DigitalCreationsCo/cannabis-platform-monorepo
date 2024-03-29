@@ -3,6 +3,8 @@
 import {
 	getCoordinatePairFromCoordinates,
 	selectBlogsByTag,
+	modalActions,
+	modalTypes,
 	selectBlogState,
 	selectLocationState,
 	selectMarketPlaceDispensaries,
@@ -27,7 +29,7 @@ import {
 } from '@cd/ui-lib';
 import mapboxgl, { type MapboxGeoJSONFeature } from 'mapbox-gl';
 import { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import useSWR, { type SWRResponse } from 'swr';
 import { twMerge } from 'tailwind-merge';
 import markerImage from '../../../public/marker-30.png';
@@ -36,6 +38,7 @@ import { DispensaryCard, InfoCard } from '../../components';
 
 // /organization/zipcode=${zipcode}&limit=${limit}&radius=${radius}
 export default function MarketPlace() {
+	const dispatch = useDispatch();
 	const { user } = useSelector(selectUserState);
 	const { zipcode } = user.address[0];
 	const { radius } = useSelector(selectLocationState);
@@ -76,6 +79,18 @@ export default function MarketPlace() {
 			'text-4xl pb-0 px-4 whitespace-normal font-semi-bold hidden sm:block',
 		],
 	};
+	const [current, setCurrent] = useState(0);
+
+	function openStoreFrontModal() {
+		// open modal
+		dispatch(
+			modalActions.openModal({
+				modalType: modalTypes.StoreFrontModal,
+				organization: dispensaries[current],
+			}),
+		);
+	}
+
 	return (
 		<Page gradient="green" className="lg:px-0 pb-12 min-h-[440px]">
 			<link
@@ -110,17 +125,24 @@ export default function MarketPlace() {
 
 				<div className="col-span-full lg:col-span-2 lg:col-start-1 lg:row-start-1 content-end p-5">
 					<Carousel
+						current={current}
+						setCurrent={setCurrent}
 						settings={{ infinite: false }}
 						error={error}
 						loading={isLoading}
 						data={dispensaries}
 						datatype="dispensary"
 						SliderComponent={DispensaryCard}
+						onClick={openStoreFrontModal}
 					/>
 				</div>
 
 				<div className="p-4 row-start-1 col-span-3 lg:col-span-1">
-					<RenderMapBox data={dispensaries} />
+					<RenderMapBox
+						data={dispensaries}
+						current={current}
+						setCurrent={setCurrent}
+					/>
 				</div>
 			</Grid>
 
@@ -168,8 +190,32 @@ MarketPlace.getLayoutContext = (): LayoutContextProps => ({
 // 	);
 // };
 
-const RenderMapBox = ({ data }: { data: any[] }) => {
+const RenderMapBox = ({
+	data,
+	current,
+	setCurrent,
+}: {
+	data: any[];
+	current: number;
+	setCurrent: React.Dispatch<React.SetStateAction<number>>;
+}) => {
 	const [isMarkerSet, setIsMarkerSet] = useState(false);
+
+	useEffect(() => {
+		// fly to the selected location
+		if (data.length > 0 && map.current?.isStyleLoaded) {
+			const { address } = data[current];
+			const [lng, lat] = getCoordinatePairFromCoordinates(
+				address.coordinates as Coordinates,
+			);
+			map.current?.flyTo({
+				center: [lng, lat],
+				zoom: 11,
+				speed: 2,
+				animate: true,
+			});
+		}
+	}, [current]);
 
 	mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_API_KEY as string;
 	const mapContainer = useRef(null);
@@ -193,6 +239,7 @@ const RenderMapBox = ({ data }: { data: any[] }) => {
 			// add markers to map
 			if (!map.current || !geojson) return;
 			for (const feature of geojson.features) {
+				const index = geojson.features.indexOf(feature);
 				console.info('feature: ', feature);
 				// create a HTML element for each feature
 				const el = document.createElement('div');
@@ -332,6 +379,7 @@ const RenderMapBox = ({ data }: { data: any[] }) => {
 				// svgContainer.appendChild(svg);
 
 				el.addEventListener('click', () => {
+					setCurrent(index);
 					window.alert(feature.properties.message);
 				});
 

@@ -10,4 +10,5 @@ export const modalTypes = Object.freeze({
 	checkAgeModal: 'CHECK_AGE_MODAL',
 	emailModal: 'EMAIL_MODAL',
 	NewDailyDealModal: 'NEW_DAILY_DEAL_MODAL',
+	StoreFrontModal: 'STOREFRONT_MODAL',
 });

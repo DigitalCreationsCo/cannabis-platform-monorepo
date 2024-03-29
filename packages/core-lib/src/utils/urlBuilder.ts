@@ -156,6 +156,11 @@ const urlBuilder = {
 			`/api/v1/email/transactional/?dsid=${dsid}&email=${email}`,
 		createOrEditLead: () => urlBuilder.dailyStory.baseUrl + `/api/v1/lead/`,
 	},
+
+	freshSales: {
+		baseUrl: process.env.FRESHSALES_API_URL,
+		createContact: () => `${urlBuilder.freshSales.baseUrl}/api/contacts`,
+	},
 };
 
 export { urlBuilder };

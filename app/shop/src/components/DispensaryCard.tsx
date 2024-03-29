@@ -84,6 +84,7 @@ function DispensaryCard({
 				className={twMerge([
 					styles.dispensaryCard,
 					'rounded overflow-hidden',
+					'shadow',
 					className,
 				])}
 			>
