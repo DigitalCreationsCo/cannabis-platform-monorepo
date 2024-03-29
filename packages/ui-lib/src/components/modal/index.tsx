@@ -6,6 +6,7 @@ export { default as CheckAgeModal } from './CheckAgeModal';
 export { default as CheckoutModal } from './CheckoutModal';
 export { default as ConfirmationModal } from './ConfirmationModal';
 export { default as EmailModal } from './EmailModal';
+export { default as StoreFrontModal } from './StoreFrontModal';
 export * from './LoginModal';
 export { default as NewDailyDealModal } from './NewDailyDealModal';
 export * from './Modal';

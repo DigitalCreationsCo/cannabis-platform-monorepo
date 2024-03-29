@@ -1,8 +1,11 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import { useRef, useState } from 'react';
 import Slider, { type Settings } from 'react-slick';
 import CarouselButton from './CarouselButton';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { twMerge } from 'tailwind-merge';
 
 type CarouselItemComponent<DataType> = React.FC<{
 	data: DataType;
@@ -17,6 +20,9 @@ type CarouselProps<DataType> = {
 	title?: string;
 	SliderComponent: CarouselItemComponent<DataType>;
 	settings?: Settings;
+	current: number;
+	setCurrent: React.Dispatch<React.SetStateAction<number>>;
+	onClick?: () => void;
 };
 
 export default function Carousel<D>({
@@ -27,9 +33,11 @@ export default function Carousel<D>({
 	title,
 	SliderComponent,
 	settings,
+	current,
+	setCurrent,
+	onClick,
 }: CarouselProps<D>) {
 	const slider = useRef<Slider>(null);
-	const [current, setCurrent] = useState(0);
 
 	const increment = () => {
 		// if (current <= data.length) {
@@ -87,7 +95,14 @@ export default function Carousel<D>({
 			<CarouselButton direction={'left'} onClick={() => decrement()} />
 			<Slider ref={slider} {...carouselSettings} className="overflow-clip">
 				{data.map((d, index) => (
-					<div key={`slider-${index}`} className="pr-4">
+					<div
+						key={`slider-${index}`}
+						className={twMerge(
+							'pr-4',
+							current === index ? 'opacity-100' : 'opacity-75',
+						)}
+						onClick={onClick}
+					>
 						<SliderComponent
 							key={`${datatype}-${index}`}
 							data={d}

@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
+import { type Organization } from '@cd/data-access';
 import {
 	createAsyncThunk,
 	createSlice,
@@ -86,17 +87,19 @@ export type ModalType =
 	| 'CHECKOUT_MODAL'
 	| 'CHECK_AGE_MODAL'
 	| 'EMAIL_MODAL'
-	| 'NEW_DAILY_DEAL_MODAL';
+	| 'NEW_DAILY_DEAL_MODAL'
+	| 'STOREFRONT_MODAL';
 
 export type ModalStateProps = {
+	organization?: Organization;
 	modalType: ModalType;
-	modalVisible: boolean;
+	modalVisible?: boolean;
 	modalText?: string;
 	isLoading?: boolean;
 	isConfirmed?: boolean;
 	isDeclined?: boolean;
 	isSelected?: boolean;
-	errorMessage: string;
+	errorMessage?: string;
 };
 
 const initialState: ModalStateProps = {
@@ -110,10 +113,7 @@ const initialState: ModalStateProps = {
 	errorMessage: '',
 };
 
-export type ModalActionPayload = {
-	modalType: ModalType;
-	modalText?: string;
-};
+export type ModalActionPayload = ModalStateProps;
 
 const modalSlice = createSlice({
 	name: 'modal',

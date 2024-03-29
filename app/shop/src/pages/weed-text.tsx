@@ -21,7 +21,6 @@ import {
 } from '@cd/ui-lib';
 import Icons from '@cd/ui-lib/src/icons';
 import { type StaticImageData } from 'next/image';
-import Link from 'next/link';
 import { type PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 import ContinueSignUp from 'components/form/ContinueSignUp';
@@ -40,7 +39,12 @@ function WeedTextSignUp() {
 	}
 
 	return (
-		<Page className="bg-secondary text-light p-0 sm:p-0 md:p-0 lg:p-0">
+		<Page
+			className={twMerge(
+				styles.gradient,
+				'text-light p-0 sm:p-0 md:p-0 lg:p-0 !border-none',
+			)}
+		>
 			{/* <ImageBackDrop video={friendsVideo}></ImageBackDrop> */}
 			<FlexBox className="mx-auto flex p-4 px-8 md:px-20 w-full space-x-2 items-center space-y-8 lg:space-y-8">
 				<div className="flex flex-col self-center text-center lg:py-2">
@@ -217,3 +221,13 @@ WeedTextSignUp.getLayoutContext = (): LayoutContextProps => ({
 	showTopBar: true,
 });
 export default WeedTextSignUp;
+
+const styles = {
+	gradient: [
+		'bg-gradient-to-b',
+		'from-10%',
+		'from-secondary-light',
+		'to-secondary',
+		'p-0 lg:p-16 h-max',
+	],
+};

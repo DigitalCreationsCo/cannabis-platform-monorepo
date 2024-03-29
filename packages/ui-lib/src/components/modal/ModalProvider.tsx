@@ -12,6 +12,7 @@ import CheckoutModal from './CheckoutModal';
 import EmailModal from './EmailModal';
 import LoginModal from './LoginModal/LoginModal';
 import NewDailyDealModal from './NewDailyDealModal';
+import StoreFrontModal from './StoreFrontModal';
 // import ConfirmModal from "./ConfirmModal";
 // import MessageBanner from "./MessageBanner";
 // import MessageModal from "./MessageModal";
@@ -30,6 +31,7 @@ const MODAL_COMPONENTS = Object.freeze({
 	LOGIN_MODAL: LoginModal,
 	EMAIL_MODAL: EmailModal,
 	NEW_DAILY_DEAL_MODAL: NewDailyDealModal,
+	STOREFRONT_MODAL: StoreFrontModal,
 });
 
 type ModalContainerProps = ModalStateProps & {
