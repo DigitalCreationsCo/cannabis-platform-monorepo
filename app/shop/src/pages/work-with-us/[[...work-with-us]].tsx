@@ -25,7 +25,7 @@ export default function DispensaryLandingPage() {
 			className={twMerge(
 				'bg-inverse-soft',
 				'lg:min-h-[710px]',
-				'flex flex-col gap-8',
+				'flex flex-col',
 				'p-0 m-0 md:p-0 lg:p-0',
 			)}
 		>
@@ -56,9 +56,13 @@ export default function DispensaryLandingPage() {
 			</Head>
 			<Hero />
 			<Partners partners={partners} />
-			<Benefits id="benefit-1" data={benefitDataDeliveryThatWorksForYou} />
-			<Benefits id="benefit-1" data={benefitDataTrackYourOrders}></Benefits>
-			<Benefits id="benefit-2" data={benefitDataStableBusinessAndGrowth} />
+			<Benefits id="benefit-3" data={benefitDataStableBusinessAndGrowth} />
+			<Benefits
+				id="benefit-1"
+				imagePosition="left"
+				data={benefitDataDeliveryThatWorksForYou}
+			/>
+			<Benefits id="benefit-2" data={benefitDataTrackYourOrders} />
 			<ContactUs />
 		</Page>
 	);

@@ -31,34 +31,34 @@ export default function Benefits({
 			className={twMerge(
 				'relative',
 				'gap-8',
-				'py-16',
+				'pt-24 pb-12',
 				`${data.image && imagePosition === 'right' ? 'lg:justify-end' : ''}`,
 				props.className,
 			)}
 		>
 			<FlexBox
 				className={twMerge(
-					'flex flex-col flex-wrap items-center justify-center gap-8 md:space-x-12 md:space-y-0',
+					'flex flex-col flex-wrap items-center justify-center gap-4 md:space-x-12 md:space-y-0',
 				)}
 			>
 				{data.title && (
 					<H3
 						className={twMerge(
 							styles.textShadow,
-							'mt-3 text-center text-4xl font-bold leading-snug tracking-wider lg:text-4xl lg:leading-tight',
+							'mt-3 text-center text-4xl font-bold leading-snug max-w-sm md:max-w-4xl tracking-wider lg:text-5xl lg:leading-tight',
 						)}
 					>
 						{data.title}
 					</H3>
 				)}
 				{data.description && (
-					<H4 className="w-3/4 text-xl text-center leading-normal">
+					<p className="font-encode text-center tracking-wider max-w-sm lg:max-w-3xl mx-auto text-2xl lg:mb-2">
 						{data.description}
-					</H4>
+					</p>
 				)}
 				<FlexBox
 					className={twMerge(
-						'flex flex-col md:flex-row flex-wrap items-center justify-center gap-8',
+						'flex flex-col lg:flex-row flex-wrap items-center justify-center gap-8',
 					)}
 				>
 					{data.bullets.length > 0 && (
@@ -82,8 +82,8 @@ export default function Benefits({
 
 					{data.image && (
 						<div
-							className={`max-w-3xl m-8 flex items-center justify-center ${
-								imagePosition === 'right' ? 'lg:order-1' : ''
+							className={`max-w-xl m-8 flex items-center justify-center -order-1 lg:order-1 ${
+								imagePosition === 'right' ? 'lg:order-1' : 'lg:-order-1'
 							}`}
 						>
 							<Image
