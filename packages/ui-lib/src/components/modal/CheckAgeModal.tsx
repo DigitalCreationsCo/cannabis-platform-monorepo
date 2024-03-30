@@ -1,11 +1,11 @@
+import { type ModalStateProps } from '@cd/core-lib';
 import { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import CheckAge from '../CheckAge';
 import Modal from './Modal';
 
-interface CheckAgeModalProps {
+interface CheckAgeModalProps extends ModalStateProps {
 	dispatchCloseModal: () => void;
-	modalVisible: boolean;
 }
 
 function CheckAgeModal({

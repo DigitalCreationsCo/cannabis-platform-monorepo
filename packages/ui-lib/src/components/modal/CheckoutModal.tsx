@@ -1,4 +1,5 @@
 import {
+	type ModalStateProps,
 	modalActions,
 	modalTypes,
 	selectIsAddressAdded,
@@ -14,9 +15,8 @@ import FlexBox from '../FlexBox';
 import { H4, Paragraph } from '../Typography';
 import Modal from './Modal';
 
-interface CheckoutModalProps {
+interface CheckoutModalProps extends ModalStateProps {
 	dispatchCloseModal: () => void;
-	modalVisible: boolean;
 }
 
 function CheckoutModal({
@@ -44,7 +44,7 @@ function CheckoutModal({
 		<Modal
 			disableClickOutside
 			className={twMerge(styles.responsive, 'flex flex-col')}
-			modalVisible={modalVisible}
+			modalVisible={modalVisible || false}
 			onClose={dispatchCloseModal}
 			{...props}
 		>

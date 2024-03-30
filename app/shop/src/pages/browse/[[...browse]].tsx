@@ -62,7 +62,7 @@ export default function MarketPlace() {
 		},
 	);
 
-	const dispensaries = data?.payload || [];
+	const dispensaries = (data as any)?.payload || [];
 	console.info('dispensaries: ', dispensaries);
 	console.info('error: ', error);
 

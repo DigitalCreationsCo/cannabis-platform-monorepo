@@ -1,21 +1,16 @@
-import { type Organization } from '@cd/data-access';
+import { type ModalStateProps } from '@cd/core-lib';
 import { useEffect, useState } from 'react';
-import { twMerge } from 'tailwind-merge';
 import Modal from './Modal';
 
-interface StoreFrontModalProps {
+interface StoreFrontModalProps extends ModalStateProps {
 	dispatchCloseModal: () => void;
-	modalVisible: boolean;
 }
 
 export default function StoreFrontModal({
-	organization,
 	modalVisible,
 	dispatchCloseModal,
 	...props
-}: {
-	organization: Organization;
-} & StoreFrontModalProps) {
+}: StoreFrontModalProps) {
 	const [openModal, setOpenModal] = useState(false);
 	useEffect(() => {
 		setOpenModal(modalVisible);
@@ -24,12 +19,7 @@ export default function StoreFrontModal({
 	const closeModal = () => dispatchCloseModal();
 
 	return modalVisible ? (
-		<Modal
-			// className={twMerge(styles.responsive, 'flex flex-col')}
-			modalVisible={openModal}
-			onClose={closeModal}
-			{...props}
-		></Modal>
+		<Modal modalVisible={openModal} onClose={closeModal} {...props}></Modal>
 	) : (
 		<></>
 	);

@@ -5,7 +5,7 @@ import {
 	type ModalType,
 } from '@cd/core-lib';
 import { useMemo } from 'react';
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import CartModal from './CartModal';
 import CheckAgeModal from './CheckAgeModal';
 import CheckoutModal from './CheckoutModal';
@@ -38,22 +38,23 @@ type ModalContainerProps = ModalStateProps & {
 	dispatchCloseModal: () => void;
 };
 
-const ModalContainer = (props: ModalContainerProps) => {
-	const modalState = useSelector(selectModalState);
-
+const ModalContainer = ({
+	modalVisible = false,
+	...props
+}: ModalContainerProps) => {
 	const modalType: ModalType = useMemo(
-		() => modalState.modalType,
-		[modalState],
+		() => props.modalType,
+		[modalVisible, props],
 	);
 
 	const ModalComponent = useMemo(
 		() => MODAL_COMPONENTS[modalType],
-		[modalState.modalType],
+		[props.modalType],
 	);
 
-	if (!modalState.modalType && !modalState.modalVisible) return <></>;
+	if (typeof modalVisible == 'undefined') return <></>;
 
-	return <ModalComponent {...modalState} {...props} />;
+	return <ModalComponent modalVisible={modalVisible} {...props} />;
 };
 
 const mapStateToProps = selectModalState;
