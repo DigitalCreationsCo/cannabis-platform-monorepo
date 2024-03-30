@@ -6,8 +6,8 @@ import { type Partner } from './partners-data';
 function Partners({ partners }: { partners: Partner[] }) {
 	return (
 		<div className={twMerge('pt-8 sm:pt-0', styles.gradient)}>
-			<p className="text-center tracking-wider max-w-sm lg:max-w-xl mx-auto text-lg lg:mb-2 font-medium">
-				{`Partnered with the leading cannabis technology`.toUpperCase()}
+			<p className="font-encode text-center tracking-wider max-w-sm lg:max-w-xl mx-auto text-2xl lg:mb-2">
+				{`Partnered with the leading cannabis technology`}
 			</p>
 			<Grid className="grid-cols-2 justify-center md:px-16 lg:grid-cols-3 gap-2 mx-auto">
 				{partners.map(({ imgSrc, name }: Partner) => (

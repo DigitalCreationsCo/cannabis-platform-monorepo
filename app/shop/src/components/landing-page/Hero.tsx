@@ -5,36 +5,25 @@ import { twMerge } from 'tailwind-merge';
 import heroImg from '../../../public/cannabis-delivered.jpg';
 
 function Hero() {
+	const [heading, largeHeading] = [
+		'tracking-wider inline-block max-w-4xl whitespace-pre-line text-5xl font-bold text-secondary-light sm:text-5xl xl:text-6xl',
+		'tracking-wider bg-clip-text text-transparent bg-gradient-to-b from-secondary-light to-primary-light inline max-w-4xl whitespace-pre-line text-5xl font-bold sm:text-6xl xl:text-7xl',
+	];
 	return (
 		<section className={twMerge('bg-inverse', 'pt-16')}>
-			<div
-				className={twMerge(
-					'sm:' + styles.textShadow,
-					'text-center mt-16 sm:mt-0',
-				)}
-			>
-				<H1 className="pb-2 inline-block max-w-4xl whitespace-pre-line text-4xl font-bold text-secondary-light sm:text-6xl xl:text-7xl">
-					Fast&nbsp;
-				</H1>
-				<H1 className="inline-block max-w-4xl whitespace-pre-line text-4xl font-bold text-secondary-light sm:text-6xl xl:text-7xl">
-					and&nbsp;
-				</H1>
-				<H1 className="inline-block max-w-4xl whitespace-pre-line text-4xl font-bold text-secondary-light sm:text-6xl xl:text-7xl">
-					Easy
-				</H1>
-				<H1 className="bg-clip-text text-transparent bg-gradient-to-b from-secondary-light to-primary-light inline max-w-4xl whitespace-pre-line text-4xl font-bold sm:text-7xl xl:text-8xl">
-					{`\nCannabis`}
-				</H1>
-				<H1 className="bg-clip-text text-transparent inline max-w-4xl whitespace-pre-line text-4xl font-bold bg-gradient-to-b from-secondary-light to-primary-light sm:text-7xl xl:text-8xl">
-					&nbsp;Delivery
-				</H1>
+			<div className={twMerge('sm:' + styles.textShadow, 'text-center mt-0')}>
+				<H1 className={twMerge('pb-2', heading)}>Fast&nbsp;</H1>
+				<H1 className={heading}>and&nbsp;</H1>
+				<H1 className={heading}>Easy</H1>
+				<H1 className={largeHeading}>{`\nCannabis`}</H1>
+				<H1 className={largeHeading}>&nbsp;Delivery</H1>
 			</div>
-			<div className="mx-auto grid max-w-screen-xl p-6 place-self-center text-center sm:gap-y-16 gap-y-16 mt-0 sm:mt-0">
-				<p className="leading-9 mx-auto tracking-wider max-w-xl text-2xl lg:text-3xl font-semibold whitespace-pre-line">
-					<b className="text-primary">Efficient</b> and{' '}
-					<b className="text-primary">compliant</b>{' '}
-					<b className="text-primary">delivery service</b> for cannabis retail
-					{/* full&#8209;service  */}
+			<div className="sm:my-0 mx-auto grid max-w-screen-xl p-6 place-self-center text-center gap-y-16 mt-0">
+				<p className="font-encode mx-auto tracking-wider max-w-lg xl:max-w-xl text-2xl xl:text-3xl whitespace-pre-line">
+					Driving Your Success with Essential{' '}
+					<b className="text-primary">Delivery</b> and{' '}
+					<b className="text-primary">Retail Services</b>
+					{/* <b className="text-primary">Business Development</b> */}
 				</p>
 				<FlexBox className="items-center gap-4 sm:flex-row justify-center lg:gap-8">
 					<Link href={'#contact-us-header'} scroll={false}>

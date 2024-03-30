@@ -5,7 +5,6 @@ import axios from 'axios';
 import { type NextApiRequest, type NextApiResponse } from 'next';
 import { type ContactUsFormResponse } from 'components/landing-page/ContactUs';
 
-const EMAIL_ID_INTERNAL_CONTACT_US_NOTICE = '55062';
 const FRESHSALES_ADMIN_USERID = 26004178205;
 
 export default async function handler(
@@ -47,16 +46,40 @@ const handlePOST = async (req: any, res: any) => {
 			state,
 			zipcode,
 			howDidYouHearAboutUs,
+			subscribeCannabisInsiderNewsletter,
 			serviceAreaRange,
 			weeklyDeliveries,
 			message,
 		}: ContactUsFormResponse = req.body;
 
+		// upsert account
+		const account = await axios.post<{ sales_account: { id: number } }>(
+			`${urlBuilder.freshSales.baseUrl}/api/sales_accounts/upsert`,
+			{
+				unique_identifier: { name: company },
+				sales_account: {
+					name: company,
+					address: null,
+					city,
+					state,
+					zipcode,
+					country: 'United_States',
+				},
+			},
+			{
+				headers: {
+					...applicationHeaders,
+					authorization: `Token token=${process.env.FRESHSALES_API_KEY}`,
+				},
+			},
+		);
+		console.info('account', account.data);
+
+		// TO DO: Mar 30 2024
 		// create a contact with tag 'contact us', 'dispensary lead'
 		// set automations for the tags
 		// send an email to Gras with the contact information
 		// send an email to the contact with information about Gras
-
 		const response = await axios.post<any>(
 			urlBuilder.freshSales.createContact(),
 			{
@@ -65,25 +88,23 @@ const handlePOST = async (req: any, res: any) => {
 					last_name: lastName,
 					job_title: title,
 					email: fromEmail,
-					segments: [14461],
-					company,
 					mobile_number: phone,
 					work_number: phone,
 					city,
 					state,
 					zipcode,
 					country: 'United_States',
-					sales_accounts: [company],
+					sales_account: [{ id: account.data.sales_account.id }],
 					lead_source_id: null,
 					owner_id: FRESHSALES_ADMIN_USERID,
-					subscription_status: 'Subscribed',
-					subscription_types: [
-						'CANNABIS INSIDER | commerce, news, progress',
-						'Non-marketing emails from our company',
-					],
+					subscription_status: [1],
+					subscription_types: `${
+						subscribeCannabisInsiderNewsletter ? 4 : 0
+					};1;2;3;`,
 					medium: 'contact-us-form',
 					keyword: 'growth',
 					custom_field: {
+						company: company,
 						'How did you hear about us': howDidYouHearAboutUs,
 						'Service Area Range': serviceAreaRange,
 						'Weekly Deliveries': weeklyDeliveries,
@@ -94,7 +115,7 @@ const handlePOST = async (req: any, res: any) => {
 			{
 				headers: {
 					...applicationHeaders,
-					authorization: `Bearer ${process.env.FRESHSALES_API_KEY}`,
+					authorization: `Token token=${process.env.FRESHSALES_API_KEY}`,
 				},
 			},
 		);
@@ -164,7 +185,11 @@ const handlePOST = async (req: any, res: any) => {
 			.status(response.status)
 			.json({ success: 'true', payload: response.data.Response });
 	} catch (error: any) {
-		console.error('POST api/contact-us: ', error);
-		return res.json({ success: 'false', error: error.message });
+		console.error('POST api/contact-us: ', error.message);
+		console.error('POST api/contact-us: ', error.response.data);
+		return res.json({
+			success: 'false',
+			error: error.response?.data?.errors?.message[0] || error.message,
+		});
 	}
 };

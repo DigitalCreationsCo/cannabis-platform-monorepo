@@ -39,10 +39,11 @@ export type ContactUsFormResponse = {
 		| 'search'
 		| 'other';
 	allowProcessResponse: boolean;
+	subscribeCannabisInsiderNewsletter: boolean;
 	title: string;
 	company: string;
-	serviceAreaRange: number | null;
-	weeklyDeliveries: number | null;
+	serviceAreaRange?: number;
+	weeklyDeliveries?: number;
 };
 
 const howDidYouHearAboutUsOptions: {
@@ -68,12 +69,13 @@ export default function ContactUsForm() {
 		message: '',
 		howDidYouHearAboutUs: 'Linkedin',
 		allowProcessResponse: false,
+		subscribeCannabisInsiderNewsletter: false,
 		title: '',
 		company: '',
 		// How many miles from your store do you want to deliver?*
 		// How many orders do you expect to deliver per week?*
-		serviceAreaRange: null,
-		weeklyDeliveries: null,
+		serviceAreaRange: undefined,
+		weeklyDeliveries: undefined,
 	};
 	const {
 		resetForm,
@@ -140,33 +142,43 @@ export default function ContactUsForm() {
 
 			toast.success(
 				'Thank you for submitting a request for partnership. You will receive a response from our team within 24 hours.',
+				{
+					duration: 5000,
+				},
 			);
 			setLoadingButton(false);
-			resetForm();
+			resetForm({ values: initialValues });
 		} catch (error: any) {
 			console.error('Contact Us: ', error);
 			setLoadingButton(false);
 			toast.error(error.message);
 		}
 	}
+
+	const [heading] = [
+		'tracking-wider bg-clip-text text-transparent bg-gradient-to-b from-secondary-light to-primary-light inline max-w-4xl whitespace-pre-line text-5xl font-bold sm:text-6xl xl:text-7xl',
+	];
+
 	return (
 		<div id="contact-us-header" className={twMerge('mt-16', 'bg-secondary')}>
-			<Grid className="py-12 lg:py-24 px-4 md:px-10 grid-cols-1 xl:grid-cols-2 xl:gap-x-32 auto-cols-max">
-				<div className="pb-12 text-2xl text-light max-w-full md:max-w-2xl col-span-2 lg:col-span-1 xl:ml-auto">
-					<Paragraph className="leading-loose tracking-wider mb-2 max-w-md md:max-w-full text-xl md:my-6 md:text-3xl">
-						We deliver your business to more people.
+			<Grid className="py-12 lg:py-24 px-4 md:px-32 grid-cols-1 xl:grid-cols-2 xl:gap-x-24 auto-cols-max">
+				<div className="pb-12 text-2xl text-light max-w-full col-span-full xl:mr-auto">
+					<Paragraph
+						className={twMerge(
+							'leading-loose mb-2 max-w-md md:max-w-full text-xl md:my-6 md:text-3xl',
+						)}
+					>
+						We deliver your business to more people, online and outside.
 					</Paragraph>
-					<H2 className="md:text-6xl max-w-2xl lg:max-w-full lg:col-span-2 leading-relaxed">
-						<span className="font-bold text-primary-light">
-							Partner with Gras
-						</span>{' '}
-						for home delivery today.
+					<H2 className="md:text-6xl max-w-2xl lg:max-w-full lg:col-span-2">
+						<span className={twMerge(heading)}>Partner with Gras</span> for home
+						delivery and retail services.
 					</H2>
 				</div>
 
 				<div
 					id="founder-quote"
-					className="p-16 border rounded-xl shadow-xl drop-shadow-2xl hidden xl:block text-light xl:max-w-2xl ml-auto row-start-2"
+					className="p-12 border rounded-xl shadow-xl drop-shadow-2xl hidden xl:block text-light xl:max-w-xl ml-auto row-start-2"
 				>
 					<FlexBox className="flex-row">
 						<Image
@@ -174,8 +186,8 @@ export default function ContactUsForm() {
 							src={require('../../../public/founder.jpg')}
 							alt={'founder'}
 						/>
-						<FlexBox className="ml-8 flex-col self-stretch justify-center">
-							<Paragraph className="text-primary-light text-xl font-semibold mb-3">
+						<FlexBox className="ml-8 flex-col self-stretch mt-4">
+							<Paragraph className="text-primary-light text-xl font-semibold mb-1">
 								Bryant Mejia
 							</Paragraph>
 							<Paragraph className="text-xl">Founder of Gras</Paragraph>
@@ -184,7 +196,7 @@ export default function ContactUsForm() {
 
 					<div className="mt-12">
 						<Paragraph className="text-xl text-light leading-relaxed">
-							{`To best serve you, tell us about your delivery need. We'll arrange a free consultation call to discuss how we can help! 
+							{`To best serve you, tell us about your delivery and business needs. We'll arrange a free call to form a working growth strategy. 
 							`}
 						</Paragraph>
 					</div>
@@ -192,12 +204,11 @@ export default function ContactUsForm() {
 
 				<form
 					id="contact-us-form"
-					className="self-end w-full xl:max-w-2xl mr-auto row-start-2"
+					className="self-end w-full lg:w-3/4 xl:w-full m-auto xl:max-w-xl lg:mr-auto row-start-2"
 				>
 					<Grid className="grid-cols-2">
-						<Paragraph className="col-span-2 px-2 text-light mb-2 md:max-w-full text-xl md:my-8">
-							{`Please fill out the form below. 
-						Someone from our senior team will contact you within 24 hours.`}
+						<Paragraph className="col-span-2 px-2 text-light mb-2 md:max-w-full text-xl md:my-12">
+							{`Contact us using the form below. Our team will reach out within 24 hours.`}
 						</Paragraph>
 						<TextField
 							containerClassName="px-2 col-span-1"
@@ -360,7 +371,14 @@ export default function ContactUsForm() {
 							name={'allowProcessResponse'}
 							onChange={handleChange}
 							checked={values.allowProcessResponse}
-							label="We will only use your contact info to process this inquiry. By clicking Contact Us, you agree to allow us to store the contact information."
+							label="You agree to allow us to store your contact information. Gras will only use your contact info to communicate with your business."
+						/>
+						<CheckBox
+							className="px-2 pt-4 w-full text-light col-span-full"
+							name={'subscribeCannabisInsiderNewsletter'}
+							onChange={handleChange}
+							checked={values.subscribeCannabisInsiderNewsletter}
+							label="Subscribe to CANNABIS INSIDER, our business email newsletter."
 						/>
 						<div className="mt-16 col-span-2 place-self-center mx-2">
 							<Button

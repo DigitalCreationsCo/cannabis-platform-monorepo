@@ -5,23 +5,23 @@ import benefitOneImg from '../../../../public/get-order.png';
 import benefitTwoImg from '../../../../public/pair-of-buds.png';
 
 export const benefitDataDeliveryThatWorksForYou: BenefitData = {
-	title: 'Delivery That Works For You',
-	description: `Offering flexible delivery service to suit your business.`,
+	title: 'We Make Cannabis Delivery Easy',
+	description: `With Flexible Delivery Service That Suits Your Business.`,
 	image: benefitOneImg,
 	bullets: [
 		{
-			title: 'Secure Delivery',
-			description:
-				'Our Delivery team is trained in industry compliance and safety.',
-			icon: Icons.UserAdmin,
-		},
-		{
-			title: `So Easy You'll Giggle`,
+			// title: `We Make Cannabis Delivery Easy`,
 			description: `Fast and easy same-day delivery.`,
 			icon: Icons.CheckmarkOutline,
 		},
 		{
-			title: 'Same-Day Delivery',
+			title: 'Secure Delivery',
+			description:
+				'Our delivery team is trained in compliant and safe delivery.',
+			icon: Icons.UserAdmin,
+		},
+		{
+			title: 'Fastest Delivery In The City',
 			description: 'We guarantee delivery within 2 hours in New York City',
 			icon: Icons.ShoppingBag,
 		},
@@ -36,19 +36,19 @@ export const benefitDataTrackYourOrders: BenefitData = {
 };
 
 export const benefitDataStableBusinessAndGrowth = {
-	title: 'We Value Stable Business Growth',
-	description: `Your goals are our goals. We're here to help you grow.`,
+	title: 'We Drive Retail Business Growth',
+	description: `Your Vision + Our Support = Success`,
 	image: benefitTwoImg,
 	bullets: [
 		{
-			title: 'Support When You Need It',
-			description: 'Support is a phone call or a click away.',
-			icon: Icons.ServiceDesk,
+			// title: 'Your Goals Are Our Goals',
+			description: `Our team is committed to growing your business.`,
+			icon: Icons.IncreaseLevel,
 		},
 		{
-			title: 'Your Goals Are Our Goals',
-			description: `Gras is committed to sustainable growth in the cannabis industry.`,
-			icon: Icons.IncreaseLevel,
+			// title: 'Support When You Need It',
+			description: 'Support is a phone call or a click away.',
+			icon: Icons.ServiceDesk,
 		},
 	],
 };
@@ -58,7 +58,7 @@ export type BenefitData = {
 	description?: string;
 	image?: StaticImageData | string;
 	bullets: {
-		title: string;
+		title?: string;
 		description?: string;
 		icon: any;
 	}[];
