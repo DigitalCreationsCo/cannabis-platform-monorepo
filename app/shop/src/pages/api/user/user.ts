@@ -1,7 +1,7 @@
 import supertokens from 'supertokens-node';
 import { superTokensNextWrapper } from 'supertokens-node/nextjs';
 import { verifySession } from 'supertokens-node/recipe/session/framework/express';
-import { backendConfig } from '../../config/backendConfig';
+import { backendConfig } from '../../../config/backendConfig';
 
 supertokens.init(backendConfig());
 

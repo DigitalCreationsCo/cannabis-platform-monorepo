@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { type Organization } from '@cd/data-access';
 import {
 	createAsyncThunk,
 	createSlice,
@@ -91,9 +90,9 @@ export type ModalType =
 	| 'STOREFRONT_MODAL';
 
 export type ModalStateProps = {
-	organization?: Organization;
+	organization?: any;
 	modalType: ModalType;
-	modalVisible?: boolean;
+	modalVisible: boolean;
 	modalText?: string;
 	isLoading?: boolean;
 	isConfirmed?: boolean;
@@ -103,6 +102,7 @@ export type ModalStateProps = {
 };
 
 const initialState: ModalStateProps = {
+	organization: null,
 	modalType: 'SHOW_MODAL',
 	modalVisible: false,
 	modalText: '',
@@ -119,7 +119,7 @@ const modalSlice = createSlice({
 	name: 'modal',
 	initialState,
 	reducers: {
-		openModal: (state, { payload }: { payload: ModalActionPayload }) => {
+		openModal: (state, { payload }: { payload: any }) => {
 			state.modalType = payload.modalType || state.modalType;
 			state.modalText = payload.modalText || state.modalText;
 			state.modalVisible = true;
