@@ -4,7 +4,6 @@ import React, {
 	type ReactEventHandler,
 	type SVGAttributes,
 } from 'react';
-import error from 'supertokens-node/lib/build/error';
 import { twMerge } from 'tailwind-merge';
 import { Paragraph } from '../../components/Typography';
 import { styles } from '../../styleClassNames';
@@ -14,7 +13,6 @@ import FlexBox from '../FlexBox';
 type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
 	className?: string;
 	containerClassName?: string;
-	maxNumber?: number;
 	name?: string;
 	label?: string;
 	labelColor?: any;
@@ -35,7 +33,6 @@ type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
 function TextField({
 	className,
 	containerClassName,
-	maxNumber,
 	name,
 	type,
 	error,
@@ -57,6 +54,14 @@ function TextField({
 		...props,
 	};
 	const [focus, setFocus] = useState(false);
+	function checkMaxValue(event: any) {
+		// limit value length to props.maxLength
+		if (props.maxLength && event.target.value.length > props.maxLength) {
+			event.target.value = event.target.value.slice(0, props.maxLength);
+		}
+		if (onChange) onChange(event);
+	}
+
 	return (
 		<FlexBox
 			className={twMerge(
@@ -96,11 +101,10 @@ function TextField({
 						setFocus(true);
 					}}
 					name={name}
-					maxLength={maxNumber}
 					defaultValue={defaultValue}
 					type={type}
 					value={value}
-					onChange={onChange}
+					onChange={checkMaxValue}
 					onBlur={() => {
 						if (onBlur) onBlur;
 						setFocus(false);

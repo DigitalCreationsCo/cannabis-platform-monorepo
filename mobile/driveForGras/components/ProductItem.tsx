@@ -56,7 +56,7 @@ function ProductItem({
 	// 		>
 	// 			<TextInput
 	// 				// label="Quantity"
-	// 				// maxNumber={product.stock}
+	// 				// max={product.stock}
 	// 				// type="number"
 	// 				// value={quantity}
 	// 				onChange={(event) =>

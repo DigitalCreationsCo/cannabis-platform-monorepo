@@ -74,7 +74,7 @@ function ProductItem({
 			>
 				<TextField
 					label="Quantity"
-					maxNumber={product.stock}
+					max={product.stock}
 					className="w-[66px] font-semibold"
 					type="number"
 					value={quantity}
@@ -148,7 +148,7 @@ export default ProductItem;
 //             >
 //                 <TextField
 //                     label="Quantity"
-//                     maxNumber={product.stock}
+//                     max={product.stock}
 //                     className="w-[66px] font-semibold"
 //                     type="number"
 //                     value={quantity}

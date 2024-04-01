@@ -3,12 +3,10 @@ import {
 	locationActions,
 	selectSelectedLocationState,
 	selectShopState,
-	shopActions,
 	useAppDispatch,
 	useAppSelector,
 } from '@cd/core-lib';
 import { type AddressPayload } from '@cd/data-access';
-import { type AnyAction } from '@reduxjs/toolkit';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
@@ -33,61 +31,88 @@ const LocationProvider = () => {
 	const shopState = useAppSelector(selectShopState);
 	const coordinates = selectedLocation?.address?.coordinates;
 
-	useEffect(() => {
-		if (
-			typeof window !== 'undefined' &&
-			enteredSite &&
-			navigator?.geolocation !== undefined
-		) {
-			navigator.geolocation.getCurrentPosition(
-				(position) => {
-					if (
-						coordinates.latitude !== position.coords.latitude ||
-						coordinates.longitude !== position.coords.longitude
-					)
-						console.info('geolocating your position...', position);
-					dispatch(
-						locationActions.setCurrentCoordinates({
-							latitude: position.coords.latitude,
-							longitude: position.coords.longitude,
-						}),
-					);
-					getGeoAddressFromCoordinates({
-						latitude: position.coords.latitude,
-						longitude: position.coords.longitude,
-					})
-						.then((address) =>
-							dispatch(
-								locationActions.setCurrentAddress(address as AddressPayload),
-							),
-						)
-						.catch((error) =>
-							console.info(
-								'Location Provider getGeoAddressByCoordifdnates error: ',
-								error,
-							),
-						);
-				},
-				(api) =>
-					console.info('Geolocation is not supported by this browser. ', api),
-			);
-		}
-	}, [enteredSite]);
+	// useEffect(() => {
+	// 	if (
+	// 		typeof window !== 'undefined' &&
+	// 		enteredSite &&
+	// 		navigator?.geolocation !== undefined
+	// 	) {
+	// 		navigator.geolocation.getCurrentPosition(
+	// 			(position) => {
+	// 				if (
+	// 					coordinates.latitude !== position.coords.latitude ||
+	// 					coordinates.longitude !== position.coords.longitude
+	// 				)
+	// 					console.info('geolocating your position...', position);
+	// 				dispatch(
+	// 					locationActions.setCurrentCoordinates({
+	// 						latitude: position.coords.latitude,
+	// 						longitude: position.coords.longitude,
+	// 					}),
+	// 				);
+	// 				getGeoAddressFromCoordinates({
+	// 					latitude: position.coords.latitude,
+	// 					longitude: position.coords.longitude,
+	// 				})
+	// 					.then((address) =>
+	// 						dispatch(
+	// 							locationActions.setCurrentAddress(address as AddressPayload),
+	// 						),
+	// 					)
+	// 					.catch((error) =>
+	// 						console.info(
+	// 							'Location Provider getGeoAddressByCoordifdnates error: ',
+	// 							error,
+	// 						),
+	// 					);
+	// 			},
+	// 			(api) =>
+	// 				console.info('Geolocation is not supported by this browser. ', api),
+	// 		);
+	// 	}
+	// }, [enteredSite]);
 
 	// useEffect(() => {
 	// 	if (
-	// 		coordinates.latitude &&
-	// 		coordinates.longitude &&
+	// 		typeof window !== 'undefined' &&
 	// 		enteredSite &&
-	// 		!shopState.isLoading &&
-	// 		!shopState.isError
+	// 		navigator?.geolocation !== undefined
 	// 	) {
-	// 		const getDispensaries = async () => {
-	// 			dispatch(shopActions.getDispensariesLocal() as unknown as AnyAction);
-	// 		};
-	// 		getDispensaries();
+	// 		navigator.geolocation.getCurrentPosition(
+	// 			(position) => {
+	// 				if (
+	// 					coordinates.latitude !== position.coords.latitude ||
+	// 					coordinates.longitude !== position.coords.longitude
+	// 				)
+	// 					console.info('geolocating your position...', position);
+	// 				dispatch(
+	// 					locationActions.setCurrentCoordinates({
+	// 						latitude: position.coords.latitude,
+	// 						longitude: position.coords.longitude,
+	// 					}),
+	// 				);
+	// 				getGeoAddressFromCoordinates({
+	// 					latitude: position.coords.latitude,
+	// 					longitude: position.coords.longitude,
+	// 				})
+	// 					.then((address) =>
+	// 						dispatch(
+	// 							locationActions.setCurrentAddress(address as AddressPayload),
+	// 						),
+	// 					)
+	// 					.catch((error) =>
+	// 						console.info(
+	// 							'Location Provider getGeoAddressByCoordifdnates error: ',
+	// 							error,
+	// 						),
+	// 					);
+	// 			},
+	// 			(api) =>
+	// 				console.info('Geolocation is not supported by this browser. ', api),
+	// 		);
 	// 	}
-	// }, [selectedLocation, coordinates, enteredSite]);
+	// }, [enteredSite]);
+
 	return <></>;
 };
 

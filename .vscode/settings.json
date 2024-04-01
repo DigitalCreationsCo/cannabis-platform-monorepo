@@ -67,5 +67,8 @@
 	"terminal.integrated.env.windows": {
 		"KUBECONFIG": "${workspaceFolder}/.kube/kubeconfig.yaml",
 		"TAG": "latest"
+	},
+	"[json]": {
+		"editor.defaultFormatter": "vscode.json-language-features"
 	}
 }

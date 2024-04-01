@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/prefer-single-boolean-return */
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable react/no-unknown-property */
 import {
@@ -12,8 +13,10 @@ import {
 	selectShopState,
 	selectUserState,
 	TextContent,
+	debounce,
 } from '@cd/core-lib';
 import {
+	type Organization,
 	type Coordinates,
 	type OrganizationWithShopDetails,
 } from '@cd/data-access';
@@ -26,6 +29,7 @@ import {
 	type LayoutContextProps,
 	FlexBox,
 	H4,
+	TextField,
 } from '@cd/ui-lib';
 import mapboxgl, { type MapboxGeoJSONFeature } from 'mapbox-gl';
 import { useEffect, useRef, useState } from 'react';
@@ -40,14 +44,34 @@ import { DispensaryCard, InfoCard } from '../../components';
 export default function MarketPlace() {
 	const dispatch = useDispatch();
 	const { user } = useSelector(selectUserState);
-	const { zipcode } = user.address[0];
+	const { zipcode: userZipcode } = user.address[0];
 	const { radius } = useSelector(selectLocationState);
+	console.info('radius: ', radius);
 
-	const { data, error, isLoading } = useSWR<
+	const [zipcode, setZipcode] = useState(userZipcode || 10011);
+	const [zipcodeError, setZipcodeError] = useState('');
+	const [dispensaries, setDispensaries] = useState<
+		OrganizationWithShopDetails[]
+	>([]);
+
+	function isValidZipcode(input: number) {
+		const isValidZipcode = /^\d{5}$/.test(input.toString());
+		if (isValidZipcode) {
+			// setZipcodeError('');
+			return true;
+		} else {
+			// setZipcodeError('Enter a zipcode');
+			return false;
+		}
+	}
+
+	const { error, isLoading } = useSWR<
 		SWRResponse<OrganizationWithShopDetails[]>
 	>(
-		// `/api/organization/zipcode=${zipcode}&limit=${limit}&radius=${radius}`,2
-		`/api/organization?zipcode=${10011}&limit=${4}&radius=${10000}`, // hardcoded NYC zipcode for now
+		() =>
+			isValidZipcode(zipcode)
+				? `/api/organization?zipcode=${zipcode}&limit=${4}&radius=${radius}`
+				: null,
 		async (url: string) => {
 			const response = await fetch(url);
 			const json = await response.json();
@@ -58,11 +82,11 @@ export default function MarketPlace() {
 				);
 			}
 
+			setDispensaries(json.payload || []);
 			return json;
 		},
 	);
 
-	const dispensaries = (data as any)?.payload || [];
 	console.info('dispensaries: ', dispensaries);
 	console.info('error: ', error);
 
@@ -76,13 +100,12 @@ export default function MarketPlace() {
 
 	const styles = {
 		responsiveHeading: [
-			'text-4xl pb-0 px-4 whitespace-normal font-semi-bold hidden sm:block',
+			'text-4xl pb-0 px-4 whitespace-normal font-semi-bold hidden lg:block',
 		],
 	};
 	const [current, setCurrent] = useState(0);
 
 	function openStoreFrontModal() {
-		// open modal
 		dispatch(
 			modalActions.openModal({
 				modalType: modalTypes.StoreFrontModal,
@@ -97,8 +120,12 @@ export default function MarketPlace() {
 				href="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css"
 				rel="stylesheet"
 			/>
-			<div className="cursor-default pt-2 md:pt-0">
-				<div id={'shop-tour-step1'} className="">
+
+			<Grid className="relative grid-cols-3 ">
+				<div
+					id={'shop-tour-step1'}
+					className="cursor-default px-5 md:pt-0 col-start-1 col-span-full lg:col-span-2"
+				>
 					<H1
 						color="light"
 						className={twMerge(styles.responsiveHeading, 'drop-shadow')}
@@ -112,18 +139,11 @@ export default function MarketPlace() {
 						Good day{user.firstName && `, ${user.firstName}`}!
 					</H3> */}
 				</div>
-			</div>
-
-			{/* <FlexBox className="flex-row w-full p-4">
-				<RenderGoogleMap />
-			</FlexBox> */}
-
-			<Grid className="relative grid-cols-3">
 				{/* <H5 className="text-2xl px-8 lg:px-16">{`Gras delivers bud in ${
 				selectedLocation.address.city || 'Baltimore'
 			}`}</H5> */}
 
-				<div className="col-span-full lg:col-span-2 lg:col-start-1 lg:row-start-1 content-end p-5">
+				<div className="col-span-full lg:col-span-2 lg:col-start-1 lg:row-start-2 content-end p-5">
 					<Carousel
 						current={current}
 						setCurrent={setCurrent}
@@ -137,7 +157,21 @@ export default function MarketPlace() {
 					/>
 				</div>
 
-				<div className="p-4 row-start-1 col-span-3 lg:col-span-1">
+				<div className="row-start-1 col-span-full lg:col-start-3 lg:col-span-1 p-4 lg:pt-0">
+					<TextField
+						className="text-dark"
+						type="number"
+						name="zipcode"
+						maxLength={5}
+						label="search your zipcode"
+						value={zipcode}
+						onBlur={undefined}
+						onChange={(e: any) => debounce(setZipcode(e.target.value), 2000)}
+						error={!!zipcodeError}
+						helperText={zipcodeError}
+					/>
+				</div>
+				<div className="p-4 row-start-2 col-span-3 lg:col-span-1 space-y-4">
 					<RenderMapBox
 						data={dispensaries}
 						current={current}
@@ -202,6 +236,7 @@ const RenderMapBox = ({
 	const [isMarkerSet, setIsMarkerSet] = useState(false);
 
 	useEffect(() => {
+		console.info('fly to: ', data[current]);
 		// fly to the selected location
 		if (data.length > 0 && map.current?.isStyleLoaded) {
 			const { address } = data[current];
@@ -232,6 +267,7 @@ const RenderMapBox = ({
 			// center: [lng, lat],
 			// zoom: zoom,
 		});
+		console.info('new map created');
 	}, []);
 
 	useEffect(() => {
@@ -389,9 +425,9 @@ const RenderMapBox = ({
 					.addTo(map.current);
 			}
 		}
-		if (data.length > 0 && map.current?.isStyleLoaded && !isMarkerSet) {
+		if (data.length > 0 && map.current?.isStyleLoaded) {
 			addMarkersToMapBox(generateGEOJSONDataFromDispensaries(data));
-			setIsMarkerSet(true);
+			// setIsMarkerSet(true);
 		}
 	}, [data]);
 

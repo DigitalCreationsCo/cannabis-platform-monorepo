@@ -14,7 +14,6 @@ import FlexBox from './FlexBox';
 type TextAreaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
 	className?: string;
 	containerClassName?: string;
-	maxNumber?: number;
 	name?: string;
 	label?: string;
 	labelColor?: any;
@@ -36,7 +35,6 @@ type TextAreaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
 export default function TextArea({
 	className,
 	containerClassName,
-	maxNumber,
 	name,
 	error,
 	value,
@@ -57,6 +55,14 @@ export default function TextArea({
 		...props,
 	};
 	const [focus, setFocus] = useState(false);
+	function checkMaxValue(event: any) {
+		// limit value length to props.maxLength
+		if (props.maxLength && event.target.value.length > props.maxLength) {
+			event.target.value = event.target.value.slice(0, props.maxLength);
+		}
+		if (onChange) onChange(event);
+	}
+
 	return (
 		<FlexBox
 			className={twMerge(
@@ -94,10 +100,9 @@ export default function TextArea({
 						setFocus(true);
 					}}
 					name={name}
-					maxLength={maxNumber}
 					defaultValue={defaultValue}
 					value={value}
-					onChange={onChange}
+					onChange={checkMaxValue}
 					onBlur={() => {
 						if (onBlur) onBlur;
 						setFocus(false);
