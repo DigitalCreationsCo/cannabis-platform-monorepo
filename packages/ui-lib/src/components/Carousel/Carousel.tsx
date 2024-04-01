@@ -82,13 +82,13 @@ export default function Carousel<D>({
 		...settings,
 	};
 
-	if (error) {
+	if (error && Object.keys(error).length > 0) {
 		return <p>Failed to fetch</p>;
 	}
 
-	// if (loading) {
-	// 	return <div>Loading...</div>;
-	// }
+	if (loading) {
+		return <div>Loading...</div>;
+	}
 
 	return (
 		<div className="flex flex-row grow items-center overflow-clip">
