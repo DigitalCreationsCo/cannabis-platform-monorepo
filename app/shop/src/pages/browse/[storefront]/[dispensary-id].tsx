@@ -24,24 +24,68 @@ import {
 	Paragraph,
 	Price,
 	type LayoutContextProps,
+	LoadingPage,
+	H1,
 } from '@cd/ui-lib';
 import icons from '@cd/ui-lib/src/icons';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import { type PropsWithChildren, useState } from 'react';
+import useSWR from 'swr';
 import { twMerge } from 'tailwind-merge';
-import logo from '../../../public/logo2.png';
-import { wrapper } from '../../store';
+import logo from '../../../../public/logo2.png';
+import { wrapper } from '../../../store';
 
-function Storefront({ subdomain }: { subdomain: string }) {
-	const organization = useAppSelector(
-		selectOrganizationBySubdomain(subdomain),
-	) as OrganizationWithShopDetails;
+function Storefront({ dispensaryId }: { dispensaryId: string }) {
+	const Router = useRouter();
+
+	const { error, isLoading, data } = useSWR<OrganizationWithShopDetails>(
+		() => `/api/organization/${dispensaryId}`,
+		async (url: string) => {
+			const response = await fetch(url);
+			const json = await response.json();
+
+			if (!response.ok) {
+				throw new Error(
+					json.error.message || 'An error occurred while fetching the data',
+				);
+			}
+
+			return json.payload;
+		},
+	);
+
+	console.info('data', data);
+	const organization = data;
+
+	if (isLoading) {
+		return <LoadingPage />;
+	}
+
+	if (error || !organization) {
+		return (
+			<Page
+				gradient="pink"
+				className="w-full bg-transparent pb-0 md:pb-24 pt-14"
+			>
+				<Head>
+					<title>Grascannabis.org - Cannabis, Delivered.</title>
+					<meta name="Gras App" content="Built by Gras Cannabis Co." />
+				</Head>
+				<Card className={twMerge(`m-auto items-center h-full w-full`)}>
+					<ErrorMessage
+						code={404}
+						message={TextContent.error.DISPENSARY_NOT_FOUND}
+					/>
+				</Card>
+			</Page>
+		);
+	}
 
 	const Heading = () => (
-		<div className={''}>
+		<>
 			{organization.images?.length > 0 && (
 				<Image
 					className="shrink-0 w-[100px] sm:w-[150px] relative float-right"
@@ -50,26 +94,24 @@ function Storefront({ subdomain }: { subdomain: string }) {
 					width={150}
 					height={150}
 					priority
-					loader={({ width, src }) => src + `?w=${width}`}
+					loader={({ src }) => src}
 				/>
 			)}
-			<H2
+			<H1
 				className={`text-[${organization.siteSetting.primaryColor}] whitespace-normal drop-shadow-lg sm:drop-shadow-none`}
 			>
 				{organization.name}
-			</H2>
+			</H1>
 
-			{/* address */}
-			<Paragraph className="sm:text-lg">
+			<Paragraph>
 				{renderAddress({
 					address: organization.address,
 					lineBreak: false,
 				})}
 			</Paragraph>
 
-			{/* subtitle */}
 			<DispensaryStatus />
-		</div>
+		</>
 	);
 
 	const Body = () => (
@@ -164,6 +206,38 @@ function Storefront({ subdomain }: { subdomain: string }) {
 			</div>
 		);
 	};
+
+	function BackButton() {
+		return (
+			<Button
+				size="sm"
+				bg="transparent"
+				className="text-dark self-start  sm:py-0"
+				onClick={() => Router.back()}
+			>
+				<IconWrapper Icon={icons.ArrowLeft} className="pr-1" />
+				back
+			</Button>
+		);
+	}
+
+	const BrowseMore = () => {
+		return (
+			<Link
+				href={organization.ecommerceUrl as string}
+				// className={`text-[${organization.siteSetting.secondaryColor}] hover:text-[${organization.siteSetting.primaryColor}]`}
+			>
+				<Button
+					size="lg"
+					bg="accent-soft"
+					className="w-full bg-accent-soft hover:bg-primary"
+				>
+					<H4>More from {organization.name}</H4>
+				</Button>
+			</Link>
+		);
+	};
+
 	return (
 		<Page gradient="pink" className="w-full bg-transparent pb-0 md:pb-24 pt-14">
 			<Head>
@@ -194,37 +268,6 @@ function Storefront({ subdomain }: { subdomain: string }) {
 			</Card>
 		</Page>
 	);
-
-	function BackButton() {
-		return (
-			<Button
-				size="sm"
-				bg="transparent"
-				className="text-dark self-start  sm:py-0"
-				onClick={() => Router.back()}
-			>
-				<IconWrapper Icon={icons.ArrowLeft} className="pr-1" />
-				back
-			</Button>
-		);
-	}
-
-	function BrowseMore() {
-		return (
-			<Link
-				href={organization.ecommerceUrl as string}
-				// className={`text-[${organization.siteSetting.secondaryColor}] hover:text-[${organization.siteSetting.primaryColor}]`}
-			>
-				<Button
-					size="lg"
-					bg="accent-soft"
-					className="w-full bg-accent-soft hover:bg-primary"
-				>
-					<H4>More from {organization.name}</H4>
-				</Button>
-			</Link>
-		);
-	}
 }
 
 Storefront.getLayoutContext = (): LayoutContextProps => ({
@@ -237,11 +280,12 @@ export const getServerSideProps = wrapper.getServerSideProps(
 	() =>
 		async ({ query }: any) => {
 			try {
-				if (!query['storefront'])
+				console.info('query', query);
+				if (!query['dispensary-id'])
 					throw new Error(TextContent.error.DISPENSARY_NOT_FOUND);
 				return {
 					props: {
-						subdomain: query['storefront'],
+						dispensaryId: query['dispensary-id'],
 					},
 				};
 			} catch (error) {

@@ -206,6 +206,9 @@ enum USStateAbbreviated {
 	WY
 }
 
+// consider enums mapping solutions
+// https://github.com/prisma/prisma/issues/8446
+// https://github.com/prisma/prisma/issues/16616#issuecomment-1338762476
 enum Country {
   United_States @map("United States")
   Canada

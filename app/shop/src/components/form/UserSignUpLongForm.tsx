@@ -35,6 +35,7 @@ function UserSignUpForm() {
 		profilePicture: {
 			id: '',
 			location: '',
+			alt: '',
 		},
 		address: {
 			id: '',

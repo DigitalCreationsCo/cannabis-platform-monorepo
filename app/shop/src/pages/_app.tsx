@@ -21,7 +21,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react';
 import Session from 'supertokens-auth-react/recipe/session';
-import { SWRConfig } from 'swr';
+import { SWRConfig, mutate } from 'swr';
 import { LayoutContainer, LocationProvider, TopBar } from '../components';
 import { frontendConfig } from '../config/frontendConfig';
 import { wrapper } from '../store';
