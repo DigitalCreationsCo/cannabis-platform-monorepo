@@ -36,18 +36,19 @@ describe('formatUrl.test', () => {
 		process.env = environment;
 		test('formatDispensaryUrl ', () => {
 			const subdomainId = 'mcnuggets-dispensary';
+			const id = 'aaaa';
 			switch (process.env.NODE_ENV) {
 				case 'development':
-					return expect(formatDispensaryUrl(subdomainId)).toStrictEqual(
-						`https://${subdomainId}.localhost:3000`,
+					return expect(formatDispensaryUrl(subdomainId, id)).toStrictEqual(
+						`http://localhost:3000/browse/mcnuggets-dispensary/aaaa`,
 					);
 				case 'test':
-					return expect(formatDispensaryUrl(subdomainId)).toStrictEqual(
-						`https://${subdomainId}.localhost:3000`,
+					return expect(formatDispensaryUrl(subdomainId, id)).toStrictEqual(
+						`http://localhost:3000/browse/mcnuggets-dispensary/aaaa`,
 					);
 				case 'production':
-					return expect(formatDispensaryUrl(subdomainId)).toStrictEqual(
-						`https://grascannabis.org/browse/${subdomainId}`,
+					return expect(formatDispensaryUrl(subdomainId, id)).toStrictEqual(
+						`https://grascannabis.org/browse/${subdomainId}/aaaa`,
 					);
 			}
 		});

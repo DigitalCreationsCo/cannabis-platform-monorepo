@@ -27,8 +27,16 @@ export default function localStorageProvider() {
 	let map: Map<string, any>;
 
 	if (typeof window !== 'undefined') {
+		// map = new Map();
 		map = new Map(JSON.parse(localStorage.getItem('app-cache') || '[]'));
 
+		// if cacheProvider is expired, mutate the cache
+
+		if (!map.has('expires') || map.get('expires') < Date.now()) {
+			map.clear();
+		} else {
+			map.set('expires', Date.now() + 1000 * 60 * 60 * 24 * 1); // 1 day (in ms)
+		}
 		// Before unloading the app, we write back all the data into `localStorage`.
 		window.addEventListener('beforeunload', () => {
 			const appCache = JSON.stringify(Array.from(map.entries()));

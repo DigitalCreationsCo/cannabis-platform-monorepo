@@ -338,6 +338,7 @@ model Address {
 model ImageOrganization {
   id             String       @id @unique @default(cuid())
   location       String
+  alt            String
   organizationId String
   blurhash       String?
   createdAt      DateTime     @default(now())
@@ -350,6 +351,7 @@ model ImageOrganization {
 model ImageProduct {
   id        String         @id @unique @default(cuid())
   location  String
+  alt       String
   variantId String
   blurhash  String?
   createdAt DateTime       @default(now())
@@ -362,6 +364,7 @@ model ImageProduct {
 model ImageUser {
   id        String   @id @unique @default(cuid())
   location  String
+  alt       String
   userId    String   @unique
   blurhash  String?
   createdAt DateTime @default(now())
@@ -374,6 +377,7 @@ model ImageUser {
 model ImageVendor {
   id        String   @id @unique @default(cuid())
   location  String
+  alt       String
   blurhash  String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -384,6 +388,7 @@ model ImageVendor {
 model ImageArticle {
   id        String   @id @unique @default(cuid())
   location  String
+  alt       String
   articleId String   @unique
   blurhash  String?
   createdAt DateTime @default(now())
@@ -522,8 +527,8 @@ model Organization {
   isSubscribedForDelivery  Boolean             @default(false)
   isSubscribedForPickup    Boolean             @default(false)
   isSubscribedForDailyDeals    Boolean             @default(false)
-  subscriptionPlanId       String              @default("")
-  subscriptionPlan         SubscriptionPlan    @relation(fields: [subscriptionPlanId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  subscriptionPlanId       String?
+  subscriptionPlan         SubscriptionPlan?    @relation(fields: [subscriptionPlanId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   dailyDeals               DailyDeal[]
 
   vendor                   Vendor?             @relation(fields: [vendorId, vendorName], references: [id, name])
@@ -561,7 +566,6 @@ model SubscriptionPlan {
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
   organizations  Organization[]
-
   @@index([id])
   @@index([name])
 }
@@ -734,7 +738,7 @@ model SiteSetting {
   id             String       @id @unique @default(cuid())
   title          String       @default("Your Shop Title")
   bannerText     String?      @default("Welcome")
-  description    String?      @default("We've launched our shop on Gras! Browse our goods.")
+  description    String?      @default("Our shop is open! Browse our goods.")
 
   primaryColor    String?     @default("#14a33d")
   secondaryColor  String?     @default("#13622a")

@@ -1,5 +1,5 @@
-import { getGeoCoordinatesFromAddress } from '@cd/core-lib';
-import { EmailService } from '@cd/core-lib/src/lib/email/EmailService';
+import { dynamicBlurDataUrl, getGeoCoordinatesFromAddress } from '@cd/core-lib';
+// import { EmailService } from '@cd/core-lib/src/lib/email/EmailService';
 import {
 	type OrganizationCreateType,
 	type OrganizationUpdateType,
@@ -32,6 +32,17 @@ export default class OrganizationController {
 			);
 
 			organization.address.coordinates = { ...coordinates };
+
+			const imagesWithBlurData = [];
+			for (let i: number; i < organization.images.length; i++) {
+				imagesWithBlurData.push({
+					...organization.images[i],
+					location: organization.images[i].location,
+					alt: organization.images[i].alt || organization.name,
+					blurhash: await dynamicBlurDataUrl(organization.images[i].location),
+				});
+			}
+			organization.images = imagesWithBlurData;
 
 			const data = await OrganizationDA.createOrganization(organization);
 			if (!data)

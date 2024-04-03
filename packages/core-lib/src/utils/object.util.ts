@@ -49,7 +49,7 @@ export const isArray = (val: any) => {
  */
 export const normalizeUserData = (user: UserCreateType) => {
 	if (typeof user.profilePicture === 'string')
-		user.profilePicture = { location: user.profilePicture };
+		user.profilePicture = { location: user.profilePicture, alt: user.username };
 	if (user.address && !isArray(user.address)) {
 		user = { ...user, address: [{ ...user.address }] };
 	}

@@ -73,6 +73,8 @@ export async function createUser(userData: UserCreateType) {
 				profilePicture: {
 					create: {
 						location: userData.profilePicture.location,
+						alt: userData.profilePicture.alt || '',
+						blurhash: userData.profilePicture.blurhash || '',
 					},
 				},
 			},
@@ -157,6 +159,8 @@ export async function upsertUser(userData: UserCreateType) {
 					? {
 							create: {
 								location: userData.profilePicture?.location,
+								alt: userData.profilePicture?.alt || '',
+								blurhash: userData.profilePicture?.blurhash || '',
 							},
 					  }
 					: undefined,
@@ -224,6 +228,8 @@ export async function upsertUser(userData: UserCreateType) {
 						},
 						create: {
 							location: userData.profilePicture?.location,
+							alt: userData.profilePicture?.alt || '',
+							blurhash: userData.profilePicture?.blurhash || '',
 						},
 					},
 				},
@@ -322,6 +328,8 @@ export async function updateUser(userData: UserCreateType) {
 						create: {
 							id: userData.id ?? newId,
 							location: userData.profilePicture.location,
+							alt: userData.profilePicture.alt || '',
+							blurhash: userData.profilePicture.blurhash || '',
 						},
 					},
 				},

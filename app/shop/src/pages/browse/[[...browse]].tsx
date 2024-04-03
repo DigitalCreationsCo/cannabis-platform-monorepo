@@ -162,7 +162,6 @@ export default function MarketPlace() {
 						data={dispensaries}
 						datatype="dispensary"
 						SliderComponent={DispensaryCard}
-						onClick={openStoreFrontModal}
 					/>
 				</div>
 

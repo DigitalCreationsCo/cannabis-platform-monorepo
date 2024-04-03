@@ -103,8 +103,8 @@ app.use(
 );
 app.use(STmiddleware());
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true, limit: 360000 }));
+app.use(bodyParser.json({ limit: 360000 }));
 
 app.use('/api/v1/healthcheck', (_, res) => {
 	return res.status(200).json({ status: 'ok', server: 'main' });
