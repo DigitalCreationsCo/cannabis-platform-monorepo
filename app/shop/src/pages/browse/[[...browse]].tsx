@@ -16,7 +16,6 @@ import {
 	debounce,
 } from '@cd/core-lib';
 import {
-	type Organization,
 	type Coordinates,
 	type OrganizationWithShopDetails,
 } from '@cd/data-access';
@@ -48,16 +47,28 @@ export default function MarketPlace() {
 	const { radius } = useSelector(selectLocationState);
 	console.info('radius: ', radius);
 
-	const [zipcode, setZipcode] = useState(userZipcode || 10011);
+	const saveZipcodeToLocalStorage = (zipcode: number): void => {
+		// set zipcode in localstorage
+		if (isValidZipcode(zipcode)) {
+			localStorage.setItem('zipcode', zipcode.toString());
+		}
+		setZipcode(zipcode);
+	};
+
+	const getZipcodeLocalStorage = (): number | null => {
+		return Number(localStorage.getItem('zipcode')) || null;
+	};
+
+	const [zipcode, setZipcode] = useState(
+		getZipcodeLocalStorage() || userZipcode || 10011,
+	);
 	const [zipcodeError, setZipcodeError] = useState('');
-	const [dispensaries, setDispensaries] = useState<
-		OrganizationWithShopDetails[]
-	>([]);
 
 	function isValidZipcode(input: number) {
 		const isValidZipcode = /^\d{5}$/.test(input.toString());
 		if (isValidZipcode) {
 			// setZipcodeError('');
+
 			return true;
 		} else {
 			// setZipcodeError('Enter a zipcode');
@@ -65,9 +76,7 @@ export default function MarketPlace() {
 		}
 	}
 
-	const { error, isLoading } = useSWR<
-		SWRResponse<OrganizationWithShopDetails[]>
-	>(
+	const { error, isLoading, data } = useSWR<OrganizationWithShopDetails[]>(
 		() =>
 			isValidZipcode(zipcode)
 				? `/api/organization?zipcode=${zipcode}&limit=${4}&radius=${radius}`
@@ -81,12 +90,12 @@ export default function MarketPlace() {
 					json.error.message || 'An error occurred while fetching the data',
 				);
 			}
-
-			setDispensaries(json.payload || []);
-			return json;
+			return json.payload;
 		},
+		{ keepPreviousData: true },
 	);
 
+	const dispensaries = data || [];
 	console.info('dispensaries: ', dispensaries);
 	console.info('error: ', error);
 
@@ -124,7 +133,7 @@ export default function MarketPlace() {
 			<Grid className="relative grid-cols-3 ">
 				<div
 					id={'shop-tour-step1'}
-					className="cursor-default px-5 md:pt-0 col-start-1 col-span-full lg:col-span-2"
+					className="row-start-1 cursor-default px-5 pt-0 col-start-1 col-span-full lg:col-span-2"
 				>
 					<H1
 						color="light"
@@ -132,7 +141,7 @@ export default function MarketPlace() {
 					>
 						{TextContent.info.CANNABIS_DELIVERED}
 					</H1>
-					<H4 className="text-inverse px-6 leading-2 drop-shadow text-center sm:text-left">
+					<H4 className="text-inverse lg:px-6 leading-2 drop-shadow text-left">
 						Find dispensaries, edibles, and more near you
 					</H4>
 					{/* <H3 className="text-inverse px-4 drop-shadow-md">
@@ -157,7 +166,7 @@ export default function MarketPlace() {
 					/>
 				</div>
 
-				<div className="row-start-1 col-span-full lg:col-start-3 lg:col-span-1 p-4 lg:pt-0">
+				<div className="row-start-2 sm:col-start-2 col-span-full sm:col-span-1 lg:col-start-3 lg:row-start-1 px-4 py-2">
 					<TextField
 						className="text-dark"
 						type="number"
@@ -166,12 +175,16 @@ export default function MarketPlace() {
 						label="search your zipcode"
 						value={zipcode}
 						onBlur={undefined}
-						onChange={(e: any) => debounce(setZipcode(e.target.value), 2000)}
+						onChange={(e: any) =>
+							// eslint-disable-next-line sonarjs/no-use-of-empty-return-value
+							debounce(saveZipcodeToLocalStorage(e.target.value), 2000)
+						}
 						error={!!zipcodeError}
 						helperText={zipcodeError}
 					/>
 				</div>
-				<div className="p-4 row-start-2 col-span-3 lg:col-span-1 space-y-4">
+
+				<div className="p-4 row-start-3 lg:row-start-2 col-span-3 lg:col-span-1 space-y-4">
 					<RenderMapBox
 						data={dispensaries}
 						current={current}
