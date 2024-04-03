@@ -1,19 +1,29 @@
-export function formatDispensaryUrl(subdomainId: string) {
+export function formatDispensaryUrl(
+	subdomainId: string,
+	organizationId: string,
+) {
 	switch (process.env.NODE_ENV) {
 		case 'development':
-			// return `http://localhost:3000/browse/${subdomainId}/${organizationId}`;
-			return `http://localhost:3000/browse/${subdomainId}`;
+			return `http://localhost:3000/browse/${subdomainId}/${organizationId}`;
 		case 'test':
-			// return `http://localhost:3000/browse/${subdomainId}/${organizationId}`;
-			return `http://localhost:3000/browse/${subdomainId}`;
+			return `http://localhost:3000/browse/${subdomainId}/${organizationId}`;
 		case 'production':
-			// return `https://grascannabis.org/browse/${subdomainId}/${organizationId}`;
-			return `https://grascannabis.org/browse/${subdomainId}`;
+			return `https://grascannabis.org/browse/${subdomainId}/${organizationId}`;
 		default:
-			// return `http://localhost:3000/browse/${subdomainId}/${organizationId}`;
-			return `http://localhost:3000/browse/${subdomainId}`;
+			return `http://localhost:3000/browse/${subdomainId}/${organizationId}`;
 	}
 }
+
+// export function formatDispensaryUrl(subdomainId: string) {
+// 	switch (process.env.NODE_ENV) {
+// 		case 'development':
+// 			return `http://${subdomainId}.localhost:3000`;
+// 		case 'test':
+// 			return `http://${subdomainId}.localhost:3000`;
+// 		case 'production':
+// 			return `http://${subdomainId}.grascannabis.org`;
+// 	}
+// }
 
 export function replaceRelativePath(href: string) {
 	// console.info('replaceRelativePath href', href);

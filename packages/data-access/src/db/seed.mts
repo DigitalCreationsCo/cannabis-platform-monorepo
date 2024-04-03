@@ -347,8 +347,10 @@ async function main() {
 								data: [
 									{
 										location:
-											'https://storage.googleapis.com/38d6acd65b23d751-image-dispensary/curaleaf.png',
-										blurhash: '',
+											'https://storage.cloud.google.com/fa7347ba6f76eacc-image-dispensary/curaleaf/logo-small.png?authuser=3',
+
+										blurhash: 'LNR{.4og-qWUkAofxbWB~Xj[Rjay',
+										alt: 'Curaleaf MD Reisterstown',
 										createdAt: new Date(),
 										updatedAt: new Date(),
 									},
@@ -508,8 +510,9 @@ async function main() {
 								data: [
 									{
 										location:
-											'https://storage.googleapis.com/38d6acd65b23d751-image-dispensary/releaf-shop.png',
-										blurhash: '',
+											'https://storage.cloud.google.com/fa7347ba6f76eacc-image-dispensary/releaf-shop/logo-small.png?authuser=3',
+										blurhash: 'LyKLT]ay~Xaynmj[kAj[~Xj[ogj[',
+										alt: 'Releaf Shop Baltimore',
 										createdAt: new Date(),
 										updatedAt: new Date(),
 									},
@@ -519,20 +522,20 @@ async function main() {
 					},
 					{
 						id: 'bf346k4u7x2b2hhr6wsofppp',
-						name: 'Golden Nugget Dispensary',
+						name: 'Gras',
 						stripeAccountId: 'acct_1NtESYPZq3lkE1db',
 						stripeOnboardingComplete: true,
 						dialCode: '1',
-						phone: '5553592525',
+						phone: '5707901185',
 						ecommerceUrl: 'https://localhost:9000',
 						showInMarketPlace: true,
 						subdomain: {
 							connectOrCreate: {
 								where: {
-									id: 'golden-nugget',
+									id: 'gras',
 								},
 								create: {
-									id: 'golden-nugget',
+									id: 'gras',
 									isValid: true,
 									createdAt: new Date(),
 									updatedAt: new Date(),
@@ -542,11 +545,11 @@ async function main() {
 						vendor: {
 							connectOrCreate: {
 								where: {
-									name: 'golden nugget',
+									name: 'gras',
 								},
 								create: {
-									name: 'golden nugget',
-									publicName: 'Golden Nugget',
+									name: 'gras',
+									publicName: 'Gras',
 									createdAt: new Date(),
 									updatedAt: new Date(),
 								},
@@ -555,11 +558,11 @@ async function main() {
 						termsAccepted: false,
 						address: {
 							create: {
-								street1: '636 6th Ave',
+								street1: '123 W 33rd St',
 								street2: '',
 								city: 'New York',
 								state: 'NY',
-								zipcode: 10001,
+								zipcode: 10011,
 								country: 'United_States',
 								countryCode: 'US',
 								coordinates: {
@@ -585,8 +588,9 @@ async function main() {
 								data: [
 									{
 										location:
-											'https://storage.googleapis.com/38d6acd65b23d751-image-dispensary/cannabis.png',
-										blurhash: '',
+											'https://storage.cloud.google.com/fa7347ba6f76eacc-image-dispensary/gras/logo-small.png?authuser=3',
+										blurhash: 'LHEpchR5Bqazt.j@aeoM~Eo|IVad',
+										alt: 'Gras',
 										createdAt: new Date(),
 										updatedAt: new Date(),
 									},
@@ -699,9 +703,9 @@ async function main() {
 						},
 						siteSetting: {
 							create: {
-								title: 'Golden Nugget Dispensary',
-								description: 'Best nuggets coast to coast',
-								bannerText: 'Now delivering to your door',
+								title: 'Gras',
+								description: 'Best nuggs on the east coast',
+								bannerText: 'We deliver in New York City.',
 								createdAt: new Date(),
 								updatedAt: new Date(),
 							},
@@ -774,8 +778,9 @@ async function main() {
 							create: [
 								{
 									location:
-										'https://storage.googleapis.com/38d6acd65b23d751-image-dispensary/sunnyside.png',
-									blurhash: '',
+										'https://storage.cloud.google.com/fa7347ba6f76eacc-image-dispensary/sunnyside/logo-small.png?authuser=3',
+									blurhash: 'LVQuj9n$ozr=cZXTrqX9LNX9aJX9',
+									alt: 'SunnySide',
 									createdAt: new Date(),
 									updatedAt: new Date(),
 								},
@@ -970,8 +975,10 @@ async function main() {
 							create: [
 								{
 									location:
-										'https://storage.googleapis.com/38d6acd65b23d751-image-dispensary/remedy.png',
-									blurhash: '',
+										'https://storage.cloud.google.com/fa7347ba6f76eacc-image-dispensary/remedy/logo-small.png?authuser=3',
+
+									blurhash: 'LKF5c*R.03xV$xM}NL%004j@~SWE',
+									alt: 'Remedy Baltimore',
 									createdAt: new Date(),
 									updatedAt: new Date(),
 								},
@@ -1194,6 +1201,7 @@ async function main() {
 							location:
 								'https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png',
 							blurhash: 'dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH',
+							alt: 'Bob Roberts',
 							createdAt: new Date(),
 							updatedAt: new Date(),
 						},
@@ -1222,7 +1230,8 @@ async function main() {
 							id: '2',
 							location:
 								'https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png',
-							blurhash: 'dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH',
+							blurhash: '',
+							alt: 'Sam Samuels',
 							createdAt: new Date(),
 							updatedAt: new Date(),
 						},
@@ -1528,6 +1537,7 @@ async function main() {
 						location:
 							'https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png',
 						blurhash: 'dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH',
+						alt: 'Bryant Mejia',
 						createdAt: new Date(),
 						updatedAt: new Date(),
 					},
@@ -1574,7 +1584,8 @@ async function main() {
 						id: 'clm2foj6r000gvksi76ql2f8d',
 						location:
 							'https://storage.cloud.google.com/image-user/avatar6.png?authuser=1',
-						blurhash: null,
+						blurhash: '',
+						alt: 'Bryant Mejia',
 						createdAt: '2023-09-02T19:45:28.610Z',
 						updatedAt: '2023-09-02T19:45:28.610Z',
 					},
@@ -2492,7 +2503,8 @@ async function main() {
 					id: '1',
 					location:
 						'https://cloudfront-us-east-1.images.arcpublishing.com/gray/GHYFGWKYW5CMRHTINQDDFCN7CI.jpg',
-					blurhash: 'd6PZfSi_.AyE_3t7t7R**0o#DgR4_3R*D%xtMcV@%itS',
+					blurhash: '',
+					alt: 'Alt text',
 					createdAt: new Date(),
 					updatedAt: new Date(),
 				},
@@ -2511,7 +2523,8 @@ async function main() {
 					id: '1',
 					location:
 						'https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png',
-					blurhash: 'dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH',
+					alt: 'Alt text',
+					blurhash: '',
 					organizationId: '1',
 					createdAt: new Date(),
 					updatedAt: new Date(),
@@ -2520,7 +2533,8 @@ async function main() {
 					id: '2',
 					location:
 						'https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png',
-					blurhash: 'dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH',
+					blurhash: '',
+					alt: 'Alt Text',
 					organizationId: '2',
 					createdAt: new Date(),
 					updatedAt: new Date(),
@@ -2541,7 +2555,8 @@ async function main() {
 					id: '1',
 					location:
 						'https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png',
-					blurhash: 'dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH',
+					blurhash: '',
+					alt: 'Alt text',
 					variantId: '1',
 					createdAt: new Date(),
 					updatedAt: new Date(),
@@ -2550,7 +2565,8 @@ async function main() {
 					id: '2',
 					location:
 						'https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png',
-					blurhash: 'dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH',
+					blurhash: '',
+					alt: 'Alt text',
 					variantId: '1',
 					createdAt: new Date(),
 					updatedAt: new Date(),
@@ -2559,7 +2575,8 @@ async function main() {
 					id: '3',
 					location:
 						'https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png',
-					blurhash: 'dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH',
+					blurhash: '',
+					alt: 'Alt text',
 					variantId: '3',
 					createdAt: new Date(),
 					updatedAt: new Date(),
@@ -2568,7 +2585,8 @@ async function main() {
 					id: '4',
 					location:
 						'https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png',
-					blurhash: 'dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH',
+					blurhash: '',
+					alt: 'Alt text',
 					variantId: '4',
 					createdAt: new Date(),
 					updatedAt: new Date(),
@@ -2577,7 +2595,8 @@ async function main() {
 					id: '5',
 					location:
 						'https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png',
-					blurhash: 'dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH',
+					blurhash: '',
+					alt: 'Alt text',
 					variantId: '5',
 					createdAt: new Date(),
 					updatedAt: new Date(),
@@ -2586,7 +2605,8 @@ async function main() {
 					id: '6',
 					location:
 						'https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png',
-					blurhash: 'dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH',
+					blurhash: '',
+					alt: 'Alt text',
 					variantId: '6',
 					createdAt: new Date(),
 					updatedAt: new Date(),
@@ -2595,7 +2615,8 @@ async function main() {
 					id: '7',
 					location:
 						'https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png',
-					blurhash: 'dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH',
+					blurhash: '',
+					alt: 'Alt text',
 					variantId: '7',
 					createdAt: new Date(),
 					updatedAt: new Date(),
@@ -2615,7 +2636,8 @@ async function main() {
 					id: '1',
 					location:
 						'https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png',
-					blurhash: 'dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH',
+					blurhash: '',
+					alt: 'Alt text',
 					userId: '1',
 					createdAt: new Date(),
 					updatedAt: new Date(),
@@ -2645,6 +2667,7 @@ async function main() {
 							location:
 								'https://greenstocknews.com/images/placeholder/cannabis/medicinal/md1.jpg',
 							blurhash: '',
+							alt: 'Your Dispensary Thrives With Gras',
 							createdAt: new Date(),
 							updatedAt: new Date(),
 						},
@@ -2665,7 +2688,8 @@ async function main() {
 						create: {
 							location:
 								'https://img.freepik.com/premium-photo/delivery-person-holding-parcel-with-food-delivery-against-yellow-surface_93675-111653.jpg',
-							blurhash: 'LTMrO.]mvO11}9FZNer_M#odXRnj',
+							blurhash: '',
+							alt: 'Fast and Safe Delivery',
 							createdAt: new Date(),
 							updatedAt: new Date(),
 						},
@@ -2686,7 +2710,8 @@ async function main() {
 						create: {
 							location:
 								'https://gras-dispensary-images.us-southeast-1.linodeobjects.com/loveweed.png',
-							blurhash: 'LTMrO.]mvO11}9FZNer_M#odXRnj',
+							blurhash: '',
+							alt: 'Gras Is Here To Serve',
 							createdAt: new Date(),
 							updatedAt: new Date(),
 						},
@@ -2712,6 +2737,7 @@ async function main() {
 					location:
 						'https://greenstocknews.com/images/placeholder/cannabis/medicinal/md1.jpg',
 					blurhash: '',
+					alt: 'Alt text',
 					articleId: '1',
 
 					createdAt: new Date(),
@@ -2721,7 +2747,8 @@ async function main() {
 					id: '2',
 					location:
 						'https://img.freepik.com/premium-photo/delivery-person-holding-parcel-with-food-delivery-against-yellow-surface_93675-111653.jpg',
-					blurhash: 'LTMrO.]mvO11}9FZNer_M#odXRnj',
+					blurhash: '',
+					alt: 'Alt text',
 					articleId: '2',
 					createdAt: new Date(),
 					updatedAt: new Date(),
@@ -2730,7 +2757,8 @@ async function main() {
 					id: '3',
 					location:
 						'https://gras-dispensary-images.us-southeast-1.linodeobjects.com/loveweed.png',
-					blurhash: 'LTMrO.]mvO11}9FZNer_M#odXRnj',
+					blurhash: '',
+					alt: 'Alt text',
 					articleId: '3',
 					createdAt: new Date(),
 					updatedAt: new Date(),
@@ -2819,14 +2847,11 @@ async function main() {
 			await createSubscriptionPlans(),
 			await createCompliance(),
 			await createDrivers(),
+			await createCoordinates(),
 			await createAddresses(),
 		])
 			.then(async () => {
-				await Promise.all([
-					await createVendors(),
-					await createCoordinates(),
-					await createUsers(),
-				]);
+				await Promise.all([await createVendors(), await createUsers()]);
 			})
 			.then(async () => {
 				await Promise.all([

@@ -117,6 +117,12 @@ async function clearRecords() {
 
 			await prisma.subscriptionPlan.deleteMany();
 			console.info('clear prisma.subscriptionPlan');
+
+			await prisma.coordinates.deleteMany();
+			console.info('clear prisma.coordinates');
+
+			await prisma.schedule.deleteMany();
+			console.info('clear prisma.schedule');
 		})
 		.catch((err) => {
 			console.error('Clear Records Error: ', err.message);

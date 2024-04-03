@@ -34,8 +34,19 @@ export function integerToTime(number: number): string {
 	const minutes = number % 100;
 	const period = hours < 12 ? 'am' : 'pm';
 	const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
-	const formattedMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
-	return `${formattedHours}:${formattedMinutes}${period}`;
+	let formattedMinutes;
+	switch (true) {
+		case minutes == 0:
+			formattedMinutes = '';
+			break;
+		case minutes < 10:
+			formattedMinutes = `:0${minutes}`;
+			break;
+		default:
+			formattedMinutes = `:${minutes}`;
+			break;
+	}
+	return `${formattedHours}${formattedMinutes}${period}`;
 }
 
 export const TimeZoneMap = {

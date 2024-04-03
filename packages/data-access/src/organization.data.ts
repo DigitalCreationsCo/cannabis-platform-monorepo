@@ -111,6 +111,7 @@ export async function createOrganization(
 	try {
 		organization.subdomainId = makeUrlFriendly(organization.name);
 		organization.vendorName = organization.vendorName ?? '';
+		organization.subscriptionPlanId = organization.subscriptionPlanId ?? '';
 
 		const { address, subdomainId, schedule } = organization;
 
@@ -142,8 +143,14 @@ export async function createOrganization(
 				images:
 					organization.images?.length > 0
 						? {
-								create: {
-									location: organization.images?.[0]?.location,
+								createMany: {
+									data: organization.images.map(
+										(image: OrganizationCreateType['images'][number]) => ({
+											location: image.location,
+											blurhash: image.blurhash || '',
+											alt: image.alt || '',
+										}),
+									),
 								},
 						  }
 						: undefined,
@@ -236,14 +243,27 @@ export async function findOrganizationById(
 			include: { coordinates: true },
 		},
 		images: true,
+		siteSetting: true,
+		schedule: true,
+		subdomain: true,
 		vendor: true,
 	},
-) {
+): Promise<OrganizationWithShopDetails> {
 	try {
-		return await prisma.organization.findUnique({
+		console.info(' find organization: ', organizationId);
+		return (await prisma.organization.findUnique({
 			where: { id: organizationId },
-			include,
-		});
+			include: {
+				...include,
+				address: {
+					include: { coordinates: true },
+				},
+				images: true,
+				siteSetting: true,
+				schedule: true,
+				subdomain: true,
+			},
+		})) as unknown as OrganizationWithShopDetails;
 	} catch (error: any) {
 		console.error(error);
 		throw new Error(error);
@@ -468,7 +488,6 @@ export async function getStripeAccountId(organizationId: string) {
  * @returns a lowercased string with all non-url-friendly characters removed, and spaces replaced with dashes
  */
 export function makeUrlFriendly(input: string) {
-	console.info('hello');
 	const replaceNonUrlFriendly = /[^\w\-.~ ]/g;
 	const urlFriendlyString = input.replace(replaceNonUrlFriendly, '');
 	return urlFriendlyString.replace(/ /g, '-').toLowerCase();

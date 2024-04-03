@@ -91,6 +91,10 @@ Memory Usage:`,
 			return config;
 		},
 		env: {
+			NEXT_PUBLIC_DOMAIN: (() =>
+				isDev || isTest
+					? 'http://localhost:3001'
+					: 'https://grascannabis.org')(),
 			BACKEND_URL: (() => {
 				if (isDev) return 'http://localhost:6001';
 				if (isProd) return 'https://backend.grascannabis.org';

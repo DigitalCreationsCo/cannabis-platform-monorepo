@@ -21,7 +21,10 @@ import { type UserCreateType } from './user.data';
 export async function createDriver(userData: DriverCreateType) {
 	try {
 		const { coordinates, ...addressData } = userData.address[0];
-		return await prisma.driver.create({
+		return await prisma.driver.create<{
+			data: Prisma.DriverCreateInput;
+			include: any;
+		}>({
 			data: {
 				email: userData.email,
 				licenseNumber: null,
@@ -64,6 +67,8 @@ export async function createDriver(userData: DriverCreateType) {
 							profilePicture: {
 								create: {
 									location: userData.profilePicture?.location,
+									alt: userData.profilePicture?.alt,
+									blurhash: userData.profilePicture?.blurhash || '',
 								},
 							},
 						},

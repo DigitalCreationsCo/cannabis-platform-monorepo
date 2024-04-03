@@ -47,7 +47,7 @@ function Header({
 						hover="transparent"
 						size="sm"
 					>
-						Nearby Dispensaries
+						Find Dispensaries
 					</Button>
 				</Link>
 

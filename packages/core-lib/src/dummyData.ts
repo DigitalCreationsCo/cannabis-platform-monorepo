@@ -38,6 +38,7 @@ const userDispensaryStaff: UserDispensaryStaff = {
 			'https://cdn-cashy-static-assets.lucidchart.com/marketing/blog/2017Q1/7-types-organizational-structure/types-organizational-structures.png',
 		// eslint-disable-next-line sonarjs/no-duplicate-string
 		blurhash: 'dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH',
+		alt: 'Doug Doogie',
 		createdAt: new Date(),
 		updatedAt: new Date(),
 	},
@@ -73,6 +74,7 @@ const notAdminUser: UserWithProfilePicture = {
 	isSubscribedForWeedText: true,
 	profilePicture: {
 		id: '2',
+		alt: 'Sam Samuels',
 		location:
 			'https://www.baltimoremagazine.com/wp-content/uploads/2019/12/baltimore-oriole-s52-11-018-l-0.jpg',
 		blurhash: 'dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH',
@@ -118,6 +120,7 @@ const organization: OrganizationWithDashboardDetails = {
 			organizationId: '1234',
 			createdAt: new Date(),
 			updatedAt: new Date(),
+			alt: 'McNuggs',
 			location:
 				'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxzNuI7e1ZEcBvNPke7da5pcvomN-21e2-zERnn0Z6p2ed4AvkOFXPoSEqtIK1V6tl8wY&usqp=CAU',
 			blurhash: '',
@@ -303,6 +306,7 @@ const products: ProductWithDashboardDetails[] = [
 					profilePicture: {
 						id: '2',
 						userId: 'bf346k4u7xq030hr6wvgiwao',
+						alt: 'Sam Samuels',
 						location:
 							'https://www.baltimoremagazine.com/wp-content/uploads/2019/12/baltimore-oriole-s52-11-018-l-0.jpg',
 						blurhash: 'dEHLh[WB2yk8pyoJadR*.7kCMdnjS#M|%1%2Sis.slNH',
@@ -563,6 +567,7 @@ const orders: OrderWithFullDetails[] = [
 				location: '',
 				id: '1',
 				blurhash: '',
+				alt: 'Sam Samuels',
 				createdAt: new Date(),
 				updatedAt: new Date(),
 				userId: 'bf346k4u7x2b2hhr6wvgiwao',
@@ -620,6 +625,7 @@ const orders: OrderWithFullDetails[] = [
 					location: '',
 					id: '1',
 					blurhash: '',
+					alt: 'Bryant Mejia',
 					createdAt: new Date(),
 					updatedAt: new Date(),
 					userId: 'bf346k4u7x2b2hhr6wvgiwao',
