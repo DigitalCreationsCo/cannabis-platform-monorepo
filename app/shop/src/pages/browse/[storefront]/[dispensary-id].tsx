@@ -88,7 +88,7 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 		<>
 			{organization.images?.length > 0 && (
 				<Image
-					className="shrink-0 w-[100px] sm:w-[150px] relative float-right"
+					className="shrink-0 w-[100px] sm:w-[150px] relative"
 					src={organization.images[0].location}
 					alt={organization.name}
 					width={150}
@@ -98,7 +98,7 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 				/>
 			)}
 			<H1
-				className={`text-[${organization.siteSetting.primaryColor}] whitespace-normal drop-shadow-lg sm:drop-shadow-none`}
+				className={`text-[${organization.siteSetting.primaryColor}] whitespace-normal`}
 			>
 				{organization.name}
 			</H1>
@@ -115,12 +115,11 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 	);
 
 	const Body = () => (
-		<div>
-			{/* info text */}
+		<>
 			<H4 className="text-primary font-normal">
 				{organization.siteSetting.description}
 			</H4>
-		</div>
+		</>
 	);
 
 	const DispensaryStatus = () => (
@@ -150,17 +149,17 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 					</H4>
 				</FlexBox>
 			) : null}
-			{!organization.isSubscribedForDelivery &&
+			{/* {!organization.isSubscribedForDelivery &&
 			!organization.isSubscribedForPickup ? (
 				<Paragraph className="text-lg text-dark-soft tracking-wider">
 					{TextContent.error.DISPENSARY_NOT_ACCEPTING_PAYMENTS}
 				</Paragraph>
-			) : null}
+			) : null} */}
 		</FlexBox>
 	);
 
 	const Contact = () => (
-		<div>
+		<>
 			{organization.isSubscribedForPickup ? (
 				<FlexBox className="flex-row items-center">
 					<IconWrapper Icon={icons.Phone} iconSize={28} />
@@ -171,11 +170,16 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 					</Link>
 				</FlexBox>
 			) : null}
+		</>
+	);
+
+	const Schedule = () => (
+		<>
 			<Paragraph>Hours</Paragraph>
 			<FlexBox className="flex-row whitespace-pre-line">
-				{renderSchedule(organization.schedule)}
+				<Paragraph>{renderSchedule(organization.schedule)}</Paragraph>
 			</FlexBox>
-		</div>
+		</>
 	);
 
 	const Products = () => {
@@ -202,7 +206,6 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 						<BrowseMore />
 					)}
 				</Grid>
-				<BrowseMore />
 			</div>
 		);
 	};
@@ -212,7 +215,8 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 			<Button
 				size="sm"
 				bg="transparent"
-				className="text-dark self-start  sm:py-0"
+				hover="transparent"
+				className="text-dark self-start  sm:py-0 hover:underline"
 				onClick={() => Router.back()}
 			>
 				<IconWrapper Icon={icons.ArrowLeft} className="pr-1" />
@@ -250,14 +254,15 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 					`m-auto items-center h-full w-full`,
 				)}
 			>
+				<BackButton />
 				{organization ? (
-					<div className="space-y-4">
-						<BackButton />
-
+					<div className="space-y-0">
 						<Heading />
 						<Body />
 						<Contact />
-						<Products />
+						<Schedule />
+						{/* <Products /> */}
+						<BrowseMore />
 					</div>
 				) : (
 					<ErrorMessage
