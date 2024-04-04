@@ -5,9 +5,10 @@ const shopDomain =
 const appInfo = {
 	appName,
 	websiteDomain: shopDomain,
+	websiteBasePath: '/',
 	apiDomain: shopDomain,
 	// query this path for all auth requests
-	apiBasePath: '/api/auth/',
+	apiBasePath: '/api/auth',
 };
 
 export { appInfo };
