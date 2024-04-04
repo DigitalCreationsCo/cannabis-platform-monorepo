@@ -41,17 +41,24 @@ export type PasswordlessResponseWithDriverDetails = {
 	fetchResponse: Response;
 };
 
-export type ConsumeCodeResponse = {
+export type ConsumeCodeResponse<
+	T =
+		| UserWithDetails
+		| DriverWithSessionJoin
+		| UserDispensaryStaffWithDispensaryDetails,
+> = {
 	status: 'OK';
 	createdNewRecipeUser: boolean;
 	user: User;
-	userFromDb: UserFromDBAuthResponse;
+	userFromDb: UserFromDBAuthResponse<T>;
 };
 
-export type UserFromDBAuthResponse = {
-	token: string;
-	user:
+export type UserFromDBAuthResponse<
+	T =
 		| UserWithDetails
 		| DriverWithSessionJoin
-		| UserDispensaryStaffWithDispensaryDetails;
+		| UserDispensaryStaffWithDispensaryDetails,
+> = {
+	token: string;
+	user: T;
 };

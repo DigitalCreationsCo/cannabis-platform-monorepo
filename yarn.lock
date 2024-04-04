@@ -3724,6 +3724,7 @@ __metadata:
     jest-mock-axios: 4.7.2
     jest-mock-extended: 3.0.1
     json-immutable: 0.5.0
+    jwks-rsa: 3.1.0
     next: 14.1.0
     next-connect: 0.13.0
     next-redux-wrapper: 8.1.0
@@ -4008,6 +4009,7 @@ __metadata:
     jest-mock-extended: 3.0.1
     jest-transform-stub: 2.0.0
     json-immutable: 0.5.0
+    jwks-rsa: 3.1.0
     mapbox-gl: ^3.2.0
     next: 14.1.0
     next-connect: 0.13.0

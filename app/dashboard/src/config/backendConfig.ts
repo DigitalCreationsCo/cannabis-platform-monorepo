@@ -11,7 +11,6 @@ import {
 } from '@cd/data-access';
 import { createId } from '@paralleldrive/cuid2';
 import jwksClient from 'jwks-rsa';
-import SuperTokens, { RecipeUserId } from 'supertokens-node';
 import Dashboard from 'supertokens-node/recipe/dashboard';
 import Jwt from 'supertokens-node/recipe/jwt';
 import Passwordless from 'supertokens-node/recipe/passwordless';
@@ -61,76 +60,94 @@ export const backendConfig = (): TypeInput => {
 									);
 								}
 							},
+							consumeCode: async (input) => {
+								try {
+									console.info('consumeCode input, ', input);
+									const response = await oi.consumeCode(input);
+									console.info('consumeCode response, ', response);
+									return response;
+								} catch (error) {
+									throw new Error(error.message);
+								}
+							},
 						};
 					},
 					apis: (oi) => {
 						return {
 							...oi,
 							async consumeCodePOST(input): Promise<ConsumeCodeResponse | any> {
-								console.info('consumeCodePOST input, ', input);
+								try {
+									console.info('consumeCodePOST input, ', input);
 
-								// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-								const response = (await oi.consumeCodePOST!(
-									input,
-								)) as unknown as ConsumeCodeResponse;
+									// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+									const response = (await oi.consumeCodePOST!(
+										input,
+									)) as unknown as ConsumeCodeResponse;
 
-								let user: UserDispensaryStaffWithDispensaryDetails =
-									response.user as unknown as UserDispensaryStaffWithDispensaryDetails;
+									let user: UserDispensaryStaffWithDispensaryDetails =
+										response.user as unknown as UserDispensaryStaffWithDispensaryDetails;
 
-								if (response.createdNewRecipeUser) {
-									// if new user, send a welcome email, and link to complete signup
-									// if new user completed signup, send a welcome email
-								}
-
-								if (
-									response.status === 'OK' &&
-									!response.createdNewRecipeUser &&
-									response.user.loginMethods.length === 1
-								) {
-									if (response.user.emails[0]) {
-										user =
-											(await findDispensaryStaffUserByEmail(
-												response.user.emails[0],
-											)) ||
-											(response.user as unknown as UserDispensaryStaffWithDispensaryDetails);
-									} else if (response.user.phoneNumbers[0]) {
-										user =
-											(await findDispensaryStaffUserByPhone(
-												getPhoneWithoutDialCode(response.user.phoneNumbers[0]),
-											)) ||
-											(response.user as unknown as UserDispensaryStaffWithDispensaryDetails);
-									} else {
-										user =
-											(await findDispensaryStaffUserById(response.user.id)) ||
-											(response.user as unknown as UserDispensaryStaffWithDispensaryDetails);
+									if (response.createdNewRecipeUser) {
+										// if new user, send a welcome email, and link to complete signup
+										// if new user completed signup, send a welcome email
 									}
 
-									const externalUserId = user.id;
+									if (
+										response.status === 'OK' &&
+										!response.createdNewRecipeUser &&
+										response.user.loginMethods.length === 1
+									) {
+										if (response.user.emails[0]) {
+											user =
+												(await findDispensaryStaffUserByEmail(
+													response.user.emails[0],
+												)) ||
+												(response.user as unknown as UserDispensaryStaffWithDispensaryDetails);
+										} else if (response.user.phoneNumbers[0]) {
+											user =
+												(await findDispensaryStaffUserByPhone(
+													getPhoneWithoutDialCode(
+														response.user.phoneNumbers[0],
+													),
+												)) ||
+												(response.user as unknown as UserDispensaryStaffWithDispensaryDetails);
+										} else {
+											user =
+												(await findDispensaryStaffUserById(response.user.id)) ||
+												(response.user as unknown as UserDispensaryStaffWithDispensaryDetails);
+										}
 
-									// if this is necessary v, add it to the createUser function
-									// await SuperTokens.deleteUserIdMapping({
-									// 	userId: response.user.id,
-									// });
+										// const externalUserId = user.id;
 
-									await SuperTokens.createUserIdMapping({
-										superTokensUserId: response.user.id,
-										externalUserId,
-									});
+										// if this is necessary v, add it to the createUser function
+										// await SuperTokens.deleteUserIdMapping({
+										// 	userId: response.user.id,
+										// });
 
-									// response.user.id = externalUserId;
-									response.user.loginMethods[0].recipeUserId = new RecipeUserId(
-										externalUserId,
-									);
+										// commented out because of this error `UserId is already in use in Session recipe`
+										// await SuperTokens.createUserIdMapping({
+										// 	superTokensUserId: response.user.id,
+										// 	externalUserId,
+										// 	force: true,
+										// });
+
+										// response.user.id = externalUserId;
+										// response.user.loginMethods[0].recipeUserId = new RecipeUserId(
+										// 	externalUserId,
+										// );
+									}
+
+									response.userFromDb = {
+										user,
+										token: await createToken({}),
+									} as any;
+
+									console.info('consumeCodePOST response, ', response);
+
+									return response;
+								} catch (error) {
+									throw new Error(error.message);
 								}
-
-								response.userFromDb = {
-									user,
-									token: await createToken({}),
-								} as any;
-
-								console.info('consumeCodePOST response, ', response);
-
-								return response;
 							},
 						};
 					},

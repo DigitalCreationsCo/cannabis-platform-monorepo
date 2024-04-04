@@ -18,14 +18,14 @@ const dispensaryMiddleware =
 			const dispensaryState = store.getState()
 				.dispensary as AppState['dispensary'];
 
-			if (window.location.pathname === '/' && userState.isSignedIn) {
-				window.location.href = TextContent.href.dashboard_f(
-					dispensaryState.dispensary?.id,
-				);
-			}
-
 			// allow for easy linking
 			if (typeof window !== 'undefined' && userState.isSignedIn) {
+				if (window.location.pathname === '/' && userState.isSignedIn) {
+					window.location.href = TextContent.href.dashboard_f(
+						dispensaryState.dispensary?.id,
+					);
+				}
+
 				switch (window.location.pathname) {
 					case '/daily-deals':
 						window.location.href = TextContent.href.daily_deals_weed_text_f(

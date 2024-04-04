@@ -3,8 +3,9 @@ import {
 	type AppUser,
 	hasMembershipRoleAccess,
 	TextContent,
+	type ConsumeCodeResponse,
 } from '@cd/core-lib';
-import { type UserWithDetails } from '@cd/data-access';
+import { type UserDispensaryStaffWithDispensaryDetails } from '@cd/data-access';
 import { default as Router } from 'next/router';
 import { type SuperTokensConfig } from 'supertokens-auth-react/lib/build/types';
 import Passwordless from 'supertokens-auth-react/recipe/passwordless';
@@ -51,70 +52,71 @@ export const frontendConfig = (): SuperTokensConfig => {
 				// 	// return undefined to let the default behaviour play out
 				// 	return undefined;
 				// },
-				// preAPIHook: async (context) => {
-				// 	const appUser: AppUser = 'DISPENSARY_USER';
-				// 	console.info('Passwordless.preAPIHook ', context);
+				preAPIHook: async (context) => {
+					const appUser: AppUser = 'DISPENSARY_USER';
+					if (context.action === 'PASSWORDLESS_CONSUME_CODE') {
+						// attach app-user identifier header to request
+						context.requestInit.headers = {
+							...context.requestInit.headers,
+							'app-user': appUser,
+						};
+					}
+					return context;
+				},
+				override: {
+					functions: (oi) => {
+						return {
+							...oi,
+							consumeCode: async (
+								input,
+							): Promise<
+								| ConsumeCodeResponse<UserDispensaryStaffWithDispensaryDetails>
+								| any
+							> => {
+								try {
+									console.info('oi.consumeCode input: ', input);
+									console.info(
+										'oi.consumeCode input.userContext: ',
+										input.userContext,
+									);
 
-				// 	if (context.action === 'PASSWORDLESS_CONSUME_CODE') {
-				// 		// attach app-user identifier header to request
-				// 		context.requestInit.headers = {
-				// 			...context.requestInit.headers,
-				// 			'app-user': appUser,
-				// 		};
-				// 	}
-				// 	return context;
-				// },
-				// postAPIHook: (context) => {
-				// 	console.info('Passwordless.postAPIHook ', context);
-				// 	return context;
-				// },
-				// onHandleEvent: async (context) => {
-				// 	console.info(
-				// 		'onHandleEvent successful: ',
-				// 		context.action === 'SUCCESS' && (context.user as any),
-				// 	);
-				// 	return context;
-				// },
-				// override: {
-				// 	functions: (oi) => {
-				// 		return {
-				// 			...oi,
-				// 			consumeCode: async (input) => {
-				// 				console.info('oi.consumeCode input: ', input);
-				// 				console.info(
-				// 					'oi.consumeCode input.userContext: ',
-				// 					input.userContext,
-				// 				);
+									const response = (await oi.consumeCode(
+										input,
+									)) as unknown as ConsumeCodeResponse<UserDispensaryStaffWithDispensaryDetails>;
 
-				// 				const response = await oi.consumeCode(input);
-				// 				console.info('oi.consumeCode response: ', response);
+									if (
+										!hasMembershipRoleAccess(response.userFromDb.user, 'MEMBER')
+									) {
+										throw new Error(
+											TextContent.account.NO_MEMBERSHIP_PERMISSION,
+										);
+									}
 
-				// 				console.info(
-				// 					'oi.consumeCode response.user: ',
-				// 					response.status === 'OK' && (response.user as any),
-				// 				);
-				// 				return response;
-				// 			},
-				// 		};
-				// 	},
-				// },
-				// onHandleEvent: (
-				// 	event: Passwordless.OnHandleEventContext & { _user: UserWithDetails },
-				// ) => {
-				// 	if (event.action === 'SUCCESS') {
-				// 		console.info('Passwordless.onHandleEvent ', event);
-				// 		// const { user } = event as Passwordless.OnHandleEventContext & {
-				// 		// 	user: UserWithDetails;
-				// 		// };
-				// 		const { _user: user } = event;
-				// 		console.info('checking membership role access ', user);
-				// 		if (hasMembershipRoleAccess(user, 'MEMBER')) {
-				// 			return;
-				// 		} else {
-				// 			throw new Error(TextContent.account.NO_MEMBERSHIP_PERMISSION);
-				// 		}
-				// 	}
-				// },
+									return response;
+								} catch (error) {
+									console.info('oi.consumeCode error: ', error);
+									throw new Error(error.message);
+								}
+							},
+						};
+					},
+				},
+				onHandleEvent: (context: Passwordless.OnHandleEventContext) => {
+					// onHandleEvent: (
+					// 	context: Passwordless.OnHandleEventContext['action'] & {
+					// 		_user: UserWithDetails;
+					// 	},
+					// ) => {
+					if (context.action === 'SUCCESS') {
+						console.info('Passwordless.onHandleEvent ', context);
+						// const { user } = event as Passwordless.OnHandleEventContext & {
+						// 	user: UserWithDetails;
+						// };
+						// const { _user: user } = context;
+						// console.info('checking membership role access ', user);
+					}
+					return context;
+				},
 			}),
 			Session.init(),
 		],
