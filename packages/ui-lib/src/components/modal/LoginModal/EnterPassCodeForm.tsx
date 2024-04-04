@@ -105,6 +105,7 @@ export default function EnterOTPForm({
 				throw new Error('There was an error. Please try again.');
 			}
 
+			console.info('response: ', response as unknown as ConsumeCodeResponse);
 			const { user, token } = (response as unknown as ConsumeCodeResponse)
 				.userFromDb;
 

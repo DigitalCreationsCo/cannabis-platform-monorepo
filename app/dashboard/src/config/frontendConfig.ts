@@ -6,15 +6,16 @@ import {
 } from '@cd/core-lib';
 import { type UserWithDetails } from '@cd/data-access';
 import { default as Router } from 'next/router';
+import { type SuperTokensConfig } from 'supertokens-auth-react/lib/build/types';
 import Passwordless from 'supertokens-auth-react/recipe/passwordless';
 import Session from 'supertokens-auth-react/recipe/session';
-import { type AppInfo } from 'supertokens-node/lib/build/types';
+import { type WindowHandlerInterface } from 'supertokens-web-js/utils/windowHandler/types';
 
 const appName = process.env.NEXT_PUBLIC_SHOP_APP_NAME || 'Gras';
 const dashboardDomain =
 	process.env.NEXT_PUBLIC_DASHBOARD_APP_URL || 'http://localhost:3001';
 
-const appInfo: AppInfo = {
+const appInfo = {
 	appName,
 	websiteDomain: dashboardDomain,
 	websiteBasePath: '/',
@@ -22,7 +23,7 @@ const appInfo: AppInfo = {
 	apiBasePath: '/api/auth',
 };
 
-export const frontendConfig = () => {
+export const frontendConfig = (): SuperTokensConfig => {
 	return {
 		appInfo,
 		enableDebugLogs: process.env.SUPERTOKENS_DEBUG === 'true',
@@ -115,17 +116,9 @@ export const frontendConfig = () => {
 				// 	}
 				// },
 			}),
-			Session.init({
-				// onHandleEvent: (event) => {
-				// 	console.info(
-				// 		'Session.onHandleEvent ',
-				// 		event.action === 'SESSION_CREATED' && event.userContext,
-				// 	);
-				// 	return event;
-				// },
-			}),
+			Session.init(),
 		],
-		windowHandler: (oI: any) => {
+		windowHandler: (oI: WindowHandlerInterface) => {
 			return {
 				...oI,
 				location: {

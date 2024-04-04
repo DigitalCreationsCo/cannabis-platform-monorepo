@@ -150,7 +150,7 @@ function TopBar({
 					{isSignedIn && (
 						<FlexBox className="active:bg-accent-soft focus:bg-accent-soft w-full">
 							<Link
-								className={twMerge('hidden sm:block')}
+								className={twMerge('w-full')}
 								href={TextContent.href.support}
 							>
 								<Button
