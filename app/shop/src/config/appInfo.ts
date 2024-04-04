@@ -7,7 +7,6 @@ const appInfo = {
 	websiteDomain: shopDomain,
 	websiteBasePath: '/',
 	apiDomain: shopDomain,
-	// query this path for all auth requests
 	apiBasePath: '/api/auth',
 };
 

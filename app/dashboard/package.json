@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "jwks-rsa": "3.1.0",
     "@cd/core-lib": "workspace:*",
     "@cd/data-access": "workspace:*",
     "@cd/eslint-config": "workspace:*",
