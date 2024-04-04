@@ -32,7 +32,7 @@ export default function Footer() {
 			href: TextContent.href.dispensary_tos,
 		},
 		{ name: 'Help Center', href: TextContent.href.help },
-		{ name: 'Blog', href: TextContent.href.blog },
+		// { name: 'Blog', href: TextContent.href.blog }, // blog not available currently
 		// { name: 'Compliance', href: TextContent.href.compliance },
 		// {
 		// 	name: 'User Terms and Conditions',
