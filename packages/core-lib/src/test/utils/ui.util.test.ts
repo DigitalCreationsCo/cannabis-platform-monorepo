@@ -65,13 +65,13 @@ describe('renderSchedule', () => {
 	] as Schedule[];
 	test(' displays a correct address', () => {
 		expect(renderSchedule(schedule)).toStrictEqual(
-			`Monday 8:00am to 8:00pm
-Tuesday 8:00am to 8:00pm
-Wednesday 8:00am to 8:00pm
-Thursday 8:00am to 8:00pm
-Friday 8:00am to 8:00pm
-Saturday 8:00am to 4:00pm
-Sunday 8:00am to 4:00pm
+			`Monday 8am to 8pm
+Tuesday 8am to 8pm
+Wednesday 8am to 8pm
+Thursday 8am to 8pm
+Friday 8am to 8pm
+Saturday 8am to 4pm
+Sunday 8am to 4pm
 `,
 		);
 	});
