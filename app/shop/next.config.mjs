@@ -20,6 +20,9 @@ const _env =
 
 expand(config({ path: loadEnv(_env) }));
 
+/**
+ * @type {import('next').NextConfig}
+ */
 const nextConfig = (phase) => {
 	const isDev = phase === PHASE_DEVELOPMENT_SERVER;
 	const isProd =

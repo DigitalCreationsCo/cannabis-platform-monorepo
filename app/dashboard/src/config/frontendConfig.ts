@@ -11,17 +11,15 @@ import Session from 'supertokens-auth-react/recipe/session';
 import { type AppInfo } from 'supertokens-node/lib/build/types';
 
 const appName = process.env.NEXT_PUBLIC_SHOP_APP_NAME || 'Gras';
-const baseDomain = process.env.NEXT_PUBLIC_APP_DOMAIN || 'grascannabis.org';
 const dashboardDomain =
-	process.env.NEXT_PUBLIC_DASHBOARD_APP_URL || 'https://app.grascannabis.org';
-const apiDomain = process.env.BACKEND_URL || `https://backend.grascannabis.org`;
+	process.env.NEXT_PUBLIC_DASHBOARD_APP_URL || 'http://localhost:3001';
 
 const appInfo: AppInfo = {
 	appName,
 	websiteDomain: dashboardDomain,
-	apiDomain,
-	apiBasePath:
-		(process.env.NODE_ENV === 'production' && '/main/api/v1') || '/api/v1',
+	websiteBasePath: '/',
+	apiDomain: dashboardDomain,
+	apiBasePath: '/api/auth',
 };
 
 export const frontendConfig = () => {
@@ -52,52 +50,53 @@ export const frontendConfig = () => {
 				// 	// return undefined to let the default behaviour play out
 				// 	return undefined;
 				// },
-				preAPIHook: async (context) => {
-					const appUser: AppUser = 'DISPENSARY_USER';
-					console.info('Passwordless.preAPIHook ', context);
+				// preAPIHook: async (context) => {
+				// 	const appUser: AppUser = 'DISPENSARY_USER';
+				// 	console.info('Passwordless.preAPIHook ', context);
 
-					if (context.action === 'PASSWORDLESS_CONSUME_CODE') {
-						// attach app-user identifier header to request
-						context.requestInit.headers = {
-							...context.requestInit.headers,
-							'app-user': appUser,
-						};
-					}
-					return context;
-				},
-				postAPIHook: async (context) => {
-					console.info('Passwordless.postAPIHook ', context);
-				},
-				onHandleEvent: async (context) => {
-					console.info(
-						'onHandleEvent successful: ',
-						context.action === 'SUCCESS' && (context.user as any),
-					);
-					return context;
-				},
-				override: {
-					functions: (oi) => {
-						return {
-							...oi,
-							consumeCode: async (input) => {
-								console.info('oi.consumeCode input: ', input);
-								console.info(
-									'oi.consumeCode input.userContext: ',
-									input.userContext,
-								);
+				// 	if (context.action === 'PASSWORDLESS_CONSUME_CODE') {
+				// 		// attach app-user identifier header to request
+				// 		context.requestInit.headers = {
+				// 			...context.requestInit.headers,
+				// 			'app-user': appUser,
+				// 		};
+				// 	}
+				// 	return context;
+				// },
+				// postAPIHook: (context) => {
+				// 	console.info('Passwordless.postAPIHook ', context);
+				// 	return context;
+				// },
+				// onHandleEvent: async (context) => {
+				// 	console.info(
+				// 		'onHandleEvent successful: ',
+				// 		context.action === 'SUCCESS' && (context.user as any),
+				// 	);
+				// 	return context;
+				// },
+				// override: {
+				// 	functions: (oi) => {
+				// 		return {
+				// 			...oi,
+				// 			consumeCode: async (input) => {
+				// 				console.info('oi.consumeCode input: ', input);
+				// 				console.info(
+				// 					'oi.consumeCode input.userContext: ',
+				// 					input.userContext,
+				// 				);
 
-								const response = await oi.consumeCode(input);
-								console.info('oi.consumeCode response: ', response);
+				// 				const response = await oi.consumeCode(input);
+				// 				console.info('oi.consumeCode response: ', response);
 
-								console.info(
-									'oi.consumeCode response.user: ',
-									response.status === 'OK' && (response.user as any),
-								);
-								return response;
-							},
-						};
-					},
-				},
+				// 				console.info(
+				// 					'oi.consumeCode response.user: ',
+				// 					response.status === 'OK' && (response.user as any),
+				// 				);
+				// 				return response;
+				// 			},
+				// 		};
+				// 	},
+				// },
 				// onHandleEvent: (
 				// 	event: Passwordless.OnHandleEventContext & { _user: UserWithDetails },
 				// ) => {
@@ -117,13 +116,13 @@ export const frontendConfig = () => {
 				// },
 			}),
 			Session.init({
-				onHandleEvent: (event) => {
-					console.info(
-						'Session.onHandleEvent ',
-						event.action === 'SESSION_CREATED' && event.userContext,
-					);
-					return event;
-				},
+				// onHandleEvent: (event) => {
+				// 	console.info(
+				// 		'Session.onHandleEvent ',
+				// 		event.action === 'SESSION_CREATED' && event.userContext,
+				// 	);
+				// 	return event;
+				// },
 			}),
 		],
 		windowHandler: (oI: any) => {

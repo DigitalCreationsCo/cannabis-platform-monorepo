@@ -68,7 +68,7 @@ export default function SendOTPForm({
 				setInputValue(values.emailOrPhone);
 				if (isInputPhone) {
 					await createCode({ phoneNumber: values.emailOrPhone });
-					// await createCode({ phoneNumber: values.emailOrPhone });
+
 					toast.success(
 						TextContent.account.ONETIME_PASSCODE_SENT_MOBILE_f(
 							values.emailOrPhone,
@@ -79,6 +79,7 @@ export default function SendOTPForm({
 					);
 				} else {
 					await createCode({ email: values.emailOrPhone });
+
 					toast.success(
 						TextContent.account.ONETIME_PASSCODE_SENT_EMAIL_f(
 							values.emailOrPhone,
