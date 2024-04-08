@@ -20,9 +20,7 @@ const styles = Object.freeze({
 		'relative',
 		'w-[200px] md:min-w-[224px] md:w-[340px] h-[200px] p-4 !rounded',
 	],
-	isOpenBadge: [
-		'text-inherit border-2 tracking-wider z-5 top-0 right-0 p-3 m-3 badge absolute',
-	],
+	isOpenBadge: ['text-inherit border-b tracking-wider z-5 top-0 right-0'],
 	HERO: {
 		container: ['w-full p-4 md:px-14 lg:px-32', 'justify-center'],
 		content: [

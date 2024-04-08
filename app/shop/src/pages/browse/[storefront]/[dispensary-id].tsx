@@ -2,9 +2,7 @@ import {
 	isArray,
 	renderAddress,
 	renderSchedule,
-	selectOrganizationBySubdomain,
 	TextContent,
-	useAppSelector,
 } from '@cd/core-lib';
 import {
 	type ProductVariantWithDetails,
@@ -84,6 +82,14 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 		);
 	}
 
+	const applyDispensaryStyles: Record<string, string> = {
+		'primary-color': organization.siteSetting.primaryColor as string,
+		'secondary-color': organization.siteSetting.secondaryColor as string,
+		'tertiary-color': organization.siteSetting.tertiaryColor as string,
+		'text-color': organization.siteSetting.textColor as string,
+		'background-color': organization.siteSetting.backgroundColor as string,
+	};
+
 	const Heading = () => (
 		<>
 			{organization.images?.length > 0 && (
@@ -98,12 +104,13 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 				/>
 			)}
 			<H1
-				className={`text-[${organization.siteSetting.primaryColor}] whitespace-normal`}
+				style={{ color: applyDispensaryStyles['primary-color'] }}
+				className={`whitespace-normal`}
 			>
 				{organization.name}
 			</H1>
 
-			<Paragraph>
+			<Paragraph style={{ color: applyDispensaryStyles['text-color'] }}>
 				{renderAddress({
 					address: organization.address,
 					lineBreak: false,
@@ -116,7 +123,10 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 
 	const Body = () => (
 		<>
-			<H4 className="text-primary font-normal">
+			<H4
+				style={{ color: applyDispensaryStyles['primary-color'] }}
+				className="font-normal"
+			>
 				{organization.siteSetting.description}
 			</H4>
 		</>
@@ -124,19 +134,26 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 
 	const DispensaryStatus = () => (
 		<FlexBox
-			className={`flex-col text-[${organization.siteSetting.primaryColor}]`}
+			style={{ color: applyDispensaryStyles['primary-color'] }}
+			className={`flex-col`}
 		>
 			{organization.isSubscribedForDelivery ? (
 				<FlexBox className="flex-row">
 					<IconWrapper Icon={icons.Truck} iconSize={28} />
-					<Paragraph className="whitespace-pre text-lg font-semibold tracking-wider">
+					<Paragraph
+						style={{ color: applyDispensaryStyles['text-color'] }}
+						className="whitespace-pre text-lg font-semibold tracking-wider"
+					>
 						{' Accepting Delivery'}
 					</Paragraph>
 				</FlexBox>
 			) : null}
 			{organization.isSubscribedForPickup ? (
 				<FlexBox className="flex-col">
-					<FlexBox className="flex-row">
+					<FlexBox
+						style={{ color: applyDispensaryStyles['text-color'] }}
+						className="flex-row"
+					>
 						<IconWrapper Icon={icons.CurrencyDollar} iconSize={28} />
 						<Paragraph className="whitespace-pre text-lg font-semibold tracking-wider">
 							{'Order for Pickup'}
@@ -161,10 +178,16 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 	const Contact = () => (
 		<>
 			{organization.isSubscribedForPickup ? (
-				<FlexBox className="flex-row items-center">
+				<FlexBox
+					style={{ color: applyDispensaryStyles['text-color'] }}
+					className="flex-row items-center"
+				>
 					<IconWrapper Icon={icons.Phone} iconSize={28} />
 					<Link href={`tel:${organization.dialCode + organization.phone}`}>
-						<Paragraph className="whitespace-pre font-semibold">
+						<Paragraph
+							style={{ color: applyDispensaryStyles['text-color'] }}
+							className="whitespace-pre font-semibold"
+						>
 							{` call us +${organization.dialCode + organization.phone}`}
 						</Paragraph>
 					</Link>
@@ -175,9 +198,13 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 
 	const Schedule = () => (
 		<>
-			<Paragraph>Hours</Paragraph>
+			<Paragraph style={{ color: applyDispensaryStyles['text-color'] }}>
+				Hours
+			</Paragraph>
 			<FlexBox className="flex-row whitespace-pre-line">
-				<Paragraph>{renderSchedule(organization.schedule)}</Paragraph>
+				<Paragraph style={{ color: applyDispensaryStyles['text-color'] }}>
+					{renderSchedule(organization.schedule)}
+				</Paragraph>
 			</FlexBox>
 		</>
 	);
@@ -213,6 +240,7 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 	function BackButton() {
 		return (
 			<Button
+				style={{ color: applyDispensaryStyles['text-color'] }}
 				size="sm"
 				bg="transparent"
 				hover="transparent"
@@ -226,7 +254,7 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 	}
 
 	const BrowseMore = () => {
-		return (
+		return organization.ecommerceUrl ? (
 			<Link
 				href={organization.ecommerceUrl as string}
 				// className={`text-[${organization.siteSetting.secondaryColor}] hover:text-[${organization.siteSetting.primaryColor}]`}
@@ -239,6 +267,8 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 					<H4>More from {organization.name}</H4>
 				</Button>
 			</Link>
+		) : (
+			<></>
 		);
 	};
 
@@ -249,10 +279,8 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 				<meta name="Gras App" content="Built by Gras Cannabis Co." />
 			</Head>
 			<Card
-				className={twMerge(
-					// `bg-[${organization.siteSetting.backgroundColor}] m-auto items-center h-full w-full`,
-					`m-auto items-center h-full w-full`,
-				)}
+				style={{ backgroundColor: applyDispensaryStyles['background-color'] }}
+				className={twMerge(`m-auto items-center h-full w-full`)}
 			>
 				<BackButton />
 				{organization ? (

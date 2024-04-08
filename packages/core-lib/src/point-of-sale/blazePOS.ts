@@ -2,12 +2,12 @@ import {
 	type UserWithDetails,
 	type OrderWithDispatchDetails,
 } from '@cd/data-access';
-import { variants } from '../../dummyData';
+import { variants } from '../dummyData';
 import { type POSIntegration } from './integration.types';
 
-export const WeedmapsPOS: POSIntegration = class {
-	static getWeedmapsEndpoint() {
-		// assert value
+export const BlazePOS: POSIntegration = class {
+	static getBlaze() {
+		// assert va lue
 		// return process.env.DUTCHIE_API_ENDPOINT;
 	}
 
@@ -25,22 +25,21 @@ export const WeedmapsPOS: POSIntegration = class {
 
 	static async processPickupOrder(order: OrderWithDispatchDetails['order']) {
 		try {
+			// await axios.post('https://api.blaze', {});
 			return;
 		} catch (error: any) {
-			console.error(
-				'weedmapsPOSIntegration processPickupOrder: ',
-				error.message,
-			);
+			console.error('blazePOSIntegration processPickupOrder: ', error.message);
 			throw new Error(error.message);
 		}
 	}
 
 	static async processDeliveryOrder(order: OrderWithDispatchDetails['order']) {
 		try {
+			// await axios.post('https://api.blaze', {});
 			return;
 		} catch (error: any) {
 			console.error(
-				'weedmapsPOSIntegration processDeliveryOrder: ',
+				'blazePOSIntegration processDeliveryOrder: ',
 				error.message,
 			);
 			throw new Error(error.message);

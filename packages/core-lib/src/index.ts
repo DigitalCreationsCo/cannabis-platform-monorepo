@@ -30,6 +30,7 @@ export * from './reducer';
 export * from './types';
 export * from './utils';
 export * from './dummyData';
+export * from './point-of-sale/IntegrationService';
 // export * from './lib'; // import lib files directly from the lib folder
 // eslint-disable-next-line import/no-cycle
 

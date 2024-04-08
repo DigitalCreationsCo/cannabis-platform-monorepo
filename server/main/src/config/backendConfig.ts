@@ -30,6 +30,7 @@ const appInfo = {
 	apiBasePath,
 };
 
+console.info('apiDomain: ', apiDomain);
 export const backendConfig = (): AuthConfig => {
 	return {
 		framework: 'express',

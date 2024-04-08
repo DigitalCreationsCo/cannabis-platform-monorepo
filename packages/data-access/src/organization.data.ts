@@ -122,8 +122,9 @@ export async function createOrganization(
 				dialCode: organization.dialCode,
 				phone: organization.phone,
 				stripeAccountId: organization.stripeAccountId,
+				ecommerceUrl: organization.ecommerceUrl,
 				stripeOnboardingComplete: false,
-				termsAccepted: false,
+				termsAccepted: organization.termsAccepted || false,
 				address: {
 					create: {
 						street1: address.street1,
@@ -434,6 +435,7 @@ export async function findOrganizationsByZipcode(
 					},
 				},
 				take: Number(limit),
+				orderBy: [{ address: { zipcode: 'asc' } }],
 			})) || [];
 		return organizations as unknown as OrganizationWithShopDetails[];
 	} catch (error: any) {

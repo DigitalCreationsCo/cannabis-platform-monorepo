@@ -66,6 +66,7 @@
 		"react-hot-toast": "2.4.0",
 		"react-redux": "8.0.2",
 		"redis": "4.6.6",
+		"mongodb": "5.8.1",
 		"sharp": "0.33.1",
 		"supertokens-auth-react": "0.35.8",
 		"supertokens-node": "16.6.1",
