@@ -294,7 +294,7 @@ async function getDailyDealProductsAndCalculateTotal(
 
 	const { products: skus } = deal;
 	const posIntegration = await (
-		await import('../lib/point-of-sale/IntegrationService')
+		await import('../point-of-sale/IntegrationService')
 	).IntegrationService.getPOSIntegrationService(deal.organization.pos);
 
 	// fetch products from integrated point of sale

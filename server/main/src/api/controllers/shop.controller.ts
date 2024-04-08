@@ -1,6 +1,5 @@
 /* eslint-disable sonarjs/no-duplicated-branches */
-import { pruneData, TextContent } from '@cd/core-lib';
-import { IntegrationService } from '@cd/core-lib/src/lib/point-of-sale/IntegrationService';
+import { pruneData, TextContent, IntegrationService } from '@cd/core-lib';
 import {
 	type OrderWithFullDetails,
 	type OrderCreateType,

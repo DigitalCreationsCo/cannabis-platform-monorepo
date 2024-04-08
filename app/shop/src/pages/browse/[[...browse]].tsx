@@ -124,13 +124,13 @@ export default function MarketPlace() {
 	}
 
 	return (
-		<Page gradient="green" className="lg:px-0 pb-12 min-h-[440px]">
+		<Page gradient="green" className="pt-2 md:pt-2 lg:px-0 pb-12 min-h-[440px]">
 			<link
 				href="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css"
 				rel="stylesheet"
 			/>
 
-			<Grid className="relative grid-cols-3 ">
+			<Grid className="relative grid-cols-3">
 				<div
 					id={'shop-tour-step1'}
 					className="row-start-1 cursor-default px-5 pt-0 col-start-1 col-span-full lg:col-span-2"
@@ -245,28 +245,10 @@ const RenderMapBox = ({
 	current: number;
 	setCurrent: React.Dispatch<React.SetStateAction<number>>;
 }) => {
-	const [isMarkerSet, setIsMarkerSet] = useState(false);
-
-	useEffect(() => {
-		console.info('fly to: ', data[current]);
-		// fly to the selected location
-		if (data.length > 0 && map.current?.isStyleLoaded) {
-			const { address } = data[current];
-			const [lng, lat] = getCoordinatePairFromCoordinates(
-				address.coordinates as Coordinates,
-			);
-			map.current?.flyTo({
-				center: [lng, lat],
-				zoom: 11,
-				speed: 2,
-				animate: true,
-			});
-		}
-	}, [current]);
-
 	mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_API_KEY as string;
 	const mapContainer = useRef(null);
 	const map = useRef<mapboxgl.Map | null>(null);
+
 	useEffect(() => {
 		if (map.current) return; // initialize map only once
 		// eslint-disable-next-line import/no-named-as-default-member
@@ -428,7 +410,6 @@ const RenderMapBox = ({
 
 				el.addEventListener('click', () => {
 					setCurrent(index);
-					window.alert(feature.properties.message);
 				});
 
 				// make a marker for each feature and add to the map
@@ -439,9 +420,39 @@ const RenderMapBox = ({
 		}
 		if (data.length > 0 && map.current?.isStyleLoaded) {
 			addMarkersToMapBox(generateGEOJSONDataFromDispensaries(data));
-			// setIsMarkerSet(true);
 		}
 	}, [data]);
+
+	useEffect(() => {
+		// fly to current on map load
+		if (data.length > 0 && map.current?.isStyleLoaded) {
+			const { address } = data[current];
+			const [lng, lat] = getCoordinatePairFromCoordinates(
+				address.coordinates as Coordinates,
+			);
+			map.current?.flyTo({
+				center: [lng, lat],
+				zoom: 11,
+				speed: 2,
+				animate: true,
+			});
+		}
+	}, [map.current]);
+
+	useEffect(() => {
+		// fly to the selected location
+		if (data.length > 0 && map.current?.isStyleLoaded) {
+			const { address } = data[current];
+			const [lng, lat] = getCoordinatePairFromCoordinates(
+				address.coordinates as Coordinates,
+			);
+			map.current?.flyTo({
+				center: [lng, lat],
+				speed: 2,
+				animate: true,
+			});
+		}
+	}, [current]);
 
 	function generateGEOJSONDataFromDispensaries(
 		data: OrganizationWithShopDetails[],

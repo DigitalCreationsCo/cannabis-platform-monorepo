@@ -4,8 +4,8 @@ import {
 	isArray,
 	normalizeUserData,
 } from '@cd/core-lib';
-import { EmailService } from '@cd/core-lib/src/lib/email/EmailService';
-import { type UserWithDetails, type AddressCreateType } from '@cd/data-access';
+// import { EmailService } from '@cd/core-lib/src/lib/email/EmailService';
+import { type AddressCreateType } from '@cd/data-access';
 import { ShopDA, UserDA } from '../data-access';
 
 /* =================================
@@ -47,7 +47,7 @@ export default class UserController {
 			// subscribe new user to weed-texts
 
 			// send new user email
-			EmailService.sendNewUserEmail({ user: data as UserWithDetails });
+			// EmailService.sendNewUserEmail({ user: data as UserWithDetails });
 
 			return res.status(201).json({
 				success: 'true',

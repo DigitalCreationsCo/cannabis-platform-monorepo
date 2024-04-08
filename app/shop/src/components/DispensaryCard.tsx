@@ -101,6 +101,7 @@ function DispensaryCard({
 					styles.dispensaryCard,
 					'rounded overflow-hidden',
 					'shadow',
+					'transition',
 					current ? 'border-2 border-primary' : 'border-2 border-transparent',
 					className,
 				])}
@@ -109,7 +110,7 @@ function DispensaryCard({
 					src={dispensary?.images?.[0]?.location || logo.src}
 					blurData={dispensary?.images?.[0]?.blurhash || ''}
 				>
-					<FlexBox className="z-5 absolute left-0 flex-col p-2 px-4">
+					<FlexBox className="z-5 left-0 flex-col p-2 px-4">
 						<H3
 							style={{ color: applyDispensaryStyles['primary-color'] }}
 							className="z-5 font-semibold left-0 top-0 max-w-[248px] whitespace-normal tracking-wide drop-shadow"
@@ -122,8 +123,8 @@ function DispensaryCard({
 						>
 							{dispensary?.address?.street1}
 						</Paragraph>
+						<OpenBadge />
 					</FlexBox>
-					<OpenBadge />
 					<FlexBox className="z-5 absolute bottom-0 left-0 flex-col p-2 px-4">
 						<Paragraph className="text-inverse text-xl font-semibold drop-shadow">
 							{(dispensary?.isSubscribedForDelivery && 'Accepting Delivery') ||

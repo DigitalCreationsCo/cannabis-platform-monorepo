@@ -471,14 +471,17 @@ export default function Carousel<D>({
 	const slider = useRef<Slider>(null);
 
 	const increment = () => {
-		// if (current <= data.length) {
 		setCurrent((current + 1) % data.length);
 		slider?.current?.slickNext();
-		// }
 	};
 	const decrement = () => {
-		setCurrent((current - 1) % data.length);
-		slider?.current?.slickPrev();
+		if (current === 0) {
+			setCurrent(data.length - 1);
+			slider?.current?.slickGoTo(data.length - 1);
+		} else {
+			setCurrent((current - 1) % data.length);
+			slider?.current?.slickPrev();
+		}
 	};
 
 	const slidesToShow = data.length > 0 ? Math.min(data.length, 3) : 1;
@@ -490,8 +493,12 @@ export default function Carousel<D>({
 		cssEase: 'ease-out',
 		responsive: [
 			{
+				// breakpoint: 450,
 				breakpoint: 450,
 				settings: {
+					beforeChange(currentSlide, nextSlide) {
+						setCurrent(nextSlide);
+					},
 					swipe: true,
 					centerMode: true,
 					slidesToShow: 1,
@@ -499,16 +506,16 @@ export default function Carousel<D>({
 					initialSlide: 0,
 				},
 			},
-			{
-				breakpoint: 1024,
-				settings: {
-					slidesToShow,
-					slidesToScroll: slidesToShow,
-					initialSlide: 0,
-					// slidesToShow: 2,
-					// slidesToScroll: 2,
-				},
-			},
+			// {
+			// 	breakpoint: 1024,
+			// 	settings: {
+			// 		slidesToShow,
+			// 		slidesToScroll: slidesToShow,
+			// 		initialSlide: 0,
+			// 		// slidesToShow: 2,
+			// 		// slidesToScroll: 2,
+			// 	},
+			// },
 		],
 		...settings,
 	};

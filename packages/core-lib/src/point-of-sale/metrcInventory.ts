@@ -4,7 +4,7 @@ import {
 	type ProductVariantWithDetails,
 	type UserWithDetails,
 } from '@cd/data-access';
-import { variants } from '../../dummyData';
+import { variants } from '../dummyData';
 import { type POSIntegration } from './integration.types';
 
 export const MetrcIntegration: POSIntegration = class {
