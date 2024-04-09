@@ -19,8 +19,8 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import Supertokens from 'supertokens-node';
 import { superTokensNextWrapper } from 'supertokens-node/nextjs';
 import { verifySession } from 'supertokens-node/recipe/session/framework/express';
-import clientPromise from 'mongo';
 import { backendConfig } from '../../../config/backendConfig';
+import clientPromise from '../../../mongo';
 // import { EmailService } from '@cd/core-lib/src/lib/email/EmailService';
 
 Supertokens.init(backendConfig());
