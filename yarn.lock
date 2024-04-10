@@ -3985,7 +3985,7 @@ __metadata:
     autoprefixer: 10.4.13
     axios: 1.2.1
     babel-jest: 29.5.0
-    blurhash: ^2.0.5
+    blurhash: 2.0.5
     boarding.js: 3.5.2
     cors: 2.8.5
     daisyui: 2.51.6
@@ -16359,7 +16359,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"blurhash@npm:^2.0.5":
+"blurhash@npm:2.0.5":
   version: 2.0.5
   resolution: "blurhash@npm:2.0.5"
   checksum: aa4d6855bbaae116065b118a7b1e889648c15047e72048c28bab3db426a042ce1dc032a30c55a52da6140c314534841b984ab11cc68303668dde446d6ca53bc6
