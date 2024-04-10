@@ -64,10 +64,7 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 
 	if (error || !organization) {
 		return (
-			<Page
-				gradient="pink"
-				className="w-full bg-transparent pb-0 md:pb-24 pt-14"
-			>
+			<Page gradient="pink" className="w-full bg-transparent py-0 md:pb-24">
 				<Head>
 					<title>Grascannabis.org - Cannabis, Delivered.</title>
 					<meta name="Gras App" content="Built by Gras Cannabis Co." />
@@ -92,9 +89,15 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 
 	const Heading = () => (
 		<>
+			<H1
+				style={{ color: applyDispensaryStyles['primary-color'] }}
+				className={`whitespace-normal px-2`}
+			>
+				{organization.name}
+			</H1>
 			{organization.images?.length > 0 && (
 				<Image
-					className="shrink-0 w-[100px] sm:w-[150px] relative"
+					className="shrink-0 w-[150px] relative"
 					src={organization.images[0].location}
 					alt={organization.name}
 					width={150}
@@ -103,13 +106,6 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 					loader={({ src }) => src}
 				/>
 			)}
-			<H1
-				style={{ color: applyDispensaryStyles['primary-color'] }}
-				className={`whitespace-normal`}
-			>
-				{organization.name}
-			</H1>
-
 			<Paragraph style={{ color: applyDispensaryStyles['text-color'] }}>
 				{renderAddress({
 					address: organization.address,
@@ -244,7 +240,7 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 				size="sm"
 				bg="transparent"
 				hover="transparent"
-				className="text-dark self-start  sm:py-0 hover:underline"
+				className="text-dark self-start sm:py-0 hover:underline"
 				onClick={() => Router.back()}
 			>
 				<IconWrapper Icon={icons.ArrowLeft} className="pr-1" />
@@ -261,10 +257,10 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 			>
 				<Button
 					size="lg"
-					bg="accent-soft"
-					className="w-full bg-accent-soft hover:bg-primary"
+					bg="primary"
+					className="w-full hover:bg-primary-light transition duration-75"
 				>
-					<H4>More from {organization.name}</H4>
+					<H4>Shop with {organization.name}</H4>
 				</Button>
 			</Link>
 		) : (
@@ -273,14 +269,20 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 	};
 
 	return (
-		<Page gradient="pink" className="w-full bg-transparent pb-0 md:pb-24 pt-14">
+		<Page
+			gradient="pink"
+			// grow items-center min-h-screen
+			className="w-full py-0 md:pt-12 md:pb-24 flex flex-col grow h-[96vh]"
+		>
 			<Head>
 				<title>Grascannabis.org - Cannabis, Delivered.</title>
 				<meta name="Gras App" content="Built by Gras Cannabis Co." />
 			</Head>
 			<Card
 				style={{ backgroundColor: applyDispensaryStyles['background-color'] }}
-				className={twMerge(`m-auto items-center h-full w-full`)}
+				className={twMerge(
+					`flex grow m-auto items-center h-full w-full !py-12 !pb-24`,
+				)}
 			>
 				<BackButton />
 				{organization ? (
@@ -305,6 +307,7 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 
 Storefront.getLayoutContext = (): LayoutContextProps => ({
 	showHeader: false,
+	showFooter: false,
 });
 
 export default Storefront;

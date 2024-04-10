@@ -37,7 +37,6 @@ function Page({
 		<div className={twMerge(styles)}>
 			<AnimationWrapper className="flex flex-col w-full grow">
 				{children}
-
 				{/* <div className="fixed flex items-center bottom-0 right-0 cursor-default text-accent-soft space-x-1 pr-1">
 					<div
 						className={twMerge([

@@ -37,6 +37,7 @@ async function getCoordinatesByAddressString(addressString: string): Promise<{
 		if (!response.data || !response.data[0] || response.data.length == 0)
 			throw new Error('No coordinates found for address');
 		const { lat: latitude, lon: longitude } = response.data[0];
+		console.info('response: lat: ', latitude, ' lon: ', longitude);
 
 		return { latitude, longitude };
 	} catch (error) {

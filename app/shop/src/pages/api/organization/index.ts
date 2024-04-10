@@ -20,6 +20,8 @@ import Supertokens from 'supertokens-node';
 import { superTokensNextWrapper } from 'supertokens-node/nextjs';
 import { verifySession } from 'supertokens-node/recipe/session/framework/express';
 import { backendConfig } from '../../../config/backendConfig';
+import { downloadImage } from '../../../helpers/downloadImage';
+import { encodeImageToBlurhash } from '../../../helpers/encodeBlurHash';
 import clientPromise from '../../../mongo';
 // import { EmailService } from '@cd/core-lib/src/lib/email/EmailService';
 
@@ -113,16 +115,24 @@ const handlePOST = async (req: any, res: any) => {
 
 	create.address.coordinates = { ...coordinates };
 
-	const imagesWithBlurData = [];
-	for (let i = 0; i < create.images.length; i++) {
-		imagesWithBlurData.push({
-			...create.images[i],
-			location: create.images[i].location,
-			alt: create.images[i].alt || create.name,
-			blurhash: await dynamicBlurDataUrl(create.images[i].location),
-		});
-	}
-	create.images = imagesWithBlurData;
+	// const imagesWithBlurData = [];
+	// for (let i = 0; i < create.images.length; i++) {
+	// 	const src = create.images[i].location;
+	// 	console.info('src, ', src);
+	// 	const buffer = await downloadImage(src).then(encodeImageToBlurhash as any);
+
+	// 	console.info('buffer, ', buffer);
+	// 	const blurhash = await encodeImageToBlurhash(buffer);
+	// 	console.info('blurhash, ', blurhash);
+
+	// 	imagesWithBlurData.push({
+	// 		...create.images[i],
+	// 		location: create.images[i].location,
+	// 		alt: create.images[i].alt || create.name,
+	// 		blurhash,
+	// 	});
+	// }
+	// create.images = imagesWithBlurData;
 
 	const organization = (await createOrganization(
 		create,
