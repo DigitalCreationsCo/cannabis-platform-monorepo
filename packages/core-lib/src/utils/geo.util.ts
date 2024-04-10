@@ -5,7 +5,6 @@ import {
 	type Coordinates,
 } from '@cd/data-access';
 import haversine from 'haversine-distance';
-import { axios } from '../axiosInstance';
 import { isEmpty } from './object.util';
 
 const _acceptEncoding = 'gzip,deflate,compress';
@@ -24,19 +23,17 @@ async function getCoordinatesByAddressString(addressString: string): Promise<{
 	try {
 		console.info(`Getting coordinates for address: ${addressString}`);
 		const format = 'json';
-		const response = await axios.get(
+		const response = await fetch(
 			`${process.env.NEXT_PUBLIC_LOCATION_IQ_GEOCODE_URL}?key=${process.env.NEXT_PUBLIC_LOCATION_IQ_API_KEY}&q=${addressString}&format=${format}`,
-			{
-				headers: {
-					// eslint-disable-next-line @typescript-eslint/naming-convention
-					// 'Accept-Encoding': _acceptEncoding,
-				},
-			},
 		);
 
-		if (!response.data || !response.data[0] || response.data.length == 0)
+		if (!response.ok) {
 			throw new Error('No coordinates found for address');
-		const { lat: latitude, lon: longitude } = response.data[0];
+		}
+
+		const data = await response.json();
+
+		const { lat: latitude, lon: longitude } = data[0];
 		console.info('response: lat: ', latitude, ' lon: ', longitude);
 
 		return { latitude, longitude };
@@ -52,17 +49,17 @@ export async function getGeoAddressFromCoordinates(coordinates: {
 	try {
 		const format = 'json';
 		const { latitude, longitude } = coordinates;
-		const response = await axios.get(
+		const response = await fetch(
 			`${process.env.NEXT_PUBLIC_LOCATION_IQ_REVERSE_GEOCODE_URL}?key=${process.env.NEXT_PUBLIC_LOCATION_IQ_API_KEY}&lat=${latitude}&lon=${longitude}&format=${format}`,
-			{
-				headers: {
-					// eslint-disable-next-line @typescript-eslint/naming-convention
-					// 'Accept-Encoding': _acceptEncoding,
-				},
-			},
 		);
 
-		const { address, lat, lon } = response.data;
+		if (!response.ok) {
+			throw new Error('No coordinates found for address');
+		}
+
+		const data = await response.json();
+
+		const { address, lat, lon } = data;
 
 		const formattedAddress: AddressPayload = {
 			street1: address.house_number + ' ' + address.road,
@@ -153,18 +150,21 @@ export async function getRoutingDetails(
 	try {
 		const sourceCoordinates = getCoordinatePairFromCoordinates(source);
 		const destCoordinates = getCoordinatePairFromCoordinates(dest);
-		const response = await axios.get(
+		const response = await fetch(
 			`${process.env.NEXT_PUBLIC_LOCATION_IQ_ROUTING_URL}/${sourceCoordinates};${destCoordinates}?key=${process.env.NEXT_PUBLIC_LOCATION_IQ_API_KEY}&overview=false&roundtrip=false`,
-			{
-				headers: {
-					// 'Accept-Encoding': _acceptEncoding,
-				},
-			},
 		);
 
-		if (response.data?.code !== 'Ok' || isEmpty(response.data?.trips))
-			throw new Error('Failed to find routing details.');
-		return response.data;
+		if (!response.ok) {
+			throw new Error('Failed to get routing details.');
+		}
+
+		const data = await response.json();
+
+		if (isEmpty(data?.trips)) {
+			throw new Error('No routing data.');
+		}
+
+		return data;
 	} catch (error) {
 		console.info('getRoutingDetails: ', error);
 		throw new Error(error);
@@ -192,7 +192,7 @@ export type RoutingDetailsResponse = {
 		hint: string;
 		distance: number;
 		location: [number, number];
-		name: 'Downing Street';
+		name: string;
 	}[];
 	trips: {
 		legs: {
