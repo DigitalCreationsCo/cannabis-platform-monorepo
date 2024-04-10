@@ -29,7 +29,7 @@ async function getCoordinatesByAddressString(addressString: string): Promise<{
 			{
 				headers: {
 					// eslint-disable-next-line @typescript-eslint/naming-convention
-					'Accept-Encoding': _acceptEncoding,
+					// 'Accept-Encoding': _acceptEncoding,
 				},
 			},
 		);
@@ -57,7 +57,7 @@ export async function getGeoAddressFromCoordinates(coordinates: {
 			{
 				headers: {
 					// eslint-disable-next-line @typescript-eslint/naming-convention
-					'Accept-Encoding': _acceptEncoding,
+					// 'Accept-Encoding': _acceptEncoding,
 				},
 			},
 		);
@@ -157,7 +157,7 @@ export async function getRoutingDetails(
 			`${process.env.NEXT_PUBLIC_LOCATION_IQ_ROUTING_URL}/${sourceCoordinates};${destCoordinates}?key=${process.env.NEXT_PUBLIC_LOCATION_IQ_API_KEY}&overview=false&roundtrip=false`,
 			{
 				headers: {
-					'Accept-Encoding': _acceptEncoding,
+					// 'Accept-Encoding': _acceptEncoding,
 				},
 			},
 		);
