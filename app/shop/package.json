@@ -45,6 +45,7 @@
 		"@t3-oss/env-nextjs": "0.8.0",
 		"@typeform/embed-react": "2.28.0",
 		"axios": "1.2.1",
+		"blurhash": "2.0.5",
 		"boarding.js": "3.5.2",
 		"cors": "2.8.5",
 		"date-fns-tz": "2.0.0",

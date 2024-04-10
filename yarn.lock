@@ -3985,6 +3985,7 @@ __metadata:
     autoprefixer: 10.4.13
     axios: 1.2.1
     babel-jest: 29.5.0
+    blurhash: ^2.0.5
     boarding.js: 3.5.2
     cors: 2.8.5
     daisyui: 2.51.6
@@ -16355,6 +16356,13 @@ __metadata:
   version: 2.19.0
   resolution: "blueimp-md5@npm:2.19.0"
   checksum: 28095dcbd2c67152a2938006e8d7c74c3406ba6556071298f872505432feb2c13241b0476644160ee0a5220383ba94cb8ccdac0053b51f68d168728f9c382530
+  languageName: node
+  linkType: hard
+
+"blurhash@npm:^2.0.5":
+  version: 2.0.5
+  resolution: "blurhash@npm:2.0.5"
+  checksum: aa4d6855bbaae116065b118a7b1e889648c15047e72048c28bab3db426a042ce1dc032a30c55a52da6140c314534841b984ab11cc68303668dde446d6ca53bc6
   languageName: node
   linkType: hard
 
