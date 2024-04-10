@@ -134,8 +134,9 @@ const handlePOST = async (req: any, res: any) => {
 	// }
 	// create.images = imagesWithBlurData;
 
+	let organization: OrganizationWithShopDetails;
 	try {
-		const organization = (await createOrganization(
+		organization = (await createOrganization(
 			create,
 		)) as OrganizationWithShopDetails;
 	} catch (error) {
