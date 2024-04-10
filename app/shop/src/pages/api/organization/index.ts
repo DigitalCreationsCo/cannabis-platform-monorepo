@@ -134,9 +134,17 @@ const handlePOST = async (req: any, res: any) => {
 	// }
 	// create.images = imagesWithBlurData;
 
-	const organization = (await createOrganization(
-		create,
-	)) as OrganizationWithShopDetails;
+	try {
+		const organization = (await createOrganization(
+			create,
+		)) as OrganizationWithShopDetails;
+	} catch (error) {
+		console.error('error: ', error);
+		return res.status(500).json({
+			success: 'false',
+			message: error.message,
+		});
+	}
 
 	const insertCollection = await collection.insertOne({
 		...organization,
