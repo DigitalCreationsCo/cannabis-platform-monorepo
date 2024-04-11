@@ -19,7 +19,6 @@ const _env =
 		: process.env.NODE_ENV;
 
 expand(configEnv({ path: loadEnv(_env) }));
-
 const parsedEnv = expand(configEnv({ path: loadEnv(_env) })).parsed;
 
 /**
