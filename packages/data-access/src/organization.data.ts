@@ -405,25 +405,6 @@ export async function findOrganizationsByZipcode(
 	try {
 		const organizations =
 			(await prisma.organization.findMany({
-				include: {
-					address: {
-						include: {
-							coordinates: true,
-						},
-					},
-					images: true,
-					products: {
-						include: {
-							variants: true,
-							reviews: true,
-							categories: true,
-						},
-					},
-					siteSetting: true,
-					categoryList: true,
-					schedule: true,
-					subdomain: true,
-				},
 				where: {
 					address: {
 						is: {
@@ -433,6 +414,25 @@ export async function findOrganizationsByZipcode(
 							},
 						},
 					},
+				},
+				include: {
+					address: {
+						include: {
+							coordinates: true,
+						},
+					},
+					images: true,
+					// products: {
+					// 	include: {
+					// 		variants: true,
+					// 		reviews: true,
+					// 		categories: true,
+					// 	},
+					// },
+					siteSetting: true,
+					// categoryList: true,
+					schedule: true,
+					subdomain: true,
 				},
 				take: Number(limit),
 				orderBy: [{ address: { zipcode: 'asc' } }],

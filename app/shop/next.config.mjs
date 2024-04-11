@@ -1,6 +1,6 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { config } from 'dotenv';
+import { config as configEnv } from 'dotenv';
 import { expand } from 'dotenv-expand';
 
 import {
@@ -18,7 +18,9 @@ const _env =
 		? 'development'
 		: process.env.NODE_ENV;
 
-expand(config({ path: loadEnv(_env) }));
+expand(configEnv({ path: loadEnv(_env) }));
+
+const parsedEnv = expand(configEnv({ path: loadEnv(_env) })).parsed;
 
 /**
  * @type {import('next').NextConfig}
@@ -105,6 +107,7 @@ Memory Usage:`,
 			return config;
 		},
 		env: {
+			...parsedEnv,
 			NEXT_PUBLIC_DOMAIN: (() =>
 				isDev || isTest
 					? 'http://localhost:3000'
@@ -115,6 +118,9 @@ Memory Usage:`,
 				if (isStaging) return 'http://localhost:6001';
 				if (isTest) return 'http://localhost:6001';
 			})(),
+			MONGODB_CONNECTION_URL: process.env.MONGODB_CONNECTION_URL,
+			SUPERTOKENS_CONNECTION_URI: process.env.SUPERTOKENS_CONNECTION_URI,
+			SUPERTOKENS_CORE_API_KEY: process.env.SUPERTOKENS_CORE_API_KEY,
 			DAILYSTORY_API_KEY: process.env.DAILYSTORY_API_KEY,
 			NEXT_PUBLIC_HELP_APP_URL: process.env.NEXT_PUBLIC_HELP_APP_URL,
 			NEXT_PUBLIC_BLOG_APP_URL: process.env.NEXT_PUBLIC_BLOG_APP_URL,

@@ -1,4 +1,4 @@
-import { config } from 'dotenv';
+import { config as configEnv } from 'dotenv';
 import { expand } from 'dotenv-expand';
 import {
 	PHASE_DEVELOPMENT_SERVER,
@@ -15,7 +15,8 @@ const _env =
 	process.env.NEXT_PUBLIC_IS_LOCAL_BUILD == '1'
 		? 'development'
 		: process.env.NODE_ENV;
-expand(config({ path: loadEnv(_env) }));
+expand(configEnv({ path: loadEnv(_env) }));
+const parsedEnv = expand(configEnv({ path: loadEnv(_env) })).parsed;
 
 /**
  * @type {import('next').NextConfig}
@@ -91,6 +92,7 @@ Memory Usage:`,
 			return config;
 		},
 		env: {
+			...parsedEnv,
 			NEXT_PUBLIC_DOMAIN: (() =>
 				isDev || isTest
 					? 'http://localhost:3001'

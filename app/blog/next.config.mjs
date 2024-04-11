@@ -1,6 +1,6 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { config } from 'dotenv';
+import { config as configEnv } from 'dotenv';
 import { expand } from 'dotenv-expand';
 import {
 	PHASE_DEVELOPMENT_SERVER,
@@ -16,7 +16,8 @@ const _env =
 		? 'development'
 		: process.env.NODE_ENV;
 
-expand(config({ path: loadEnv(_env) }));
+expand(configEnv({ path: loadEnv(_env) }));
+const parsedEnv = expand(configEnv({ path: loadEnv(_env) })).parsed;
 
 const nextConfig = (phase) => {
 	const isDev = phase === PHASE_DEVELOPMENT_SERVER;
@@ -66,6 +67,7 @@ Memory Usage:`,
 			return config;
 		},
 		env: {
+			...parsedEnv,
 			BACKEND_URL: (() => {
 				if (isDev) return 'http://localhost:6001';
 				if (isProd) return 'https://backend.grascannabis.org';

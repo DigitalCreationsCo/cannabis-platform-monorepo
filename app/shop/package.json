@@ -11,7 +11,7 @@
 		"dev": "npm-run-all --parallel --print-label watch-tailwind next-dev",
 		"lint": "next lint",
 		"lint:fix": "eslint . --ext .ts,.tsx --fix",
-		"next-dev": "next dev",
+		"next-dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 next dev",
 		"test:unit": "jest --config ./jest.config.js",
 		"test:unit-ci": "jest --config ./jest.config.js --ci --runInBand --reporters=default --reporters=jest-junit",
 		"test:coverage": "jest --config ./jest.config.js --coverage",

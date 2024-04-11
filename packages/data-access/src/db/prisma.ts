@@ -5,7 +5,11 @@ declare global {
 	var prisma: PrismaClient | undefined;
 }
 
-const prisma = global.prisma || new PrismaClient();
+const prisma =
+	global.prisma ||
+	new PrismaClient({
+		datasources: { db: { url: process?.env?.['POOLING_DATABASE_URL'] } },
+	});
 
 function dateToString(doc: any) {
 	if (doc != null || doc != undefined) {
@@ -37,11 +41,16 @@ prisma.$use(async (params: any, next: any) => {
 	const after = Date.now();
 
 	console.info(
-		`Total Query ${params.model}.${params.action} took ${after - before}ms`,
+		`Query ${params.model}.${params.action} took ${after - before}ms`,
 	);
 	return results;
 });
 
+console.info('prisma client NODE_ENV, ', process?.env?.['NODE_ENV']);
+console.info(
+	'prisma client db pooling url, ',
+	process?.env?.['POOLING_DATABASE_URL'],
+);
 if (process?.env?.['NODE_ENV'] === 'development') global.prisma = prisma;
 
 export default prisma;
