@@ -1,27 +1,16 @@
-/* eslint-disable sonarjs/no-small-switch */
-import {
-	applicationHeaders,
-	axios,
-	dynamicBlurDataUrl,
-	getGeoCoordinatesFromAddress,
-	urlBuilder,
-} from '@cd/core-lib';
+import { getGeoCoordinatesFromAddress } from '@cd/core-lib';
 import {
 	createOrganization,
 	deleteOrganizationById,
 	findOrganizationsByZipcode,
 	type OrganizationWithShopDetails,
 	type OrganizationCreateType,
-	type OrganizationUpdateType,
-	type OrganizationWithDashboardDetails,
 } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import Supertokens from 'supertokens-node';
 import { superTokensNextWrapper } from 'supertokens-node/nextjs';
 import { verifySession } from 'supertokens-node/recipe/session/framework/express';
 import { backendConfig } from '../../../config/backendConfig';
-import { downloadImage } from '../../../helpers/downloadImage';
-import { encodeImageToBlurhash } from '../../../helpers/encodeBlurHash';
 import clientPromise from '../../../mongo';
 // import { EmailService } from '@cd/core-lib/src/lib/email/EmailService';
 
