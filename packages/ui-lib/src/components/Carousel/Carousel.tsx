@@ -473,16 +473,22 @@ export default function Carousel<D>({
 	const slider = useRef<Slider>(null);
 
 	const increment = () => {
-		setCurrent((current + 1) % data.length);
-		slider?.current?.slickNext();
-	};
-	const decrement = () => {
-		if (current === 0) {
-			setCurrent(data.length - 1);
-			slider?.current?.slickGoTo(data.length - 1);
+		if (current === data.length - 1) {
+			setCurrent(0);
+			slider?.current?.slickGoTo(0);
 		} else {
+			setCurrent((current + 1) % data.length);
+			slider?.current?.slickNext();
+		}
+	};
+
+	const decrement = () => {
+		if (current > 0) {
 			setCurrent((current - 1) % data.length);
 			slider?.current?.slickPrev();
+		} else {
+			setCurrent(data.length - 1);
+			slider?.current?.slickGoTo(data.length - 1);
 		}
 	};
 

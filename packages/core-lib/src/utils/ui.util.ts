@@ -29,14 +29,16 @@ export const renderAddress = ({
 	}${(showCountry && ' ' + address.country) || ''}`;
 };
 
-export const renderSchedule = (schedule: Schedule[]) => {
-	return schedule.reduce((render, day) => {
-		return render.concat(
-			`${day.day} ${integerToTime(day.openAt)} to ${integerToTime(
-				day.closeAt,
-			)}\n`,
-		);
-	}, '' as string);
+export const renderSchedule = (schedule: Schedule[]): [string, string][] => {
+	return schedule.reduce((acc, day) => {
+		return [
+			...acc,
+			[
+				day.day,
+				`${integerToTime(day.openAt)} to ${integerToTime(day.closeAt)}`,
+			],
+		];
+	}, [] as any);
 };
 
 export function truncate(text: string) {

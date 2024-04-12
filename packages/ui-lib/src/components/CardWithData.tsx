@@ -1,4 +1,4 @@
-import { Component, type PropsWithChildren } from 'react';
+import { Component, type HTMLAttributes, type PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 import Card from './Card';
 import SkeletonCard from './skeleton/SkeletonCard';
@@ -6,7 +6,8 @@ import SkeletonCard from './skeleton/SkeletonCard';
 type CardWithDataProps = {
 	data: any;
 	className?: string;
-} & PropsWithChildren;
+} & PropsWithChildren &
+	HTMLAttributes<HTMLDivElement>;
 
 // this component handles no idea, but the bad data
 // is being handled in a upstream component
@@ -20,11 +21,7 @@ class CardWithData extends Component<CardWithDataProps> {
 	render() {
 		if (!this.data.id)
 			return <SkeletonCard className={twMerge(this.props.className)} />;
-		return (
-			<Card className={twMerge(this.props.className)}>
-				{this.props.children}
-			</Card>
-		);
+		return <Card {...this.props}>{this.props.children}</Card>;
 	}
 }
 

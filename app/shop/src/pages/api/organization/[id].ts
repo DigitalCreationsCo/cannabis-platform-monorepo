@@ -5,6 +5,7 @@ import Supertokens from 'supertokens-node';
 import { superTokensNextWrapper } from 'supertokens-node/nextjs';
 import { verifySession } from 'supertokens-node/recipe/session/framework/express';
 import { backendConfig } from '../../../config/backendConfig';
+import { dispensaries } from '../../../data/dispensaries';
 
 Supertokens.init(backendConfig());
 
@@ -46,8 +47,9 @@ const handleGET = async (req: any, res: any) => {
 	);
 
 	const { id } = req.query;
-	const organization = await findOrganizationById(id);
+	// const organization = await findOrganizationById(id);
 
+	const organization = dispensaries.find((dispensary) => dispensary.id === id);
 	if (!organization)
 		return res.status(404).json({
 			success: 'false',

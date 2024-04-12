@@ -8,6 +8,19 @@ declare global {
 	var _mongoClientPromise: Promise<MongoClient>;
 }
 
+export const db_namespace = {
+	location: process.env.LOCATION_DB_NS as string,
+	dispatch: process.env.DISPATCH_DB_NS as string,
+	gras: process.env.GRAS_DB_NS as string,
+};
+
+export const collections = {
+	users: 'users',
+	dispensaries: 'dispensaries',
+	drivers: 'drivers',
+	orders: 'orders',
+};
+
 class Singleton {
 	private static _instance: Singleton;
 	private client: MongoClient;

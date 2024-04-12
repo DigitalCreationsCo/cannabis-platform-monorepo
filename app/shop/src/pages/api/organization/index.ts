@@ -6,12 +6,13 @@ import {
 	type OrganizationWithShopDetails,
 	type OrganizationCreateType,
 } from '@cd/data-access';
+import clientPromise from '@cd/data-access/src/db/mongo';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import Supertokens from 'supertokens-node';
 import { superTokensNextWrapper } from 'supertokens-node/nextjs';
 import { verifySession } from 'supertokens-node/recipe/session/framework/express';
 import { backendConfig } from '../../../config/backendConfig';
-import clientPromise from '../../../mongo';
+import { dispensaries } from '../../../data/dispensaries';
 // import { EmailService } from '@cd/core-lib/src/lib/email/EmailService';
 
 Supertokens.init(backendConfig());
@@ -66,21 +67,22 @@ const handleGET = async (req: any, res: any) => {
 			.status(400)
 			.json({ success: 'false', error: 'Zipcode is required' });
 
-	const organizations = await findOrganizationsByZipcode(
-		Number(zipcode),
-		Number(limit),
-		Number(radius),
-	);
+	// const organizations = await findOrganizationsByZipcode(
+	// 	Number(zipcode),
+	// 	Number(limit),
+	// 	Number(radius),
+	// );
 
-	if (!organizations)
-		return res.status(404).json({
-			success: 'false',
-			message: `No dispensaries are found.`,
-		});
+	// if (!organizations)
+	// 	return res.status(404).json({
+	// 		success: 'false',
+	// 		message: `No dispensaries are found.`,
+	// 	});
 
+	// return static dispensaries for now
 	return res.status(200).json({
 		success: 'true',
-		payload: organizations,
+		payload: dispensaries,
 	});
 };
 

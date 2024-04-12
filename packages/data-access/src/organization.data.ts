@@ -1,11 +1,13 @@
-/* eslint-disable sonarjs/cognitive-complexity */
-import { type Prisma } from '@prisma/client';
-import prisma from './db/prisma';
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { createId } from '@paralleldrive/cuid2';
+import clientPromise, { collections, db_namespace } from './db/mongo';
 import {
 	type OrganizationWithAddress,
 	type OrganizationCreateType,
 	type OrganizationWithShopDetails,
 } from './organization.types';
+
 /*
  *   updateOrganization
  *   createOrganization
@@ -22,191 +24,224 @@ import {
 /**
  * Update existing Organization record
  * @param organization
- * @returns the updated organization
  */
 export async function updateOrganization(
 	// organization: OrganizationUpdateType,
 	organization: any,
-): Promise<OrganizationWithAddress> {
+) {
 	try {
-		return await prisma.organization.update({
-			where: { id: organization.id },
-			data: {
-				name: organization.name,
-				dialCode: organization.dialCode || '1',
-				phone: organization.phone,
-				stripeAccountId: organization.stripeAccountId,
-				stripeOnboardingComplete: organization.stripeOnboardingComplete,
-				termsAccepted: organization.termsAccepted,
-				// address: {
-				// 	update: {
-				// 		street1: organization?.address?.street1,
-				// 		street2: organization?.address?.street2,
-				// 		city: organization?.address?.city,
-				// 		state: organization?.address?.state,
-				// 		country: organization?.address?.country,
-				// 		zipcode: Number(organization?.address?.zipcode),
-				// 		countryCode: organization?.address?.countryCode,
-				// 		coordinates: {
-				// 			upsert: {
-				// 				create: {
-				// 					radius: organization?.address?.coordinates?.radius,
-				// 					latitude: Number(
-				// 						organization?.address?.coordinates?.latitude,
-				// 					),
-				// 					longitude: Number(
-				// 						organization?.address?.coordinates?.longitude,
-				// 					),
-				// 				},
-				// 				update: {
-				// 					radius: organization?.address?.coordinates?.radius,
-				// 					latitude: Number(
-				// 						organization?.address?.coordinates?.latitude,
-				// 					),
-				// 					longitude: Number(
-				// 						organization?.address?.coordinates?.longitude,
-				// 					),
-				// 				},
-				// 			},
-				// 		},
-				// 	},
-				// },
-				subdomain: {
-					connectOrCreate: {
-						where: { id: organization.subdomainId },
-						create: { id: organization.subdomainId, isValid: true },
+		const client = await clientPromise;
+		return await client
+			.db(db_namespace.location)
+			.collection(collections.dispensaries)
+			.updateOne(
+				{ id: organization.id },
+				{
+					$set: {
+						...organization,
+						address: {
+							...organization.address,
+							coordinates: [
+								Number(organization.address.coordinates.longitude),
+								Number(organization.address.coordinates.latitude),
+							],
+						},
 					},
 				},
-				vendor: organization.vendorName
-					? {
-							connectOrCreate: {
-								where: { name: organization.vendorName },
-								create: {
-									name: organization.vendorName,
-									publicName: organization.vendorName,
-								},
-							},
-					  }
-					: undefined,
-			},
-			include: {
-				address: {
-					include: {
-						coordinates: true,
-					},
-				},
-				subdomain: true,
-				vendor: true,
-			},
-		});
+			);
+
+		// prisma.organization.update({
+		// 	where: { id: organization.id },
+		// 	data: {
+		// 		name: organization.name,
+		// 		dialCode: organization.dialCode || '1',
+		// 		phone: organization.phone,
+		// 		stripeAccountId: organization.stripeAccountId,
+		// 		stripeOnboardingComplete: organization.stripeOnboardingComplete,
+		// 		termsAccepted: organization.termsAccepted,
+		// 		// address: {
+		// 		// 	update: {
+		// 		// 		street1: organization?.address?.street1,
+		// 		// 		street2: organization?.address?.street2,
+		// 		// 		city: organization?.address?.city,
+		// 		// 		state: organization?.address?.state,
+		// 		// 		country: organization?.address?.country,
+		// 		// 		zipcode: Number(organization?.address?.zipcode),
+		// 		// 		countryCode: organization?.address?.countryCode,
+		// 		// 		coordinates: {
+		// 		// 			upsert: {
+		// 		// 				create: {
+		// 		// 					radius: organization?.address?.coordinates?.radius,
+		// 		// 					latitude: Number(
+		// 		// 						organization?.address?.coordinates?.latitude,
+		// 		// 					),
+		// 		// 					longitude: Number(
+		// 		// 						organization?.address?.coordinates?.longitude,
+		// 		// 					),
+		// 		// 				},
+		// 		// 				update: {
+		// 		// 					radius: organization?.address?.coordinates?.radius,
+		// 		// 					latitude: Number(
+		// 		// 						organization?.address?.coordinates?.latitude,
+		// 		// 					),
+		// 		// 					longitude: Number(
+		// 		// 						organization?.address?.coordinates?.longitude,
+		// 		// 					),
+		// 		// 				},
+		// 		// 			},
+		// 		// 		},
+		// 		// 	},
+		// 		// },
+		// 		subdomain: {
+		// 			connectOrCreate: {
+		// 				where: { id: organization.subdomainId },
+		// 				create: { id: organization.subdomainId, isValid: true },
+		// 			},
+		// 		},
+		// 		vendor: organization.vendorName
+		// 			? {
+		// 					connectOrCreate: {
+		// 						where: { name: organization.vendorName },
+		// 						create: {
+		// 							name: organization.vendorName,
+		// 							publicName: organization.vendorName,
+		// 						},
+		// 					},
+		// 			  }
+		// 			: undefined,
+		// 	},
+		// 	include: {
+		// 		address: {
+		// 			include: {
+		// 				coordinates: true,
+		// 			},
+		// 		},
+		// 		subdomain: true,
+		// 		vendor: true,
+		// 	},
+		// });
 	} catch (error: any) {
-		console.log('data-access updateOrganization error code: ', error.code);
+		console.log('data-access updateOrganization error code: ', error);
 		throw new Error(error.message);
 	}
 }
 
-export async function createOrganization(
-	organization: OrganizationCreateType,
-): Promise<OrganizationWithAddress> {
+export async function createOrganization(organization: OrganizationCreateType) {
 	try {
 		organization.subdomainId = makeUrlFriendly(organization.name);
 		organization.vendorName = organization.vendorName ?? '';
 		organization.subscriptionPlanId = organization.subscriptionPlanId ?? '';
 
-		const { address, subdomainId, schedule } = organization;
+		const { address } = organization;
 
-		return (await prisma.organization.create({
-			data: {
-				id: organization.id || undefined,
-				name: organization.name,
-				dialCode: organization.dialCode,
-				phone: organization.phone,
-				stripeAccountId: organization.stripeAccountId,
-				ecommerceUrl: organization.ecommerceUrl,
-				stripeOnboardingComplete: false,
-				termsAccepted: organization.termsAccepted || false,
+		const client = await clientPromise;
+		return await client
+			.db(db_namespace.location)
+			.collection(collections.dispensaries)
+			.insertOne({
+				...organization,
+				id: organization.id || createId(),
 				address: {
-					create: {
-						street1: address.street1,
-						street2: address.street2,
-						city: address.city,
-						state: address.state,
-						country: address.country,
-						zipcode: address.zipcode,
-						coordinates: {
-							create: {
-								latitude: Number(address.coordinates?.latitude),
-								longitude: Number(address.coordinates?.longitude),
-							},
-						},
-					},
+					...address,
+					coordinates: [
+						Number(address.coordinates!.longitude),
+						Number(address.coordinates!.latitude),
+					],
 				},
-				images:
-					organization.images?.length > 0
-						? {
-								createMany: {
-									data: organization.images.map(
-										(image: OrganizationCreateType['images'][number]) => ({
-											location: image.location,
-											blurhash: image.blurhash || '',
-											alt: image.alt || '',
-										}),
-									),
-								},
-						  }
-						: undefined,
-				schedule: schedule
-					? {
-							create: {
-								days: schedule.days,
-								openAt: schedule.openAt,
-								closeAt: schedule.closeAt,
-							},
-					  }
-					: undefined,
-				subdomain: {
-					connectOrCreate: {
-						where: { id: organization.subdomainId },
-						create: { id: subdomainId, isValid: true },
-					},
-				},
-				vendor: organization.vendorName
-					? {
-							connectOrCreate: {
-								where: { name: organization.vendorName },
-								create: {
-									publicName: organization.vendorName,
-									name: organization.vendorName,
-								},
-							},
-					  }
-					: undefined,
-				siteSetting: {
-					create: {
-						// default site settings
-						title: organization.siteSetting?.title || '',
-						description: organization.siteSetting?.description || '',
-						bannerText: organization.siteSetting?.bannerText || '',
-						primaryColor: organization.siteSetting?.primaryColor || '#14a33d',
-						secondaryColor:
-							organization.siteSetting?.secondaryColor || '#13622a',
-						tertiaryColor: organization.siteSetting?.tertiaryColor || '#ffffff',
-						textColor: organization.siteSetting?.textColor || '#3e3a3a',
-						backgroundColor:
-							organization.siteSetting?.backgroundColor || '#ffffff',
-					},
-				},
-			},
-			include: {
-				address: {
-					include: {
-						coordinates: true,
-					},
-				},
-				subdomain: true,
-				vendor: true,
-			},
-		})) as OrganizationWithAddress;
+			});
+
+		// return (await prisma.organization.create({
+		// 	data: {
+		// 		id: organization.id || undefined,
+		// 		name: organization.name,
+		// 		dialCode: organization.dialCode,
+		// 		phone: organization.phone,
+		// 		stripeAccountId: organization.stripeAccountId,
+		// 		ecommerceUrl: organization.ecommerceUrl,
+		// 		stripeOnboardingComplete: false,
+		// 		termsAccepted: organization.termsAccepted || false,
+		// 		address: {
+		// 			create: {
+		// 				street1: address.street1,
+		// 				street2: address.street2,
+		// 				city: address.city,
+		// 				state: address.state,
+		// 				country: address.country,
+		// 				zipcode: address.zipcode,
+		// 				coordinates: {
+		// 					create: {
+		// 						latitude: Number(address.coordinates?.latitude),
+		// 						longitude: Number(address.coordinates?.longitude),
+		// 					},
+		// 				},
+		// 			},
+		// 		},
+		// 		images:
+		// 			organization.images?.length > 0
+		// 				? {
+		// 						createMany: {
+		// 							data: organization.images.map(
+		// 								(image: OrganizationCreateType['images'][number]) => ({
+		// 									location: image.location,
+		// 									blurhash: image.blurhash || '',
+		// 									alt: image.alt || '',
+		// 								}),
+		// 							),
+		// 						},
+		// 				  }
+		// 				: undefined,
+		// 		schedule: schedule
+		// 			? {
+		// 					create: {
+		// 						days: schedule.days,
+		// 						openAt: schedule.openAt,
+		// 						closeAt: schedule.closeAt,
+		// 					},
+		// 			  }
+		// 			: undefined,
+		// 		subdomain: {
+		// 			connectOrCreate: {
+		// 				where: { id: organization.subdomainId },
+		// 				create: { id: subdomainId, isValid: true },
+		// 			},
+		// 		},
+		// 		vendor: organization.vendorName
+		// 			? {
+		// 					connectOrCreate: {
+		// 						where: { name: organization.vendorName },
+		// 						create: {
+		// 							publicName: organization.vendorName,
+		// 							name: organization.vendorName,
+		// 						},
+		// 					},
+		// 			  }
+		// 			: undefined,
+		// 		siteSetting: {
+		// 			create: {
+		// 				// default site settings
+		// 				title: organization.siteSetting?.title || '',
+		// 				description: organization.siteSetting?.description || '',
+		// 				bannerText: organization.siteSetting?.bannerText || '',
+		// 				primaryColor: organization.siteSetting?.primaryColor || '#14a33d',
+		// 				secondaryColor:
+		// 					organization.siteSetting?.secondaryColor || '#13622a',
+		// 				tertiaryColor: organization.siteSetting?.tertiaryColor || '#ffffff',
+		// 				textColor: organization.siteSetting?.textColor || '#3e3a3a',
+		// 				backgroundColor:
+		// 					organization.siteSetting?.backgroundColor || '#ffffff',
+		// 			},
+		// 		},
+		// 	},
+		// 	include: {
+		// 		address: {
+		// 			include: {
+		// 				coordinates: true,
+		// 			},
+		// 		},
+		// 		subdomain: true,
+		// 		vendor: true,
+		// 	},
+		// })) as OrganizationWithAddress;
 	} catch (error: any) {
 		console.log('data-access createOrganization error: ', error);
 		if (error.code === 'P2002')
@@ -222,9 +257,11 @@ export async function createOrganization(
  */
 export async function deleteOrganizationById(id: string) {
 	try {
-		return await prisma.organization.delete({
-			where: { id },
-		});
+		const client = await clientPromise;
+		return await client
+			.db(db_namespace.location)
+			.collection(collections.dispensaries)
+			.deleteOne({ id });
 	} catch (error: any) {
 		console.error('delete organization error: ', error);
 		throw new Error(error.message);
@@ -235,36 +272,41 @@ export async function deleteOrganizationById(id: string) {
  * get Organization record by id
  * @param organizationId
  * @param include
- * @returns
  */
 export async function findOrganizationById(
 	organizationId: string,
-	include: Prisma.OrganizationInclude = {
-		address: {
-			include: { coordinates: true },
-		},
-		images: true,
-		siteSetting: true,
-		schedule: true,
-		subdomain: true,
-		vendor: true,
-	},
-): Promise<OrganizationWithShopDetails> {
+	// include: Prisma.OrganizationInclude = {
+	// 	address: {
+	// 		include: { coordinates: true },
+	// 	},
+	// 	images: true,
+	// 	siteSetting: true,
+	// 	schedule: true,
+	// 	subdomain: true,
+	// 	vendor: true,
+	// },
+) {
 	try {
-		console.info(' find organization: ', organizationId);
-		return (await prisma.organization.findUnique({
-			where: { id: organizationId },
-			include: {
-				...include,
-				address: {
-					include: { coordinates: true },
-				},
-				images: true,
-				siteSetting: true,
-				schedule: true,
-				subdomain: true,
-			},
-		})) as unknown as OrganizationWithShopDetails;
+		const client = await clientPromise;
+		return await client
+			.db(db_namespace.location)
+			.collection(collections.dispensaries)
+			.findOne({
+				id: organizationId,
+			});
+		// return (await prisma.organization.findUnique({
+		// 	where: { id: organizationId },
+		// 	include: {
+		// 		...include,
+		// 		address: {
+		// 			include: { coordinates: true },
+		// 		},
+		// 		images: true,
+		// 		siteSetting: true,
+		// 		schedule: true,
+		// 		subdomain: true,
+		// 	},
+		// })) as unknown as OrganizationWithShopDetails;
 	} catch (error: any) {
 		console.error(error);
 		throw new Error(error);
@@ -278,28 +320,36 @@ export async function findOrganizationById(
  */
 export async function findUsersByOrganization(organizationId: string) {
 	try {
-		return (
-			(await prisma.user.findMany({
-				orderBy: {
-					id: 'desc',
-				},
-				where: {
-					memberships: {
-						some: {
-							organizationId,
-						},
-					},
-				},
-				include: {
-					memberships: {
-						orderBy: {
-							role: 'asc',
-						},
-					},
-					profilePicture: true,
-				},
-			})) || []
-		);
+		const client = await clientPromise;
+		return await client
+			.db(db_namespace.location)
+			.collection(collections.users)
+			.find({
+				'memberships.organizationId': organizationId,
+			});
+
+		// return (
+		// 	(await prisma.user.findMany({
+		// 		orderBy: {
+		// 			id: 'desc',
+		// 		},
+		// 		where: {
+		// 			memberships: {
+		// 				some: {
+		// 					organizationId,
+		// 				},
+		// 			},
+		// 		},
+		// 		include: {
+		// 			memberships: {
+		// 				orderBy: {
+		// 					role: 'asc',
+		// 				},
+		// 			},
+		// 			profilePicture: true,
+		// 		},
+		// 	})) || []
+		// );
 	} catch (error: any) {
 		console.error(error);
 		throw new Error(error);
@@ -311,40 +361,45 @@ export async function findUsersByOrganization(organizationId: string) {
  * @param subdomainId
  * @returns detailed organization record
  */
-export async function findOrganizationBySubdomain(
-	subdomainId: string,
-): Promise<OrganizationWithShopDetails> {
+export async function findOrganizationBySubdomain(subdomainId: string) {
 	try {
-		const organization =
-			(await prisma.subDomain.findUnique({
-				where: {
-					id: subdomainId,
-				},
-				include: {
-					organization: {
-						include: {
-							address: {
-								include: {
-									coordinates: true,
-								},
-							},
-							images: true,
-							products: {
-								include: {
-									variants: true,
-									reviews: true,
-									categories: true,
-								},
-							},
-							siteSetting: true,
-							categoryList: true,
-							schedule: true,
-							subdomain: true,
-						},
-					},
-				},
-			})) || {};
-		return organization as unknown as OrganizationWithShopDetails;
+		const client = await clientPromise;
+		return await client
+			.db(db_namespace.location)
+			.collection(collections.dispensaries)
+			.findOne({
+				'subdomain.id': subdomainId,
+			});
+		// const organization =
+		// 	(await prisma.subDomain.findUnique({
+		// 		where: {
+		// 			id: subdomainId,
+		// 		},
+		// 		include: {
+		// 			organization: {
+		// 				include: {
+		// 					address: {
+		// 						include: {
+		// 							coordinates: true,
+		// 						},
+		// 					},
+		// 					images: true,
+		// 					products: {
+		// 						include: {
+		// 							variants: true,
+		// 							reviews: true,
+		// 							categories: true,
+		// 						},
+		// 					},
+		// 					siteSetting: true,
+		// 					categoryList: true,
+		// 					schedule: true,
+		// 					subdomain: true,
+		// 				},
+		// 			},
+		// 		},
+		// 	})) || {};
+		// return organization as unknown as OrganizationWithShopDetails;
 	} catch (error: any) {
 		console.error(error);
 		throw new Error(error);
@@ -356,35 +411,41 @@ export async function findOrganizationBySubdomain(
  * @param organizationIds
  * @returns an array of detailed Organization records
  */
-export async function findMultipleOrganizationsById(
-	organizationIds: string[],
-): Promise<OrganizationWithShopDetails[]> {
+export async function findMultipleOrganizationsById(organizationIds: string[]) {
 	try {
-		const localOrganizations = await prisma.organization.findMany({
-			where: {
-				id: { in: organizationIds },
-			},
-			include: {
-				address: {
-					include: {
-						coordinates: true,
-					},
-				},
-				images: true,
-				products: {
-					include: {
-						variants: true,
-						reviews: true,
-						categories: true,
-					},
-				},
-				siteSetting: true,
-				categoryList: true,
-				schedule: true,
-				subdomain: true,
-			},
-		});
-		return localOrganizations as unknown as OrganizationWithShopDetails[];
+		const client = await clientPromise;
+		return await client
+			.db(db_namespace.location)
+			.collection(collections.dispensaries)
+			.find({
+				id: { $in: organizationIds },
+			});
+
+		// const localOrganizations = await prisma.organization.findMany({
+		// 	where: {
+		// 		id: { in: organizationIds },
+		// 	},
+		// 	include: {
+		// 		address: {
+		// 			include: {
+		// 				coordinates: true,
+		// 			},
+		// 		},
+		// 		images: true,
+		// 		products: {
+		// 			include: {
+		// 				variants: true,
+		// 				reviews: true,
+		// 				categories: true,
+		// 			},
+		// 		},
+		// 		siteSetting: true,
+		// 		categoryList: true,
+		// 		schedule: true,
+		// 		subdomain: true,
+		// 	},
+		// });
+		// return localOrganizations as unknown as OrganizationWithShopDetails[];
 	} catch (error: any) {
 		console.error(error);
 		throw new Error(error);
