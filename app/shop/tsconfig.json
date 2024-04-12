@@ -38,5 +38,5 @@
 		"**/*.jsx",
 		"**/*.json",
 		".next/types/**/*.ts"
-	]
+, "../../packages/data-access/src/db/mongo.ts"	]
 }

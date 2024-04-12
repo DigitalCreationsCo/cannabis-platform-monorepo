@@ -35,7 +35,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useSWR, { type SWRResponse } from 'swr';
 import { twMerge } from 'tailwind-merge';
-import markerImage from '../../../public/marker-30.png';
+import markerImage from '../../../public/map-marker.png';
 import { DispensaryCard, InfoCard } from '../../components';
 // import { shopTour } from '../../tour';
 
@@ -274,11 +274,27 @@ const RenderMapBox = ({
 				// create a HTML element for each feature
 				const el = document.createElement('div');
 				el.className = 'marker';
+				// el.textContent = feature.properties.title;
 				el.style.backgroundImage = `url(${feature.properties.image})`;
-				el.style.width = `30px`;
-				el.style.height = `50px`;
+				el.style.width = `15px`;
+				el.style.height = `19px`;
+				el.style.padding = '2px';
 				el.style.backgroundSize = '100%';
 				el.style.cursor = 'pointer';
+				// rotate the image 20 degrees
+				el.style.transform = 'rotate(20deg)';
+
+				// create a box that points to the location
+				// const pointer = document.createElement('div');
+				// pointer.className = 'pointer';
+				// el.appendChild(pointer);
+				// pointer.style.width = '20px';
+				// pointer.style.height = '20px';
+				// pointer.style.borderLeft = '10px solid transparent';
+				// pointer.style.borderRight = '10px solid transparent';
+				// pointer.style.borderTop = '10px solid #13622a';
+				// pointer.style.position = 'absolute';
+				// pointer.style.bottom = '-2px';
 
 				// el.className = 'marker';
 				// el.style.backgroundImage = `url(${feature.properties.image})`; // Set background image
@@ -291,7 +307,7 @@ const RenderMapBox = ({
 				// el.style.borderRadius = '50%';
 				// // el.textContent = feature.properties.message;
 				// el.style.backgroundSize = 'cover'; // Set background size to cover
-				// el.style.backgroundPosition = 'center'; // Set background position to center
+				el.style.backgroundPosition = 'bottom'; // Set background position to center
 				// el.style.cursor = 'pointer';
 
 				// Create a container for SVG
@@ -416,6 +432,25 @@ const RenderMapBox = ({
 				new mapboxgl.Marker(el)
 					.setLngLat(feature.geometry.coordinates)
 					.addTo(map.current);
+
+				// add marker to a layer
+				// map.current?.addLayer({
+				// 	id: `marker-${index}`,
+				// 	type: 'symbol',
+				// 	source: {
+				// 		type: 'geojson',
+				// 		data: {
+				// 			type: 'FeatureCollection',
+				// 			features: [feature],
+				// 		},
+				// 	},
+				// 	maxzoom: 15,
+				// 	minzoom: 10,
+				// 	layout: {
+				// 		'icon-image': 'marker',
+				// 		'icon-size': 0.25,
+				// 	},
+				// });
 			}
 		}
 		if (data.length > 0 && map.current?.isStyleLoaded) {
@@ -471,6 +506,7 @@ const RenderMapBox = ({
 						coordinates: [lng, lat],
 					},
 					properties: {
+						title: name,
 						message: name,
 						// image: dispensary.images[0].location || Logo.src,
 						image: markerImage.src,

@@ -11,9 +11,11 @@ import {
 } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
+import { check } from 'prettier';
 import { useCallback, type PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/logo.png';
+import { theme } from '../../tailwind.config';
 
 type DispensaryCardProps = {
 	data: OrganizationWithShopDetails;
@@ -36,7 +38,7 @@ function DispensaryCard({
 		}: { src: string; blurData?: string } & PropsWithChildren) => {
 			return (
 				<div
-					className="absolute left-0 top-0 bg-transparent h-full w-full flex"
+					className="absolute left-0 top-0 bg-transparent h-full w-full flex -z-5"
 					style={{
 						backgroundColor:
 							(hasLogo && applyDispensaryStyles['background-color']) ||
@@ -46,14 +48,17 @@ function DispensaryCard({
 					<Image
 						placeholder={blurData ? 'blur' : 'empty'}
 						blurDataURL={blurData}
-						className="object-contain p-8"
+						className="object-contain self-center pt-6"
 						src={src}
 						alt={dispensary?.name}
 						sizes="(max-width: 200px)"
 						fill
 						quality={25}
-						priority
 						loader={({ src }) => src}
+						style={{
+							maxHeight: '120px',
+						}}
+						priority
 					/>
 					{children}
 				</div>
@@ -63,7 +68,14 @@ function DispensaryCard({
 	);
 
 	const OpenBadge = () => (
-		<Paragraph className={twMerge(styles.isOpenBadge)}>
+		<Paragraph
+			style={{
+				color: checkIsDispensaryOpen(dispensary?.schedule)
+					? applyDispensaryStyles['primary-color']
+					: applyDispensaryStyles['secondary-color'],
+			}}
+			className={twMerge(styles.isOpenBadge)}
+		>
 			{checkIsDispensaryOpen(dispensary?.schedule) ? 'open now' : 'closed'}
 		</Paragraph>
 	);
@@ -96,6 +108,11 @@ function DispensaryCard({
 			className="shadow"
 		>
 			<CardWithData
+				style={{
+					borderColor: current
+						? 'green'
+						: applyDispensaryStyles['background-color'],
+				}}
 				data={dispensary}
 				className={twMerge([
 					styles.dispensaryCard,
@@ -110,7 +127,7 @@ function DispensaryCard({
 					src={dispensary?.images?.[0]?.location || logo.src}
 					blurData={dispensary?.images?.[0]?.blurhash || ''}
 				>
-					<FlexBox className="z-5 left-0 flex-col p-2 px-4">
+					<FlexBox className="z-5 left-0 flex-col p-2">
 						<H3
 							style={{ color: applyDispensaryStyles['primary-color'] }}
 							className="z-5 font-semibold left-0 top-0 max-w-[248px] whitespace-normal tracking-wide drop-shadow"

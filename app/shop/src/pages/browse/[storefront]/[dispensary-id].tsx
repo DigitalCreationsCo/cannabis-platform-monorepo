@@ -88,44 +88,42 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 	};
 
 	const Heading = () => (
-		<>
-			<H1
+		<div>
+			{/* <H1
 				style={{ color: applyDispensaryStyles['primary-color'] }}
 				className={`whitespace-normal px-2`}
 			>
 				{organization.name}
-			</H1>
+			</H1> */}
 			{organization.images?.length > 0 && (
-				<Image
-					className="shrink-0 w-[150px] relative"
-					src={organization.images[0].location}
-					alt={organization.name}
-					width={150}
-					height={150}
-					priority
-					loader={({ src }) => src}
-				/>
+				<div className="h-[150px] content-center w-fit">
+					<Image
+						style={{
+							maxWidth: '500px',
+							height: 'auto',
+							maxHeight: '150px',
+						}}
+						src={organization.images[0].location}
+						alt={organization.name}
+						width={300}
+						height={150}
+						priority
+						loader={({ src }) => src}
+						blurDataURL={organization.images[0].blurhash || ''}
+						placeholder={organization.images[0].blurhash ? 'blur' : 'empty'}
+						quality={25}
+					/>
+				</div>
 			)}
+			<DispensaryStatus />
 			<Paragraph style={{ color: applyDispensaryStyles['text-color'] }}>
 				{renderAddress({
 					address: organization.address,
 					lineBreak: false,
 				})}
 			</Paragraph>
-
-			<DispensaryStatus />
-		</>
-	);
-
-	const Body = () => (
-		<>
-			<H4
-				style={{ color: applyDispensaryStyles['primary-color'] }}
-				className="font-normal"
-			>
-				{organization.siteSetting.description}
-			</H4>
-		</>
+			<Description />
+		</div>
 	);
 
 	const DispensaryStatus = () => (
@@ -155,11 +153,6 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 							{'Order for Pickup'}
 						</Paragraph>
 					</FlexBox>
-
-					{/* Banner Info */}
-					<H4 className={`text-primary`}>
-						{organization.siteSetting.bannerText}
-					</H4>
 				</FlexBox>
 			) : null}
 			{/* {!organization.isSubscribedForDelivery &&
@@ -168,7 +161,21 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 					{TextContent.error.DISPENSARY_NOT_ACCEPTING_PAYMENTS}
 				</Paragraph>
 			) : null} */}
+
+			{/* Banner Info */}
+			<H4>{organization.siteSetting.bannerText}</H4>
 		</FlexBox>
+	);
+
+	const Description = () => (
+		<>
+			<Paragraph
+				style={{ color: applyDispensaryStyles['tertiary-color'] }}
+				className="max-w-sm"
+			>
+				{organization.siteSetting.description}
+			</Paragraph>
+		</>
 	);
 
 	const Contact = () => (
@@ -193,16 +200,28 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 	);
 
 	const Schedule = () => (
-		<>
+		<div>
 			<Paragraph style={{ color: applyDispensaryStyles['text-color'] }}>
 				Hours
 			</Paragraph>
-			<FlexBox className="flex-row whitespace-pre-line">
-				<Paragraph style={{ color: applyDispensaryStyles['text-color'] }}>
-					{renderSchedule(organization.schedule)}
-				</Paragraph>
+			<FlexBox className="flex-col w-fit whitespace-pre-line">
+				{renderSchedule(organization.schedule).map((day) => (
+					<FlexBox
+						key={`schedule-${day[0]}`}
+						className="flex-row justify-between w-full space-x-4 font-light"
+					>
+						<Paragraph style={{ color: applyDispensaryStyles['text-color'] }}>
+							{day[0]}
+						</Paragraph>
+						<Paragraph style={{ color: applyDispensaryStyles['text-color'] }}>
+							{day[1].split(' ').map((time, i) => (
+								<span key={`schedule-${day[0]}-time-${i}`}> {time}</span>
+							))}
+						</Paragraph>
+					</FlexBox>
+				))}
 			</FlexBox>
-		</>
+		</div>
 	);
 
 	const Products = () => {
@@ -249,30 +268,28 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 		);
 	}
 
-	const BrowseMore = () => {
-		return organization.ecommerceUrl ? (
-			<Link
-				href={organization.ecommerceUrl as string}
-				// className={`text-[${organization.siteSetting.secondaryColor}] hover:text-[${organization.siteSetting.primaryColor}]`}
-			>
-				<Button
-					size="lg"
-					bg="primary"
-					className="w-full hover:bg-primary-light transition duration-75"
-				>
-					<H4>Shop with {organization.name}</H4>
-				</Button>
-			</Link>
-		) : (
-			<></>
-		);
-	};
+	const BrowseMore = () => (
+		<div className="w-full sm:w-fit">
+			{organization.ecommerceUrl ? (
+				<Link href={organization.ecommerceUrl as string}>
+					<Button
+						bg="primary"
+						className="p-6 px-10 w-full hover:bg-primary-light transition duration-75"
+					>
+						<H4>Visit {organization.name}</H4>
+					</Button>
+				</Link>
+			) : (
+				<></>
+			)}
+		</div>
+	);
 
 	return (
 		<Page
 			gradient="pink"
 			// grow items-center min-h-screen
-			className="w-full py-0 md:pt-12 md:pb-24 flex flex-col grow h-[96vh]"
+			className="w-full py-0 md:pt-12 md:pb-24 flex flex-col grow min-h-[96vh]"
 		>
 			<Head>
 				<title>Grascannabis.org - Cannabis, Delivered.</title>
@@ -286,9 +303,8 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 			>
 				<BackButton />
 				{organization ? (
-					<div className="space-y-0">
+					<div className="flex flex-col w-2/3 md:w-full space-y-2">
 						<Heading />
-						<Body />
 						<Contact />
 						<Schedule />
 						{/* <Products /> */}
