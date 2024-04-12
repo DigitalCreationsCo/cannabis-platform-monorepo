@@ -96,9 +96,9 @@ const handlePOST = async (req: any, res: any) => {
 	);
 
 	const location_namespace = process.env.LOCATION_DB_NS;
-	const collection = await (await clientPromise)
-		.db(location_namespace)
-		.collection('organizations_geolocate');
+	// const collection = await (await clientPromise)
+	// 	.db(location_namespace)
+	// 	.collection('organizations_geolocate');
 
 	const create: OrganizationCreateType = req.body;
 
@@ -125,50 +125,50 @@ const handlePOST = async (req: any, res: any) => {
 	// }
 	// create.images = imagesWithBlurData;
 
-	let organization: OrganizationWithShopDetails;
-	try {
-		organization = (await createOrganization(
-			create,
-		)) as OrganizationWithShopDetails;
-	} catch (error) {
-		console.error('error: ', error);
-		return res.status(500).json({
-			success: 'false',
-			message: error.message,
-		});
-	}
+	// let organization: OrganizationWithShopDetails;
+	// try {
+	// 	organization = (await createOrganization(
+	// 		create,
+	// 	)) as OrganizationWithShopDetails;
+	// } catch (error) {
+	// 	console.error('error: ', error);
+	// 	return res.status(500).json({
+	// 		success: 'false',
+	// 		message: error.message,
+	// 	});
+	// }
 
-	const insertCollection = await collection.insertOne({
-		...organization,
-		address: {
-			...organization.address,
-			coordinates: [
-				Number(coordinates.longitude),
-				Number(coordinates.latitude),
-			],
-		},
-	});
+	// const insertCollection = await collection.insertOne({
+	// 	...organization,
+	// 	address: {
+	// 		...organization.address,
+	// 		coordinates: [
+	// 			Number(coordinates.longitude),
+	// 			Number(coordinates.latitude),
+	// 		],
+	// 	},
+	// });
 
-	// revert the organization record if location db create fails
-	if (!insertCollection.acknowledged) {
-		await deleteOrganizationById(organization.id);
-		console.debug(
-			'the organization location record was not created. the insert operation is reverted.',
-		);
-		return res.status(404).json({
-			success: 'false',
-			message:
-				'the organization location record was not created. the insert operation is reverted.',
-		});
-	}
+	// // revert the organization record if location db create fails
+	// if (!insertCollection.acknowledged) {
+	// 	await deleteOrganizationById(organization.id);
+	// 	console.debug(
+	// 		'the organization location record was not created. the insert operation is reverted.',
+	// 	);
+	// 	return res.status(404).json({
+	// 		success: 'false',
+	// 		message:
+	// 			'the organization location record was not created. the insert operation is reverted.',
+	// 	});
+	// }
 
-	console.debug(
-		`${organization.name} record create is completed. ID is ${organization.id}`,
-	);
+	// console.debug(
+	// 	`${organization.name} record create is completed. ID is ${organization.id}`,
+	// );
 
-	return res.status(201).json({
-		success: 'true',
-		message: `${organization.name} record create is completed. ID is ${organization.id}`,
-		payload: organization,
-	});
+	// return res.status(201).json({
+	// 	success: 'true',
+	// 	message: `${organization.name} record create is completed. ID is ${organization.id}`,
+	// 	payload: organization,
+	// });
 };
