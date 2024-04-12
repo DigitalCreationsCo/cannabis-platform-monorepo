@@ -1,8 +1,4 @@
 /* eslint-disable sonarjs/no-duplicate-string */
-import {
-	OrganizationWithOrderDetails,
-	type OrganizationWithShopDetails,
-} from '@cd/data-access/dist';
 
 const dispensaries: any[] = [
 	{
