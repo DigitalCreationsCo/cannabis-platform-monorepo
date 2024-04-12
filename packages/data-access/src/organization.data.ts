@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { createId } from '@paralleldrive/cuid2';
+import { type Prisma } from '@prisma/client';
 import clientPromise, { collections, db_namespace } from './db/mongo';
+import prisma from './db/prisma';
 import {
 	type OrganizationWithAddress,
 	type OrganizationCreateType,
 	type OrganizationWithShopDetails,
 } from './organization.types';
-
 /*
  *   updateOrganization
  *   createOrganization

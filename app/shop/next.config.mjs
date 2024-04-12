@@ -101,6 +101,8 @@ Memory Usage:`,
 			config.resolve.fallback = {
 				...config.resolve.fallback,
 				net: false,
+				dns: false,
+				fs: false,
 				tls: false,
 			};
 			return config;
