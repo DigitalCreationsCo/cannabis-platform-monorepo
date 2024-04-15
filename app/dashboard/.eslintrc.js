@@ -4,10 +4,6 @@ const { getDefaultIgnorePatterns } = require('@cd/eslint-config/src/helpers');
 
 module.exports = {
 	root: true,
-	parserOptions: {
-		tsconfigRootDir: __dirname,
-		project: 'tsconfig.json',
-	},
 	ignorePatterns: [...getDefaultIgnorePatterns(), '.next', '.out'],
 	extends: [
 		'@cd/eslint-config/src/bases/typescript',
@@ -22,6 +18,10 @@ module.exports = {
 		// Apply prettier and disable incompatible rules
 		'@cd/eslint-config/src/bases/prettier',
 	],
+	parserOptions: {
+		tsconfigRootDir: __dirname,
+		project: 'tsconfig.json',
+	},
 	rules: {
 		// https://github.com/vercel/next.js/discussions/16832
 		'@next/next/no-img-element': 'off',

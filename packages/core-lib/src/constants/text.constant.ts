@@ -360,6 +360,7 @@ const TextContent = Object.freeze({
 			`${process.env.NEXT_PUBLIC_SHOP_APP_URL}/browse/${subdomain}`,
 
 		dashboard_f: (id: string) => `/${id}/dashboard`,
+		customers_f: (id: string) => `/${id}/customers`,
 		orders_f: (id: string) => `/${id}/orders`,
 		delivery_tracking_f: (id: string) => `/${id}/tracking`,
 		products_f: (id: string) => `/${id}/products`,

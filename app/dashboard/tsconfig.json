@@ -9,8 +9,11 @@
 		"moduleResolution": "node",
 		"esModuleInterop": true,
 		"jsx": "preserve",
+		"strict": true,
 		"incremental": true,
 		"paths": {
+			"@/lib/*": ["lib/*"],
+      		"@/components/*": ["components/*"],
 			"@cd/ui-lib": ["../../../packages/ui-lib/src/index"],
 			"@cd/ui-lib/*": ["../../../packages/ui-lib/*"],
 			"@cd/core-lib": ["../../../packages/core-lib/src/index"],

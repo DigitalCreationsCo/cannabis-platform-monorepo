@@ -10,7 +10,7 @@ module.exports = {
 			globalReturn: false,
 		},
 		ecmaVersion: 2020,
-		project: ['tsconfig.json'],
+		project: ['tsconfig.base.json'],
 		sourceType: 'module',
 	},
 	settings: {
@@ -25,11 +25,9 @@ module.exports = {
 					'mobile/*/tsconfig.json',
 				],
 			},
-			// node: {
-			// 	project: ['tsconfig.json'],
-			// 	extensions: ['.js', '.jsx', '.ts', '.tsx'],
-			// 	moduleDirectory: ['../../**/node_modules', 'src/'],
-			// },
+			node: {
+				extensions: ['.js', '.jsx', '.ts', '.tsx'],
+			},
 		},
 	},
 	extends: [
@@ -208,7 +206,6 @@ module.exports = {
 		{
 			// commonjs or assumed
 			files: ['*.js', '*.cjs'],
-			parser: 'espree',
 			parserOptions: {
 				ecmaVersion: 2020,
 			},

@@ -3683,6 +3683,7 @@ __metadata:
     "@cd/eslint-config": "workspace:*"
     "@cd/ui-lib": "workspace:*"
     "@reduxjs/toolkit": 1.9.2
+    "@tailwindcss/forms": 0.5.3
     "@tailwindcss/typography": 0.5.8
     "@testing-library/dom": 9.3.1
     "@testing-library/jest-dom": 5.16.5
@@ -12267,6 +12268,17 @@ __metadata:
     typescript:
       optional: true
   checksum: 9a8705f7223aa693eb2c24a2c0a2e7aa33ffdc7729d6c04c2ce413b6df897cd963e6bfaaca9ebf5de77f7e3c7a092161570bcd995e52cb6d41aa4681e7020cbb
+  languageName: node
+  linkType: hard
+
+"@tailwindcss/forms@npm:0.5.3":
+  version: 0.5.3
+  resolution: "@tailwindcss/forms@npm:0.5.3"
+  dependencies:
+    mini-svg-data-uri: ^1.2.3
+  peerDependencies:
+    tailwindcss: ">=3.0.0 || >= 3.0.0-alpha.1"
+  checksum: 9eddb4dbd06d01b1068138ff52a54ed0e35a28e7bfd3c72e226fc28658ecd92a9c078c4abe9c83db090984672040644d7ae2e035933fb619dd703df1d87aa275
   languageName: node
   linkType: hard
 
@@ -29329,7 +29341,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mini-svg-data-uri@npm:^1.4.4":
+"mini-svg-data-uri@npm:^1.2.3, mini-svg-data-uri@npm:^1.4.4":
   version: 1.4.4
   resolution: "mini-svg-data-uri@npm:1.4.4"
   bin:

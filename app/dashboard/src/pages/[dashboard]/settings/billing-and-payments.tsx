@@ -25,7 +25,7 @@ type BillingProps = {
 function BillingAndPayments({ dispensary }: BillingProps) {
 	const [stripeIdVisible, setStripeIdVisible] = useState(false);
 	return (
-		<Page className="lg:min-h-[710px]">
+		<Page className="bg-light lg:min-h-[710px]">
 			<PageHeader
 				title="Billing"
 				Icon={icons.Payment}

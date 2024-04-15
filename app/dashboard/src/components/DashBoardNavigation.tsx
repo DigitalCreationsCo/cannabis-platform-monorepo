@@ -9,8 +9,20 @@ export const getNavLinkGroups = (id = 'undefined'): NavLinkType[] =>
 		{
 			href: TextContent.href.dashboard_f(id),
 			title: 'Home',
-			icon: Icons.Home,
+			icon: Icons.Building,
 			enabled: true,
+		},
+		{
+			href: TextContent.href.customers_f(id),
+			title: 'Customers',
+			icon: Icons.UserFavorite,
+			enabled: FeatureConfig.weed_text.enabled,
+		},
+		{
+			href: TextContent.href.daily_deals_weed_text_f(id),
+			title: 'Daily Deals',
+			icon: Icons.MobileAdd,
+			enabled: FeatureConfig.weed_text.enabled,
 		},
 		{
 			href: TextContent.href.orders_f(id),
@@ -41,20 +53,6 @@ export const getNavLinkGroups = (id = 'undefined'): NavLinkType[] =>
 			title: 'Settings',
 			icon: Icons.Settings,
 			enabled: true,
-			// subLinks: [
-			// 	{
-			// 		href: TextContent.href.site_f(id),
-			// 		title: 'Site Settings',
-			// 		icon: Icons.CategoryOutlined,
-			// 		enabled: FeatureConfig.storefront.enabled,
-			// 	},
-			// 	{
-			// 		href: TextContent.href.setup_widget_f(id),
-			// 		title: 'Widget Setup',
-			// 		icon: Icons.WifiBridgeAlt,
-			// 		enabled: true,
-			// 	},
-			// ],
 		},
 		{
 			href: TextContent.href.site_f(id),
@@ -68,42 +66,6 @@ export const getNavLinkGroups = (id = 'undefined'): NavLinkType[] =>
 			icon: Icons.Tools,
 			enabled: FeatureConfig.checkout_widget.enabled,
 		},
-		{
-			href: TextContent.href.daily_deals_weed_text_f(id),
-			title: 'Daily Deals',
-			icon: Icons.CalendarAdd,
-			enabled: FeatureConfig.weed_text.enabled,
-		},
-		// {
-		//   href: "/delivery-time",
-		//   title: "Delivery Time",
-		//   icon: LocalShipping,
-		// },
-		// {
-		//   href: "/category-list",
-		//   title: "Categories",
-		//   icon: Category,
-		// },
-		// {
-		//   href: "/slider",
-		//   title: "Product Slider",
-		//   icon: Slideshow,
-		// },
-		// {
-		//   href: "/services",
-		//   title: "Services",
-		//   icon: Construction,
-		// },
-		// {
-		//   href: "/pages",
-		//   title: "Pages",
-		//   icon: Pages,
-		// },
-		// {
-		//   href: "/icons",
-		//   title: "Icons",
-		//   icon: Image,
-		// },
 	].filter((link) => link.enabled);
 
 const DashboardNavigation = () => {
@@ -115,9 +77,6 @@ const DashboardNavigation = () => {
 		return navLinkGroup
 			.filter((link) => link.enabled)
 			.map((link) => (
-				// isArray(link) ? (
-				// 	renderNavLinkAndSubLinks(link)
-				// ) :
 				<NavLink
 					key={link.title}
 					link={link}

@@ -52,8 +52,6 @@ interface DashboardProps {
 	dailyDeals: DailyDeal[];
 }
 
-const cache = new NodeCache({ stdTTL: 30 });
-
 function DailyDealsPage(props: DashboardProps) {
 	const { user, organization, products, orders, dailyDeals } = props;
 
@@ -107,7 +105,9 @@ function DailyDealsPage(props: DashboardProps) {
 	);
 
 	return (
-		<Page className={twMerge('lg:min-h-[710px] sm:px-4 pb-4 lg:pb-24')}>
+		<Page
+			className={twMerge('bg-light lg:min-h-[710px] sm:px-4 pb-4 lg:pb-24')}
+		>
 			<PageHeader
 				iconColor={'primary'}
 				title={`Daily Deals`}
@@ -163,7 +163,45 @@ function SendDailyDealsInviteForm() {
 		validateForm,
 	} = useFormik({
 		initialValues,
-		onSubmit,
+		onSubmit: async () => {
+			try {
+				setLoadingButton(true);
+				const response = await axios.post<
+					ResponseDataEnvelope<any>,
+					AxiosResponse<ResponseDataEnvelope<any>>,
+					{
+						email: string;
+						mobilePhone: string;
+						firstName: string;
+						lastName: string;
+						city?: string;
+						region?: string;
+						postalCode?: number;
+						subscribed: boolean;
+					}
+				>(urlBuilder.dashboard + '/api/customer/invite', {
+					email: values.email,
+					mobilePhone: values.phone,
+					firstName: values.firstName,
+					lastName: values.lastName,
+					city: values.city,
+					region: values.state,
+					postalCode: values.zipcode,
+					subscribed: false,
+				});
+
+				if (!response.data.success || response.data.success === 'false')
+					throw new Error(response.data.error);
+
+				toast.success(`Sent invite link to ${values.firstName}!`);
+				setLoadingButton(false);
+				resetForm();
+			} catch (error: any) {
+				console.error('send invite link: ', error);
+				setLoadingButton(false);
+				toast.error(error.message);
+			}
+		},
 		validationSchema: yup.object().shape({
 			firstName: yup.string().required('First name is required'),
 			lastName: yup.string().required('Last name is required'),
@@ -180,49 +218,14 @@ function SendDailyDealsInviteForm() {
 			}
 		});
 	}
-	async function onSubmit() {
-		try {
-			setLoadingButton(true);
-			const response = await axios.post<
-				ResponseDataEnvelope<any>,
-				AxiosResponse<ResponseDataEnvelope<any>>,
-				{
-					email: string;
-					mobilePhone: string;
-					firstName: string;
-					lastName: string;
-					city?: string;
-					region?: string;
-					postalCode?: number;
-				}
-			>(urlBuilder.dashboard + '/api/daily-deals/contact', {
-				email: values.email,
-				mobilePhone: values.phone,
-				firstName: values.firstName,
-				lastName: values.lastName,
-				city: values.city,
-				region: values.state,
-				postalCode: values.zipcode,
-			});
 
-			if (!response.data.success || response.data.success === 'false')
-				throw new Error(response.data.error);
-
-			toast.success(`Sent invite link to ${values.firstName}!`);
-			setLoadingButton(false);
-			resetForm();
-		} catch (error: any) {
-			console.error('send invite link: ', error);
-			setLoadingButton(false);
-			toast.error(error.message);
-		}
-	}
 	return (
-		<div className="">
-			<Paragraph>
+		<div className="space-y-4 py-2">
+			<Paragraph className="font-semibold">
 				{/* {`Send your customers an invite link to share with their friends. When their friends
 				place their first order, your customer will receive a $10 credit to their account.`} */}
-				Invite a customer to Daily Deals
+				Invite a customer to Daily Deals. The customer will receive a text
+				message to join your program.
 			</Paragraph>
 			<Grid className="grid-cols-2 max-w-lg">
 				<TextField
@@ -301,73 +304,52 @@ function mapStateToProps(state: AppState) {
 }
 
 export const getServerSideProps = wrapper.getServerSideProps(
-	() =>
+	(): any =>
 		async ({ query, req, res }: any) => {
-			res.setHeader('Cache-Control', 'private, s-maxage=120');
-
-			if (!query.dashboard) throw new Error();
-
-			Supertokens.init(backendConfig());
-
-			let dailyDeals;
-			let session;
-
 			try {
-				session = await Session.getSession(req, res, {
+				if (!query.dashboard) throw new Error();
+
+				Supertokens.init(backendConfig());
+
+				const session = await Session.getSession(req, res, {
 					overrideGlobalClaimValidators: () => {
-						// this makes it so that no custom session claims are checked
 						return [];
 					},
 				});
 
-				if (cache.has(`daily-deals/${query.dashboard}`)) {
-					dailyDeals = cache.get(`daily-deals/${query.dashboard}`);
-				} else {
-					const response = await axios.get<ResponseDataEnvelope<DailyDeal[]>>(
-						urlBuilder.dashboard + '/api/daily-deals',
-						{
-							headers: {
-								'organization-id': query.dashboard,
-								Authorization: `Bearer ${session.getAccessToken()}`,
-							},
+				const response = await axios.get<ResponseDataEnvelope<DailyDeal[]>>(
+					urlBuilder.dashboard + '/api/daily-deals',
+					{
+						headers: {
+							'organization-id': query.dashboard,
+							Authorization: `Bearer ${session.getAccessToken()}`,
 						},
-					);
+					},
+				);
 
-					if (!response.data.success || response.data.success === 'false')
-						throw new Error(response.data.error);
+				if (!response.data.success || response.data.success === 'false')
+					throw new Error(response.data.error);
 
-					dailyDeals = response.data.payload;
-					cache.set(`daily-deals/${query.dashboard}`, dailyDeals, 120);
-				}
+				const dailyDeals = response.data.payload;
+
 				return {
 					props: { dailyDeals },
 				};
 			} catch (err) {
 				console.log('DailyDealsPage: ', err);
-
 				if (err.type === Session.Error.TRY_REFRESH_TOKEN) {
-					// in this case, the session is still valid, only the access token has expired.
-					// The refresh token is not sent to this route as it's tied to the /api/auth/session/refresh API paths.
-					// So we must send a "signal" to the frontend which will then call the
-					// refresh API and reload the page.
-
-					// return { props: { fromSupertokens: 'needs-refresh' } };
-					return { props: { dailyDeals: [] } }; // this works offline
-					// or return {fromSupertokens: 'needs-refresh'} in case of getInitialProps
+					return {
+						props: {
+							fromSupertokens: 'needs-refresh',
+							dailyDeals: [],
+						},
+					};
 				} else if (err.type === Session.Error.UNAUTHORISED) {
-					// in this case, there is no session, or it has been revoked on the backend.
-					// either way, sending this response will make the frontend try and refresh
-					// which will fail and redirect the user to the login screen.
-
-					// return { props: { fromSupertokens: 'needs-refresh' } };
-					return { props: { dailyDeals: [] } }; // this works offline
+					return {
+						props: { fromSupertokens: 'needs-refresh', dailyDeals: [] },
+					};
 				}
-
 				throw err;
-
-				// return {
-				// 	notFound: true,
-				// };
 			}
 		},
 );

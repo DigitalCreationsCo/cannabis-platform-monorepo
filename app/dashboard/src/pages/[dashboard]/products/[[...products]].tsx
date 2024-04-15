@@ -68,7 +68,9 @@ function Products({ products }: ProductsDashboardProps) {
 	};
 
 	return (
-		<Page className={twMerge('lg:min-h-[710px] sm:px-4 !pt-0 md:pr-16')}>
+		<Page
+			className={twMerge('bg-light lg:min-h-[710px] sm:px-4 !pt-0 md:pr-16')}
+		>
 			<PageHeader title="Products" Icon={Icons.Product}>
 				{/* ADD PRODUCTS BUTTON */}
 				{/* <Link href={getDashboardSite('/add-product')}>

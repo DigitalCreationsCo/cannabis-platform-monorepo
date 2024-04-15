@@ -39,7 +39,7 @@ function SideNavContainer({
 			!showSideNav && 'hidden',
 			'bg-inherit',
 			'w-full h-fit',
-			'py-24',
+			// 'py-24',
 		],
 	};
 	return (

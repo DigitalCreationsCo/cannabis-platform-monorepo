@@ -106,7 +106,7 @@ export const userSlice = createSlice({
 					document.cookie = 'isSignUpComplete=false;path=/';
 				}
 			}
-			
+
 			// window.location.reload();
 		},
 		updateOrders: (

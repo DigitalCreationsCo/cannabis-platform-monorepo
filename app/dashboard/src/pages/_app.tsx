@@ -46,6 +46,7 @@ function App({ Component, ...rest }: CustomAppProps) {
 	const { store } = wrapper.useWrappedStore(rest);
 	// @ts-ignore
 	const persistor = store._persistor;
+	const dispensary = store.getState().dispensary?.dispensary;
 
 	const { pageProps } = rest;
 
@@ -94,11 +95,10 @@ function App({ Component, ...rest }: CustomAppProps) {
 	return (
 		<>
 			<Head>
-				<title>app.grascannabis.org Dashboard</title>
-				<meta
-					name="Dispensary Experience App"
-					content="Built by Gras Cannabis Co."
-				/>
+				<title>{`${
+					dispensary.name || 'Your Dispensary Grows Here'
+				} | Gras`}</title>
+				<meta name="Dispensary App" content="by Gras Cannabis Co." />
 			</Head>
 			<SuperTokensWrapper>
 				<ReduxProvider store={store}>

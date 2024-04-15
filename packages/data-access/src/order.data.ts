@@ -1,5 +1,6 @@
 import { type Prisma, type ProductVariant } from '@prisma/client';
 import prisma from './db/prisma';
+import { dispensaries } from './dispensaries.data';
 import {
 	OrderClass,
 	type OrderCreateType,
@@ -225,12 +226,11 @@ export async function findOrdersByUser(
 
 export async function findOrdersByOrg(organizationId: string) {
 	try {
-		return (
-			(await prisma.order.findMany({
-				where: { organizationId },
-				orderBy: [{ updatedAt: 'desc' }],
-			})) || []
+		const dispensary = dispensaries.find(
+			(dispensary) => dispensary.id === organizationId,
 		);
+		if (!dispensary) throw new Error('Organization not found');
+		return dispensary.orders;
 	} catch (error: any) {
 		console.error(error.message);
 		throw new Error(error.message);

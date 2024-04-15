@@ -26,7 +26,10 @@ import {
 import Link from 'next/link';
 import { useMemo } from 'react';
 import { connect } from 'react-redux';
+import Supertokens from 'supertokens-node';
+import Session from 'supertokens-node/recipe/session';
 import { twMerge } from 'tailwind-merge';
+import { backendConfig } from '../../config/backendConfig';
 import { FeatureConfig } from '../../config/dashboard.features';
 import { wrapper } from '../../store';
 
@@ -99,12 +102,12 @@ function Dashboard({ user, organization, products, orders }: DashboardProps) {
 	}
 
 	return (
-		<Page className={twMerge('lg:min-h-[710px] sm:px-4')}>
+		<Page className={twMerge('bg-light lg:min-h-[710px] sm:px-4')}>
 			<PageHeader
 				iconColor={'primary'}
 				title={`${organization.name}`}
 				subTitle={`Dispensary`}
-				Icon={Icons.Home}
+				Icon={Icons.Building}
 			/>
 
 			<H6 className="pb-2">{`Welcome, ${user.firstName}`}</H6>
@@ -177,28 +180,51 @@ function mapStateToProps(state: AppState) {
 }
 
 export const getServerSideProps = wrapper.getServerSideProps(
-	(store) =>
-		async ({ query }: any) => {
+	(store): any =>
+		async ({ query, req, res }: any) => {
 			try {
 				if (!query.dashboard) throw new Error();
-				const response = await axios.get(urlBuilder.dashboard + '/api/orders', {
-					headers: {
-						'organization-id': query.dashboard,
+
+				Supertokens.init(backendConfig());
+
+				const session = await Session.getSession(req, res, {
+					overrideGlobalClaimValidators: () => {
+						// this makes it so that no custom session claims are checked
+						return [];
 					},
 				});
-				if (response.data.success === 'false')
+
+				const response = await axios(urlBuilder.dashboard + '/api/orders', {
+					headers: {
+						'organization-id': query.dashboard,
+						Authorization: `Bearer ${session.getAccessToken()}`,
+					},
+				});
+
+				if (!response.data.success || response.data.success === 'false')
 					throw new Error(response.data.error);
+
 				store.dispatch(
 					dispensaryActions.updateDispensaryOrders(response.data.payload),
 				);
+
 				return {
 					props: {},
 				};
-			} catch (error) {
-				console.log('Dashboard', error);
-				return {
-					notFound: true,
-				};
+			} catch (err) {
+				console.log('Dashboard gss props: ', err);
+				if (err.type === Session.Error.TRY_REFRESH_TOKEN) {
+					return {
+						props: {
+							fromSupertokens: 'needs-refresh',
+						},
+					};
+				} else if (err.type === Session.Error.UNAUTHORISED) {
+					return {
+						props: { fromSupertokens: 'needs-refresh' },
+					};
+				}
+				throw err;
 			}
 		},
 );

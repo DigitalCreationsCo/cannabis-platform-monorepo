@@ -164,7 +164,7 @@ export default function ProductDetails({
 	/* eslint-disable */
 
 	return (
-		<Page className="lg:min-h-[710px]">
+		<Page className="bg-light lg:min-h-[710px]">
 			<PageHeader
 				title="Edit Product"
 				Icon={Icons.Delivery}

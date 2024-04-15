@@ -1,31 +1,48 @@
-import { urlBuilder, axios } from '@cd/core-lib';
-import { type OrganizationCreateType } from '@cd/data-access';
-import nc from 'next-connect';
-import NextCors from 'nextjs-cors';
+import {
+	createOrganization,
+	updateOrganization,
+	type OrganizationCreateType,
+} from '@cd/data-access';
+import { type NextApiRequest, type NextApiResponse } from 'next';
 import Supertokens from 'supertokens-node';
 import { superTokensNextWrapper } from 'supertokens-node/nextjs';
 import { verifySession } from 'supertokens-node/recipe/session/framework/express';
-import {
-	backendConfig,
-	createAnonymousJWT,
-} from '../../../config/backendConfig';
+import { backendConfig } from '../../../config/backendConfig';
 
 Supertokens.init(backendConfig());
 
-// create organization, create location record, create stripe account
-const handler = nc();
-handler.post(async (req: any, res: any) => {
+export default async function handler(
+	req: NextApiRequest,
+	res: NextApiResponse,
+) {
 	try {
-		const jwt = await createAnonymousJWT({});
-		req.headers['authorization'] = `Bearer ${jwt}`;
+		switch (req.method) {
+			case 'POST':
+				await handlePOST(req, res);
+				break;
+			case 'PUT':
+				await handlePUT(req, res);
+				break;
+			default:
+				res.setHeader('Allow', 'POST, PUT');
+				res.status(405).json({
+					error: { message: `Method ${req.method} Not Allowed` },
+				});
+		}
+	} catch (error: any) {
+		const message = error.message || 'Something went wrong';
+		const status = error.status || 500;
 
-		await NextCors(req, res, {
-			methods: ['POST'],
-			origin: process.env.NEXT_PUBLIC_DASHBOARD_APP_URL,
-			credentials: true,
-			allowedHeaders: ['content-type', ...Supertokens.getAllCORSHeaders()],
+		res.status(status).json({
+			success: 'false',
+			error: message,
 		});
+	}
+}
 
+// create organization, create location record, create stripe account
+const handlePOST = async (req: any, res: any) => {
+	try {
 		await superTokensNextWrapper(
 			async (next) => {
 				return await verifySession()(req, res, next);
@@ -35,40 +52,21 @@ handler.post(async (req: any, res: any) => {
 		);
 
 		const organization: OrganizationCreateType = req.body;
-		const response = await axios.post(
-			urlBuilder.main.organization(),
-			organization,
-			{
-				headers: {
-					'Content-Type': 'application/json',
-					...req.headers,
-				},
-			},
-		);
-		if (response.data.success == 'false') throw new Error(response.data.error);
-		return res.status(response.status).json({
+		const create = await createOrganization(organization);
+
+		return res.status(201).json({
 			success: 'true',
-			payload: response.data.payload,
+			payload: create,
 		});
 	} catch (error: any) {
 		console.error(error.message);
 		return res.json({ success: 'false', error: error.message });
 	}
-});
+};
 
-// update organization prisma record, update mongodb location record
-handler.put(async (req: any, res: any) => {
+// update organization record
+const handlePUT = async (req: any, res: any) => {
 	try {
-		const jwt = await createAnonymousJWT({});
-		req.headers['authorization'] = `Bearer ${jwt}`;
-
-		await NextCors(req, res, {
-			methods: ['PUT'],
-			origin: process.env.NEXT_PUBLIC_DASHBOARD_APP_URL,
-			credentials: true,
-			allowedHeaders: ['content-type', ...Supertokens.getAllCORSHeaders()],
-		});
-
 		await superTokensNextWrapper(
 			async (next) => {
 				return await verifySession()(req, res, next);
@@ -77,22 +75,15 @@ handler.put(async (req: any, res: any) => {
 			res,
 		);
 
-		const formData: OrganizationCreateType = req.body;
-		const response = await axios.put(urlBuilder.main.organization(), formData, {
-			headers: {
-				'Content-Type': 'application/json',
-				...req.headers,
-			},
-		});
-		if (response.data.success == 'false') throw new Error(response.data.error);
-		return res.status(response.status).json({
+		const organization: OrganizationCreateType = req.body;
+		const update = await updateOrganization(organization);
+
+		return res.status(200).json({
 			success: 'true',
-			payload: response.data.payload,
+			payload: update,
 		});
 	} catch (error: any) {
 		console.error(error.message);
 		return res.json({ success: 'false', error: error.message });
 	}
-});
-
-export default handler;
+};
