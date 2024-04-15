@@ -43,13 +43,17 @@ function DashboardTopBar({ signOut }: TopBarProps) {
 
 	return (
 		<div className={twMerge(styles.TOPBAR.topbar)}>
-			<FlexBox className="flex-row items-center">
-				<Link href={isSignedIn ? '/' : getShopSite('/')} className="z-50">
-					<GrasSignature className="text-secondary pt-0.5">Gras</GrasSignature>
-				</Link>
-				<Link href={isSignedIn ? '/' : getShopSite('/')} className="shrink-0">
-					<Image alt="Gras" width={40} height={40} src={logo} />
-				</Link>
+			<FlexBox>
+				<FlexBox className="flex-row items-center">
+					<Link href={isSignedIn ? '/' : getShopSite('/')} className="z-50">
+						<GrasSignature className="text-secondary pt-0.5">
+							Gras
+						</GrasSignature>
+					</Link>
+					<Link href={isSignedIn ? '/' : getShopSite('/')} className="shrink-0">
+						<Image alt="Gras" width={40} height={40} src={logo} />
+					</Link>
+				</FlexBox>
 				<Link href={isSignedIn ? '/' : getShopSite('/')}>
 					<Paragraph className={twMerge(styles.TOPBAR.tagline)}>
 						{TextContent.info.CANNABIS_DELIVERED_TEXT}
@@ -80,23 +84,24 @@ function DashboardTopBar({ signOut }: TopBarProps) {
 	function DispensaryAccountDropDown() {
 		return (
 			<div className="dropdown dropdown-end m-0 p-0">
-				<label className="btn btn-ghost h-[54px] w-[54px] rounded-full p-0">
-					<Image
-						tabIndex={0}
-						src={(user.profilePicture?.location as string) || logo}
-						alt={user.email}
-						width={40}
-						height={40}
-						className="rounded-full border"
-						loader={({ src }) => src}
-						unoptimized
-					/>
+				<label
+					tabIndex={0}
+					className={twMerge('btn btn-ghost p-0', styles.BUTTON.highlight)}
+					onClick={() => {
+						// hide menu on click
+						const dropdown = document.getElementById('Account-Dropdown');
+						if (dropdown) {
+							dropdown.classList.toggle('hidden');
+						}
+					}}
+				>
+					Account
 				</label>
 				<ul
 					tabIndex={0}
 					id="Account-Dropdown"
 					className={twMerge(
-						'menu dropdown-content bg-inverse top-0 absolute right-0 mt-14 w-48 rounded shadow',
+						'menu dropdown-content bg-inverse top-0 absolute right-0 mt-14 md:mt-16 w-48 rounded shadow-lg border',
 					)}
 				>
 					{(!isSignedIn && (

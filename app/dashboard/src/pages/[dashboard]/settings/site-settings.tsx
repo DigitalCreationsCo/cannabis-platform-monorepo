@@ -46,7 +46,7 @@ function SiteSettings({ dispensary, siteSetting }: SiteSettingsDashboardProps) {
 
 	const [setting, setSetting] = useState('');
 	return (
-		<Page className={twMerge('lg:min-h-[710px] sm:px-4 md:pr-16')}>
+		<Page className={twMerge('bg-light lg:min-h-[710px] sm:px-4 md:pr-16')}>
 			<PageHeader title="Site Settings" Icon={Icons.CategoryOutlined}>
 				<Button
 					onClick={() =>

@@ -8,6 +8,7 @@ import {
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { loadEnv } from './src/config/loadEnv.mjs';
+import { i18n } from './next-i18next.config.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -65,6 +66,7 @@ Memory Usage:`,
 			'@cd/core-lib',
 			'@cd/ui-lib',
 		],
+		i18n,
 		rewrites: async () => [
 			{
 				source: '/help',

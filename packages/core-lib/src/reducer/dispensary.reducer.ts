@@ -84,6 +84,9 @@ export const dispensarySlice = createSlice({
 			const orders = payload;
 			if (state.dispensary?.orders) {
 				reconcileStateArray(state.dispensary.orders, orders);
+			} else {
+				state.dispensary.orders = orders;
+				state.orders = orders;
 			}
 		},
 	},
@@ -91,16 +94,20 @@ export const dispensarySlice = createSlice({
 		builder.addCase(
 			getDispensaryById.fulfilled,
 			(state, { payload }: PayloadAction<OrganizationWithDashboardDetails>) => {
-				const dispensary = payload;
-				state.dispensary = dispensary;
-				state.products = dispensary.products;
-				state.orders = dispensary.orders;
-				state.users = dispensary.memberships.map(
-					(membership) => membership.user,
-				);
-				state.isLoading = false;
-				state.isSuccess = true;
-				state.isError = false;
+				try {
+					const dispensary = payload;
+					state.dispensary = dispensary;
+					state.products = dispensary.products;
+					state.orders = dispensary.orders;
+					state.users = dispensary.memberships.map(
+						(membership) => membership.user,
+					);
+					state.isLoading = false;
+					state.isSuccess = true;
+					state.isError = false;
+				} catch (error) {
+					console.error('getDispensaryById: ', error);
+				}
 			},
 		),
 			builder.addCase(getDispensaryById.pending, (state) => {

@@ -1,7 +1,11 @@
 const colors = require('tailwindcss/colors');
 
 module.exports = {
-	plugins: [require('daisyui')],
+	plugins: [
+		require('@tailwindcss/forms'),
+		require('@tailwindcss/typography'),
+		require('daisyui'),
+	],
 	content: [
 		'./src/**/*.{js,jsx,ts,tsx}',
 		'../../packages/ui-lib/src/**/*.{js,jsx,ts,tsx}',

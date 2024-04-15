@@ -127,7 +127,7 @@ function SetupWidget({ organization }: SetupWidgetProps) {
 	const encrypt = crypto.encrypt(_w);
 
 	return (
-		<Page className="lg:min-h-[710px]">
+		<Page className="bg-light lg:min-h-[710px]">
 			<PageHeader
 				title="Setup Delivery By Gras Widget"
 				Icon={Icons.WifiBridgeAlt}

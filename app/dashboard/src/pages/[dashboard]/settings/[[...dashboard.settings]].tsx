@@ -43,7 +43,7 @@ function Settings({
 		},
 	];
 	return (
-		<Page className={twMerge('lg:min-h-[710px] sm:px-4 md:pr-16')}>
+		<Page className={twMerge('bg-light lg:min-h-[710px] sm:px-4 md:pr-16')}>
 			<PageHeader title="Settings" Icon={Icons.Settings} />
 
 			<div className="tabs">

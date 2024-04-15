@@ -10,11 +10,36 @@ import { hasMembershipRoleAccess, isEmpty } from '../utils';
 const dispensaryMiddleware =
 	(store: MiddlewareAPI) => (next: any) => async (action: AnyAction) => {
 		try {
+			// handle async signin user
+			if (action.type === 'user/signinUserSync') {
+				const payload = action.payload as UserFromDBAuthResponse;
+				const user = payload.user as UserDispensaryStaffWithDispensaryDetails;
+				if (
+					hasMembershipRoleAccess(user, 'MEMBER') &&
+					!isEmpty(user.memberships?.[0].organizations)
+				) {
+					const organization = user.memberships?.[0].organizations;
+					await store.dispatch(dispensaryActions.setDispensary(organization));
+				} else if (
+					hasMembershipRoleAccess(user, 'MEMBER') &&
+					user.memberships?.[0].organizationId
+				) {
+					await store.dispatch(
+						dispensaryActions.getDispensaryById(
+							user.memberships?.[0].organizationId,
+						) as unknown as AnyAction,
+					);
+				} else {
+					throw new Error(TextContent.error.DISPENSARY_NOT_FOUND);
+				}
+			}
+
+			// handle post-action effects
 			next(action);
 
 			const userState = store.getState().user as AppState['user'];
-
 			console.info('dispensary middleware userState', userState);
+
 			const dispensaryState = store.getState()
 				.dispensary as AppState['dispensary'];
 
@@ -34,44 +59,6 @@ const dispensaryMiddleware =
 						break;
 					default:
 						break;
-				}
-			}
-
-			// handle async signin user
-			if (action.type === 'user/signinUserSync') {
-				const payload = action.payload as UserFromDBAuthResponse;
-				const user = payload.user as UserDispensaryStaffWithDispensaryDetails;
-
-				console.info('dispensary middleware user/signInUserSync user', user);
-				console.info(
-					'hasmembership role MEMBER ',
-					hasMembershipRoleAccess(user, 'MEMBER'),
-				);
-				console.info(
-					'has membership.organizations ',
-					!isEmpty(user.memberships?.[0].organizations),
-				);
-				if (
-					hasMembershipRoleAccess(user, 'MEMBER') &&
-					!isEmpty(user.memberships?.[0].organizations)
-				) {
-					const organization = user.memberships?.[0].organizations;
-					console.info(
-						'dispensary middleware organization',
-						user.memberships[0],
-					);
-					await store.dispatch(dispensaryActions.setDispensary(organization));
-				} else if (
-					hasMembershipRoleAccess(user, 'MEMBER') &&
-					user.memberships?.[0].organizationId
-				) {
-					await store.dispatch(
-						dispensaryActions.getDispensaryById(
-							user.memberships?.[0].organizationId,
-						) as unknown as AnyAction,
-					);
-				} else {
-					throw new Error(TextContent.error.DISPENSARY_NOT_FOUND);
 				}
 			}
 		} catch (error) {

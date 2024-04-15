@@ -171,7 +171,7 @@ export default function OrderDetails({
 	};
 
 	return (
-		<Page className="lg:min-h-[710px]">
+		<Page className="bg-light lg:min-h-[710px]">
 			<PageHeader title={`Order #${order.id}`} Icon={Icons.DeliveryTruck}>
 				<Link href={getDashboardSite('/orders')}>
 					<Button className="bg-inverse hover:bg-inverse active:bg-accent-soft place-self-start">

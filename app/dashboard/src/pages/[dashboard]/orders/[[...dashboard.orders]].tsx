@@ -18,7 +18,10 @@ import {
 	type LayoutContextProps,
 } from '@cd/ui-lib';
 import { connect } from 'react-redux';
+import Supertokens from 'supertokens-node';
+import Session from 'supertokens-node/recipe/session';
 import { twMerge } from 'tailwind-merge';
+import { backendConfig } from '../../../config/backendConfig';
 import { wrapper } from '../../../store';
 
 interface OrdersDashboardProps {
@@ -30,7 +33,7 @@ function Orders({ orders }: OrdersDashboardProps) {
 	const { current, PaginationButtons } = usePagination(orders);
 
 	return (
-		<Page className={twMerge('lg:min-h-[710px] sm:px-4 md:pr-16')}>
+		<Page className={twMerge('bg-light lg:min-h-[710px] sm:px-4 md:pr-16')}>
 			<PageHeader title="Orders" Icon={Icons.WatsonHealthDicomOverlay} />
 
 			<Grid className="gap-2">
@@ -73,20 +76,33 @@ function mapStateToProps(state: AppState) {
 
 export const getServerSideProps = wrapper.getServerSideProps(
 	(store) =>
-		async ({ query }: any) => {
+		async ({ query, req, res }: any) => {
 			try {
-				console.log('query', query);
-				if (!query.dashboard) throw new Error();
-				const response = await axios.get(urlBuilder.dashboard + '/api/orders', {
-					headers: {
-						'organization-id': query.dashboard,
+				Supertokens.init(backendConfig());
+
+				const session = await Session.getSession(req, res, {
+					overrideGlobalClaimValidators: () => {
+						// this makes it so that no custom session claims are checked
+						return [];
 					},
 				});
+
+				if (!query.dashboard) throw new Error();
+
+				const response = await axios(urlBuilder.dashboard + '/api/orders', {
+					headers: {
+						'organization-id': query.dashboard,
+						Authorization: `Bearer ${session.getAccessToken()}`,
+					},
+				});
+
 				if (response.data.success === 'false')
 					throw new Error(response.data.error);
+
 				store.dispatch(
 					dispensaryActions.updateDispensaryOrders(response.data.payload),
 				);
+
 				return {
 					props: {},
 				};

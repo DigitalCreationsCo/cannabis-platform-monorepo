@@ -1,4 +1,4 @@
-import { ReactElement, type PropsWithChildren } from 'react';
+import { type PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 import FlexBox from './FlexBox';
 import IconWrapper from './IconWrapper';

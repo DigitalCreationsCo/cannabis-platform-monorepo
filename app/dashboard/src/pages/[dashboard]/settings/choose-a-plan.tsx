@@ -87,7 +87,7 @@ function PricingPlans({ plans }: { plans: SubscriptionPlan[] }) {
 	};
 
 	return (
-		<Page className={'min-h-[820px]'}>
+		<Page className={'bg-light min-h-[820px]'}>
 			<PageHeader
 				title="Pick a plan that works best for your business"
 				className="mx-auto"

@@ -1,11 +1,10 @@
 /* eslint-disable sonarjs/no-small-switch */
-import { findOrganizationById } from '@cd/data-access';
+import { dispensaries } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import Supertokens from 'supertokens-node';
 import { superTokensNextWrapper } from 'supertokens-node/nextjs';
 import { verifySession } from 'supertokens-node/recipe/session/framework/express';
 import { backendConfig } from '../../../config/backendConfig';
-import { dispensaries } from '../../../data/dispensaries';
 
 Supertokens.init(backendConfig());
 
