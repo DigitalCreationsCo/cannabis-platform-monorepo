@@ -136,12 +136,14 @@ export default function MarketPlace() {
 					className="row-start-1 cursor-default px-5 pt-0 col-start-1 col-span-full lg:col-span-2"
 				>
 					<H1
-						color="light"
-						className={twMerge(styles.responsiveHeading, 'drop-shadow')}
+						className={twMerge(
+							styles.responsiveHeading,
+							'text-inverse-soft drop-shadow',
+						)}
 					>
 						{TextContent.info.CANNABIS_DELIVERED}
 					</H1>
-					<H4 className="text-inverse lg:px-6 leading-2 drop-shadow text-left">
+					<H4 className="text-inverse-soft lg:px-6 leading-2 drop-shadow text-left">
 						Find dispensaries, edibles, and more near you
 					</H4>
 					{/* <H3 className="text-inverse px-4 drop-shadow-md">

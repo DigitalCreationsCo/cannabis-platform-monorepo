@@ -271,7 +271,7 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 	const BrowseMore = () => (
 		<div className="w-full sm:w-fit">
 			{organization.ecommerceUrl ? (
-				<Link href={organization.ecommerceUrl as string}>
+				<Link href={organization.ecommerceUrl as string} target="_blank">
 					<Button
 						bg="primary"
 						className="p-6 px-10 w-full hover:bg-primary-light transition duration-75"

@@ -42,13 +42,13 @@ function WeedTextSignUp() {
 		<Page
 			className={twMerge(
 				styles.gradient,
-				'text-light p-0 sm:p-0 md:p-0 lg:p-0 !border-none',
+				'text-light p-0 sm:p-0 md:p-0 lg:p-0',
 			)}
 		>
 			{/* <ImageBackDrop video={friendsVideo}></ImageBackDrop> */}
 			<FlexBox className="mx-auto flex p-4 px-8 md:px-20 w-full space-x-2 items-center space-y-8 lg:space-y-8">
 				<div className="flex flex-col self-center text-center lg:py-2">
-					<H1 className="text-[1.4rem] md:text-4xl text-light mx-auto text-center whitespace-pre-line overflow-x-visible border-b border-transparent w-lg font-semibold tracking-wide">
+					<H1 className="text-[1.4rem] md:text-4xl text-light mx-auto text-center whitespace-pre-line overflow-x-visible w-lg font-semibold tracking-wide">
 						{/* {TextContent.info.SAME_DAY_DELIVERY}&nbsp;🌴 */}
 						{/* {TextContent.info.TOP_SHELF_CANNABIS_DELIVERED_DAILY}&nbsp;🌴 */}
 						We Deliver Top-Shelf Cannabis Daily&nbsp;🌴
