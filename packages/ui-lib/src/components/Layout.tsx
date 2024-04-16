@@ -6,7 +6,6 @@ import {
 } from 'react';
 import { twMerge } from 'tailwind-merge';
 import AnimationWrapper from './AnimationWrapper';
-import { Button } from './button';
 import Footer from './Footer';
 import Header from './Header';
 import { type SearchBarProps } from './SearchField';
