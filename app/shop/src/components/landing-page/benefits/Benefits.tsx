@@ -6,10 +6,12 @@ import {
 	H5,
 	H4,
 	styles,
+	H2,
 } from '@cd/ui-lib';
 import Image from 'next/image';
 import { type HTMLAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
+import { CTA2XMyBusiness } from 'pages/work-with-us/[[...work-with-us]]';
 import { type BenefitData } from './benefit-data';
 
 interface BenefitsProps extends HTMLAttributes<HTMLDivElement> {
@@ -29,36 +31,36 @@ export default function Benefits({
 		<div
 			id={props.id}
 			className={twMerge(
-				'relative',
+				'relative bg-inverse',
+				'py-20',
 				'gap-8',
-				'pt-24 pb-12',
 				`${data.image && imagePosition === 'right' ? 'lg:justify-end' : ''}`,
 				props.className,
 			)}
 		>
 			<FlexBox
 				className={twMerge(
-					'flex flex-col flex-wrap items-center justify-center gap-4 md:space-x-12 md:space-y-0',
+					'flex flex-col flex-wrap items-center justify-center gap-4',
 				)}
 			>
 				{data.title && (
-					<H3
+					<H2
 						className={twMerge(
 							styles.textShadow,
-							'mt-3 text-center text-4xl font-bold leading-snug max-w-sm md:max-w-4xl tracking-wider lg:text-5xl lg:leading-tight',
+							'text-center text-5xl font-bold leading-snug max-w-lg md:max-w-6xl lg:text-6xl lg:leading-tight whitespace-pre-line',
 						)}
 					>
 						{data.title}
-					</H3>
+					</H2>
 				)}
 				{data.description && (
-					<p className="font-encode text-center tracking-wider max-w-sm lg:max-w-3xl mx-auto text-2xl lg:mb-2">
+					<Paragraph className="font-encode font-semibold text-center max-w-md lg:max-w-3xl mx-auto text-3xl leading-[3rem]">
 						{data.description}
-					</p>
+					</Paragraph>
 				)}
 				<FlexBox
 					className={twMerge(
-						'flex flex-col lg:flex-row flex-wrap items-center justify-center gap-8',
+						'flex flex-col lg:flex-row flex-wrap items-center justify-center gap-8 py-4',
 					)}
 				>
 					{data.bullets.length > 0 && (
@@ -82,7 +84,7 @@ export default function Benefits({
 
 					{data.image && (
 						<div
-							className={`max-w-xl m-8 flex items-center justify-center -order-1 lg:order-1 ${
+							className={`max-w-lg flex items-center justify-center -order-1 lg:order-1 ${
 								imagePosition === 'right' ? 'lg:order-1' : 'lg:-order-1'
 							}`}
 						>
@@ -97,6 +99,7 @@ export default function Benefits({
 					)}
 					{props.children}
 				</FlexBox>
+				{(data.cta && <CTA2XMyBusiness cta={data.cta} />) || <></>}
 			</FlexBox>
 		</div>
 	);
@@ -114,7 +117,7 @@ export function Benefit(props: BenefitData['bullets'][number]) {
 				</div>
 				<div>
 					{props.description && (
-						<Paragraph className="text-dark mt-1 text-lg">
+						<Paragraph className="text-dark mt-1 text-2xl">
 							{props.description}
 						</Paragraph>
 					)}

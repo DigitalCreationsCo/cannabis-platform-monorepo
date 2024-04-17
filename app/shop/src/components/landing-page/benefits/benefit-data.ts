@@ -4,15 +4,81 @@ import FleetTrackingImage from '../../../../public/fleet-tracking-and-app-view.p
 import benefitOneImg from '../../../../public/get-order.png';
 import benefitTwoImg from '../../../../public/pair-of-buds.png';
 
-export const benefitDataDeliveryThatWorksForYou: BenefitData = {
-	title: 'We Make Cannabis Delivery Easy',
-	description: `With Flexible Delivery Service That Suits Your Business.`,
+export const automateDeliveryCompliance: BenefitData = {
+	title: `You can relax, 
+	We handle compliant delivery.`,
+	description: `With Flexible Automation That Suits Your Business.`,
 	image: benefitOneImg,
 	bullets: [
 		{
-			// title: `We Make Cannabis Delivery Easy`,
+			description: `No more paper manifests. Automate your records.`,
+			icon: Icons.CheckboxChecked,
+		},
+		{
+			description: `Your drivers keep driving. We handle the rest.`,
+			icon: Icons.Delivery,
+		},
+		{
+			description:
+				'State audit? No sweat. Your records are backed up and always available.',
+			icon: Icons.UserAdmin,
+		},
+	],
+	cta: `I want to fix my delivery compliance`,
+};
+
+export const consumerTextMessaging: BenefitData = {
+	title: 'We put you in touch with your customers',
+	description: `With trusted text messaging that keeps them coming back`,
+	// description: `With trusted text messaging that makes their day better, and keeps them coming back`,
+	image: benefitOneImg,
+	bullets: [
+		// {
+		// 	description: `No more paper manifests. Automate your records.`,
+		// 	icon: Icons.CheckboxChecked,
+		// },
+		// {
+		// 	description: `Your drivers keep driving. We handle the rest.`,
+		// 	icon: Icons.Delivery,
+		// },
+		// {
+		// 	description:
+		// 		'State audit? No sweat. Your records are backed up and always available.',
+		// 	icon: Icons.UserAdmin,
+		// },
+	],
+};
+
+export const deliveryManagementService: BenefitData = {
+	title: 'We Make Cannabis Delivery A Breeze',
+	description: `With Flexible Tech & Automation That Suits Your Business.`,
+	image: benefitOneImg,
+	bullets: [
+		{
+			description: `No more paper manifests. Automate your records.`,
+			icon: Icons.CheckboxChecked,
+		},
+		{
+			description: `Your drivers keep driving. We handle the rest.`,
+			icon: Icons.Delivery,
+		},
+		{
+			description:
+				'State audit? No sweat. Your records are backed up and always available.',
+			icon: Icons.UserAdmin,
+		},
+	],
+	cta: `Automate my delivery service`,
+};
+
+export const fullServiceDelivery: BenefitData = {
+	title: 'Outsource Your Delivery',
+	description: `Your Delivery Service On Auto Pilot`,
+	// image: FleetTrackingImage,
+	bullets: [
+		{
 			description: `Fast and easy same-day delivery.`,
-			icon: Icons.CheckmarkOutline,
+			icon: Icons.AlarmClock,
 		},
 		{
 			title: 'Secure Delivery',
@@ -26,23 +92,24 @@ export const benefitDataDeliveryThatWorksForYou: BenefitData = {
 			icon: Icons.ShoppingBag,
 		},
 	],
+	cta: `Outsource my delivery service`,
 };
 
-export const benefitDataTrackYourOrders: BenefitData = {
-	title: 'Helping You Stay On Track',
-	description: `Track delivery drivers and orders, and easily make adjustments.`,
+export const trackDeliveries: BenefitData = {
+	title: 'We Help Your Drivers Stay On Track',
+	description: `Track delivery drivers, and orders live`,
 	image: FleetTrackingImage,
 	bullets: [],
 };
 
-export const benefitDataStableBusinessAndGrowth = {
-	title: 'We Drive Retail Business Growth',
-	description: `Your Vision + Our Support = Success`,
+export const unlockYourGrowth = {
+	title: 'We Unlock Hyper Growth For Your Dispensary',
+	description: `Your Vision + Our Support = Your Success`,
 	image: benefitTwoImg,
 	bullets: [
 		{
 			// title: 'Your Goals Are Our Goals',
-			description: `Our team is committed to growing your business.`,
+			description: '',
 			icon: Icons.IncreaseLevel,
 		},
 		{
@@ -51,6 +118,7 @@ export const benefitDataStableBusinessAndGrowth = {
 			icon: Icons.ServiceDesk,
 		},
 	],
+	cta: "I'm ready to 2X my dispensary",
 };
 
 export type BenefitData = {
@@ -62,4 +130,5 @@ export type BenefitData = {
 		description?: string;
 		icon: any;
 	}[];
+	cta?: string;
 };

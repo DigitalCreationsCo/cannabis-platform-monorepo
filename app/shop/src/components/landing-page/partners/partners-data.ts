@@ -21,3 +21,21 @@ export const partners: Partner[] = [
 		imgSrc: require('../../../../public/biotrack.png'),
 	},
 ];
+
+export const recognizedBy: Partner[] = [
+	{
+		name: 'new york office of cannabis management',
+		title: 'New York Office of Cannabis Management',
+		imgSrc: require('../../../../public/nyocm.png'),
+	},
+	{
+		name: 'national hemp association',
+		title: 'National Hemp Association',
+		imgSrc: require('../../../../public/nha.png'),
+	},
+	{
+		name: 'cannabis association of new york',
+		title: 'Cannabis Association of New York',
+		imgSrc: require('../../../../public/cany.png'),
+	},
+];
