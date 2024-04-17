@@ -156,21 +156,21 @@ export default function ContactUsForm() {
 	}
 
 	const [heading] = [
-		'tracking-wider bg-clip-text text-transparent bg-gradient-to-b from-secondary-light to-primary-light inline max-w-4xl whitespace-pre-line text-5xl font-bold sm:text-6xl xl:text-7xl',
+		'bg-clip-text text-transparent bg-gradient-to-b from-secondary-light to-primary-light inline max-w-4xl whitespace-pre-line text-5xl font-bold sm:text-6xl xl:text-7xl',
 	];
 
 	return (
-		<div id="contact-us-header" className={twMerge('mt-16', 'bg-secondary')}>
+		<div id="contact-us-header" className={twMerge('bg-slate-100')}>
 			<Grid className="py-12 lg:py-24 px-4 md:px-32 grid-cols-1 xl:grid-cols-2 xl:gap-x-24 auto-cols-max">
-				<div className="pb-12 text-2xl text-light max-w-full col-span-full xl:mr-auto">
+				<div className="pb-12 text-2xl text-dark max-w-full col-span-full mx-auto">
 					<Paragraph
 						className={twMerge(
-							'leading-loose mb-2 max-w-md md:max-w-full text-xl md:my-6 md:text-3xl',
+							'leading-loose mb-2 max-w-md md:max-w-full text-2xl mx-auto md:mx-0 md:my-6 md:text-3xl',
 						)}
 					>
 						We deliver your business to more people, online and outside.
 					</Paragraph>
-					<H2 className="md:text-6xl max-w-2xl lg:max-w-full lg:col-span-2">
+					<H2 className="text-6xl max-w-2xl lg:max-w-full lg:col-span-2">
 						<span className={twMerge(heading)}>Partner with Gras</span> for home
 						delivery and retail services.
 					</H2>
@@ -178,24 +178,28 @@ export default function ContactUsForm() {
 
 				<div
 					id="founder-quote"
-					className="p-12 border rounded-xl shadow-xl drop-shadow-2xl hidden xl:block text-light xl:max-w-xl ml-auto row-start-2"
+					className="p-12 border rounded-xl shadow-xl drop-shadow-2xl hidden xl:block xl:max-w-xl ml-auto row-start-2"
 				>
 					<FlexBox className="flex-row">
 						<Image
+							width={200}
+							height={200}
 							className="rounded-full"
 							src={require('../../../public/founder.jpg')}
 							alt={'founder'}
 						/>
-						<FlexBox className="ml-8 flex-col self-stretch mt-4">
-							<Paragraph className="text-primary-light text-xl font-semibold mb-1">
+						<FlexBox className="ml-8 flex-col self-center">
+							<Paragraph className="text-3xl font-semibold mb-1">
 								Bryant Mejia
 							</Paragraph>
-							<Paragraph className="text-xl">Founder of Gras</Paragraph>
+							<Paragraph className="text-primary text-3xl">
+								Founder of Gras
+							</Paragraph>
 						</FlexBox>
 					</FlexBox>
 
 					<div className="mt-12">
-						<Paragraph className="text-xl text-light leading-relaxed">
+						<Paragraph className="text-2xl leading-relaxed">
 							{`To best serve you, tell us about your delivery and business needs. We'll arrange a free call to form a working growth strategy. 
 							`}
 						</Paragraph>
@@ -207,14 +211,13 @@ export default function ContactUsForm() {
 					className="self-end w-full lg:w-3/4 xl:w-full m-auto xl:max-w-xl lg:mr-auto row-start-2"
 				>
 					<Grid className="grid-cols-2">
-						<Paragraph className="col-span-2 px-2 text-light mb-2 md:max-w-full text-xl md:my-12">
+						<Paragraph className="col-span-2 px-2 mb-2 md:max-w-full text-2xl md:my-12">
 							{`Contact us using the form below. Our team will reach out within 24 hours.`}
 						</Paragraph>
 						<TextField
 							containerClassName="px-2 col-span-1"
 							name="firstName"
 							label=" first name"
-							labelColor="text-light"
 							placeholder="first name"
 							value={values?.firstName}
 							onBlur={handleBlur}
@@ -226,7 +229,6 @@ export default function ContactUsForm() {
 							containerClassName="px-2 col-span-1"
 							name="lastName"
 							label=" last name"
-							labelColor="text-light"
 							placeholder="last name"
 							value={values?.lastName}
 							onBlur={handleBlur}
@@ -239,7 +241,6 @@ export default function ContactUsForm() {
 							containerClassName="px-2 col-span-2 lg:col-span-1"
 							name="email"
 							label="email"
-							labelColor="text-light"
 							placeholder="your email address"
 							value={values?.email}
 							onBlur={handleBlur}
@@ -250,7 +251,6 @@ export default function ContactUsForm() {
 							containerClassName="px-2 xl:col-span-1"
 							name="company"
 							label=" company"
-							labelColor="text-light"
 							placeholder="company"
 							value={values?.company}
 							onBlur={handleBlur}
@@ -261,7 +261,6 @@ export default function ContactUsForm() {
 							containerClassName="px-2 xl:col-span-1"
 							name="title"
 							label=" title"
-							labelColor="text-light"
 							placeholder="title"
 							value={values.title}
 							onBlur={handleBlur}
@@ -274,7 +273,6 @@ export default function ContactUsForm() {
 							type="tel"
 							name="phone"
 							label="phone"
-							labelColor="text-light"
 							placeholder="phone"
 							value={values?.phone}
 							onBlur={handleBlur}
@@ -285,7 +283,6 @@ export default function ContactUsForm() {
 							containerClassName="px-2 xl:col-span-1"
 							name="city"
 							label=" city"
-							labelColor="text-light"
 							placeholder="city"
 							value={values.city}
 							onBlur={handleBlur}
@@ -298,7 +295,6 @@ export default function ContactUsForm() {
 							containerClassName="px-2 xl:col-span-auto"
 							name="state"
 							label=" state"
-							labelColor="text-light"
 							className="rounded border"
 							values={usStatesAbbreviationList}
 							setOption={handleChange}
@@ -308,7 +304,6 @@ export default function ContactUsForm() {
 							containerClassName="px-2 xl:col-span-1"
 							name="zipcode"
 							label=" zipcode"
-							labelColor="text-light"
 							placeholder="zipcode"
 							type="number"
 							value={values.zipcode}
@@ -322,7 +317,6 @@ export default function ContactUsForm() {
 							name="serviceAreaRange"
 							type="number"
 							label="How many miles from your store do you want to deliver?"
-							labelColor="text-light"
 							placeholder=""
 							value={values.serviceAreaRange as number}
 							onBlur={handleBlur}
@@ -336,7 +330,6 @@ export default function ContactUsForm() {
 							name="weeklyDeliveries"
 							placeholder=""
 							label="How many orders do you expect to deliver per week?"
-							labelColor="text-light"
 							value={values.weeklyDeliveries as number}
 							onBlur={handleBlur}
 							onChange={handleChange}
@@ -348,7 +341,6 @@ export default function ContactUsForm() {
 							containerClassName="px-2 col-span-2"
 							name="message"
 							label=" message"
-							labelColor="text-light"
 							placeholder="Tell us anything else you'd like us to know."
 							value={values?.message}
 							onBlur={handleBlur}
@@ -359,22 +351,21 @@ export default function ContactUsForm() {
 							values={howDidYouHearAboutUsOptions.map(({ value }) => value)}
 							containerClassName="p-2 xl:col-span-2"
 							name="howDidYouHearAboutUs"
-							label="How did you hear about Gras?"
-							labelColor="text-light"
+							label="How did you hear about us?"
 							placeholder="howDidYouHearAboutUs"
 							value={values?.howDidYouHearAboutUs}
 							onBlur={handleBlur}
 							setOption={handleChange}
 						/>
 						<CheckBox
-							className="px-2 pt-4 w-full text-light col-span-full"
+							className="px-2 pt-4 w-full col-span-full"
 							name={'allowProcessResponse'}
 							onChange={handleChange}
 							checked={values.allowProcessResponse}
 							label="You agree to allow us to store your contact information. Gras will only use your contact info to communicate with your business."
 						/>
 						<CheckBox
-							className="px-2 pt-4 w-full text-light col-span-full"
+							className="px-2 pt-4 w-full col-span-full"
 							name={'subscribeCannabisInsiderNewsletter'}
 							onChange={handleChange}
 							checked={values.subscribeCannabisInsiderNewsletter}
@@ -402,9 +393,7 @@ export default function ContactUsForm() {
 				</form>
 			</Grid>
 
-			<div className="w-full px-8 md:px-16 lg:w-4/5 mx-auto">
-				<hr className="border-2" />
-			</div>
+			<hr className="border-2" />
 		</div>
 	);
 }
