@@ -39,7 +39,7 @@ export default function TextArea({
 	error,
 	value,
 	label,
-	labelColor = 'text-primary',
+	labelColor = 'text-dark',
 	justifyLabel,
 	placeholder,
 	defaultValue,
@@ -74,7 +74,7 @@ export default function TextArea({
 			{label && (
 				<FlexBox className="items-start w-full">
 					<label className={twMerge(labelColor, styles.label_f(justifyLabel))}>
-						<Paragraph>{label}</Paragraph>
+						<Paragraph className="text-lg">{label}</Paragraph>
 					</label>
 				</FlexBox>
 			)}
