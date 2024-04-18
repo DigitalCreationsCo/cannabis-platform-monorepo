@@ -134,7 +134,6 @@ export default function Button({
 				<Paragraph
 					className={twMerge(
 						size === 'lg' ? 'text-xl' : 'text-md',
-						'font-medium',
 						'text-inherit',
 					)}
 				>
