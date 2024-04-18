@@ -48,15 +48,15 @@ function DispensaryCard({
 					<Image
 						placeholder={blurData ? 'blur' : 'empty'}
 						blurDataURL={blurData}
-						className="object-contain self-center pt-6"
+						className="object-contain self-center pt-6 px-2"
 						src={src}
 						alt={dispensary?.name}
-						sizes="(max-width: 200px)"
+						sizes="(max-width: 180px)"
 						fill
 						quality={25}
 						loader={({ src }) => src}
 						style={{
-							maxHeight: '120px',
+							maxHeight: '220px',
 						}}
 						priority
 					/>
@@ -127,10 +127,10 @@ function DispensaryCard({
 					src={dispensary?.images?.[0]?.location || logo.src}
 					blurData={dispensary?.images?.[0]?.blurhash || ''}
 				>
-					<FlexBox className="z-5 left-0 flex-col p-2">
+					<FlexBox className="z-5 left-0 flex-col px-2">
 						<H3
 							style={{ color: applyDispensaryStyles['primary-color'] }}
-							className="z-5 font-semibold left-0 top-0 max-w-[248px] whitespace-normal tracking-wide drop-shadow"
+							className="z-5 font-semibold left-0 top-0 max-w-[248px] whitespace-normal tracking-wide drop-shadow text-[22px]"
 						>
 							{dispensary?.name}
 						</H3>

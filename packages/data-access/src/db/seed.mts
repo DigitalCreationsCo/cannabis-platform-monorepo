@@ -2827,14 +2827,15 @@ async function main() {
 				{
 					id: '1',
 					title: 'You dont want to miss this!',
-					description:
-						"You dont want to miss this! Order before we're sold out!",
+					message: "You dont want to miss this! Order before we're sold out!",
 					isExpired: false,
+					doesRepeat: false,
+					// cron schedule
+					schedule: '0 0 0 * * *',
 					organizationId: 'bf346k4u7x2b2hhr6wsofppp',
 					startTime: new Date(),
 					// set date for tomorrow
 					endTime: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
-					total: 12000,
 				},
 			];
 

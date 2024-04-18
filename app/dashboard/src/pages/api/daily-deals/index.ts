@@ -52,7 +52,8 @@ const handleGET = async (req: any, res: any) => {
 
 		const organizationId = req.headers['organization-id'] as string;
 
-		const dailyDeals = findDailyDealsByOrganization(organizationId);
+		const dailyDeals = await findDailyDealsByOrganization(organizationId);
+		console.info('GET api/daily-deals: ', dailyDeals);
 
 		return res.status(200).json({ success: 'true', payload: dailyDeals });
 	} catch (error: any) {
@@ -75,8 +76,9 @@ const handlePOST = async (req: any, res: any) => {
 		);
 
 		const dailyDeal: DailyDealWithProductDetails = req.body;
+		console.info('POST api/daily-deals: ', dailyDeal);
 
-		const create = createDailyDeal(dailyDeal);
+		const create = await createDailyDeal(dailyDeal);
 
 		return res.status(201).json({
 			success: 'true',

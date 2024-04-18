@@ -50,13 +50,15 @@ export async function createDailyDeal(
 		return await prisma.dailyDeal.create({
 			data: {
 				title: deal.title,
-				description: deal.description,
-				total: deal.total,
-				startTime: new Date(deal.startTime),
-				endTime: new Date(deal.endTime),
-				organizationId: deal.organizationId,
-				products: {
-					connect: [...deal.products.map((p) => ({ id: p.id }))],
+				message: deal.message,
+				startTime: deal.startTime ? new Date(deal.startTime) : undefined,
+				endTime: deal.endTime ? new Date(deal.endTime) : undefined,
+				doesRepeat: deal.doesRepeat,
+				schedule: deal.schedule,
+				organization: {
+					connect: {
+						id: deal.organizationId,
+					},
 				},
 			},
 			// include: {
