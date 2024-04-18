@@ -4,6 +4,7 @@ import { type dispatchEvents } from '../types/socket.types';
 
 export type SMSAPI = {
 	send: (event: any, phoneTo: string, data: string) => Promise<any>;
+	optInCustomer: (event: any, phoneTo: string, data: any) => Promise<any>;
 };
 
 class SMSModule {
@@ -11,6 +12,11 @@ class SMSModule {
 	smsApi: SMSAPI | undefined;
 	constructor(apiName: SMSApiProvider) {
 		switch (apiName) {
+			case 'SlickText':
+				import('./slicktext').then(
+					(SlickText) => (this.smsApi = SlickText.default),
+				);
+				break;
 			// case 'TextGrid':
 			// 	import('./TextGrid/textgrid').then(
 			// 		(TextGrid) => (this.smsApi = TextGrid.default),
@@ -49,8 +55,10 @@ class SMSModule {
 			console.error('SMSModule.send: ', error);
 		}
 	}
+
+	// async optInCustomer(event: any) {}
 }
 
-export default new SMSModule('DailyStory');
+export default new SMSModule('SlickText');
 
-type SMSApiProvider = 'TextGrid' | 'Telnyx' | 'DailyStory';
+export type SMSApiProvider = 'TextGrid' | 'Telnyx' | 'DailyStory' | 'SlickText';

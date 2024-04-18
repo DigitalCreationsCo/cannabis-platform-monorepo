@@ -59,12 +59,12 @@ function CustomersPage({ customers }: CustomerDashboardProps) {
 			<PageHeader title="Customer List" Icon={Icons.UserFavorite}>
 				<div className="flex flex-row gap-x-5 my-4">
 					<Link href="/customer/create">
-						<Button className="bg-inverse active:bg-accent-soft place-self-start mt-2">
+						<Button className="bg-inverse active:bg-accent-soft place-self-start px-4 mt-2">
 							Add Customer
 						</Button>
 					</Link>
 					<Link href="/customer/import">
-						<Button className="bg-inverse active:bg-accent-soft place-self-start mt-2">
+						<Button className="bg-inverse active:bg-accent-soft place-self-start px-4 mt-2">
 							Import Customers
 						</Button>
 					</Link>

@@ -3288,6 +3288,10 @@ details > summary {
   height: 48px;
 }
 
+.h-\[49px\] {
+  height: 49px;
+}
+
 .h-\[54px\] {
   height: 54px;
 }
@@ -4072,6 +4076,10 @@ details > summary {
   padding: 3.5rem;
 }
 
+.p-16 {
+  padding: 4rem;
+}
+
 .p-2 {
   padding: 0.5rem;
 }
@@ -4174,6 +4182,10 @@ details > summary {
 
 .pb-2 {
   padding-bottom: 0.5rem;
+}
+
+.pb-20 {
+  padding-bottom: 5rem;
 }
 
 .pb-24 {
@@ -4405,6 +4417,10 @@ details > summary {
 
 .line-through {
   text-decoration-line: line-through;
+}
+
+.accent-light {
+  accent-color: var(--light);
 }
 
 .accent-primary-light {
@@ -4843,6 +4859,10 @@ details > summary {
     min-width: min-content;
   }
 
+  .md\:max-w-2xl {
+    max-width: 42rem;
+  }
+
   .md\:max-w-\[120px\] {
     max-width: 120px;
   }
@@ -4963,10 +4983,6 @@ details > summary {
     padding-top: 4rem;
   }
 
-  .md\:pt-8 {
-    padding-top: 2rem;
-  }
-
   .md\:text-4xl {
     font-size: 2.25rem;
     line-height: 2.5rem;
@@ -4994,10 +5010,6 @@ details > summary {
 
   .lg\:ml-0 {
     margin-left: 0px;
-  }
-
-  .lg\:ml-\[200px\] {
-    margin-left: 200px;
   }
 
   .lg\:\!hidden {
@@ -5084,6 +5096,10 @@ details > summary {
     padding-right: 2rem;
   }
 
+  .lg\:pt-8 {
+    padding-top: 2rem;
+  }
+
   .lg\:text-4xl {
     font-size: 2.25rem;
     line-height: 2.5rem;
@@ -5105,6 +5121,10 @@ details > summary {
 
   .xl\:col-span-1 {
     grid-column: span 1 / span 1;
+  }
+
+  .xl\:ml-\[200px\] {
+    margin-left: 200px;
   }
 
   .xl\:grid-cols-3 {

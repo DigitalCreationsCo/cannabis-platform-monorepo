@@ -11,6 +11,7 @@ import CheckAgeModal from './CheckAgeModal';
 import CheckoutModal from './CheckoutModal';
 import EmailModal from './EmailModal';
 import LoginModal from './LoginModal/LoginModal';
+import MessageModal from './MessageModal';
 import NewDailyDealModal from './NewDailyDealModal';
 import StoreFrontModal from './StoreFrontModal';
 // import ConfirmModal from "./ConfirmModal";
@@ -20,7 +21,7 @@ import StoreFrontModal from './StoreFrontModal';
 // import TipModal from "./TipModal";
 
 const MODAL_COMPONENTS = Object.freeze({
-	SHOW_MODAL: () => <></>,
+	SHOW_MODAL: MessageModal,
 	CONFIRM_MODAL: () => <></>,
 	SELECT_MODAL: () => <></>,
 	TIP_MODAL: () => <></>,

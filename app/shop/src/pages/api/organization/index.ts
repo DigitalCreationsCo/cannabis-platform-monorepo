@@ -5,6 +5,7 @@ import {
 	findOrganizationsByZipcode,
 	type OrganizationWithShopDetails,
 	type OrganizationCreateType,
+	dispensaries,
 } from '@cd/data-access';
 import clientPromise from '@cd/data-access/src/db/mongo';
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -12,7 +13,6 @@ import Supertokens from 'supertokens-node';
 import { superTokensNextWrapper } from 'supertokens-node/nextjs';
 import { verifySession } from 'supertokens-node/recipe/session/framework/express';
 import { backendConfig } from '../../../config/backendConfig';
-import { dispensaries } from '../../../data/dispensaries';
 // import { EmailService } from '@cd/core-lib/src/lib/email/EmailService';
 
 Supertokens.init(backendConfig());
