@@ -96,9 +96,11 @@ function DailyDealsPage(props: DashboardProps) {
 								<Paragraph>
 									{deal.title}
 									<br />
-									{`starts ${showTime(deal.startTime)} ${showDay(
-										deal.startTime,
-									)}`}
+									{deal.startTime
+										? `starts ${showTime(deal.startTime)} ${showDay(
+												deal.startTime,
+										  )}`
+										: null}
 								</Paragraph>
 								<FlexBox>
 									<Paragraph className="text-red-800">
@@ -331,8 +333,8 @@ function SendDailyDealsInviteForm({
 				<div className="border w-full"></div>
 				<Grid className="grid-cols-2 max-w-lg gap-2 row-span-2">
 					<Paragraph className="font-semibold col-span-2 row-span-1 row-start-1">
-						Here's your message to the customer. The customer must reply YES to
-						join your daily deals program.
+						{`Invited customers will receive this message. 
+						The customer must reply YES to join your daily deals program.`}
 					</Paragraph>
 					<TextArea
 						containerClassName={'flex-1 row-start-2 col-span-2'}

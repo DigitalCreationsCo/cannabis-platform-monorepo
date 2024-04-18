@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { axios, selectDispensaryState, urlBuilder } from '@cd/core-lib';
+import { type DailyDealCreateWithSkus } from '@cd/data-access';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
@@ -35,23 +36,29 @@ function NewDailyDealModal({
 	};
 
 	const [loadingButton, setLoadingButton] = useState(false);
-	const [addProduct, setAddProduct] = useState<{
-		sku: string;
-		quantity: number;
-		isDiscount: boolean;
-		discount: number;
-		organizationId: string;
-	}>({
-		sku: '',
-		quantity: 1,
-		isDiscount: false,
-		discount: 0,
-		organizationId: dispensaryId,
-	});
+	// const [addProduct, setAddProduct] = useState<{
+	// 	sku: string;
+	// 	quantity: number;
+	// 	isDiscount: boolean;
+	// 	discount: number;
+	// 	organizationId: string;
+	// }>({
+	// 	sku: '',
+	// 	quantity: 1,
+	// 	isDiscount: false,
+	// 	discount: 0,
+	// 	organizationId: dispensaryId,
+	// });
 
 	const dailyDealSchema = yup.object().shape({
 		title: yup.string().required('Add a title'),
 		message: yup.string().required('Add a message'),
+		// require schedule if doesRepeat is true
+		schedule: yup.string().when('doesRepeat', {
+			is: true,
+			then: yup.string().required('Add a schedule'),
+			otherwise: yup.string(),
+		}),
 		// startTime: yup.string().required('Add a start time'),
 		// endtime must be after the current time
 		// endTime: yup
@@ -81,21 +88,19 @@ function NewDailyDealModal({
 	} = useFormik({
 		initialValues: {
 			title: '',
-			description: '',
-			// startTime: new Date(),
-			// endTime: new Date(new Date().setHours(23, 0, 0, 0)),
+			message: '',
+			startTime: null,
+			endTime: null,
 			doesRepeat: false,
 			schedule: '',
 			organizationId: dispensaryId,
-			products: [],
-			organization: dispensary,
-		}, // as DailyDealCreateWithSkus,
+		},
 		async onSubmit() {
 			try {
 				setLoadingButton(true);
 				const response = await axios.post(
 					urlBuilder.dashboard + '/api/daily-deals',
-					{ ...values, organization: dispensary },
+					values,
 				);
 
 				if (response.data.success === 'false') {
@@ -118,11 +123,7 @@ function NewDailyDealModal({
 	function notifyValidation() {
 		validateForm().then((errors) => {
 			if (errors && Object.values(errors).length > 0) {
-				toast.error(
-					errors.description! ||
-						errors.title! ||
-						errors.products![0].toString(),
-				);
+				toast.error(errors.message! || errors.title!);
 			}
 		});
 	}
@@ -305,7 +306,7 @@ function NewDailyDealModal({
 						</FlexBox> */}
 						<TextField
 							containerClassName="m-auto lg:flex-col lg:items-start"
-							className="my-2 border text-center"
+							className="my-2 border"
 							autoComplete="off"
 							type="text"
 							name="title"
@@ -318,16 +319,16 @@ function NewDailyDealModal({
 						/>
 						<TextArea
 							containerClassName="m-auto lg:flex-col lg:items-start"
-							className="my-2 border text-center m-auto lg:flex-col lg:items-start"
+							className="my-2 border m-auto lg:flex-col lg:items-start"
 							autoComplete="off"
 							name="message"
 							label="Message"
 							placeholder=""
-							value={values?.description}
+							value={values?.message}
 							onBlur={handleBlur}
 							onChange={handleChange}
 							rows={6}
-							error={!!touched.description && !!errors.description}
+							error={!!touched.message && !!errors.message}
 						/>
 						<CheckBox
 							className="my-2 w-full bg-light accent-light px-2 pt-4"
@@ -338,7 +339,7 @@ function NewDailyDealModal({
 						/>
 						{(values.doesRepeat && (
 							<Cron
-								value={values.schedule}
+								value={values.schedule || ''}
 								setValue={(value: string) => {
 									setFieldValue('schedule', value);
 								}}

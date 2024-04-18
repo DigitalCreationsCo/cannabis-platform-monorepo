@@ -704,8 +704,10 @@ const orders: OrderWithFullDetails[] = [
 const dailyDealsCreate: DailyDealCreateWithSkus[] = [
 	{
 		title: 'Fire deals happening now',
-		description:
+		message:
 			"Warm up with these FIRE DEALS!! We're selling out fast! Get yours now!!",
+		doesRepeat: false,
+		schedule: null,
 		startTime: new Date(),
 		// end time is 24 hours from now
 		endTime: new Date(Date.now() + 24 * 60 * 60 * 1000),
@@ -727,8 +729,10 @@ const dailyDeals: DailyDeal[] = [
 	{
 		id: '1',
 		title: 'You dont want to miss this!',
-		description: "You dont want to miss this! Order before we're sold out!",
+		message: "You dont want to miss this! Order before we're sold out!",
 		isExpired: false,
+		doesRepeat: false,
+		schedule: null,
 		organizationId: 'bf346k4u7x2b2hhr6wsofppp',
 		startTime: new Date(),
 		// set date for tomorrow
@@ -755,7 +759,6 @@ const dailyDeals: DailyDeal[] = [
 		// 		updatedAt: new Date(),
 		// 	},
 		// ],
-		total: 19799,
 	},
 ];
 
