@@ -1,4 +1,7 @@
 /* eslint-disable sonarjs/no-small-switch */
+import slicktext, {
+	type CustomerSMSInvite,
+} from '@cd/core-lib/src/sms/slicktext';
 import { createCustomer } from '@cd/data-access';
 import { type NextApiRequest, type NextApiResponse } from 'next';
 import Supertokens from 'supertokens-node';
@@ -45,21 +48,12 @@ const handlePOST = async (req: any, res: any) => {
 			res,
 		);
 
-		const invite = req.body as {
-			email: string;
-			mobilePhone: string;
-			firstName: string;
-			lastName: string;
-			city?: string;
-			region?: string;
-			postalCode?: number;
-			subscribed: boolean;
-		};
+		const invite = req.body as CustomerSMSInvite;
 
 		const create = await createCustomer(invite);
 
-		// send invite via text message;
-		// handle opt-in subscribtion asynchronously
+		// send text message opt-in asynchronously
+		await slicktext.optInCustomer(invite);
 
 		return res.status(201).json({ success: 'true', payload: create });
 	} catch (error: any) {

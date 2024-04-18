@@ -116,15 +116,15 @@ const urlBuilder = {
 		connect: () => `${dispatchUrl}`,
 	},
 
-	sms: {
+	smsServer: {
 		baseUrl: smsUrl + '/api/v1',
 		dailyDealById: (id: string) =>
-			urlBuilder.sms.baseUrl + `/sms/daily-deals/${id}`,
+			urlBuilder.smsServer.baseUrl + `/sms/daily-deals/${id}`,
 		dailyDealsByOrganization: (id: string) =>
-			urlBuilder.sms.baseUrl + `/sms/daily-deals/organization/${id}`,
-		dailyDeal: () => urlBuilder.sms.baseUrl + `/sms/daily-deals`,
+			urlBuilder.smsServer.baseUrl + `/sms/daily-deals/organization/${id}`,
+		dailyDeal: () => urlBuilder.smsServer.baseUrl + `/sms/daily-deals`,
 		dailyDealSmsResponse: () =>
-			urlBuilder.sms.baseUrl + `/sms/daily-deal-sms-response`,
+			urlBuilder.smsServer.baseUrl + `/sms/daily-deal-sms-response`,
 	},
 
 	dailyStory: {
@@ -155,6 +155,10 @@ const urlBuilder = {
 			urlBuilder.dailyStory.baseUrl +
 			`/api/v1/email/transactional/?dsid=${dsid}&email=${email}`,
 		createOrEditLead: () => urlBuilder.dailyStory.baseUrl + `/api/v1/lead/`,
+	},
+
+	slickText: {
+		baseUrl: process.env.NEXT_PUBLIC_SLICKTEXT_API_URL,
 	},
 
 	freshSales: {

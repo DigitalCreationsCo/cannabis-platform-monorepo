@@ -6,7 +6,7 @@ import { H1, Paragraph } from './Typography';
 
 export interface PageHeaderProps extends PropsWithChildren {
 	title?: string;
-	subTitle?: string;
+	subTitle?: any;
 	navigation?: any;
 	Button?: any;
 	Icon?: any;

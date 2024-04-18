@@ -17,10 +17,11 @@ function Page({
 	type Styles = (string | string[])[];
 	const styles: Styles = Object.values({
 		page: [
+			'p-2',
 			'bg-inverse-soft',
 			'flex flex-col grow',
 			// 'min-w-screen',
-			'md:pt-8 pb-24',
+			'lg:pt-8 pb-24',
 			'lg:px-16',
 			'min-h-[440px]',
 		],

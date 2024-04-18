@@ -1,21 +1,21 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { axios, selectDispensaryState, urlBuilder } from '@cd/core-lib';
-import { type DailyDealCreateWithSkus } from '@cd/data-access';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
+import { Cron } from 'react-js-cron';
 import { useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 import { Button } from '../button';
 import Center from '../Center';
 import CheckBox from '../CheckBox';
-import FlexBox from '../FlexBox';
 import Grid from '../Grid';
 import TextArea from '../TextArea';
 import TextField from '../TextField';
 import { H2, Paragraph } from '../Typography';
 import Modal from './Modal';
+import 'react-js-cron/dist/styles.css';
 
 interface NewDailyDealModalProps {
 	dispatchCloseModal: () => void;
@@ -32,16 +32,6 @@ function NewDailyDealModal({
 
 	const closeModalAndReset = () => {
 		dispatchCloseModal();
-	};
-
-	const initialValues: DailyDealCreateWithSkus = {
-		title: '',
-		description: '',
-		startTime: new Date(),
-		endTime: new Date(new Date().setHours(23, 0, 0, 0)),
-		organizationId: dispensaryId,
-		products: [],
-		organization: dispensary,
 	};
 
 	const [loadingButton, setLoadingButton] = useState(false);
@@ -61,22 +51,22 @@ function NewDailyDealModal({
 
 	const dailyDealSchema = yup.object().shape({
 		title: yup.string().required('Add a title'),
-		description: yup.string().required('Add a description'),
-		startTime: yup.string().required('Add a start time'),
+		message: yup.string().required('Add a message'),
+		// startTime: yup.string().required('Add a start time'),
 		// endtime must be after the current time
-		endTime: yup
-			.string()
-			.required('Add an end time')
-			.test(
-				'is-in-the-future',
-				'End time must be after current time',
-				(value) => {
-					const now = new Date();
-					const endTime = new Date(value!);
-					return endTime > now;
-				},
-			),
-		products: yup.array().required('Add at least one product sku'),
+		// endTime: yup
+		// 	.string()
+		// 	.required('Add an end time')
+		// 	.test(
+		// 		'is-in-the-future',
+		// 		'End time must be after current time',
+		// 		(value) => {
+		// 			const now = new Date();
+		// 			const endTime = new Date(value!);
+		// 			return endTime > now;
+		// 		},
+		// 	),
+		// products: yup.array().required('Add at least one product sku'),
 	});
 
 	const {
@@ -87,9 +77,41 @@ function NewDailyDealModal({
 		handleChange,
 		handleSubmit,
 		validateForm,
+		setFieldValue,
 	} = useFormik({
-		initialValues,
-		onSubmit,
+		initialValues: {
+			title: '',
+			description: '',
+			// startTime: new Date(),
+			// endTime: new Date(new Date().setHours(23, 0, 0, 0)),
+			doesRepeat: false,
+			schedule: '',
+			organizationId: dispensaryId,
+			products: [],
+			organization: dispensary,
+		}, // as DailyDealCreateWithSkus,
+		async onSubmit() {
+			try {
+				setLoadingButton(true);
+				const response = await axios.post(
+					urlBuilder.dashboard + '/api/daily-deals',
+					{ ...values, organization: dispensary },
+				);
+
+				if (response.data.success === 'false') {
+					throw new Error(response.data.error || 'Error creating daily deal');
+				}
+
+				toast.success('Saved.');
+				setLoadingButton(false);
+				closeModalAndReset();
+				window.location.reload();
+			} catch (error: any) {
+				console.error(error);
+				setLoadingButton(false);
+				toast.error(error.message);
+			}
+		},
 		validationSchema: dailyDealSchema,
 	});
 
@@ -105,29 +127,6 @@ function NewDailyDealModal({
 		});
 	}
 
-	async function onSubmit() {
-		try {
-			setLoadingButton(true);
-			const response = await axios.post(
-				urlBuilder.dashboard + '/api/daily-deals',
-				{ ...values, organization: dispensary },
-			);
-
-			if (response.data.success === 'false') {
-				throw new Error(response.data.error || 'Error creating daily deal');
-			}
-
-			toast.success('Saved.');
-			setLoadingButton(false);
-			closeModalAndReset();
-			window.location.reload();
-		} catch (error: any) {
-			console.error(error);
-			setLoadingButton(false);
-			toast.error(error.message);
-		}
-	}
-
 	const [openModal, setOpenModal] = useState(false);
 	useEffect(() => {
 		setOpenModal(modalVisible);
@@ -139,16 +138,17 @@ function NewDailyDealModal({
 			className={twMerge(styles.responsive, 'flex flex-col')}
 			modalVisible={openModal}
 			onClose={closeModalAndReset}
+			disableClickOutside={values.doesRepeat}
 			{...props}
 		>
 			<Grid className="relative space-y-2 m-auto">
 				<Center className="m-auto pb-8">
 					<H2>New Daily Deal</H2>
-					<Paragraph className="mb-2">
-						{`Your customers will get daily deals via text message.`}
+					<Paragraph className="my-2">
+						{`Promote your business via text message.`}
 					</Paragraph>
 					<Grid>
-						{values.products.length > 0 ? (
+						{/* {values.products.length > 0 ? (
 							values.products.map((sku, index) => (
 								<div
 									key={`product-${index}`}
@@ -211,8 +211,9 @@ function NewDailyDealModal({
 							<Paragraph className="text-left">
 								Your deal needs products. Add a sku.
 							</Paragraph>
-						)}
-						<FlexBox className="my-4 bg-light rounded shadow-inner border justify-start p-1 border-primary items-start justify-content-start content-start place-content-start">
+						)} */}
+
+						{/* <FlexBox className="my-4 bg-light rounded shadow-inner border justify-start p-1 border-primary items-start justify-content-start content-start place-content-start">
 							<TextField
 								containerClassName="lg:flex-col lg:items-start"
 								className="my-2 border text-center"
@@ -301,14 +302,14 @@ function NewDailyDealModal({
 									+
 								</Button>
 							</FlexBox>
-						</FlexBox>
+						</FlexBox> */}
 						<TextField
 							containerClassName="m-auto lg:flex-col lg:items-start"
 							className="my-2 border text-center"
 							autoComplete="off"
 							type="text"
 							name="title"
-							label="title"
+							label="Title"
 							placeholder=""
 							value={values.title}
 							onBlur={handleBlur}
@@ -319,15 +320,32 @@ function NewDailyDealModal({
 							containerClassName="m-auto lg:flex-col lg:items-start"
 							className="my-2 border text-center m-auto lg:flex-col lg:items-start"
 							autoComplete="off"
-							name="description"
-							label="description"
+							name="message"
+							label="Message"
 							placeholder=""
 							value={values?.description}
 							onBlur={handleBlur}
 							onChange={handleChange}
+							rows={6}
 							error={!!touched.description && !!errors.description}
 						/>
-						<TextField
+						<CheckBox
+							className="my-2 w-full bg-light accent-light px-2 pt-4"
+							name="doesRepeat"
+							onChange={handleChange}
+							checked={values.doesRepeat}
+							label={values.doesRepeat ? 'Does Repeat' : 'Does Not Repeat'}
+						/>
+						{(values.doesRepeat && (
+							<Cron
+								value={values.schedule}
+								setValue={(value: string) => {
+									setFieldValue('schedule', value);
+								}}
+								mode="single"
+							/>
+						)) || <></>}
+						{/* <TextField
 							containerClassName="m-auto lg:flex-col lg:items-start"
 							className="my-2 border text-center"
 							autoComplete="off"
@@ -352,7 +370,7 @@ function NewDailyDealModal({
 							onBlur={handleBlur}
 							onChange={handleChange}
 							error={!!touched.endTime && !!errors.endTime}
-						/>
+						/> */}
 						<Button
 							loading={loadingButton}
 							className="place-self-center mt-2 p-2"
@@ -379,5 +397,5 @@ export default NewDailyDealModal;
 
 const styles = {
 	responsive:
-		'min-w-full min-h-screen sm:!rounded-none md:min-w-min md:min-h-min md:!rounded px-0 py-8 lg:ml-[200px]',
+		'w-full md:max-w-2xl min-h-screen sm:!rounded-none md:min-h-min md:!rounded px-0 py-8 xl:ml-[200px] bg-light',
 };

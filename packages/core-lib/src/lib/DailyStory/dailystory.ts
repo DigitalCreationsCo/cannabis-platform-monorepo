@@ -37,6 +37,11 @@ class SMSModule {
 			console.error('dailystory.send: ', error);
 		}
 	}
+
+	async optInCustomer() {
+		// not implemented
+		return null;
+	}
 }
 
 /**
