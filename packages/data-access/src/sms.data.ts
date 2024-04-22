@@ -50,14 +50,15 @@ export async function createDailyDeal(
 		return await prisma.dailyDeal.create({
 			data: {
 				title: deal.title,
-				description: deal.description,
-				total: deal.total,
-				startTime: new Date(deal.startTime),
-				endTime: new Date(deal.endTime),
+				message: deal.message,
+				// startTime: new Date(deal.startTime),
+				// endTime: new Date(deal.endTime),
 				organizationId: deal.organizationId,
-				products: {
-					connect: [...deal.products.map((p) => ({ id: p.id }))],
-				},
+				doesRepeat: deal.doesRepeat,
+				schedule: deal.schedule,
+				// products: {
+				// 	connect: [...deal.products.map((p) => ({ id: p.id }))],
+				// },
 			},
 			// include: {
 			// 	organization: {
@@ -135,8 +136,4 @@ export type DailyDealCreateWithSkus = Omit<
 	'products' | 'id' | 'isExpired' | 'total'
 > & {
 	organization: OrganizationWithOrderDetails;
-	products: Pick<
-		ProductVariant,
-		'sku' | 'quantity' | 'organizationId' | 'isDiscount' | 'discount'
-	>[];
 };

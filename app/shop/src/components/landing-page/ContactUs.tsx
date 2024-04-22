@@ -32,12 +32,18 @@ export type ContactUsFormResponse = {
 	city: string;
 	state: USStateAbbreviated | undefined;
 	zipcode: number | undefined;
-	message: string;
+	whichServiceInterestedIn:
+		| ''
+		| 'Delivery Management'
+		| 'Delivery Service'
+		| 'Consumer Messaging';
 	howDidYouHearAboutUs:
+		| ''
 		| 'Linkedin'
 		| 'recommended by a colleague'
 		| 'search'
 		| 'other';
+	message: string;
 	allowProcessResponse: boolean;
 	subscribeCannabisInsiderNewsletter: boolean;
 	title: string;
@@ -50,6 +56,7 @@ const howDidYouHearAboutUsOptions: {
 	value: ContactUsFormResponse['howDidYouHearAboutUs'];
 	label: string;
 }[] = [
+	{ value: '', label: '' },
 	{ value: 'Linkedin', label: 'Linkedin' },
 	{ value: 'recommended by a colleague', label: 'recommended by a colleague' },
 	{ value: 'search', label: 'search' },
@@ -67,7 +74,8 @@ export default function ContactUsForm() {
 		state: undefined,
 		zipcode: undefined,
 		message: '',
-		howDidYouHearAboutUs: 'Linkedin',
+		howDidYouHearAboutUs: '',
+		whichServiceInterestedIn: '',
 		allowProcessResponse: false,
 		subscribeCannabisInsiderNewsletter: false,
 		title: '',
@@ -97,23 +105,34 @@ export default function ContactUsForm() {
 			city: yup.string().required('City is required'),
 			state: yup.string().required('State is required'),
 			zipcode: yup.string().required('Zipcode is required'),
-			message: yup.string().required('Message is required'),
+			message: yup.string(),
 			howDidYouHearAboutUs: yup
 				.string()
-				.oneOf(
-					howDidYouHearAboutUsOptions.map(({ value }) => value),
-					'Please select an option',
-				)
-				.required('Please select an option'),
+				.required('How did you hear about Gras?'),
 			allowProcessResponse: yup.boolean().isTrue('Please agree to the terms'),
 			title: yup.string().required('Title is required'),
 			company: yup.string().required('Company is required'),
-			serviceAreaRange: yup
-				.number()
-				.required('How many miles from your store do you want to deliver?'),
-			weeklyDeliveries: yup
-				.number()
-				.required('How many orders do you expect to deliver per week?'),
+			whichServiceInterestedIn: yup
+				.string()
+				.oneOf(
+					['Delivery Management', 'Delivery Service', 'Consumer Messaging'],
+					'Which service are you interested in?',
+				)
+				.required('Which service are you interested in?'),
+			serviceAreaRange: yup.number().when('whichServiceInterestedIn', {
+				is: (value: any) => {
+					value?.includes('Delivery') || false;
+				},
+				then: yup.number().required('How many miles do you want to deliver?'),
+			}),
+			weeklyDeliveries: yup.number().when('whichServiceInterestedIn', {
+				is: (value: any) => {
+					value?.includes('Delivery') || false;
+				},
+				then: yup
+					.number()
+					.required('How many orders do you expect to deliver?'),
+			}),
 		}),
 	});
 	function notifyValidation() {
@@ -136,12 +155,11 @@ export default function ContactUsForm() {
 				headers: { ...applicationHeaders },
 			});
 
-			console.info('Contact Us: ', response.data);
 			if (!response.data.success || response.data.success === 'false')
 				throw new Error(response.data.error);
 
 			toast.success(
-				'Thank you for submitting a request for partnership. You will receive a response from our team within 24 hours.',
+				'Your request is submitted. Our team will reach out within 1 business day.',
 				{
 					duration: 5000,
 				},
@@ -149,7 +167,6 @@ export default function ContactUsForm() {
 			setLoadingButton(false);
 			resetForm({ values: initialValues });
 		} catch (error: any) {
-			console.error('Contact Us: ', error);
 			setLoadingButton(false);
 			toast.error(error.message);
 		}
@@ -165,7 +182,7 @@ export default function ContactUsForm() {
 				<div className="pb-12 text-2xl text-dark max-w-full col-span-full mx-auto">
 					<Paragraph
 						className={twMerge(
-							'leading-loose mb-2 max-w-md md:max-w-full text-2xl mx-auto md:mx-0 md:my-6 md:text-3xl',
+							'leading-loose mb-2 max-w-md md:max-w-full text-2xl mx-auto md:mx-0 md:my-6',
 						)}
 					>
 						We deliver your business to more people, online and outside.
@@ -182,17 +199,17 @@ export default function ContactUsForm() {
 				>
 					<FlexBox className="flex-row">
 						<Image
-							width={200}
-							height={200}
+							width={170}
+							height={170}
 							className="rounded-full"
 							src={require('../../../public/founder.jpg')}
 							alt={'founder'}
 						/>
 						<FlexBox className="ml-8 flex-col self-center">
-							<Paragraph className="text-3xl font-semibold mb-1">
+							<Paragraph className="text-2xl font-semibold mb-1">
 								Bryant Mejia
 							</Paragraph>
-							<Paragraph className="text-primary text-3xl">
+							<Paragraph className="text-primary text-2xl">
 								Founder of Gras
 							</Paragraph>
 						</FlexBox>
@@ -218,7 +235,6 @@ export default function ContactUsForm() {
 							containerClassName="px-2 col-span-1"
 							name="firstName"
 							label=" first name"
-							placeholder="first name"
 							value={values?.firstName}
 							onBlur={handleBlur}
 							onChange={handleChange}
@@ -229,7 +245,6 @@ export default function ContactUsForm() {
 							containerClassName="px-2 col-span-1"
 							name="lastName"
 							label=" last name"
-							placeholder="last name"
 							value={values?.lastName}
 							onBlur={handleBlur}
 							onChange={handleChange}
@@ -241,7 +256,6 @@ export default function ContactUsForm() {
 							containerClassName="px-2 col-span-2 lg:col-span-1"
 							name="email"
 							label="email"
-							placeholder="your email address"
 							value={values?.email}
 							onBlur={handleBlur}
 							onChange={handleChange}
@@ -251,7 +265,6 @@ export default function ContactUsForm() {
 							containerClassName="px-2 xl:col-span-1"
 							name="company"
 							label=" company"
-							placeholder="company"
 							value={values?.company}
 							onBlur={handleBlur}
 							onChange={handleChange}
@@ -261,7 +274,6 @@ export default function ContactUsForm() {
 							containerClassName="px-2 xl:col-span-1"
 							name="title"
 							label=" title"
-							placeholder="title"
 							value={values.title}
 							onBlur={handleBlur}
 							onChange={handleChange}
@@ -273,7 +285,6 @@ export default function ContactUsForm() {
 							type="tel"
 							name="phone"
 							label="phone"
-							placeholder="phone"
 							value={values?.phone}
 							onBlur={handleBlur}
 							onChange={handleChange}
@@ -283,7 +294,6 @@ export default function ContactUsForm() {
 							containerClassName="px-2 xl:col-span-1"
 							name="city"
 							label=" city"
-							placeholder="city"
 							value={values.city}
 							onBlur={handleBlur}
 							onChange={handleChange}
@@ -304,7 +314,6 @@ export default function ContactUsForm() {
 							containerClassName="px-2 xl:col-span-1"
 							name="zipcode"
 							label=" zipcode"
-							placeholder="zipcode"
 							type="number"
 							value={values.zipcode}
 							onBlur={handleBlur}
@@ -312,64 +321,90 @@ export default function ContactUsForm() {
 							error={!!touched.zipcode && !!errors.zipcode}
 							helperText={touched.zipcode && errors.zipcode}
 						/>
-						<TextField
-							containerClassName="px-2 col-span-2"
-							name="serviceAreaRange"
-							type="number"
-							label="How many miles from your store do you want to deliver?"
-							placeholder=""
-							value={values.serviceAreaRange as number}
+
+						<Select
+							values={[
+								'',
+								'Delivery Management',
+								'Delivery Service',
+								'Consumer Messaging',
+							]}
+							containerClassName="p-2 xl:col-span-2"
+							name="whichServiceInterestedIn"
+							label="Which of our services are you most interested in?"
+							defaultValue={''}
+							value={values?.whichServiceInterestedIn}
 							onBlur={handleBlur}
-							onChange={handleChange}
-							error={!!touched.serviceAreaRange && !!errors.serviceAreaRange}
-							helperText={touched.serviceAreaRange && errors.serviceAreaRange}
+							setOption={handleChange}
 						/>
-						<TextField
-							containerClassName="px-2 col-span-2"
-							type="number"
-							name="weeklyDeliveries"
-							placeholder=""
-							label="How many orders do you expect to deliver per week?"
-							value={values.weeklyDeliveries as number}
-							onBlur={handleBlur}
-							onChange={handleChange}
-							error={!!touched.weeklyDeliveries && !!errors.weeklyDeliveries}
-							helperText={touched.weeklyDeliveries && errors.weeklyDeliveries}
-						/>
-						<TextArea
-							rows={4}
-							containerClassName="px-2 col-span-2"
-							name="message"
-							label=" message"
-							placeholder="Tell us anything else you'd like us to know."
-							value={values?.message}
-							onBlur={handleBlur}
-							onChange={handleChange}
-							error={!!touched.message && !!errors.message}
-						/>
+						{values.whichServiceInterestedIn.includes('Delivery') && (
+							<>
+								<TextField
+									containerClassName="px-2 col-span-2"
+									name="serviceAreaRange"
+									type="number"
+									label="How many miles from your store do you want to deliver?"
+									value={values.serviceAreaRange as number}
+									onBlur={handleBlur}
+									onChange={handleChange}
+									error={
+										!!touched.serviceAreaRange && !!errors.serviceAreaRange
+									}
+									helperText={
+										touched.serviceAreaRange && errors.serviceAreaRange
+									}
+								/>
+								<TextField
+									containerClassName="px-2 col-span-2"
+									type="number"
+									name="weeklyDeliveries"
+									label="How many orders do you expect to deliver per week?"
+									value={values.weeklyDeliveries as number}
+									onBlur={handleBlur}
+									onChange={handleChange}
+									error={
+										!!touched.weeklyDeliveries && !!errors.weeklyDeliveries
+									}
+									helperText={
+										touched.weeklyDeliveries && errors.weeklyDeliveries
+									}
+								/>
+							</>
+						)}
 						<Select
 							values={howDidYouHearAboutUsOptions.map(({ value }) => value)}
 							containerClassName="p-2 xl:col-span-2"
 							name="howDidYouHearAboutUs"
 							label="How did you hear about us?"
-							placeholder="howDidYouHearAboutUs"
+							defaultValue={''}
 							value={values?.howDidYouHearAboutUs}
 							onBlur={handleBlur}
 							setOption={handleChange}
+						/>
+						<TextArea
+							rows={4}
+							containerClassName="px-2 col-span-2"
+							name="message"
+							label="Tell us anything else you'd like us to know."
+							value={values?.message}
+							onBlur={handleBlur}
+							onChange={handleChange}
+							error={!!touched.message && !!errors.message}
 						/>
 						<CheckBox
 							className="px-2 pt-4 w-full col-span-full"
 							name={'allowProcessResponse'}
 							onChange={handleChange}
 							checked={values.allowProcessResponse}
-							label="You agree to allow us to store your contact information. Gras will only use your contact info to communicate with your business."
+							label={`You allow us to store your contact information. 
+							Gras will only use your info to message your business`}
 						/>
 						<CheckBox
 							className="px-2 pt-4 w-full col-span-full"
 							name={'subscribeCannabisInsiderNewsletter'}
 							onChange={handleChange}
 							checked={values.subscribeCannabisInsiderNewsletter}
-							label="Subscribe to CANNABIS INSIDER, our business email newsletter."
+							label="Subscribe to our business email newsletter for industry trends"
 						/>
 						<div className="mt-16 col-span-2 place-self-center mx-2">
 							<Button

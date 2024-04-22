@@ -1,5 +1,6 @@
 import { Grid, Paragraph } from '@cd/ui-lib';
 import Image from 'next/image';
+import { type HTMLAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { type Partner } from './partners-data';
 
@@ -8,14 +9,16 @@ function Partners({
 	partners,
 	title,
 	className,
+	...props
 }: {
 	scaleOnHover?: boolean;
 	title: string;
 	partners: Partner[];
 	className?: string;
-}) {
+} & HTMLAttributes<HTMLDivElement>) {
 	return (
 		<div
+			{...props}
 			className={twMerge(
 				'py-16',
 				'bg-gradient-to-b from-10% from-inverse-soft to-inverse',

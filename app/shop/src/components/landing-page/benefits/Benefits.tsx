@@ -18,12 +18,16 @@ interface BenefitsProps extends HTMLAttributes<HTMLDivElement> {
 	data: BenefitData;
 	imagePosition?: 'left' | 'right';
 	orientation?: 'row' | 'col';
+	values?: number[];
+	valueColor?: string;
 }
 
 export default function Benefits({
 	data,
 	imagePosition = 'right',
 	orientation: ornt = 'row',
+	values,
+	valueColor = 'text-dark',
 	...props
 }: BenefitsProps) {
 	const orientation = ornt === 'row' ? 'flex-row' : 'flex-col';
@@ -32,7 +36,7 @@ export default function Benefits({
 			id={props.id}
 			className={twMerge(
 				'relative bg-inverse',
-				'py-20',
+				'py-20 pb-28',
 				'gap-8',
 				`${data.image && imagePosition === 'right' ? 'lg:justify-end' : ''}`,
 				props.className,
@@ -60,7 +64,7 @@ export default function Benefits({
 				)}
 				<FlexBox
 					className={twMerge(
-						'flex flex-col lg:flex-row flex-wrap items-center justify-center gap-8 py-4',
+						'flex flex-col lg:flex-row flex-wrap items-center justify-center gap-8 py-8',
 					)}
 				>
 					{data.bullets.length > 0 && (
@@ -77,6 +81,8 @@ export default function Benefits({
 									title={item.title}
 									icon={item.icon}
 									description={item.description}
+									value={values && values[index]}
+									valueColor={valueColor}
 								/>
 							))}
 						</FlexBox>
@@ -89,7 +95,8 @@ export default function Benefits({
 							}`}
 						>
 							<Image
-								className="bg-inverse shadow-lg rounded w-lg"
+								height={400}
+								className="bg-inverse shadow-lg rounded object-cover"
 								src={data.image}
 								alt="Benefits"
 								placeholder="blur"
@@ -97,25 +104,33 @@ export default function Benefits({
 							/>
 						</div>
 					)}
-					{props.children}
 				</FlexBox>
+				{props.children}
 				{(data.cta && <CTA2XMyBusiness cta={data.cta} />) || <></>}
 			</FlexBox>
 		</div>
 	);
 }
 
-export function Benefit(props: BenefitData['bullets'][number]) {
+export function Benefit(
+	props: BenefitData['bullets'][number] & {
+		value?: number;
+		valueColor?: string;
+	},
+) {
 	return (
 		<div className="m-auto w-full flex flex-col max-w-[440px] px-2 items-center space-x-3">
-			<H5 className="text-xl text-center whitespace-nowrap font-medium ">
-				{props.title}
-			</H5>
 			<FlexBox className="w-full flex-row items-center gap-4">
 				<div className="flex h-11 w-11 shadow-lg shrink-0 items-center justify-center rounded-md bg-orange-300">
 					<IconWrapper iconSize={32} Icon={props.icon} />
 				</div>
 				<div>
+					<H5 className="text-2xl whitespace-nowrap font-semibold">
+						{props.title}
+						<span className={props.valueColor}>
+							{props.value && ` ($${props.value} value)`}
+						</span>
+					</H5>
 					{props.description && (
 						<Paragraph className="text-dark mt-1 text-2xl">
 							{props.description}

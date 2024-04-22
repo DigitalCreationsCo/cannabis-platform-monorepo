@@ -36,11 +36,12 @@ function NewDailyDealModal({
 
 	const initialValues: DailyDealCreateWithSkus = {
 		title: '',
-		description: '',
+		message: '',
+		doesRepeat: false,
+		schedule: '',
 		startTime: new Date(),
 		endTime: new Date(new Date().setHours(23, 0, 0, 0)),
 		organizationId: dispensaryId,
-		products: [],
 		organization: dispensary,
 	};
 

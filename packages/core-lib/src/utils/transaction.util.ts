@@ -277,49 +277,44 @@ function multiplyAllItemsForOrder(items: ProductVariant[], numOrders: number) {
 	});
 }
 
-async function getDailyDealProductsAndCalculateTotal(
-	deal: DailyDealCreateWithSkus,
-) {
-	if (
-		!deal.products.length ||
-		deal.products.length === 0 ||
-		!deal.products[0].sku
-	) {
-		throw new Error('No products were provided');
-	}
+// async function getDailyDealProductsAndCalculateTotal(
+// 	deal: DailyDealCreateWithSkus,
+// ) {
+// 	if (
+// 		!deal.products.length ||
+// 		deal.products.length === 0 ||
+// 		!deal.products[0].sku
+// 	) {
+// 		throw new Error('No products were provided');
+// 	}
 
-	if (!deal.organization) {
-		throw new Error('No organization was provided');
-	}
+// 	if (!deal.organization) {
+// 		throw new Error('No organization was provided');
+// 	}
 
-	const { products: skus } = deal;
-	const posIntegration = await (
-		await import('../point-of-sale/IntegrationService')
-	).IntegrationService.getPOSIntegrationService(deal.organization.pos);
+// 	const { products: skus } = deal;
+// 	const posIntegration = await (
+// 		await import('../point-of-sale/IntegrationService')
+// 	).IntegrationService.getPOSIntegrationService(deal.organization.pos);
 
-	// fetch products from integrated point of sale
-	const products = (await Promise.all(
-		skus.map(async ({ sku }) => {
-			return await posIntegration.getProduct(sku);
-		}),
-	)) as ProductVariantWithDetails[];
+// 	// fetch products from integrated point of sale
+// 	const products = (await Promise.all(
+// 		skus.map(async ({ sku }) => {
+// 			return await posIntegration.getProduct(sku);
+// 		}),
+// 	)) as ProductVariantWithDetails[];
 
-	const subtotal = calculateSubtotal(products);
-	const deliveryFee = calculateDeliveryFeeFromSubtotal(subtotal);
+// 	const subtotal = calculateSubtotal(products);
+// 	const deliveryFee = calculateDeliveryFeeFromSubtotal(subtotal);
 
-	const dealWithProducts: DailyDealWithProductDetails = {
-		...deal,
-		products,
-		total: calculateTransactionTotal({
-			subtotal,
-			deliveryFee,
-			mileageFee: 0, // mileage fee is calculated after the order is placed. The dispensary pays for this fee for daily deals.
-		}),
-		isExpired: false,
-	};
+// 	const dealWithProducts: DailyDealWithProductDetails = {
+// 		...deal,
+// 		products,
+// 		isExpired: false,
+// 	};
 
-	return dealWithProducts;
-}
+// 	return dealWithProducts;
+// }
 
 function calculateSubtotal(products: ProductVariantWithDetails[]) {
 	return products.reduce((sum, item) => {
@@ -374,7 +369,7 @@ export {
 	calculatePlatformFee,
 	buildOrderRecord,
 	multiplyAllItemsForOrder,
-	getDailyDealProductsAndCalculateTotal,
+	// getDailyDealProductsAndCalculateTotal,
 	calculateSubtotal,
 	calculateProductSaleAtQuantity,
 };
