@@ -20,22 +20,19 @@ function SignUpStart() {
 			<Grid>
 				<Padding>
 					<Center className="space-y-4">
-						<H1 className="text-primary font-display whitespace-pre-line text-center">
+						<H1 className="text-primary whitespace-pre-line text-center">
 							Welcome to Gras
 						</H1>
 						<FlexBox className="max-w-[400px]">
-							<Paragraph className="whitespace-pre-line">
-								To browse our site, you must be 21 years or older. Please sign
-								in.
+							<Paragraph className="text-xl">
+								To use our site, you must be 21 years or older.
 							</Paragraph>
 						</FlexBox>
 
 						<SignInButton size="lg" />
 
 						<FlexBox className="m-auto items-center space-y-2">
-							<H4 className="text-xl">
-								{TextContent.account.ARE_YOU_A_DISPENSARY}
-							</H4>
+							<H4 className="text-xl">Dispensaries, get started here.</H4>
 							<Link
 								href={getDashboardSite('/signup/create-dispensary-account')}
 							>
@@ -43,7 +40,7 @@ function SignUpStart() {
 									size="lg"
 									bg="primary"
 									transparent
-									className="hover:bg-primary-light p-4"
+									className="hover:bg-primary-light p-4 uppercase"
 								>
 									<Paragraph color="light">
 										{TextContent.account.CREATE_DISPENSARY_ACCOUNT}

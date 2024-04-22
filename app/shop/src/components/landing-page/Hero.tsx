@@ -10,7 +10,7 @@ import { recognizedBy } from './partners/partners-data';
 function Hero() {
 	const [heading, largeHeading] = [
 		'tracking-tight inline-block whitespace-pre-line font-bold text-secondary-light text-5xl md:text-6xl xl:text-6xl drop-shadow-[0px_1px_1px_#444444] md:drop-shadow-[0px_-2px_1px_#666666]',
-		'tracking-normal bg-clip-text text-transparent bg-gradient-to-b from-secondary-light to-primary-light inline whitespace-pre-line text-6xl font-bold md:text-7xl drop-shadow-[0px_3px_1px_#444444] lg:text-8xl xl:text-8xl md:drop-shadow-[2px_-9px_2px_#666666]',
+		'tracking-normal bg-clip-text text-transparent bg-gradient-to-b from-secondary-light to-primary-light inline whitespace-pre-line text-6xl font-bold md:text-7xl drop-shadow-[0px_3px_1px_#444444] lg:text-8xl xl:text-8xl md:drop-shadow-[1px_-5px_1px_#666666]',
 	];
 	return (
 		<section className={twMerge('bg-inverse-soft', 'pt-8 md:pt-16')}>
@@ -21,7 +21,7 @@ function Hero() {
 				)}
 			>
 				<H2 className={twMerge('font-black text-3xl text-dark')}>
-					ATTENTION DISPENSARY OWNERS IN NEW YORK CITY...
+					ATTENTION DISPENSARY OWNERS...
 				</H2>
 				{/* <H1 className={twMerge('pb-2', heading)}>Fast&nbsp;</H1>
 				<H1 className={heading}>and&nbsp;</H1>
@@ -40,15 +40,15 @@ function Hero() {
 			</div>
 			<div className="sm:my-0 mx-auto grid max-w-screen-xl p-6 place-self-center text-center gap-y-8 mt-0">
 				<Paragraph className="font-encode mx-auto tracking-wider max-w-lg xl:max-w-xl text-2xl xl:text-3xl whitespace-pre-line !leading-10">
-					<b className="text-primary">Delivery</b> and{' '}
-					<b className="text-primary">Customer Experience</b>
-					{'\n'}thats grow your sales by 20% in 100 days, and 2X sales in 1
+					Our <b className="text-primary">Delivery</b> and{' '}
+					<b className="text-primary">Customer Service </b>
+					experience grows your sales by 20% in 100 days, and 2X sales in 1
 					year.
 				</Paragraph>
 				<FlexBox className="items-center gap-4 sm:flex-row justify-center lg:gap-8">
 					<CTA2XMyBusiness />
 					<Link
-						href={'#benefit-1'}
+						href={'#letter-1'}
 						scroll={false}
 						className="w-[240px] placeholder:hover:scale-105 transition duration-200"
 					>
@@ -63,7 +63,12 @@ function Hero() {
 					</Link>
 				</FlexBox>
 			</div>
-			<Partners className="pb-12" title={''} partners={recognizedBy} />
+			<Partners
+				id="recognized-by-partners"
+				className="pb-12"
+				title={''}
+				partners={recognizedBy}
+			/>
 		</section>
 	);
 }

@@ -2,6 +2,7 @@ import { TextContent } from '@cd/core-lib';
 import { Button, FlexBox, GrasSignature, Paragraph, styles } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
+import { type HtmlHTMLAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../../public/logo.png';
 
@@ -10,9 +11,15 @@ export type TopBarProps = {
 	signOut: () => void;
 };
 
-export default function ServicesTopBar() {
+export default function ServicesTopBar({
+	className,
+	...props
+}: HtmlHTMLAttributes<HTMLDivElement>) {
 	return (
-		<div className={twMerge(styles.TOPBAR.topbar, 'shadow-none')}>
+		<div
+			className={twMerge(styles.TOPBAR.topbar, 'shadow-none', className)}
+			{...props}
+		>
 			<FlexBox>
 				<FlexBox className="flex-row items-center">
 					<Link href={'/'} className="z-50">
