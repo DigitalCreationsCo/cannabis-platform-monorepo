@@ -1,27 +1,24 @@
-import {
-	FlexBox,
-	H3,
-	Paragraph,
-	IconWrapper,
-	H5,
-	H4,
-	styles,
-} from '@cd/ui-lib';
+import { FlexBox, Paragraph, IconWrapper, H5, styles, H2 } from '@cd/ui-lib';
 import Image from 'next/image';
 import { type HTMLAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
+import { CTA2XMyBusiness } from '../index';
 import { type BenefitData } from './benefit-data';
 
 interface BenefitsProps extends HTMLAttributes<HTMLDivElement> {
 	data: BenefitData;
 	imagePosition?: 'left' | 'right';
 	orientation?: 'row' | 'col';
+	values?: number[];
+	valueColor?: string;
 }
 
 export default function Benefits({
 	data,
 	imagePosition = 'right',
 	orientation: ornt = 'row',
+	values,
+	valueColor = 'text-dark',
 	...props
 }: BenefitsProps) {
 	const orientation = ornt === 'row' ? 'flex-row' : 'flex-col';
@@ -29,36 +26,36 @@ export default function Benefits({
 		<div
 			id={props.id}
 			className={twMerge(
-				'relative',
+				'relative bg-inverse',
+				'py-20 pb-28',
 				'gap-8',
-				'pt-24 pb-12',
 				`${data.image && imagePosition === 'right' ? 'lg:justify-end' : ''}`,
 				props.className,
 			)}
 		>
 			<FlexBox
 				className={twMerge(
-					'flex flex-col flex-wrap items-center justify-center gap-4 md:space-x-12 md:space-y-0',
+					'flex flex-col flex-wrap items-center justify-center gap-4',
 				)}
 			>
 				{data.title && (
-					<H3
+					<H2
 						className={twMerge(
 							styles.textShadow,
-							'mt-3 text-center text-4xl font-bold leading-snug max-w-sm md:max-w-4xl tracking-wider lg:text-5xl lg:leading-tight',
+							'text-center text-5xl font-bold leading-snug max-w-lg md:max-w-6xl lg:text-6xl lg:leading-tight whitespace-pre-line',
 						)}
 					>
 						{data.title}
-					</H3>
+					</H2>
 				)}
 				{data.description && (
-					<p className="font-encode text-center tracking-wider max-w-sm lg:max-w-3xl mx-auto text-2xl lg:mb-2">
+					<Paragraph className="font-encode font-semibold text-center max-w-md lg:max-w-3xl mx-auto text-3xl leading-[3rem]">
 						{data.description}
-					</p>
+					</Paragraph>
 				)}
 				<FlexBox
 					className={twMerge(
-						'flex flex-col lg:flex-row flex-wrap items-center justify-center gap-8',
+						'flex flex-col lg:flex-row flex-wrap items-center justify-center gap-8 py-8',
 					)}
 				>
 					{data.bullets.length > 0 && (
@@ -75,6 +72,8 @@ export default function Benefits({
 									title={item.title}
 									icon={item.icon}
 									description={item.description}
+									value={values && values[index]}
+									valueColor={valueColor}
 								/>
 							))}
 						</FlexBox>
@@ -82,12 +81,13 @@ export default function Benefits({
 
 					{data.image && (
 						<div
-							className={`max-w-xl m-8 flex items-center justify-center -order-1 lg:order-1 ${
+							className={`max-w-lg flex items-center justify-center -order-1 lg:order-1 ${
 								imagePosition === 'right' ? 'lg:order-1' : 'lg:-order-1'
 							}`}
 						>
 							<Image
-								className="bg-inverse shadow-lg rounded w-lg"
+								height={400}
+								className="bg-inverse shadow-lg rounded object-cover"
 								src={data.image}
 								alt="Benefits"
 								placeholder="blur"
@@ -95,26 +95,35 @@ export default function Benefits({
 							/>
 						</div>
 					)}
-					{props.children}
 				</FlexBox>
+				{props.children}
+				{(data.cta && <CTA2XMyBusiness cta={data.cta} />) || <></>}
 			</FlexBox>
 		</div>
 	);
 }
 
-export function Benefit(props: BenefitData['bullets'][number]) {
+export function Benefit(
+	props: BenefitData['bullets'][number] & {
+		value?: number;
+		valueColor?: string;
+	},
+) {
 	return (
 		<div className="m-auto w-full flex flex-col max-w-[440px] px-2 items-center space-x-3">
-			<H5 className="text-xl text-center whitespace-nowrap font-medium ">
-				{props.title}
-			</H5>
 			<FlexBox className="w-full flex-row items-center gap-4">
 				<div className="flex h-11 w-11 shadow-lg shrink-0 items-center justify-center rounded-md bg-orange-300">
 					<IconWrapper iconSize={32} Icon={props.icon} />
 				</div>
 				<div>
+					<H5 className="text-2xl whitespace-nowrap font-semibold">
+						{props.title}
+						<span className={props.valueColor}>
+							{props.value && ` ($${props.value} value)`}
+						</span>
+					</H5>
 					{props.description && (
-						<Paragraph className="text-dark mt-1 text-lg">
+						<Paragraph className="text-dark mt-1 text-2xl">
 							{props.description}
 						</Paragraph>
 					)}

@@ -45,6 +45,7 @@ export const H1 = ({
 	return (
 		<h1
 			className={twMerge(
+				'tracking-tight',
 				'xl:leading-tight',
 				'font-encode',
 				styles['cursor-inherit'],
@@ -71,7 +72,7 @@ export const H2 = ({
 		<h2
 			className={twMerge(
 				'font-encode',
-				'tracking-wider',
+				'tracking-tight',
 				styles['cursor-inherit'],
 				'font-semibold text-3xl whitespace-normal',
 				(color === 'light' && 'text-inverse') ||
@@ -96,7 +97,7 @@ export const H3 = ({
 		<h3
 			className={twMerge(
 				'font-encode',
-				'tracking-wider',
+				'tracking-tight',
 				styles['cursor-inherit'],
 				'font-semibold text-2xl whitespace-normal',
 				(color === 'light' && 'text-inverse') ||
@@ -121,7 +122,7 @@ export const H4 = ({
 		<h4
 			className={twMerge(
 				'font-encode',
-				'tracking-wider',
+				'tracking-normal',
 				styles['cursor-inherit'],
 				'font-semibold text-xl whitespace-normal',
 				(color === 'light' && 'text-inverse') ||

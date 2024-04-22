@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { createId } from '@paralleldrive/cuid2';
 import { type Prisma } from '@prisma/client';
-import clientPromise, { collections, db_namespace } from './db/mongo';
+import clientPromise, { db_namespace } from './db/mongo';
 import prisma from './db/prisma';
 import {
 	type OrganizationWithAddress,
@@ -33,8 +33,8 @@ export async function updateOrganization(
 	try {
 		const client = await clientPromise;
 		return await client
-			.db(db_namespace.location)
-			.collection(collections.dispensaries)
+			.db(db_namespace.dispensary.db)
+			.collection(db_namespace.dispensary.dispensaries)
 			.updateOne(
 				{ id: organization.id },
 				{
@@ -137,8 +137,8 @@ export async function createOrganization(organization: OrganizationCreateType) {
 
 		const client = await clientPromise;
 		return await client
-			.db(db_namespace.location)
-			.collection(collections.dispensaries)
+			.db(db_namespace.dispensary.db)
+			.collection(db_namespace.dispensary.dispensaries)
 			.insertOne({
 				...organization,
 				id: organization.id || createId(),
@@ -260,8 +260,8 @@ export async function deleteOrganizationById(id: string) {
 	try {
 		const client = await clientPromise;
 		return await client
-			.db(db_namespace.location)
-			.collection(collections.dispensaries)
+			.db(db_namespace.dispensary.db)
+			.collection(db_namespace.dispensary.dispensaries)
 			.deleteOne({ id });
 	} catch (error: any) {
 		console.error('delete organization error: ', error);
@@ -290,8 +290,8 @@ export async function findOrganizationById(
 	try {
 		const client = await clientPromise;
 		return await client
-			.db(db_namespace.location)
-			.collection(collections.dispensaries)
+			.db(db_namespace.dispensary.db)
+			.collection(db_namespace.dispensary.dispensaries)
 			.findOne({
 				id: organizationId,
 			});
@@ -323,8 +323,8 @@ export async function findUsersByOrganization(organizationId: string) {
 	try {
 		const client = await clientPromise;
 		return await client
-			.db(db_namespace.location)
-			.collection(collections.users)
+			.db(db_namespace.dispensary.db)
+			.collection(db_namespace.dispensary.dispensaries)
 			.find({
 				'memberships.organizationId': organizationId,
 			});
@@ -366,8 +366,8 @@ export async function findOrganizationBySubdomain(subdomainId: string) {
 	try {
 		const client = await clientPromise;
 		return await client
-			.db(db_namespace.location)
-			.collection(collections.dispensaries)
+			.db(db_namespace.dispensary.db)
+			.collection(db_namespace.dispensary.dispensaries)
 			.findOne({
 				'subdomain.id': subdomainId,
 			});
@@ -416,8 +416,8 @@ export async function findMultipleOrganizationsById(organizationIds: string[]) {
 	try {
 		const client = await clientPromise;
 		return await client
-			.db(db_namespace.location)
-			.collection(collections.dispensaries)
+			.db(db_namespace.dispensary.db)
+			.collection(db_namespace.dispensary.dispensaries)
 			.find({
 				id: { $in: organizationIds },
 			});

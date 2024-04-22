@@ -137,8 +137,4 @@ export type DailyDealCreateWithSkus = Omit<
 	'products' | 'id' | 'isExpired' | 'total'
 > & {
 	organization: OrganizationWithOrderDetails;
-	products: Pick<
-		ProductVariant,
-		'sku' | 'quantity' | 'organizationId' | 'isDiscount' | 'discount'
-	>[];
 };

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { getGeoCoordinatesFromAddress } from '@cd/core-lib';
 import {
 	createOrganization,
@@ -7,7 +8,7 @@ import {
 	type OrganizationCreateType,
 	dispensaries,
 } from '@cd/data-access';
-import clientPromise from '@cd/data-access/src/db/mongo';
+import clientPromise, { db_namespace } from '@cd/data-access/src/db/mongo';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import Supertokens from 'supertokens-node';
 import { superTokensNextWrapper } from 'supertokens-node/nextjs';
@@ -67,19 +68,49 @@ const handleGET = async (req: any, res: any) => {
 			.status(400)
 			.json({ success: 'false', error: 'Zipcode is required' });
 
-	// const organizations = await findOrganizationsByZipcode(
-	// 	Number(zipcode),
-	// 	Number(limit),
-	// 	Number(radius),
-	// );
+	const db = await (await clientPromise).db(db_namespace.dispensary.db);
 
-	// if (!organizations)
-	// 	return res.status(404).json({
-	// 		success: 'false',
-	// 		message: `No dispensaries are found.`,
-	// 	});
+	const zip = await db
+		.collection<{
+			_id: string;
+			city: string;
+			loc: [number, number];
+			pop: number;
+			state: string;
+		}>(db_namespace.dispensary.zipcodes)
+		.findOne({ _id: zipcode.toString() });
 
-	// return static dispensaries for now
+	if (!zip)
+		return res
+			.status(404)
+			.json({ success: 'false', error: 'Zipcode not found' });
+
+	// find dispensary document with geonear search sorted by zipcode
+	const dispensaries = await db
+		.collection(db_namespace.dispensary.dispensaries)
+		.aggregate([
+			{
+				$geoNear: {
+					near: zip.loc,
+					distanceField: 'distanceFromUser',
+					maxDistance: radius,
+					spherical: true,
+				},
+			},
+			{
+				$sort: {
+					distanceFromUser: 1,
+				},
+			},
+		])
+		.toArray();
+
+	if (!dispensaries || dispensaries.length === 0)
+		return res.status(404).json({
+			success: 'false',
+			message: `No dispensaries are found.`,
+		});
+
 	return res.status(200).json({
 		success: 'true',
 		payload: dispensaries,
@@ -95,10 +126,9 @@ const handlePOST = async (req: any, res: any) => {
 		res,
 	);
 
-	const location_namespace = process.env.LOCATION_DB_NS;
-	// const collection = await (await clientPromise)
-	// 	.db(location_namespace)
-	// 	.collection('organizations_geolocate');
+	const collection = await (await clientPromise)
+		.db(db_namespace.dispensary.db)
+		.collection(db_namespace.dispensary.dispensaries);
 
 	const create: OrganizationCreateType = req.body;
 
@@ -106,50 +136,18 @@ const handlePOST = async (req: any, res: any) => {
 
 	create.address.coordinates = { ...coordinates };
 
-	// const imagesWithBlurData = [];
-	// for (let i = 0; i < create.images.length; i++) {
-	// 	const src = create.images[i].location;
-	// 	console.info('src, ', src);
-	// 	const buffer = await downloadImage(src).then(encodeImageToBlurhash as any);
+	const organization = await collection.insertOne({
+		...create,
+		address: {
+			...create.address,
+			coordinates: [
+				Number(coordinates.longitude),
+				Number(coordinates.latitude),
+			],
+		},
+	});
 
-	// 	console.info('buffer, ', buffer);
-	// 	const blurhash = await encodeImageToBlurhash(buffer);
-	// 	console.info('blurhash, ', blurhash);
-
-	// 	imagesWithBlurData.push({
-	// 		...create.images[i],
-	// 		location: create.images[i].location,
-	// 		alt: create.images[i].alt || create.name,
-	// 		blurhash,
-	// 	});
-	// }
-	// create.images = imagesWithBlurData;
-
-	// let organization: OrganizationWithShopDetails;
-	// try {
-	// 	organization = (await createOrganization(
-	// 		create,
-	// 	)) as OrganizationWithShopDetails;
-	// } catch (error) {
-	// 	console.error('error: ', error);
-	// 	return res.status(500).json({
-	// 		success: 'false',
-	// 		message: error.message,
-	// 	});
-	// }
-
-	// const insertCollection = await collection.insertOne({
-	// 	...organization,
-	// 	address: {
-	// 		...organization.address,
-	// 		coordinates: [
-	// 			Number(coordinates.longitude),
-	// 			Number(coordinates.latitude),
-	// 		],
-	// 	},
-	// });
-
-	// // revert the organization record if location db create fails
+	// // // revert the organization record if location db create fails
 	// if (!insertCollection.acknowledged) {
 	// 	await deleteOrganizationById(organization.id);
 	// 	console.debug(
@@ -166,9 +164,9 @@ const handlePOST = async (req: any, res: any) => {
 	// 	`${organization.name} record create is completed. ID is ${organization.id}`,
 	// );
 
-	// return res.status(201).json({
-	// 	success: 'true',
-	// 	message: `${organization.name} record create is completed. ID is ${organization.id}`,
-	// 	payload: organization,
-	// });
+	return res.status(201).json({
+		success: 'true',
+		message: `${create.name} record create is completed. ID is ${organization.insertedId}`,
+		payload: organization,
+	});
 };

@@ -42,6 +42,7 @@ const handlePOST = async (req: any, res: any) => {
 			title,
 			company,
 			phone,
+			street,
 			city,
 			state,
 			zipcode,
@@ -50,6 +51,7 @@ const handlePOST = async (req: any, res: any) => {
 			serviceAreaRange,
 			weeklyDeliveries,
 			message,
+			...customFields
 		}: ContactUsFormResponse = req.body;
 
 		// upsert account
@@ -59,7 +61,7 @@ const handlePOST = async (req: any, res: any) => {
 				unique_identifier: { name: company },
 				sales_account: {
 					name: company,
-					address: null,
+					address: street,
 					city,
 					state,
 					zipcode,
@@ -81,7 +83,7 @@ const handlePOST = async (req: any, res: any) => {
 		// send an email to Gras with the contact information
 		// send an email to the contact with information about Gras
 		const response = await axios.post<any>(
-			urlBuilder.freshSales.createContact(),
+			`${urlBuilder.freshSales.baseUrl}/api/contacts/upsert`,
 			{
 				contact: {
 					first_name: firstName,
@@ -90,6 +92,7 @@ const handlePOST = async (req: any, res: any) => {
 					email: fromEmail,
 					mobile_number: phone,
 					work_number: phone,
+					address: street,
 					city,
 					state,
 					zipcode,
@@ -104,7 +107,8 @@ const handlePOST = async (req: any, res: any) => {
 					medium: 'contact-us-form',
 					keyword: 'growth',
 					custom_field: {
-						company: company,
+						cf_company: company,
+						...customFields,
 						'How did you hear about us': howDidYouHearAboutUs,
 						'Service Area Range': serviceAreaRange,
 						'Weekly Deliveries': weeklyDeliveries,
@@ -121,66 +125,8 @@ const handlePOST = async (req: any, res: any) => {
 		);
 
 		if (response.status > 299) throw new Error('Failed to send the message.');
+		console.info('response', response.data);
 
-		console.info('contact-us submit response', response.data);
-
-		// console.info('body: ', JSON.stringify(req.body, null, 2));
-		// // send the form submission to Gras via email
-		// await axios
-		// 	.post<any>(
-		// 		urlBuilder.dailyStory.sendEmail({
-		// 			id: EMAIL_ID_INTERNAL_CONTACT_US_NOTICE,
-		// 			email: 'leads@grascannabis.org',
-		// 		}),
-		// 		{
-		// 			firstName,
-		// 			lastName,
-		// 			fromEmail,
-		// 			title,
-		// 			company,
-		// 			phone,
-		// 			city,
-		// 			state,
-		// 			zipcode,
-		// 			howDidYouHearAboutUs,
-		// 			serviceAreaRange,
-		// 			weeklyDeliveries,
-		// 			message,
-		// 			plaintext: JSON.stringify(`
-		// 		A partner request was submitted by ${firstName} ${lastName} at ${company}.
-
-		// 		Contact Information:
-		// 		${firstName} ${lastName}
-		// 		${fromEmail}
-		// 		${title}
-		// 		${company}
-		// 		${phone}
-		// 		${city}
-		// 		${state}
-		// 		${zipcode}
-		// 		How many miles from your store do you want to deliver? ${serviceAreaRange}
-		// 		How many orders do you expect to deliver per week? ${weeklyDeliveries}
-		// 		How did you hear about us? ${howDidYouHearAboutUs}
-
-		// 		The request message:
-		// 		${message}
-
-		//         A sign-up link has been sent to ${firstName} at ${fromEmail}.
-
-		//         Send a new email to ${fromEmail} to continue the conversation!
-		//         `),
-		// 		},
-		// 		{
-		// 			headers: {
-		// 				...applicationHeaders,
-		// 				authorization: `Bearer ${process.env.DAILYSTORY_API_KEY}`,
-		// 			},
-		// 		},
-		// 	)
-		// 	.then((response) => {
-		// 		console.info('contact us email sent');
-		// 		console.info('response', response.data.Response);
-		// 	});
 		return res
 			.status(response.status)
 			.json({ success: 'true', payload: response.data.Response });

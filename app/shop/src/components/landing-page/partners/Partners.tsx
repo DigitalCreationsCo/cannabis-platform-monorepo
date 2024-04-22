@@ -1,19 +1,42 @@
-import { Grid } from '@cd/ui-lib';
+import { Grid, Paragraph } from '@cd/ui-lib';
 import Image from 'next/image';
+import { type HTMLAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { type Partner } from './partners-data';
 
-function Partners({ partners }: { partners: Partner[] }) {
+function Partners({
+	scaleOnHover = false,
+	partners,
+	title,
+	className,
+	...props
+}: {
+	scaleOnHover?: boolean;
+	title: string;
+	partners: Partner[];
+	className?: string;
+} & HTMLAttributes<HTMLDivElement>) {
 	return (
-		<div className={twMerge('pt-8 sm:pt-0', styles.gradient)}>
-			<p className="font-encode text-center tracking-wider max-w-sm lg:max-w-xl mx-auto text-2xl lg:mb-2">
-				{`Partnered with the leading cannabis technology`}
-			</p>
-			<Grid className="grid-cols-2 justify-center md:px-16 lg:grid-cols-3 gap-2 mx-auto">
+		<div
+			{...props}
+			className={twMerge(
+				'py-16',
+				'bg-gradient-to-b from-10% from-inverse-soft to-inverse',
+				'space-y-12',
+				className,
+			)}
+		>
+			<Paragraph className="max-w-lg lg:max-w-full font-semibold text-center mx-auto text-3xl lg:mb-2">
+				{title}
+			</Paragraph>
+			<Grid className="grid-cols-2 justify-center md:px-16 lg:grid-cols-3 gap-4 mx-auto">
 				{partners.map(({ imgSrc, name }: Partner) => (
 					<Image
 						key={`partner-${name}`}
-						className="w-full h-auto max-w-[280px] items-center self-center mx-auto col-span-1"
+						className={twMerge(
+							'w-full h-auto max-w-[280px] items-center self-center mx-auto col-span-1',
+							scaleOnHover && 'hover:scale-105 duration-200',
+						)}
 						src={imgSrc}
 						alt={name}
 						loader={({ src }) => src}
@@ -27,7 +50,3 @@ function Partners({ partners }: { partners: Partner[] }) {
 }
 
 export default Partners;
-
-const styles = {
-	gradient: ['bg-gradient-to-b', 'from-10%', 'from-inverse', 'to-inverse-soft'],
-};
