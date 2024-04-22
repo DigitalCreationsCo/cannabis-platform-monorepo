@@ -85,7 +85,7 @@ const TextContent = Object.freeze({
 
 		FORGOT_YOUR_PASSWORD: 'Forgot your password?',
 
-		CREATE_DISPENSARY_ACCOUNT: 'Create a Dispensary account',
+		CREATE_DISPENSARY_ACCOUNT: 'Create Dispensary account',
 		ABOUT_DISPENSARY_ADMIN_ACCOUNT: `Create an account to own and manage your dispensary's inventory, data, and other users. 
     This account will have the most access to your dispensary.`,
 		NO_MEMBERSHIP_PERMISSION: `You don't have the permissions to sign in here. 

@@ -9,16 +9,17 @@ declare global {
 }
 
 export const db_namespace = {
-	location: process.env.LOCATION_DB_NS as string,
-	dispatch: process.env.DISPATCH_DB_NS as string,
-	gras: process.env.GRAS_DB_NS as string,
-};
-
-export const collections = {
-	users: 'users',
-	dispensaries: 'dispensaries',
-	drivers: 'drivers',
-	orders: 'orders',
+	dispatch: {
+		db: process.env.DISPATCH_DB_NS as string,
+		dispatch_orders: 'dispatch_orders',
+		driver_sessions: 'driver_sessions',
+	},
+	dispensary: {
+		db: process.env.DISPENSARY_DB_NS as string,
+		daily_deals: 'daily_deals',
+		dispensaries: 'dispensaries',
+		zipcodes: 'zipcodes',
+	},
 };
 
 class Singleton {

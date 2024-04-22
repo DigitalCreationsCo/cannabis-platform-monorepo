@@ -7,15 +7,15 @@
 		"@cd/core-lib": "workspace:*",
 		"@cd/data-access": "workspace:*",
 		"@cd/eslint-config": "workspace:*",
-		"antd": "^5.16.2",
+		"antd": "5.16.2",
 		"framer-motion": "10.15.0",
-		"react-js-cron": "^5.0.1",
-		"react-slick": "^0.30.2",
-		"slick-carousel": "^1.8.1"
+		"react-js-cron": "5.0.1",
+		"react-slick": "0.30.2",
+		"slick-carousel": "1.8.1"
 	},
 	"devDependencies": {
-		"@babel/preset-env": "^7.23.2",
-		"@babel/preset-react": "^7.22.15",
+		"@babel/preset-env": "7.23.2",
+		"@babel/preset-react": "7.22.15",
 		"@babel/preset-typescript": "7.23.2",
 		"@carbon/icons-react": "11.16.0",
 		"@storybook/addon-essentials": "7.4.6",

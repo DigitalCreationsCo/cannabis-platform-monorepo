@@ -21,7 +21,7 @@ export default function Select({
 	className,
 	setOption,
 	label,
-	labelColor = 'text-primary',
+	labelColor = 'text-dark',
 	name,
 }: SelectProps) {
 	return (
@@ -29,7 +29,7 @@ export default function Select({
 			{label && (
 				<FlexBox className="items-start w-full flex-row">
 					<label className={twMerge(labelColor, styles.label_f())}>
-						<Paragraph>{label}</Paragraph>
+						<Paragraph className="text-lg">{label}</Paragraph>
 					</label>
 				</FlexBox>
 			)}

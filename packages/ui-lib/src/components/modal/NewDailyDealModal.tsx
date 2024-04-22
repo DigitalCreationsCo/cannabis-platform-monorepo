@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { axios, selectDispensaryState, urlBuilder } from '@cd/core-lib';
-import { type DailyDealCreateWithSkus } from '@cd/data-access';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';

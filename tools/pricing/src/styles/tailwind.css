@@ -800,8 +800,7 @@ details > summary {
 }
 
 .btn-group > input[type="radio"].btn {
-  -webkit-appearance: none;
-          appearance: none;
+  appearance: none;
 }
 
 .btn-group > input[type="radio"].btn:before {
@@ -830,8 +829,7 @@ details > summary {
   height: 1.5rem;
   width: 1.5rem;
   cursor: pointer;
-  -webkit-appearance: none;
-          appearance: none;
+  appearance: none;
   border-width: 1px;
   border-color: hsl(var(--bc) / var(--tw-border-opacity));
   --tw-border-opacity: 0.2;
@@ -857,8 +855,7 @@ details > summary {
 }
 
 .collapse > input[type="checkbox"] {
-  -webkit-appearance: none;
-          appearance: none;
+  appearance: none;
   opacity: 0;
 }
 
@@ -915,8 +912,7 @@ details > summary {
   position: absolute;
   height: 0px;
   width: 0px;
-  -webkit-appearance: none;
-          appearance: none;
+  appearance: none;
   opacity: 0;
 }
 
@@ -1239,8 +1235,7 @@ details > summary {
   cursor: pointer;
   -webkit-user-select: none;
           user-select: none;
-  -webkit-appearance: none;
-          appearance: none;
+  appearance: none;
   height: 3rem;
   padding-left: 1rem;
   padding-right: 2.5rem;
@@ -3957,6 +3952,14 @@ details > summary {
 
 .tracking-\[1px\] {
   letter-spacing: 1px;
+}
+
+.tracking-normal {
+  letter-spacing: 0em;
+}
+
+.tracking-tight {
+  letter-spacing: -0.025em;
 }
 
 .tracking-wide {

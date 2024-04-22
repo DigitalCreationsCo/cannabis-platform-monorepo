@@ -1,9 +1,8 @@
-import { type CarbonIconType } from '@carbon/icons-react';
 import { type SVGAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 export type IconProps = {
-	Icon: ((props: SVGAttributes<SVGElement>) => JSX.Element) | CarbonIconType;
+	Icon: ((props: SVGAttributes<SVGElement>) => JSX.Element) | any;
 	className?: string;
 	iconSize?: number;
 	iconClass?: string | string[];

@@ -38,7 +38,7 @@ function TextField({
 	error,
 	value,
 	label,
-	labelColor = 'text-primary',
+	labelColor = 'text-dark',
 	justifyLabel,
 	placeholder,
 	defaultValue,
@@ -73,7 +73,9 @@ function TextField({
 			{label && (
 				<FlexBox className="items-start w-full">
 					<label className={twMerge(styles.label_f(justifyLabel))}>
-						<Paragraph className={twMerge(labelColor, 'whitespace-wrap')}>
+						<Paragraph
+							className={twMerge(labelColor, 'text-lg', 'whitespace-wrap')}
+						>
 							{label}
 						</Paragraph>
 					</label>
@@ -111,7 +113,8 @@ function TextField({
 					}}
 					placeholder={helperText || placeholder}
 					className={twMerge(
-						'text-lg',
+						'font-encode',
+						'text-xl',
 						'bg-light',
 						'items-center',
 						'p-4 rounded-btn',

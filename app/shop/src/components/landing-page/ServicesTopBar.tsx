@@ -2,6 +2,7 @@ import { TextContent } from '@cd/core-lib';
 import { Button, FlexBox, GrasSignature, Paragraph, styles } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
+import { type HtmlHTMLAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../../public/logo.png';
 
@@ -10,25 +11,35 @@ export type TopBarProps = {
 	signOut: () => void;
 };
 
-export default function ServicesTopBar() {
+export default function ServicesTopBar({
+	className,
+	...props
+}: HtmlHTMLAttributes<HTMLDivElement>) {
 	return (
-		<div className={twMerge(styles.TOPBAR.topbar, 'shadow-none')}>
-			<FlexBox className="flex-row items-center">
-				<Link href={'/'} className="z-50">
-					<GrasSignature className="text-secondary pt-0.5">Gras</GrasSignature>
-				</Link>
-				<Link href={'/'} className="shrink-0">
-					<Image alt="Gras" width={40} height={40} src={logo} />
-				</Link>
+		<div
+			className={twMerge(styles.TOPBAR.topbar, 'shadow-none', className)}
+			{...props}
+		>
+			<FlexBox>
+				<FlexBox className="flex-row items-center">
+					<Link href={'/'} className="z-50">
+						<GrasSignature className="text-secondary pt-0.5">
+							Gras
+						</GrasSignature>
+					</Link>
+					<Link href={'/'} className="shrink-0">
+						<Image alt="Gras" width={40} height={40} src={logo} />
+					</Link>
+				</FlexBox>
 				<Link href={'/'}>
 					<Paragraph className={twMerge(styles.TOPBAR.tagline)}>
 						{TextContent.info.CANNABIS_DELIVERED_TEXT}
 					</Paragraph>
 				</Link>
-			</FlexBox>
-			{/* <FlexBox className="flex flex-row items-center md:space-x-4 md:pr-2">
+				{/* <FlexBox className="flex flex-row items-center md:space-x-4 md:pr-2">
 				<GetStartedButton />
 			</FlexBox> */}
+			</FlexBox>
 		</div>
 	);
 }

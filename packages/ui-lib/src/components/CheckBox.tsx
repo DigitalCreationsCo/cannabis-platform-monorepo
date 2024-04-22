@@ -30,7 +30,7 @@ function CheckBox({
 	return (
 		<div className={twMerge(styles.checkboxContainer, className)}>
 			<input
-				className="cursor-pointer bg-primary accent-primary-light"
+				className="cursor-pointer text-lg bg-primary accent-primary-light"
 				style={{ minHeight: '30px', minWidth: '30px' }}
 				type="checkbox"
 				id={name}
@@ -41,7 +41,7 @@ function CheckBox({
 				{helperText && <LabelComponent>{helperText}</LabelComponent>}
 				{label && (
 					<LabelComponent>
-						<Label className="cursor-pointer w-full" htmlFor={name}>
+						<Label className="cursor-pointer w-full text-lg" htmlFor={name}>
 							{label}
 						</Label>
 					</LabelComponent>
