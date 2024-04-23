@@ -98,7 +98,6 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 			{organization.images?.length > 0 && (
 				<div className="min-h-[150px] content-center">
 					<Image
-						className="border"
 						style={{
 							maxWidth: '220px',
 							height: 'auto',
