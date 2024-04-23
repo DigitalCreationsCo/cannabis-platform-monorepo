@@ -45,7 +45,6 @@ export default function MarketPlace() {
 	const { user } = useSelector(selectUserState);
 	const { zipcode: userZipcode } = user.address[0];
 	const { radius } = useSelector(selectLocationState);
-	console.info('radius: ', radius);
 
 	const saveZipcodeToLocalStorage = (zipcode: number): void => {
 		// set zipcode in localstorage
@@ -96,8 +95,6 @@ export default function MarketPlace() {
 	);
 
 	const dispensaries = data || [];
-	console.info('dispensaries: ', dispensaries);
-	console.info('error: ', error);
 
 	// function startShopTour() {
 	// 	shopTour.start();
@@ -263,7 +260,6 @@ const RenderMapBox = ({
 			// center: [lng, lat],
 			// zoom: zoom,
 		});
-		console.info('new map created');
 	}, []);
 
 	useEffect(() => {
@@ -272,7 +268,6 @@ const RenderMapBox = ({
 			if (!map.current || !geojson) return;
 			for (const feature of geojson.features) {
 				const index = geojson.features.indexOf(feature);
-				console.info('feature: ', feature);
 				// create a HTML element for each feature
 				const el = document.createElement('div');
 				el.className = 'marker';

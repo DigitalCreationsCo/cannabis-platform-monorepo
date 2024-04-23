@@ -49,13 +49,13 @@ export default async function handler(
 
 // get nearby dispensaries
 const handleGET = async (req: any, res: any) => {
-	await superTokensNextWrapper(
-		async (next) => {
-			return await verifySession({ sessionRequired: false })(req, res, next);
-		},
-		req,
-		res,
-	);
+	// await superTokensNextWrapper(
+	// 	async (next) => {
+	// 		return await verifySession({ sessionRequired: false })(req, res, next);
+	// 	},
+	// 	req,
+	// 	res,
+	// );
 
 	const {
 		zipcode,
@@ -68,42 +68,42 @@ const handleGET = async (req: any, res: any) => {
 			.status(400)
 			.json({ success: 'false', error: 'Zipcode is required' });
 
-	const db = await (await clientPromise).db(db_namespace.dispensary.db);
+	// const db = await (await clientPromise).db(db_namespace.dispensary.db);
 
-	const zip = await db
-		.collection<{
-			_id: string;
-			city: string;
-			loc: [number, number];
-			pop: number;
-			state: string;
-		}>(db_namespace.dispensary.zipcodes)
-		.findOne({ _id: zipcode.toString() });
+	// const zip = await db
+	// 	.collection<{
+	// 		_id: string;
+	// 		city: string;
+	// 		loc: [number, number];
+	// 		pop: number;
+	// 		state: string;
+	// 	}>(db_namespace.dispensary.zipcodes)
+	// 	.findOne({ _id: zipcode.toString() });
 
-	if (!zip)
-		return res
-			.status(404)
-			.json({ success: 'false', error: 'Zipcode not found' });
+	// if (!zip)
+	// 	return res
+	// 		.status(404)
+	// 		.json({ success: 'false', error: 'Zipcode not found' });
 
-	// find dispensary document with geonear search sorted by zipcode
-	const dispensaries = await db
-		.collection(db_namespace.dispensary.dispensaries)
-		.aggregate([
-			{
-				$geoNear: {
-					near: zip.loc,
-					distanceField: 'distanceFromUser',
-					maxDistance: radius,
-					spherical: true,
-				},
-			},
-			{
-				$sort: {
-					distanceFromUser: 1,
-				},
-			},
-		])
-		.toArray();
+	// // find dispensary document with geonear search sorted by zipcode
+	// const dispensaries = await db
+	// 	.collection(db_namespace.dispensary.dispensaries)
+	// 	.aggregate([
+	// 		{
+	// 			$geoNear: {
+	// 				near: zip.loc,
+	// 				distanceField: 'distanceFromUser',
+	// 				maxDistance: radius,
+	// 				spherical: true,
+	// 			},
+	// 		},
+	// 		{
+	// 			$sort: {
+	// 				distanceFromUser: 1,
+	// 			},
+	// 		},
+	// 	])
+	// 	.toArray();
 
 	if (!dispensaries || dispensaries.length === 0)
 		return res.status(404).json({
@@ -118,13 +118,13 @@ const handleGET = async (req: any, res: any) => {
 };
 
 const handlePOST = async (req: any, res: any) => {
-	await superTokensNextWrapper(
-		async (next) => {
-			return await verifySession({ sessionRequired: false })(req, res, next);
-		},
-		req,
-		res,
-	);
+	// await superTokensNextWrapper(
+	// 	async (next) => {
+	// 		return await verifySession({ sessionRequired: false })(req, res, next);
+	// 	},
+	// 	req,
+	// 	res,
+	// );
 
 	const collection = await (await clientPromise)
 		.db(db_namespace.dispensary.db)

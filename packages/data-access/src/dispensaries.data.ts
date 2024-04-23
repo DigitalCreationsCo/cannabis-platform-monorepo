@@ -69,7 +69,7 @@ const dispensaries: any[] = [
 		images: [
 			{
 				location:
-					'https://storage.cloud.google.com/fa7347ba6f76eacc-image-dispensary/dazed/logo-small.png?authuser=3',
+					'https://storage.googleapis.com/fa7347ba6f76eacc-image-dispensary/dazed/logo-small.png',
 				blurhash: 'L4DPD$ju1q,v]Xa|Woo21CWo|}S1',
 				alt: 'Dazed Cannabis',
 			},
@@ -240,7 +240,7 @@ const dispensaries: any[] = [
 		images: [
 			{
 				location:
-					'https://storage.cloud.google.com/fa7347ba6f76eacc-image-dispensary/smacked-village/logo-small.png?authuser=1',
+					'https://storage.googleapis.com/fa7347ba6f76eacc-image-dispensary/smacked-village/logo-small.png',
 				blurhash: 'L4DPD$ju1q,v]Xa|Woo21CWo|}S1',
 				alt: 'Smacked Village',
 			},
@@ -328,7 +328,7 @@ const dispensaries: any[] = [
 		images: [
 			{
 				location:
-					'https://storage.cloud.google.com/fa7347ba6f76eacc-image-dispensary/gotham/logo-small.png?authuser=1',
+					'https://storage.googleapis.com/fa7347ba6f76eacc-image-dispensary/gotham/logo-small.png',
 				blurhash: 'L4DPD$ju1q,v]Xa|Woo21CWo|}S1',
 				alt: 'Gotham',
 			},
@@ -416,7 +416,7 @@ const dispensaries: any[] = [
 		images: [
 			{
 				location:
-					'https://storage.cloud.google.com/fa7347ba6f76eacc-image-dispensary/housing-works/logo-small.png?authuser=1',
+					'https://storage.googleapis.com/fa7347ba6f76eacc-image-dispensary/housing-works/logo-small.png',
 				blurhash: 'L4DPD$ju1q,v]Xa|Woo21CWo|}S1',
 				alt: 'Housing Works Cannabis Co.',
 			},
@@ -504,7 +504,7 @@ const dispensaries: any[] = [
 		images: [
 			{
 				location:
-					'https://storage.cloud.google.com/fa7347ba6f76eacc-image-dispensary/verdi/logo-small.png?authuser=1',
+					'https://storage.googleapis.com/fa7347ba6f76eacc-image-dispensary/verdi/logo-small.png',
 				blurhash: 'L4DPD$ju1q,v]Xa|Woo21CWo|}S1',
 				alt: 'Terp Bros',
 			},
@@ -594,7 +594,7 @@ const dispensaries: any[] = [
 		images: [
 			{
 				location:
-					'https://storage.cloud.google.com/fa7347ba6f76eacc-image-dispensary/conbud/logo-small.png?authuser=3',
+					'https://storage.googleapis.com/fa7347ba6f76eacc-image-dispensary/conbud/logo-small.png',
 				blurhash: 'L4DPD$ju1q,v]Xa|Woo21CWo|}S1',
 				alt: 'Conbud',
 			},
@@ -683,7 +683,7 @@ const dispensaries: any[] = [
 		images: [
 			{
 				location:
-					'https://storage.cloud.google.com/fa7347ba6f76eacc-image-dispensary/cannabis-place/logo-small.png?authuser=1',
+					'https://storage.googleapis.com/fa7347ba6f76eacc-image-dispensary/cannabis-place/logo-small.png',
 				blurhash: 'L4DPD$ju1q,v]Xa|Woo21CWo|}S1',
 				alt: 'The Cannabis Place',
 			},
@@ -771,7 +771,7 @@ const dispensaries: any[] = [
 		images: [
 			{
 				location:
-					'https://storage.cloud.google.com/fa7347ba6f76eacc-image-dispensary/terp-bros/logo-small.png?authuser=1',
+					'https://storage.googleapis.com/fa7347ba6f76eacc-image-dispensary/terp-bros/logo-small.png',
 				blurhash: 'L4DPD$ju1q,v]Xa|Woo21CWo|}S1',
 				alt: 'Terp Bros',
 			},
@@ -861,7 +861,7 @@ const dispensaries: any[] = [
 		images: [
 			{
 				location:
-					'https://storage.cloud.google.com/fa7347ba6f76eacc-image-dispensary/zenleaf/logo-small.png?authuser=1',
+					'https://storage.googleapis.com/fa7347ba6f76eacc-image-dispensary/zenleaf/logo-small.png',
 				blurhash: 'L4DPD$ju1q,v]Xa|Woo21CWo|}S1',
 				alt: 'Zen Leaf',
 			},
