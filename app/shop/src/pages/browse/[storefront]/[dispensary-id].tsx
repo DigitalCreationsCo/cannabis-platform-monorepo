@@ -96,12 +96,12 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 				{organization.name}
 			</H1> */}
 			{organization.images?.length > 0 && (
-				<div className="h-[150px] content-center w-fit">
+				<div className="min-h-[150px] content-center">
 					<Image
+						className="border"
 						style={{
-							maxWidth: '500px',
+							maxWidth: '220px',
 							height: 'auto',
-							maxHeight: '150px',
 						}}
 						src={organization.images[0].location}
 						alt={organization.name}
@@ -200,7 +200,7 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 	);
 
 	const Schedule = () => (
-		<div>
+		<>
 			<Paragraph style={{ color: applyDispensaryStyles['text-color'] }}>
 				Hours
 			</Paragraph>
@@ -221,7 +221,7 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 					</FlexBox>
 				))}
 			</FlexBox>
-		</div>
+		</>
 	);
 
 	const Products = () => {
@@ -288,8 +288,7 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 	return (
 		<Page
 			gradient="pink"
-			// grow items-center min-h-screen
-			className="w-full py-0 md:pt-12 md:pb-24 flex flex-col grow min-h-[96vh]"
+			className="w-full p-0 md:pt-12 md:pb-24 flex flex-col grow min-h-[96vh]"
 		>
 			<Head>
 				<title>Grascannabis.org - Cannabis, Delivered.</title>
@@ -298,12 +297,12 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 			<Card
 				style={{ backgroundColor: applyDispensaryStyles['background-color'] }}
 				className={twMerge(
-					`flex grow m-auto items-center h-full w-full !py-12 !pb-24`,
+					`flex grow m-auto items-center h-full !w-full !py-12 !pb-24`,
 				)}
 			>
 				<BackButton />
 				{organization ? (
-					<div className="flex flex-col w-2/3 md:w-full space-y-2">
+					<div className="flex flex-col w-full space-y-2">
 						<Heading />
 						<Contact />
 						<Schedule />

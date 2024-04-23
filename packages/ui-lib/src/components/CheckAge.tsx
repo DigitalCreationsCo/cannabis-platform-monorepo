@@ -24,7 +24,7 @@ const CheckAge = ({
 
 	const onSubmit = () => {
 		if (onContinue) onContinue();
-		router.push({ pathname: redirect }); // navigates back to the previous page, or the browse page if there is no redirect param
+		router.push(redirect);
 	};
 
 	return (

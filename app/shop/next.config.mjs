@@ -159,6 +159,7 @@ Memory Usage:`,
 				'storage.cloud.google.com',
 				'cdn.sanity.io',
 				'source.unsplash.com',
+				'storage.googleapis.com',
 			],
 		},
 		transpilePackages: [
