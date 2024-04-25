@@ -212,6 +212,7 @@
     "postcss-js": "4.0.1"
   },
   "dependencies": {
+    "next-seo": "^6.5.0",
     "supertokens-web-js": "0.8.0"
   }
 }

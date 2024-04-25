@@ -18,7 +18,7 @@ export default function useCategory() {
 
 	useEffect(() => {
 		const getCategories = async () => {
-			const toast = (await import('react-hot-toast')).toast
+			const toast = (await import('react-hot-toast')).toast;
 
 			try {
 				const { data } = await axios('/api/category');
