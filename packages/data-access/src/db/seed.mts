@@ -20,9 +20,9 @@ import {
 	type Vendor,
 } from '@prisma/client';
 import axios from 'axios';
-import { type DriverCreateType } from '../driver.types.js';
-import { type OrganizationCreateType } from '../organization.types.js';
-import { type ReviewWithUserDetails } from '../product.data.js';
+import { type OrganizationCreateType } from '../dispensary/organization.types.js';
+import { type DriverCreateType } from '../driver/driver.types.js';
+import { type ReviewWithUserDetails } from '../product/product.data.js';
 
 const prisma = new PrismaClient({
 	datasources: { db: { url: process.env.DATABASE_URL } },

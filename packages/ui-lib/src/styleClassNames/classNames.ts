@@ -36,11 +36,11 @@ const styles = Object.freeze({
 		],
 		tagline: [
 			'p-0 m-0',
-			'text-sm',
+			'text-md',
 			'hidden',
 			'md:block',
 			'place-self-center',
-			'text-primary font-semibold',
+			'text-primary',
 		],
 		badge: [
 			'indicator absolute inline-flex items-center justify-center w-6 h-6 text-sm text-light bg-primary -top-2 -right-2 rounded-full',

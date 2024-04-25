@@ -19,11 +19,13 @@ export const GrasSignature = ({
 	return (
 		<h1
 			className={twMerge(
+				'text-secondary',
+				'pt-1 pb-0 mb-0',
 				'font-gras',
-				'tracking-wide',
+				'tracking-wide leading-3',
 				'overflow-visible z-50',
 				styles['cursor-inherit'],
-				'text-4xl font-bold whitespace-normal',
+				'text-3xl font-bold whitespace-normal',
 				(color === 'light' && 'text-inverse') ||
 					(color === 'dark' && 'text-dark') ||
 					'text-inherit',

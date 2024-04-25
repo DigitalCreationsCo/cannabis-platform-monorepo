@@ -177,11 +177,7 @@ module.exports = {
 				selector: ['typeProperty'],
 				format: ['camelCase'],
 				// For graphql __typename
-				leadingUnderscore: 'allowDouble',
-				filter: {
-					regex: '^(Content-Type)$',
-					match: false,
-				},
+				leadingUnderscore: 'allowSingleOrDouble',
 			},
 			{
 				selector: ['typeParameter'],
