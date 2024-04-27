@@ -5,7 +5,7 @@ import { Role } from '@prisma/client';
 import {
   getTeamMembers,
   removeTeamMember,
-  throwIfNoTeamAccess,
+  throwIfNoDispensaryAccess,
 } from 'models/team';
 import { throwIfNotAllowed } from 'models/user';
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -54,7 +54,7 @@ export default async function handler(
 
 // Get members of a team
 const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
-  const teamMember = await throwIfNoTeamAccess(req, res);
+  const teamMember = await throwIfNoDispensaryAccess(req, res);
   throwIfNotAllowed(teamMember, 'team_member', 'read');
 
   const members = await getTeamMembers(teamMember.team.slug);
@@ -66,7 +66,7 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
 
 // Delete the member from the team
 const handleDELETE = async (req: NextApiRequest, res: NextApiResponse) => {
-  const teamMember = await throwIfNoTeamAccess(req, res);
+  const teamMember = await throwIfNoDispensaryAccess(req, res);
   throwIfNotAllowed(teamMember, 'team_member', 'delete');
 
   const { memberId } = validateWithSchema(
@@ -94,7 +94,7 @@ const handleDELETE = async (req: NextApiRequest, res: NextApiResponse) => {
 
 // Leave a team
 const handlePUT = async (req: NextApiRequest, res: NextApiResponse) => {
-  const teamMember = await throwIfNoTeamAccess(req, res);
+  const teamMember = await throwIfNoDispensaryAccess(req, res);
   throwIfNotAllowed(teamMember, 'team', 'leave');
 
   /*
@@ -148,7 +148,7 @@ Execution Time: 0.057 ms
 
 // Update the role of a member
 const handlePATCH = async (req: NextApiRequest, res: NextApiResponse) => {
-  const teamMember = await throwIfNoTeamAccess(req, res);
+  const teamMember = await throwIfNoDispensaryAccess(req, res);
   throwIfNotAllowed(teamMember, 'team_member', 'update');
 
   const { memberId, role } = validateWithSchema(

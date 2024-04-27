@@ -14,26 +14,30 @@ import { setCookie, getCookie } from 'cookies-next';
 import { encode, decode } from 'next-auth/jwt';
 import { randomUUID } from 'crypto';
 
-import { Role } from '@prisma/client';
-import { getAccount } from 'models/account';
-import { addTeamMember, getTeam } from 'models/team';
-import { createUser, getUser } from 'models/user';
+import {
+  createUser,
+  getUser,
+  Role,
+  getAccount,
+  addStaffMember,
+  getDispensary,
+} from '@cd/data-access';
 import { verifyPassword } from '@/lib/auth';
-import { isEmailAllowed } from '@/lib/email2/utils';
+import { isEmailAllowed } from '@/lib/email/utils';
 import env from '@/lib/env';
 import { isAuthProviderEnabled } from '@/lib/auth';
 import { validateRecaptcha } from '@/lib/recaptcha';
-import { sendMagicLink } from '@/lib/email2/sendMagicLink';
+import { sendMagicLink } from '@/lib/email/sendMagicLink';
 import {
   clearLoginAttempts,
   exceededLoginAttemptsThreshold,
   incrementLoginAttempts,
 } from '@/lib/accountLock';
 import { slackNotify } from './slack';
-import { maxLengthPolicies } from '@/lib/common';
-import { forceConsume } from '@/lib/server-common';
+import { maxLengthPolicies } from '@cd/core-lib';
+import { forceConsume } from '@cd/core-lib';
 import { MongoDBAdapter } from '@auth/mongodb-adapter';
-import { clientPromise } from '@cd/data-access'
+import clientPromise from '@/lib/db';
 
 const adapter = MongoDBAdapter(clientPromise);
 const providers: Provider[] = [];
@@ -271,7 +275,7 @@ export const getAuthOptions = (
     env.nextAuth.sessionStrategy === 'database';
 
   const authOptions: NextAuthOptions = {
-    adapter,
+    // adapter,
     providers,
     pages: {
       signIn: '/auth/login',
@@ -429,7 +433,7 @@ const linkAccount = async (user: User, account: Account) => {
 };
 
 const linkToTeam = async (profile: Profile, userId: string) => {
-  const team = await getTeam({
+  const team = await getDispensary({
     id: profile.requested.tenant,
   });
 
@@ -457,5 +461,5 @@ const linkToTeam = async (profile: Profile, userId: string) => {
     }
   }
 
-  await addTeamMember(team.id, userId, userRole);
+  await addStaffMember(team.id, userId, userRole);
 };

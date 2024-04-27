@@ -14,16 +14,16 @@ import {
 
 function ContinueSignUp() {
 	const { user } = useSelector(selectUserState),
-		{ isLegalAge, idVerified, isSignUpComplete } = user;
+		{ is_legal_age, id_verified, isSignUpComplete } = user;
 
 	// const isAddressAdded = useSelector(selectIsAddressAdded);
 
-	if (idVerified === true && isLegalAge === false)
+	if (id_verified === true && is_legal_age === false)
 		router.push(getShopSite('/sorry-we-cant-serve-you'));
 
 	// Formstep components with null values will be ignored
 	const FormStepComponents = [
-		!idVerified ? VerifyPhotoId : null,
+		!id_verified ? VerifyPhotoId : null,
 		!isSignUpComplete ? UserSignUpQuick : null,
 		SubmitAddress,
 		SubmitPaymentMethod,

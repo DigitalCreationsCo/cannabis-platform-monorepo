@@ -23,12 +23,12 @@ export default class IdCardReader {
 		this._stateAbbreviation = stateMap[this._stateName].abbreviation;
 	}
 
-	isLegalAge() {
+	is_legal_age() {
 		const _dob = this.getDateOfBirth(),
-			_isLegalAge = this.checkLegalAge(_dob);
+			_is_legal_age = this.checkLegalAge(_dob);
 		return {
 			scannedDOB: _dob,
-			isLegalAge: _isLegalAge,
+			is_legal_age: _is_legal_age,
 		};
 	}
 
@@ -37,10 +37,10 @@ export default class IdCardReader {
 			diff = now.getTime() - dateOfBirth.getTime(),
 			years = diff / (1000 * 60 * 60 * 24 * 365.25),
 			stateLegalAge = stateMap[this._stateName].legalAge,
-			isLegalAge = years >= stateLegalAge;
+			is_legal_age = years >= stateLegalAge;
 
-		console.info(' detected isLegalAge: ', isLegalAge);
-		return isLegalAge;
+		console.info(' detected is_legal_age: ', is_legal_age);
+		return is_legal_age;
 	}
 
 	private getDateOfBirth(): Date {

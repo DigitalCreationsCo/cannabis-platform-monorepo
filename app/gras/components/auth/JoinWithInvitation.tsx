@@ -1,27 +1,27 @@
 import {
   Error,
   InputWithLabel,
-  Loading,
   WithLoadingAndError,
 } from '@/components/shared';
 import {
   defaultHeaders,
   maxLengthPolicies,
   passwordPolicies,
-} from '@/lib/common';
+  useInvitation,
+  ApiResponse,
+} from '@cd/core-lib';
 import { useFormik } from 'formik';
-import useInvitation from 'hooks/useInvitation';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import { Button } from 'react-daisyui';
 import toast from 'react-hot-toast';
-import type { ApiResponse } from 'types';
 import * as Yup from 'yup';
 import TogglePasswordVisibility from '../shared/TogglePasswordVisibility';
 import { useRef, useState } from 'react';
 import AgreeMessage from './AgreeMessage';
 import GoogleReCAPTCHA from '../shared/GoogleReCAPTCHA';
 import ReCAPTCHA from 'react-google-recaptcha';
+import { LoadingDots } from '@cd/ui-lib';
 
 interface JoinWithInvitationProps {
   inviteToken: string;
@@ -96,7 +96,7 @@ const JoinWithInvitation = ({
   });
 
   if (isLoading) {
-    return <Loading />;
+    return <LoadingDots />;
   }
 
   if (error || !invitation) {

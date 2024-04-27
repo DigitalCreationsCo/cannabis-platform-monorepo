@@ -86,7 +86,7 @@ function composeSnippet<T extends Record<string, any>>(): Record<string, SNIPPET
     "prefix": SNIPPET_PREFIX,
     "body": [
         "import {",
-        "\tisLegalAgeAndVerified,",
+        "\tis_legal_ageAndVerified,",
         "\tTextContent,",
         "\tuserActions,",
         "\ttype ConsumeCodeResponse,",

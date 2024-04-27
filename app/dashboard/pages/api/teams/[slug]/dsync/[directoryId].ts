@@ -1,5 +1,5 @@
 import env from '@/lib/env';
-import { throwIfNoTeamAccess } from 'models/team';
+import { throwIfNoDispensaryAccess } from 'models/team';
 import { throwIfNotAllowed } from 'models/user';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { ApiError } from '@/lib/errors';
@@ -47,7 +47,7 @@ export default async function handler(
 }
 
 const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
-  const teamMember = await throwIfNoTeamAccess(req, res);
+  const teamMember = await throwIfNoDispensaryAccess(req, res);
 
   throwIfNotAllowed(teamMember, 'team_dsync', 'read');
 
@@ -64,7 +64,7 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 const handlePATCH = async (req: NextApiRequest, res: NextApiResponse) => {
-  const teamMember = await throwIfNoTeamAccess(req, res);
+  const teamMember = await throwIfNoDispensaryAccess(req, res);
 
   throwIfNotAllowed(teamMember, 'team_dsync', 'read');
 
@@ -81,7 +81,7 @@ const handlePATCH = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 const handleDELETE = async (req: NextApiRequest, res: NextApiResponse) => {
-  const teamMember = await throwIfNoTeamAccess(req, res);
+  const teamMember = await throwIfNoDispensaryAccess(req, res);
 
   throwIfNotAllowed(teamMember, 'team_dsync', 'delete');
 

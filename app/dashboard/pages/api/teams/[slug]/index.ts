@@ -3,7 +3,7 @@ import {
   deleteTeam,
   getCurrentUserWithTeam,
   getTeam,
-  throwIfNoTeamAccess,
+  throwIfNoDispensaryAccess,
   updateTeam,
 } from 'models/team';
 import { throwIfNotAllowed } from 'models/user';
@@ -19,7 +19,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    await throwIfNoTeamAccess(req, res);
+    await throwIfNoDispensaryAccess(req, res);
 
     switch (req.method) {
       case 'GET':

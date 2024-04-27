@@ -1,11 +1,10 @@
-import { generateToken, validateEmail } from '@/lib/server-common';
-import { sendPasswordResetEmail } from '@/lib/email2/sendPasswordResetEmail';
+import { generateToken, validateEmail } from '@cd/core-lib';
+import { sendPasswordResetEmail } from '@/lib/email/sendPasswordResetEmail';
 import { ApiError } from '@/lib/errors2';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { recordMetric } from '@/lib/metrics';
 import { validateRecaptcha } from '@/lib/recaptcha';
-import { getUser } from 'models/user';
-import { createPasswordReset } from 'models/passwordReset';
+import { getUser, createPasswordReset } from '@cd/data-access';
 import { forgotPasswordSchema, validateWithSchema } from '@/lib/zod';
 
 export default async function handler(

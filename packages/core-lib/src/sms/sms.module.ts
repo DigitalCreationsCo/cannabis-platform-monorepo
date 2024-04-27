@@ -27,12 +27,12 @@ class SMSModule {
 			// 		(Telnyx) => (this.smsApi = Telnyx.default),
 			// 	);
 			// 	break;
-			case 'DailyStory':
-				// eslint-disable-next-line import/no-cycle
-				import('../lib/DailyStory/dailystory').then(
-					(DailyStory) => (this.smsApi = DailyStory.default),
-				);
-				break;
+			// case 'DailyStory':
+			// 	// eslint-disable-next-line import/no-cycle
+			// 	import('../lib/DailyStory/dailystory').then(
+			// 		(DailyStory) => (this.smsApi = DailyStory.default),
+			// 	);
+			// 	break;
 			default:
 				console.info('SMSModule: unhandled apiName ', apiName);
 		}

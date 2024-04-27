@@ -1,8 +1,8 @@
 import { ApiError } from '@/lib/errors2';
 import { sendAudit } from '@/lib/retraced';
 import { findOrCreateApp, findWebhook, updateWebhook } from '@/lib/svix';
-import { throwIfNoTeamAccess } from 'models/team';
-import { throwIfNotAllowed } from 'models/user';
+import { throwIfNoDispensaryAccess } from '@cd/data-access';
+import { throwIfNotAllowed } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { EndpointIn } from 'svix';
 import { recordMetric } from '@/lib/metrics';
@@ -47,7 +47,7 @@ export default async function handler(
 
 // Get a Webhook
 const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
-  const teamMember = await throwIfNoTeamAccess(req, res);
+  const teamMember = await throwIfNoDispensaryAccess(req, res);
   throwIfNotAllowed(teamMember, 'team_webhook', 'read');
 
   const { endpointId } = validateWithSchema(
@@ -72,7 +72,7 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
 
 // Update a Webhook
 const handlePUT = async (req: NextApiRequest, res: NextApiResponse) => {
-  const teamMember = await throwIfNoTeamAccess(req, res);
+  const teamMember = await throwIfNoDispensaryAccess(req, res);
   throwIfNotAllowed(teamMember, 'team_webhook', 'update');
 
   const { name, url, eventTypes, endpointId } = validateWithSchema(

@@ -1,8 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import { getUser } from 'models/user';
-import { ApiError } from '@/lib/errors2';
-import { deleteVerificationToken } from 'models/verificationToken';
+import { deleteVerificationToken, getUser } from '@cd/data-access';
+import { ApiError } from '@cd/core-lib';
 import { isAccountLocked, sendLockoutEmail } from '@/lib/accountLock';
 import { resendLinkRequestSchema, validateWithSchema } from '@/lib/zod';
 

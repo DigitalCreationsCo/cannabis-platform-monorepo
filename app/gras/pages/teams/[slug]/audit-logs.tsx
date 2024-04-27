@@ -7,8 +7,8 @@ import { getViewerToken } from '@/lib/retraced';
 import { getSession } from '@/lib/session';
 import useCanAccess from 'hooks/useCanAccess';
 import useTeam from 'hooks/useTeam';
-import { getTeamMember } from 'models/team';
-import { throwIfNotAllowed } from 'models/user';
+import { getDispensaryMember } from '@cd/data-access';
+import { throwIfNotAllowed } from '@cd/data-access';
 import { GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -78,7 +78,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { locale, req, res, query } = context;
 
   const session = await getSession(req, res);
-  const teamMember = await getTeamMember(
+  const teamMember = await getDispensaryMember(
     session?.user.id as string,
     query.slug as string
   );

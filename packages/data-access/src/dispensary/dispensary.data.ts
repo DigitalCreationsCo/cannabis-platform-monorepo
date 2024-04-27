@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { type Prisma } from '@prisma/client';
-import { ObjectId } from 'mongodb';
-import clientPromise, { db_namespace } from '../db';
+import { type MongoClient, ObjectId } from 'mongodb';
+import { db_namespace } from '../db';
 import { normalizeUser } from '../helpers';
 import { Role } from '../role.types';
+import { type Dispensary } from './dispensary.types';
 
 export const createDispensary = async (param: {
 	userId: string;
@@ -18,7 +18,7 @@ export const createDispensary = async (param: {
 	const dispensary = await client
 		.db(db)
 		.collection(collections.dispensaries)
-		.insertOne(data);
+		.insertOne({ ...data, createdAt: new Date(), updatedAt: new Date() });
 
 	await addStaffMember(dispensary.insertedId, userId, Role.OWNER);
 
@@ -29,7 +29,7 @@ export const createDispensary = async (param: {
 
 export const getByCustomerId = async (
 	billingId: string,
-): Promise<Team | null> => {
+): Promise<Dispensary | null> => {
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
 	return await client
@@ -158,17 +158,17 @@ export const isTeamExists = async (slug: string) => {
 		.countDocuments({ slug });
 };
 
-export const getStaffMember = async (userId: string, slug: string) => {
-	const client = await clientPromise;
-	const { db, collections } = db_namespace;
-	return await client
-		.db(db)
-		.collection(collections.staff)
-		.findOne({
-			_id: new ObjectId(userId),
-			'dispensary.slug': slug,
-		});
-};
+// export const getStaffMember = async (userId: string, slug: string) => {
+// 	const client = await clientPromise;
+// 	const { db, collections } = db_namespace;
+// 	return await client
+// 		.db(db)
+// 		.collection(collections.staff)
+// 		.findOne({
+// 			_id: new ObjectId(userId),
+// 			'dispensary.slug': slug,
+// 		});
+// };
 
 /**
  * get zero or more Dispensaries

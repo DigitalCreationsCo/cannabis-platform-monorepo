@@ -1,5 +1,5 @@
 import {
-	isLegalAgeAndVerified,
+	is_legal_ageAndVerified,
 	TextContent,
 	userActions,
 	type ConsumeCodeResponse,
@@ -109,7 +109,7 @@ export default function EnterOTPForm({
 			const { user, token } = (response as unknown as ConsumeCodeResponse)
 				.userFromDb;
 
-			if (isLegalAgeAndVerified(user as UserWithDetails)) {
+			if (is_legal_ageAndVerified(user as UserWithDetails)) {
 				setCookie('yesOver21', 'true');
 				console.debug('set yesOver21 cookie to true');
 			}

@@ -86,8 +86,8 @@ const VerifyPhotoId = () => {
 				toast(TextContent.account.VERIFY_ID_PROCESSING);
 				if (response.success === 'true') {
 					if (
-						response.payload.idVerified === true &&
-						response.payload.isLegalAge === false
+						response.payload.id_verified === true &&
+						response.payload.is_legal_age === false
 					)
 						router.push('/sorry-we-cant-serve-you');
 					else {
@@ -96,8 +96,8 @@ const VerifyPhotoId = () => {
 						setFormValues({
 							newUser: {
 								scannedDOB: response.payload.scannedDOB,
-								idVerified: response.payload.idVerified,
-								isLegalAge: response.payload.isLegalAge,
+								id_verified: response.payload.id_verified,
+								is_legal_age: response.payload.is_legal_age,
 								idFrontImage: response.payload.images.idFrontImage,
 								idBackImage: response.payload.images.idBackImage,
 							},
@@ -276,8 +276,8 @@ type VerifyIdentificationResponse =
 	| {
 			success: 'true';
 			payload: {
-				isLegalAge: boolean;
-				idVerified: boolean;
+				is_legal_age: boolean;
+				id_verified: boolean;
 				scannedDOB: Date | null;
 				images: {
 					idFrontImage: string;

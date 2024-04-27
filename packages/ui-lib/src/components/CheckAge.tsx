@@ -1,12 +1,13 @@
+import { TextContent } from '@cd/core-lib';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
-import { TextContent } from '../../../core-lib/src';
 import Button from './button/Button/Button';
 import Center from './Center';
 import CheckBox from './CheckBox';
 import FlexBox from './FlexBox';
-import { H1, H3 } from './Typography';
+import { H3 } from './Typography';
 
 const CheckAge = ({
 	redirect = '/browse',
@@ -27,62 +28,86 @@ const CheckAge = ({
 		router.push(redirect);
 	};
 
+	// use motion.div for animation
+	// const variants = {
+	// 	hidden: { opacity: 0 },
+	// 	visible: { opacity: 1 },
+	// };
+
 	return (
-		<Center className="w-full">
-			{!showNext ? (
-				<FlexBox className="p-4 space-y-4">
-					<H3>{TextContent.prompt.ARE_YOU_LEGAL}</H3>
-					<CheckBox
-						className="w-auto m-auto"
-						name={'checkAge'}
-						onChange={toggleOver21}
-						checked={yesOver21}
-						LabelComponent={H3}
-						label="I'm over 21"
-					/>
+		<AnimatePresence>
+			<Center className="w-full">
+				<>
+					{!showNext && (
+						<motion.div
+							animate={{ x: 0, opacity: 1 }}
+							exit={{ x: 50, opacity: 0 }}
+						>
+							<FlexBox className="p-4 space-y-4">
+								<H3>{TextContent.prompt.ARE_YOU_LEGAL}</H3>
+								<CheckBox
+									className="w-auto m-auto"
+									name={'checkAge'}
+									onChange={toggleOver21}
+									checked={yesOver21}
+									LabelComponent={H3}
+									label="Yes, I'm over 21"
+								/>
 
-					<Button
-						size="lg"
-						bg={'secondary-light'}
-						hover={'primary-light'}
-						disabled={!yesOver21}
-						onClick={() => {
-							setCookie('yesOver21', 'true');
-							setShowNext(true);
-						}}
-					>
-						Continue
-					</Button>
-				</FlexBox>
-			) : (
-				<FlexBox className="p-4 space-y-4">
-					<H3>{TextContent.prompt["DO_YOU_KNOW_WHAT_YOU'RE_LOOKING_FOR"]}</H3>
-					<H3>{TextContent.prompt['SEND_YOU_OFFERS']}</H3>
+								<Button
+									size="lg"
+									bg={'secondary-light'}
+									hover={'primary-light'}
+									disabled={!yesOver21}
+									onClick={() => {
+										setCookie('yesOver21', 'true');
+										setShowNext(true);
+									}}
+								>
+									Continue
+								</Button>
+							</FlexBox>
+						</motion.div>
+					)}
+					{showNext && (
+						<motion.div
+							initial={{ x: 50, opacity: 0 }}
+							animate={{ x: 0, opacity: 1 }}
+							exit={{ x: 50, opacity: 0 }}
+						>
+							<FlexBox className="p-4 space-y-4">
+								<H3>
+									{TextContent.prompt["DO_YOU_KNOW_WHAT_YOU'RE_LOOKING_FOR"]}
+								</H3>
+								<H3>{TextContent.prompt['SEND_YOU_OFFERS']}</H3>
 
-					<Button
-						className="w-[300px]"
-						size="lg"
-						bg={'secondary-light'}
-						hover={'primary-light'}
-						disabled={!yesOver21}
-						onClick={onSubmit}
-					>
-						I know what I'm looking for
-					</Button>
+								<Button
+									className="w-[300px]"
+									size="lg"
+									bg={'secondary-light'}
+									hover={'primary-light'}
+									disabled={!yesOver21}
+									onClick={onSubmit}
+								>
+									I know what I'm looking for
+								</Button>
 
-					<Button
-						className="w-[300px]"
-						size="lg"
-						bg={'secondary-light'}
-						hover={'primary-light'}
-						disabled={!yesOver21}
-						onClick={() => router.push('/weed-text')}
-					>
-						Send me offers
-					</Button>
-				</FlexBox>
-			)}
-		</Center>
+								<Button
+									className="w-[300px]"
+									size="lg"
+									bg={'secondary-light'}
+									hover={'primary-light'}
+									disabled={!yesOver21}
+									onClick={() => router.push('/weed-text')}
+								>
+									Send me offers
+								</Button>
+							</FlexBox>
+						</motion.div>
+					)}
+				</>
+			</Center>
+		</AnimatePresence>
 	);
 };
 

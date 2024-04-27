@@ -1,7 +1,7 @@
 import env from '@/lib/env';
 import { sendAudit } from '@/lib/retraced';
-import { throwIfNoTeamAccess } from 'models/team';
-import { throwIfNotAllowed } from 'models/user';
+import { throwIfNoDispensaryAccess } from '@cd/data-access';
+import { throwIfNotAllowed } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { ApiError } from '@/lib/errors2';
 import { dsyncManager } from '@/lib/jackson/dsync';
@@ -44,7 +44,7 @@ export default async function handler(
 }
 
 const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
-  const teamMember = await throwIfNoTeamAccess(req, res);
+  const teamMember = await throwIfNoDispensaryAccess(req, res);
 
   throwIfNotAllowed(teamMember, 'team_dsync', 'read');
 
@@ -56,7 +56,7 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
-  const teamMember = await throwIfNoTeamAccess(req, res);
+  const teamMember = await throwIfNoDispensaryAccess(req, res);
 
   throwIfNotAllowed(teamMember, 'team_dsync', 'create');
 

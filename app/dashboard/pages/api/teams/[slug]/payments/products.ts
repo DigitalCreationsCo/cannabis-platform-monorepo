@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 import { getStripeCustomerId } from '@/lib/stripe';
 import { getSession } from '@/lib/session';
-import { throwIfNoTeamAccess } from 'models/team';
+import { throwIfNoDispensaryAccess } from 'models/team';
 import { getAllServices } from 'models/service';
 import { getAllPrices } from 'models/price';
 import { getByCustomerId } from 'models/subscription';
@@ -32,7 +32,7 @@ export default async function handler(
 
 const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession(req, res);
-  const teamMember = await throwIfNoTeamAccess(req, res);
+  const teamMember = await throwIfNoDispensaryAccess(req, res);
   if (!session?.user?.id) {
     throw Error('Could not get user');
   }

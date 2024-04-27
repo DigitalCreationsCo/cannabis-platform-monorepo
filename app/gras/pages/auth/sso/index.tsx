@@ -15,6 +15,7 @@ import type { NextPageWithLayout } from 'types';
 import * as Yup from 'yup';
 import Head from 'next/head';
 import { maxLengthPolicies } from '@/lib/common';
+import { LoadingDots } from '@cd/ui-lib';
 
 const SSO: NextPageWithLayout<
   InferGetServerSidePropsType<typeof getServerSideProps>
@@ -53,7 +54,7 @@ const SSO: NextPageWithLayout<
   });
 
   if (status === 'loading') {
-    return <Loading />;
+    return <LoadingDots />;
   }
 
   if (status === 'authenticated') {

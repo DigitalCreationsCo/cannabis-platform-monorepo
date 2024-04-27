@@ -1,0 +1,1 @@
+const clientPromise: Promise<MongoClient>;

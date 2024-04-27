@@ -1,8 +1,5 @@
-import { updateUser } from 'models/user';
-import {
-  deleteVerificationToken,
-  getVerificationToken,
-} from 'models/verificationToken';
+import { updateUser } from '@cd/data-access';
+import { deleteVerificationToken, getVerificationToken } from '@cd/data-access';
 import type { GetServerSidePropsContext } from 'next';
 import type { ReactElement } from 'react';
 

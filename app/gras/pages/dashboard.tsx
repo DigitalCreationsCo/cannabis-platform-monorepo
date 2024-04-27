@@ -1,4 +1,5 @@
 import { Loading } from '@/components/shared';
+import { LoadingDots } from '@cd/ui-lib';
 import useTeams from 'hooks/useTeams';
 import { GetServerSidePropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -22,7 +23,7 @@ const Dashboard: NextPageWithLayout = () => {
     }
   }, [isLoading, router, teams]);
 
-  return <Loading />;
+  return <LoadingDots />;
 };
 
 export async function getStaticProps({ locale }: GetServerSidePropsContext) {

@@ -3,14 +3,14 @@ import { sendAudit } from '@/lib/retraced';
 import { sendEvent } from '@/lib/svix';
 import { Role } from '@prisma/client';
 import {
-  getTeamMembers,
+  getDispensaryMembers,
   removeTeamMember,
-  throwIfNoTeamAccess,
-} from 'models/team';
-import { throwIfNotAllowed } from 'models/user';
+  throwIfNoDispensaryAccess,
+} from '@cd/data-access';
+import { throwIfNotAllowed } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { recordMetric } from '@/lib/metrics';
-import { countTeamMembers, updateTeamMember } from 'models/teamMember';
+import { countTeamMembers, updateTeamMember } from '@cd/data-access';
 import { validateMembershipOperation } from '@/lib/rbac';
 import {
   deleteMemberSchema,
@@ -54,10 +54,10 @@ export default async function handler(
 
 // Get members of a team
 const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
-  const teamMember = await throwIfNoTeamAccess(req, res);
+  const teamMember = await throwIfNoDispensaryAccess(req, res);
   throwIfNotAllowed(teamMember, 'team_member', 'read');
 
-  const members = await getTeamMembers(teamMember.team.slug);
+  const members = await getDispensaryMembers(teamMember.team.slug);
 
   recordMetric('member.fetched');
 
@@ -66,7 +66,7 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
 
 // Delete the member from the team
 const handleDELETE = async (req: NextApiRequest, res: NextApiResponse) => {
-  const teamMember = await throwIfNoTeamAccess(req, res);
+  const teamMember = await throwIfNoDispensaryAccess(req, res);
   throwIfNotAllowed(teamMember, 'team_member', 'delete');
 
   const { memberId } = validateWithSchema(
@@ -94,7 +94,7 @@ const handleDELETE = async (req: NextApiRequest, res: NextApiResponse) => {
 
 // Leave a team
 const handlePUT = async (req: NextApiRequest, res: NextApiResponse) => {
-  const teamMember = await throwIfNoTeamAccess(req, res);
+  const teamMember = await throwIfNoDispensaryAccess(req, res);
   throwIfNotAllowed(teamMember, 'team', 'leave');
 
   /*
@@ -148,7 +148,7 @@ Execution Time: 0.057 ms
 
 // Update the role of a member
 const handlePATCH = async (req: NextApiRequest, res: NextApiResponse) => {
-  const teamMember = await throwIfNoTeamAccess(req, res);
+  const teamMember = await throwIfNoDispensaryAccess(req, res);
   throwIfNotAllowed(teamMember, 'team_member', 'update');
 
   const { memberId, role } = validateWithSchema(

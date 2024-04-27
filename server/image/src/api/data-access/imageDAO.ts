@@ -25,16 +25,16 @@ class ImageDAO {
 	 */
 	async verifyIdentificationImage(
 		image: ImageLike & Input,
-	): Promise<{ isLegalAge: boolean; scannedDOB: Date }> {
+	): Promise<{ is_legal_age: boolean; scannedDOB: Date }> {
 		try {
 			await ImageProcessor.getMetaData(image);
 
 			const _text = await this.imageWorker.parseImageToText(image as Buffer);
 
-			const { isLegalAge, scannedDOB } = new IdCardReader(_text).isLegalAge();
+			const { is_legal_age, scannedDOB } = new IdCardReader(_text).is_legal_age();
 
 			return {
-				isLegalAge,
+				is_legal_age,
 				scannedDOB,
 			};
 		} catch (error: any) {

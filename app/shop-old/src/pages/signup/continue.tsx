@@ -6,9 +6,9 @@ import { twMerge } from 'tailwind-merge';
 
 function ContinueSignUp() {
 	const { user } = useSelector(selectUserState),
-		{ isLegalAge, idVerified } = user;
+		{ is_legal_age, id_verified } = user;
 
-	if (idVerified === true && isLegalAge === false)
+	if (id_verified === true && is_legal_age === false)
 		router.push(getShopSite('/sorry-we-cant-serve-you'));
 	return (
 		<Page className={twMerge(styles.gradient, 'pb-0 md:pb-24')}>

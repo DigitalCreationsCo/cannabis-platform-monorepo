@@ -50,8 +50,8 @@ function UserSignUpForm() {
 			coordinateId: '',
 		},
 		emailVerified: false,
-		isLegalAge: false,
-		idVerified: false,
+		is_legal_age: false,
+		id_verified: false,
 		isSignUpComplete: false,
 		memberships: [],
 	};
@@ -150,8 +150,8 @@ function UserSignUpForm() {
 		//                     { id: 'zipcode', value: values.address.zipcode },
 		//                     { id: 'country', value: values.address.country },
 		//                     { id: 'countryCode', value: values.address.countryCode || '' },
-		//                     { id: 'isLegalAge', value: values.isLegalAge.toString() },
-		//                     { id: 'idVerified', value: values.idVerified.toString() },
+		//                     { id: 'is_legal_age', value: values.is_legal_age.toString() },
+		//                     { id: 'id_verified', value: values.id_verified.toString() },
 		//                 ]
 		//             });
 		//             if (response.status === 'FIELD_ERROR') {

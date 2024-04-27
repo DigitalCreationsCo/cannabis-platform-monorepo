@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { Loading } from '@/components/shared';
 import { useSession } from 'next-auth/react';
 import React from 'react';
 import Header from './Header';
 import Drawer from './Drawer';
 import { useRouter } from 'next/navigation';
+import { Center, LoadingDots } from '@cd/ui-lib';
 
 export default function AppShell({ children }) {
   const router = useRouter();
@@ -12,7 +12,11 @@ export default function AppShell({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   if (status === 'loading') {
-    return <Loading />;
+    return (
+      <Center>
+        <LoadingDots />
+      </Center>
+    );
   }
 
   if (status === 'unauthenticated') {

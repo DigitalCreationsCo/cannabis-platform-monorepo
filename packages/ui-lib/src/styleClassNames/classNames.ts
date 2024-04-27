@@ -13,8 +13,9 @@ const styles = Object.freeze({
 	],
 	dispensaryCard: [
 		'relative',
-		// 'w-[240px] md:min-w-[340px] md:w-[340px] h-[220px] p-4 overflow-hidden !rounded',
-		'!min-w-[240px] !min-h-[240px] !w-[240px] !h-[240px]',
+		'mx-4 my-8 sm:pt-4 pb-12 md:py-5 md:px-12',
+		'rounded-btn shadow h-[180px]',
+		'drop-shadow-[-6px_4px_1px_#455555]',
 	],
 	infoCard: [
 		'relative',
@@ -32,7 +33,7 @@ const styles = Object.freeze({
 	},
 	TOPBAR: {
 		topbar: [
-			'z-50 sticky flex flex-row px-2 bg-inverse-soft items-center shadow min-h-[40px] justify-between space-x-5 lg:pl-5 lg:pr-8',
+			'z-50 sticky flex flex-row px-2 bg-inverse-soft items-center shadow min-h-[40px] shrink-0 justify-between space-x-5 lg:pl-5 lg:pr-8',
 		],
 		tagline: [
 			'p-0 m-0',
@@ -41,6 +42,7 @@ const styles = Object.freeze({
 			'md:block',
 			'place-self-center',
 			'text-primary',
+			'font-semibold',
 		],
 		badge: [
 			'indicator absolute inline-flex items-center justify-center w-6 h-6 text-sm text-light bg-primary -top-2 -right-2 rounded-full',

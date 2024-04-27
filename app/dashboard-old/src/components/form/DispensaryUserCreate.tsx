@@ -278,8 +278,8 @@ const initialValues = {
 		country: 'United_States',
 		countryCode: 'US',
 	},
-	isLegalAge: false,
-	idVerified: false,
+	is_legal_age: false,
+	id_verified: false,
 	memberships: [],
 	termsAccepted: false,
 };
