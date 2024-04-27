@@ -26,10 +26,11 @@ export function formatDispensaryUrl(
 // }
 
 export function replaceRelativePath(href: string) {
-	// console.info('replaceRelativePath href', href);
-	const url = new URL(href, window.location.href);
-	// console.info('replaceRelativePath url', url);
-	return url.href;
+	let url = '';
+	if (typeof window !== 'undefined') {
+		url = new URL(href, window.location.href).href;
+	}
+	return url;
 }
 
 export function formatBlogUrl(href: string) {

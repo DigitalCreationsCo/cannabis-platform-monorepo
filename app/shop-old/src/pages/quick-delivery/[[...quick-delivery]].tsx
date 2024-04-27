@@ -1,7 +1,7 @@
 import {
 	cartActions,
 	getShopSite,
-	isLegalAgeAndVerified,
+	is_legal_ageAndVerified,
 	modalActions,
 	modalTypes,
 	selectCartState,
@@ -43,9 +43,9 @@ function QuickDelivery({ simpleCart }: { simpleCart: SimpleCart }) {
 	const isAddressAdded = useSelector(selectIsAddressAdded);
 
 	const user = useSelector(selectUserState);
-	const { isLegalAge, idVerified } = user.user;
+	const { is_legal_age, id_verified } = user.user;
 
-	if (idVerified === true && isLegalAge === false)
+	if (id_verified === true && is_legal_age === false)
 		router.push('/sorry-we-cant-serve-you');
 
 	const [confirm, setConfirm] = useState(true);
@@ -62,7 +62,7 @@ function QuickDelivery({ simpleCart }: { simpleCart: SimpleCart }) {
 			event.preventDefault();
 			event.stopPropagation();
 			if (user.isSignedIn && isAddressAdded && user.user.isSignUpComplete) {
-				if (!isLegalAgeAndVerified(user.user))
+				if (!is_legal_ageAndVerified(user.user))
 					router.push(getShopSite('/sorry-we-cant-serve-you'));
 				else {
 					const response = await dispatch(

@@ -1,10 +1,13 @@
-import { slugify } from '@/lib/server-common';
-import { ApiError } from '@/lib/errors2';
-import { createTeam, getTeams, isTeamExists } from 'models/team';
+import { slugify, ApiError } from '@cd/core-lib';
+import {
+  createDispensary,
+  getDispensaries,
+  isTeamExists,
+} from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { recordMetric } from '@/lib/metrics';
 import { createTeamSchema, validateWithSchema } from '@/lib/zod';
-import { getCurrentUser } from 'models/user';
+import { getCurrentUser } from '@/lib/user';
 
 export default async function handler(
   req: NextApiRequest,
@@ -37,7 +40,7 @@ export default async function handler(
 // Get teams
 const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
   const user = await getCurrentUser(req, res);
-  const teams = await getTeams(user.id);
+  const teams = await getDispensaries(user.id);
 
   recordMetric('team.fetched');
 
@@ -55,7 +58,7 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
     throw new ApiError(400, 'A team with the slug already exists.');
   }
 
-  const team = await createTeam({
+  const team = await createDispensary({
     userId: user.id,
     name,
     slug,

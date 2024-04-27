@@ -7,15 +7,15 @@ import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
 import { type ReactElement, useEffect } from 'react';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import type { NextPageWithLayout } from 'types';
+import type { NextPageWithLayout } from '@/lib/next.types';
 import { authProviderEnabled } from '@/lib/auth';
 import { AuthLayout } from '@/components/layouts';
 import GithubButton from '@/components/auth/GithubButton';
 import GoogleButton from '@/components/auth/GoogleButton';
 import { JoinWithInvitation, Join } from '@/components/auth';
 import Head from 'next/head';
-import { Loading } from '@/components/shared';
 import env from '@/lib/env';
+import { LoadingDots } from '@cd/ui-lib';
 
 const Signup: NextPageWithLayout<
   InferGetServerSidePropsType<typeof getServerSideProps>
@@ -36,7 +36,7 @@ const Signup: NextPageWithLayout<
   }, [error, t]);
 
   if (status === 'loading') {
-    return <Loading />;
+    return <LoadingDots />;
   }
 
   if (status === 'authenticated') {

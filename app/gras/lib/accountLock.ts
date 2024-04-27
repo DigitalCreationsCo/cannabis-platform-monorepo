@@ -1,18 +1,21 @@
+import AccountLocked from '@/components/emailTemplates/AccountLocked';
+import {
+  type User,
+  updateUser,
+  createVerificationToken,
+} from '@cd/data-access';
 import { render } from '@react-email/components';
 
 import app from './app';
+import { sendEmail } from './email/sendEmail';
 import env from './env';
-import { User } from '@prisma/client';
-import { sendEmail } from './email2/sendEmail';
-import { createVerificationToken } from 'models/verificationToken';
-import AccountLocked from '@/components/emailTemplates/AccountLocked';
-import { updateUser } from 'models/user';
+import { generateToken } from '@cd/core-lib';
 
 const UNLOCK_ACCOUNT_TOKEN_EXPIRATION = 7 * 24 * 60 * 60 * 1000; // 7 days
 
 export const incrementLoginAttempts = async (user: User) => {
   const updatedUser = await updateUser({
-    where: { id: user.id },
+    id: user._id,
     data: {
       invalid_login_attempts: {
         increment: 1,
@@ -22,7 +25,7 @@ export const incrementLoginAttempts = async (user: User) => {
 
   if (exceededLoginAttemptsThreshold(updatedUser)) {
     await updateUser({
-      where: { id: user.id },
+      id: user._id,
       data: {
         lockedAt: new Date(),
       },
@@ -36,7 +39,7 @@ export const incrementLoginAttempts = async (user: User) => {
 
 export const clearLoginAttempts = async (user: User) => {
   await updateUser({
-    where: { id: user.id },
+    id: user._id,
     data: {
       invalid_login_attempts: 0,
     },
@@ -45,7 +48,7 @@ export const clearLoginAttempts = async (user: User) => {
 
 export const unlockAccount = async (user: User) => {
   await updateUser({
-    where: { id: user.id },
+    id: user._id,
     data: {
       invalid_login_attempts: 0,
       lockedAt: null,
@@ -55,6 +58,7 @@ export const unlockAccount = async (user: User) => {
 
 export const sendLockoutEmail = async (user: User, resending = false) => {
   const verificationToken = await createVerificationToken({
+    token: generateToken(),
     identifier: user.email,
     expires: new Date(Date.now() + UNLOCK_ACCOUNT_TOKEN_EXPIRATION),
   });

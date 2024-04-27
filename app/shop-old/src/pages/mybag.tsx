@@ -1,7 +1,7 @@
 import {
 	cartActions,
 	getShopSite,
-	isLegalAgeAndVerified,
+	is_legal_ageAndVerified,
 	modalActions,
 	modalTypes,
 	selectIsAddressAdded,
@@ -33,7 +33,7 @@ function CartPage() {
 			event.preventDefault();
 			event.stopPropagation();
 			if (user.isSignedIn && isAddressAdded && user.user.isSignUpComplete) {
-				if (!isLegalAgeAndVerified(user.user))
+				if (!is_legal_ageAndVerified(user.user))
 					router.push(getShopSite('/sorry-we-cant-serve-you'));
 				else {
 					const response = await dispatch(

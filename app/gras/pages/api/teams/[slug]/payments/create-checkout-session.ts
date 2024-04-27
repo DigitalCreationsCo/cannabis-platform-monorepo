@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { getSession } from '@/lib/session';
-import { throwIfNoTeamAccess } from 'models/team';
+import { throwIfNoDispensaryAccess } from '@cd/data-access';
 import { stripe, getStripeCustomerId } from '@/lib/stripe';
 import env from '@/lib/env';
 import { checkoutSessionSchema, validateWithSchema } from '@/lib/zod';
@@ -35,7 +35,7 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
     req.body
   );
 
-  const teamMember = await throwIfNoTeamAccess(req, res);
+  const teamMember = await throwIfNoDispensaryAccess(req, res);
   const session = await getSession(req, res);
   const customer = await getStripeCustomerId(teamMember, session);
 

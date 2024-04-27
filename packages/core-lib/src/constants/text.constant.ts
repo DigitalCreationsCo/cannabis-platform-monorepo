@@ -11,7 +11,7 @@ const copyrightsymbol = '&#169';
 
 const TextContent = Object.freeze({
 	prompt: {
-		ARE_YOU_LEGAL: 'are you 21 years or older?',
+		ARE_YOU_LEGAL: 'Are you 21 or older?',
 		ACCEPT_ORDER: 'Do you want to accept the order?',
 		CONFIRM_ADD_TO_CART: `Your bag contains an item from another shop.
     Do you want to empty the bag and add this item instead?`,

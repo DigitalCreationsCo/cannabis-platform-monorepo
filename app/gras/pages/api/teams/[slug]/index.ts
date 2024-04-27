@@ -2,11 +2,11 @@ import { sendAudit } from '@/lib/retraced';
 import {
   deleteTeam,
   getCurrentUserWithTeam,
-  getTeam,
-  throwIfNoTeamAccess,
+  getDispensary,
+  throwIfNoDispensaryAccess,
   updateTeam,
-} from 'models/team';
-import { throwIfNotAllowed } from 'models/user';
+} from '@cd/data-access';
+import { throwIfNotAllowed } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { recordMetric } from '@/lib/metrics';
 import { ApiError } from '@/lib/errors2';
@@ -19,7 +19,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    await throwIfNoTeamAccess(req, res);
+    await throwIfNoDispensaryAccess(req, res);
 
     switch (req.method) {
       case 'GET':
@@ -51,7 +51,7 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
 
   throwIfNotAllowed(user, 'team', 'read');
 
-  const team = await getTeam({ id: user.team.id });
+  const team = await getDispensary({ id: user.team.id });
 
   recordMetric('team.fetched');
 

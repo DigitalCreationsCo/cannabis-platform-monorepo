@@ -11,7 +11,7 @@ import {
   getInvitations,
   isInvitationExpired,
 } from 'models/invitation';
-import { addTeamMember, throwIfNoTeamAccess } from 'models/team';
+import { addTeamMember, throwIfNoDispensaryAccess } from 'models/team';
 import { throwIfNotAllowed } from 'models/user';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { recordMetric } from '@/lib/metrics';
@@ -62,7 +62,7 @@ export default async function handler(
 
 // Invite a user to a team
 const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
-  const teamMember = await throwIfNoTeamAccess(req, res);
+  const teamMember = await throwIfNoDispensaryAccess(req, res);
   throwIfNotAllowed(teamMember, 'team_invitation', 'create');
 
   const { email, role, sentViaEmail, domains } = validateWithSchema(
@@ -199,7 +199,7 @@ Execution Time: 0.152 ms
 
 // Get all invitations for a team
 const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
-  const teamMember = await throwIfNoTeamAccess(req, res);
+  const teamMember = await throwIfNoDispensaryAccess(req, res);
   throwIfNotAllowed(teamMember, 'team_invitation', 'read');
 
   const { sentViaEmail } = validateWithSchema(
@@ -219,7 +219,7 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
 
 // Delete an invitation
 const handleDELETE = async (req: NextApiRequest, res: NextApiResponse) => {
-  const teamMember = await throwIfNoTeamAccess(req, res);
+  const teamMember = await throwIfNoDispensaryAccess(req, res);
   throwIfNotAllowed(teamMember, 'team_invitation', 'delete');
 
   const { id } = validateWithSchema(

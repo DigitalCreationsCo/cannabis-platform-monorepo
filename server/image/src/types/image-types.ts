@@ -13,8 +13,8 @@ type VerifyIdentificationResponse =
 	| {
 			success: 'true';
 			result: {
-				isLegalAge: boolean;
-				idVerified: boolean;
+				is_legal_age: boolean;
+				id_verified: boolean;
 				scannedDOB: Date;
 			};
 			images: {

@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from '@/lib/session';
-import { deleteSession, findFirstSessionOrThrown } from 'models/session';
+import { deleteSession, findFirstSessionOrThrown } from '@cd/data-access';
 import { validateWithSchema, deleteSessionSchema } from '@/lib/zod';
 
 export default async function handler(

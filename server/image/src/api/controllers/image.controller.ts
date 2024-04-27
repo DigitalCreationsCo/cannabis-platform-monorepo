@@ -26,7 +26,7 @@ export default class ImageController {
 					(image) => image.fieldname === 'idFrontImage',
 				);
 
-				let _verified: { isLegalAge: boolean; scannedDOB: Date },
+				let _verified: { is_legal_age: boolean; scannedDOB: Date },
 					_uploaded: ImagePaths;
 
 				// make requests to AWS in production only
@@ -39,7 +39,7 @@ export default class ImageController {
 						bucket: process.env.ID_VERIFY_BUCKET,
 					});
 				} else {
-					_verified = { isLegalAge: true, scannedDOB: new Date() };
+					_verified = { is_legal_age: true, scannedDOB: new Date() };
 					_uploaded = {};
 
 					// for testing purposes
@@ -49,9 +49,9 @@ export default class ImageController {
 				return res.status(200).json({
 					success: 'true',
 					payload: {
-						isLegalAge: _verified.isLegalAge,
+						is_legal_age: _verified.is_legal_age,
 						scannedDOB: _verified.scannedDOB,
-						idVerified: !!_verified,
+						id_verified: !!_verified,
 						images: _uploaded,
 						isUploaded: true,
 					},

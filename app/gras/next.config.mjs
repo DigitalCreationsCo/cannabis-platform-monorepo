@@ -10,19 +10,24 @@ import { expand } from 'dotenv-expand';
 import findUp from 'find-up';
 
 const _env =
-	process.env.NEXT_PUBLIC_IS_LOCAL_BUILD == '1'
-		? 'development'
-		: process.env.NODE_ENV;
+  process.env.NEXT_PUBLIC_IS_LOCAL_BUILD == '1'
+    ? 'development'
+    : process.env.NODE_ENV;
+
 expand(configEnv({ path: findUp.sync(`.env.${_env}`) }));
 
-const {i18n} = i18nConfig;
+const { i18n } = i18nConfig;
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: { esmExternals: false, 
-			outputFileTracingRoot: path.join(__dirname, '../../'),
-      webpackBuildWorker: true },
+  experimental: {
+    esmExternals: false,
+    outputFileTracingRoot: path.join(__dirname, '../../'),
+    webpackBuildWorker: true,
+  },
   reactStrictMode: true,
+  swcMinify: true,
+  output: 'standalone',
   transpilePackages: [
     '@cd/eslint-config',
     '@cd/data-access',

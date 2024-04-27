@@ -5,34 +5,34 @@ import { type AnyAction, type MiddlewareAPI } from '@reduxjs/toolkit';
 import { TextContent } from '../constants';
 import { dispensaryActions } from '../reducer';
 import { type UserFromDBAuthResponse, type AppState } from '../types';
-import { hasMembershipRoleAccess, isEmpty } from '../utils';
+import { isEmpty } from '../utils';
 
 const dispensaryMiddleware =
 	(store: MiddlewareAPI) => (next: any) => async (action: AnyAction) => {
 		try {
 			// handle async signin user
-			if (action.type === 'user/signinUserSync') {
-				const payload = action.payload as UserFromDBAuthResponse;
-				const user = payload.user as UserDispensaryStaffWithDispensaryDetails;
-				if (
-					hasMembershipRoleAccess(user, 'MEMBER') &&
-					!isEmpty(user.memberships?.[0].organizations)
-				) {
-					const organization = user.memberships?.[0].organizations;
-					await store.dispatch(dispensaryActions.setDispensary(organization));
-				} else if (
-					hasMembershipRoleAccess(user, 'MEMBER') &&
-					user.memberships?.[0].organizationId
-				) {
-					await store.dispatch(
-						dispensaryActions.getDispensaryById(
-							user.memberships?.[0].organizationId,
-						) as unknown as AnyAction,
-					);
-				} else {
-					throw new Error(TextContent.error.DISPENSARY_NOT_FOUND);
-				}
-			}
+			// if (action.type === 'user/signinUserSync') {
+			// 	const payload = action.payload as UserFromDBAuthResponse;
+			// 	const user = payload.user as UserDispensaryStaffWithDispensaryDetails;
+			// 	if (
+			// 		hasMembershipRoleAccess(user, 'MEMBER') &&
+			// 		!isEmpty(user.memberships?.[0].organizations)
+			// 	) {
+			// 		const organization = user.memberships?.[0].organizations;
+			// 		await store.dispatch(dispensaryActions.setDispensary(organization));
+			// 	} else if (
+			// 		hasMembershipRoleAccess(user, 'MEMBER') &&
+			// 		user.memberships?.[0].organizationId
+			// 	) {
+			// 		await store.dispatch(
+			// 			dispensaryActions.getDispensaryById(
+			// 				user.memberships?.[0].organizationId,
+			// 			) as unknown as AnyAction,
+			// 		);
+			// 	} else {
+			// 		throw new Error(TextContent.error.DISPENSARY_NOT_FOUND);
+			// 	}
+			// }
 
 			// handle post-action effects
 			next(action);

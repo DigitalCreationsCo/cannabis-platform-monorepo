@@ -1,4 +1,3 @@
-import type { User, VerificationToken } from '@prisma/client';
 import { sendEmail } from './sendEmail';
 import { render } from '@react-email/components';
 import { VerificationEmail } from '@/components/emailTemplates';
@@ -9,8 +8,8 @@ export const sendVerificationEmail = async ({
   user,
   verificationToken,
 }: {
-  user: User;
-  verificationToken: VerificationToken;
+  user: any;
+  verificationToken: any;
 }) => {
   const subject = `Confirm your ${app.name} account`;
   const verificationLink = `${

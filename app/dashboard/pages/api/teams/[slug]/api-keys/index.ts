@@ -1,5 +1,5 @@
 import { createApiKey, fetchApiKeys } from 'models/apiKey';
-import { getCurrentUserWithTeam, throwIfNoTeamAccess } from 'models/team';
+import { getCurrentUserWithTeam, throwIfNoDispensaryAccess } from 'models/team';
 import { throwIfNotAllowed } from 'models/user';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { recordMetric } from '@/lib/metrics';
@@ -16,7 +16,7 @@ export default async function handler(
       throw new ApiError(404, 'Not Found');
     }
 
-    await throwIfNoTeamAccess(req, res);
+    await throwIfNoDispensaryAccess(req, res);
 
     switch (req.method) {
       case 'GET':

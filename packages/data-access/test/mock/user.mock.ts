@@ -19,8 +19,8 @@ export const _userCreate = {
 	passwordHash: undefined,
 	termsAccepted: true,
 	imageUser: null,
-	isLegalAge: true,
-	idVerified: true,
+	is_legal_age: true,
+	id_verified: true,
 	memberships: [],
 };
 
@@ -39,7 +39,7 @@ export const _incompleteUserCreate = {
 	dialCode: '1',
 	phone: '2013589648',
 	emailVerified: false,
-	idVerified: true,
+	id_verified: true,
 	memberships: [],
 };
 
@@ -63,8 +63,8 @@ export const _userAdminCreatePayload = {
 		emailVerified: false,
 		termsAccepted: true,
 		imageUser: null,
-		isLegalAge: true,
-		idVerified: true,
+		is_legal_age: true,
+		id_verified: true,
 		memberships: [],
 	},
 	role: 'OWNER',

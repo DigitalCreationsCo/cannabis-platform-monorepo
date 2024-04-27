@@ -1,6 +1,9 @@
-import { deleteApiKey } from 'models/apiKey';
-import { getCurrentUserWithTeam, throwIfNoTeamAccess } from 'models/team';
-import { throwIfNotAllowed } from 'models/user';
+import { deleteApiKey } from '@cd/data-access';
+import {
+  getCurrentUserWithTeam,
+  throwIfNoDispensaryAccess,
+} from '@cd/data-access';
+import { throwIfNotAllowed } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { recordMetric } from '@/lib/metrics';
 import env from '@/lib/env';
@@ -16,7 +19,7 @@ export default async function handler(
       throw new ApiError(404, 'Not Found');
     }
 
-    await throwIfNoTeamAccess(req, res);
+    await throwIfNoDispensaryAccess(req, res);
 
     switch (req.method) {
       case 'DELETE':

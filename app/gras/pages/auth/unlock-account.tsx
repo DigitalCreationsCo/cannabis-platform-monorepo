@@ -8,12 +8,12 @@ import {
   deleteVerificationToken,
   getVerificationToken,
   isVerificationTokenExpired,
-} from 'models/verificationToken';
+} from '@cd/data-access';
 import { Alert } from '@/components/shared';
 import { defaultHeaders } from '@/lib/common';
 import { AuthLayout } from '@/components/layouts';
 import { unlockAccount } from '@/lib/accountLock';
-import { getUser } from 'models/user';
+import { getUser } from '@cd/data-access';
 
 interface UnlockAccountProps {
   email: string;

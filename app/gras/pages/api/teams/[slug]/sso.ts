@@ -3,8 +3,8 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import env from '@/lib/env';
 import { ApiError } from '@/lib/errors2';
 import { sendAudit } from '@/lib/retraced';
-import { throwIfNoTeamAccess } from 'models/team';
-import { throwIfNotAllowed } from 'models/user';
+import { throwIfNoDispensaryAccess } from '@cd/data-access';
+import { throwIfNotAllowed } from '@cd/data-access';
 import { ssoManager } from '@/lib/jackson/sso/index';
 import {
   extractClientId,
@@ -55,7 +55,7 @@ export default async function handler(
 
 // Get the SSO connection for the team.
 const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
-  const teamMember = await throwIfNoTeamAccess(req, res);
+  const teamMember = await throwIfNoDispensaryAccess(req, res);
 
   throwIfNotAllowed(teamMember, 'team_sso', 'read');
 
@@ -78,7 +78,7 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
 
 // Create a SSO connection for the team
 const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
-  const teamMember = await throwIfNoTeamAccess(req, res);
+  const teamMember = await throwIfNoDispensaryAccess(req, res);
 
   throwIfNotAllowed(teamMember, 'team_sso', 'create');
 
@@ -101,7 +101,7 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 const handlePATCH = async (req: NextApiRequest, res: NextApiResponse) => {
-  const teamMember = await throwIfNoTeamAccess(req, res);
+  const teamMember = await throwIfNoDispensaryAccess(req, res);
 
   throwIfNotAllowed(teamMember, 'team_sso', 'create');
 
@@ -127,7 +127,7 @@ const handlePATCH = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 const handleDELETE = async (req: NextApiRequest, res: NextApiResponse) => {
-  const teamMember = await throwIfNoTeamAccess(req, res);
+  const teamMember = await throwIfNoDispensaryAccess(req, res);
 
   throwIfNotAllowed(teamMember, 'team_sso', 'delete');
 

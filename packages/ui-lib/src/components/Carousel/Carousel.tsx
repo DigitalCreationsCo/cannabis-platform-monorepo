@@ -499,6 +499,8 @@ export default function Carousel<D>({
 		slidesToShow,
 		slidesToScroll: 1,
 		cssEase: 'ease-out',
+		variableWidth: true,
+		rows: 1,
 		responsive: [
 			{
 				// breakpoint: 450,
@@ -532,32 +534,37 @@ export default function Carousel<D>({
 		return <p>Failed to fetch</p>;
 	}
 
-	if (loading) {
-		return (
-			<Center className="h-full">
-				<LoadingDots />
-			</Center>
-		);
-	}
-
 	return (
-		<div className="flex flex-row grow items-center overflow-clip">
+		<div className="flex border flex-row overflow-clip">
 			<CarouselButton direction={'left'} onClick={() => decrement()} />
 			<Slider ref={slider} {...carouselSettings} className="overflow-clip">
-				{data.map((d, index) => (
-					<div
-						key={`slider-${index}`}
-						className={twMerge('mr-4')}
-						onClick={onClick}
-					>
-						<SliderComponent
-							// key={`${datatype}-${index}`}
-							current={current === index}
-							data={d}
-							loading={loading}
-						/>
-					</div>
-				))}
+				{!loading
+					? data.map((d, index) => (
+							<div
+								key={`${datatype}-${index}`}
+								className={twMerge('')}
+								onClick={onClick}
+							>
+								<SliderComponent
+									current={current === index}
+									data={d}
+									loading={loading}
+								/>
+							</div>
+					  ))
+					: [1, 2, 3].map((d, index) => (
+							<div
+								key={`loading-slider-${index}`}
+								className={twMerge('')}
+								onClick={onClick}
+							>
+								<SliderComponent
+									current={current === index}
+									data={d as any}
+									loading={loading}
+								/>
+							</div>
+					  ))}
 			</Slider>
 			<CarouselButton
 				className="ml-auto"

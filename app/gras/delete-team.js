@@ -90,7 +90,7 @@ async function init() {
 
 async function displayDeletionArtifacts(teamId) {
   // Team Details
-  const team = await getTeamById(teamId);
+  const team = await getDispensaryById(teamId);
   if (!team) {
     throw new Error(`Team not found: ${teamId}`);
   }
@@ -193,7 +193,7 @@ async function displayDeletionArtifacts(teamId) {
 
 async function handleTeamDeletion(teamId) {
   console.log(`\nChecking team: ${teamId}`);
-  let team = await getTeamById(teamId);
+  let team = await getDispensaryById(teamId);
   if (!team) {
     console.log(`Team not found: ${teamId}`);
     return;
@@ -220,7 +220,7 @@ async function handleTeamDeletion(teamId) {
   }
 }
 
-async function getTeamById(teamId) {
+async function getDispensaryById(teamId) {
   return await prisma.team.findUnique({
     where: {
       id: teamId,
@@ -437,8 +437,9 @@ async function deleteConnection(directoryId) {
   } else {
     const { directorySyncController } = jacksonInstance;
 
-    const { data, error } =
-      await directorySyncController.directories.delete(directoryId);
+    const { data, error } = await directorySyncController.directories.delete(
+      directoryId
+    );
 
     if (error) {
       throw new Error(error.message);
