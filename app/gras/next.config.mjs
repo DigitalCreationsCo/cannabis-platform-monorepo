@@ -70,6 +70,7 @@ const nextConfig = {
       'cdn.sanity.io',
       'source.unsplash.com',
       'storage.googleapis.com',
+      'unsplash.com',
     ],
     remotePatterns: [
       {

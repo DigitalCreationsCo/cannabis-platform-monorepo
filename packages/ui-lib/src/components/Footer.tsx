@@ -21,18 +21,18 @@ export default function Footer() {
 			href: getDashboardSite('/signup/create-dispensary-account'),
 		},
 		{ name: 'Get Support', href: TextContent.href.support },
-		{ name: 'Work With Us', href: TextContent.href.work_with_us },
 		{ name: 'About Gras', href: TextContent.href.about },
+		{ name: 'Work With Us', href: TextContent.href.work_with_us },
 	];
 	const legal = [
+		{ name: 'Blog', href: TextContent.href.blog },
 		{ name: 'Frequently Asked Questions', href: TextContent.href.faq },
+		{ name: 'Help Center', href: TextContent.href.help },
 		{ name: 'Privacy Policy', href: TextContent.href.privacy },
 		{
 			name: 'Terms and Conditions',
 			href: TextContent.href.dispensary_tos,
 		},
-		{ name: 'Help Center', href: TextContent.href.help },
-		// { name: 'Blog', href: TextContent.href.blog }, // blog not available currently
 		// { name: 'Compliance', href: TextContent.href.compliance },
 		// {
 		// 	name: 'User Terms and Conditions',

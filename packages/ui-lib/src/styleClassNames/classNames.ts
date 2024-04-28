@@ -12,8 +12,10 @@ const styles = Object.freeze({
 		'cursor-default w-full sm:max-w-[440px] grow h-fit py-4 pb-8 px-8 items-center shadow',
 	],
 	dispensaryCard: [
+		'border',
 		'relative',
-		'mx-4 my-8 sm:pt-4 pb-12 md:py-5 md:px-12',
+		// 'mx-4 my-8 sm:pt-4 pb-12 md:py-5 px-4 md:px-12',
+		'mx-4 my-3 sm:pt-4 pb-12 md:py-5 px-4 md:px-12',
 		'rounded-btn shadow h-[180px]',
 		'drop-shadow-[-6px_4px_1px_#455555]',
 	],
