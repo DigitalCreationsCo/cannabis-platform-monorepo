@@ -19,6 +19,7 @@ import {
   type Coordinates,
   type OrganizationWithShopDetails,
   dispensaries,
+  productCategories,
 } from '@cd/data-access';
 import {
   Grid,
@@ -30,20 +31,33 @@ import {
   H4,
   TextField,
   Footer,
+  useBreakpoint,
+  getBreakpointValue,
+  Carousel,
 } from '@cd/ui-lib';
 import mapboxgl, { type MapboxGeoJSONFeature } from 'mapbox-gl';
 import { ReactElement, useEffect, useRef, useState } from 'react';
 import useSWR, { type SWRResponse } from 'swr';
 import { twMerge } from 'tailwind-merge';
 // import markerImage from '../../../public/map-marker.png';
-import { DispensaryCard } from '@/components/shared';
-import { default as Carousel, Link } from 'react-alice-carousel';
-import 'react-alice-carousel/lib/alice-carousel.css';
+import { DispensaryCard,  } from '@/components/shared';
+
+import { GetStaticProps } from 'next';
+import { Post, Settings, getClient, getPosts, getSettings, readToken } from '@/lib/sanity';
+import { InfoCard } from '@/components/blog';
+import Image from 'next/image';
 
 // import { shopTour } from '../../tour';
 // eslint-disable-next-line no-var
 // /organization/zipcode=${zipcode}&limit=${limit}&radius=${radius}
-export default function Browse() {
+
+//IMPLEMENT GET STATIC PATHS > BLOG
+export default function Browse({ posts }: {
+	posts: Post[];
+	settings: Settings;
+}) {
+
+
   const saveZipcodeToLocalStorage = (zipcode: number): void => {
     if (isValidZipcode(zipcode)) {
       localStorage.setItem('zipcode', zipcode.toString());
@@ -119,7 +133,7 @@ export default function Browse() {
   }
 
   return (
-    <Page gradient="green" className="pt-2 md:pt-2 px-0 lg:px-0 pb-12 min-h-[440px]">
+    <Page gradient="green" className="pt-2 md:pt-2 px-0 lg:px-0 pb-16 min-h-[440px]">
       <link
         href="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css"
         rel="stylesheet"
@@ -138,58 +152,76 @@ export default function Browse() {
           >
             {TextContent.info.CANNABIS_DELIVERED}
           </H1>
-          <H4 className="text-inverse-soft lg:px-6 leading-2 drop-shadow text-left">
+          <H4 className="text-inverse-soft pt-2 px-2 lg:!px-6 leading-2 drop-shadow text-left">
             Find dispensaries, edibles, and more near you
           </H4>
         </div>
-
-        <div className="col-span-full lg:col-start-1 lg:row-start-2 content-end py-2">
+        <div className="col-span-full">
           <Carousel
-            disableDotsControls
-            autoPlay
-            animationDuration={300}
-            autoPlayInterval={5000}
-            animationEasingFunction="linear"
-            responsive={{
-              0: {
-                items: 1,
-                itemsFit: 'contain',
-              },
-              500: {
-                items: 2,
-                itemsFit: 'contain',
-              },
-              700: {
-                items: 3,
-                itemsFit: 'contain',
-              },
-              1100: {
-                items: 4,
-                itemsFit: 'contain',
-              },
-              1400: {
-                items: 5,
-                itemsFit: 'contain',
-              },
-            }}
-          >
-            {!isLoading
+            items={!isLoading
               ? dispensaries?.map((d, index) => (
-                    <DispensaryCard
-                      loading={isLoading}
-                      key={`dispensary-card-${index}`}
-                      data={d}
-                    /> 
+                <DispensaryCard
+                loading={isLoading}
+                key={`dispensary-card-${index}`}
+                data={d}
+                /> 
                 ))
-              : [1, 2, 3, 4, 5, 6].map((d, index) => (
+                : [1, 2, 3, 4, 5, 6].map((d, index) => (
                   <DispensaryCard
-                    loading={isLoading}
-                    key={`dispensary-card-${index}`}
-                    data={d}
+                  loading={isLoading}
+                  key={`dispensary-card-${index}`}
+                  data={d}
                   />
-                ))}
-          </Carousel>
+                  ))}
+                  />
+                 
         </div>
+
+        {/* <H4 className="col-span-full px-7 pt-2 lg:!px-11 text-inverse-soft leading-2 drop-shadow text-left">
+        🎁 Get What You Want
+          </H4>
+        <div className="col-span-full">
+          <Carousel
+            items={productCategories.map((c, index) => (
+              <div key={`$`}>
+                <Image />
+              </ div> 
+          ))}
+          />
+        </div> */}
+        
+        <H4 className="col-span-full px-7 pt-2 lg:!px-11 text-inverse-soft leading-2 drop-shadow text-left">
+        🍍 Fresh from the Blog
+          </H4>
+        <div className="col-span-full">
+          <Carousel
+          title="Fresh from the Blog"
+            items={posts.map((post, index) => (
+              <InfoCard
+                loading={isLoading}
+                key={`blog-card-${index}`}
+                data={post}
+                showDescription={false}
+              /> 
+          ))}
+          />
+        </div>
+        
+        {/* <H4 className="col-span-full px-7 pt-2 lg:!px-11 text-inverse-soft leading-2 drop-shadow text-left">
+        🎨 Celebrate Artists
+          </H4>
+        <div className="col-span-full">
+          <Carousel
+            items={posts.map((post, index) => (
+              <InfoCard
+                loading={isLoading}
+                key={`blog-card-${index}`}
+                data={post}
+                showDescription={false}
+              /> 
+          ))}
+          />
+        </div> */}
 
         {/* <div className="row-start-2 sm:col-start-2 col-span-full sm:col-span-1 lg:col-start-3 lg:row-start-1 px-4 py-2">
 					<TextField
@@ -560,6 +592,49 @@ const RenderMapBox = ({
     </>
   );
 };
+
+// export const getStaticProps: GetStaticProps = async (
+// 	ctx,
+// ) => {
+// 	const { draftMode = false } = ctx;
+// 	const client = getClient(draftMode ? { token: readToken } : undefined);
+
+// 	const [settings, posts = []] = await Promise.all([
+// 		getSettings(client),
+// 		getPosts(client),
+// 	]);
+
+//   console.info('GSP posts from sanity', posts);
+// 	return {
+// 		props: {
+// 			posts,
+// 			settings,
+// 			draftMode,
+// 			token: draftMode ? readToken : '',
+// 		},
+// 	};
+// };
+
+export const getServerSideProps = async (ctx,
+  ) => {
+    const { draftMode = false } = ctx;
+    const client = getClient(draftMode ? { token: readToken } : undefined);
+  
+    const [settings, posts = []] = await Promise.all([
+      getSettings(client),
+      getPosts(client),
+    ]);
+
+  return {
+    props: {
+			posts,
+			settings,
+			draftMode,
+			token: draftMode ? readToken : '',
+		},
+  };
+
+}
 
 Browse.getLayout = function getLayout(page: ReactElement) {
   return <>{page}

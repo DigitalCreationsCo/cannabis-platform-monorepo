@@ -2,7 +2,7 @@
 export * from './account.data';
 export * from './address.types';
 // export * from './article.data';
-// export * from './category.data';
+export * from './category.data';
 // export * from './driver/driver.data';
 export * from './driver/driver.types';
 export * from './customer/customer.data';
@@ -25,4 +25,3 @@ export * from './passwordReset.data';
 export * from './staff/staff.types';
 export * from './role.types';
 export * from './db';
-export { default as clientPromise } from './db';

@@ -19,8 +19,12 @@ import { AccountLayout } from '@/components/layouts';
 import { NextSeo } from 'next-seo';
 import { AppPropsWithLayout } from '@/lib/next.types';
 
+export interface SharedPageProps {
+	draftMode: boolean;
+	token: string;
+}
 
-function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+function MyApp({ Component, pageProps }: AppPropsWithLayout & {pageProps: SharedPageProps }) {
   const { session, ...props } = pageProps;
 
   // Add mixpanel

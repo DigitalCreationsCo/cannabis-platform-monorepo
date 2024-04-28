@@ -6,14 +6,16 @@ import IconWrapper from '../IconWrapper';
 
 type CarouselButtonProps = {
 	direction: 'left' | 'right' | 'up' | 'down';
-	onClick: (() => void) | undefined;
+	onClick: (() => void) | any;
 	className?: string | string[];
+	disabled?: boolean;
 };
 
 export default function CarouselButton({
 	direction,
 	onClick,
 	className,
+	disabled,
 }: CarouselButtonProps) {
 	const arrowIcon = () => {
 		switch (direction) {
@@ -29,7 +31,7 @@ export default function CarouselButton({
 	};
 
 	const styles = {
-		container: ['z-10 relative h-fit', 'hidden', 'md:block'],
+		container: ['z-10 h-fit w-fit', 'hidden', 'md:block'],
 		carouselButton: [
 			'w-5 h-5 p-6',
 			'rounded-full',
@@ -42,6 +44,7 @@ export default function CarouselButton({
 			<IconButton
 				size="sm"
 				onClick={onClick}
+				disabled={disabled}
 				className={twMerge(
 					styles.carouselButton,
 					'btn-circle btn items-center content-center justify-center shadow-none',

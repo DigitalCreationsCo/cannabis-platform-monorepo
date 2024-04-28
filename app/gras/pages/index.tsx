@@ -91,7 +91,7 @@ const Home: NextPageWithLayout = () => {
             loop
             muted
           />
-          <div className="max-w-[440px] h-[420px] z-10 m-auto lg:!m-0 pt-4 lg:!my-auto">
+          <div className="w-[440px] h-[420px] z-10 m-auto lg:!m-0 pt-4 lg:!my-auto">
             <H1 className="text-center">Welcome to Gras</H1>
             <H2 className="text-center">Serving People And Cannabis</H2>
             <CheckAge redirect={'/browse'} />

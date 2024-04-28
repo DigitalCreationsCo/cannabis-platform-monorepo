@@ -1,13 +1,10 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-import { useRef, useState } from 'react';
-import Slider, { type Settings } from 'react-slick';
-import { twMerge } from 'tailwind-merge';
-import Center from '../Center';
-import LoadingDots from '../LoadingDots';
-import CarouselButton from './CarouselButton';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import { useRef } from 'react';
+// import AliceCarousel from 'react-alice-carousel';
+// import 'react-alice-carousel/lib/alice-carousel.css';
+import { default as AliceCarousel } from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
+import CarouselButton from '@cd/ui-lib/src/components/Carousel/CarouselButton';
+import { H4 } from '../Typography';
 
 type CarouselItemComponent<DataType> = React.FC<{
 	data: DataType;
@@ -16,16 +13,18 @@ type CarouselItemComponent<DataType> = React.FC<{
 }>;
 
 type CarouselProps<DataType> = {
-	error?: any;
-	loading: boolean;
-	data: DataType[];
-	datatype: string;
 	title?: string;
-	SliderComponent: CarouselItemComponent<DataType>;
-	settings?: Settings;
-	current: number;
-	setCurrent: React.Dispatch<React.SetStateAction<number>>;
-	onClick?: () => void;
+	items: any[];
+	// error?: any;
+	// loading: boolean;
+	// data: DataType[];
+	// datatype: string;
+	// title?: string;
+	// SliderComponent: CarouselItemComponent<DataType>;
+	// settings?: Settings;
+	// current: number;
+	// setCurrent: React.Dispatch<React.SetStateAction<number>>;
+	// onClick?: () => void;
 };
 
 // const data = [
@@ -458,119 +457,89 @@ type CarouselProps<DataType> = {
 // 	},
 // ];
 
-export default function Carousel<D>({
-	loading,
-	error,
-	data = [],
-	datatype,
-	title,
-	SliderComponent,
-	settings,
-	current,
-	setCurrent,
-	onClick,
-}: CarouselProps<D>) {
-	const slider = useRef<Slider>(null);
-
-	const increment = () => {
-		if (current === data.length - 1) {
-			setCurrent(0);
-			slider?.current?.slickGoTo(0);
-		} else {
-			setCurrent((current + 1) % data.length);
-			slider?.current?.slickNext();
-		}
-	};
-
-	const decrement = () => {
-		if (current > 0) {
-			setCurrent((current - 1) % data.length);
-			slider?.current?.slickPrev();
-		} else {
-			setCurrent(data.length - 1);
-			slider?.current?.slickGoTo(data.length - 1);
-		}
-	};
-
-	const slidesToShow = data.length > 0 ? Math.min(data.length, 3) : 1;
-
-	const carouselSettings: Settings = {
-		arrows: false,
-		slidesToShow,
-		slidesToScroll: 1,
-		cssEase: 'ease-out',
-		variableWidth: true,
-		rows: 1,
-		responsive: [
-			{
-				// breakpoint: 450,
-				breakpoint: 450,
-				settings: {
-					beforeChange(currentSlide, nextSlide) {
-						setCurrent(nextSlide);
-					},
-					swipe: true,
-					centerMode: true,
-					slidesToShow: 1,
-					slidesToScroll: 1,
-					initialSlide: 0,
-				},
-			},
-			// {
-			// 	breakpoint: 1024,
-			// 	settings: {
-			// 		slidesToShow,
-			// 		slidesToScroll: slidesToShow,
-			// 		initialSlide: 0,
-			// 		// slidesToShow: 2,
-			// 		// slidesToScroll: 2,
-			// 	},
-			// },
-		],
-		...settings,
-	};
-
-	if (error && Object.keys(error).length > 0) {
-		return <p>Failed to fetch</p>;
-	}
-
+export default function Carousel<D>({ items, title }: CarouselProps<D>) {
+	const carousel = useRef<AliceCarousel>(null);
 	return (
-		<div className="flex border flex-row overflow-clip">
-			<CarouselButton direction={'left'} onClick={() => decrement()} />
-			<Slider ref={slider} {...carouselSettings} className="overflow-clip">
-				{!loading
-					? data.map((d, index) => (
-							<div
-								key={`${datatype}-${index}`}
-								className={twMerge('')}
-								onClick={onClick}
-							>
-								<SliderComponent
-									current={current === index}
-									data={d}
-									loading={loading}
-								/>
-							</div>
-					  ))
-					: [1, 2, 3].map((d, index) => (
-							<div
-								key={`loading-slider-${index}`}
-								className={twMerge('')}
-								onClick={onClick}
-							>
-								<SliderComponent
-									current={current === index}
-									data={d as any}
-									loading={loading}
-								/>
-							</div>
-					  ))}
-			</Slider>
-			<CarouselButton
-				className="ml-auto"
-				direction={'right'}
-				onClick={() => increment()}
-			/>
-		</div>
+		<>
+			<AliceCarousel
+				// ref={carousel}
+				// disableDotsControls
+				// autoPlay
+				// animationDuration={150}
+				// autoPlayInterval={5000}
+				// animationEasingFunction="linear"
+				// disableButtonsControls
+				// touchMoveDefaultEvents={false}
+				// responsive={{
+				// 	0: {
+				// 		items: 1,
+				// 		itemsFit: 'contain',
+				// 	},
+				// 	500: {
+				// 		items: 2,
+				// 		itemsFit: 'contain',
+				// 	},
+				// 	700: {
+				// 		items: 3,
+				// 		itemsFit: 'contain',
+				// 	},
+				// 	1100: {
+				// 		items: 4,
+				// 		itemsFit: 'contain',
+				// 	},
+				// 	1400: {
+				// 		items: 5,
+				// 		itemsFit: 'contain',
+				// 	},
+				// }}
+				removeArrowOnDeviceType={['tablet', 'mobile']}
+				renderArrowsWhenDisabled
+				responsive={{
+					superLargeDesktop: {
+						breakpoint: { max: 4000, min: 1400 },
+						items: 5,
+						slidesToSlide: 4,
+					},
+					largeDesktop: {
+						// the naming can be any, depends on you.
+						breakpoint: { max: 1400, min: 1100 },
+						items: 4,
+						slidesToSlide: 3,
+					},
+					desktop: {
+						breakpoint: { max: 1100, min: 700 },
+						items: 3,
+						slidesToSlide: 2,
+					},
+					tablet: {
+						breakpoint: { max: 700, min: 464 },
+						items: 2,
+					},
+					mobile: {
+						breakpoint: { max: 464, min: 0 },
+						items: 1,
+					},
+				}}
+			>
+				{items}
+			</AliceCarousel>
+			{/* <div className="flex flex-row items-center justify-center">
+				<div className="flex flex-row justify-center">
+					<H4 className="float-left align-middle col-span-full px-7 pt-2 lg:!px-11 text-inverse-soft leading-2 drop-shadow text-left">
+						{title}
+					</H4>
+					<CarouselButton
+						className="btn-prev"
+						direction="left"
+						onClick={(e: any) => carousel?.current?.slidePrev(e)}
+					/>
+					<CarouselButton
+						className="btn-next"
+						direction="right"
+						onClick={(e: any) => carousel?.current?.slideNext(e)}
+					/>
+				</div>
+			</div> */}
+		</>
 	);
 }
