@@ -1,6 +1,23 @@
 {
 	"version": "0.2.0",
 	"configurations": [
+		  {
+			"name": "Next.js: debug dashboard full stack2",
+			"type": "node",
+			"env": {"PORT": "3001"},
+			"request": "launch",
+			"program": "${workspaceFolder}/node_modules/.bin/next",
+			"runtimeArgs": ["--inspect"],
+			"skipFiles": ["<node_internals>/**"],
+			"cwd": "${workspaceFolder}/app/dashboard",
+			"serverReadyAction": {
+			  "action": "debugWithChrome",
+			  "killOnServerStop": true,
+			  "pattern": "- Local:.+(https?://.+)",
+			  "uriFormat": "%s",
+			  "webRoot": "${workspaceFolder}/app/dashboard"
+			}
+		  },
 		{
 			"name": "Next.js: debug dashboard: full stack",
 			"type": "node-terminal",
@@ -21,7 +38,14 @@
 			"command": "yarn dev"
 		},
 		{
-			"name": "Next.js: debug client-side",
+			"name": "Next.js: debug Dashboard client-side",
+			"type": "chrome",
+			"request": "launch",
+			"url": "http://localhost:3001"
+		},
+
+		{
+			"name": "Next.js: debug Gras client-side",
 			"type": "chrome",
 			"request": "launch",
 			"url": "http://localhost:3000"

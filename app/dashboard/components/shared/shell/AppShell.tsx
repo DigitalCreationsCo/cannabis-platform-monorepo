@@ -4,7 +4,7 @@ import React from 'react';
 import Header from './Header';
 import Drawer from './Drawer';
 import { useRouter } from 'next/navigation';
-import { Center, LoadingDots } from '@cd/ui-lib';
+import { LoadingPage } from '@cd/ui-lib';
 
 export default function AppShell({ children }) {
   const router = useRouter();
@@ -13,9 +13,7 @@ export default function AppShell({ children }) {
 
   if (status === 'loading') {
     return (
-      <Center>
-        <LoadingDots />
-      </Center>
+      <LoadingPage />
     );
   }
 

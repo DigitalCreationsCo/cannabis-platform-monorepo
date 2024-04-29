@@ -1,4 +1,5 @@
 import app from '@/lib/app';
+import { FlexBox, GrasSignature, H2, Paragraph } from '@cd/ui-lib';
 import { useTranslation } from 'next-i18next';
 import Image from 'next/image';
 
@@ -19,22 +20,24 @@ export default function AuthLayout({
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-20 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+          <FlexBox className='flex-row justify-center content-center items-center'>
+          <GrasSignature>Gras</GrasSignature>
           <Image
             src={app.logoUrl}
-            className="mx-auto h-12 w-auto"
             alt={app.name}
-            width={48}
-            height={48}
-          />
+            width={53}
+            height={53}
+            />
+            </FlexBox>
           {heading && (
-            <h2 className="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+            <H2 className="mt-6 text-center text-4xl leading-9">
               {t(heading)}
-            </h2>
+            </H2>
           )}
           {description && (
-            <p className="text-center text-gray-600 dark:text-white">
+            <Paragraph className="text-lg text-center text-gray-600 dark:text-white">
               {t(description)}
-            </p>
+            </Paragraph>
           )}
         </div>
         <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-md">{children}</div>

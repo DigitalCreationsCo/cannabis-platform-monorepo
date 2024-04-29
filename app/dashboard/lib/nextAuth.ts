@@ -38,6 +38,7 @@ import { maxLengthPolicies } from '@cd/core-lib';
 import { forceConsume } from '@cd/core-lib';
 import { MongoDBAdapter } from '@auth/mongodb-adapter';
 import clientPromise from '@/lib/db';
+import { Adapter } from 'next-auth/adapters';
 
 const adapter = MongoDBAdapter(clientPromise);
 const providers: Provider[] = [];
@@ -144,6 +145,8 @@ if (isAuthProviderEnabled('saml')) {
     })
   );
 }
+
+console.info('NEXTAUTH_URL: ', process.env.NEXTAUTH_URL);
 if (isAuthProviderEnabled('idp-initiated')) {
   providers.push(
     CredentialsProvider({
@@ -275,7 +278,7 @@ export const getAuthOptions = (
     env.nextAuth.sessionStrategy === 'database';
 
   const authOptions: NextAuthOptions = {
-    // adapter,
+    adapter: adapter as Adapter,
     providers,
     pages: {
       signIn: '/auth/login',
@@ -291,6 +294,10 @@ export const getAuthOptions = (
         if (!user || !user.email || !account) {
           return false;
         }
+
+        console.info('user ', user);
+        console.info('account ', account);
+        console.info('profile ', profile);
 
         if (!isEmailAllowed(user.email)) {
           return '/auth/login?error=allow-only-work-email';

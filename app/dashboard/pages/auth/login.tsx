@@ -6,7 +6,6 @@ import type {
 import * as Yup from 'yup';
 import Link from 'next/link';
 import { useFormik } from 'formik';
-import { Button } from 'react-daisyui';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import React, { type ReactElement, useEffect, useState, useRef } from 'react';
@@ -27,7 +26,7 @@ import AgreeMessage from '@/components/auth/AgreeMessage';
 import GoogleReCAPTCHA from '@/components/shared/GoogleReCAPTCHA';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { maxLengthPolicies } from '@cd/core-lib';
-import { LoadingDots } from '@cd/ui-lib';
+import { Button, LoadingPage } from '@cd/ui-lib';
 
 interface Message {
   text: string | null;
@@ -103,7 +102,7 @@ const Login: NextPageWithLayout<
   });
 
   if (status === 'loading') {
-    return <LoadingDots />;
+    return <LoadingPage />;
   }
 
   if (status === 'authenticated') {
@@ -113,7 +112,7 @@ const Login: NextPageWithLayout<
   const params = token ? `?token=${token}` : '';
 
   return (
-    <>
+    <AuthLayout heading="welcome-back" description="log-in-to-account">
       <Head>
         <title>{t('login-title')}</title>
       </Head>
@@ -122,7 +121,7 @@ const Login: NextPageWithLayout<
           {t(message.text)}
         </Alert>
       )}
-      <div className="rounded p-6 border">
+      <div className="rounded p-6 bg-inverse drop-shadow">
         <div className="flex gap-2 flex-wrap">
           {authProviders.github && <GithubButton />}
           {authProviders.google && <GoogleButton />}
@@ -180,12 +179,10 @@ const Login: NextPageWithLayout<
             </div>
             <div className="mt-3 space-y-3">
               <Button
+            className='w-full font-bold bg-secondary-light hover:bg-primary-light'
                 type="submit"
                 color="primary"
                 loading={formik.isSubmitting}
-                active={formik.dirty}
-                fullWidth
-                size="md"
               >
                 {t('sign-in')}
               </Button>
@@ -224,15 +221,15 @@ const Login: NextPageWithLayout<
           &nbsp;{t('create-a-free-account')}
         </Link>
       </p>
-    </>
+    </AuthLayout>
   );
 };
 
 Login.getLayout = function getLayout(page: ReactElement) {
   return (
-    <AuthLayout heading="welcome-back" description="log-in-to-account">
+      <>
       {page}
-    </AuthLayout>
+      </>
   );
 };
 

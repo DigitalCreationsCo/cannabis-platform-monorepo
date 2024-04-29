@@ -11,7 +11,7 @@ const rl = readline.createInterface({
 });
 
 const jacksonOpts = {
-  externalUrl: `${process.env.APP_URL}`,
+  externalUrl: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}`,
   samlPath: '/api/oauth/saml',
   oidcPath: '/api/oauth/oidc',
   samlAudience: 'https://saml.boxyhq.com',

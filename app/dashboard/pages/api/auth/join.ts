@@ -6,8 +6,8 @@ import env from '@/lib/env';
 import { ApiError } from '@cd/core-lib';
 import {
   Dispensary,
-  getInvitation,
-  isInvitationExpired,
+  // getInvitation,
+  // isInvitationExpired,
   createUser,
   getUser,
   createDispensary,
@@ -52,26 +52,28 @@ export default async function handler(
 
 // Signup the user
 const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { name, password, team, inviteToken, recaptchaToken } = req.body;
+  try {
+  const { name, password, dispensary, inviteToken, recaptchaToken } = req.body;
 
   await validateRecaptcha(recaptchaToken);
 
-  const invitation = inviteToken
-    ? await getInvitation({ token: inviteToken })
-    : null;
+  // const invitation = inviteToken
+  //   ? await getInvitation({ token: inviteToken })
+  //   : null;
+  const invitation = null;
 
   let email: string = req.body.email;
 
   // When join via invitation
-  if (invitation) {
-    if (await isInvitationExpired(invitation.expires)) {
-      throw new ApiError(400, 'Invitation expired. Please request a new one.');
-    }
+  // if (invitation) {
+  //   if (await isInvitationExpired(invitation.expires)) {
+  //     throw new ApiError(400, 'Invitation expired. Please request a new one.');
+  //   }
 
-    if (invitation.sentViaEmail) {
-      email = invitation.email!;
-    }
-  }
+  //   if (invitation.sentViaEmail) {
+  //     email = invitation.email;
+  //   }
+  // }
 
   validateWithSchema(userJoinSchema, {
     name,
@@ -92,13 +94,13 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 
   // Check if team name is available
   if (!invitation) {
-    if (!team) {
+    if (!dispensary) {
       throw new ApiError(400, 'A team name is required.');
     }
 
-    const slug = slugify(team);
+    const slug = slugify(dispensary);
 
-    validateWithSchema(userJoinSchema, { team, slug });
+    validateWithSchema(userJoinSchema, { dispensary, slug });
 
     const slugCollisions = await isTeamExists(slug);
 
@@ -114,18 +116,18 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
     emailVerified: invitation ? new Date() : null,
   });
 
-  let userDispensary: Dispensary | null = null;
+  let userDispensary: Dispensary;
 
   // Create team if user is not invited
   // So we can create the team with the user as the owner
   if (!invitation) {
     userDispensary = await createDispensary({
       userId: user.id,
-      name: team,
-      slug: slugify(team),
+      name: dispensary,
+      slug: slugify(dispensary),
     });
-  } else {
-    userDispensary = await getDispensary({ slug: invitation.team.slug });
+  // } else {
+  //   userDispensary = await getDispensary({ slug: invitation.team.slug });
   }
 
   // Send account verification email
@@ -148,7 +150,7 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
     fields: {
       Name: user.name,
       Email: user.email,
-      Team: userTeam?.name,
+      Dispensary: userDispensary!.name,
     },
   });
 
@@ -157,4 +159,8 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
       confirmEmail: env.confirmEmail && !user.emailVerified,
     },
   });
+  }catch (error) {
+    console.log(error);
+    throw new ApiError(500, 'Something went wrong');
+  }
 };

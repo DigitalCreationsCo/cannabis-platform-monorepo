@@ -1,5 +1,5 @@
 import z, { ZodType } from 'zod';
-import { ApiError } from '../errors2';
+import { ApiError } from '@cd/core-lib';
 
 export * from './schema';
 

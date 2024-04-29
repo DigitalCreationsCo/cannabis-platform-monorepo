@@ -111,7 +111,7 @@ export default function Button({
 		border: [
 			border ? 'border-' + (borderColor || hover) : 'border-transparent',
 		],
-		text: ['font-semibold'],
+		text: [(size === 'sm' && 'font-normal') || 'font-medium'],
 	};
 
 	return (
@@ -133,6 +133,7 @@ export default function Button({
 			) : typeof children?.valueOf() === 'string' ? (
 				<Paragraph
 					className={twMerge(
+						classes.text,
 						size === 'lg' ? 'text-xl' : 'text-md',
 						'text-inherit',
 					)}

@@ -28,17 +28,6 @@ function DashboardTopBar() {
 		user
 	]);
 
-	function openLoginModal() {
-		dispatch(
-			modalActions.openModal({
-				modalType: modalTypes.loginModal,
-			}),
-		);
-	}
-
-	// if (status === 'loading' || !data) {
-	// 	return null;
-	//   }
 	return (
 		<div className={twMerge(styles.TOPBAR.topbar)}>
 			<FlexBox>
@@ -65,15 +54,16 @@ function DashboardTopBar() {
 				{user && <_AccountDropDown />}
 				{!user && (
 					<FlexBox>
+					<Link href="/auth/login">
 						<Button
 							className={twMerge(styles.BUTTON.highlight, 'pt-1')}
 							size="sm"
 							bg="transparent"
 							hover="transparent"
-							onClick={openLoginModal}
 						>
 							Sign In
 						</Button>
+              		</Link>
 					</FlexBox>
 				)}
 			</FlexBox>
@@ -104,14 +94,16 @@ function DashboardTopBar() {
 				>
 					{(!user && (
 						<FlexBox className="active:bg-accent-soft focus:bg-accent-soft w-full md:hidden">
+						<Link href="/auth/login" className="w-full">
 							<Button
 								className={twMerge('pt-1 w-full')}
 								bg="transparent"
-								hover="transparent"
-								onClick={openLoginModal}
+							size="sm"
+							hover="transparent"
 							>
 								Sign In
 							</Button>
+							</Link>
 						</FlexBox>
 					)) || <></>}
 					{(user && (

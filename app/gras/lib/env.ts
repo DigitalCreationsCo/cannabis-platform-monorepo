@@ -2,7 +2,7 @@ import type { SessionStrategy } from 'next-auth';
 
 const env = {
 	databaseUrl: `${process.env.DATABASE_URL}`,
-	appUrl: `${process.env.APP_URL}`,
+	appUrl: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}`,
 	redirectIfAuthenticated: '/dashboard',
 
 	// SMTP configuration for NextAuth
@@ -57,14 +57,14 @@ const env = {
 		productId: process.env.JACKSON_PRODUCT_ID || 'boxyhq',
 		selfHosted: process.env.JACKSON_URL !== undefined,
 		sso: {
-			callback: `${process.env.APP_URL}`,
+			callback: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}`,
 			issuer: 'https://saml.boxyhq.com',
 			path: '/api/oauth/saml',
 			oidcPath: '/api/oauth/oidc',
 			idpLoginPath: '/auth/idp-login',
 		},
 		dsync: {
-			webhook_url: `${process.env.APP_URL}/api/webhooks/dsync`,
+			webhook_url: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/api/webhooks/dsync`,
 			webhook_secret: process.env.JACKSON_WEBHOOK_SECRET,
 		},
 	},
@@ -106,8 +106,8 @@ const env = {
 	},
 
 	recaptcha: {
-		siteKey: process.env.RECAPTCHA_SITE_KEY || null,
-		secretKey: process.env.RECAPTCHA_SECRET_KEY || null,
+		siteKey: process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || null,
+		secretKey: process.env.NEXT_PUBLIC_RECAPTCHA_SECRET_KEY || null,
 	},
 
 	maxLoginAttempts: Number(process.env.MAX_LOGIN_ATTEMPTS) || 5,

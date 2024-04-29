@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {
   Error,
   InputWithLabel,
@@ -13,7 +14,7 @@ import {
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
-import { Button } from 'react-daisyui';
+import { Button } from '@cd/ui-lib';
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
 import TogglePasswordVisibility from '../shared/TogglePasswordVisibility';
@@ -21,7 +22,6 @@ import { useRef, useState } from 'react';
 import AgreeMessage from './AgreeMessage';
 import GoogleReCAPTCHA from '../shared/GoogleReCAPTCHA';
 import ReCAPTCHA from 'react-google-recaptcha';
-import { LoadingDots } from '@cd/ui-lib';
 
 interface JoinWithInvitationProps {
   inviteToken: string;
@@ -96,7 +96,7 @@ const JoinWithInvitation = ({
   });
 
   if (isLoading) {
-    return <LoadingDots />;
+    return <></>;
   }
 
   if (error || !invitation) {
@@ -157,12 +157,12 @@ const JoinWithInvitation = ({
         />
         <div className="space-y-3">
           <Button
+            className='w-full font-bold bg-secondary-light hover:bg-primary-light'
             type="submit"
             color="primary"
             loading={formik.isSubmitting}
             active={formik.dirty}
             fullWidth
-            size="md"
           >
             {t('create-account')}
           </Button>

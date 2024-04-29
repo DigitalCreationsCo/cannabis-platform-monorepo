@@ -9,7 +9,7 @@ import {
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
-import { Button } from 'react-daisyui';
+import { Button } from '@cd/ui-lib';
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
 import TogglePasswordVisibility from '../shared/TogglePasswordVisibility';
@@ -136,16 +136,16 @@ const Join = ({ recaptchaSiteKey }: JoinProps) => {
         />
       </div>
       <div className="mt-3 space-y-3">
-        <Button
-          type="submit"
-          color="primary"
-          loading={formik.isSubmitting}
-          active={formik.dirty}
-          fullWidth
-          size="md"
-        >
-          {t('create-account')}
-        </Button>
+          <Button
+            className='w-full font-bold bg-primary hover:bg-primary-light'
+            type="submit"
+            color="primary"
+            loading={formik.isSubmitting}
+            active={formik.dirty}
+            fullWidth
+          >
+            {t('create-account')}
+          </Button>
         <AgreeMessage text={t('create-account')} />
       </div>
     </form>

@@ -3,8 +3,8 @@ import env from './env';
 
 const app = {
   version: packageInfo.version,
-  name: 'BoxyHQ',
-  description: "Serving the best cannabis in the world.",
+  name: 'Dispensary Success Services | Gras',
+  description: "Serving People and Cannabis",
   logoUrl: require('../public/logo.png'),
   url: env.appUrl,
   opengraph: {
