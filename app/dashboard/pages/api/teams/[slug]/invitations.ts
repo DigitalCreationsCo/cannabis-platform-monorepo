@@ -1,5 +1,4 @@
 import { sendTeamInviteEmail } from '@/lib/email/sendTeamInviteEmail';
-import { ApiError } from '@/lib/errors';
 import { sendAudit } from '@/lib/retraced';
 import { getSession } from '@/lib/session';
 import { sendEvent } from '@/lib/svix';
@@ -10,14 +9,20 @@ import {
   getInvitationCount,
   getInvitations,
   isInvitationExpired,
-} from 'models/invitation';
-import { addTeamMember, throwIfNoDispensaryAccess } from 'models/team';
-import { throwIfNotAllowed } from 'models/user';
+  Invitation,
+  Role,
+  count,
+  countStaffMembers,
+  addStaffMember,
+} from '@cd/data-access';
+import {
+  throwIfNotAllowed,
+  ApiError,
+  throwIfNoDispensaryAccess,
+} from '@cd/core-lib';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { recordMetric } from '@/lib/metrics';
 import { extractEmailDomain, isEmailAllowed } from '@/lib/email/utils';
-import { Invitation, Role } from '@prisma/client';
-import { countTeamMembers } from 'models/teamMember';
 import {
   acceptInvitationSchema,
   deleteInvitationSchema,
@@ -127,7 +132,7 @@ Aggregate  (cost=2.05..2.06 rows=1 width=8) (actual time=0.046..0.047 rows=1 loo
 Planning Time: 1.285 ms
 Execution Time: 0.152 ms
 */
-    const memberExists = await countTeamMembers({
+    const memberExists = await countStaffMembers({
       where: {
         teamId: teamMember.teamId,
         user: {
@@ -294,7 +299,7 @@ const handlePUT = async (req: NextApiRequest, res: NextApiResponse) => {
     }
   }
 
-  const teamMember = await addTeamMember(
+  const teamMember = await addStaffMember(
     invitation.team.id,
     session?.user?.id as string,
     invitation.role

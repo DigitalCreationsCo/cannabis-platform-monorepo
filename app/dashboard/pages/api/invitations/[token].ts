@@ -1,7 +1,7 @@
-import { getInvitation, isInvitationExpired } from 'models/invitation';
+import { getInvitation, isInvitationExpired } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { recordMetric } from '@/lib/metrics';
-import { ApiError } from '@/lib/errors';
+import { ApiError } from '@cd/core-lib';
 import { getInvitationSchema, validateWithSchema } from '@/lib/zod';
 
 export default async function handler(

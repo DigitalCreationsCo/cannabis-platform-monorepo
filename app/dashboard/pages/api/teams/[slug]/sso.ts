@@ -1,10 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 import env from '@/lib/env';
-import { ApiError } from '@/lib/errors';
+import { ApiError } from '@/lib/errors2';
 import { sendAudit } from '@/lib/retraced';
-import { throwIfNoDispensaryAccess } from 'models/team';
-import { throwIfNotAllowed } from 'models/user';
+import { throwIfNoDispensaryAccess } from '@cd/data-access';
+import { throwIfNotAllowed } from '@cd/data-access';
 import { ssoManager } from '@/lib/jackson/sso/index';
 import {
   extractClientId,

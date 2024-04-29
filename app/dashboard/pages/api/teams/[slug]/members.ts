@@ -1,16 +1,16 @@
-import { ApiError } from '@/lib/errors';
+import { ApiError } from '@/lib/errors2';
 import { sendAudit } from '@/lib/retraced';
 import { sendEvent } from '@/lib/svix';
 import { Role } from '@prisma/client';
 import {
-  getTeamMembers,
+  getDispensaryMembers,
   removeTeamMember,
   throwIfNoDispensaryAccess,
-} from 'models/team';
-import { throwIfNotAllowed } from 'models/user';
+} from '@cd/data-access';
+import { throwIfNotAllowed } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { recordMetric } from '@/lib/metrics';
-import { countTeamMembers, updateTeamMember } from 'models/teamMember';
+import { countTeamMembers, updateTeamMember } from '@cd/data-access';
 import { validateMembershipOperation } from '@/lib/rbac';
 import {
   deleteMemberSchema,
@@ -57,7 +57,7 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
   const teamMember = await throwIfNoDispensaryAccess(req, res);
   throwIfNotAllowed(teamMember, 'team_member', 'read');
 
-  const members = await getTeamMembers(teamMember.team.slug);
+  const members = await getDispensaryMembers(teamMember.team.slug);
 
   recordMetric('member.fetched');
 

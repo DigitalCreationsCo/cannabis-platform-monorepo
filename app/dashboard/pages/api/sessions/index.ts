@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { getCookie } from 'cookies-next';
 import { getSession } from '@/lib/session';
 import { sessionTokenCookieName } from '@/lib/nextAuth';
-import { findManySessions } from 'models/session';
+import { findManySessions } from '@cd/data-access';
 
 export default async function handler(
   req: NextApiRequest,

@@ -1,8 +1,8 @@
-import { ApiError } from '@/lib/errors';
+import { ApiError } from '@/lib/errors2';
 import { sendAudit } from '@/lib/retraced';
 import { findOrCreateApp, findWebhook, updateWebhook } from '@/lib/svix';
-import { throwIfNoDispensaryAccess } from 'models/team';
-import { throwIfNotAllowed } from 'models/user';
+import { throwIfNoDispensaryAccess } from '@cd/data-access';
+import { throwIfNotAllowed } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { EndpointIn } from 'svix';
 import { recordMetric } from '@/lib/metrics';

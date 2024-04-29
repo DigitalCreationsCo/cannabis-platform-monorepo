@@ -1,18 +1,14 @@
-import { Error, LetterAvatar, Loading } from '@/components/shared';
-import { defaultHeaders } from '@/lib/common';
-import { Team } from '@prisma/client';
-import useInvitations from 'hooks/useInvitations';
+import { Error, LetterAvatar } from '@/components/shared';
 import { useTranslation } from 'next-i18next';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
-import type { ApiResponse } from 'types';
+import type { ApiResponse, defaultHeaders, useInvitations } from '@cd/core-lib';
 import ConfirmationDialog from '../shared/ConfirmationDialog';
-import { TeamInvitation } from 'models/invitation';
 import { Table } from '@/components/shared/table/Table';
+import { LoadingDots } from '@cd/ui-lib';
 
-const PendingInvitations = ({ team }: { team: Team }) => {
-  const [selectedInvitation, setSelectedInvitation] =
-    useState<TeamInvitation | null>(null);
+const PendingInvitations = ({ team }: { team: any }) => {
+  const [selectedInvitation, setSelectedInvitation] = useState<any>(null);
 
   const [confirmationDialogVisible, setConfirmationDialogVisible] =
     useState(false);
@@ -25,14 +21,14 @@ const PendingInvitations = ({ team }: { team: Team }) => {
   const { t } = useTranslation('common');
 
   if (isLoading) {
-    return <Loading />;
+    return <LoadingDots />;
   }
 
   if (isError) {
     return <Error message={isError.message} />;
   }
 
-  const deleteInvitation = async (invitation: TeamInvitation | null) => {
+  const deleteInvitation = async (invitation) => {
     if (!invitation) {
       return;
     }

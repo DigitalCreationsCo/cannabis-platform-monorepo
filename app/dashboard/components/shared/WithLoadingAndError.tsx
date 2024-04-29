@@ -1,4 +1,5 @@
 import { Alert, Loading } from '@/components/shared';
+import { LoadingDots } from '@cd/ui-lib';
 
 interface WithLoadingAndErrorProps {
   isLoading: boolean;
@@ -10,7 +11,7 @@ const WithLoadingAndError = (props: WithLoadingAndErrorProps) => {
   const { isLoading, error, children } = props;
 
   if (isLoading) {
-    return <Loading />;
+    return <LoadingDots />;
   }
 
   if (error) {

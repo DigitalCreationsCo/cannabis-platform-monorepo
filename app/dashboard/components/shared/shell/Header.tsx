@@ -8,7 +8,7 @@ import {
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import useTheme from 'hooks/useTheme';
+import {useTheme} from '@cd/ui-lib';
 import env from '@/lib/env';
 import { signOut } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
