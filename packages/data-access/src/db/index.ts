@@ -56,7 +56,7 @@
 // }
 
 export const db_namespace = {
-	db: process.env.GRAS_DB_NS as string,
+	db: process.env.NEXT_PUBLIC_GRAS_DB_NS as string,
 	collections: {
 		daily_deals: 'daily_deals',
 		dispensaries: 'dispensaries',

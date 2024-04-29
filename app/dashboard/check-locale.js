@@ -20,7 +20,7 @@ const exceptionList = [
 
 const allStrings = {};
 
-const localeFile = require('./locales/en/common.json');
+const localeFile = require('../../packages/core-lib/src/locales/en/common.json');
 
 const files = fs.readdirSync('./', { recursive: true, withFileTypes: true });
 

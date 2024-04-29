@@ -61,6 +61,10 @@ const nextConfig = {
     };
     return config;
   },
+  env: {
+    NEXT_PUBLIC_SHOP_APP_URL: process.env.NEXT_PUBLIC_SHOP_APP_URL,
+    NEXTAUTH_URL: process.env.NEXT_PUBLIC_SHOP_APP_URL
+  },
   images: {
     minimumCacheTTL: 60 * 60,
     domains: [

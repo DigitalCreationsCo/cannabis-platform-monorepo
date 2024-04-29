@@ -61,6 +61,10 @@ const nextConfig = {
     };
     return config;
   },
+  env: {
+    NEXT_PUBLIC_DASHBOARD_APP_URL: process.env.NEXT_PUBLIC_DASHBOARD_APP_URL,
+    NEXTAUTH_URL: process.env.NEXT_PUBLIC_DASHBOARD_APP_URL
+  },
   images: {
     minimumCacheTTL: 60 * 60,
     domains: [
@@ -75,7 +79,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'boxyhq.com',
+        hostname: 'app.grascannabis.org',
       },
       {
         protocol: 'https',

@@ -21,11 +21,11 @@ export default function DashboardHome() {
 		<Page className="m-0 flex grow border-b bg-transparent p-0 md:p-0 lg:p-0 h-[666px]">
 			<ImageBackDrop src={backdrop}>
 				<Center className="space-y-4 m-auto">
-					<FlexBox className="md:flex-row">
-						<H3 className="whitespace-pre md:text-4xl" color="light">
-							{`Welcome to `}
+					<FlexBox className="">
+						<H1 color="light" className='tracking-normal'>Welcome to Gras</H1>
+						<H3 className="whitespace-pre md:text-4xl tracking-normal" color="light">
+							Dispensary Success Services
 						</H3>
-						<H1 color="light">Gras</H1>
 					</FlexBox>
 					<FlexBox className="items-center space-y-2">
 						{/* <H5 color="light">Sign in to use this app</H5> */}
@@ -34,7 +34,7 @@ export default function DashboardHome() {
 
 					<FlexBox className="items-center space-y-2 pb-4">
 						{/* <H3 color="light">{TextContent.account.ARE_YOU_A_DISPENSARY}</H3> */}
-						<Link href={getDashboardSite('/signup/create-dispensary-account')}>
+						<Link href="/auth/join">
 							<Button
 								type="button"
 								size="lg"
@@ -98,7 +98,7 @@ DashboardHome.getLayoutContext = (): LayoutContextProps => ({
 DashboardHome.getLayout = function getLayout(page: ReactElement) {
   return (
     <>
-	<DashboardTopBar signOut={() => null}/>
+	<DashboardTopBar />
       {page}
       <Footer />
     </>

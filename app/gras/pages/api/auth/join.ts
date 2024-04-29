@@ -52,6 +52,8 @@ export default async function handler(
 
 // Signup the user
 const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
+  try {
+
   const { name, password, team, inviteToken, recaptchaToken } = req.body;
 
   await validateRecaptcha(recaptchaToken);
@@ -157,4 +159,8 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
       confirmEmail: env.confirmEmail && !user.emailVerified,
     },
   });
+  }catch (error) {
+    console.log(error);
+    throw new ApiError(500, 'Something went wrong');
+  }
 };

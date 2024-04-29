@@ -1,6 +1,6 @@
 const allValues = {};
 
-const localeFile = require('./locales/en/common.json');
+const localeFile = require('../../packages/core-lib/src/locales/en/common.json');
 
 for (const [key, value] of Object.entries(localeFile)) {
   const arr = allValues[value] || [];

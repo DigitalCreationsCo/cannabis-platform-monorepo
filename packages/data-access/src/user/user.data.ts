@@ -1,5 +1,5 @@
 /* eslint-disable sonarjs/no-duplicate-string */
-import clientPromise, { db_namespace } from '../db';
+import { db_namespace } from '../db';
 import { normalizeUser } from '../helpers';
 
 export const createUser = async (data: {
@@ -17,7 +17,7 @@ export const createUser = async (data: {
 	return { id: user.insertedId, ...normalizeUser(data) };
 };
 
-export const updateUser = async ({ id, data }) => {
+export const updateUser = async ({ id, data }: any) => {
 	data = normalizeUser(data);
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
@@ -29,7 +29,7 @@ export const updateUser = async ({ id, data }) => {
 	return { id, ...normalizeUser(data) };
 };
 
-export const upsertUser = async ({ id, update }) => {
+export const upsertUser = async ({ id, update }: any) => {
 	update = normalizeUser(update);
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
@@ -52,7 +52,7 @@ export const getUser = async (
 	return normalizeUser(user);
 };
 
-export const getUserBySession = async (session) => {
+export const getUserBySession = async (session: any) => {
 	if (session === null || session.user === null) {
 		return null;
 	}
@@ -72,7 +72,7 @@ export const deleteUser = async (key: { id: string } | { email: string }) => {
 	return await client.db(db).collection(collections.users).deleteOne(key);
 };
 
-export const findFirstUserOrThrow = async ({ id }) => {
+export const findFirstUserOrThrow = async ({ id }: any) => {
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
 	const user = await client

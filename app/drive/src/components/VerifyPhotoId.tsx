@@ -53,7 +53,7 @@ const VerifyPhotoId = () => {
 	const [loadingButton, setLoadingButton] = useState(false);
 	const uploaded = frontImage && backImage;
 	const [, setCaptchaToken] = useState<string | null>(null);
-	const captchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_V2_SITE_KEY || '';
+	const captchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || '';
 	const captchaRef = useRef<any>(null);
 	useEffect(() => {
 		// console.info('captchaSiteKey: ', captchaSiteKey);

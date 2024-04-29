@@ -1,30 +1,34 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { type MongoClient, ObjectId } from 'mongodb';
+import { ObjectId } from 'mongodb';
 import { db_namespace } from '../db';
 import { normalizeUser } from '../helpers';
 import { Role } from '../role.types';
 import { type Dispensary } from './dispensary.types';
 
-export const createDispensary = async (param: {
-	userId: string;
-	name: string;
-	slug: string;
-}) => {
-	const { userId, ...data } = param;
+export const createDispensary = async ({
+	createdAt = new Date(),
+	updatedAt = new Date(),
+	...param
+}: { userId: string } & Dispensary): Promise<Dispensary> => {
+	try {
+		const { userId, ...data } = param;
+		const client = await clientPromise;
+		const { db, collections } = db_namespace;
+		const dispensary = await client
+			.db(db)
+			.collection<Dispensary>(collections.dispensaries)
+			.insertOne({ ...data, createdAt, updatedAt });
 
-	const client = await clientPromise;
-	const { db, collections } = db_namespace;
-	const dispensary = await client
-		.db(db)
-		.collection(collections.dispensaries)
-		.insertOne({ ...data, createdAt: new Date(), updatedAt: new Date() });
+		await addStaffMember(dispensary.insertedId, userId, Role.OWNER);
 
-	await addStaffMember(dispensary.insertedId, userId, Role.OWNER);
+		// await findOrCreateApp(team.name, team.id);
 
-	// await findOrCreateApp(team.name, team.id);
-
-	return { ...data, _id: dispensary.insertedId };
+		return { ...data, _id: dispensary.insertedId };
+	} catch (error) {
+		console.log(error);
+		return {} as Dispensary;
+	}
 };
 
 export const getByCustomerId = async (
@@ -34,14 +38,17 @@ export const getByCustomerId = async (
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
-		.collection(collections.dispensaries)
+		.collection<Dispensary>(collections.dispensaries)
 		.findOne({ billingId });
 };
 
 export const getDispensary = async (key: { id: string } | { slug: string }) => {
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
-	return await client.db(db).collection(collections.dispensaries).findOne(key);
+	return await client
+		.db(db)
+		.collection<Dispensary>(collections.dispensaries)
+		.findOne(key);
 };
 
 export const deleteDispensary = async (
@@ -140,7 +147,13 @@ export const getStaffMembers = async (slug: string) => {
 	});
 };
 
-export const updateDispensary = async ({ slug, data }) => {
+export const updateDispensary = async ({
+	slug,
+	data,
+}: {
+	slug: string;
+	data: Dispensary;
+}) => {
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
 	return await client
@@ -220,17 +233,17 @@ export async function getDispensariesByLocation(
 export async function updateDispensaryStripeAccount(
 	id: string,
 	stripeAccountId: string,
-	accountParams: Prisma.OrganizationUncheckedUpdateInput = {},
+	accountParams: Dispensary,
 ) {
-	try {
-		return await prisma.organization.update({
-			where: { id },
-			data: { stripeAccountId, ...accountParams },
-		});
-	} catch (error: any) {
-		console.error(error);
-		throw new Error(error);
-	}
+	const client = await clientPromise;
+	const { db, collections } = db_namespace;
+	return await client
+		.db(db)
+		.collection(collections.dispensaries)
+		.updateOne(
+			{ _id: new ObjectId(id) },
+			{ $set: { stripeAccountId, ...accountParams } },
+		);
 }
 
 /**
@@ -238,17 +251,16 @@ export async function updateDispensaryStripeAccount(
  * @param organizationId
  * @returns stripeAccountId
  */
-export async function getStripeAccountId(organizationId: string) {
-	try {
-		const accountId = await prisma.organization.findUnique({
-			where: { id: organizationId },
-			select: { stripeAccountId: true },
-		});
-		return accountId?.stripeAccountId;
-	} catch (error: any) {
-		console.error(error);
-		throw new Error(error);
-	}
+export async function getStripeAccountId(dispensaryId: string) {
+	const client = await clientPromise;
+	const { db, collections } = db_namespace;
+	return await client
+		.db(db)
+		.collection<Dispensary>(collections.dispensaries)
+		.findOne(
+			{ _id: new ObjectId(dispensaryId) },
+			{ projection: { stripeAccountId: 1 } },
+		);
 }
 
 /**

@@ -7,7 +7,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 	try {
 		const { token } = req.body;
 		const { data } = await axios.post(
-			`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.NEXT_PUBLIC_RECAPTCHA_V2_SECRET_KEY}&response=${token}`,
+			`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.NEXT_PUBLIC_RECAPTCHA_SECRET_KEY}&response=${token}`,
 		);
 		if (data.success) {
 			res.status(200).send({ success: 'true', isHuman: true });

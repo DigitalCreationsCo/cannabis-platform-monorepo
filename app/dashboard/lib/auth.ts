@@ -1,6 +1,6 @@
 import { compare, hash } from 'bcryptjs';
 
-import type { AUTH_PROVIDER } from 'types';
+import type { AUTH_PROVIDER } from '@cd/core-lib';
 import env from './env';
 
 export async function hashPassword(password: string) {

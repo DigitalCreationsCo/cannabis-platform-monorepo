@@ -1,4 +1,5 @@
 import { modalActions, modalTypes } from '@cd/core-lib';
+import Link from 'next/link';
 import { useDispatch } from 'react-redux';
 import Button, { type ButtonProps } from './Button/Button';
 
@@ -15,15 +16,16 @@ function SignInButton(props: SignInButtonProps) {
 	}
 
 	return (
-		<Button
-			bg={'secondary-light'}
-			hover={'primary-light'}
-			{...props}
-			className="place-self-center mb-4"
-			onClick={openLoginModal}
-		>
-			Sign In
-		</Button>
+		<Link href="/auth/login">
+			<Button
+				bg={'secondary-light'}
+				hover={'primary-light'}
+				className="place-self-center mb-4"
+				{...props}
+			>
+				Sign In
+			</Button>
+		</Link>
 	);
 }
 

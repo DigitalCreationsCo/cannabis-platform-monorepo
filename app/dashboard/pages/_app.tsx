@@ -37,7 +37,7 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_API_KEY as strin
 
 function MyApp({ Component, ...appProps }: AppPropsWithLayout) {
   const { store } = wrapper.useWrappedStore(appProps);
-	// @ts-expect-error
+	// @ts-expect-error - persistor is not a property of store
 	const persistor = store._persistor;
 
 	const { pageProps } = appProps;

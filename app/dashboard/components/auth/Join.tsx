@@ -9,7 +9,7 @@ import {
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
-import { Button } from 'react-daisyui';
+import { Button } from '@cd/ui-lib';
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
 import TogglePasswordVisibility from '../shared/TogglePasswordVisibility';
@@ -28,7 +28,7 @@ const JoinUserSchema = Yup.object().shape({
     .required()
     .min(passwordPolicies.minLength)
     .max(maxLengthPolicies.password),
-  team: Yup.string().required().min(3).max(maxLengthPolicies.team),
+  dispensary: Yup.string().required().min(3).max(maxLengthPolicies.team),
 });
 
 const Join = ({ recaptchaSiteKey }: JoinProps) => {
@@ -47,7 +47,7 @@ const Join = ({ recaptchaSiteKey }: JoinProps) => {
       name: '',
       email: '',
       password: '',
-      team: '',
+      dispensary: '',
     },
     validationSchema: JoinUserSchema,
     validateOnChange: false,
@@ -99,10 +99,10 @@ const Join = ({ recaptchaSiteKey }: JoinProps) => {
         <InputWithLabel
           type="text"
           label={t('team')}
-          name="team"
+          name="dispensary"
           placeholder={t('team-name')}
-          value={formik.values.team}
-          error={formik.errors.team}
+          value={formik.values.dispensary}
+          error={formik.errors.dispensary}
           onChange={formik.handleChange}
         />
         <InputWithLabel
@@ -136,16 +136,13 @@ const Join = ({ recaptchaSiteKey }: JoinProps) => {
         />
       </div>
       <div className="mt-3 space-y-3">
-        <Button
-          type="submit"
-          color="primary"
-          loading={formik.isSubmitting}
-          active={formik.dirty}
-          fullWidth
-          size="md"
-        >
-          {t('create-account')}
-        </Button>
+          <Button
+            className='w-full font-bold bg-secondary-light hover:bg-primary-light'
+            type="submit"
+            loading={formik.isSubmitting}
+          >
+            {t('create-account')}
+          </Button>
         <AgreeMessage text={t('create-account')} />
       </div>
     </form>

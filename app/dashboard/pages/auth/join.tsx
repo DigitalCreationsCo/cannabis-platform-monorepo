@@ -15,7 +15,7 @@ import GoogleButton from '@/components/auth/GoogleButton';
 import { JoinWithInvitation, Join } from '@/components/auth';
 import Head from 'next/head';
 import env from '@/lib/env';
-import { LoadingDots } from '@cd/ui-lib';
+import { LoadingPage } from '@cd/ui-lib';
 
 const Signup: NextPageWithLayout<
   InferGetServerSidePropsType<typeof getServerSideProps>
@@ -36,7 +36,7 @@ const Signup: NextPageWithLayout<
   }, [error, t]);
 
   if (status === 'loading') {
-    return <LoadingDots />;
+    return <LoadingPage />;
   }
 
   if (status === 'authenticated') {
@@ -46,11 +46,11 @@ const Signup: NextPageWithLayout<
   const params = token ? `?token=${token}` : '';
 
   return (
-    <>
+    <AuthLayout heading="get-started" description="create-a-new-account">
       <Head>
         <title>{t('sign-up-title')}</title>
       </Head>
-      <div className="rounded p-6 border">
+      <div className="rounded p-6 bg-inverse drop-shadow">
         <div className="flex gap-2 flex-wrap">
           {authProviders.github && <GithubButton />}
           {authProviders.google && <GoogleButton />}
@@ -81,15 +81,15 @@ const Signup: NextPageWithLayout<
           &nbsp;{t('sign-in')}
         </Link>
       </p>
-    </>
+    </AuthLayout>
   );
 };
 
 Signup.getLayout = function getLayout(page: ReactElement) {
   return (
-    <AuthLayout heading="get-started" description="create-a-new-account">
+      <>
       {page}
-    </AuthLayout>
+      </>
   );
 };
 

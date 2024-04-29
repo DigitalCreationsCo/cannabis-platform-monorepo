@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { slugify } from '../server-common';
+import { slugify } from '@cd/core-lib';
 import {
   teamName,
   apiKeyId,
@@ -68,7 +68,7 @@ export const updatePasswordSchema = z.object({
 
 export const userJoinSchema = z.union([
   z.object({
-    team: teamName,
+    dispensary: teamName,
     slug,
   }),
   z.object({

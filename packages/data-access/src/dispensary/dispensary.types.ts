@@ -24,14 +24,14 @@ import {
 import { type MembershipWithUser } from '../user/user.data';
 
 export type Dispensary = {
-	_id: ObjectId;
+	_id?: ObjectId;
 	name: string;
 	slug: string;
-	domain?: string;
 	billingId?: string;
 	billingProvider?: string;
-	createdAt: Date;
-	updatedAt: Date;
+	stripeAccountId?: string;
+	createdAt?: Date;
+	updatedAt?: Date;
 };
 
 export type OrganizationCreateType = Prisma.OrganizationUncheckedCreateInput & {
