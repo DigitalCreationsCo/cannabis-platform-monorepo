@@ -6,8 +6,8 @@ import { recordMetric } from '@/lib/metrics';
 import { getCookie } from 'cookies-next';
 import { sessionTokenCookieName } from '@/lib/nextAuth';
 import env from '@/lib/env';
-import { findFirstUserOrThrow, updateUser } from 'models/user';
-import { deleteManySessions } from 'models/session';
+import { findFirstUserOrThrow, updateUser } from '@cd/data-access';
+import { deleteManySessions } from '@cd/data-access';
 import { validateWithSchema, updatePasswordSchema } from '@/lib/zod';
 
 export default async function handler(

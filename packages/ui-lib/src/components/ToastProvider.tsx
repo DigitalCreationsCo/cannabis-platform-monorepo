@@ -1,7 +1,12 @@
 import { useEffect } from 'react';
-import { toast, Toaster, useToasterStore } from 'react-hot-toast';
+import {
+	toast,
+	Toaster,
+	useToasterStore,
+	type ToastOptions,
+} from 'react-hot-toast';
 
-const ToastProvider = () => {
+const ToastProvider = ({ toastOptions }: { toastOptions?: ToastOptions }) => {
 	const TOAST_LIMIT = 2;
 	const { toasts } = useToasterStore();
 	useEffect(() => {
@@ -11,7 +16,13 @@ const ToastProvider = () => {
 			.forEach((t) => toast.dismiss(t.id));
 	}, [toasts]);
 
-	return <Toaster position="top-center" toastOptions={{ duration: 2000 }} />;
+	return (
+		<Toaster
+			position="top-center"
+			toastOptions={{ duration: 2000 }}
+			{...toastOptions}
+		/>
+	);
 };
 
 export { ToastProvider };

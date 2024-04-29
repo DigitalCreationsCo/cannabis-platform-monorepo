@@ -1,6 +1,7 @@
 import { InputWithLabel, Loading } from '@/components/shared';
 import { maxLengthPolicies } from '@/lib/common';
 import env from '@/lib/env';
+import { LoadingDots } from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import useInvitation from 'hooks/useInvitation';
 import { signIn, useSession } from 'next-auth/react';
@@ -58,7 +59,7 @@ const MagicLink = ({ csrfToken }: MagicLinkProps) => {
   });
 
   if (status === 'loading') {
-    return <Loading />;
+    return <LoadingDots />;
   }
 
   if (status === 'authenticated') {

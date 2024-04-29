@@ -1,8 +1,7 @@
 import { sendVerificationEmail } from '@/lib/email/sendVerificationEmail';
-import { ApiError } from '@/lib/errors';
+import { ApiError } from '@cd/core-lib';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getUser } from 'models/user';
-import { createVerificationToken } from 'models/verificationToken';
+import { getUser, createVerificationToken } from '@cd/data-access';
 import { resendEmailToken, validateWithSchema } from '@/lib/zod';
 
 export default async function handler(

@@ -1,10 +1,15 @@
 import app from '@/lib/app';
 import { SessionProvider } from 'next-auth/react';
 import { appWithTranslation } from 'next-i18next';
-import { Toaster } from 'react-hot-toast';
 import colors from 'tailwindcss/colors';
+import {
+  LoadingPage,
+  ModalProvider,
+	ToastProvider,
+} from '@cd/ui-lib';
 import mixpanel from 'mixpanel-browser';
-
+import { Provider as ReduxProvider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 import '@boxyhq/react-ui/dist/style.css';
 import '../styles/globals.css';
 import '../styles/anim8-gradient.css';
@@ -18,13 +23,29 @@ import { Themer } from '@boxyhq/react-ui/shared';
 import { AccountLayout } from '@/components/layouts';
 import { NextSeo } from 'next-seo';
 import { AppPropsWithLayout } from '@/lib/next.types';
+import { wrapper } from '@/lib/store';
+import { loadHotJar} from '@cd/core-lib/src/lib/hotjar'
+import { loadBrevoChat} from '@cd/core-lib/src/lib/brevoChat'
+import { GTMTag, loadGoogleTagManager} from '@cd/core-lib/src/lib/googletagmanager'
+import { SWRConfig } from 'swr';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import CacheProvider from '@cd/core-lib/src/lib/cache';
+import { AnimatePresence } from 'framer-motion';
+
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_API_KEY as string);
 
 export interface SharedPageProps {
 	draftMode: boolean;
 	token: string;
 }
 
-function MyApp({ Component, pageProps }: AppPropsWithLayout & {pageProps: SharedPageProps }) {
+function MyApp({ Component, ...appProps }: AppPropsWithLayout & {pageProps: SharedPageProps }) {
+  const { store } = wrapper.useWrappedStore(appProps);
+	// @ts-expect-error
+	const persistor = store._persistor;
+
+	const { pageProps } = appProps;
   const { session, ...props } = pageProps;
 
   // Add mixpanel
@@ -47,14 +68,35 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout & {pageProps: Shared
 
   return (
     <>
+      {loadBrevoChat()}
+      {loadGoogleTagManager()}
+      {loadHotJar()}
+      <GTMTag />
       <NextSeo
       title={app.name}
       description={app.description}
       openGraph={{url: app.url, title: app.opengraph.title, type: 'website', description: app.description, images: [{url: app.opengraph.image, alt: app.name, width: 300}], site_name: app.name}}
       twitter={{cardType: 'summary_large_image', site: app.url, handle: '@grascannabis'}}
       />
+      <SWRConfig
+				value={{
+					revalidateOnFocus: false,
+					provider: CacheProvider,
+				}}
+			>
       <SessionProvider session={session}>
-        <Toaster toastOptions={{ duration: 4000 }} />
+					<ReduxProvider store={store}>
+						<PersistGate persistor={persistor} loading={<LoadingPage />}>
+          <ModalProvider />
+							<ToastProvider />
+              <Elements
+								stripe={stripePromise}
+								options={{
+									mode: 'setup',
+									currency: 'usd',
+									setup_future_usage: 'off_session',
+								}}
+							>
         <Themer
           overrideTheme={{
             '--primary-color': colors.blue['500'],
@@ -70,12 +112,19 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout & {pageProps: Shared
             '--primary-color-900': colors.blue['900'],
             '--primary-color-950': colors.blue['950'],
           }}
-        >
+        ><AnimatePresence
+        mode="wait"
+        initial={false}
+        onExitComplete={() => window.scrollTo(0, 0)}
+      >
           {getLayout(<Component {...props} />)}
+								</AnimatePresence>
         </Themer>
-      </SessionProvider>
+							</Elements></PersistGate>
+					</ReduxProvider>
+      </SessionProvider></SWRConfig>
     </>
   );
 }
 
-export default appWithTranslation<never>(MyApp);
+export default wrapper.withRedux(appWithTranslation<never>(MyApp));

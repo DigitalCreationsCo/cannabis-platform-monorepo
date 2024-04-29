@@ -25,7 +25,7 @@ export default function Footer() {
 		{ name: 'Work With Us', href: TextContent.href.work_with_us },
 	];
 	const legal = [
-		{ name: 'Blog', href: TextContent.href.blog },
+		{ name: 'Blog', href: getShopSite(TextContent.href.blog) },
 		{ name: 'Frequently Asked Questions', href: TextContent.href.faq },
 		{ name: 'Help Center', href: TextContent.href.help },
 		{ name: 'Privacy Policy', href: TextContent.href.privacy },

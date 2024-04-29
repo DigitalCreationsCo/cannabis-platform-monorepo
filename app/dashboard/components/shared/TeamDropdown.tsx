@@ -5,21 +5,20 @@ import {
   RectangleStackIcon,
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
-import useTeams from 'hooks/useTeams';
+import {useDispensaries, maxLengthPolicies} from '@cd/core-lib';
 import { useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { maxLengthPolicies } from '@/lib/common';
 
 const TeamDropdown = () => {
   const router = useRouter();
-  const { teams } = useTeams();
+  const { dispensaries } = useDispensaries();
   const { data } = useSession();
   const { t } = useTranslation('common');
 
-  const currentTeam = (teams || []).find(
+  const currentTeam = (dispensaries || []).find(
     (team) => team.slug === router.query.slug
   );
 
@@ -27,7 +26,7 @@ const TeamDropdown = () => {
     {
       id: 2,
       name: t('teams'),
-      items: (teams || []).map((team) => ({
+      items: (dispensaries || []).map((team) => ({
         id: team.id,
         name: team.name,
         href: `/teams/${team.slug}/settings`,
@@ -39,7 +38,7 @@ const TeamDropdown = () => {
       name: t('profile'),
       items: [
         {
-          id: data?.user.id,
+          id: data?.user?.id,
           name: data?.user?.name,
           href: '/settings/account',
           icon: UserCircleIcon,

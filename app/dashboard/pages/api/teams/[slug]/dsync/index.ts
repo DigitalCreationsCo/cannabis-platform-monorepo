@@ -1,9 +1,9 @@
 import env from '@/lib/env';
 import { sendAudit } from '@/lib/retraced';
-import { throwIfNoDispensaryAccess } from 'models/team';
-import { throwIfNotAllowed } from 'models/user';
+import { throwIfNoDispensaryAccess } from '@cd/data-access';
+import { throwIfNotAllowed } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { ApiError } from '@/lib/errors';
+import { ApiError } from '@/lib/errors2';
 import { dsyncManager } from '@/lib/jackson/dsync';
 
 const dsync = dsyncManager();

@@ -1,7 +1,3 @@
-/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
-/* eslint-disable jsx-a11y/label-has-associated-control */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import {
 	modalActions,
 	modalTypes,
@@ -79,10 +75,10 @@ function TopBar({
 				</Link>
 			</FlexBox>
 
-			{showLocation && (
+			{/* {showLocation && (
 				// <Paragraph>Location: {user.address[0].zipcode || 10011}</Paragraph>
 				<Paragraph>Location: 10011</Paragraph>
-			)}
+			)} */}
 
 			<div className="flex grow">{(showSearch && SearchComponent) || null}</div>
 

@@ -6,7 +6,7 @@ import type {
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import { getSession } from '@/lib/session';
-import { getUserBySession } from 'models/user';
+import { getUserBySession } from '@cd/data-access';
 import { UpdateAccount } from '@/components/account';
 import env from '@/lib/env';
 

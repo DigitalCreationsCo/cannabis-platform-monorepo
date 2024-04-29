@@ -15,18 +15,19 @@ import { getCsrfToken, signIn, useSession } from 'next-auth/react';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import env from '@/lib/env';
-import type { NextPageWithLayout } from 'types';
+import type { NextPageWithLayout } from '@/lib/next.types';
 import { AuthLayout } from '@/components/layouts';
 import GithubButton from '@/components/auth/GithubButton';
 import GoogleButton from '@/components/auth/GoogleButton';
-import { Alert, InputWithLabel, Loading } from '@/components/shared';
+import { Alert, InputWithLabel } from '@/components/shared';
 import { authProviderEnabled } from '@/lib/auth';
 import Head from 'next/head';
 import TogglePasswordVisibility from '@/components/shared/TogglePasswordVisibility';
 import AgreeMessage from '@/components/auth/AgreeMessage';
 import GoogleReCAPTCHA from '@/components/shared/GoogleReCAPTCHA';
 import ReCAPTCHA from 'react-google-recaptcha';
-import { maxLengthPolicies } from '@/lib/common';
+import { maxLengthPolicies } from '@cd/core-lib';
+import { LoadingDots } from '@cd/ui-lib';
 
 interface Message {
   text: string | null;
@@ -102,7 +103,7 @@ const Login: NextPageWithLayout<
   });
 
   if (status === 'loading') {
-    return <Loading />;
+    return <LoadingDots />;
   }
 
   if (status === 'authenticated') {
@@ -243,7 +244,7 @@ export const getServerSideProps = async (
   return {
     props: {
       ...(locale ? await serverSideTranslations(locale, ['common']) : {}),
-      csrfToken: await getCsrfToken(context),
+      csrfToken: await getCsrfToken(context) || null,
       authProviders: authProviderEnabled(),
       recaptchaSiteKey: env.recaptcha.siteKey,
     },

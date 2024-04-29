@@ -14,6 +14,7 @@ import type { ApiResponse } from 'types';
 import ConfirmationDialog from '../shared/ConfirmationDialog';
 import { useState } from 'react';
 import { Table } from '@/components/shared/table/Table';
+import { LoadingDots } from '@cd/ui-lib';
 
 const Members = ({ team }: { team: Team }) => {
   const { data: session } = useSession();
@@ -30,7 +31,7 @@ const Members = ({ team }: { team: Team }) => {
   );
 
   if (isLoading) {
-    return <Loading />;
+    return <LoadingDots />;
   }
 
   if (isError) {

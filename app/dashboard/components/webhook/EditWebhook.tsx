@@ -12,6 +12,7 @@ import type { ApiResponse } from 'types';
 
 import ModalForm from './Form';
 import { defaultHeaders } from '@/lib/common';
+import { LoadingDots } from '@cd/ui-lib';
 
 const EditWebhook = ({
   visible,
@@ -29,7 +30,7 @@ const EditWebhook = ({
   const { mutateWebhooks } = useWebhooks(team.slug);
 
   if (isLoading || !webhook) {
-    return <Loading />;
+    return <LoadingDots />;
   }
 
   if (isError) {

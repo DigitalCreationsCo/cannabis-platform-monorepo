@@ -1,19 +1,26 @@
 import { hashPassword } from '@/lib/auth';
-import { slugify } from '@/lib/server-common';
+import { slugify } from '@cd/core-lib';
 import { sendVerificationEmail } from '@/lib/email/sendVerificationEmail';
 import { isEmailAllowed } from '@/lib/email/utils';
 import env from '@/lib/env';
-import { ApiError } from '@/lib/errors';
-import { createTeam, getTeam, isTeamExists } from 'models/team';
-import { createUser, getUser } from 'models/user';
+import { ApiError } from '@cd/core-lib';
+import {
+  Dispensary,
+  getInvitation,
+  isInvitationExpired,
+  createUser,
+  getUser,
+  createDispensary,
+  createVerificationToken,
+  getDispensary,
+  isTeamExists,
+} from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { recordMetric } from '@/lib/metrics';
-import { getInvitation, isInvitationExpired } from 'models/invitation';
 import { validateRecaptcha } from '@/lib/recaptcha';
 import { slackNotify } from '@/lib/slack';
-import { Team } from '@prisma/client';
-import { createVerificationToken } from 'models/verificationToken';
 import { userJoinSchema, validateWithSchema } from '@/lib/zod';
+import { generateToken } from '@cd/core-lib';
 
 // TODO:
 // Add zod schema validation
@@ -107,23 +114,24 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
     emailVerified: invitation ? new Date() : null,
   });
 
-  let userTeam: Team | null = null;
+  let userDispensary: Dispensary | null = null;
 
   // Create team if user is not invited
   // So we can create the team with the user as the owner
   if (!invitation) {
-    userTeam = await createTeam({
+    userDispensary = await createDispensary({
       userId: user.id,
       name: team,
       slug: slugify(team),
     });
   } else {
-    userTeam = await getTeam({ slug: invitation.team.slug });
+    userDispensary = await getDispensary({ slug: invitation.team.slug });
   }
 
   // Send account verification email
   if (env.confirmEmail && !user.emailVerified) {
     const verificationToken = await createVerificationToken({
+      token: generateToken(),
       identifier: user.email,
       expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
     });

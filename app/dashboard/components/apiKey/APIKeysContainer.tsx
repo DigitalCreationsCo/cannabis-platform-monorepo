@@ -1,9 +1,10 @@
-import { Error, Loading } from '@/components/shared';
+import { Error } from '@/components/shared';
 import { TeamTab } from '@/components/team';
 import useTeam from 'hooks/useTeam';
 import { useTranslation } from 'next-i18next';
 import APIKeys from './APIKeys';
 import { TeamFeature } from 'types';
+import { LoadingDots } from '@cd/ui-lib';
 
 const APIKeysContainer = ({ teamFeatures }: { teamFeatures: TeamFeature }) => {
   const { t } = useTranslation('common');
@@ -11,7 +12,7 @@ const APIKeysContainer = ({ teamFeatures }: { teamFeatures: TeamFeature }) => {
   const { isLoading, isError, team } = useTeam();
 
   if (isLoading) {
-    return <Loading />;
+    return <LoadingDots />;
   }
 
   if (isError) {

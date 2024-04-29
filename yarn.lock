@@ -8008,21 +8008,21 @@ __metadata:
   linkType: hard
 
 "@floating-ui/core@npm:^1.0.0":
-  version: 1.6.0
-  resolution: "@floating-ui/core@npm:1.6.0"
+  version: 1.6.1
+  resolution: "@floating-ui/core@npm:1.6.1"
   dependencies:
-    "@floating-ui/utils": ^0.2.1
-  checksum: 2e25c53b0c124c5c9577972f8ae21d081f2f7895e6695836a53074463e8c65b47722744d6d2b5a993164936da006a268bcfe87fe68fd24dc235b1cb86bed3127
+    "@floating-ui/utils": ^0.2.0
+  checksum: 77ae1bc49127a694f37464e78d8eb7971c346a8691ea62a038beeddb22b80910d326fe544267c2b15fa49ff23ae403bc2763658f6413b67dbd759ab950c11939
   languageName: node
   linkType: hard
 
-"@floating-ui/dom@npm:^1.2.7, @floating-ui/dom@npm:^1.6.1":
-  version: 1.6.3
-  resolution: "@floating-ui/dom@npm:1.6.3"
+"@floating-ui/dom@npm:^1.0.0, @floating-ui/dom@npm:^1.2.7":
+  version: 1.6.4
+  resolution: "@floating-ui/dom@npm:1.6.4"
   dependencies:
     "@floating-ui/core": ^1.0.0
     "@floating-ui/utils": ^0.2.0
-  checksum: 81cbb18ece3afc37992f436e469e7fabab2e433248e46fff4302d12493a175b0c64310f8a971e6e1eda7218df28ace6b70237b0f3c22fe12a21bba05b5579555
+  checksum: 9cb061b19e3a4dca0e61caaa926eed34f74854df32d743e49f955b97679a097b5d60ee6bb74b7b0d17f4739e3089cf503f213bd3bc64c41328b7d34070ba4550
   languageName: node
   linkType: hard
 
@@ -8039,20 +8039,20 @@ __metadata:
   linkType: hard
 
 "@floating-ui/react-dom@npm:^2.0.0":
-  version: 2.0.8
-  resolution: "@floating-ui/react-dom@npm:2.0.8"
+  version: 2.0.9
+  resolution: "@floating-ui/react-dom@npm:2.0.9"
   dependencies:
-    "@floating-ui/dom": ^1.6.1
+    "@floating-ui/dom": ^1.0.0
   peerDependencies:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: 5da7f13a69281e38859a3203a608fe9de1d850b332b355c10c0c2427c7b7209a0374c10f6295b6577c1a70237af8b678340bd4cc0a4b1c66436a94755d81e526
+  checksum: f7a05c90955c713fc2851f74f87bdde9bd91df5f264f061f489bd3b6ce74c78dda204c3e71a09adc56b64f5324f2c2f23c01382e5ec897ee7e8e5235c41b45a9
   languageName: node
   linkType: hard
 
 "@floating-ui/react@npm:^0.26.2":
-  version: 0.26.12
-  resolution: "@floating-ui/react@npm:0.26.12"
+  version: 0.26.13
+  resolution: "@floating-ui/react@npm:0.26.13"
   dependencies:
     "@floating-ui/react-dom": ^2.0.0
     "@floating-ui/utils": ^0.2.0
@@ -8060,14 +8060,14 @@ __metadata:
   peerDependencies:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: cb3c20937ae1ba2217321432a5fb7c8455b25e6060a6bb9fa93489a27a0f643a63583a7ce303279098b85db5d1beb87bb0ec3fd0d17e9971aed5518851e6deed
+  checksum: d058edbbf9f4c440f2248e24145a3d59fec5a4fd88037f1d11ec5ab3562cc07da1a89023fee9c157df6e0dc7f6bd95f25698761bf1c0c8b4d868a201c2844459
   languageName: node
   linkType: hard
 
-"@floating-ui/utils@npm:^0.2.0, @floating-ui/utils@npm:^0.2.1":
-  version: 0.2.1
-  resolution: "@floating-ui/utils@npm:0.2.1"
-  checksum: 9ed4380653c7c217cd6f66ae51f20fdce433730dbc77f95b5abfb5a808f5fdb029c6ae249b4e0490a816f2453aa6e586d9a873cd157fdba4690f65628efc6e06
+"@floating-ui/utils@npm:^0.2.0":
+  version: 0.2.2
+  resolution: "@floating-ui/utils@npm:0.2.2"
+  checksum: 3d8d46fd1b071c98e10d374e2dcf54d1eb9de0aa75ed2b994c9132ebf6f783f896f979053be71450bdb6d60021120cfc24d25a5c84ebb3db0994080e13d9762f
   languageName: node
   linkType: hard
 
@@ -8143,9 +8143,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gras/dashboard@workspace:app/dashboard":
+"@gras/dashboard-template@workspace:app/dashboard-template":
   version: 0.0.0-use.local
-  resolution: "@gras/dashboard@workspace:app/dashboard"
+  resolution: "@gras/dashboard-template@workspace:app/dashboard-template"
   dependencies:
     "@auth/mongodb-adapter": 3.0.0
     "@boxyhq/metrics": 0.2.6
@@ -8223,6 +8223,110 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@gras/dashboard@workspace:app/dashboard":
+  version: 0.0.0-use.local
+  resolution: "@gras/dashboard@workspace:app/dashboard"
+  dependencies:
+    "@auth/mongodb-adapter": 3.0.0
+    "@boxyhq/metrics": 0.2.6
+    "@boxyhq/react-ui": 3.3.43
+    "@boxyhq/saml-jackson": 1.23.3
+    "@cd/core-lib": "workspace:*"
+    "@cd/data-access": "workspace:*"
+    "@cd/eslint-config": "workspace:*"
+    "@cd/ui-lib": "workspace:*"
+    "@faker-js/faker": 8.4.1
+    "@heroicons/react": 2.1.3
+    "@playwright/test": 1.43.1
+    "@react-email/components": 0.0.16
+    "@react-email/render": 0.0.12
+    "@reduxjs/toolkit": 1.9.2
+    "@retracedhq/logs-viewer": 2.7.2
+    "@retracedhq/retraced": 0.7.9
+    "@sentry/nextjs": 7.112.0
+    "@stripe/react-stripe-js": 2.4.0
+    "@stripe/stripe-js": 2.3.0
+    "@tailwindcss/typography": 0.5.12
+    "@testing-library/jest-dom": 6.4.2
+    "@typeform/embed-react": 2.28.0
+    "@types/bcryptjs": 2.4.6
+    "@types/jest": 29.5.12
+    "@types/micromatch": 4.0.7
+    "@types/mixpanel-browser": 2.49.0
+    "@types/node": 20.12.7
+    "@types/nodemailer": 6.4.14
+    "@types/react": 18.2.79
+    "@types/react-google-recaptcha": 2.1.5
+    "@typescript-eslint/eslint-plugin": 7.7.1
+    "@typescript-eslint/parser": 7.7.1
+    "@vercel/og": 0.6.1
+    autoprefixer: 10.4.19
+    bcryptjs: 2.4.3
+    classnames: 2.5.1
+    cookies-next: 4.1.1
+    currency-symbol-map: 5.1.0
+    daisyui: 4.10.2
+    dotenv: 16.0.3
+    dotenv-expand: 10.0.0
+    eslint: 8.37.0
+    eslint-config-next: 14.2.2
+    eslint-config-prettier: 9.1.0
+    eslint-plugin-i18next: 6.0.3
+    eslint-plugin-import: 2.26.0
+    eslint-plugin-jsx-a11y: 6.6.1
+    eslint-plugin-prettier: 4.2.1
+    eslint-plugin-react: 7.31.11
+    eslint-plugin-react-hooks: 4.6.0
+    eslint-plugin-simple-import-sort: 8.0.0
+    file-loader: 6.2.0
+    find-up: 5.0.0
+    formik: 2.2.9
+    framer-motion: 10.15.0
+    i18next: 22.5.1
+    jest: 29.7.0
+    jest-environment-jsdom: 29.7.0
+    micromatch: 4.0.5
+    mixpanel-browser: 2.49.0
+    mongodb: 5.8.1
+    next: 14.1.0
+    next-auth: 4.24.7
+    next-i18next: 13.3.0
+    next-redux-wrapper: 8.1.0
+    nodemailer: 6.9.13
+    npm-run-all: 4.1.5
+    postcss: 8.4.38
+    prettier: 3.2.5
+    prettier-plugin-tailwindcss: 0.5.14
+    react: 18.2.0
+    react-alice-carousel: 2.9.1
+    react-confetti: 6.1.0
+    react-daisyui: 5.0.0
+    react-dom: 18.2.0
+    react-email: 2.1.1
+    react-google-recaptcha: 3.1.0
+    react-hot-toast: 2.4.1
+    react-i18next: 12.3.1
+    react-js-cron: 5.0.1
+    react-multi-carousel: 2.8.5
+    react-redux: 8.0.2
+    redux-devtools-extension: 2.13.9
+    redux-persist: 6.0.0
+    release-it: 17.2.0
+    sharp: 0.33.3
+    slack-notify: 2.0.7
+    stripe: 15.3.0
+    svix: 1.21.0
+    swr: 2.2.5
+    tailwind-merge: 1.8.0
+    tailwindcss: 3.4.3
+    ts-jest: 29.0.3
+    ts-node: 10.9.2
+    typescript: 4.9.3
+    yup: 0.32.11
+    zod: 3.23.3
+  languageName: unknown
+  linkType: soft
+
 "@gras/shop@workspace:app/gras":
   version: 0.0.0-use.local
   resolution: "@gras/shop@workspace:app/gras"
@@ -8242,6 +8346,7 @@ __metadata:
     "@prisma/client": 5.12.1
     "@react-email/components": 0.0.16
     "@react-email/render": 0.0.12
+    "@reduxjs/toolkit": 1.9.2
     "@retracedhq/logs-viewer": 2.7.2
     "@retracedhq/retraced": 0.7.9
     "@sanity/assist": 1.2.15
@@ -8251,6 +8356,8 @@ __metadata:
     "@sanity/types": 3.20.0
     "@sanity/vision": 3.20.0
     "@sentry/nextjs": 7.112.0
+    "@stripe/react-stripe-js": 2.4.0
+    "@stripe/stripe-js": 2.3.0
     "@tailwindcss/typography": 0.5.12
     "@testing-library/jest-dom": 6.4.2
     "@typeform/embed-react": 2.28.0
@@ -8261,11 +8368,13 @@ __metadata:
     "@types/node": 20.12.7
     "@types/nodemailer": 6.4.14
     "@types/react": 18.2.79
+    "@types/react-google-recaptcha": 2.1.5
     "@typescript-eslint/eslint-plugin": 7.7.1
     "@typescript-eslint/parser": 7.7.1
     "@vercel/og": 0.6.1
     autoprefixer: 10.4.19
     bcryptjs: 2.4.3
+    boarding.js: 3.5.2
     classnames: 2.5.1
     cookies-next: 4.1.1
     currency-symbol-map: 5.1.0
@@ -8277,6 +8386,7 @@ __metadata:
     eslint-config-prettier: 9.1.0
     eslint-plugin-i18next: 6.0.3
     eslint-plugin-react: 7.34.1
+    file-loader: 6.2.0
     find-up: 5.0.0
     formik: 2.4.5
     i18next: 22.5.1
@@ -8291,19 +8401,24 @@ __metadata:
     next-sanity: 7.0.4
     next-sanity-image: 6.1.1
     nodemailer: 6.9.13
+    npm-run-all: 4.1.5
     postcss: 8.4.38
     prettier: 3.2.5
     prettier-plugin-tailwindcss: 0.5.14
     prisma: 5.12.1
     react: 18.2.0
     react-alice-carousel: ^2.9.1
+    react-confetti: 6.1.0
     react-daisyui: 5.0.0
     react-dom: 18.2.0
     react-email: 2.1.1
     react-google-recaptcha: 3.1.0
     react-hot-toast: 2.4.1
     react-i18next: 12.3.1
-    react-multi-carousel: ^2.8.5
+    react-multi-carousel: 2.8.5
+    react-redux: 8.0.2
+    redux-devtools-extension: 2.13.9
+    redux-persist: 6.0.0
     release-it: 17.2.0
     sanity: 3.20.0
     sanity-plugin-asset-source-unsplash: 1.1.2
@@ -8319,7 +8434,7 @@ __metadata:
     tailwindcss: 3.4.3
     ts-node: 10.9.2
     typescript: 5.4.5
-    yup: 1.4.0
+    yup: 0.32.11
     zod: 3.23.3
   languageName: unknown
   linkType: soft
@@ -18073,9 +18188,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@uiw/codemirror-extensions-basic-setup@npm:4.21.25":
-  version: 4.21.25
-  resolution: "@uiw/codemirror-extensions-basic-setup@npm:4.21.25"
+"@uiw/codemirror-extensions-basic-setup@npm:4.22.0":
+  version: 4.22.0
+  resolution: "@uiw/codemirror-extensions-basic-setup@npm:4.22.0"
   dependencies:
     "@codemirror/autocomplete": ^6.0.0
     "@codemirror/commands": ^6.0.0
@@ -18092,19 +18207,19 @@ __metadata:
     "@codemirror/search": ">=6.0.0"
     "@codemirror/state": ">=6.0.0"
     "@codemirror/view": ">=6.0.0"
-  checksum: 1714fcb9ff1a80c14cef5b6b78f41d18f3991877fc088e5c5edf4ce4ee203f468a6401aab7d042ceae527f6475e2e11d4f30dbab6e127bd157c6aaf4c68049d2
+  checksum: 7321781f51e6be06540c6b64d393261b6387a880a68ef709ae499b8731217e4404d7931507d4e119022518542b276b04d7132214df915e67b8c410361348f49e
   languageName: node
   linkType: hard
 
 "@uiw/react-codemirror@npm:^4.11.4":
-  version: 4.21.25
-  resolution: "@uiw/react-codemirror@npm:4.21.25"
+  version: 4.22.0
+  resolution: "@uiw/react-codemirror@npm:4.22.0"
   dependencies:
     "@babel/runtime": ^7.18.6
     "@codemirror/commands": ^6.1.0
     "@codemirror/state": ^6.1.1
     "@codemirror/theme-one-dark": ^6.0.0
-    "@uiw/codemirror-extensions-basic-setup": 4.21.25
+    "@uiw/codemirror-extensions-basic-setup": 4.22.0
     codemirror: ^6.0.0
   peerDependencies:
     "@babel/runtime": ">=7.11.0"
@@ -18114,7 +18229,7 @@ __metadata:
     codemirror: ">=6.0.0"
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: 63d7578dab73f66d0357bdd566d24c3c43431627c77b5756f0a982ac5ebff35322e3292ce33a16cb19d5e8fb750a64f59d17c35a3d84c66b38c8454d06613dff
+  checksum: a07c15161bec4ff74857431d38f5d31a5876b224d96e1302127248b687257038806ae39293569033b83d4f11a2e3cae5c225d74fc3517fdd5171306225012924
   languageName: node
   linkType: hard
 
@@ -21552,9 +21667,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30001426, caniuse-lite@npm:^1.0.30001464, caniuse-lite@npm:^1.0.30001579, caniuse-lite@npm:^1.0.30001587, caniuse-lite@npm:^1.0.30001599":
-  version: 1.0.30001613
-  resolution: "caniuse-lite@npm:1.0.30001613"
-  checksum: 909bae9083aecd4b7488d39b66f454448f52a64bceab4f512720775bcff16aa00124fc3439ee76b1e3bb5b795ea54a7cc9a5ece0affa31c07657447cf198a9e2
+  version: 1.0.30001614
+  resolution: "caniuse-lite@npm:1.0.30001614"
+  checksum: 1b695625f9a1b08584c3c229d4b8deaebb89e7901a2a2ffe599a6250c0a79fc61afc49c374c32a76dbf593a5dedac3229bb0140bbacd438276211bdd1d7c4958
   languageName: node
   linkType: hard
 
@@ -22058,9 +22173,9 @@ __metadata:
   linkType: hard
 
 "cjs-module-lexer@npm:^1.0.0":
-  version: 1.3.0
-  resolution: "cjs-module-lexer@npm:1.3.0"
-  checksum: fa01a34d3ccfbd4e66a12b279de04947d5e8534ffb6fd813b1340194096081c30977d747d25bba76cec377615112716dc7de7aedd2fb282061a7bcb7288bb9b5
+  version: 1.3.1
+  resolution: "cjs-module-lexer@npm:1.3.1"
+  checksum: 75f20ac264a397ea5c63f9c2343a51ab878043666468f275e94862f7180ec1d764a400ec0c09085dcf0db3193c74a8b571519abd2bf4be0d2be510d1377c8d4b
   languageName: node
   linkType: hard
 
@@ -23950,10 +24065,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dayjs@npm:1.11.10, dayjs@npm:^1.11.10, dayjs@npm:^1.11.9, dayjs@npm:^1.8.15, dayjs@npm:~1.11.5":
+"dayjs@npm:1.11.10":
   version: 1.11.10
   resolution: "dayjs@npm:1.11.10"
   checksum: a6b5a3813b8884f5cd557e2e6b7fa569f4c5d0c97aca9558e38534af4f2d60daafd3ff8c2000fed3435cfcec9e805bcebd99f90130c6d1c5ef524084ced588c4
+  languageName: node
+  linkType: hard
+
+"dayjs@npm:^1.11.10, dayjs@npm:^1.11.9, dayjs@npm:^1.8.15, dayjs@npm:~1.11.5":
+  version: 1.11.11
+  resolution: "dayjs@npm:1.11.11"
+  checksum: 84788275aad8a87fee4f1ce4be08861df29687aae6b7b43dd65350118a37dda56772a3902f802cb2dc651dfed447a5a8df62d88f0fb900dba8333e411190a5d5
   languageName: node
   linkType: hard
 
@@ -27387,11 +27509,11 @@ __metadata:
   linkType: hard
 
 "fast-check@npm:^3.12.0":
-  version: 3.17.2
-  resolution: "fast-check@npm:3.17.2"
+  version: 3.18.0
+  resolution: "fast-check@npm:3.18.0"
   dependencies:
     pure-rand: ^6.1.0
-  checksum: c1f1b1d18f389f4cccab74bf67a39647a788b6c52c86b7f53814a7612f363bd95b20270895e30cd6be715968b1f5fb2caee4b439e5cbc7457875b1d66e875ff6
+  checksum: 5e844c81b87919e713fbd09c9c1ad211b580a27324c0f163eea1d86b304ed8f7930f6922ab722e9d2e9cffed9edbbab56c8f0326882740f0ed2eaec1c1219ffc
   languageName: node
   linkType: hard
 
@@ -34258,9 +34380,9 @@ __metadata:
   linkType: hard
 
 "lru-cache@npm:^10.0.1, lru-cache@npm:^10.2.0":
-  version: 10.2.1
-  resolution: "lru-cache@npm:10.2.1"
-  checksum: ae81586eaeb92389fc9a05790d7efd424a29334daa4e513196d6e138a069d0afad1738cfa67773f05b9cb8666fb076f8af88a1b5cc4c7e569202f18a0c032a35
+  version: 10.2.2
+  resolution: "lru-cache@npm:10.2.2"
+  checksum: 98e8fc93691c546f719a76103ef2bee5a3ac823955c755a47641ec41f8c7fafa1baeaba466937cc1cbfa9cfd47e03536d10e2db3158a64ad91ff3a58a32c893e
   languageName: node
   linkType: hard
 
@@ -41316,7 +41438,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-alice-carousel@npm:^2.9.1":
+"react-alice-carousel@npm:2.9.1, react-alice-carousel@npm:^2.9.1":
   version: 2.9.1
   resolution: "react-alice-carousel@npm:2.9.1"
   dependencies:
@@ -41817,7 +41939,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-multi-carousel@npm:^2.8.5":
+"react-multi-carousel@npm:2.8.5":
   version: 2.8.5
   resolution: "react-multi-carousel@npm:2.8.5"
   checksum: aa41112c4ab548570d0c65f9f30cddb1219d1ca7f9e43022a4f7c5fcb394e66028df3bd1a6a907282720ca7b83aeda8c7101fda300f8a32e959ef1cdc11a3db9
@@ -50117,8 +50239,8 @@ __metadata:
   linkType: hard
 
 "ws@npm:^8.11.0, ws@npm:^8.12.1, ws@npm:^8.13.0, ws@npm:^8.2.3":
-  version: 8.16.0
-  resolution: "ws@npm:8.16.0"
+  version: 8.17.0
+  resolution: "ws@npm:8.17.0"
   peerDependencies:
     bufferutil: ^4.0.1
     utf-8-validate: ">=5.0.2"
@@ -50127,7 +50249,7 @@ __metadata:
       optional: true
     utf-8-validate:
       optional: true
-  checksum: feb3eecd2bae82fa8a8beef800290ce437d8b8063bdc69712725f21aef77c49cb2ff45c6e5e7fce622248f9c7abaee506bae0a9064067ffd6935460c7357321b
+  checksum: 147ef9eab0251364e1d2c55338ad0efb15e6913923ccbfdf20f7a8a6cb8f88432bcd7f4d8f66977135bfad35575644f9983201c1a361019594a4e53977bf6d4e
   languageName: node
   linkType: hard
 
@@ -50363,11 +50485,11 @@ __metadata:
   linkType: hard
 
 "yaml@npm:^2.2.1, yaml@npm:^2.3.4":
-  version: 2.4.1
-  resolution: "yaml@npm:2.4.1"
+  version: 2.4.2
+  resolution: "yaml@npm:2.4.2"
   bin:
     yaml: bin.mjs
-  checksum: 4c391d07a5d5e935e058babb71026c9cdc9a6fd889e35dd91b53cfb0a12691b67c6c5c740858e71345fef18cd9c13c554a6dda9196f59820d769d94041badb0b
+  checksum: 90dda4485de04367251face9abb5c36927c94e44078f4e958e6468a07e74e7e92f89be20fc49860b6268c51ee5a5fc79ef89197d3f874bf24ef8921cc4ba9013
   languageName: node
   linkType: hard
 

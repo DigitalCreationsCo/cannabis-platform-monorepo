@@ -4,9 +4,12 @@ import { ApiError } from 'next/dist/server/api-utils';
 import { recordMetric } from '@/lib/metrics';
 import { unlockAccount } from '@/lib/accountLock';
 import env from '@/lib/env';
-import { updateUser } from 'models/user';
-import { deletePasswordReset, getPasswordReset } from 'models/passwordReset';
-import { deleteManySessions } from 'models/session';
+import {
+  updateUser,
+  deleteManySessions,
+  deletePasswordReset,
+  getPasswordReset,
+} from '@cd/data-access';
 import { resetPasswordSchema, validateWithSchema } from '@/lib/zod';
 
 export default async function handler(

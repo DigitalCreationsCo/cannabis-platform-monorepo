@@ -1,10 +1,13 @@
-import { deleteApiKey } from 'models/apiKey';
-import { getCurrentUserWithTeam, throwIfNoDispensaryAccess } from 'models/team';
-import { throwIfNotAllowed } from 'models/user';
+import { deleteApiKey } from '@cd/data-access';
+import {
+  getCurrentUserWithTeam,
+  throwIfNoDispensaryAccess,
+} from '@cd/data-access';
+import { throwIfNotAllowed } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { recordMetric } from '@/lib/metrics';
 import env from '@/lib/env';
-import { ApiError } from '@/lib/errors';
+import { ApiError } from '@/lib/errors2';
 import { deleteApiKeySchema, validateWithSchema } from '@/lib/zod';
 
 export default async function handler(

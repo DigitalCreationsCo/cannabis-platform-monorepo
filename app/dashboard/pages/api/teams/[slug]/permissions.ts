@@ -1,5 +1,5 @@
 import { permissions } from '@/lib/permissions';
-import { throwIfNoDispensaryAccess } from 'models/team';
+import { throwIfNoDispensaryAccess } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(

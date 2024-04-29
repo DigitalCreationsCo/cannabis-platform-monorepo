@@ -8,9 +8,9 @@ import {
   deleteStripeSubscription,
   getBySubscriptionId,
   updateStripeSubscription,
-} from 'models/subscription';
-import { getByCustomerId } from 'models/team';
-import { getServiceByPriceId } from 'models/price';
+} from '@cd/data-access';
+import { getByCustomerId } from '@cd/data-access';
+import { getServiceByPriceId } from '@cd/data-access';
 
 export const config = {
   api: {

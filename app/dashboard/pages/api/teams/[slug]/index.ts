@@ -2,14 +2,14 @@ import { sendAudit } from '@/lib/retraced';
 import {
   deleteTeam,
   getCurrentUserWithTeam,
-  getTeam,
+  getDispensary,
   throwIfNoDispensaryAccess,
   updateTeam,
-} from 'models/team';
-import { throwIfNotAllowed } from 'models/user';
+} from '@cd/data-access';
+import { throwIfNotAllowed } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { recordMetric } from '@/lib/metrics';
-import { ApiError } from '@/lib/errors';
+import { ApiError } from '@/lib/errors2';
 import env from '@/lib/env';
 import { updateTeamSchema, validateWithSchema } from '@/lib/zod';
 import { Prisma, Team } from '@prisma/client';
@@ -51,7 +51,7 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
 
   throwIfNotAllowed(user, 'team', 'read');
 
-  const team = await getTeam({ id: user.team.id });
+  const team = await getDispensary({ id: user.team.id });
 
   recordMetric('team.fetched');
 

@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import crypto from 'crypto';
 
 import env from '@/lib/env';
-import { ApiError } from '@/lib/errors';
+import { ApiError } from '@/lib/errors2';
 import { handleEvents } from '@/lib/jackson/dsyncEvents';
 
 export default async function handler(

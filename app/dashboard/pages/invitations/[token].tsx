@@ -14,6 +14,7 @@ import EmailMismatch from '@/components/invitation/EmailMismatch';
 import AcceptInvitation from '@/components/invitation/AcceptInvitation';
 import NotAuthenticated from '@/components/invitation/NotAuthenticated';
 import EmailDomainMismatch from '@/components/invitation/EmailDomainMismatch';
+import { LoadingDots } from '@cd/ui-lib';
 
 const AcceptTeamInvitation: NextPageWithLayout = () => {
   const { status, data } = useSession();
@@ -21,7 +22,7 @@ const AcceptTeamInvitation: NextPageWithLayout = () => {
   const { isLoading, error, invitation } = useInvitation();
 
   if (isLoading) {
-    return <Loading />;
+    return <LoadingDots />;
   }
 
   if (error || !invitation) {
