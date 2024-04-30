@@ -137,7 +137,7 @@ export default function Footer() {
 							</FlexBox>
 						</div>
 					</div>
-					<div className="row-start-1 row-span-1 md:col-start-6 md:row-start-auto pt-4 md:pt-0">
+					<div className="row-start-1 row-span-1 md:col-start-6 md:col-span-3 md:row-start-auto pt-4 md:pt-0">
 						<H6 color="light">{TextContent.info.CANNABIS_DELIVERED}</H6>
 					</div>
 				</Grid>

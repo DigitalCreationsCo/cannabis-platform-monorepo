@@ -191,7 +191,7 @@ export default function Browse({ posts }: {
         </div> */}
         
         <H4 className="col-span-full px-7 pt-2 lg:!px-11 text-inverse-soft leading-2 drop-shadow text-left">
-        🍍 Fresh from the Blog
+        🍍 Fresh from our Blog
           </H4>
         <div className="col-span-full">
           <Carousel

@@ -15,9 +15,9 @@ import {
 	ContactUs,
 	Hero,
 	ServicesTopBar,
-} from 'components/landing-page';
-import { letters } from 'components/landing-page/letter/letter-data';
-import Partners from 'components/landing-page/partners/Partners';
+} from '@/components/landing';
+import { letters } from '@/components/landing/letter/letter-data';
+import Partners from '@/components/landing/partners/Partners';
 import {
 	automateDeliveryCompliance,
 	consumerTextMessaging,
@@ -26,8 +26,8 @@ import {
 	fullServiceDelivery,
 	trackDeliveries,
 	unlockYourGrowth,
-} from '../../components/landing-page/benefits/benefit-data';
-import { partners } from '../../components/landing-page/partners/partners-data';
+} from '@/components/landing/benefits/benefit-data';
+import { partners } from '@/components/landing/partners/partners-data';
 
 export default function DispensaryLandingPage() {
 	useEffect(() => {
@@ -175,6 +175,7 @@ export default function DispensaryLandingPage() {
 }
 
 const dealValues = [779, 1179, 4779, 979, 1479];
+
 DispensaryLandingPage.getLayoutContext = (): LayoutContextProps => ({
 	TopBarComponent: () => (
 		<>
@@ -208,6 +209,13 @@ const Bonus = ({ title }: { title: string }) => {
 DispensaryLandingPage.getLayout = function getLayout(page: ReactElement) {
 	return (
 		<>
+		<div className="bg-secondary-light text-inverse-soft py-1 cursor-default">
+				<H2 className="text-center font-semibold">
+					Create Hyper Growth For Your Dispensary With Customer Appeal and
+					Delivery
+				</H2>
+			</div>
+			<ServicesTopBar />
 			{page}
 			<Footer />
 		</>
