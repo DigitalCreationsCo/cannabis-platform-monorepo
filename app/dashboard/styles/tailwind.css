@@ -10791,6 +10791,10 @@ html:has(.drawer-open.drawer-open) {
   padding: 20px;
 }
 
+.p-10 {
+  padding: 2.5rem;
+}
+
 .\!px-4 {
   padding-left: 1rem !important;
   padding-right: 1rem !important;

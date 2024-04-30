@@ -24,6 +24,7 @@ const unAuthenticatedRoutes = [
   '/blog/**',
   '/blog/*',
   '/blog',
+  '/work-with-us',
 ];
 
 export default async function middleware(req: NextRequest) {
