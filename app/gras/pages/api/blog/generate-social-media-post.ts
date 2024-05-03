@@ -77,7 +77,7 @@ export default async function generateSocialMediaPost(req: any, res: any) {
 				'generated: ',
 				generateShareImage,
 			);
-		} catch (e) {
+		} catch (e: any) {
 			console.error(
 				'Error generating social media image: ',
 				_type,
@@ -117,7 +117,7 @@ export default async function generateSocialMediaPost(req: any, res: any) {
 			console.info(' successfully created social media post: ' + title);
 
 			return res.status(200).send({ success: 'true' });
-		} catch (e) {
+		} catch (e: any) {
 			console.error(
 				'Error generating social media post: ',
 				_type,

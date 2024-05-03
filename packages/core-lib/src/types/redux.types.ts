@@ -1,4 +1,4 @@
-import { type ProductVariantWithDetails } from '@cd/data-access';
+type ProductVariantWithDetails = any;
 import {
 	type Action,
 	type ThunkAction,

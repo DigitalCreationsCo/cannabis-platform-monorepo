@@ -3,7 +3,7 @@ import {
 	selectDriverState,
 	selectUserState,
 } from '@cd/core-lib';
-import { type UserWithDetails } from '@cd/data-access/src';
+import { Role, type User } from '@cd/data-access';
 import { useRouter } from 'next/router';
 import { type PropsWithChildren } from 'react';
 import { useSelector } from 'react-redux';
@@ -27,12 +27,12 @@ function ProtectedPage({
 	let user, isSignedIn, isLoading;
 	switch (true) {
 		case typeof userState !== 'undefined':
-			user = userState?.user as UserWithDetails;
+			user = userState?.user as User;
 			isSignedIn = userState?.isSignedIn;
 			isLoading = userState?.isLoading;
 			break;
 		case typeof driverState !== 'undefined':
-			user = driverState?.driver?.user as UserWithDetails;
+			user = driverState?.driver?.user as User;
 			isSignedIn = driverState?.isSignedIn;
 			isLoading = driverState?.isLoading;
 			break;
@@ -51,17 +51,11 @@ function ProtectedPage({
 		console.info('ProtectedPage: user is not signed in, redirecting');
 		router.push('/');
 	}
-	if (
-		isMemberPage &&
-		!hasMembershipRoleAccess(user as UserWithDetails, 'MEMBER')
-	) {
+	if (isMemberPage && !hasMembershipRoleAccess(user as User, Role.MEMBER)) {
 		console.info('ProtectedPage: user is not a member, redirecting');
 		router.push('/');
 	}
-	if (
-		isAdminPage &&
-		!hasMembershipRoleAccess(user as UserWithDetails, 'ADMIN')
-	) {
+	if (isAdminPage && !hasMembershipRoleAccess(user as User, Role.ADMIN)) {
 		console.info('ProtectedPage: user is not an admin, redirecting');
 		router.push('/');
 	}

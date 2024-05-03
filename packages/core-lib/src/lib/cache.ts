@@ -15,7 +15,7 @@ const cacheDelete = (key: string) => {
 };
 
 const cacheKeys = () => {
-	const keys = [];
+	const keys: any[] = [];
 	for (let i = 0; i < localStorage.length; i++) {
 		keys.push(localStorage.key(i));
 	}

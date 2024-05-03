@@ -2,7 +2,7 @@ import { Button } from 'react-daisyui';
 import { signOut } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 
-import { Invitation } from '@prisma/client';
+import { Invitation } from '@cd/data-access';
 
 interface EmailDomainMismatchProps {
   invitation: Invitation;
@@ -38,7 +38,7 @@ const EmailDomainMismatch = ({
           signOut();
         }}
       >
-        {t('logout')}
+        {t('sign-out')}
       </Button>
     </>
   );

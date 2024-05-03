@@ -3,14 +3,16 @@ import env from './env';
 
 const app = {
   version: packageInfo.version,
-  name: 'BoxyHQ',
-  description: "Serving the best cannabis in the world.",
+  name: 'Gras',
+  description:
+    'Order the best weed for delivery and pickup near you. Find cannabis stores, Store Hours, and more.',
   logoUrl: require('../public/logo.png'),
   url: env.appUrl,
   opengraph: {
-    image: "https://storage.googleapis.com/38d6acd65b23d751-image-dispensary/gras/Gras%20(2).png",
-    title: "Grascannabis.org | Serving People and Cannabis"
-  }
+    image:
+      'https://f5d8da031790bc54-image-dispensary.s3.amazonaws.com/gras/Gras-og.png',
+    title: 'Gras | Serving People and Cannabis',
+  },
 };
 
 export default app;

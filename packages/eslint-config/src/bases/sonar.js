@@ -24,6 +24,7 @@ module.exports = {
 			extends: ['plugin:sonarjs/recommended'],
 			rules: {
 				'sonarjs/no-nested-template-literals': 'off',
+				'sonarjs/no-small-switch': 'off',
 			},
 		},
 		{
@@ -33,6 +34,7 @@ module.exports = {
 				'sonarjs/cognitive-complexity': ['error', 15],
 				// relax duplicate strings
 				'sonarjs/no-duplicate-string': 'off',
+				'sonarjs/no-small-switch': 'off',
 			},
 		},
 		{
@@ -45,6 +47,7 @@ module.exports = {
 			rules: {
 				'sonarjs/no-duplicate-string': 'off',
 				'sonarjs/no-all-duplicated-branches': 'off',
+				'sonarjs/no-small-switch': 'off',
 			},
 		},
 	],

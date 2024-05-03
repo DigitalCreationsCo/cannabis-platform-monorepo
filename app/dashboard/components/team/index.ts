@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 export { default as Teams } from './Teams';
 export { default as CreateTeam } from './CreateTeam';
 export { default as TeamTab } from './TeamTab';

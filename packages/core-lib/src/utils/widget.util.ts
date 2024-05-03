@@ -1,4 +1,5 @@
-import { type Inventory, type POS } from '@cd/data-access';
+import { type POS } from '@cd/data-access';
+type Inventory = any;
 
 export function generateWidgetScriptTag({
 	id,

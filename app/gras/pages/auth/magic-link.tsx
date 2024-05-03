@@ -7,7 +7,7 @@ import type {
 import { getCsrfToken } from 'next-auth/react';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import type { ReactElement } from 'react';
-import type { NextPageWithLayout } from 'types';
+import type { NextPageWithLayout } from '@/lib/next.types';
 
 type LoginProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 

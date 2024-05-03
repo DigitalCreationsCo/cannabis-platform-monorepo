@@ -13,7 +13,7 @@ import { GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import dynamic from 'next/dynamic';
-import type { NextPageWithLayout } from 'types';
+import type { NextPageWithLayout } from '@/lib/next.types';
 
 interface RetracedEventsBrowserProps {
   host: string;

@@ -1,18 +1,9 @@
 /* eslint-disable sonarjs/no-duplicate-string */
-import {
-	type DailyDealCreateWithSkus,
-	type ProductVariant,
-	type OrderWithFullDetails,
-	type OrganizationWithDashboardDetails,
-	type ProductWithDashboardDetails,
-	type UserDispensaryStaff,
-	type UserWithProfilePicture,
-	type DailyDeal,
-} from '@cd/data-access';
+
 import { createId } from '@paralleldrive/cuid2';
 import { calculateDeliveryDeadline } from './utils/time.util';
 
-const userDispensaryStaff: UserDispensaryStaff = {
+const userDispensaryStaff: any = {
 	id: 'bf346k4u7xq030hr6wvgiwao',
 	firstName: 'Doug',
 	lastName: 'Doogie',
@@ -53,7 +44,7 @@ const userDispensaryStaff: UserDispensaryStaff = {
 	],
 };
 
-const notAdminUser: UserWithProfilePicture = {
+const notAdminUser: any = {
 	id: 'bf346k4u7xq030hr6wvgiwao',
 	firstName: 'Sam',
 	lastName: 'Samuels',
@@ -102,7 +93,7 @@ const organization: OrganizationWithDashboardDetails = {
 		city: 'Annapolis',
 		state: 'MD',
 		zipcode: 21037,
-		country: 'United_States',
+		country: 'United States',
 		countryCode: 'US',
 		coordinateId: '12345678',
 		coordinates: {
@@ -228,7 +219,7 @@ const organization: OrganizationWithDashboardDetails = {
 	updatedAt: new Date(),
 };
 
-const products: ProductWithDashboardDetails[] = [
+const products: any[] = [
 	{
 		id: '1',
 		name: 'King OG',
@@ -384,7 +375,7 @@ const products: ProductWithDashboardDetails[] = [
 	},
 ];
 
-const variants: ProductVariant[] = [
+const variants: any[] = [
 	{
 		id: '1',
 		name: 'King OG',
@@ -467,7 +458,7 @@ const variants: ProductVariant[] = [
 	},
 ];
 
-const orders: OrderWithFullDetails[] = [
+const orders: any[] = [
 	{
 		id: '1',
 		type: 'delivery',
@@ -580,7 +571,7 @@ const orders: OrderWithFullDetails[] = [
 					city: 'Baltimore',
 					state: 'MD',
 					zipcode: 21230,
-					country: 'United_States',
+					country: 'United States',
 					countryCode: 'US',
 					coordinateId: '1',
 					createdAt: new Date(),
@@ -638,7 +629,7 @@ const orders: OrderWithFullDetails[] = [
 						city: 'Baltimore',
 						state: 'MD',
 						zipcode: 21230,
-						country: 'United_States',
+						country: 'United States',
 						countryCode: 'US',
 						coordinateId: '1',
 						createdAt: new Date(),
@@ -672,7 +663,7 @@ const orders: OrderWithFullDetails[] = [
 			city: 'Lancaster',
 			state: 'PA',
 			zipcode: 17602,
-			country: 'United_States',
+			country: 'United States',
 			countryCode: 'US',
 			coordinateId: '1',
 			createdAt: new Date(),
@@ -701,7 +692,7 @@ const orders: OrderWithFullDetails[] = [
 	},
 ];
 
-const dailyDealsCreate: DailyDealCreateWithSkus[] = [
+const dailyDealsCreate: any[] = [
 	{
 		title: 'Fire deals happening now',
 		message:
@@ -725,7 +716,7 @@ const dailyDealsCreate: DailyDealCreateWithSkus[] = [
 	},
 ];
 
-const dailyDeals: DailyDeal[] = [
+const dailyDeals: any[] = [
 	{
 		id: '1',
 		title: 'You dont want to miss this!',

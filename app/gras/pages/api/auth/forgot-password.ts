@@ -1,6 +1,6 @@
 import { generateToken, validateEmail } from '@cd/core-lib';
 import { sendPasswordResetEmail } from '@/lib/email/sendPasswordResetEmail';
-import { ApiError } from '@/lib/errors2';
+import { ApiError } from '@cd/core-lib';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { recordMetric } from '@/lib/metrics';
 import { validateRecaptcha } from '@/lib/recaptcha';

@@ -48,7 +48,7 @@ export const getStaffMember = async (
 	return normalizeUser(user);
 };
 
-export const getStaffMemberBySession = async (session: Session | null) => {
+export const getStaffMemberBySession = async (session: any) => {
 	if (session === null || session.user === null) {
 		return null;
 	}

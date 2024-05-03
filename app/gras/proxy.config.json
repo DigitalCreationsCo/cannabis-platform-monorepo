@@ -1,0 +1,9 @@
+{
+  "gras-proxy": {
+    "source": 3002,
+    "target": 3000,
+    "hostname": "localhost",
+    "key": "../../proxy-certs/localhost.key",
+    "cert": "../../proxy-certs/localhost.crt"
+  }
+}

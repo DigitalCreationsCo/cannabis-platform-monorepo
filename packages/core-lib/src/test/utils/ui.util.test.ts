@@ -1,4 +1,5 @@
-import { Address, Schedule } from '@cd/data-access';
+import { Address, Country } from '@cd/data-access';
+type Schedule = any;
 import {
 	buildSTFormFields,
 	getDigitToWord,
@@ -13,7 +14,7 @@ const address: Address = {
 	street2: 'Apt 1',
 	city: 'Denver',
 	state: 'CO',
-	country: 'USA',
+	country: Country.United States,
 	countryCode: 'US',
 	coordinateId: '1',
 	zipcode: 80202,

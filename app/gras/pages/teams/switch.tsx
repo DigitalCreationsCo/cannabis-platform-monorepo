@@ -12,7 +12,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useRouter } from 'next/router';
 import { type ReactElement, useEffect } from 'react';
 import toast from 'react-hot-toast';
-import type { NextPageWithLayout } from 'types';
+import type { NextPageWithLayout } from '@/lib/next.types';
 
 const Organizations: NextPageWithLayout<
   InferGetServerSidePropsType<typeof getServerSideProps>

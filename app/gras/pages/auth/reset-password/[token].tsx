@@ -3,7 +3,7 @@ import { AuthLayout } from '@/components/layouts';
 import type { GetServerSidePropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { ReactElement } from 'react';
-import type { NextPageWithLayout } from 'types';
+import type { NextPageWithLayout } from '@/lib/next.types';
 
 const ResetPasswordPage: NextPageWithLayout = () => {
   return <ResetPasswordForm />;

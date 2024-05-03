@@ -1,6 +1,6 @@
 import { GetServerSidePropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import type { NextPageWithLayout } from 'types';
+import type { NextPageWithLayout } from '@/lib/next.types';
 import { useTranslation } from 'next-i18next';
 
 const Products: NextPageWithLayout = () => {

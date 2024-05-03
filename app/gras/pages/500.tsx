@@ -20,7 +20,7 @@ const Custom500 = () => {
       </p>
       <div className="mt-8 space-x-5">
         <button
-          onClick={(e) => {
+          onClick={(e: any) => {
             e.preventDefault();
             router.back();
           }}

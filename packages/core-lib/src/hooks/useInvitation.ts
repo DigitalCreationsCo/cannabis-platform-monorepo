@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import useSWR from 'swr';
-import type { ApiResponse } from 'types';
 import fetcher from '../lib/fetcher';
+import type { ApiResponse } from '../types';
 
 type Response = ApiResponse<any & { team: any }>;
 

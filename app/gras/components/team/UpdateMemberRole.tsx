@@ -1,6 +1,6 @@
 import { defaultHeaders } from '@/lib/common';
 import { availableRoles } from '@/lib/permissions';
-import { Team, TeamMember } from '@prisma/client';
+import { Team, TeamMember } from '@cd/data-access';
 import { useTranslation } from 'next-i18next';
 import toast from 'react-hot-toast';
 import type { ApiResponse } from 'types';
@@ -37,7 +37,7 @@ const UpdateMemberRole = ({ team, member }: UpdateMemberRoleProps) => {
     <select
       className="select select-bordered select-sm rounded"
       defaultValue={member.role}
-      onChange={(e) => updateRole(member, e.target.value)}
+      onChange={(e: any) => updateRole(member, e.target.value)}
     >
       {availableRoles.map((role) => (
         <option value={role.id} key={role.id}>

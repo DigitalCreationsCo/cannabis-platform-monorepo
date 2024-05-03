@@ -4,34 +4,37 @@ import { ObjectId } from 'mongodb';
 import { db_namespace } from '../db';
 import { normalizeUser } from '../helpers';
 import { Role } from '../role.types';
+import { type StaffMember } from '../staff/staff.types';
 import { type Dispensary } from './dispensary.types';
 
 export const createDispensary = async ({
 	createdAt = new Date(),
 	updatedAt = new Date(),
 	...param
-}: { userId: string } & Dispensary): Promise<Dispensary> => {
+}: { userId: string } & NonNullable<
+	Omit<Dispensary, 'id'>
+>): Promise<Dispensary> => {
 	try {
 		const { userId, ...data } = param;
 		const client = await clientPromise;
 		const { db, collections } = db_namespace;
 		const dispensary = await client
 			.db(db)
-			.collection<Dispensary>(collections.dispensaries)
+			.collection<Omit<Dispensary, 'id'>>(collections.dispensaries)
 			.insertOne({ ...data, createdAt, updatedAt });
 
-		await addStaffMember(dispensary.insertedId, userId, Role.OWNER);
+		await addStaffMember(dispensary.insertedId.toString(), userId, Role.OWNER);
 
 		// await findOrCreateApp(team.name, team.id);
 
-		return { ...data, _id: dispensary.insertedId };
+		return { ...data, id: dispensary.insertedId.toString() };
 	} catch (error) {
 		console.log(error);
 		return {} as Dispensary;
 	}
 };
 
-export const getByCustomerId = async (
+export const getDispensaryByCustomerId = async (
 	billingId: string,
 ): Promise<Dispensary | null> => {
 	const client = await clientPromise;
@@ -63,7 +66,7 @@ export const deleteDispensary = async (
 };
 
 export const addStaffMember = async (
-	dispensaryId: ObjectId,
+	dispensaryId: string,
 	userId: string,
 	role: Role,
 ) => {
@@ -73,7 +76,7 @@ export const addStaffMember = async (
 		.db(db)
 		.collection(collections.staff)
 		.updateOne(
-			{ dispensaryId, _id: new ObjectId(userId) },
+			{ dispensaryId: new ObjectId(dispensaryId), _id: new ObjectId(userId) },
 			{ $set: { role } },
 			{ upsert: true },
 		);
@@ -147,13 +150,10 @@ export const getStaffMembers = async (slug: string) => {
 	});
 };
 
-export const updateDispensary = async ({
-	slug,
-	data,
-}: {
-	slug: string;
-	data: Dispensary;
-}) => {
+export const updateDispensary = async (
+	slug: string,
+	data: Partial<Dispensary>,
+) => {
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
 	return await client
@@ -171,17 +171,17 @@ export const isTeamExists = async (slug: string) => {
 		.countDocuments({ slug });
 };
 
-// export const getStaffMember = async (userId: string, slug: string) => {
-// 	const client = await clientPromise;
-// 	const { db, collections } = db_namespace;
-// 	return await client
-// 		.db(db)
-// 		.collection(collections.staff)
-// 		.findOne({
-// 			_id: new ObjectId(userId),
-// 			'dispensary.slug': slug,
-// 		});
-// };
+export const getStaffMember = async (userId: string, slug: string) => {
+	const client = await clientPromise;
+	const { db, collections } = db_namespace;
+	return await client
+		.db(db)
+		.collection<StaffMember>(collections.staff)
+		.findOne({
+			_id: new ObjectId(userId),
+			'dispensary.slug': slug,
+		});
+};
 
 /**
  * get zero or more Dispensaries

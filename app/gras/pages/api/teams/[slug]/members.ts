@@ -1,7 +1,7 @@
-import { ApiError } from '@/lib/errors2';
+import { ApiError } from '@cd/core-lib';
 import { sendAudit } from '@/lib/retraced';
 import { sendEvent } from '@/lib/svix';
-import { Role } from '@prisma/client';
+import { Role } from '@cd/data-access';
 import {
   getDispensaryMembers,
   removeTeamMember,

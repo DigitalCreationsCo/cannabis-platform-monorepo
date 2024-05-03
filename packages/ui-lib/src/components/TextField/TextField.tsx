@@ -23,7 +23,7 @@ type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
 	onChange: ReactEventHandler;
 	onBlur?: ReactEventHandler;
 	error?: boolean;
-	helperText?: string | false;
+	helperText?: string | false | string[] | any;
 	insertIcon?:
 		| ((props: SVGAttributes<SVGElement>) => JSX.Element)
 		| CarbonIconType;
@@ -44,7 +44,7 @@ function TextField({
 	defaultValue,
 	onChange,
 	onBlur,
-	helperText,
+	helperText = false,
 	insertIcon,
 	onClickIcon,
 	inputRef,

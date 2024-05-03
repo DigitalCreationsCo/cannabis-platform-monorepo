@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable sonarjs/no-duplicated-branches */
 import { type POS } from '@cd/data-access';
 import { type POSIntegration } from './integration.types';
@@ -23,15 +24,11 @@ export class IntegrationService {
 						await import('./weedmapsPOS')
 					).WeedmapsPOS;
 					break;
-				case 'none':
-					POSIntegrationService = await (
-						await import('./metrcInventory')
-					).MetrcIntegration;
+				case null:
+					throw new Error('POS is not set');
 					break;
 				default:
-					POSIntegrationService = await (
-						await import('./metrcInventory')
-					).MetrcIntegration;
+					throw new Error('POS is not set');
 			}
 			return POSIntegrationService;
 		} catch (error: any) {
@@ -62,15 +59,11 @@ export class IntegrationService {
 						await import('./weedmapsPOS')
 					).WeedmapsPOS;
 					break;
-				case 'none':
-					InventoryIntegrationService = await (
-						await import('./metrcInventory')
-					).MetrcIntegration;
+				case null:
+					throw new Error('Seed to Sale Service is not set');
 					break;
 				default:
-					InventoryIntegrationService = await (
-						await import('./metrcInventory')
-					).MetrcIntegration;
+					throw new Error('Seed to Sale Service is not set');
 			}
 			return InventoryIntegrationService;
 		} catch (error: any) {

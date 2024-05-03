@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import {
-	type UserDispensaryStaffWithDispensaryDetails,
-	type DriverWithSessionJoin,
-	type UserWithDetails,
-} from '@cd/data-access/src';
+type UserDispensaryStaffWithDispensaryDetails = any;
+type DriverWithSessionJoin = any;
+type UserWithDetails = any;
 import { type User } from 'supertokens-node/lib/build/types';
 
 export type ApiContext = {

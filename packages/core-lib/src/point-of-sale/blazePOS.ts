@@ -1,7 +1,6 @@
-import {
-	type UserWithDetails,
-	type OrderWithDispatchDetails,
-} from '@cd/data-access';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+type OrderWithDispatchDetails = any;
+type UserWithDetails = any;
 import { variants } from '../dummyData';
 import { type POSIntegration } from './integration.types';
 

@@ -5,7 +5,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { ArrowUpCircleIcon } from '@heroicons/react/24/outline';
 
 import type { ApiResponse } from 'types';
-import type { User } from '@prisma/client';
+import type { User } from '@cd/data-access';
 import { Card } from '@/components/shared';
 import { defaultHeaders } from '@/lib/common';
 
@@ -34,7 +34,7 @@ const UploadAvatar = ({ user }: { user: Partial<User> }) => {
     }
   };
 
-  const onChangePicture = useCallback((e) => {
+  const onChangePicture = useCallback((e: any) => {
     const file = e.target.files[0];
 
     if (file) {
@@ -55,7 +55,7 @@ const UploadAvatar = ({ user }: { user: Partial<User> }) => {
 
     const reader = new FileReader();
 
-    reader.onload = (e) => {
+    reader.onload = (e: any) => {
       setImage(e.target?.result as string);
     };
 
@@ -101,17 +101,17 @@ const UploadAvatar = ({ user }: { user: Partial<User> }) => {
             >
               <div
                 className="absolute z-[5] h-full w-full rounded-full"
-                onDragOver={(e) => {
+                onDragOver={(e: any) => {
                   e.preventDefault();
                   e.stopPropagation();
                   setDragActive(true);
                 }}
-                onDragEnter={(e) => {
+                onDragEnter={(e: any) => {
                   e.preventDefault();
                   e.stopPropagation();
                   setDragActive(true);
                 }}
-                onDragLeave={(e) => {
+                onDragLeave={(e: any) => {
                   e.preventDefault();
                   e.stopPropagation();
                   setDragActive(false);

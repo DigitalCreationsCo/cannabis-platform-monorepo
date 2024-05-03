@@ -1,17 +1,14 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { useEncryptCookies, useHashNavigate } from '@cd/core-lib';
-import {
-	type OrganizationCreateType,
-	type UserCreateType,
-} from '@cd/data-access';
+import { type User, type Dispensary } from '@cd/data-access';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import ErrorMessage from './ErrorMessage';
 import FlexBox from './FlexBox';
 
 type FormValuesType = {
-	organization?: Partial<OrganizationCreateType>;
-	newUser?: Partial<UserCreateType>;
+	organization?: Partial<Dispensary>;
+	newUser?: Partial<User>;
 };
 
 interface FormContextProps {

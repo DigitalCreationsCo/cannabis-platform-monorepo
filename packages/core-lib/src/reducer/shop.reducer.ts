@@ -1,10 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
-import {
-	type OrganizationWithShopDetails,
-	type OrganizationMetadata,
-	type ProductWithDetails,
-} from '@cd/data-access';
+type OrganizationWithShopDetails = any;
+type OrganizationMetadata = any;
+type ProductWithDetails = any;
 import {
 	createAsyncThunk,
 	createSlice,

@@ -16,7 +16,7 @@
 		"paths": {
 			"@cd/eslint-config": ["../../../packages/eslint-config/"]
 		},
-		"typeRoots": ["./"]
+		"typeRoots": ["./globals.d.ts", "../../../node_modules/@types"]
 	},
-"include": ["./"]
+	"include": ["./"]
 }

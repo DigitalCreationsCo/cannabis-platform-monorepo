@@ -72,6 +72,7 @@ export const db_namespace = {
 		services: 'services',
 		prices: 'prices',
 		verificationToken: 'verificationToken',
+		apiKey: 'apiKey',
 	},
 };
 

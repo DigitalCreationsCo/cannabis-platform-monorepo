@@ -1,11 +1,6 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import { isEqual } from 'lodash';
-import {
-	type AnyAction,
-	type Dispatch,
-	type Middleware,
-	type MiddlewareAPI,
-} from 'redux';
+import { type Dispatch, type MiddlewareAPI } from 'redux';
 
 /**
  * Logs the differences between two states
@@ -63,10 +58,8 @@ function logStateDifferences(prevState: any, nextState: any) {
  *
  * @param api - The redux middleware API
  */
-const stateChangeLogger: Middleware =
-	(api: MiddlewareAPI) =>
-	(next: Dispatch<AnyAction>) =>
-	(action: AnyAction) => {
+const stateChangeLogger: any =
+	(api: MiddlewareAPI) => (next: Dispatch<any>) => (action: any) => {
 		const previousState = api.getState();
 		const result = next(action);
 		const afterState = api.getState();

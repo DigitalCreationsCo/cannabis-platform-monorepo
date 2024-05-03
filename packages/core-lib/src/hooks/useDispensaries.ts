@@ -10,7 +10,7 @@ const useDispensaries = () => {
 		fetcher,
 	);
 
-	const mutateDispensaries = async () => {
+	const mutateTeams = async () => {
 		mutate(url);
 	};
 
@@ -18,7 +18,7 @@ const useDispensaries = () => {
 		isLoading,
 		isError: error,
 		dispensaries: data?.data,
-		mutateDispensaries,
+		mutateTeams,
 	};
 };
 

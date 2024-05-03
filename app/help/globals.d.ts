@@ -8,3 +8,8 @@ interface Window {
 	hj: any;
 	_hjSettings: any;
 }
+
+declare global {
+	// eslint-disable-next-line no-var
+	declare var clientPromise: Promise<MongoClient>;
+}

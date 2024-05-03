@@ -9,10 +9,10 @@ import {
 import { throwIfNotAllowed } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { recordMetric } from '@/lib/metrics';
-import { ApiError } from '@/lib/errors2';
+import { ApiError } from '@cd/core-lib';
 import env from '@/lib/env';
 import { updateTeamSchema, validateWithSchema } from '@/lib/zod';
-import { Prisma, Team } from '@prisma/client';
+import { Prisma, Team } from '@cd/data-access';
 
 export default async function handler(
   req: NextApiRequest,

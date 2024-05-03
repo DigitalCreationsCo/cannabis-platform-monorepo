@@ -7,7 +7,7 @@ import { throwIfNotAllowed } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { recordMetric } from '@/lib/metrics';
 import env from '@/lib/env';
-import { ApiError } from '@/lib/errors2';
+import { ApiError } from '@cd/core-lib';
 import { deleteApiKeySchema, validateWithSchema } from '@/lib/zod';
 
 export default async function handler(

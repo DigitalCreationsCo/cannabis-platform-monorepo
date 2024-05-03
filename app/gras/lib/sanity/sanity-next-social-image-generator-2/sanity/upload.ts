@@ -57,8 +57,8 @@ export const uploadToSanity = ({
 			await redis.set(`previewImage-${documentId}`, new Date().toString());
 
 			resolve();
-		} catch (e) {
-			reject(e);
+		} catch (e: any) {
+			reject(e: any);
 		}
 	});
 };

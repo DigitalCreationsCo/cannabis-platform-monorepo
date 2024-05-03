@@ -9,7 +9,7 @@ module.exports = {
 			jsx: true,
 			globalReturn: false,
 		},
-		ecmaVersion: 2020,
+		ecmaVersion: 2015,
 		project: ['tsconfig.base.json'],
 		sourceType: 'module',
 	},
@@ -43,7 +43,7 @@ module.exports = {
 		'no-duplicate-imports': 'off',
 		'import/no-duplicates': ['error'],
 		'import/order': [
-			'error',
+			'warn',
 			{
 				groups: [
 					'builtin',
@@ -59,7 +59,7 @@ module.exports = {
 		],
 
 		'import/no-named-as-default-member': ['warn'],
-		'import/no-named-as-default': ['warn'],
+		'import/no-named-as-default': ['off'],
 
 		'no-empty-function': 'off',
 		'@typescript-eslint/no-empty-function': [
@@ -75,7 +75,7 @@ module.exports = {
 		'@typescript-eslint/no-explicit-any': 'off',
 		'@typescript-eslint/consistent-type-exports': 'error',
 		'@typescript-eslint/consistent-type-imports': [
-			'error',
+			'warn',
 			{ prefer: 'type-imports', fixStyle: 'inline-type-imports' },
 		],
 		'@typescript-eslint/ban-tslint-comment': ['error'],

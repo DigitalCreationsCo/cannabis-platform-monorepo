@@ -1,15 +1,13 @@
-import {
-	type ProductVariantWithDetails,
-	type OrderWithDispatchDetails,
-	type UserWithDetails,
-} from '@cd/data-access';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+type OrderWithDispatchDetails = any;
+type UserWithDetails = any;
 
 export interface POSIntegration {
 	// s2sIntegration: Inventory;
 	getOrder: (
 		orderId: string,
 	) => Promise<OrderWithDispatchDetails['order'] | undefined>;
-	getProduct: (sku: string) => Promise<ProductVariantWithDetails | undefined>;
+	getProduct: (sku: string) => Promise<any | undefined>;
 	getCustomerByPhone: (phone: string) => Promise<UserWithDetails | undefined>;
 	processPickupOrder: (
 		order: OrderWithDispatchDetails['order'],

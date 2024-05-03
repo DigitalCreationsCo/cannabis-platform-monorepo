@@ -1,23 +1,24 @@
+/* eslint-disable prefer-const */
 import {
-  MongoClient,
-  ServerApiVersion,
-  type MongoClientOptions,
+	MongoClient,
+	ServerApiVersion,
+	type MongoClientOptions,
 } from 'mongodb';
 
 // This approach is taken from https://github.com/vercel/next.js/tree/canary/examples/with-mongodb
 if (!process.env.NEXT_PUBLIC_MONGODB_CONNECTION_URL) {
-  throw new Error(
-    'Invalid/Missing environment variable: "NEXT_PUBLIC_MONGODB_CONNECTION_URL"'
-  );
+	throw new Error(
+		'Invalid/Missing environment variable: "NEXT_PUBLIC_MONGODB_CONNECTION_URL"',
+	);
 }
 
 const uri = process.env.NEXT_PUBLIC_MONGODB_CONNECTION_URL;
 const options: MongoClientOptions = {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  },
+	serverApi: {
+		version: ServerApiVersion.v1,
+		strict: true,
+		deprecationErrors: true,
+	},
 };
 
 let client;

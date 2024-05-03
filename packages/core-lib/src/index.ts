@@ -29,6 +29,7 @@ export * from './middleware';
 export * from './reducer';
 export * from './types';
 export * from './utils';
+export * from './lib';
 export * from './dummyData';
 export * from './point-of-sale/IntegrationService';
 export * from './errors';

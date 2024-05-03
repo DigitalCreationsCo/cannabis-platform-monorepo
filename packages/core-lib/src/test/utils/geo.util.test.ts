@@ -4,30 +4,9 @@ import {
 	getCoordinatePairFromCoordinates,
 	getGeoJsonPairFromCoordinates,
 } from '../..';
-const coordinates1: Coordinates = {
-	latitude: 58.123,
-	longitude: 58.124,
-	radius: 10000,
-	id: '123',
-	createdAt: new Date(),
-	updatedAt: new Date(),
-};
-const coordinates2: Coordinates = {
-	latitude: 58.2353,
-	longitude: 28.2353,
-	radius: 10000,
-	id: '124',
-	createdAt: new Date(),
-	updatedAt: new Date(),
-};
-const coordinates3: Coordinates = {
-	latitude: 25.2353,
-	longitude: 77.3333,
-	radius: 10000,
-	id: '125',
-	createdAt: new Date(),
-	updatedAt: new Date(),
-};
+const coordinates1: Coordinates = [58.123, 58.124];
+const coordinates2: Coordinates = [58.2353, 28.2353];
+const coordinates3: Coordinates = [25.2353, 77.3333];
 
 describe('getCoordinatePairFromCoordinates', () => {
 	it('should return the correct coordinate pair', () => {

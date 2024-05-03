@@ -126,7 +126,7 @@ export const H4 = ({
 				'font-encode',
 				'tracking-normal',
 				styles['cursor-inherit'],
-				'font-semibold text-xl whitespace-normal',
+				'font-medium text-xl whitespace-normal',
 				(color === 'light' && 'text-inverse') ||
 					(color === 'dark' && 'text-dark') ||
 					'text-inherit',
@@ -151,7 +151,7 @@ export const H5 = ({
 				'font-encode',
 				'tracking-wider',
 				styles['cursor-inherit'],
-				'font-semibold text-lg whitespace-normal',
+				'font-medium text-lg whitespace-normal',
 				(color === 'light' && 'text-inverse') ||
 					(color === 'dark' && 'text-dark') ||
 					'text-inherit',

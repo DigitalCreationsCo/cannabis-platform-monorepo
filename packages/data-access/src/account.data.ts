@@ -1,4 +1,4 @@
-import clientPromise, { db_namespace } from './db';
+import { db_namespace } from './db';
 
 export const getAccount = async (key: { userId: string }) => {
 	const client = await clientPromise;

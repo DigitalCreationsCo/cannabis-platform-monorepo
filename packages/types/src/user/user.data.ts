@@ -52,7 +52,7 @@ export const getUser = async (
 	return normalizeUser(user);
 };
 
-export const getUserBySession = async (session) => {
+export const getUserBySession = async (session: any) => {
 	if (session === null || session.user === null) {
 		return null;
 	}

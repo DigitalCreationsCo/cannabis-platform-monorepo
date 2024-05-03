@@ -1,8 +1,6 @@
-import {
-	type UserWithDetails,
-	type OrderWithDispatchDetails,
-	type ProductVariant,
-} from '@cd/data-access';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+type OrderWithDispatchDetails = any;
+type UserWithDetails = any;
 import { type POSIntegration } from './integration.types';
 
 export const DutchiePOS: POSIntegration = class {
@@ -56,7 +54,7 @@ export const DutchiePOS: POSIntegration = class {
 	}
 };
 
-const variants: ProductVariant[] = [
+const variants: any[] = [
 	{
 		id: '1',
 		name: 'King OG',

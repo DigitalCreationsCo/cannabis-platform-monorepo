@@ -2,18 +2,15 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "types": [
-      "node",
-      "jest"
-    ],
+    "types": ["node", "jest"],
     "target": "ES2015",
     "lib": [
       "dom",
       "dom.iterable",
       "ES2015"
     ],
-    "allowJs": true,
     "skipLibCheck": true,
+    "allowJs": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
@@ -23,9 +20,9 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
+    "noImplicitAny": false,
     "incremental": true,
     "baseUrl": ".",
-    "noImplicitAny": false,
     "paths": {
       "@cd/ui-lib": [
         "../../packages/ui-lib/src/index"
@@ -59,14 +56,9 @@
       {
         "name": "next"
       }
-    ],
-    "strictNullChecks": true
+    ]
   },
   "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "next-auth.d.ts",
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
@@ -76,7 +68,7 @@
     "**/*.mjs",
     "**/*.jsx",
     "**/*.json",
-    ".next/types/**/*.ts"
+    "next-auth.d.ts"
   ],
   "exclude": [
     "**/node_modules",

@@ -9034,10 +9034,6 @@ html:has(.drawer-open.drawer-open) {
   bottom: 0px;
 }
 
-.left-0 {
-  left: 0px;
-}
-
 .left-5 {
   left: 1.25rem;
 }
@@ -9199,6 +9195,11 @@ html:has(.drawer-open.drawer-open) {
   margin-right: 0px;
 }
 
+.mx-3 {
+  margin-left: 0.75rem;
+  margin-right: 0.75rem;
+}
+
 .mx-4 {
   margin-left: 1rem;
   margin-right: 1rem;
@@ -9247,11 +9248,6 @@ html:has(.drawer-open.drawer-open) {
 .my-\[40px\] {
   margin-top: 40px;
   margin-bottom: 40px;
-}
-
-.my-auto {
-  margin-top: auto;
-  margin-bottom: auto;
 }
 
 .-ml-1 {
@@ -9518,12 +9514,12 @@ html:has(.drawer-open.drawer-open) {
   height: 12px;
 }
 
-.h-\[180px\] {
-  height: 180px;
-}
-
 .h-\[200px\] {
   height: 200px;
+}
+
+.h-\[280px\] {
+  height: 280px;
 }
 
 .h-\[30px\] {
@@ -9785,10 +9781,6 @@ html:has(.drawer-open.drawer-open) {
   max-width: 80rem;
 }
 
-.max-w-\[248px\] {
-  max-width: 248px;
-}
-
 .max-w-\[420px\] {
   max-width: 420px;
 }
@@ -9832,10 +9824,6 @@ html:has(.drawer-open.drawer-open) {
 
 .shrink-0 {
   flex-shrink: 0;
-}
-
-.flex-grow {
-  flex-grow: 1;
 }
 
 .grow {
@@ -10729,11 +10717,6 @@ html:has(.drawer-open.drawer-open) {
   stroke: currentColor;
 }
 
-.object-contain {
-  -o-object-fit: contain;
-     object-fit: contain;
-}
-
 .object-cover {
   -o-object-fit: cover;
      object-fit: cover;
@@ -10745,6 +10728,10 @@ html:has(.drawer-open.drawer-open) {
 
 .p-1 {
   padding: 0.25rem;
+}
+
+.p-10 {
+  padding: 2.5rem;
 }
 
 .p-12 {
@@ -10789,10 +10776,6 @@ html:has(.drawer-open.drawer-open) {
 
 .p-\[20px\] {
   padding: 20px;
-}
-
-.p-10 {
-  padding: 2.5rem;
 }
 
 .\!px-4 {
@@ -10976,10 +10959,6 @@ html:has(.drawer-open.drawer-open) {
   padding-top: 0.25rem;
 }
 
-.pt-10 {
-  padding-top: 2.5rem;
-}
-
 .pt-2 {
   padding-top: 0.5rem;
 }
@@ -11049,10 +11028,6 @@ html:has(.drawer-open.drawer-open) {
   font-size: 14px;
 }
 
-.text-\[22px\] {
-  font-size: 22px;
-}
-
 .text-lg {
   font-size: 1.125rem;
   line-height: 1.75rem;
@@ -11079,10 +11054,6 @@ html:has(.drawer-open.drawer-open) {
 
 .font-btn {
   font-weight: var(--font-weight-btn);
-}
-
-.font-display {
-  font-weight: var(--font-weight-display);
 }
 
 .font-light {

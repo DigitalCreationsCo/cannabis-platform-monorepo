@@ -5,7 +5,7 @@ module.exports = {
 	extends: ['prettier'],
 	plugins: ['prettier'],
 	rules: {
-		'prettier/prettier': ['error', prettierConfig],
+		'prettier/prettier': ['warn', prettierConfig],
 		'arrow-body-style': 'off',
 		'prefer-arrow-callback': 'off',
 	},

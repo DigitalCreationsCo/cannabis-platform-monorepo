@@ -1,4 +1,4 @@
-import { ApiError } from '@/lib/errors2';
+import { ApiError } from '@cd/core-lib';
 import jackson from '@/lib/jackson';
 import { NextApiRequest, NextApiResponse } from 'next';
 
