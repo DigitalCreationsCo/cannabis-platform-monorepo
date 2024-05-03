@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { dispensaries } from '../dispensary/dispensaries.data';
 
 /* METHODS

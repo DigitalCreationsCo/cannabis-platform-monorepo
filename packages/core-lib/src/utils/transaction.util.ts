@@ -1,15 +1,11 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import {
-	type ProductVariantWithDetails,
-	type DailyDealWithProductDetails,
-	type DailyDealCreateWithSkus,
-	type OrderCreateType,
-	type OrderStatus,
-	type OrderWithShopDetails,
-	type Coordinates,
-	type OrderCreateMinimalFields,
-	type ProductVariant,
-} from '@cd/data-access';
+type ProductVariantWithDetails = any;
+type OrderCreateType = any;
+type OrderStatus = any;
+type OrderWithShopDetails = any;
+type Coordinates = any;
+type OrderCreateMinimalFields = any;
+type ProductVariant = any;
 import { getTravelDistanceFromCoordinates } from './geo.util';
 
 /** 

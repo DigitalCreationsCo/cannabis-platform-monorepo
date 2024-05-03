@@ -2,7 +2,7 @@ import env from '@/lib/env';
 import { throwIfNoDispensaryAccess } from '@cd/data-access';
 import { throwIfNotAllowed } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { ApiError } from '@/lib/errors2';
+import { ApiError } from '@cd/core-lib';
 import { dsyncManager } from '@/lib/jackson/dsync';
 import { sendAudit } from '@/lib/retraced';
 import { throwIfNoAccessToDirectory } from '@/lib/guards/team-dsync';

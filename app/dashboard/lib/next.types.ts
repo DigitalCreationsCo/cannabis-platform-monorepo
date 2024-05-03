@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { type NextPage } from 'next';
 import { type Session } from 'next-auth';
 import { type AppProps } from 'next/app';

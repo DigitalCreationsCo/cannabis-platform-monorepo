@@ -27,7 +27,7 @@ export const maxLengthPolicies = {
 	sendViaEmail: 10,
 };
 
-export const normalizeUser = (user) => {
+export const normalizeUser = (user: any) => {
 	if (user?.name) {
 		user.name = user.name.substring(0, maxLengthPolicies.name);
 	}

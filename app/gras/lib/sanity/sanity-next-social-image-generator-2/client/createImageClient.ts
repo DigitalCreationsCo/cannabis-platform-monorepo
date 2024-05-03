@@ -33,7 +33,7 @@ export const createImageClient = ({
 				}
 
 				return image;
-			} catch (e) {
+			} catch (e: any) {
 				return e;
 			}
 		},

@@ -63,7 +63,7 @@ const nextConfig = {
   },
   env: {
     NEXT_PUBLIC_SHOP_APP_URL: process.env.NEXT_PUBLIC_SHOP_APP_URL,
-    NEXTAUTH_URL: process.env.NEXT_PUBLIC_SHOP_APP_URL
+    NEXTAUTH_URL: process.env.NEXT_PUBLIC_SHOP_APP_URL,
   },
   images: {
     minimumCacheTTL: 60 * 60,
@@ -75,6 +75,7 @@ const nextConfig = {
       'source.unsplash.com',
       'storage.googleapis.com',
       'unsplash.com',
+      's3.amazonaws.com',
     ],
     remotePatterns: [
       {

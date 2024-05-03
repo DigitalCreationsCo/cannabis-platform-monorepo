@@ -99,7 +99,7 @@ const Header = ({ setSidebarOpen }: HeaderProps) => {
                 >
                   <div className="flex items-center">
                     <ArrowRightOnRectangleIcon className="w-5 h-5 mr-1" />{' '}
-                    {t('logout')}
+                    {t('sign-out')}
                   </div>
                 </button>
               </li>

@@ -26,7 +26,7 @@ const EmailMismatch = ({ email }: EmailMismatchProps) => {
           signOut();
         }}
       >
-        {t('logout')}
+        {t('sign-out')}
       </Button>
     </>
   );

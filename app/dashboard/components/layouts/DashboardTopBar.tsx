@@ -1,32 +1,27 @@
-import {
-	getShopSite,
-	modalActions,
-	modalTypes,
-	TextContent,
-} from '@cd/core-lib';
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
+/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+import { getShopSite, TextContent } from '@cd/core-lib';
 import { Button, FlexBox, GrasSignature, Paragraph, styles } from '@cd/ui-lib';
+import { useSession, signOut } from 'next-auth/react';
+// import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'next-i18next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/logo.png';
 import { getNavLinkGroups } from './DashBoardNavigation';
-import { useSession } from 'next-auth/react';
-import { signOut } from 'next-auth/react';
-import { useTranslation } from 'next-i18next';
 
 function DashboardTopBar() {
 	const { t } = useTranslation('common');
-	const dispatch = useDispatch();
-	const { status, data } = useSession();
-	
+	const { data } = useSession();
+
 	const user = data?.user;
 
 	// eslint-disable-next-line react-hooks/exhaustive-deps
-	const _AccountDropDown = useCallback(DispensaryAccountDropDown, [
-		user
-	]);
+	const _AccountDropDown = useCallback(DispensaryAccountDropDown, [user]);
 
 	return (
 		<div className={twMerge(styles.TOPBAR.topbar)}>
@@ -34,7 +29,7 @@ function DashboardTopBar() {
 				<FlexBox className="flex-row items-center">
 					<Link href={user ? '/' : getShopSite('/')} className="z-50">
 						<GrasSignature className="text-secondary pt-1 pb-0 mb-0 leading-3">
-							Gras
+							{t('gras')}
 						</GrasSignature>
 					</Link>
 					<Link href={user ? '/' : getShopSite('/')} className="shrink-0">
@@ -54,16 +49,16 @@ function DashboardTopBar() {
 				{user && <_AccountDropDown />}
 				{!user && (
 					<FlexBox>
-					<Link href="/auth/login">
-						<Button
-							className={twMerge(styles.BUTTON.highlight, 'pt-1')}
-							size="sm"
-							bg="transparent"
-							hover="transparent"
-						>
-							Sign In
-						</Button>
-              		</Link>
+						<Link href="/auth/login">
+							<Button
+								className={twMerge(styles.BUTTON.highlight, 'pt-1')}
+								size="sm"
+								bg="transparent"
+								hover="transparent"
+							>
+								{t('sign-in')}
+							</Button>
+						</Link>
 					</FlexBox>
 				)}
 			</FlexBox>
@@ -83,7 +78,7 @@ function DashboardTopBar() {
 						}
 					}}
 				>
-					Account
+					{t('account')}
 				</label>
 				<ul
 					tabIndex={0}
@@ -94,15 +89,15 @@ function DashboardTopBar() {
 				>
 					{(!user && (
 						<FlexBox className="active:bg-accent-soft focus:bg-accent-soft w-full md:hidden">
-						<Link href="/auth/login" className="w-full">
-							<Button
-								className={twMerge('pt-1 w-full')}
-								bg="transparent"
-							size="sm"
-							hover="transparent"
-							>
-								Sign In
-							</Button>
+							<Link href="/auth/login" className="w-full">
+								<Button
+									className={twMerge('pt-1 w-full')}
+									bg="transparent"
+									size="sm"
+									hover="transparent"
+								>
+									{t('sign-in')}
+								</Button>
 							</Link>
 						</FlexBox>
 					)) || <></>}
@@ -145,7 +140,7 @@ function DashboardTopBar() {
 											'pt-1',
 										)}
 									>
-										Support
+										{t('contact-support')}
 									</Button>
 								</Link>
 							</FlexBox>
@@ -156,7 +151,7 @@ function DashboardTopBar() {
 									className={twMerge(styles.BUTTON.highlight, 'w-full', 'pt-1')}
 									onClick={() => signOut()}
 								>
-									Sign Out
+									{t('sign-out')}
 								</Button>
 							</FlexBox>
 						</>

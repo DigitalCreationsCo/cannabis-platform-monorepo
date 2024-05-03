@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 import env from '@/lib/env';
-import { ApiError } from '@/lib/errors2';
+import { ApiError } from '@cd/core-lib';
 import { sendAudit } from '@/lib/retraced';
 import { throwIfNoDispensaryAccess } from '@cd/data-access';
 import { throwIfNotAllowed } from '@cd/data-access';

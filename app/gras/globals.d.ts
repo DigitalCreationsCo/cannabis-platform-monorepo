@@ -1,3 +1,5 @@
+import { DefaultSession } from 'next-auth';
+
 /* eslint-disable @typescript-eslint/naming-convention */
 declare module 'json-immutable';
 declare module 'redux-mock-store';
@@ -7,7 +9,22 @@ declare module 'boarding.js';
 declare module '*.mp4' {
   export default string;
 }
+
+declare module 'next-auth' {
+  interface Session {
+    user: {
+      id: string;
+    } & DefaultSession['user'];
+  }
+}
+
+declare const FB: any;
+
 interface Window {
+  // FB
+  fbAsyncInit: any;
+  FB: any;
+
   // mapbox
   mapboxgl: any;
 

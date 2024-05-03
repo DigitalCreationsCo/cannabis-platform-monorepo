@@ -1,4 +1,4 @@
-import { type UserCreateType } from '@cd/data-access';
+type UserCreateType = any;
 
 /**
  * getProperty

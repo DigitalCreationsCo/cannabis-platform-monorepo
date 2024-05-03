@@ -1,9 +1,7 @@
-import {
-	type USStateAbbreviated,
-	type OrderWithDispatchDetails,
-	type ProductVariantWithDetails,
-	type UserWithDetails,
-} from '@cd/data-access';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+type OrderWithDispatchDetails = any;
+type UserWithDetails = any;
+import { type USStateAbbreviated } from '@cd/data-access';
 import { variants } from '../dummyData';
 import { type POSIntegration } from './integration.types';
 
@@ -26,9 +24,7 @@ export const MetrcIntegration: POSIntegration = class {
 	}
 
 	static async getProduct(sku: string) {
-		return (await variants.find(
-			(product) => product.sku === sku,
-		)) as ProductVariantWithDetails;
+		return (await variants.find((product) => product.sku === sku)) as any;
 	}
 
 	static async getOrder(orderId: string) {
@@ -67,6 +63,7 @@ export const MetrcIntegration: POSIntegration = class {
 		}
 	}
 
+	// eslint-disable-next-line sonarjs/no-identical-functions
 	static async processDeliveryOrder(order: OrderWithDispatchDetails['order']) {
 		try {
 			// if (!order.organization.metrcLicenseNumber)

@@ -1,4 +1,5 @@
-import { OrderWithShopDetails, ProductVariant } from '@cd/data-access';
+type OrderWithShopDetails = any;
+type ProductVariant = any;
 import {
 	isValidOrderRecord,
 	checkOrderIsCompleteOrCanceled,

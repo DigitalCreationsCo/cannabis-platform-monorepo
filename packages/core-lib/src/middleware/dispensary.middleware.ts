@@ -1,11 +1,8 @@
 /* eslint-disable sonarjs/cognitive-complexity */
 /* eslint-disable sonarjs/no-small-switch */
-import { type UserDispensaryStaffWithDispensaryDetails } from '@cd/data-access/src';
 import { type AnyAction, type MiddlewareAPI } from '@reduxjs/toolkit';
 import { TextContent } from '../constants';
-import { dispensaryActions } from '../reducer';
-import { type UserFromDBAuthResponse, type AppState } from '../types';
-import { isEmpty } from '../utils';
+import { type AppState } from '../types';
 
 const dispensaryMiddleware =
 	(store: MiddlewareAPI) => (next: any) => async (action: AnyAction) => {

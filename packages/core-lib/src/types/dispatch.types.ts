@@ -1,4 +1,4 @@
-import { type OrderWithDispatchDetails } from '@cd/data-access';
+type OrderWithDispatchDetails = any;
 
 export type SocketMessage = {
 	id: string;

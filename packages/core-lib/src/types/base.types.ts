@@ -1,5 +1,4 @@
-import type { Prisma } from '@prisma/client';
-
+/* eslint-disable @typescript-eslint/naming-convention */
 type ApiError = {
 	code: number;
 	message: string;
@@ -16,13 +15,14 @@ export type ApiResponse<T = unknown> =
 			error: ApiError;
 	  };
 
-export type TeamWithMemberCount = Prisma.TeamGetPayload<{
-	include: {
-		_count: {
-			select: { members: true };
-		};
-	};
-}>;
+export type TeamWithMemberCount = any;
+// export type TeamWithMemberCount = Prisma.TeamGetPayload<{
+// 	include: {
+// 		_count: {
+// 			select: { members: true };
+// 		};
+// 	};
+// }>;
 
 export type WebookFormSchema = {
 	name: string;

@@ -428,7 +428,7 @@ export default function ContactUsForm() {
 								bg="secondary-light"
 								hover="primary-light"
 								className="p-8 text-2xl place-self-center"
-								onClick={(e) => {
+								onClick={(e: any) => {
 									e.preventDefault();
 									e.stopPropagation();
 									notifyValidation();

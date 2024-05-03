@@ -1,4 +1,4 @@
-import type { Action, Resource } from '../lib/permissions';
+import type { Action, Resource, Permission } from '../lib/permissions';
 
 import usePermissions from './usePermissions';
 
@@ -7,7 +7,7 @@ const useCanAccess = () => {
 
 	const canAccess = (resource: Resource, actions: Action[]) => {
 		return (permissions || []).some(
-			(permission) =>
+			(permission: Permission) =>
 				permission.resource === resource &&
 				(permission.actions === '*' ||
 					permission.actions.some((action) => actions.includes(action))),

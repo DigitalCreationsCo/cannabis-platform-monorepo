@@ -7,7 +7,7 @@ import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import env from '@/lib/env';
 
-const WebhookList = ({ teamFeatures }) => {
+const WebhookList = ({ teamFeatures }: { teamFeatures: TeamFeature }) => {
   const { t } = useTranslation('common');
   const { isLoading, isError, team } = useTeam();
 

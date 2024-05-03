@@ -1,13 +1,9 @@
-import {
-	type OrderWithDispatchDetails,
-	type OrganizationWithAddress,
-} from '@cd/data-access';
 import { showTime } from '../utils/time.util';
 import { renderAddress } from '../utils/ui.util';
 
 /* eslint-disable @typescript-eslint/naming-convention */
 const nbsp = '\xa0';
-const copyrightsymbol = '&#169';
+// const copyrightsymbol = '&#169';
 
 const TextContent = Object.freeze({
 	prompt: {
@@ -265,7 +261,7 @@ const TextContent = Object.freeze({
 
 			CUSTOMER_ORDER_f: (customerName: string) =>
 				`${customerName} placed an order`,
-			DELIVER_TO_CUSTOMER_f: (order: OrderWithDispatchDetails['order']) =>
+			DELIVER_TO_CUSTOMER_f: (order: any) =>
 				`Deliver to ${order.customer.username}, ${renderAddress({
 					address: order.destinationAddress,
 					lineBreak: false,
@@ -288,13 +284,13 @@ const TextContent = Object.freeze({
 				`Ordered from ${vendorName}`,
 			ORDERING_FROM_VENDOR_f: (vendorName: string) =>
 				`Ordering from ${vendorName}`,
-			DELIVERY_DEADLINE_f: (order: OrderWithDispatchDetails['order']) =>
+			DELIVERY_DEADLINE_f: (order: any) =>
 				`Deliver order by ${showTime(order.deliveryDeadline)}`,
 			NAVIGATE_DELIVERY: `Navigate to start delivering your order.`,
 			NEW_ORDER: `New Order`,
 			NEW_ORDER_FROM_GRAS: `New Order from Gras!`,
 			RECEIVED_NEW_ORDER: `You received a delivery order from Gras.`,
-			PICKUP_ADDRESS_f: (organization: OrganizationWithAddress) =>
+			PICKUP_ADDRESS_f: (organization: any) =>
 				`Pickup from ${organization.name}, ${renderAddress({
 					address: organization.address,
 					lineBreak: false,
@@ -394,13 +390,13 @@ export default TextContent;
 
 export const SMSTemplate = Object.freeze({
 	driver: {
-		delivery_info_f: (order: OrderWithDispatchDetails['order']) =>
+		delivery_info_f: (order: { organization: any }) =>
 			`${TextContent.dispatch.status.DELIVERY_DEADLINE_f(
 				order,
 			)}\n${TextContent.dispatch.status.PICKUP_ADDRESS_f(
 				order.organization,
 			)}\n${TextContent.dispatch.status.DELIVER_TO_CUSTOMER_f(order)}`,
-		new_order_f: (order: OrderWithDispatchDetails['order']) =>
+		new_order_f: (order: { organization: any }) =>
 			TextContent.dispatch.status.NEW_ORDER_FROM_GRAS +
 			'\n' +
 			TextContent.dispatch.status.PICKUP_ADDRESS_f(order.organization) +
@@ -411,7 +407,7 @@ export const SMSTemplate = Object.freeze({
 
 export const SocketMessageTemplate = Object.freeze({
 	driver: {
-		new_order_f: (order: OrderWithDispatchDetails['order']) =>
+		new_order_f: (order: { organization: any }) =>
 			TextContent.dispatch.status.NEW_ORDER +
 			'\n' +
 			TextContent.dispatch.status.PICKUP_ADDRESS_f(order.organization),

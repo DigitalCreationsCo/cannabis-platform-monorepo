@@ -27,7 +27,7 @@ const Custom404 = () => {
           {t('go-home')}
         </Link>
         <button
-          onClick={(e) => {
+          onClick={(e: any) => {
             e.preventDefault();
             router.back();
           }}

@@ -1,10 +1,10 @@
 import {
-	is_legal_ageAndVerified,
+	isLegalAgeAndVerified,
 	TextContent,
 	userActions,
 	type ConsumeCodeResponse,
 } from '@cd/core-lib';
-import { type UserWithDetails } from '@cd/data-access';
+import { type User } from '@cd/data-access';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
@@ -105,18 +105,17 @@ export default function EnterOTPForm({
 				throw new Error('There was an error. Please try again.');
 			}
 
-			console.info('response: ', response as unknown as ConsumeCodeResponse);
 			const { user, token } = (response as unknown as ConsumeCodeResponse)
 				.userFromDb;
 
-			if (is_legal_ageAndVerified(user as UserWithDetails)) {
+			if (isLegalAgeAndVerified(user as User)) {
 				setCookie('yesOver21', 'true');
 				console.debug('set yesOver21 cookie to true');
 			}
 			dispatch(
 				signInSyncAction({
 					token,
-					user: user as UserWithDetails,
+					user: user as User,
 				}),
 			);
 			setLoadingButton(false);

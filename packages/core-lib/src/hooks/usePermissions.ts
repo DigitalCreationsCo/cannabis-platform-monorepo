@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import useSWR from 'swr';
-import type { ApiResponse } from 'types';
 import fetcher from '../lib/fetcher';
 import type { Permission } from '../lib/permissions';
+import type { ApiResponse } from '../types';
 
 const usePermissions = () => {
 	const router = useRouter();

@@ -1,10 +1,10 @@
-import clientPromise, { db_namespace } from './db';
+import { db_namespace } from './db';
 
 export const createVerificationToken = async ({
 	token,
 	identifier,
 	expires,
-}) => {
+}: any) => {
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
 	await client.db(db).collection(collections.verificationToken).insertOne({

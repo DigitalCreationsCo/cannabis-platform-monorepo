@@ -1,4 +1,3 @@
-import { getDashboardSite } from '@cd/core-lib';
 import {
 	Button,
 	Center,
@@ -8,23 +7,30 @@ import {
 	Page,
 	SignInButton,
 	type LayoutContextProps,
-  Footer,
+	Footer,
 } from '@cd/ui-lib';
 import Image, { type StaticImageData } from 'next/image';
 import Link from 'next/link';
-import { ReactElement, type PropsWithChildren } from 'react';
-import backdrop from '../public/marijuana-backdrop.png';
+import { type ReactElement, type PropsWithChildren } from 'react';
+import { useTranslation } from 'react-i18next';
 import DashboardTopBar from '@/components/layouts/DashboardTopBar';
+import backdrop from '../public/marijuana-backdrop.png';
 
 export default function DashboardHome() {
+	const { t } = useTranslation('common');
 	return (
 		<Page className="m-0 flex grow border-b bg-transparent p-0 md:p-0 lg:p-0 h-[666px]">
 			<ImageBackDrop src={backdrop}>
 				<Center className="space-y-4 m-auto">
 					<FlexBox className="">
-						<H1 color="light" className='tracking-normal'>Welcome to Gras</H1>
-						<H3 className="whitespace-pre md:text-4xl tracking-normal" color="light">
-							Dispensary Success Services
+						<H1 color="light" className="tracking-normal">
+							{t('welcome-to-gras')}
+						</H1>
+						<H3
+							className="whitespace-pre md:text-4xl tracking-normal"
+							color="light"
+						>
+							{t('dispensary-success-service')}
 						</H3>
 					</FlexBox>
 					<FlexBox className="items-center space-y-2">
@@ -88,7 +94,6 @@ const ImageBackDrop = ({
 	);
 };
 
-
 DashboardHome.getLayoutContext = (): LayoutContextProps => ({
 	showHeader: false,
 	showTopBar: true,
@@ -96,11 +101,11 @@ DashboardHome.getLayoutContext = (): LayoutContextProps => ({
 });
 
 DashboardHome.getLayout = function getLayout(page: ReactElement) {
-  return (
-    <>
-	<DashboardTopBar />
-      {page}
-      <Footer />
-    </>
-  );
+	return (
+		<>
+			<DashboardTopBar />
+			{page}
+			<Footer />
+		</>
+	);
 };

@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
-import { type OrderWithDispatchDetails } from '@cd/data-access';
+type OrderWithDispatchDetails = any;
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { type Socket } from 'socket.io-client';
 import { type ThunkArgumentsType, type AppState } from '../types/redux.types';

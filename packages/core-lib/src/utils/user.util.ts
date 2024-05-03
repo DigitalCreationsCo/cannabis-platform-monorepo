@@ -1,11 +1,4 @@
-import {
-	type UserDispensaryStaffWithDispensaryDetails,
-	type MembershipRole,
-	type UserWithDetails,
-	getStaffMember,
-	type Role,
-	type StaffMember,
-} from '@cd/data-access';
+import { type User, type Role, type StaffMember } from '@cd/data-access';
 import { ApiError } from '../errors';
 import { type Action, type Resource, permissions } from '../lib/permissions';
 
@@ -15,30 +8,27 @@ import { type Action, type Resource, permissions } from '../lib/permissions';
 //  * @param user
 //  * @param role
 //  */
-// export const hasMembershipRoleAccess = (
-// 	user: UserWithDetails | UserDispensaryStaffWithDispensaryDetails,
-// 	role: MembershipRole,
-// ) => {
-// 	if (user.memberships) {
-// 		// memberships[0] will be the highest role, if the user has multiple roles, using the standard find queries in `packages/data-access/src/user.ts`
-// 		const membershipRole = user.memberships?.[0]?.role.toLocaleUpperCase();
-// 		switch (role) {
-// 			case 'OWNER':
-// 				return membershipRole === 'OWNER';
-// 			case 'ADMIN':
-// 				return membershipRole === 'ADMIN' || membershipRole === 'OWNER';
-// 			case 'MEMBER':
-// 				return (
-// 					membershipRole === 'MEMBER' ||
-// 					membershipRole === 'ADMIN' ||
-// 					membershipRole === 'OWNER'
-// 				);
-// 			default:
-// 				return false;
-// 		}
-// 	}
-// 	return false;
-// };
+export const hasMembershipRoleAccess = (user: User, role: Role) => {
+	if (user.role) {
+		// memberships[0] will be the highest role, if the user has multiple roles, using the standard find queries in `packages/data-access/src/user.ts`
+		const membershipRole = user.role;
+		switch (role) {
+			case 'OWNER':
+				return membershipRole === 'OWNER';
+			case 'ADMIN':
+				return membershipRole === 'ADMIN' || membershipRole === 'OWNER';
+			case 'MEMBER':
+				return (
+					membershipRole === 'MEMBER' ||
+					membershipRole === 'ADMIN' ||
+					membershipRole === 'OWNER'
+				);
+			default:
+				return false;
+		}
+	}
+	return false;
+};
 
 export const isAllowed = (role: Role, resource: Resource, action: Action) => {
 	const rolePermissions = permissions[role];
@@ -75,7 +65,7 @@ export const throwIfNotAllowed = (
 };
 
 export const isLegalAgeAndVerified = (
-	user?: UserWithDetails,
+	user?: User,
 ): { verified: boolean; isLegal: boolean } | false => {
 	if (
 		typeof user?.id_verified === 'undefined' ||

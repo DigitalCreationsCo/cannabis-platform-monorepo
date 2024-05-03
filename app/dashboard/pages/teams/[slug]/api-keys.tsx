@@ -1,27 +1,28 @@
-import APIKeysContainer from '@/components/apiKey/APIKeysContainer';
-import { GetServerSidePropsContext } from 'next';
+import { type TeamFeature } from '@cd/core-lib';
+import { type GetServerSidePropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import APIKeysContainer from '@/components/apiKey/APIKeysContainer';
 import env from '@/lib/env';
 
-const APIKeys = ({ teamFeatures }) => {
-  return <APIKeysContainer teamFeatures={teamFeatures} />;
+const APIKeys = ({ teamFeatures }: { teamFeatures: TeamFeature }) => {
+	return <APIKeysContainer teamFeatures={teamFeatures} />;
 };
 
 export async function getServerSideProps({
-  locale,
+	locale,
 }: GetServerSidePropsContext) {
-  if (!env.teamFeatures.apiKey) {
-    return {
-      notFound: true,
-    };
-  }
+	if (!env.teamFeatures.apiKey) {
+		return {
+			notFound: true,
+		};
+	}
 
-  return {
-    props: {
-      ...(locale ? await serverSideTranslations(locale, ['common']) : {}),
-      teamFeatures: env.teamFeatures,
-    },
-  };
+	return {
+		props: {
+			...(locale ? await serverSideTranslations(locale, ['common']) : {}),
+			teamFeatures: env.teamFeatures,
+		},
+	};
 }
 
 export default APIKeys;

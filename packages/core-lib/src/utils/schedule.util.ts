@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { type Day, type Schedule } from '@cd/data-access';
+type Day = any;
+type Schedule = any;
 
 const parseDaysFromSchedule = (days: number) =>
 	String(days).split('').map(Number);

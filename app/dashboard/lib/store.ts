@@ -1,11 +1,5 @@
-import {
-	type AppStore,
-	modalReducer,
-} from '@cd/core-lib';
-import {
-	crashMiddleware,
-	loggerMiddleware,
-} from '@cd/core-lib/src/middleware';
+import { type AppStore, modalReducer } from '@cd/core-lib';
+import { crashMiddleware, loggerMiddleware } from '@cd/core-lib/src/middleware';
 import {
 	combineReducers,
 	configureStore,
@@ -30,10 +24,7 @@ const supertokensArguments = () => {
 	return { signOut };
 };
 
-const customMiddlewares = [
-	crashMiddleware,
-	loggerMiddleware,
-];
+const customMiddlewares = [crashMiddleware, loggerMiddleware];
 
 const rootReducer = combineReducers({
 	modal: modalReducer,
@@ -87,7 +78,7 @@ const makeStore = () => {
 				}),
 				...customMiddlewares,
 			],
-		});
+		}) as any & { _persistor: any };
 		store._persistor = persistStore(store);
 	} else {
 		store = configureStore({
@@ -110,6 +101,6 @@ const makeStore = () => {
 	return store;
 };
 
-export const wrapper = createWrapper<AppStore>(makeStore,{
+export const wrapper = createWrapper<AppStore>(makeStore, {
 	debug: process.env.NODE_ENV !== 'production',
 });

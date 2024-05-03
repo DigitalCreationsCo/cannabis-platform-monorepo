@@ -1,5 +1,5 @@
 import { InputWithCopyButton, InputWithLabel } from '@/components/shared';
-import type { Team } from '@prisma/client';
+import type { Team } from '@cd/data-access';
 import { useTranslation } from 'next-i18next';
 import { useState } from 'react';
 import { Button } from 'react-daisyui';

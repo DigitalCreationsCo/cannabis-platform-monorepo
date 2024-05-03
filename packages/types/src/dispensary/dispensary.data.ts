@@ -140,7 +140,7 @@ export const getStaffMembers = async (slug: string) => {
 	});
 };
 
-export const updateDispensary = async ({ slug, data }) => {
+export const updateDispensary = async ({ slug, data }: any) => {
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
 	return await client
@@ -158,17 +158,17 @@ export const isTeamExists = async (slug: string) => {
 		.countDocuments({ slug });
 };
 
-// export const getStaffMember = async (userId: string, slug: string) => {
-// 	const client = await clientPromise;
-// 	const { db, collections } = db_namespace;
-// 	return await client
-// 		.db(db)
-// 		.collection(collections.staff)
-// 		.findOne({
-// 			_id: new ObjectId(userId),
-// 			'dispensary.slug': slug,
-// 		});
-// };
+export const getStaffMember = async (userId: string, slug: string) => {
+	const client = await clientPromise;
+	const { db, collections } = db_namespace;
+	return await client
+		.db(db)
+		.collection(collections.staff)
+		.findOne({
+			_id: new ObjectId(userId),
+			'dispensary.slug': slug,
+		});
+};
 
 /**
  * get zero or more Dispensaries

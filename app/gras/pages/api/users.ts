@@ -1,7 +1,7 @@
 import { getSession } from '@/lib/session';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { recordMetric } from '@/lib/metrics';
-import { ApiError } from '@/lib/errors2';
+import { ApiError } from '@cd/core-lib';
 import env from '@/lib/env';
 import { getUser, updateUser } from '@cd/data-access';
 import { isEmailAllowed } from '@/lib/email/utils';

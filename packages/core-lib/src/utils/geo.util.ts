@@ -7,7 +7,7 @@ import {
 import haversine from 'haversine-distance';
 import { isEmpty } from './object.util';
 
-const _acceptEncoding = 'gzip,deflate,compress';
+// const _acceptEncoding = 'gzip,deflate,compress';
 
 export async function getGeoCoordinatesFromAddress(address: AddressPayload) {
 	const { street1, city, state, country, zipcode } = address;
@@ -81,22 +81,19 @@ export async function getGeoAddressFromCoordinates(coordinates: {
 	}
 }
 
-export function getCoordinatePairFromCoordinates(
-	userlocation: Coordinates,
-): [number, number] {
-	if (userlocation.latitude && userlocation.longitude)
-		return [Number(userlocation.longitude), Number(userlocation.latitude)];
+export function getCoordinatePairFromCoordinates([lat, lon]: Coordinates): [
+	number,
+	number,
+] {
+	if (lat && lon) return [Number(lat), Number(lon)];
 	else throw new Error('Invalid coordinates');
 }
 
 export function getGeoJsonPairFromCoordinates(coordinates: Coordinates) {
-	if (coordinates.latitude && coordinates.longitude)
+	if (coordinates[0] && coordinates[1])
 		return {
 			type: 'Point',
-			coordinates: [
-				Number(coordinates.longitude),
-				Number(coordinates.latitude),
-			],
+			coordinates,
 		};
 	else throw new Error('Invalid coordinates');
 }

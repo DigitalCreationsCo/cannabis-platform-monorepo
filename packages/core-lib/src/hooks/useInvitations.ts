@@ -1,7 +1,7 @@
 import useSWR, { mutate } from 'swr';
 
-import type { ApiResponse } from 'types';
 import fetcher from '../lib/fetcher';
+import type { ApiResponse } from '../types';
 
 interface Props {
 	slug: string;

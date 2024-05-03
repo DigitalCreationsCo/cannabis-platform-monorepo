@@ -1,4 +1,4 @@
-import { ApiError } from '@/lib/errors2';
+import { ApiError } from '@cd/core-lib';
 import { sendAudit } from '@/lib/retraced';
 import { findOrCreateApp, findWebhook, updateWebhook } from '@/lib/svix';
 import { throwIfNoDispensaryAccess } from '@cd/data-access';

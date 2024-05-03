@@ -13,8 +13,9 @@ import { Error, Loading } from '@/components/shared';
 import LinkToPortal from '@/components/billing/LinkToPortal';
 import Subscriptions from '@/components/billing/Subscriptions';
 import ProductPricing from '@/components/billing/ProductPricing';
+import { TeamFeature } from '@cd/core-lib';
 
-const Payments = ({ teamFeatures }) => {
+const Payments = ({ teamFeatures }: { teamFeatures: TeamFeature }) => {
   const { t } = useTranslation('common');
   const { canAccess } = useCanAccess();
   const { isLoading, isError, team } = useTeam();

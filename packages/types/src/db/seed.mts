@@ -269,7 +269,7 @@ async function main() {
 								city: 'Reisterstown',
 								state: 'MD',
 								zipcode: 21136,
-								country: 'United_States',
+								country: 'United States',
 								countryCode: 'US',
 								coordinates: {
 									create: {
@@ -469,7 +469,7 @@ async function main() {
 								city: 'Baltimore',
 								state: 'MD',
 								zipcode: 21201,
-								country: 'United_States',
+								country: 'United States',
 								countryCode: 'US',
 								coordinates: {
 									create: {
@@ -563,7 +563,7 @@ async function main() {
 								city: 'New York',
 								state: 'NY',
 								zipcode: 10011,
-								country: 'United_States',
+								country: 'United States',
 								countryCode: 'US',
 								coordinates: {
 									create: {
@@ -759,7 +759,7 @@ async function main() {
 								city: 'Lancaster',
 								state: 'PA',
 								zipcode: 17601,
-								country: 'United_States',
+								country: 'United States',
 								countryCode: 'US',
 								coordinates: {
 									create: {
@@ -951,7 +951,7 @@ async function main() {
 								city: 'Windsor Mill',
 								state: 'MD',
 								zipcode: 21244,
-								country: 'United_States',
+								country: 'United States',
 								countryCode: 'US',
 								coordinates: {
 									create: {
@@ -1257,7 +1257,7 @@ async function main() {
 					city: 'Lancaster',
 					state: 'PA',
 					zipcode: 17603,
-					country: 'United_States',
+					country: 'United States',
 					countryCode: 'US',
 					coordinateId: 'clm2fopi0000wvksikbl2upwp',
 					createdAt: new Date(),
@@ -1270,7 +1270,7 @@ async function main() {
 					city: 'Lancaster',
 					state: 'PA',
 					zipcode: 17602,
-					country: 'United_States',
+					country: 'United States',
 					countryCode: 'US',
 					coordinateId: null,
 					createdAt: new Date(),
@@ -1283,7 +1283,7 @@ async function main() {
 					city: 'Lancaster',
 					state: 'PA',
 					zipcode: 17602,
-					country: 'United_States',
+					country: 'United States',
 					countryCode: 'US',
 					coordinateId: null,
 					createdAt: new Date(),
@@ -1296,7 +1296,7 @@ async function main() {
 					city: 'Lancaster',
 					state: 'PA',
 					zipcode: 17602,
-					country: 'United_States',
+					country: 'United States',
 					countryCode: 'US',
 					coordinateId: null,
 					createdAt: new Date(),
@@ -1309,7 +1309,7 @@ async function main() {
 					city: 'Lancaster',
 					state: 'PA',
 					zipcode: 17602,
-					country: 'United_States',
+					country: 'United States',
 					countryCode: 'US',
 					coordinateId: null,
 					createdAt: new Date(),
@@ -1322,7 +1322,7 @@ async function main() {
 					city: 'Glenolden',
 					state: 'PA',
 					zipcode: 17602,
-					country: 'United_States',
+					country: 'United States',
 					countryCode: 'US',
 					coordinateId: null,
 					createdAt: new Date(),
@@ -1521,7 +1521,7 @@ async function main() {
 							city: 'Baltimore',
 							state: 'MD',
 							zipcode: 21202,
-							country: 'United_States',
+							country: 'United States',
 
 							countryCode: 'US',
 							coordinates: {
@@ -1566,7 +1566,7 @@ async function main() {
 							city: 'Lancaster',
 							state: 'PA',
 							zipcode: 17603,
-							country: 'United_States',
+							country: 'United States',
 							countryCode: 'US',
 							coordinates: {
 								latitude: 40.0379959,

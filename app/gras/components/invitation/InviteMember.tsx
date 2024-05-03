@@ -2,12 +2,12 @@ import React from 'react';
 import { useTranslation } from 'next-i18next';
 
 import Modal from '../shared/Modal';
-import type { Team } from '@prisma/client';
+import type { Dispensary } from '@cd/data-access';
 import InviteViaEmail from './InviteViaEmail';
 import InviteViaLink from './InviteViaLink';
 
 interface InviteMemberProps {
-  team: Team;
+  team: Dispensary;
   visible: boolean;
   setVisible: (visible: boolean) => void;
 }

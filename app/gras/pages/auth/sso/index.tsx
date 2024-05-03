@@ -11,7 +11,7 @@ import { useRouter } from 'next/router';
 import { type ReactElement } from 'react';
 import { Button } from 'react-daisyui';
 import { toast } from 'react-hot-toast';
-import type { NextPageWithLayout } from 'types';
+import type { NextPageWithLayout } from '@/lib/next.types';
 import * as Yup from 'yup';
 import Head from 'next/head';
 import { maxLengthPolicies } from '@/lib/common';

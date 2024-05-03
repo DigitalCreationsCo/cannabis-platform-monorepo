@@ -1,23 +1,18 @@
 import { ObjectId } from 'mongodb';
-import clientPromise, { db_namespace } from './db';
+import { db_namespace } from './db';
 
-export const createStripeSubscription = async (data: {
-	customerId: string;
-	_id: string;
-	active: boolean;
-	startDate: Date;
-	endDate: Date;
-	priceId: string;
-}) => {
+export const createStripeSubscription = async (
+	data: NonNullable<Subscription>,
+) => {
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
-	return await client
+	const subscription = await client
 		.db(db)
 		.collection<Subscription>(collections.subscriptions)
 		.insertOne({
 			...data,
-			_id: new ObjectId(data._id),
 		});
+	return { ...data, id: subscription.insertedId.toString() };
 };
 
 export const deleteStripeSubscription = async (id: string) => {
@@ -43,7 +38,7 @@ export const updateStripeSubscription = async (id: string, data: any) => {
 		);
 };
 
-export const getByCustomerId = async (customerId: string) => {
+export const getSubscriptionByCustomerId = async (customerId: string) => {
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
 	return await client
@@ -64,7 +59,7 @@ export const getBySubscriptionId = async (
 };
 
 export type Subscription = {
-	_id: ObjectId;
+	id?: string;
 	customerId: string;
 	active: boolean;
 	startDate: Date;

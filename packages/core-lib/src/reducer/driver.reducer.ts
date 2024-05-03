@@ -1,7 +1,5 @@
-import {
-	type CoordinatesCreateType,
-	type DriverWithSessionJoin,
-} from '@cd/data-access';
+type CoordinatesCreateType = [number, number];
+type DriverWithSessionJoin = any;
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { type AppState, type ThunkArgumentsType } from '../types';
 import { updateOnlineStatus } from './action/updateOnlineStatus';
@@ -164,13 +162,13 @@ export const driverSlice = createSlice({
 			state.isLoading = false;
 			state.isError = false;
 		}),
-			builder.addCase(updateOnlineStatus.pending, (state) => {
+			builder.addCase(updateOnlineStatus.pending, () => {
 				// state.isLoading = true;
 			}),
 			builder.addCase(
 				updateOnlineStatus.rejected,
 				(state, { payload }: any) => {
-					const { isOnline, error } = payload;
+					const { error } = payload;
 					state.driver.driverSession['isOnline'] = false;
 					state.isLoading = false;
 					state.isError = true;

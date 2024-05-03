@@ -3,7 +3,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 
-import { type ArticleTag, type ArticleWithDetails } from '@cd/data-access';
+type ArticleTag = any;
+type ArticleWithDetails = any;
 import {
 	createAsyncThunk,
 	createSlice,

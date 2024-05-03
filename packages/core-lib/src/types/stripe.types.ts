@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { type OrganizationCreateType } from '@cd/data-access';
+type OrganizationCreateType = any;
 
 export type DispensaryCreateStripeAccountPayload = {
 	organization: OrganizationCreateType;

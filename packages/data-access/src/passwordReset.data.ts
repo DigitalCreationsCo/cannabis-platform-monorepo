@@ -1,6 +1,6 @@
-import clientPromise, { db_namespace } from './db';
+import { db_namespace } from './db';
 
-export const createPasswordReset = async ({ data }) => {
+export const createPasswordReset = async ({ data }: any) => {
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
 	return await client

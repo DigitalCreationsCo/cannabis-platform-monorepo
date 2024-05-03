@@ -7,7 +7,7 @@ import {
   UserPlusIcon,
   BanknotesIcon,
 } from '@heroicons/react/24/outline';
-import type { Team } from '@prisma/client';
+import type { Team } from '@cd/data-access';
 import classNames from 'classnames';
 import useCanAccess from 'hooks/useCanAccess';
 import Link from 'next/link';

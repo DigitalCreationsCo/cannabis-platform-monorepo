@@ -1,4 +1,4 @@
-import { type OrderWithDispatchDetails } from '@cd/data-access';
+type OrderWithDispatchDetails = any;
 
 export const dispatchEvents = Object.freeze({
 	connection: 'connection',

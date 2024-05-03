@@ -2,11 +2,9 @@
 /* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
-import {
-	type MembershipWithOrganizationDashboardDetails,
-	type OrderWithShopDetails,
-	type UserWithDetails,
-} from '@cd/data-access';
+type MembershipWithOrganizationDashboardDetails = any;
+type OrderWithShopDetails = any;
+type UserWithDetails = any;
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { type AppState, type ThunkArgumentsType } from '../types';
 import { pruneData, reconcileStateArray } from '../utils';

@@ -1,63 +1,65 @@
-import type { Team } from '@prisma/client';
+import {
+	useWebhooks,
+	defaultHeaders,
+	type ApiResponse,
+	type WebookFormSchema,
+} from '@cd/core-lib';
+import { type Dispensary } from '@cd/data-access';
 import type { FormikHelpers } from 'formik';
-import useWebhooks from 'hooks/useWebhooks';
 import { useTranslation } from 'next-i18next';
 import React from 'react';
 import toast from 'react-hot-toast';
-import type { ApiResponse } from 'types';
-import type { WebookFormSchema } from 'types';
 
 import ModalForm from './Form';
-import { defaultHeaders } from '@/lib/common';
 
 const CreateWebhook = ({
-  visible,
-  setVisible,
-  team,
+	visible,
+	setVisible,
+	team,
 }: {
-  visible: boolean;
-  setVisible: (visible: boolean) => void;
-  team: Team;
+	visible: boolean;
+	setVisible: (visible: boolean) => void;
+	team: Dispensary;
 }) => {
-  const { mutateWebhooks } = useWebhooks(team.slug);
-  const { t } = useTranslation('common');
+	const { mutateWebhooks } = useWebhooks(team.slug);
+	const { t } = useTranslation('common');
 
-  const onSubmit = async (
-    values: WebookFormSchema,
-    formikHelpers: FormikHelpers<WebookFormSchema>
-  ) => {
-    const response = await fetch(`/api/teams/${team.slug}/webhooks`, {
-      method: 'POST',
-      headers: defaultHeaders,
-      body: JSON.stringify(values),
-    });
+	const onSubmit = async (
+		values: WebookFormSchema,
+		formikHelpers: FormikHelpers<WebookFormSchema>,
+	) => {
+		const response = await fetch(`/api/teams/${team.slug}/webhooks`, {
+			method: 'POST',
+			headers: defaultHeaders,
+			body: JSON.stringify(values),
+		});
 
-    const json = (await response.json()) as ApiResponse<Team>;
+		const json = (await response.json()) as ApiResponse<Dispensary>;
 
-    if (!response.ok) {
-      toast.error(json.error.message);
-      return;
-    }
+		if (!response.ok) {
+			toast.error(json.error.message);
+			return;
+		}
 
-    toast.success(t('webhook-created'));
-    mutateWebhooks();
-    setVisible(false);
-    formikHelpers.resetForm();
-  };
+		toast.success(t('webhook-created'));
+		mutateWebhooks();
+		setVisible(false);
+		formikHelpers.resetForm();
+	};
 
-  return (
-    <ModalForm
-      visible={visible}
-      setVisible={setVisible}
-      initialValues={{
-        name: '',
-        url: '',
-        eventTypes: [],
-      }}
-      onSubmit={onSubmit}
-      title={t('create-webhook')}
-    />
-  );
+	return (
+		<ModalForm
+			visible={visible}
+			setVisible={setVisible}
+			initialValues={{
+				name: '',
+				url: '',
+				eventTypes: [],
+			}}
+			onSubmit={onSubmit}
+			title={t('create-webhook')}
+		/>
+	);
 };
 
 export default CreateWebhook;

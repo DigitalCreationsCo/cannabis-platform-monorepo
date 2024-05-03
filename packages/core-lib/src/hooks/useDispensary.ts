@@ -1,8 +1,8 @@
 import { type Dispensary } from '@cd/data-access/src';
 import { useRouter } from 'next/router';
 import useSWR from 'swr';
-import type { ApiResponse } from 'types';
-import fetcher from '../lib/fetcher';
+import { fetcher } from '../lib';
+import type { ApiResponse } from '../types';
 
 const useDispensary = (slug?: string) => {
 	const { query, isReady } = useRouter();

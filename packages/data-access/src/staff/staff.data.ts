@@ -1,5 +1,6 @@
-import clientPromise, { db_namespace } from '../db';
+import { db_namespace } from '../db';
 import { normalizeUser } from '../helpers';
+import { getUser } from '../user/user.data';
 
 export const createStaffMember = async (data: {
 	name: string;
@@ -15,7 +16,7 @@ export const createStaffMember = async (data: {
 		.insertOne(normalizeUser(data));
 };
 
-export const updateStaffMember = async ({ id, data }) => {
+export const updateStaffMember = async ({ id, data }: any) => {
 	data = normalizeUser(data);
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
@@ -25,7 +26,7 @@ export const updateStaffMember = async ({ id, data }) => {
 		.updateOne({ _id: id }, normalizeUser(data));
 };
 
-export const upsertStaffMember = async ({ id, update }) => {
+export const upsertStaffMember = async ({ id, update }: any) => {
 	update = normalizeUser(update);
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
@@ -38,17 +39,7 @@ export const upsertStaffMember = async ({ id, update }) => {
 	);
 };
 
-export const getStaffMember = async (
-	key: { id: string } | { email: string } | { phone: string },
-) => {
-	const client = await clientPromise;
-	const { db, collections } = db_namespace;
-	const user = await client.db(db).collection(collections.staff).findOne(key);
-
-	return normalizeUser(user);
-};
-
-export const getStaffMemberBySession = async (session: Session | null) => {
+export const getStaffMemberBySession = async (session: any) => {
 	if (session === null || session.user === null) {
 		return null;
 	}
@@ -59,7 +50,7 @@ export const getStaffMemberBySession = async (session: Session | null) => {
 		return null;
 	}
 
-	return await getStaffMember({ id });
+	return await getUser({ id });
 };
 
 export const deleteStaffMember = async (
@@ -70,7 +61,7 @@ export const deleteStaffMember = async (
 	return await client.db(db).collection(collections.staff).deleteOne(key);
 };
 
-export const findFirstStaffMemberOrThrow = async ({ id }) => {
+export const findFirstStaffMemberOrThrow = async ({ id }: any) => {
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
 	const user = await client
@@ -85,7 +76,7 @@ export const findFirstStaffMemberOrThrow = async ({ id }) => {
 	return normalizeUser(user);
 };
 
-export const countStaffMembers = async ({ where }) => {
+export const countStaffMembers = async ({ where }: any) => {
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
 	return client.db(db).collection(collections.staff).countDocuments(where);

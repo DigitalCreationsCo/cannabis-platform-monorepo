@@ -10,7 +10,7 @@ const dispensaries: any[] = [
 			coordinateId: 'a688d146-6872-4031-a795-b0d7c5e4dc30',
 			city: 'New York',
 			state: 'NY',
-			country: 'United_States',
+			country: 'United States',
 			street1: '33 Union Square W',
 			street2: ' ',
 			zipcode: 10003,
@@ -69,7 +69,7 @@ const dispensaries: any[] = [
 		images: [
 			{
 				location:
-					'https://storage.googleapis.com/fa7347ba6f76eacc-image-dispensary/dazed/logo-small.png',
+					'https://f5d8da031790bc54-image-dispensary.s3.amazonaws.com/dazed/logo-small.png',
 				blurhash: 'L4DPD$ju1q,v]Xa|Woo21CWo|}S1',
 				alt: 'Dazed Cannabis',
 			},
@@ -100,7 +100,7 @@ const dispensaries: any[] = [
 			coordinateId: 'a688d146-6872-4031-a795-b0d7c5e4dc32',
 			city: 'New York',
 			state: 'NY',
-			country: 'United_States',
+			country: 'United States',
 			street1: '144 Bleecker Street',
 			street2: ' ',
 			zipcode: 10012,
@@ -203,7 +203,7 @@ const dispensaries: any[] = [
 				city: 'Reisterstown',
 				state: 'MD',
 				zipcode: 21136,
-				country: 'United_States',
+				country: 'United States',
 				countryCode: 'US',
 				coordinates: {
 					radius: 10000,
@@ -240,7 +240,7 @@ const dispensaries: any[] = [
 		images: [
 			{
 				location:
-					'https://storage.googleapis.com/fa7347ba6f76eacc-image-dispensary/smacked-village/logo-small.png',
+					'https://f5d8da031790bc54-image-dispensary.s3.amazonaws.com/smacked-village/logo-small.png',
 				blurhash: 'L4DPD$ju1q,v]Xa|Woo21CWo|}S1',
 				alt: 'Smacked Village',
 			},
@@ -270,7 +270,7 @@ const dispensaries: any[] = [
 			coordinateId: 'a688d146-6872-4031-a795-b0d7c5e4dc33',
 			city: 'New York',
 			state: 'NY',
-			country: 'United_States',
+			country: 'United States',
 			street1: '3 East 3rd Street',
 			street2: ' ',
 			zipcode: 10003,
@@ -328,7 +328,7 @@ const dispensaries: any[] = [
 		images: [
 			{
 				location:
-					'https://storage.googleapis.com/fa7347ba6f76eacc-image-dispensary/gotham/logo-small.png',
+					'https://f5d8da031790bc54-image-dispensary.s3.amazonaws.com/gotham/logo-small.png',
 				blurhash: 'L4DPD$ju1q,v]Xa|Woo21CWo|}S1',
 				alt: 'Gotham',
 			},
@@ -358,7 +358,7 @@ const dispensaries: any[] = [
 			coordinateId: 'a688d146-6872-4031-a795-b0d7c5e4dc34',
 			city: 'New York',
 			state: 'NY',
-			country: 'United_States',
+			country: 'United States',
 			street1: '750 Broadway',
 			street2: ' ',
 			zipcode: 10003,
@@ -416,7 +416,7 @@ const dispensaries: any[] = [
 		images: [
 			{
 				location:
-					'https://storage.googleapis.com/fa7347ba6f76eacc-image-dispensary/housing-works/logo-small.png',
+					'https://f5d8da031790bc54-image-dispensary.s3.amazonaws.com/housing-works/logo-small.png',
 				blurhash: 'L4DPD$ju1q,v]Xa|Woo21CWo|}S1',
 				alt: 'Housing Works Cannabis Co.',
 			},
@@ -446,7 +446,7 @@ const dispensaries: any[] = [
 			coordinateId: 'a688d146-6872-4031-a795-b0d7c5e4dc37',
 			city: 'New York',
 			state: 'NY',
-			country: 'United_States',
+			country: 'United States',
 			street1: '158 West 23rd St',
 			street2: '',
 			zipcode: 10011,
@@ -504,7 +504,7 @@ const dispensaries: any[] = [
 		images: [
 			{
 				location:
-					'https://storage.googleapis.com/fa7347ba6f76eacc-image-dispensary/verdi/logo-small.png',
+					'https://f5d8da031790bc54-image-dispensary.s3.amazonaws.com/verdi/logo-small.png',
 				blurhash: 'L4DPD$ju1q,v]Xa|Woo21CWo|}S1',
 				alt: 'Terp Bros',
 			},
@@ -536,7 +536,7 @@ const dispensaries: any[] = [
 			coordinateId: 'a688d146-6872-4031-a795-b0d7c5e4dc31',
 			city: 'New York',
 			state: 'NY',
-			country: 'United_States',
+			country: 'United States',
 			street1: '85 Delancey Street',
 			street2: ' ',
 			zipcode: 10002,
@@ -594,7 +594,7 @@ const dispensaries: any[] = [
 		images: [
 			{
 				location:
-					'https://storage.googleapis.com/fa7347ba6f76eacc-image-dispensary/conbud/logo-small.png',
+					'https://f5d8da031790bc54-image-dispensary.s3.amazonaws.com/conbud/logo-small.png',
 				blurhash: 'L4DPD$ju1q,v]Xa|Woo21CWo|}S1',
 				alt: 'Conbud',
 			},
@@ -625,7 +625,7 @@ const dispensaries: any[] = [
 			coordinateId: 'a688d146-6872-4031-a795-b0d7c5e4dc35',
 			city: 'Queens',
 			state: 'NY',
-			country: 'United_States',
+			country: 'United States',
 			street1: '74-03 Metropolitan Ave',
 			street2: ' ',
 			zipcode: 11379,
@@ -683,7 +683,7 @@ const dispensaries: any[] = [
 		images: [
 			{
 				location:
-					'https://storage.googleapis.com/fa7347ba6f76eacc-image-dispensary/cannabis-place/logo-small.png',
+					'https://f5d8da031790bc54-image-dispensary.s3.amazonaws.com/cannabis-place/logo-small.png',
 				blurhash: 'L4DPD$ju1q,v]Xa|Woo21CWo|}S1',
 				alt: 'The Cannabis Place',
 			},
@@ -713,7 +713,7 @@ const dispensaries: any[] = [
 			coordinateId: 'a688d146-6872-4031-a795-b0d7c5e4dc36',
 			city: 'Queens',
 			state: 'NY',
-			country: 'United_States',
+			country: 'United States',
 			street1: '3610 Ditmars Blvd',
 			street2: '',
 			zipcode: 11105,
@@ -771,7 +771,7 @@ const dispensaries: any[] = [
 		images: [
 			{
 				location:
-					'https://storage.googleapis.com/fa7347ba6f76eacc-image-dispensary/terp-bros/logo-small.png',
+					'https://f5d8da031790bc54-image-dispensary.s3.amazonaws.com/terp-bros/logo-small.png',
 				blurhash: 'L4DPD$ju1q,v]Xa|Woo21CWo|}S1',
 				alt: 'Terp Bros',
 			},
@@ -802,7 +802,7 @@ const dispensaries: any[] = [
 			coordinateId: 'a688d146-6872-4031-a795-b0d7c5e4dc38',
 			city: 'Elizabeth',
 			state: 'NJ',
-			country: 'United_States',
+			country: 'United States',
 			street1: '117 Spring Street',
 			street2: '',
 			zipcode: 0o7201,
@@ -861,7 +861,7 @@ const dispensaries: any[] = [
 		images: [
 			{
 				location:
-					'https://storage.googleapis.com/fa7347ba6f76eacc-image-dispensary/zenleaf/logo-small.png',
+					'https://f5d8da031790bc54-image-dispensary.s3.amazonaws.com/zenleaf/logo-small.png',
 				blurhash: 'L4DPD$ju1q,v]Xa|Woo21CWo|}S1',
 				alt: 'Zen Leaf',
 			},

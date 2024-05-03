@@ -8,8 +8,9 @@ import { toast } from 'react-hot-toast';
 import env from '@/lib/env';
 import { DirectoriesWrapper } from '@boxyhq/react-ui/dsync';
 import { BOXYHQ_UI_CSS } from '@/components/styles';
+import { TeamFeature } from '@cd/core-lib';
 
-const DirectorySync = ({ teamFeatures }) => {
+const DirectorySync = ({ teamFeatures }: { teamFeatures: TeamFeature }) => {
   const { isLoading, isError, team } = useTeam();
   const { t } = useTranslation('common');
 

@@ -15,8 +15,8 @@ const styles = Object.freeze({
 		'border',
 		'relative',
 		// 'mx-4 my-8 sm:pt-4 pb-12 md:py-5 px-4 md:px-12',
-		'mx-4 my-3 sm:pt-4 pb-12 md:py-5 px-4 md:px-12',
-		'rounded-btn shadow h-[180px]',
+		'mx-3 my-3 sm:pt-4 md:py-5 px-4 md:px-12',
+		'rounded-btn shadow h-[280px]',
 		'drop-shadow-[-6px_4px_1px_#455555]',
 	],
 	infoCard: [

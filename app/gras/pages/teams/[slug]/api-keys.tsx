@@ -2,8 +2,9 @@ import APIKeysContainer from '@/components/apiKey/APIKeysContainer';
 import { GetServerSidePropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import env from '@/lib/env';
+import { TeamFeature } from '@cd/core-lib';
 
-const APIKeys = ({ teamFeatures }) => {
+const APIKeys = ({ teamFeatures }: { teamFeatures: TeamFeature }) => {
   return <APIKeysContainer teamFeatures={teamFeatures} />;
 };
 

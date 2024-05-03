@@ -2,12 +2,13 @@ import { PendingInvitations } from '@/components/invitation';
 import { Error, Loading } from '@/components/shared';
 import { Members, TeamTab } from '@/components/team';
 import env from '@/lib/env';
+import { TeamFeature } from '@cd/core-lib';
 import useTeam from 'hooks/useTeam';
 import { GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-const TeamMembers = ({ teamFeatures }) => {
+const TeamMembers = ({ teamFeatures }: { teamFeatures: TeamFeature }) => {
   const { t } = useTranslation('common');
   const { isLoading, isError, team } = useTeam();
 

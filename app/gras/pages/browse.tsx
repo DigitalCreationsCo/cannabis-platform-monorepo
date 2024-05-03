@@ -1,49 +1,42 @@
-/* eslint-disable sonarjs/prefer-single-boolean-return */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable i18next/no-literal-string */
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable react/no-unknown-property */
 import {
   getCoordinatePairFromCoordinates,
-  selectBlogsByTag,
+  // selectBlogsByTag,
   modalActions,
   modalTypes,
-  selectBlogState,
-  selectLocationState,
-  selectMarketPlaceDispensaries,
-  selectSelectedLocationState,
-  selectShopState,
-  selectUserState,
+  // selectBlogState,
+  // selectLocationState,
+  // selectMarketPlaceDispensaries,
+  // selectSelectedLocationState,
+  // selectShopState,
+  // selectUserState,
   TextContent,
-  debounce,
+  // debounce,
 } from '@cd/core-lib';
 import {
   type Coordinates,
-  type OrganizationWithShopDetails,
   dispensaries,
   productCategories,
+  Dispensary,
 } from '@cd/data-access';
-import {
-  Grid,
-  H1,
-  H3,
-  Page,
-  type LayoutContextProps,
-  FlexBox,
-  H4,
-  TextField,
-  Footer,
-  useBreakpoint,
-  getBreakpointValue,
-  Carousel,
-} from '@cd/ui-lib';
+import { Grid, H1, Page, H4, Footer, Carousel, H5 } from '@cd/ui-lib';
 import mapboxgl, { type MapboxGeoJSONFeature } from 'mapbox-gl';
 import { ReactElement, useEffect, useRef, useState } from 'react';
 import useSWR, { type SWRResponse } from 'swr';
 import { twMerge } from 'tailwind-merge';
 // import markerImage from '../../../public/map-marker.png';
-import { DispensaryCard,  } from '@/components/shared';
-
-import { GetStaticProps } from 'next';
-import { Post, Settings, getClient, getPosts, getSettings, readToken } from '@/lib/sanity';
+import { DispensaryCard } from '@/components/shared';
+import {
+  Post,
+  Settings,
+  getClient,
+  getPosts,
+  getSettings,
+  readToken,
+} from '@/lib/sanity';
 import { InfoCard } from '@/components/blog';
 import Image from 'next/image';
 
@@ -51,13 +44,52 @@ import Image from 'next/image';
 // eslint-disable-next-line no-var
 // /organization/zipcode=${zipcode}&limit=${limit}&radius=${radius}
 
+import {
+  getFacebookLoginStatus,
+  initFacebookSdk,
+  fbLogin,
+} from '@cd/core-lib/src/lib/facebookIG';
+
+function FBInit() {
+  useEffect(() => {
+    console.log('Started use effect');
+    initFacebookSdk().then(() => {
+      getFacebookLoginStatus().then((response) => {
+        if (response == null) {
+          console.log('No login status for the person');
+        } else {
+          console.log(response);
+        }
+      });
+    });
+  }, []);
+
+  function login() {
+    console.log('reached log in button');
+    fbLogin().then((response) => {
+      console.log(response);
+      if (response.status === 'connected') {
+        console.log('Person is connected');
+      } else {
+        // something
+      }
+    });
+  }
+
+  return (
+    <div>
+      <button onClick={login}>Login</button>
+    </div>
+  );
+}
+
 //IMPLEMENT GET STATIC PATHS > BLOG
-export default function Browse({ posts }: {
-	posts: Post[];
-	settings: Settings;
+export default function Browse({
+  posts,
+}: {
+  posts: Post[];
+  settings: Settings;
 }) {
-
-
   const saveZipcodeToLocalStorage = (zipcode: number): void => {
     if (isValidZipcode(zipcode)) {
       localStorage.setItem('zipcode', zipcode.toString());
@@ -87,7 +119,7 @@ export default function Browse({ posts }: {
     }
   }
 
-  const { error, isLoading, data } = useSWR<OrganizationWithShopDetails[]>(
+  const { error, isLoading, data } = useSWR<Dispensary[]>(
     () =>
       isValidZipcode(zipcode)
         ? `/api/organization?zipcode=${zipcode}&limit=${4}&radius=${radius}`
@@ -124,20 +156,53 @@ export default function Browse({ posts }: {
   const [current, setCurrent] = useState(0);
 
   function openStoreFrontModal() {
-    dispatch(
-      modalActions.openModal({
-        modalType: modalTypes.StoreFrontModal,
-        organization: dispensaries[current],
-      })
-    );
+    // dispatch(
+    //   modalActions.openModal({
+    //     modalType: modalTypes.StoreFrontModal,
+    //     organization: dispensaries[current],
+    //   })
+    // );
   }
 
   return (
-    <Page gradient="green" className="pt-2 md:pt-2 px-0 lg:px-0 pb-16 min-h-[440px]">
+    <Page
+      gradient="green"
+      className="pt-2 md:pt-2 px-0 lg:px-0 pb-16 min-h-[440px]"
+    >
       <link
         href="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css"
         rel="stylesheet"
       />
+      <script
+        async
+        defer
+        crossOrigin="anonymous"
+        src="https://connect.facebook.net/en_US/sdk.js"
+      ></script>
+
+      {/* <Script async defer crossOrigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></Script>
+            
+  <>
+  {( typeof window !== 'undefined' && (window.fbAsyncInit = function() {
+    FB.init({
+      appId            : '311994885263192',
+      xfbml            : true,
+      version          : 'v19.0'
+    })
+  }))}
+  {( typeof window !== 'undefined' && 
+    FB.login(function(response) {
+      if (response.authResponse) {
+       console.log('Welcome!  Fetching your information.... ');
+       FB.api('/me', function(response) {
+         console.log('Good to see you, ' + response.name + '.');
+       });
+      } else {
+       console.log('User cancelled login or did not fully authorize.');
+      }
+  })
+  )}
+  </> */}
 
       <Grid className="relative grid-cols-3">
         <div
@@ -152,65 +217,78 @@ export default function Browse({ posts }: {
           >
             {TextContent.info.CANNABIS_DELIVERED}
           </H1>
-          <H4 className="text-inverse-soft pt-2 px-2 lg:!px-6 leading-2 drop-shadow text-left">
+          <FBInit />
+        </div>
+        <div className="col-span-full pb-2">
+          <H4 className="text-inverse-soft pt-2 px-7 lg:!px-6 leading-2 drop-shadow text-left">
             Find dispensaries, edibles, and more near you
           </H4>
-        </div>
-        <div className="col-span-full">
           <Carousel
-            items={!isLoading
-              ? dispensaries?.map((d, index) => (
-                <DispensaryCard
-                loading={isLoading}
-                key={`dispensary-card-${index}`}
-                data={d}
-                /> 
-                ))
+            items={
+              !isLoading
+                ? dispensaries?.map((d, index) => (
+                    <DispensaryCard
+                      loading={isLoading}
+                      key={`dispensary-card-${index}`}
+                      data={d}
+                    />
+                  ))
                 : [1, 2, 3, 4, 5, 6].map((d, index) => (
-                  <DispensaryCard
-                  loading={isLoading}
-                  key={`dispensary-card-${index}`}
-                  data={d}
-                  />
-                  ))}
-                  />
-                 
+                    <DispensaryCard
+                      loading={isLoading}
+                      key={`dispensary-card-${index}`}
+                      data={d}
+                    />
+                  ))
+            }
+          />
         </div>
 
-        {/* <H4 className="col-span-full px-7 pt-2 lg:!px-11 text-inverse-soft leading-2 drop-shadow text-left">
-        🎁 Get What You Want
+        <div className="col-span-full flex flex-col mx-auto gap-2">
+          <H4 className="col-span-full px-4 pt-2 text-inverse-soft leading-2 drop-shadow text-left">
+            🎁 Get What You Want
           </H4>
+          <div className="grid grid-flow-col gap-x-2">
+            {productCategories.map((c, index) => (
+              <div key={`category-card-${index}`} className="w-32">
+                <div className="h-20 w-20 bg-secondary rounded-full p-3 mx-auto hover:border">
+                  <Image src={c.icon || ''} alt={c.title} layout="fill" />
+                </div>
+                <H5 className="text-center pt-1">{c.title}</H5>
+              </div>
+            ))}
+          </div>
+        </div>
+
         <div className="col-span-full">
-          <Carousel
-            items={productCategories.map((c, index) => (
-              <div key={`$`}>
-                <Image />
-              </ div> 
-          ))}
-          />
-        </div> */}
-        
-        <H4 className="col-span-full px-7 pt-2 lg:!px-11 text-inverse-soft leading-2 drop-shadow text-left">
-        🍍 Fresh from our Blog
+          <H4 className="col-span-full px-7 pt-2 lg:!px-11 text-inverse-soft leading-2 drop-shadow text-left">
+            Recent Dispensaries
           </H4>
-        <div className="col-span-full">
           <Carousel
-          title="Fresh from the Blog"
-            items={posts.map((post, index) => (
-              <InfoCard
-                loading={isLoading}
-                key={`blog-card-${index}`}
-                data={post}
-                showDescription={false}
-              /> 
-          ))}
+            items={
+              !isLoading
+                ? dispensaries?.map((d, index) => (
+                    <DispensaryCard
+                      loading={isLoading}
+                      key={`dispensary-card-${index}`}
+                      data={d}
+                    />
+                  ))
+                : [1, 2, 3, 4, 5, 6].map((d, index) => (
+                    <DispensaryCard
+                      loading={isLoading}
+                      key={`dispensary-card-${index}`}
+                      data={d}
+                    />
+                  ))
+            }
           />
         </div>
-        
-        {/* <H4 className="col-span-full px-7 pt-2 lg:!px-11 text-inverse-soft leading-2 drop-shadow text-left">
-        🎨 Celebrate Artists
+
+        <div className="col-span-full px-20">
+          <H4 className="col-span-full px-7 pt-2 lg:!px-11 text-inverse-soft leading-2 drop-shadow text-left">
+            New Arrivals
           </H4>
-        <div className="col-span-full">
           <Carousel
             items={posts.map((post, index) => (
               <InfoCard
@@ -218,10 +296,59 @@ export default function Browse({ posts }: {
                 key={`blog-card-${index}`}
                 data={post}
                 showDescription={false}
-              /> 
-          ))}
+              />
+            ))}
           />
-        </div> */}
+        </div>
+
+        <div className="col-span-full">
+          <H4 className="col-span-full px-7 pt-2 lg:!px-11 text-inverse-soft leading-2 drop-shadow text-left">
+            🍍 Fresh from our Blog
+          </H4>
+          <Carousel
+            title="Fresh from the Blog"
+            items={posts.map((post, index) => (
+              <InfoCard
+                loading={isLoading}
+                key={`blog-card-${index}`}
+                data={post}
+                showDescription={false}
+              />
+            ))}
+          />
+        </div>
+
+        <div className="col-span-full px-24">
+          <H4 className="col-span-full px-7 pt-2 lg:!px-11 text-inverse-soft leading-2 drop-shadow text-left">
+            🎨 Celebrate Artists
+          </H4>
+          <Carousel
+            items={posts.map((post, index) => (
+              <InfoCard
+                loading={isLoading}
+                key={`blog-card-${index}`}
+                data={post}
+                showDescription={false}
+              />
+            ))}
+          />
+        </div>
+
+        <div className="col-span-full px-24">
+          <H4 className="col-span-full px-7 pt-2 lg:!px-11 text-inverse-soft leading-2 drop-shadow text-left">
+            Read Reviews
+          </H4>
+          <Carousel
+            items={posts.map((post, index) => (
+              <InfoCard
+                loading={isLoading}
+                key={`blog-card-${index}`}
+                data={post}
+                showDescription={false}
+              />
+            ))}
+          />
+        </div>
 
         {/* <div className="row-start-2 sm:col-start-2 col-span-full sm:col-span-1 lg:col-start-3 lg:row-start-1 px-4 py-2">
 					<TextField
@@ -540,9 +667,7 @@ const RenderMapBox = ({
     }
   }, [current]);
 
-  function generateGEOJSONDataFromDispensaries(
-    data: OrganizationWithShopDetails[]
-  ) {
+  function generateGEOJSONDataFromDispensaries(data: any[]) {
     return {
       type: 'FeatureCollection',
       features: data.map((dispensary) => {
@@ -615,29 +740,30 @@ const RenderMapBox = ({
 // 	};
 // };
 
-export const getServerSideProps = async (ctx,
-  ) => {
-    const { draftMode = false } = ctx;
-    const client = getClient(draftMode ? { token: readToken } : undefined);
-  
-    const [settings, posts = []] = await Promise.all([
-      getSettings(client),
-      getPosts(client),
-    ]);
+export const getServerSideProps = async (ctx) => {
+  const { draftMode = false } = ctx;
+  const client = getClient(draftMode ? { token: readToken } : undefined);
+
+  const [settings, posts = []] = await Promise.all([
+    getSettings(client),
+    getPosts(client),
+  ]);
 
   return {
     props: {
-			posts,
-			settings,
-			draftMode,
-			token: draftMode ? readToken : '',
-		},
+      posts,
+      settings,
+      draftMode,
+      token: draftMode ? readToken : '',
+    },
   };
-
-}
+};
 
 Browse.getLayout = function getLayout(page: ReactElement) {
-  return <>{page}
+  return (
+    <>
+      {page}
       <Footer />
-  </>;
+    </>
+  );
 };

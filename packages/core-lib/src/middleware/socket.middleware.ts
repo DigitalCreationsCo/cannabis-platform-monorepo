@@ -1,15 +1,14 @@
 /* eslint-disable no-inner-declarations */
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import { type OrderWithDispatchDetails } from '@cd/data-access';
+type OrderWithDispatchDetails = any;
 import { type MiddlewareAPI } from '@reduxjs/toolkit';
 import { io, type Socket } from 'socket.io-client';
-import { type AppState } from 'types';
 import { driverActions } from '../reducer/driver.reducer';
 import { socketActions } from '../reducer/socket.reducer';
+import { type AppState } from '../types';
 import {
 	dispatchEvents as SocketEvent,
-	NavigateEvent,
 	type SocketEventPayload,
 } from '../types/socket.types';
 import { getProperty } from '../utils';

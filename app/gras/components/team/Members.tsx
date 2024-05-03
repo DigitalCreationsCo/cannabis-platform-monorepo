@@ -1,7 +1,11 @@
-import { Error, LetterAvatar, Loading } from '@/components/shared';
-import { Team, TeamMember } from '@prisma/client';
-import useCanAccess from 'hooks/useCanAccess';
-import useTeamMembers, { TeamMemberWithUser } from 'hooks/useTeamMembers';
+import { Error, LetterAvatar } from '@/components/shared';
+import { Dispensary, StaffMember } from '@cd/data-access';
+import {
+  useStaffMembers,
+  useCanAccess,
+  defaultHeaders,
+  ApiResponse,
+} from '@cd/core-lib';
 import { useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import { Button } from 'react-daisyui';
@@ -9,24 +13,21 @@ import toast from 'react-hot-toast';
 
 import { InviteMember } from '@/components/invitation';
 import UpdateMemberRole from './UpdateMemberRole';
-import { defaultHeaders } from '@/lib/common';
-import type { ApiResponse } from 'types';
 import ConfirmationDialog from '../shared/ConfirmationDialog';
 import { useState } from 'react';
 import { Table } from '@/components/shared/table/Table';
 import { LoadingDots } from '@cd/ui-lib';
 
-const Members = ({ team }: { team: Team }) => {
+const Members = ({ team }: { team: Dispensary }) => {
   const { data: session } = useSession();
   const { t } = useTranslation('common');
   const { canAccess } = useCanAccess();
   const [visible, setVisible] = useState(false);
-  const [selectedMember, setSelectedMember] =
-    useState<TeamMemberWithUser | null>(null);
+  const [selectedMember, setSelectedMember] = useState<any | null>(null);
   const [confirmationDialogVisible, setConfirmationDialogVisible] =
     useState(false);
 
-  const { isLoading, isError, members, mutateTeamMembers } = useTeamMembers(
+  const { isLoading, isError, members, mutateTeamMembers } = useStaffMembers(
     team.slug
   );
 
@@ -42,7 +43,7 @@ const Members = ({ team }: { team: Team }) => {
     return null;
   }
 
-  const removeTeamMember = async (member: TeamMember | null) => {
+  const removeTeamMember = async (member: StaffMember | null) => {
     if (!member) {
       return;
     }
@@ -68,13 +69,13 @@ const Members = ({ team }: { team: Team }) => {
     toast.success(t('member-deleted'));
   };
 
-  const canUpdateRole = (member: TeamMember) => {
+  const canUpdateRole = (member: StaffMember) => {
     return (
       session?.user.id != member.userId && canAccess('team_member', ['update'])
     );
   };
 
-  const canRemoveMember = (member: TeamMember) => {
+  const canRemoveMember = (member: StaffMember) => {
     return (
       session?.user.id != member.userId && canAccess('team_member', ['delete'])
     );

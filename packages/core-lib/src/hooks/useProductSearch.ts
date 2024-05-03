@@ -1,21 +1,15 @@
-import {
-	type ProductVariantWithDetails,
-	type ProductWithShopDetails,
-} from '@cd/data-access';
 import axios from 'axios';
 import { useState } from 'react';
 import { debounce } from '../utils';
 
 const useProductSearch = () => {
-	const [productSearchResult, setProductSearchResult] = useState<
-		ProductVariantWithDetails[]
-	>([]);
+	const [productSearchResult, setProductSearchResult] = useState<any[]>([]);
 	const [notFoundResult, setNotFoundResult] = useState(false);
 
 	const doSearchProducts = debounce(async (e: any) => {
 		const value = e?.target?.value || null;
 		if (value) {
-			const data: ProductWithShopDetails[] = await (
+			const data: any[] = await (
 				await axios.post('/api/products', { search: value })
 			).data;
 			const variantProducts = data.flatMap((product) => product.variants);

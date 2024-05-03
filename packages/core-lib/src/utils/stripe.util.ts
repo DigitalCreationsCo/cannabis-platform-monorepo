@@ -1,4 +1,4 @@
-import { type ProductVariantWithDetails } from '@cd/data-access';
+type ProductVariantWithDetails = any;
 
 /**
  * format order Items list into stripe line items list

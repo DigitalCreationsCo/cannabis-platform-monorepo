@@ -1,7 +1,7 @@
 const domainRegex =
 	/(?:[a-z\d](?:[a-z\d-]{0,61}[a-z\d])?\.)+[a-z\d][a-z\d-]{0,61}[a-z\d]/;
 
-export const isValidDomain = (domain: string): boolean => {
+export const isValidDomain = (domain: string) => {
 	return domainRegex.test(domain);
 };
 
@@ -51,7 +51,7 @@ import { randomBytes } from 'crypto';
 import type { NextApiRequest } from 'next';
 
 // Function to force consume the response body to avoid memory leaks
-export const forceConsume = async (response) => {
+export const forceConsume = async (response: any) => {
 	try {
 		await response.text();
 	} catch (error) {

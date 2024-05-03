@@ -22,6 +22,7 @@ import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/logo.png';
+import { useTranslation } from 'next-i18next';
 
 export type TopBarProps = {
 	doesSessionExist?: boolean;
@@ -35,12 +36,12 @@ function TopBar({
 	signOut,
 	showSearch = true,
 	SearchComponent,
-	showLocation = true,
 }: TopBarProps) {
 	const dispatch = useDispatch();
 	const { user, isSignedIn } = useSelector(selectUserState);
 	const cart = useSelector(selectCartState);
 	const isCartEmpty = useSelector(selectIsCartEmpty);
+	const { t } = useTranslation('common');
 
 	function openLoginModal() {
 		dispatch(
@@ -50,6 +51,7 @@ function TopBar({
 		);
 	}
 
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const _AccountDropDown = useCallback(AccountDropDown, [
 		user.profilePicture?.location,
 		user.username,
@@ -61,7 +63,7 @@ function TopBar({
 				<FlexBox className="flex-row items-center">
 					<Link href={'/'} className="z-50">
 						<GrasSignature className="text-secondary pt-1 pb-0 mb-0 leading-3">
-							Gras
+							{t('gras')}
 						</GrasSignature>
 					</Link>
 					<Link href={'/'}>
@@ -94,7 +96,7 @@ function TopBar({
 							hover="transparent"
 							onClick={openLoginModal}
 						>
-							Sign In
+								{t('sign-in')}
 						</Button>
 					</FlexBox>
 				)}
@@ -155,7 +157,7 @@ function TopBar({
 									hover="transparent"
 									className={twMerge(styles.BUTTON.highlight, 'w-full', 'pt-1')}
 								>
-									Support
+										{t('contact-support')}
 								</Button>
 							</Link>
 						</FlexBox>
@@ -168,7 +170,7 @@ function TopBar({
 								hover="transparent"
 								className={twMerge(styles.BUTTON.highlight, 'w-full', 'pt-1')}
 							>
-								Settings
+								{t('settings')}
 							</Button>
 						</Link>
 					</FlexBox>
@@ -180,7 +182,7 @@ function TopBar({
 							className={twMerge(styles.BUTTON.highlight, 'w-full', 'pt-1')}
 							onClick={signOut}
 						>
-							Sign Out
+									{t('sign-out')}
 						</Button>
 					</FlexBox>
 				</ul>

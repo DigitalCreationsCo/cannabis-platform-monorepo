@@ -1,4 +1,4 @@
-import type { NextPageWithLayout } from 'types';
+import type { NextPageWithLayout } from '@/lib/next.types';
 import type {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
