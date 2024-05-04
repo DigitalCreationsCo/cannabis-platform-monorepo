@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-/* eslint-disable sonarjs/no-duplicated-branches */
 import axios from 'axios';
 import sharp from 'sharp';
 

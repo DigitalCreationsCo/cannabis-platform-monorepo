@@ -1,3 +1,4 @@
+/* eslint-disable i18next/no-literal-string */
 /* eslint-disable @next/next/no-html-link-for-pages */
 import { Center } from '@cd/ui-lib';
 import { useSyncExternalStore } from 'react';

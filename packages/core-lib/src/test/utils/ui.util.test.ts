@@ -14,12 +14,10 @@ const address: Address = {
 	street2: 'Apt 1',
 	city: 'Denver',
 	state: 'CO',
-	country: Country.United States,
+	country: "United States",
 	countryCode: 'US',
 	coordinateId: '1',
-	zipcode: 80202,
-	createdAt: new Date(),
-	updatedAt: new Date(),
+	zipcode: '80202',
 };
 
 describe('renderAddress', () => {

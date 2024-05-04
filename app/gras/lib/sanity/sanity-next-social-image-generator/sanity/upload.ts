@@ -58,7 +58,7 @@ export const uploadToSanity = ({
 
 			resolve();
 		} catch (e: any) {
-			reject(e: any);
+			reject(e);
 		}
 	});
 };

@@ -1,9 +1,0 @@
-{
-    "checkout-widget-proxy": {
-      "source": 9000,
-      "target": 9001,
-      "hostname": "localhost",
-      "key": "../../proxy-certs/localhost.key",
-      "cert": "../../proxy-certs/localhost.crt"
-    }
-  }

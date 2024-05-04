@@ -21,7 +21,7 @@ export default function AppShell({ children }) {
 
   if (status === 'unauthenticated') {
     router.push('/auth/login');
-    return;
+    return <></>;
   }
 
   return (

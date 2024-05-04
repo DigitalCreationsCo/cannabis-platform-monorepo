@@ -7,11 +7,11 @@ import {
   Text,
 } from '@react-email/components';
 import EmailLayout from './EmailLayout';
-import { Team } from '@cd/data-access';
+import { Dispensary } from '@cd/data-access';
 import app from '@/lib/app';
 
 interface TeamInviteEmailProps {
-  team: Team;
+  team: Dispensary;
   invitationLink: string;
   subject: string;
 }

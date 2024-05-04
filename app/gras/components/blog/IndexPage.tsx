@@ -1,4 +1,4 @@
-import { type LayoutContextProps, Page, Carousel } from '@cd/ui-lib';
+import { Page } from '@cd/ui-lib';
 import HeroPost from '@/components/blog/HeroPost';
 import IndexPageHead from '@/components/blog/IndexPageHead';
 import type { Post, Settings } from '@/lib/sanity';

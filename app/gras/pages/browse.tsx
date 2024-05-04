@@ -27,7 +27,7 @@ import mapboxgl, { type MapboxGeoJSONFeature } from 'mapbox-gl';
 import { ReactElement, useEffect, useRef, useState } from 'react';
 import useSWR, { type SWRResponse } from 'swr';
 import { twMerge } from 'tailwind-merge';
-// import markerImage from '../../../public/map-marker.png';
+import markerImage from '../../../public/map-marker.png';
 import { DispensaryCard } from '@/components/shared';
 import {
   Post,
@@ -68,7 +68,7 @@ function FBInit() {
     console.log('reached log in button');
     fbLogin().then((response) => {
       console.log(response);
-      if (response.status === 'connected') {
+      if ((response as any).status === 'connected') {
         console.log('Person is connected');
       } else {
         // something
@@ -90,25 +90,25 @@ export default function Browse({
   posts: Post[];
   settings: Settings;
 }) {
-  const saveZipcodeToLocalStorage = (zipcode: number): void => {
+  const saveZipcodeToLocalStorage = (zipcode: string): void => {
     if (isValidZipcode(zipcode)) {
       localStorage.setItem('zipcode', zipcode.toString());
     }
     setZipcode(zipcode);
   };
 
-  const getZipcodeLocalStorage = (): number | null => {
+  const getZipcodeLocalStorage = (): string | null => {
     if (typeof window !== 'undefined') {
-      return Number(localStorage.getItem('zipcode')) || null;
+      return localStorage.getItem('zipcode') || null;
     }
     return null;
   };
-  const radius = 11000;
-  const [zipcode, setZipcode] = useState(getZipcodeLocalStorage() || 10011);
+  const radius = '11000';
+  const [zipcode, setZipcode] = useState(getZipcodeLocalStorage() || '10011');
   const [zipcodeError, setZipcodeError] = useState('');
 
-  function isValidZipcode(input: number) {
-    const isValidZipcode = /^\d{5}$/.test(input.toString());
+  function isValidZipcode(input: string) {
+    const isValidZipcode = input.length === 5;
     if (isValidZipcode) {
       // setZipcodeError('');
 
@@ -237,7 +237,7 @@ export default function Browse({
                     <DispensaryCard
                       loading={isLoading}
                       key={`dispensary-card-${index}`}
-                      data={d}
+                      data={d as unknown as Required<Dispensary>}
                     />
                   ))
             }
@@ -278,7 +278,7 @@ export default function Browse({
                     <DispensaryCard
                       loading={isLoading}
                       key={`dispensary-card-${index}`}
-                      data={d}
+                      data={d as any}
                     />
                   ))
             }

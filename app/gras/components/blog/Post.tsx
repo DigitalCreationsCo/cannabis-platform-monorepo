@@ -15,6 +15,7 @@ import { twMerge } from 'tailwind-merge';
 import { urlForImage } from '@/lib/sanity';
 import { type Post } from '@/lib/sanity';
 import Date from './PostDate';
+import { useTranslation } from 'react-i18next';
 
 const H4 = (props: any) => {
 	const hexColor = getRandomHexColor();
@@ -30,11 +31,10 @@ export default function Post({ post }: { post: Post }) {
 				<Paragraph className="post__date tracking-wider text-inverse inline">
 					<Date dateString={post._createdAt} />
 				</Paragraph>
-				{'  '}
 				<Paragraph className="text-inverse inline">{post.categories}</Paragraph>
 				<H1 className="md:text-7xl font-onest font-semibold text-inverse tracking-wide drop-shadow-lg">
 					{post.title}
-				</H1>{' '}
+				</H1>
 				<Paragraph className="post__excerpt tracking-wider text-inverse drop-shadow text-lg max-w-3xl">
 					{post.excerpt}
 				</Paragraph>
@@ -75,6 +75,7 @@ export default function Post({ post }: { post: Post }) {
 }
 
 function BackButton({ className }: { className?: string }) {
+	const { t } = useTranslation('common')
 	return (
 		<Button
 			size="sm"
@@ -83,7 +84,7 @@ function BackButton({ className }: { className?: string }) {
 			onClick={() => Router.back()}
 		>
 			<IconWrapper Icon={icons.ArrowLeft} className="pr-1" />
-			back
+			{t('go-back')}
 		</Button>
 	);
 }

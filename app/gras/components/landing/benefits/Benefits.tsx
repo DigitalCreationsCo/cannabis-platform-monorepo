@@ -96,7 +96,9 @@ export default function Benefits({
 						</div>
 					)}
 				</FlexBox>
+				<>
 				{props.children}
+				</>
 				{(data.cta && <CTA2XMyBusiness cta={data.cta} />) || <></>}
 			</FlexBox>
 		</div>

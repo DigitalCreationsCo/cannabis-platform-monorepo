@@ -9,6 +9,7 @@
 		"moduleResolution": "node",
 		"esModuleInterop": true,
 		"jsx": "preserve",
+		"noImplicitAny": false,
 		"strict": true,
 		"incremental": true,
 		"paths": {

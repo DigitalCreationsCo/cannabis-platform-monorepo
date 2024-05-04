@@ -1,13 +1,13 @@
+/* eslint-disable @next/next/no-img-element */
 import toast from 'react-hot-toast';
 import { Button } from 'react-daisyui';
 import { useTranslation } from 'next-i18next';
 import React, { useState, useEffect, useCallback } from 'react';
 import { ArrowUpCircleIcon } from '@heroicons/react/24/outline';
 
-import type { ApiResponse } from 'types';
 import type { User } from '@cd/data-access';
 import { Card } from '@/components/shared';
-import { defaultHeaders } from '@/lib/common';
+import { ApiResponse, defaultHeaders } from '@cd/core-lib';
 
 const UploadAvatar = ({ user }: { user: Partial<User> }) => {
   const { t } = useTranslation('common');

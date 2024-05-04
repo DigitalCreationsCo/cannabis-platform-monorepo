@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/no-small-switch */
 // This plugin is responsible for adding a “Preview” tab to the document pane
 // You can add any React component to `S.view.component` and it will be rendered in the pane
 // and have access to content in the form in real-time.
@@ -7,7 +6,7 @@
 
 import { Iframe, type IframeOptions } from 'sanity-plugin-iframe-pane';
 import { type DefaultDocumentNodeResolver } from 'sanity/desk';
-import { DRAFT_MODE_ROUTE } from '../../lib/sanity.api';
+import { DRAFT_MODE_ROUTE } from '@/lib/sanity/sanity.api';
 import authorType from '../../schemas/author';
 import postType from '../../schemas/post';
 

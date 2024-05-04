@@ -1,13 +1,14 @@
 import { LetterAvatar } from '@/components/shared';
-import { defaultHeaders } from '@/lib/common';
-import { Team } from '@cd/data-access';
-import useTeams from 'hooks/useTeams';
+import { Dispensary} from '@cd/data-access';
+import {
+  defaultHeaders,
+  ApiResponse, useDispensaries
+} from '@cd/core-lib';
 import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { Button } from 'react-daisyui';
 import toast from 'react-hot-toast';
-import type { ApiResponse } from 'types';
 import { useRouter } from 'next/router';
 import ConfirmationDialog from '../shared/ConfirmationDialog';
 import { WithLoadingAndError } from '@/components/shared';
@@ -17,8 +18,8 @@ import { Table } from '@/components/shared/table/Table';
 const Teams = () => {
   const router = useRouter();
   const { t } = useTranslation('common');
-  const [team, setTeam] = useState<Team | null>(null);
-  const { isLoading, isError, teams, mutateTeams } = useTeams();
+  const [team, setTeam] = useState<Dispensary | null>(null);
+  const { isLoading, isError, dispensaries, mutateTeams } = useDispensaries();
   const [askConfirmation, setAskConfirmation] = useState(false);
   const [createTeamVisible, setCreateTeamVisible] = useState(false);
 
@@ -30,7 +31,7 @@ const Teams = () => {
     }
   }, [newTeam]);
 
-  const leaveTeam = async (team: Team) => {
+  const leaveTeam = async (team: Dispensary) => {
     const response = await fetch(`/api/teams/${team.slug}/members`, {
       method: 'PUT',
       headers: defaultHeaders,
@@ -71,8 +72,8 @@ const Teams = () => {
         <Table
           cols={[t('name'), t('members'), t('created-at'), t('actions')]}
           body={
-            teams
-              ? teams.map((team) => {
+            dispensaries
+              ? dispensaries.map((team) => {
                   return {
                     id: team.id,
                     cells: [

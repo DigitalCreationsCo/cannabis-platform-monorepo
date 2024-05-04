@@ -323,7 +323,7 @@ const validationSchema = yup.object().shape({
 		city: yup.string().required(TextContent.prompt.CITY_REQUIRED),
 		state: yup.string().required(TextContent.prompt.STATE_REQUIRED),
 		zipcode: yup
-			.number()
+			.string()
 			.required(TextContent.prompt.ZIPCODE_REQUIRED)
 			.test(
 				'len',

@@ -1,3 +1,4 @@
+/* eslint-disable i18next/no-literal-string */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {
 	Page,
@@ -153,10 +154,10 @@ export default function DispensaryLandingPage() {
 						)}`}</span>
 					</Paragraph>
 					<Paragraph className="font-semibold text-4xl">
-						You don't pay this price today!
+						{`You don't pay this price today!`}
 					</Paragraph>
 					<Paragraph className="font-semibold text-3xl">
-						Find out your price today below 👇
+						{`Find out your price today below 👇`}
 					</Paragraph>
 				</Benefits>
 

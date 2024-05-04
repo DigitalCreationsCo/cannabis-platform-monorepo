@@ -46,7 +46,7 @@ function MyApp({
   ...appProps
 }: AppPropsWithLayout & { pageProps: SharedPageProps }) {
   const { store } = wrapper.useWrappedStore(appProps);
-  // @ts-expect-error
+  // @ts-expect-error - persistor is not a property of store
   const persistor = store._persistor;
 
   const { pageProps } = appProps;

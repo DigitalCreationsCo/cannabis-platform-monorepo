@@ -1,19 +1,18 @@
-import { Card, InputWithLabel } from '@/components/shared';
-import { defaultHeaders } from '@/lib/common';
-import { Team } from '@cd/data-access';
+import { defaultHeaders, type ApiResponse } from '@cd/core-lib';
+import { type Dispensary } from '@cd/data-access';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { Button } from 'react-daisyui';
 import toast from 'react-hot-toast';
-import type { ApiResponse } from 'types';
 
-import { AccessControl } from '../shared/AccessControl';
-import { z } from 'zod';
+import { type z } from 'zod';
+import { Card, InputWithLabel } from '@/components/shared';
 import { updateTeamSchema } from '@/lib/zod';
+import { AccessControl } from '../shared/AccessControl';
 
-const TeamSettings = ({ team }: { team: Team }) => {
+const TeamSettings = ({ team }: { team: Dispensary }) => {
   const router = useRouter();
   const { t } = useTranslation('common');
 
@@ -39,7 +38,7 @@ const TeamSettings = ({ team }: { team: Team }) => {
         body: JSON.stringify(values),
       });
 
-      const json = (await response.json()) as ApiResponse<Team>;
+      const json = (await response.json()) as ApiResponse<Dispensary>;
 
       if (!response.ok) {
         toast.error(json.error.message);

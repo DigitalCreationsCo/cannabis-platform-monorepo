@@ -5,8 +5,8 @@ import { createIntlSegmenterPolyfill } from 'intl-segmenter-polyfill';
 import satori, { type SatoriOptions } from 'satori';
 import { styled } from 'styled-components';
 import useSWR from 'swr/immutable';
-import { height, OpenGraphImage, width } from '../../components/OpenGraphImage';
-import type { Settings } from '../../lib/sanity.queries';
+import { height, OpenGraphImage, width } from '@/components/blog/OpenGraphImage';
+import type { Settings } from '@/lib/sanity/sanity.queries';
 
 async function init(): Promise<SatoriOptions['fonts']> {
 	if ((!globalThis?.Intl as any)?.Segmenter) {
@@ -15,13 +15,13 @@ async function init(): Promise<SatoriOptions['fonts']> {
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-expect-error
 		globalThis.Intl.Segmenter = await createIntlSegmenterPolyfill(
-			fetch(new URL('../../../public/break_iterator.wasm', import.meta.url)),
+			fetch(new URL('../../public/break_iterator.wasm', import.meta.url)),
 		);
 	}
 
 	const fontData = await fetch(
 		new URL(
-			'../../../public/fonts/EncodeSans-VariableFont_wdth,wght.ttf',
+			'../../public/fonts/EncodeSans-VariableFont_wdth,wght.ttf',
 			import.meta.url,
 		),
 	).then((res) => res.arrayBuffer());

@@ -20,10 +20,10 @@ interface TableBodyCell {
     text: string;
     color: string;
   };
-  element?: React.JSX.Element;
+  element?: React.ReactElement;
   actions?: {
     text: string;
-    icon: React.JSX.Element;
+    icon: React.ReactElement;
     onClick: () => void;
     destructive?: boolean;
   }[];

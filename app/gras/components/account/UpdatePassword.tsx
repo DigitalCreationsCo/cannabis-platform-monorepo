@@ -5,8 +5,7 @@ import toast from 'react-hot-toast';
 import * as Yup from 'yup';
 
 import { Card, InputWithLabel } from '@/components/shared';
-import { defaultHeaders, passwordPolicies } from '@/lib/common';
-import { maxLengthPolicies } from '@/lib/common';
+import { defaultHeaders, maxLengthPolicies, passwordPolicies } from '@cd/core-lib';
 
 const schema = Yup.object().shape({
   currentPassword: Yup.string().required().max(maxLengthPolicies.password),

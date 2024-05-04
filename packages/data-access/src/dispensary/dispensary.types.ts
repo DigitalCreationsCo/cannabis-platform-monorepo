@@ -22,23 +22,40 @@
 // } from '../product/product.data';
 // import { type MembershipWithUser } from '../user/user.data';
 
+import { type Address } from '../address.types';
+
 export type POS = 'dutchie' | 'blaze' | 'weedmaps';
 export type Inventory = 'metrc' | 'biotrack';
-
+export type SiteSetting = {
+	theme: string;
+	primaryColor: string;
+	secondaryColor: string;
+	tertiaryColor: string;
+	textColor: string;
+	backgroundColor: string;
+	accentFont: string;
+};
 export type Dispensary = {
 	id: string;
 	name: string;
 	slug: string;
 	domain?: string;
 	billingId?: string;
+	address?: Address;
+	schedule?: Schedule[];
+	isSubscribedForDelivery?: boolean;
+	isSubscribedForPickup?: boolean;
 	billingProvider?: string;
 	stripeAccountId?: string;
+	siteSetting?: SiteSetting;
+	images?: { location: string; blurhash: string }[];
 	pos?: POS;
+	isSignupComplete?: boolean;
 	createdAt?: Date;
 	updatedAt?: Date;
 };
 
-//  export type OrganizationCreateType = Prisma.OrganizationUncheckedCreateInput & {
+//  export type Dispensary = Prisma.OrganizationUncheckedCreateInput & {
 // 	address: AddressPayload;
 // 	schedule: Prisma.ScheduleCreateManyOrganizationInput;
 // 	images: Prisma.ImageOrganizationCreateManyOrganizationInput[];

@@ -13,7 +13,7 @@ const BlogNavigation = () => {
 	}));
 	return (
 		<div className="cursor-default w-full">
-			<GrasSignature className="text-yellow text-center">read on</GrasSignature>
+			<GrasSignature className="text-yellow text-center">{`read on`}</GrasSignature>
 			<ul className="tabs">
 				{renderNavLinkAndSubLinks(navLinkGroups, pathname)}
 			</ul>

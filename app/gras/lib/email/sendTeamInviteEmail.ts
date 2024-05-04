@@ -1,4 +1,4 @@
-import { Invitation, Team } from '@cd/data-access';
+import { Invitation, Dispensary } from '@cd/data-access';
 import { sendEmail } from './sendEmail';
 import { TeamInviteEmail } from '@/components/emailTemplates';
 import { render } from '@react-email/components';
@@ -6,7 +6,7 @@ import env from '../env';
 import app from '../app';
 
 export const sendTeamInviteEmail = async (
-  team: Team,
+  team: Dispensary,
   invitation: Invitation
 ) => {
   if (!invitation.email) {

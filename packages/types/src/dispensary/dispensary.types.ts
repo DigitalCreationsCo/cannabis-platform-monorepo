@@ -34,7 +34,7 @@ export type Dispensary = {
 	updatedAt: Date;
 };
 
-export type OrganizationCreateType = Prisma.OrganizationUncheckedCreateInput & {
+export type Dispensary = Prisma.OrganizationUncheckedCreateInput & {
 	address: AddressPayload;
 	schedule: Prisma.ScheduleCreateManyOrganizationInput;
 	images: Prisma.ImageOrganizationCreateManyOrganizationInput[];

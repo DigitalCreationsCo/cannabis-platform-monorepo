@@ -2,10 +2,9 @@ import { useFormik } from 'formik';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'next-i18next';
 import { Button, Input } from 'react-daisyui';
+import { defaultHeaders, ApiResponse } from '@cd/core-lib';
 
-import type { ApiResponse } from 'types';
 import { Card } from '@/components/shared';
-import { defaultHeaders } from '@/lib/common';
 import { User } from '@cd/data-access';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
