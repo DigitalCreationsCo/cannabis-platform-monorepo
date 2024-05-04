@@ -1,4 +1,4 @@
-import { Footer, type LayoutContextProps } from '@cd/ui-lib';
+import { Footer } from '@cd/ui-lib';
 import { NextStudio } from 'next-sanity/studio';
 import { ReactElement, useEffect } from 'react';
 import config from '../../../sanity.config';

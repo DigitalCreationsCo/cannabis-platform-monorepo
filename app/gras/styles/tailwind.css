@@ -10001,10 +10001,6 @@ html:has(.drawer-open.drawer-open) {
   flex-shrink: 0;
 }
 
-.flex-grow {
-  flex-grow: 1;
-}
-
 .grow {
   flex-grow: 1;
 }
@@ -11403,10 +11399,6 @@ html:has(.drawer-open.drawer-open) {
 
 .font-btn {
   font-weight: var(--font-weight-btn);
-}
-
-.font-display {
-  font-weight: var(--font-weight-display);
 }
 
 .font-light {

@@ -14,7 +14,7 @@ import {
 	findUsersByOrganization,
 	makeUrlFriendly,
 	updateOrganization,
-	type OrganizationCreateType,
+	type Dispensary,
 	type OrganizationUpdateType,
 	type Prisma,
 } from '@cd/data-access';
@@ -35,7 +35,7 @@ updateProduct
 ================================= */
 
 export default class OrganizationDA {
-	static async createOrganization(organization: OrganizationCreateType) {
+	static async createOrganization(organization: Dispensary) {
 		try {
 			const data = await createOrganization(organization);
 

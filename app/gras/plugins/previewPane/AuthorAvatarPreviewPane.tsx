@@ -1,6 +1,6 @@
 import { Card, Flex } from '@sanity/ui';
-import AuthorAvatar from '../../components/AuthorAvatar';
-import type { Author } from '../../lib/sanity.queries';
+import AuthorAvatar from '@/components/blog/AuthorAvatar';
+import type { Author } from '@/lib/sanity/sanity.queries';
 
 export default function AuthorAvatarPreviewPane(props: Author) {
 	const { name, picture } = props;

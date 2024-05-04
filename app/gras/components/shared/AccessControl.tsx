@@ -1,5 +1,4 @@
-import type { Action, Resource } from '@/lib/permissions';
-import useCanAccess from 'hooks/useCanAccess';
+import {Action, Resource,useCanAccess} from '@cd/core-lib';
 
 interface AccessControlProps {
   children: React.ReactNode;

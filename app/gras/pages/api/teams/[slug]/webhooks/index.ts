@@ -1,147 +1,146 @@
-import { ApiError } from '@cd/core-lib';
+import { ApiError, throwIfNotAllowed } from '@cd/core-lib';
+import type { NextApiRequest, NextApiResponse } from 'next';
+import { type EndpointIn } from 'svix';
+import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
+import env from '@/lib/env';
+import { recordMetric } from '@/lib/metrics';
 import { sendAudit } from '@/lib/retraced';
 import {
-  createWebhook,
-  deleteWebhook,
-  findOrCreateApp,
-  listWebhooks,
+	createWebhook,
+	deleteWebhook,
+	findOrCreateApp,
+	listWebhooks,
 } from '@/lib/svix';
-import { throwIfNoDispensaryAccess } from '@cd/data-access';
-import { throwIfNotAllowed } from '@cd/data-access';
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { EndpointIn } from 'svix';
-import { recordMetric } from '@/lib/metrics';
-import env from '@/lib/env';
 import {
-  deleteWebhookSchema,
-  validateWithSchema,
-  webhookEndpointSchema,
+	deleteWebhookSchema,
+	validateWithSchema,
+	webhookEndpointSchema,
 } from '@/lib/zod';
 
 export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
+	req: NextApiRequest,
+	res: NextApiResponse,
 ) {
-  const { method } = req;
+	const { method } = req;
 
-  try {
-    if (!env.teamFeatures.webhook) {
-      throw new ApiError(404, 'Not Found');
-    }
+	try {
+		if (!env.teamFeatures.webhook) {
+			throw new ApiError(404, 'Not Found');
+		}
 
-    switch (method) {
-      case 'POST':
-        await handlePOST(req, res);
-        break;
-      case 'GET':
-        await handleGET(req, res);
-        break;
-      case 'DELETE':
-        await handleDELETE(req, res);
-        break;
-      default:
-        res.setHeader('Allow', 'POST, GET, DELETE');
-        res.status(405).json({
-          error: { message: `Method ${method} Not Allowed` },
-        });
-    }
-  } catch (error: any) {
-    const message = error.message || 'Something went wrong';
-    const status = error.status || 500;
+		switch (method) {
+			case 'POST':
+				await handlePOST(req, res);
+				break;
+			case 'GET':
+				await handleGET(req, res);
+				break;
+			case 'DELETE':
+				await handleDELETE(req, res);
+				break;
+			default:
+				res.setHeader('Allow', 'POST, GET, DELETE');
+				res.status(405).json({
+					error: { message: `Method ${method} Not Allowed` },
+				});
+		}
+	} catch (error: any) {
+		const message = error.message || 'Something went wrong';
+		const status = error.status || 500;
 
-    res.status(status).json({ error: { message } });
-  }
+		res.status(status).json({ error: { message } });
+	}
 }
 
 // Create a Webhook endpoint
 const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
-  const teamMember = await throwIfNoDispensaryAccess(req, res);
-  throwIfNotAllowed(teamMember, 'team_webhook', 'create');
+	const teamMember = await throwIfNoDispensaryAccess(req, res);
+	throwIfNotAllowed(teamMember, 'team_webhook', 'create');
 
-  const { name, url, eventTypes } = validateWithSchema(
-    webhookEndpointSchema,
-    req.body
-  );
-  const app = await findOrCreateApp(teamMember.team.name, teamMember.team.id);
+	const { name, url, eventTypes } = validateWithSchema(
+		webhookEndpointSchema,
+		req.body,
+	);
+	const app = await findOrCreateApp(teamMember.team.name, teamMember.team.id);
 
-  // TODO: The endpoint URL must be HTTPS.
+	// TODO: The endpoint URL must be HTTPS.
 
-  const data: EndpointIn = {
-    description: name,
-    url,
-    version: 1,
-  };
+	const data: EndpointIn = {
+		description: name,
+		url,
+		version: 1,
+	};
 
-  if (eventTypes.length) {
-    data['filterTypes'] = eventTypes;
-  }
+	if (eventTypes.length) {
+		data['filterTypes'] = eventTypes;
+	}
 
-  if (!app) {
-    throw new ApiError(400, 'Bad request.');
-  }
+	if (!app) {
+		throw new ApiError(400, 'Bad request.');
+	}
 
-  const endpoint = await createWebhook(app.id, data);
+	const endpoint = await createWebhook(app.id, data);
 
-  sendAudit({
-    action: 'webhook.create',
-    crud: 'c',
-    user: teamMember.user,
-    team: teamMember.team,
-  });
+	sendAudit({
+		action: 'webhook.create',
+		crud: 'c',
+		user: teamMember.user,
+		team: teamMember.team,
+	});
 
-  recordMetric('webhook.created');
+	recordMetric('webhook.created');
 
-  res.status(200).json({ data: endpoint });
+	res.status(200).json({ data: endpoint });
 };
 
 // Get all webhooks created by a team
 const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
-  const teamMember = await throwIfNoDispensaryAccess(req, res);
-  throwIfNotAllowed(teamMember, 'team_webhook', 'read');
+	const teamMember = await throwIfNoDispensaryAccess(req, res);
+	throwIfNotAllowed(teamMember, 'team_webhook', 'read');
 
-  const app = await findOrCreateApp(teamMember.team.name, teamMember.team.id);
+	const app = await findOrCreateApp(teamMember.team.name, teamMember.team.id);
 
-  if (!app) {
-    throw new ApiError(400, 'Bad request. Please add a Svix API key.');
-  }
+	if (!app) {
+		throw new ApiError(400, 'Bad request. Please add a Svix API key.');
+	}
 
-  const webhooks = await listWebhooks(app.id);
+	const webhooks = await listWebhooks(app.id);
 
-  recordMetric('webhook.fetched');
+	recordMetric('webhook.fetched');
 
-  res.status(200).json({ data: webhooks?.data || [] });
+	res.status(200).json({ data: webhooks?.data || [] });
 };
 
 // Delete a webhook
 const handleDELETE = async (req: NextApiRequest, res: NextApiResponse) => {
-  const teamMember = await throwIfNoDispensaryAccess(req, res);
-  throwIfNotAllowed(teamMember, 'team_webhook', 'delete');
+	const teamMember = await throwIfNoDispensaryAccess(req, res);
+	throwIfNotAllowed(teamMember, 'team_webhook', 'delete');
 
-  const { webhookId } = validateWithSchema(
-    deleteWebhookSchema,
-    req.query as { webhookId: string }
-  );
+	const { webhookId } = validateWithSchema(
+		deleteWebhookSchema,
+		req.query as { webhookId: string },
+	);
 
-  const app = await findOrCreateApp(teamMember.team.name, teamMember.team.id);
+	const app = await findOrCreateApp(teamMember.team.name, teamMember.team.id);
 
-  if (!app) {
-    throw new ApiError(400, 'Bad request.');
-  }
+	if (!app) {
+		throw new ApiError(400, 'Bad request.');
+	}
 
-  if (app.uid != teamMember.team.id) {
-    throw new ApiError(400, 'Bad request.');
-  }
+	if (app.uid != teamMember.team.id) {
+		throw new ApiError(400, 'Bad request.');
+	}
 
-  await deleteWebhook(app.id, webhookId);
+	await deleteWebhook(app.id, webhookId);
 
-  sendAudit({
-    action: 'webhook.delete',
-    crud: 'd',
-    user: teamMember.user,
-    team: teamMember.team,
-  });
+	sendAudit({
+		action: 'webhook.delete',
+		crud: 'd',
+		user: teamMember.user,
+		team: teamMember.team,
+	});
 
-  recordMetric('webhook.removed');
+	recordMetric('webhook.removed');
 
-  res.status(200).json({ data: {} });
+	res.status(200).json({ data: {} });
 };

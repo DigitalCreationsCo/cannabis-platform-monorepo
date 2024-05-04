@@ -1,3 +1,4 @@
+/* eslint-disable i18next/no-literal-string */
 import { TextContent } from '@cd/core-lib';
 import { Button, FlexBox, H1, H2, Paragraph, styles } from '@cd/ui-lib';
 import Link from 'next/link';

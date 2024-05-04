@@ -1,5 +1,5 @@
 import { Card } from '@/components/shared';
-import { Team } from '@cd/data-access';
+import { Dispensary } from '@cd/data-access';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
@@ -7,11 +7,12 @@ import { Button } from 'react-daisyui';
 import toast from 'react-hot-toast';
 
 import ConfirmationDialog from '../shared/ConfirmationDialog';
-import { defaultHeaders } from '@/lib/common';
-import type { ApiResponse } from 'types';
-
+import {
+  defaultHeaders,
+  ApiResponse
+} from '@cd/core-lib';
 interface RemoveTeamProps {
-  team: Team;
+  team: Dispensary;
   allowDelete: boolean;
 }
 

@@ -5,7 +5,7 @@ import { useTranslation, Trans } from 'next-i18next';
 import jackson from '@/lib/jackson';
 import InputWithCopyButton from '@/components/shared/InputWithCopyButton';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import type { NextPageWithLayout } from '@cd/core-lib';
+import type { NextPageWithLayout } from '@/lib/next.types';
 
 const SPConfig: NextPageWithLayout<
   InferGetStaticPropsType<typeof getServerSideProps>

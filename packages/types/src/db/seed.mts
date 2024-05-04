@@ -20,7 +20,7 @@ import {
 	type Vendor,
 } from '@prisma/client';
 import axios from 'axios';
-import { type OrganizationCreateType } from '../dispensary/organization.types.js';
+import { type Dispensary } from '../dispensary/organization.types.js';
 import { type DriverCreateType } from '../driver/driver.types.js';
 import { type ReviewWithUserDetails } from '../product/product.data.js';
 
@@ -1122,7 +1122,7 @@ async function main() {
 									organization.id,
 							);
 
-							await axios.post<OrganizationCreateType>(
+							await axios.post<Dispensary>(
 								process?.env?.NEXT_PUBLIC_SERVER_MAIN_URL +
 									'/api/v1/serve-local/organizations/record',
 								{
@@ -1600,7 +1600,7 @@ async function main() {
 
 				console.info('using auth token: ', token);
 				await Promise.resolve(
-					axios.post<OrganizationCreateType>(
+					axios.post<Dispensary>(
 						process?.env?.NEXT_PUBLIC_SERVER_MAIN_URL + '/api/v1/driver',
 						driver,
 						{

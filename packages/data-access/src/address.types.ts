@@ -82,7 +82,7 @@ export type Address = {
 	street2: string | null;
 	city: string;
 	state: USStateAbbreviated | null;
-	zipcode: number;
+	zipcode: string;
 	country: string;
 	countryCode: CountryCode;
 	coordinateId?: string;
@@ -97,7 +97,7 @@ export type AddressCreateType = {
 	street2: string | null;
 	city: string;
 	state: USStateAbbreviated | null;
-	zipcode: number;
+	zipcode: string;
 	country: Country;
 	countryCode: CountryCode;
 	coordinateId?: string;
@@ -112,7 +112,7 @@ export type AddressUserCreateType = {
 	street2: string | null;
 	city: string;
 	state: USStateAbbreviated;
-	zipcode: number;
+	zipcode: string;
 	country: Country;
 	countryCode: CountryCode;
 	coordinateId?: string;
@@ -140,7 +140,7 @@ export type AddressPayload = {
 	street2: string | null;
 	city: string;
 	state: USStateAbbreviated;
-	zipcode: number;
+	zipcode: string;
 	country: Country;
 	countryCode: CountryCode;
 	coordinates?: { radius?: number; latitude: number; longitude: number };

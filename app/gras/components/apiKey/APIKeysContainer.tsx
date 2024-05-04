@@ -1,34 +1,33 @@
+import { useDispensary, type TeamFeature } from '@cd/core-lib';
+import { LoadingDots } from '@cd/ui-lib';
+import { useTranslation } from 'next-i18next';
 import { Error } from '@/components/shared';
 import { TeamTab } from '@/components/team';
-import useTeam from 'hooks/useTeam';
-import { useTranslation } from 'next-i18next';
 import APIKeys from './APIKeys';
-import { TeamFeature } from 'types';
-import { LoadingDots } from '@cd/ui-lib';
 
 const APIKeysContainer = ({ teamFeatures }: { teamFeatures: TeamFeature }) => {
-  const { t } = useTranslation('common');
+	const { t } = useTranslation('common');
 
-  const { isLoading, isError, team } = useTeam();
+	const { isLoading, isError, team } = useDispensary();
 
-  if (isLoading) {
-    return <LoadingDots />;
-  }
+	if (isLoading) {
+		return <LoadingDots />;
+	}
 
-  if (isError) {
-    return <Error message={isError.message} />;
-  }
+	if (isError) {
+		return <Error message={isError.message} />;
+	}
 
-  if (!team) {
-    return <Error message={t('team-not-found')} />;
-  }
+	if (!team) {
+		return <Error message={t('team-not-found')} />;
+	}
 
-  return (
-    <>
-      <TeamTab activeTab="api-keys" team={team} teamFeatures={teamFeatures} />
-      <APIKeys team={team} />
-    </>
-  );
+	return (
+		<>
+			<TeamTab activeTab="api-keys" team={team} teamFeatures={teamFeatures} />
+			<APIKeys team={team} />
+		</>
+	);
 };
 
 export default APIKeysContainer;

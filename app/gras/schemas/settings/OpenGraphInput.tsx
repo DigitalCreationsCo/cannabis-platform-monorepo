@@ -2,7 +2,7 @@ import { Skeleton, Stack } from '@sanity/ui';
 import React, { lazy, Suspense, useDeferredValue } from 'react';
 import { type ObjectInputProps } from 'sanity';
 import { styled } from 'styled-components';
-import { height, width } from '../../components/OpenGraphImage';
+import { height, width } from '@/components/blog/OpenGraphImage';
 
 const OpenGraphPreview = lazy(() => import('./OpenGraphPreview'));
 

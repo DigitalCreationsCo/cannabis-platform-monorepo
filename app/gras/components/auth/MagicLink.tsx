@@ -1,9 +1,8 @@
-import { InputWithLabel, Loading } from '@/components/shared';
-import { maxLengthPolicies } from '@/lib/common';
+import { InputWithLabel } from '@/components/shared';
 import env from '@/lib/env';
 import { LoadingDots } from '@cd/ui-lib';
 import { useFormik } from 'formik';
-import useInvitation from 'hooks/useInvitation';
+import {useInvitation,maxLengthPolicies} from '@cd/core-lib';
 import { signIn, useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import Head from 'next/head';

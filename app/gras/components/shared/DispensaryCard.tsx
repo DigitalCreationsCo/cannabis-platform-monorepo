@@ -1,24 +1,18 @@
-import { checkIsDispensaryOpen, formatDispensaryUrl } from '@cd/core-lib';
-import { type OrganizationWithShopDetails } from '@cd/data-access';
+import { checkIsDispensaryOpen } from '@cd/core-lib';
+import { type Dispensary } from '@cd/data-access';
 import {
-  SkeletonCard,
-  CardWithData,
   FlexBox,
   H3,
   Paragraph,
-  Card,
   styles,
 } from '@cd/ui-lib';
 import Image from 'next/image';
-import Link from 'next/link';
-import { check } from 'prettier';
 import { useCallback, type PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/logo.png';
-import { theme } from '../../tailwind.config';
 
 type DispensaryCardProps = {
-  data: OrganizationWithShopDetails;
+  data: Required<Dispensary>;
   loading?: boolean;
   className?: string | string[];
   current?: boolean;
@@ -64,6 +58,7 @@ function DispensaryCard({
         </div>
       );
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 

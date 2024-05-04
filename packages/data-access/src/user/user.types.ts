@@ -5,13 +5,18 @@ export type User = {
 	name: string;
 	username: string;
 	image?: string;
+	phone: string;
+	dialCode: string;
 	email: string;
 	password: string;
 	role: string;
 	id_verified: boolean;
+	emailVerified: boolean;
 	is_legal_age: boolean;
+	isSignUpComplete: boolean;
 	invalid_login_attempts: number;
 	lockedAt: Date;
+	termsAccepted: boolean;
 	createdAt: Date;
 	updatedAt: Date;
 };

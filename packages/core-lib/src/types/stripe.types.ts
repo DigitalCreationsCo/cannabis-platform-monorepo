@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-type OrganizationCreateType = any;
+type Dispensary = any;
 
 export type DispensaryCreateStripeAccountPayload = {
-	organization: OrganizationCreateType;
+	organization: Dispensary;
 	email: string;
 };
 
 export type DispensaryConnectStripeAccountPayload = {
-	organization: OrganizationCreateType;
+	organization: Dispensary;
 	stripeAccountId: string;
 };
 

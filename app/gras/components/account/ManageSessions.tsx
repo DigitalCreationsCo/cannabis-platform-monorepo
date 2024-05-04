@@ -4,7 +4,7 @@ import { useTranslation } from 'next-i18next';
 import { ComputerDesktopIcon } from '@heroicons/react/24/outline';
 import toast from 'react-hot-toast';
 import { Session } from '@cd/data-access';
-import { fetcher } from '@cd/core-lib/src/lib/fetcher';
+import { fetcher } from '@cd/core-lib';
 import { WithLoadingAndError } from '@/components/shared';
 import ConfirmationDialog from '@/components/shared/ConfirmationDialog';
 import { Table } from '@/components/shared/table/Table';

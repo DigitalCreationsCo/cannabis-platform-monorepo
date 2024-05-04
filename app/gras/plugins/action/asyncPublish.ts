@@ -6,8 +6,8 @@ import {
 	type DocumentActionsContext,
 	type DocumentActionProps,
 } from 'sanity';
-import { apiVersion } from 'lib/sanity.api';
-import { setContentUrl } from 'lib/sanity.client';
+import { apiVersion } from '@/lib/sanity/sanity.api';
+import { setContentUrl } from '@/lib/sanity/sanity.client';
 
 export function createAsyncPublishAction(
 	originalAction: DocumentActionComponent,

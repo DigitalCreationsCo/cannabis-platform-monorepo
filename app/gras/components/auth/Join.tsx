@@ -141,8 +141,6 @@ const Join = ({ recaptchaSiteKey }: JoinProps) => {
             type="submit"
             color="primary"
             loading={formik.isSubmitting}
-            active={formik.dirty}
-            fullWidth
           >
             {t('create-account')}
           </Button>

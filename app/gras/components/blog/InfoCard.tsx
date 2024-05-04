@@ -13,7 +13,7 @@ type InfoCardProps = {
 	data: Post;
 	loading?: boolean;
 	className?: string | string[];
-	showDescription: boolean;
+	showDescription?: boolean;
 };
 
 function InfoCard({ data: info, className, showDescription= true }: InfoCardProps) {

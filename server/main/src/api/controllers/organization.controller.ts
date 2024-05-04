@@ -1,7 +1,7 @@
 import { dynamicBlurDataUrl, getGeoCoordinatesFromAddress } from '@cd/core-lib';
 // import { EmailService } from '@cd/core-lib/src/lib/email/EmailService';
 import {
-	type OrganizationCreateType,
+	type Dispensary,
 	type OrganizationUpdateType,
 	type OrganizationWithDashboardDetails,
 } from '@cd/data-access';
@@ -25,7 +25,7 @@ getUsersByOrganization
 export default class OrganizationController {
 	static async createOrganization(req, res) {
 		try {
-			const organization: OrganizationCreateType = req.body;
+			const organization: Dispensary = req.body;
 
 			const coordinates = await getGeoCoordinatesFromAddress(
 				organization.address,

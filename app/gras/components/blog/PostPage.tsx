@@ -34,7 +34,7 @@ export default function PostPage(props: PostPageProps) {
 
 			<BlogHeader title={title || ''} level={2} />
 			{preview && !post ? (
-				<PostTitle>Loading…</PostTitle>
+				<PostTitle>{`Loading…`}</PostTitle>
 			) : (
 				<>
 					<article className="w-full mx-auto max-w-7xl">

@@ -1,13 +1,14 @@
-import { defaultHeaders, maxLengthPolicies } from '@/lib/common';
-import type { Team } from '@cd/data-access';
+import { Dispensary} from '@cd/data-access';
+import {
+  defaultHeaders,
+  ApiResponse,maxLengthPolicies, useDispensaries
+} from '@cd/core-lib';
 import { useFormik } from 'formik';
-import useTeams from 'hooks/useTeams';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { Button } from 'react-daisyui';
 import toast from 'react-hot-toast';
-import type { ApiResponse } from 'types';
 import * as Yup from 'yup';
 import Modal from '../shared/Modal';
 import { InputWithLabel } from '../shared';
@@ -19,7 +20,7 @@ interface CreateTeamProps {
 
 const CreateTeam = ({ visible, setVisible }: CreateTeamProps) => {
   const { t } = useTranslation('common');
-  const { mutateTeams } = useTeams();
+  const { mutateTeams } = useDispensaries();
   const router = useRouter();
 
   const formik = useFormik({
@@ -36,7 +37,7 @@ const CreateTeam = ({ visible, setVisible }: CreateTeamProps) => {
         body: JSON.stringify(values),
       });
 
-      const json = (await response.json()) as ApiResponse<Team>;
+      const json = (await response.json()) as ApiResponse<Dispensary>;
 
       if (!response.ok) {
         toast.error(json.error.message);

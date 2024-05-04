@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { type HtmlHTMLAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/logo.png';
+import { useTranslation } from 'react-i18next';
 
 export type TopBarProps = {
 	doesSessionExist?: boolean;
@@ -15,6 +16,7 @@ export default function ServicesTopBar({
 	className,
 	...props
 }: HtmlHTMLAttributes<HTMLDivElement>) {
+	const { t } = useTranslation('common');
 	return (
 		<div
 			className={twMerge(styles.TOPBAR.topbar, 'shadow-none', className)}
@@ -24,7 +26,7 @@ export default function ServicesTopBar({
 				<FlexBox className="flex-row items-center">
 					<Link href={'/'} className="z-50">
 						<GrasSignature className="text-secondary pt-0.5">
-							Gras
+							{t('gras')}
 						</GrasSignature>
 					</Link>
 					<Link href={'/'} className="shrink-0">

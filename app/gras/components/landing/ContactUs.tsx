@@ -1,3 +1,4 @@
+/* eslint-disable i18next/no-literal-string */
 import {
 	type ResponseDataEnvelope,
 	TextContent,
@@ -33,7 +34,7 @@ export type ContactUsFormResponse = {
 	street: string;
 	city: string;
 	state: string | undefined;
-	zipcode: number | undefined;
+	zipcode: string | undefined;
 	whichServiceInterestedIn:
 		| ''
 		| 'Delivery Management'

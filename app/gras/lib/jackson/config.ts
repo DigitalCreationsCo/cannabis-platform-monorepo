@@ -1,0 +1,8 @@
+import env from '@/lib/env';
+
+export const options = {
+	headers: {
+		'Content-Type': 'application/json',
+		Authorization: `Bearer ${env.jackson.apiKey}`,
+	},
+};

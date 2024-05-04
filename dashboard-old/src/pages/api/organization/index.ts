@@ -1,7 +1,7 @@
 import {
 	createOrganization,
 	updateOrganization,
-	type OrganizationCreateType,
+	type Dispensary,
 } from '@cd/data-access';
 import { type NextApiRequest, type NextApiResponse } from 'next';
 import Supertokens from 'supertokens-node';
@@ -51,7 +51,7 @@ const handlePOST = async (req: any, res: any) => {
 			res,
 		);
 
-		const organization: OrganizationCreateType = req.body;
+		const organization: Dispensary = req.body;
 		const create = await createOrganization(organization);
 
 		return res.status(201).json({
@@ -75,7 +75,7 @@ const handlePUT = async (req: any, res: any) => {
 			res,
 		);
 
-		const organization: OrganizationCreateType = req.body;
+		const organization: Dispensary = req.body;
 		const update = await updateOrganization(organization);
 
 		return res.status(200).json({

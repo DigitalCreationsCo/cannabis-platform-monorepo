@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import type {
   NextApiRequest,
   NextApiResponse,
@@ -426,7 +427,7 @@ const linkAccount = async (user: User, account: Account) => {
       provider: account.provider,
       type: 'oauth',
       scope: account.scope,
-      token_type: account.token_type,
+      token_type: account.token_type as any,
       access_token: account.access_token,
     });
   }

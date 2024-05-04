@@ -12,8 +12,8 @@ import {
 } from '@cd/core-lib';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
+import { Button } from '@cd/ui-lib';
 import { useRouter } from 'next/router';
-import { Button } from 'react-daisyui';
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
 import TogglePasswordVisibility from '../shared/TogglePasswordVisibility';
@@ -157,12 +157,10 @@ const JoinWithInvitation = ({
         />
         <div className="space-y-3">
           <Button
+            className='w-full font-bold bg-primary hover:bg-primary-light'
             type="submit"
             color="primary"
             loading={formik.isSubmitting}
-            active={formik.dirty}
-            fullWidth
-            size="md"
           >
             {t('create-account')}
           </Button>

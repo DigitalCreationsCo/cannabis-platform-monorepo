@@ -52,6 +52,7 @@ function MyApp({ Component, ...appProps }: AppPropsWithLayout) {
 	// Add mixpanel
 	useEffect(() => {
 		if (env.mixpanel.token) {
+			// eslint-disable-next-line import/no-named-as-default-member
 			mixpanel.init(env.mixpanel.token, {
 				debug: true,
 				ignore_dnt: true,

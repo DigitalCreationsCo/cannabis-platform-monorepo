@@ -26,6 +26,7 @@ import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/logo.png';
+import { useTranslation } from 'next-i18next';
 
 export type TopBarProps = {
 	doesSessionExist?: boolean;
@@ -33,6 +34,7 @@ export type TopBarProps = {
 };
 
 function TopBar({ signOut }: TopBarProps) {
+	const { t } = useTranslation('common');
 	const dispatch = useDispatch();
 	const { user, isSignedIn } = useSelector(selectUserState);
 	const cart = useSelector(selectCartState);
@@ -46,6 +48,7 @@ function TopBar({ signOut }: TopBarProps) {
 		);
 	}
 
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const _AccountDropDown = useCallback(AccountDropDown, [
 		user.profilePicture?.location,
 		user.username,
@@ -55,7 +58,7 @@ function TopBar({ signOut }: TopBarProps) {
 		<div className={twMerge(styles.TOPBAR.topbar)}>
 			<FlexBox className="flex-row items-center">
 				<Link href={'/'} className="z-50">
-					<GrasSignature className="text-secondary pt-0.5">Gras</GrasSignature>
+					<GrasSignature className="text-secondary pt-0.5">{t('gras')}</GrasSignature>
 				</Link>
 				<Link href={'/'} className="shrink-0">
 					<Image alt="Gras" width={40} height={40} src={logo} />
@@ -86,19 +89,6 @@ function TopBar({ signOut }: TopBarProps) {
 						)}
 					</IconButton>
 				</Link>
-				{/* {!isSignedIn && (
-					<FlexBox>
-						<Button
-							className={twMerge(styles.BUTTON.highlight, 'pt-1')}
-							size="sm"
-							bg="transparent"
-							hover="transparent"
-							onClick={openLoginModal}
-						>
-							Sign In
-						</Button>
-					</FlexBox>
-				)} */}
 			</FlexBox>
 		</div>
 	);
@@ -129,7 +119,7 @@ function TopBar({ signOut }: TopBarProps) {
 								hover="transparent"
 								onClick={openLoginModal}
 							>
-								Sign In
+								{t('sign-in')}
 							</Button>
 						</FlexBox>
 						<label tabIndex={0} className="md:hidden">
@@ -159,7 +149,7 @@ function TopBar({ signOut }: TopBarProps) {
 								hover="transparent"
 								onClick={openLoginModal}
 							>
-								Sign In
+								{t('sign-in')}
 							</Button>
 						</FlexBox>
 					)) || <></>}
@@ -187,7 +177,7 @@ function TopBar({ signOut }: TopBarProps) {
 										hover="transparent"
 										className="w-full"
 									>
-										Settings
+								{t('settings')}
 									</Button>
 								</Link>
 							</FlexBox>
@@ -198,7 +188,7 @@ function TopBar({ signOut }: TopBarProps) {
 									className="w-full"
 									onClick={signOut}
 								>
-									Sign Out
+								{t('sign-out')}
 								</Button>
 							</FlexBox>
 						</>

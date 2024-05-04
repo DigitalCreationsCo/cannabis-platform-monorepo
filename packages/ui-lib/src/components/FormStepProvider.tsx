@@ -8,7 +8,7 @@ import FlexBox from './FlexBox';
 
 type FormValuesType = {
 	organization?: Partial<Dispensary>;
-	newUser?: Partial<User>;
+	newUser?: Partial<User & any>;
 };
 
 interface FormContextProps {

@@ -15,7 +15,7 @@ const UNLOCK_ACCOUNT_TOKEN_EXPIRATION = 7 * 24 * 60 * 60 * 1000; // 7 days
 
 export const incrementLoginAttempts = async (user: User) => {
   const updatedUser = await updateUser({
-    id: user._id,
+    id: user.id,
     data: {
       invalid_login_attempts: {
         increment: 1,
@@ -25,7 +25,7 @@ export const incrementLoginAttempts = async (user: User) => {
 
   if (exceededLoginAttemptsThreshold(updatedUser)) {
     await updateUser({
-      id: user._id,
+      id: user.id,
       data: {
         lockedAt: new Date(),
       },
@@ -39,7 +39,7 @@ export const incrementLoginAttempts = async (user: User) => {
 
 export const clearLoginAttempts = async (user: User) => {
   await updateUser({
-    id: user._id,
+    id: user.id,
     data: {
       invalid_login_attempts: 0,
     },
@@ -48,7 +48,7 @@ export const clearLoginAttempts = async (user: User) => {
 
 export const unlockAccount = async (user: User) => {
   await updateUser({
-    id: user._id,
+    id: user.id,
     data: {
       invalid_login_attempts: 0,
       lockedAt: null,

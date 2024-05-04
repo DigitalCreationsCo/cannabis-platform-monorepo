@@ -1,6 +1,6 @@
 import { initializeMetrics, incrementCounter } from '@boxyhq/metrics';
 
-import type { AppEvent } from 'types';
+import type { AppEvent } from '@cd/core-lib';
 import packageInfo from '../package.json';
 import env from './env';
 

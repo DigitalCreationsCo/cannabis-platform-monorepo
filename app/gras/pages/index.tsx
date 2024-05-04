@@ -7,7 +7,6 @@ import {
   FlexBox,
   Paragraph,
   GrasSignature,
-  useTheme,
   styles,
   Button,
   Page,
@@ -27,7 +26,6 @@ import { twMerge } from 'tailwind-merge';
 import friendsVideo from '../public/Gras-community-clip.mp4';
 
 const Home: NextPageWithLayout = () => {
-  const { toggleTheme, selectedTheme } = useTheme();
   const { t } = useTranslation('common');
   return (
     <div className="flex flex-col">
