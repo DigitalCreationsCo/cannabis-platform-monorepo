@@ -6,13 +6,14 @@ import { Error, Loading } from '@/components/shared';
 import { AccessControl } from '@/components/shared/AccessControl';
 import { RemoveTeam, TeamSettings, TeamTab } from '@/components/team';
 import env from '@/lib/env';
+import { LoadingPage } from '@cd/ui-lib';
 
 const Settings = ({ teamFeatures }: { teamFeatures: TeamFeature }) => {
 	const { t } = useTranslation('common');
 	const { isLoading, isError, team } = useDispensary();
 
 	if (isLoading) {
-		return <Loading />;
+		return <LoadingPage />;
 	}
 
 	if (isError) {

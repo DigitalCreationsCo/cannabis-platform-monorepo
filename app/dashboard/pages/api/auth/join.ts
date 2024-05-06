@@ -103,8 +103,9 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 			}
 
 			const slug = slugify(dispensary);
+			console.info('slug: ', slug);
 
-			validateWithSchema(userJoinSchema, { dispensary, slug });
+			// validateWithSchema(userJoinSchema, { dispensary, slug });
 
 			const slugCollisions = await isTeamExists(slug);
 
@@ -120,6 +121,7 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 			emailVerified: invitation ? new Date() : null,
 		});
 
+		console.info('user: ', user);
 		let userDispensary: Dispensary;
 
 		// Create team if user is not invited
@@ -131,6 +133,7 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 			name: dispensary,
 			slug: slugify(dispensary),
 		});
+		console.info('userDispensary: ', userDispensary);
 		// } else {
 		//   userDispensary = await getDispensary({ slug: invitation.team.slug });
 		// }

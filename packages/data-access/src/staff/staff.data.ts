@@ -1,19 +1,35 @@
+import { ObjectId } from 'mongodb';
 import { db_namespace } from '../db';
+import { type Dispensary } from '../dispensary/dispensary.types';
 import { normalizeUser } from '../helpers';
+import { type Role } from '../role.types';
 import { getUser } from '../user/user.data';
+import { type StaffMember } from './staff.types';
 
-export const createStaffMember = async (data: {
-	name: string;
-	email: string;
-	password?: string;
-	emailVerified?: Date | null;
-}) => {
+export const addStaffMember = async (
+	dispensary: Dispensary,
+	userId: string,
+	role: Role,
+) => {
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
-	return await client
+	client
 		.db(db)
-		.collection(collections.staff)
-		.insertOne(normalizeUser(data));
+		.collection<Dispensary>(collections.dispensaries)
+		.findOneAndUpdate(
+			{ _id: new ObjectId(dispensary.id) },
+			{ $push: { members: userId } },
+		);
+	await client
+		.db(db)
+		.collection<StaffMember>(collections.staff)
+		.updateOne(
+			{ teamId: dispensary.id, _id: new ObjectId(userId) },
+			{
+				$set: { role, team: { slug: dispensary.slug, name: dispensary.name } },
+			},
+			{ upsert: true },
+		);
 };
 
 export const updateStaffMember = async ({ id, data }: any) => {

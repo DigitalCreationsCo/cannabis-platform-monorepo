@@ -113,7 +113,7 @@ function TextField({
 					}}
 					placeholder={helperText || placeholder}
 					className={twMerge(
-						'font-encode',
+						'font-onest',
 						'text-xl',
 						'bg-light',
 						'items-center',

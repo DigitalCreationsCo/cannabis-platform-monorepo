@@ -1,5 +1,6 @@
 import { ConnectionsWrapper } from '@boxyhq/react-ui/sso';
 import { useDispensary } from '@cd/core-lib';
+import { LoadingPage } from '@cd/ui-lib';
 import { type GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -15,7 +16,7 @@ const TeamSSO = ({ teamFeatures, SPConfigURL }: any) => {
 	const { isLoading, isError, team } = useDispensary();
 
 	if (isLoading) {
-		return <Loading />;
+		return <LoadingPage />;
 	}
 
 	if (isError) {

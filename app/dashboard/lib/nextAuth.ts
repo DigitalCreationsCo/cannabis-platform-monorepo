@@ -78,6 +78,7 @@ if (isAuthProviderEnabled('credentials')) {
 
 				const user = await getUser({ email });
 
+				console.trace('user ', user);
 				if (!user) {
 					throw new Error('invalid-credentials');
 				}
@@ -96,6 +97,7 @@ if (isAuthProviderEnabled('credentials')) {
 				);
 
 				if (!hasValidPassword) {
+					console.debug('user gave invalid password');
 					if (
 						exceededLoginAttemptsThreshold(await incrementLoginAttempts(user))
 					) {
@@ -152,7 +154,13 @@ if (isAuthProviderEnabled('saml')) {
 	);
 }
 
-console.info('NEXTAUTH_URL: ', process.env.NEXTAUTH_URL);
+// console.info(
+// 	'jackson url: ',
+// 	env.jackson.selfHosted ? env.jackson.url : env.appUrl,
+// );
+// console.info('appUrl: ', env.appUrl);
+// console.info('NEXTAUTH_URL: ', process.env.NEXTAUTH_URL);
+// console.info('NEXTAUTH_SESSION_STRATEGY: ', env.nextAuth.sessionStrategy);
 if (isAuthProviderEnabled('idp-initiated')) {
 	providers.push(
 		CredentialsProvider({
@@ -301,9 +309,9 @@ export const getAuthOptions = (
 					return false;
 				}
 
-				console.info('user ', user);
-				console.info('account ', account);
-				console.info('profile ', profile);
+				console.trace('user? ', user);
+				console.trace('account ', account);
+				console.trace('profile ', profile);
 
 				if (!isEmailAllowed(user.email)) {
 					return '/auth/login?error=allow-only-work-email';

@@ -27,7 +27,7 @@ import mapboxgl, { type MapboxGeoJSONFeature } from 'mapbox-gl';
 import { ReactElement, useEffect, useRef, useState } from 'react';
 import useSWR, { type SWRResponse } from 'swr';
 import { twMerge } from 'tailwind-merge';
-import markerImage from '../../../public/map-marker.png';
+import markerImage from '../public/map-marker.png';
 import { DispensaryCard } from '@/components/shared';
 import {
   Post,
@@ -49,6 +49,8 @@ import {
   initFacebookSdk,
   fbLogin,
 } from '@cd/core-lib/src/lib/facebookIG';
+import { GetServerSidePropsContext } from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 function FBInit() {
   useEffect(() => {
@@ -244,20 +246,21 @@ export default function Browse({
           />
         </div>
 
-        <div className="col-span-full flex flex-col mx-auto gap-2">
-          <H4 className="col-span-full px-4 pt-2 text-inverse-soft leading-2 drop-shadow text-left">
+        {/* <div className="col-span-full mx-auto gap-2 border grid grid-flow-col grid-cols-[repeat(auto-fill,minmax(100px,1fr))] flex-wrap px-4 items-stretch"> */}
+        <div className='col-span-full flex flex-col gap-1'>
+          <H4 className="px-4 pt-2 text-inverse-soft leading-2 drop-shadow text-left">
             🎁 Get What You Want
           </H4>
-          <div className="grid grid-flow-col gap-x-2">
+          <div className="col-span-full grid grid-cols-[repeat(auto-fill,minmax(100px,1fr))] gap-2">
             {productCategories.map((c, index) => (
-              <div key={`category-card-${index}`} className="w-32">
-                <div className="h-20 w-20 bg-secondary rounded-full p-3 mx-auto hover:border">
+              <div key={`category-card-${index}`} className="min-w-28">
+                <div className="h-16 w-16 bg-secondary rounded-full p-3 mx-auto hover:border">
                   <Image src={c.icon || ''} alt={c.title} layout="fill" />
                 </div>
-                <H5 className="text-center pt-1">{c.title}</H5>
+                <H5 className="text-center">{c.title}</H5>
               </div>
             ))}
-          </div>
+            </div>
         </div>
 
         <div className="col-span-full">
@@ -285,7 +288,7 @@ export default function Browse({
           />
         </div>
 
-        <div className="col-span-full px-20">
+        <div className="col-span-full">
           <H4 className="col-span-full px-7 pt-2 lg:!px-11 text-inverse-soft leading-2 drop-shadow text-left">
             New Arrivals
           </H4>
@@ -740,8 +743,8 @@ const RenderMapBox = ({
 // 	};
 // };
 
-export const getServerSideProps = async (ctx) => {
-  const { draftMode = false } = ctx;
+export const getServerSideProps = async (ctx:GetServerSidePropsContext) => {
+  const { draftMode = false, locale } = ctx;
   const client = getClient(draftMode ? { token: readToken } : undefined);
 
   const [settings, posts = []] = await Promise.all([
@@ -751,6 +754,7 @@ export const getServerSideProps = async (ctx) => {
 
   return {
     props: {
+			...(locale ? await serverSideTranslations(locale, ['common']) : {}),
       posts,
       settings,
       draftMode,

@@ -4,7 +4,7 @@
 	"compilerOptions": {
 		"declaration": true,
 		"jsxFactory": "",
-		"jsxFragmentFactory": "",
+		"jsxFragmentFactory": ""
 	},
 	"include": ["src"],
 	"exclude": ["**/node_modules", "**/.*/", "dist", "build", "**/test/*"]

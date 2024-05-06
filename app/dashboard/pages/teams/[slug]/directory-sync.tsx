@@ -1,5 +1,6 @@
 import { DirectoriesWrapper } from '@boxyhq/react-ui/dsync';
 import { type TeamFeature, useDispensary } from '@cd/core-lib';
+import { LoadingPage } from '@cd/ui-lib';
 import { type GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -14,7 +15,7 @@ const DirectorySync = ({ teamFeatures }: { teamFeatures: TeamFeature }) => {
 	const { t } = useTranslation('common');
 
 	if (isLoading) {
-		return <Loading />;
+		return <LoadingPage />;
 	}
 
 	if (isError) {

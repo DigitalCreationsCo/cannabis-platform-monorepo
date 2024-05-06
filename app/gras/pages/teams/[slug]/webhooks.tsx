@@ -6,13 +6,14 @@ import { Error, Loading } from '@/components/shared';
 import { TeamTab } from '@/components/team';
 import { Webhooks } from '@/components/webhook';
 import env from '@/lib/env';
+import { LoadingPage } from '@cd/ui-lib';
 
 const WebhookList = ({ teamFeatures }: { teamFeatures: TeamFeature }) => {
 	const { t } = useTranslation('common');
 	const { isLoading, isError, team } = useDispensary();
 
 	if (isLoading) {
-		return <Loading />;
+		return <LoadingPage />;
 	}
 
 	if (isError) {

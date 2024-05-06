@@ -170,11 +170,13 @@ const Login: NextPageWithLayout<
 									handlePasswordVisibility={handlePasswordVisibility}
 								/>
 							</div>
-							<GoogleReCAPTCHA
-								recaptchaRef={recaptchaRef}
-								onChange={setRecaptchaToken}
-								siteKey={recaptchaSiteKey}
-							/>
+							<div className="w-fit m-auto">
+								<GoogleReCAPTCHA
+									recaptchaRef={recaptchaRef}
+									onChange={setRecaptchaToken}
+									siteKey={recaptchaSiteKey}
+								/>
+							</div>
 						</div>
 						<div className="mt-3 space-y-3">
 							<Button
@@ -232,7 +234,6 @@ export const getServerSideProps = async (
 	context: GetServerSidePropsContext,
 ) => {
 	const { locale } = context;
-
 	return {
 		props: {
 			...(locale ? await serverSideTranslations(locale, ['common']) : {}),

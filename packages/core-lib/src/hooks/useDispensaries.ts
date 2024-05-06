@@ -3,7 +3,7 @@ import fetcher from '../lib/fetcher';
 import type { ApiResponse, TeamWithMemberCount } from '../types';
 
 const useDispensaries = () => {
-	const url = `/api/dispensary`;
+	const url = `/api/teams`;
 
 	const { data, error, isLoading } = useSWR<ApiResponse<TeamWithMemberCount[]>>(
 		url,
@@ -17,7 +17,7 @@ const useDispensaries = () => {
 	return {
 		isLoading,
 		isError: error,
-		dispensaries: data?.data,
+		dispensaries: (data?.data && [data?.data]) || [],
 		mutateTeams,
 	};
 };

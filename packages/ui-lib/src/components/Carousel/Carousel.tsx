@@ -492,6 +492,9 @@ export default function Carousel<D>({ items, title }: CarouselProps<D>) {
 				// 		itemsFit: 'contain',
 				// 	},
 				// }}
+				partialVisible
+				sliderClass="border"
+				itemClass="border"
 				removeArrowOnDeviceType={['tablet', 'mobile']}
 				renderArrowsWhenDisabled
 				responsive={{
@@ -518,6 +521,7 @@ export default function Carousel<D>({ items, title }: CarouselProps<D>) {
 					mobile: {
 						breakpoint: { max: 464, min: 0 },
 						items: 1,
+						slidesToSlide: 1,
 					},
 				}}
 			>

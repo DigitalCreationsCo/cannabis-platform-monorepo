@@ -9,8 +9,8 @@
       "dom.iterable",
       "ES2015"
     ],
-    "skipLibCheck": true,
     "allowJs": true,
+    "skipLibCheck": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,

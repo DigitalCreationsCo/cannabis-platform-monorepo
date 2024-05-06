@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { ObjectId } from 'mongodb';
+import { ObjectId, type WithId, type UpdateFilter } from 'mongodb';
 import { db_namespace } from '../db';
 import { normalizeUser } from '../helpers';
 import { Role } from '../role.types';
+import { addStaffMember } from '../staff/staff.data';
 import { type StaffMember } from '../staff/staff.types';
 import { type Dispensary } from './dispensary.types';
 
@@ -18,16 +19,22 @@ export const createDispensary = async ({
 		const { userId, ...data } = param;
 		const client = await clientPromise;
 		const { db, collections } = db_namespace;
-		const dispensary = await client
-			.db(db)
-			.collection<Omit<Dispensary, 'id'>>(collections.dispensaries)
-			.insertOne({ ...data, createdAt, updatedAt });
+		const dispensary = (await (
+			await client
+				.db(db)
+				.collection<Dispensary>(collections.dispensaries)
+				.findOneAndUpdate(
+					{ slug: param.slug },
+					{ ...data, createdAt, updatedAt },
+					{ upsert: true, returnDocument: 'after' },
+				)
+		).value) as WithId<Dispensary>;
 
-		await addStaffMember(dispensary.insertedId.toString(), userId, Role.OWNER);
+		await addStaffMember(dispensary, userId, Role.OWNER);
 
 		// await findOrCreateApp(team.name, team.id);
 
-		return { ...data, id: dispensary.insertedId.toString() };
+		return dispensary;
 	} catch (error) {
 		console.log(error);
 		return {} as Dispensary;
@@ -65,23 +72,6 @@ export const deleteDispensary = async (
 		.deleteOne(key);
 };
 
-export const addStaffMember = async (
-	dispensaryId: string,
-	userId: string,
-	role: Role,
-) => {
-	const client = await clientPromise;
-	const { db, collections } = db_namespace;
-	return await client
-		.db(db)
-		.collection(collections.staff)
-		.updateOne(
-			{ dispensaryId: new ObjectId(dispensaryId), _id: new ObjectId(userId) },
-			{ $set: { role } },
-			{ upsert: true },
-		);
-};
-
 export const removeStaffMember = async (
 	dispensaryId: string,
 	userId: string,
@@ -99,15 +89,12 @@ export const getStaffMemberDispensary = async (userId: string) => {
 	const { db, collections } = db_namespace;
 	const dispensaryId = await client
 		.db(db)
-		.collection(collections.staff)
-		.findOne(
-			{ _id: new ObjectId(userId) },
-			{ projection: { dispensaryId: 1 } },
-		);
+		.collection<StaffMember>(collections.staff)
+		.findOne({ _id: new ObjectId(userId) }, { projection: { teamId: 1 } });
 	return await client
 		.db(db)
 		.collection(collections.dispensaries)
-		.findOne({ _id: dispensaryId?._id });
+		.findOne({ _id: new ObjectId(dispensaryId?.teamId) });
 };
 
 export async function getDispensaryRoles(userId: string) {
@@ -152,14 +139,14 @@ export const getStaffMembers = async (slug: string) => {
 
 export const updateDispensary = async (
 	slug: string,
-	data: Partial<Dispensary>,
+	update: UpdateFilter<Dispensary>,
 ) => {
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
 		.collection(collections.dispensaries)
-		.updateOne({ slug }, { $set: data });
+		.updateOne({ slug }, update);
 };
 
 export const isTeamExists = async (slug: string) => {
@@ -177,10 +164,7 @@ export const getStaffMember = async (userId: string, slug: string) => {
 	return await client
 		.db(db)
 		.collection<StaffMember>(collections.staff)
-		.findOne({
-			_id: new ObjectId(userId),
-			'dispensary.slug': slug,
-		});
+		.findOne({ 'team.slug': slug, _id: new ObjectId(userId) });
 };
 
 /**

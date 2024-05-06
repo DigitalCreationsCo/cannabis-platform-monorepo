@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Footer, type LayoutContextProps } from '@cd/ui-lib';
-import { type GetStaticProps } from 'next';
+import { GetServerSidePropsContext, type GetStaticProps } from 'next';
 import {PostPage,PreviewPostPage} from '@/components/blog';
 import { readToken } from '@/lib/sanity/sanity.api';
 import {
@@ -12,6 +12,7 @@ import {
 import { type Post, type Settings } from '@/lib/sanity';
 import { type SharedPageProps } from '../../_app';
 import { ReactElement } from 'react';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 interface PageProps extends SharedPageProps {
 	post: Post;
@@ -32,7 +33,7 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps<PageProps, Query> = async (ctx) => {
-	const { draftMode = false, params = {} } = ctx;
+	const { draftMode = false, params = {}, locale } = ctx;
 
 	const client = getClient(draftMode ? { token: readToken } : undefined);
 	const [settings, { post, morePosts }] = await Promise.all([
@@ -48,6 +49,7 @@ export const getStaticProps: GetStaticProps<PageProps, Query> = async (ctx) => {
 
 	return {
 		props: {
+			...(locale ? await serverSideTranslations(locale, ['common']) : {}),
 			post,
 			morePosts,
 			settings,

@@ -5,11 +5,11 @@ import {
 	maxLengthPolicies,
 } from '@cd/core-lib';
 import type { Dispensary } from '@cd/data-access';
+import { Button, TextField } from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { Button } from 'react-daisyui';
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
 import { InputWithLabel } from '../shared';
@@ -65,7 +65,8 @@ const CreateTeam = ({ visible, setVisible }: CreateTeamProps) => {
 				<Modal.Header>{t('create-team')}</Modal.Header>
 				<Modal.Description>{t('members-of-a-team')}</Modal.Description>
 				<Modal.Body>
-					<InputWithLabel
+					<TextField
+						className="my-2"
 						label={t('name')}
 						name="name"
 						onChange={formik.handleChange}
@@ -75,7 +76,7 @@ const CreateTeam = ({ visible, setVisible }: CreateTeamProps) => {
 					/>
 				</Modal.Body>
 				<Modal.Footer>
-					<Button type="button" variant="outline" onClick={onClose} size="md">
+					<Button type="button" onClick={onClose} size="md">
 						{t('close')}
 					</Button>
 					<Button

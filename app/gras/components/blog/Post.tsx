@@ -15,7 +15,7 @@ import { twMerge } from 'tailwind-merge';
 import { urlForImage } from '@/lib/sanity';
 import { type Post } from '@/lib/sanity';
 import Date from './PostDate';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 const H4 = (props: any) => {
 	const hexColor = getRandomHexColor();
