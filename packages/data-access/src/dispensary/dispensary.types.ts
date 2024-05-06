@@ -51,6 +51,7 @@ export type Dispensary = {
 	images?: { location: string; blurhash: string }[];
 	pos?: POS;
 	isSignupComplete?: boolean;
+	members?: string[];
 	createdAt?: Date;
 	updatedAt?: Date;
 };

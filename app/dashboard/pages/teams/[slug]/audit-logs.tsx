@@ -5,11 +5,12 @@ import {
 	throwIfNotAllowed,
 } from '@cd/core-lib';
 import { type User, getStaffMember } from '@cd/data-access';
+import { LoadingPage } from '@cd/ui-lib';
 import { type GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import dynamic from 'next/dynamic';
-import { Error, Loading, Card } from '@/components/shared';
+import { Error, Card } from '@/components/shared';
 import { TeamTab } from '@/components/team';
 import env from '@/lib/env';
 import type { NextPageWithLayout } from '@/lib/next.types';
@@ -40,7 +41,7 @@ const Events: NextPageWithLayout<inferSSRProps<typeof getServerSideProps>> = ({
 	const { isLoading, isError, team } = useDispensary();
 
 	if (isLoading) {
-		return <Loading />;
+		return <LoadingPage />;
 	}
 
 	if (isError || error) {

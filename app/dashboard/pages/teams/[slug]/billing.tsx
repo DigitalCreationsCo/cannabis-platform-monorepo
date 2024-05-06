@@ -4,6 +4,7 @@ import {
 	useCanAccess,
 	type TeamFeature,
 } from '@cd/core-lib';
+import { LoadingPage } from '@cd/ui-lib';
 import { type GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -26,7 +27,7 @@ const Payments = ({ teamFeatures }: { teamFeatures: TeamFeature }) => {
 	);
 
 	if (isLoading) {
-		return <Loading />;
+		return <LoadingPage />;
 	}
 
 	if (isError) {

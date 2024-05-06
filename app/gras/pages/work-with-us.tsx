@@ -29,6 +29,8 @@ import {
 	unlockYourGrowth,
 } from '@/components/landing/benefits/benefit-data';
 import { partners } from '@/components/landing/partners/partners-data';
+import { GetServerSidePropsContext } from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 export default function DispensaryLandingPage() {
 	useEffect(() => {
@@ -222,3 +224,10 @@ DispensaryLandingPage.getLayout = function getLayout(page: ReactElement) {
 		</>
 	);
 };
+export async function getStaticProps({ locale }: GetServerSidePropsContext) {
+	return {
+		props: {
+			...(locale ? await serverSideTranslations(locale, ['common']) : {}),
+		},
+	};
+}

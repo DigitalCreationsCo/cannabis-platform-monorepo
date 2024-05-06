@@ -26,7 +26,7 @@ const Payments = ({ teamFeatures }: { teamFeatures: TeamFeature }) => {
 	);
 
 	if (isLoading) {
-		return <Loading />;
+		return <LoadingPage />;
 	}
 
 	if (isError) {

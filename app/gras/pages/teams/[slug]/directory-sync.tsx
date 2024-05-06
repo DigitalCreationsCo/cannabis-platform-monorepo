@@ -8,13 +8,14 @@ import { Error, Loading } from '@/components/shared';
 import { BOXYHQ_UI_CSS } from '@/components/styles';
 import { TeamTab } from '@/components/team';
 import env from '@/lib/env';
+import { LoadingPage } from '@cd/ui-lib';
 
 const DirectorySync = ({ teamFeatures }: { teamFeatures: TeamFeature }) => {
 	const { isLoading, isError, team } = useDispensary();
 	const { t } = useTranslation('common');
 
 	if (isLoading) {
-		return <Loading />;
+		return <LoadingPage />;
 	}
 
 	if (isError) {

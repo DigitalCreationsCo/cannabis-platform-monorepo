@@ -11,16 +11,25 @@ const Dashboard: NextPageWithLayout = () => {
 	const { dispensaries, isLoading } = useDispensaries();
 
 	useEffect(() => {
+		console.trace('1dispensaries', dispensaries);
+		console.trace('isLoading', isLoading);
+
 		if (isLoading || !dispensaries) {
+			console.info('Loading dispensaries');
+			console.info('dispensaries', dispensaries);
 			return;
 		}
 
+		console.info('Checking dispensaries');
+		console.info('dispensaries', dispensaries);
 		if (dispensaries.length > 0) {
+			console.info('Redirecting to team settings');
 			router.push(`/teams/${dispensaries[0].slug}/settings`);
 		} else {
+			console.info('Redirecting to new team');
 			router.push('teams?newTeam=true');
 		}
-	}, [isLoading, router, dispensaries]);
+	}, [isLoading, dispensaries]);
 
 	return <LoadingDots />;
 };

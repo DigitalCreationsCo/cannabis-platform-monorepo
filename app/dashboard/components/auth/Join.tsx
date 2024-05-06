@@ -129,11 +129,13 @@ const Join = ({ recaptchaSiteKey }: JoinProps) => {
 						handlePasswordVisibility={handlePasswordVisibility}
 					/>
 				</div>
-				<GoogleReCAPTCHA
-					recaptchaRef={recaptchaRef}
-					onChange={setRecaptchaToken}
-					siteKey={recaptchaSiteKey}
-				/>
+				<div className="w-fit m-auto">
+					<GoogleReCAPTCHA
+						recaptchaRef={recaptchaRef}
+						onChange={setRecaptchaToken}
+						siteKey={recaptchaSiteKey}
+					/>
+				</div>
 			</div>
 			<div className="mt-3 space-y-3">
 				<Button

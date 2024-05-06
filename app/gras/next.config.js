@@ -1,13 +1,10 @@
-/* eslint @typescript-eslint/no-var-requires: "off" */
-import i18nConfig from './next-i18next.config.js';
-import { withSentryConfig } from '@sentry/nextjs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-import { config as configEnv } from 'dotenv';
-import { expand } from 'dotenv-expand';
-import findUp from 'find-up';
+
+const { i18n } = require('./next-i18next.config');
+const { withSentryConfig } = require('@sentry/nextjs');
+const path = require('path');
+const { config: configEnv } = require('dotenv');
+const { expand } = require('dotenv-expand');
+const findUp = require('find-up');
 
 const _env =
   process.env.NEXT_PUBLIC_IS_LOCAL_BUILD == '1'
@@ -15,8 +12,6 @@ const _env =
     : process.env.NODE_ENV;
 
 expand(configEnv({ path: findUp.sync(`.env.${_env}`) }));
-
-const { i18n } = i18nConfig;
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -132,5 +127,4 @@ const nextConfig = {
 const sentryWebpackPluginOptions = {
   silent: true,
 };
-
-export default withSentryConfig(nextConfig, sentryWebpackPluginOptions);
+module.exports = withSentryConfig(nextConfig, sentryWebpackPluginOptions);

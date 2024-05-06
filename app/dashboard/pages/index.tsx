@@ -6,18 +6,21 @@ import {
 	H3,
 	Page,
 	SignInButton,
-	type LayoutContextProps,
 	Footer,
 } from '@cd/ui-lib';
+import { type GetServerSidePropsContext } from 'next';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Image, { type StaticImageData } from 'next/image';
 import Link from 'next/link';
 import { type ReactElement, type PropsWithChildren } from 'react';
-import { useTranslation } from 'react-i18next';
 import DashboardTopBar from '@/components/layouts/DashboardTopBar';
 import backdrop from '../public/marijuana-backdrop.png';
 
 export default function DashboardHome() {
 	const { t } = useTranslation('common');
+	console.info('t: ?', t);
+	console.info('t: ?', t('welcome-to-gras'));
 	return (
 		<Page className="m-0 flex grow border-b bg-transparent p-0 md:p-0 lg:p-0 h-[666px]">
 			<ImageBackDrop src={backdrop}>
@@ -30,7 +33,7 @@ export default function DashboardHome() {
 							className="whitespace-pre md:text-4xl tracking-normal"
 							color="light"
 						>
-							{t('dispensary-success-service')}
+							{t('dispensary-success-services')}
 						</H3>
 					</FlexBox>
 					<FlexBox className="items-center space-y-2">
@@ -94,11 +97,19 @@ const ImageBackDrop = ({
 	);
 };
 
-DashboardHome.getLayoutContext = (): LayoutContextProps => ({
-	showHeader: false,
-	showTopBar: true,
-	showSideNav: false,
-});
+// DashboardHome.getLayoutContext = (): LayoutContextProps => ({
+// 	showHeader: false,
+// 	showTopBar: true,
+// 	showSideNav: false,
+// });
+
+export async function getStaticProps({ locale }: GetServerSidePropsContext) {
+	return {
+		props: {
+			...(locale ? await serverSideTranslations(locale, ['common']) : {}),
+		},
+	};
+}
 
 DashboardHome.getLayout = function getLayout(page: ReactElement) {
 	return (

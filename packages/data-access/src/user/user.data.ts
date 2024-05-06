@@ -1,55 +1,103 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable sonarjs/no-duplicate-string */
+import { ObjectId, type UpdateFilter } from 'mongodb';
 import { db_namespace } from '../db';
 import { normalizeUser } from '../helpers';
+import { type User } from './user.types';
 
 export const createUser = async (data: {
 	name: string;
 	email: string;
 	password?: string;
 	emailVerified?: Date | null;
-}) => {
+}): Promise<User> => {
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
-	const user = await client
-		.db(db)
-		.collection(collections.users)
-		.insertOne(normalizeUser(data));
-	return { id: user.insertedId, ...normalizeUser(data) };
+	const user = await (
+		await client
+			.db(db)
+			.collection<User>(collections.users)
+			.findOneAndUpdate(
+				{ email: data.email },
+				{ $set: normalizeUser(data) },
+				{
+					upsert: true,
+					returnDocument: 'after',
+				},
+			)
+	).value;
+	console.trace('create user', user);
+	return {
+		...user!,
+		id: user!._id.toString(),
+	};
 };
 
-export const updateUser = async ({ id, data }: any) => {
+export const updateUser = async ({
+	id,
+	data,
+}: {
+	id: string;
+	data: UpdateFilter<User>;
+}): Promise<User> => {
+	console.trace('update user', id, data);
 	data = normalizeUser(data);
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
-	await client
-		.db(db)
-		.collection(collections.users)
-		.updateOne({ _id: id }, normalizeUser(data));
-
-	return { id, ...normalizeUser(data) };
+	const user = (
+		await client
+			.db(db)
+			.collection<User>(collections.users)
+			.findOneAndUpdate(
+				{ _id: new ObjectId(id) },
+				{ $set: normalizeUser(data) },
+				{
+					returnDocument: 'after',
+				},
+			)
+	).value;
+	return { ...user!, id: user!._id.toString() };
 };
 
-export const upsertUser = async ({ id, update }: any) => {
+export const upsertUser = async ({
+	id,
+	update,
+}: {
+	id: string;
+	update: UpdateFilter<User>;
+}): Promise<User> => {
+	console.trace('upsertUser ', id, update);
 	update = normalizeUser(update);
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
-	return await client.db(db).collection(collections.users).updateOne(
-		{
-			_id: id,
-		},
-		{ $set: update },
-		{ upsert: true },
-	);
+	const user = (
+		await client
+			.db(db)
+			.collection<User>(collections.users)
+			.findOneAndUpdate(
+				{
+					_id: new ObjectId(id),
+				},
+				{ $set: update },
+				{
+					upsert: true,
+					returnDocument: 'after',
+				},
+			)
+	).value;
+	return { ...user!, id: user!._id.toString() };
 };
 
 export const getUser = async (
 	key: { id: string } | { email: string } | { phone: string },
-) => {
+): Promise<User | null> => {
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
-	const user = await client.db(db).collection(collections.users).findOne(key);
-
-	return normalizeUser(user);
+	const user = await client
+		.db(db)
+		.collection<User>(collections.users)
+		.findOne(key);
+	return (user && { id: user._id, ...normalizeUser(user) }) || null;
 };
 
 export const getUserBySession = async (session: any) => {

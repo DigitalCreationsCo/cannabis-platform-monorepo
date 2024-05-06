@@ -40,7 +40,7 @@ const Events: NextPageWithLayout<inferSSRProps<typeof getServerSideProps>> = ({
 	const { isLoading, isError, team } = useDispensary();
 
 	if (isLoading) {
-		return <Loading />;
+		return <LoadingPage />;
 	}
 
 	if (isError || error) {

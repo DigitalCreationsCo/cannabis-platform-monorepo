@@ -8,6 +8,7 @@ import { Error, Loading } from '@/components/shared';
 import { BOXYHQ_UI_CSS } from '@/components/styles';
 import { TeamTab } from '@/components/team';
 import env from '@/lib/env';
+import { LoadingPage } from '@cd/ui-lib';
 
 const TeamSSO = ({ teamFeatures, SPConfigURL }: any) => {
 	const { t } = useTranslation('common');
@@ -15,7 +16,7 @@ const TeamSSO = ({ teamFeatures, SPConfigURL }: any) => {
 	const { isLoading, isError, team } = useDispensary();
 
 	if (isLoading) {
-		return <Loading />;
+		return <LoadingPage />;
 	}
 
 	if (isError) {

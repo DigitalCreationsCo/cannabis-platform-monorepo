@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { type HtmlHTMLAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/logo.png';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 export type TopBarProps = {
 	doesSessionExist?: boolean;

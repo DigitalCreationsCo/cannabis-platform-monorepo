@@ -1,26 +1,5 @@
-import { DefaultSession } from 'next-auth';
-
-/* eslint-disable @typescript-eslint/naming-convention */
-declare module 'json-immutable';
-declare module 'redux-mock-store';
-declare module 'shell-source';
-declare module 'next-connect';
-declare module 'boarding.js';
-declare module '*.mp4' {
-  export default string;
-}
-
-declare module 'next-auth' {
-  interface Session {
-    user: {
-      id: string;
-    } & DefaultSession['user'];
-  }
-}
-
 declare const FB: any;
 
-declare global {
 interface Window {
   // FB
   fbAsyncInit: any;
@@ -44,4 +23,6 @@ interface Window {
   // dailystory
   _dsSettings: any;
 }
-}
+
+// eslint-disable-next-line no-var, @typescript-eslint/no-unused-vars
+var clientPromise: Promise<MongoClient>;

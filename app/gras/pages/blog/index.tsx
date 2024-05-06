@@ -4,6 +4,7 @@ import {IndexPage,PreviewIndexPage} from '@/components/blog';
 import { type Post, type Settings,readToken,getClient, getPosts, getSettings } from '@/lib/sanity';
 import { type SharedPageProps } from '../_app';
 import { ReactElement } from 'react';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 interface DirectoryProps extends SharedPageProps {
 	posts: Post[];
@@ -24,7 +25,7 @@ export default function BlogDirectory(props: DirectoryProps) {
 export const getStaticProps: GetStaticProps<DirectoryProps, Query> = async (
 	ctx,
 ) => {
-	const { draftMode = false } = ctx;
+	const { draftMode = false, locale } = ctx;
 	const client = getClient(draftMode ? { token: readToken } : undefined);
 
 	const [settings, posts = []] = await Promise.all([
@@ -34,6 +35,7 @@ export const getStaticProps: GetStaticProps<DirectoryProps, Query> = async (
 
 	return {
 		props: {
+			...(locale ? await serverSideTranslations(locale, ['common']) : {}),
 			posts,
 			settings,
 			draftMode,

@@ -1,3 +1,4 @@
+import { H3, Paragraph } from '@cd/ui-lib';
 import { useTranslation } from 'next-i18next';
 import { Button, Modal as DModal } from 'react-daisyui';
 
@@ -33,11 +34,13 @@ const Modal = ({ open, close, children }: ModalProps) => {
 };
 
 const Header = ({ children }: { children: React.ReactNode }) => {
-	return <h3 className="font-bold text-lg">{children}</h3>;
+	return <H3 className="text-xl">{children}</H3>;
 };
 
 const Description = ({ children }: { children: React.ReactNode }) => {
-	return <p className="text-sm text-gray-700 pt-1">{children}</p>;
+	return (
+		<Paragraph className="text-sm text-gray-700 pt-1">{children}</Paragraph>
+	);
 };
 
 const Body = ({ children, className }: BodyProps) => {
