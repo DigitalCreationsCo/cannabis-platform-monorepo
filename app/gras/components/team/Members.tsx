@@ -8,7 +8,7 @@ import {
 } from '@cd/core-lib';
 import { useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
-import { Button } from 'react-daisyui';
+import { Button } from '@cd/ui-lib';
 import toast from 'react-hot-toast';
 
 import { InviteMember } from '@/components/invitation';

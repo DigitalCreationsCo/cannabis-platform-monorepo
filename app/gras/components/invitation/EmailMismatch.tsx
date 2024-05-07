@@ -1,6 +1,6 @@
 import { signOut } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
-import { Button } from 'react-daisyui';
+import { Button } from '@cd/ui-lib';
 
 interface EmailMismatchProps {
 	email: string;

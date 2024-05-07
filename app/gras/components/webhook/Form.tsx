@@ -3,7 +3,7 @@ import type { FormikConfig } from 'formik';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import React from 'react';
-import { Button } from 'react-daisyui';
+import { Button } from '@cd/ui-lib';
 import * as Yup from 'yup';
 import { InputWithLabel } from '@/components/shared';
 import Modal from '@/components/shared/Modal';

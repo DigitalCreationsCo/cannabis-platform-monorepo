@@ -12,7 +12,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { type ReactElement } from 'react';
-import { Button } from 'react-daisyui';
+import { Button } from '@cd/ui-lib';
 import { toast } from 'react-hot-toast';
 import * as Yup from 'yup';
 import { AuthLayout } from '@/components/layouts';

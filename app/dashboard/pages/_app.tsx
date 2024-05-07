@@ -4,7 +4,6 @@ import { NextSeo } from 'next-seo';
 import { useEffect } from 'react';
 import { Provider as ReduxProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import { SWRConfig } from 'swr';
 import colors from 'tailwindcss/colors';
 import '@boxyhq/react-ui/dist/style.css';
 import '../styles/globals.css';
@@ -26,7 +25,6 @@ import {
 } from '@cd/core-lib/src/lib/googletagmanager';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import CacheProvider from '@cd/core-lib/src/lib/cache';
 import { AnimatePresence } from 'framer-motion';
 import {
 	LoadingPage,
@@ -91,54 +89,48 @@ function MyApp({ Component, ...appProps }: AppPropsWithLayout) {
 					handle: '@grascannabis',
 				}}
 			/>
-			<SWRConfig
-				value={{
-					revalidateOnFocus: false,
-					provider: CacheProvider,
-				}}
-			>
-				<SessionProvider session={session}>
-					<ReduxProvider store={store}>
-						<PersistGate persistor={persistor} loading={<LoadingPage />}>
-							<ModalProvider />
-							<ToastProvider />
-							<Elements
-								stripe={stripePromise}
-								options={{
-									mode: 'setup',
-									currency: 'usd',
-									setup_future_usage: 'off_session',
+
+			<SessionProvider session={session}>
+				<ReduxProvider store={store}>
+					<PersistGate persistor={persistor} loading={<LoadingPage />}>
+						<ModalProvider />
+						<ToastProvider />
+						<Elements
+							stripe={stripePromise}
+							options={{
+								mode: 'setup',
+								currency: 'usd',
+								setup_future_usage: 'off_session',
+							}}
+						>
+							<Themer
+								overrideTheme={{
+									'--primary-color': colors.blue['500'],
+									'--primary-hover': colors.blue['600'],
+									'--primary-color-50': colors.blue['50'],
+									'--primary-color-100': colors.blue['100'],
+									'--primary-color-200': colors.blue['200'],
+									'--primary-color-300': colors.blue['300'],
+									'--primary-color-500': colors.blue['500'],
+									'--primary-color-600': colors.blue['600'],
+									'--primary-color-700': colors.blue['700'],
+									'--primary-color-800': colors.blue['800'],
+									'--primary-color-900': colors.blue['900'],
+									'--primary-color-950': colors.blue['950'],
 								}}
 							>
-								<Themer
-									overrideTheme={{
-										'--primary-color': colors.blue['500'],
-										'--primary-hover': colors.blue['600'],
-										'--primary-color-50': colors.blue['50'],
-										'--primary-color-100': colors.blue['100'],
-										'--primary-color-200': colors.blue['200'],
-										'--primary-color-300': colors.blue['300'],
-										'--primary-color-500': colors.blue['500'],
-										'--primary-color-600': colors.blue['600'],
-										'--primary-color-700': colors.blue['700'],
-										'--primary-color-800': colors.blue['800'],
-										'--primary-color-900': colors.blue['900'],
-										'--primary-color-950': colors.blue['950'],
-									}}
+								<AnimatePresence
+									mode="wait"
+									initial={false}
+									onExitComplete={() => window.scrollTo(0, 0)}
 								>
-									<AnimatePresence
-										mode="wait"
-										initial={false}
-										onExitComplete={() => window.scrollTo(0, 0)}
-									>
-										{getLayout(<Component {...props} />)}
-									</AnimatePresence>
-								</Themer>
-							</Elements>
-						</PersistGate>
-					</ReduxProvider>
-				</SessionProvider>
-			</SWRConfig>
+									{getLayout(<Component {...props} />)}
+								</AnimatePresence>
+							</Themer>
+						</Elements>
+					</PersistGate>
+				</ReduxProvider>
+			</SessionProvider>
 		</>
 	);
 }

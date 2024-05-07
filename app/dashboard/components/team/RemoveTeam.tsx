@@ -1,9 +1,9 @@
 import { defaultHeaders, type ApiResponse } from '@cd/core-lib';
 import { type Dispensary } from '@cd/data-access';
+import { Button } from '@cd/ui-lib';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import { Button } from 'react-daisyui';
 import toast from 'react-hot-toast';
 import { Card } from '@/components/shared';
 
@@ -59,7 +59,6 @@ const RemoveTeam = ({ team, allowDelete }: RemoveTeamProps) => {
 							color="error"
 							onClick={() => setAskConfirmation(true)}
 							loading={loading}
-							variant="outline"
 							size="md"
 						>
 							{t('remove-team')}

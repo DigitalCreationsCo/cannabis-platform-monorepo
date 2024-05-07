@@ -63,7 +63,7 @@ const styles = Object.freeze({
 			'cursor-default flex-col min-h-[188px] p-10 bg-secondary min-w-full bottom-0 shadow-lg',
 	},
 	label_f: (justifyLabel: 'left' | 'center' | 'right' | undefined = 'left') => [
-		'px-2',
+		'px-2 py-1',
 		'w-full',
 		justifyLabel && `text-${justifyLabel}`,
 	],

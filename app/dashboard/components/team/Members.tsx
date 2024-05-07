@@ -5,11 +5,10 @@ import {
 	type ApiResponse,
 } from '@cd/core-lib';
 import { type Dispensary, type StaffMember } from '@cd/data-access';
-import { LoadingDots } from '@cd/ui-lib';
+import { LoadingDots, Button } from '@cd/ui-lib';
 import { useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import { useState } from 'react';
-import { Button } from 'react-daisyui';
 import toast from 'react-hot-toast';
 
 import { InviteMember } from '@/components/invitation';

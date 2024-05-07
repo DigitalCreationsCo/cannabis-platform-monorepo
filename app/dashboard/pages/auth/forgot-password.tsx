@@ -3,6 +3,7 @@ import {
 	type ApiResponse,
 	maxLengthPolicies,
 } from '@cd/core-lib';
+import { Button } from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import type {
 	GetServerSidePropsContext,
@@ -13,7 +14,6 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRef, type ReactElement, useState } from 'react';
-import { Button } from 'react-daisyui';
 import type { default as ReCAPTCHA } from 'react-google-recaptcha';
 import { default as toast } from 'react-hot-toast';
 import * as Yup from 'yup';

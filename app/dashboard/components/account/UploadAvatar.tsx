@@ -1,9 +1,9 @@
 import { type ApiResponse, defaultHeaders } from '@cd/core-lib';
 import type { User } from '@cd/data-access';
+import { Button } from '@cd/ui-lib';
 import { ArrowUpCircleIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'next-i18next';
 import React, { useState, useEffect, useCallback } from 'react';
-import { Button } from 'react-daisyui';
 import toast from 'react-hot-toast';
 import { Card } from '@/components/shared';
 

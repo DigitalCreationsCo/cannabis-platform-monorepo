@@ -7,7 +7,7 @@ import { useTranslation } from 'next-i18next';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import type { ApiResponse } from '@cd/core-lib';
-import { Button } from 'react-daisyui';
+import { Button } from '@cd/ui-lib';
 import { Table } from '@/components/shared/table/Table';
 import NewAPIKey from './NewAPIKey';
 

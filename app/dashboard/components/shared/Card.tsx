@@ -2,7 +2,7 @@ import React from 'react';
 
 const Card = ({ children }: { children: React.ReactNode }) => {
 	return (
-		<div className="card w-full border border-rounded dark:bg-black dark:border-gray-600">
+		<div className="overflow-hidden card w-full border border-gray-300 rounded dark:bg-black dark:border-gray-600">
 			{children}
 		</div>
 	);
@@ -32,7 +32,7 @@ const Body = ({ children }: { children: React.ReactNode }) => {
 
 const Footer = ({ children }: { children: React.ReactNode }) => {
 	return (
-		<div className="card-actions justify-end dark:border-gray-600 p-2 border-t bg-gray-50 dark:bg-black">
+		<div className="card-actions justify-end dark:border-gray-600 p-2 border-t border-gray-300 bg-gray-50 dark:bg-black">
 			{children}
 		</div>
 	);

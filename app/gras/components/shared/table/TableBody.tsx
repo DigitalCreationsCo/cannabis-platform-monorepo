@@ -1,4 +1,4 @@
-import { Button } from 'react-daisyui';
+import { Button } from '@cd/ui-lib';
 import Badge from '@/components/shared/Badge';
 import { useTranslation } from 'next-i18next';
 

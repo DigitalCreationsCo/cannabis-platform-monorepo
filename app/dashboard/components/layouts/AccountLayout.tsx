@@ -1,4 +1,6 @@
+import CacheProvider from '@cd/core-lib/src/lib/cache';
 import React from 'react';
+import { SWRConfig } from 'swr';
 import AppShell from '../shared/shell/AppShell';
 
 interface AccountLayoutProps {
@@ -6,5 +8,14 @@ interface AccountLayoutProps {
 }
 
 export default function AccountLayout({ children }: AccountLayoutProps) {
-	return <AppShell>{children}</AppShell>;
+	return (
+		<SWRConfig
+			value={{
+				revalidateOnFocus: false,
+				provider: CacheProvider,
+			}}
+		>
+			<AppShell>{children}</AppShell>
+		</SWRConfig>
+	);
 }

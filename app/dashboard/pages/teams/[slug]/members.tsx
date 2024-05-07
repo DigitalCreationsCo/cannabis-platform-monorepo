@@ -1,10 +1,9 @@
 import { type TeamFeature, useDispensary } from '@cd/core-lib';
-import { LoadingPage } from '@cd/ui-lib';
 import { type GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { PendingInvitations } from '@/components/invitation';
-import { Error, Loading } from '@/components/shared';
+import { Error } from '@/components/shared';
 import { Members, TeamTab } from '@/components/team';
 import env from '@/lib/env';
 
@@ -13,7 +12,7 @@ const TeamMembers = ({ teamFeatures }: { teamFeatures: TeamFeature }) => {
 	const { isLoading, isError, team } = useDispensary();
 
 	if (isLoading) {
-		return <LoadingPage />;
+		return <></>;
 	}
 
 	if (isError) {

@@ -9,18 +9,28 @@ import {
 	Footer,
 } from '@cd/ui-lib';
 import { type GetServerSidePropsContext } from 'next';
+import { useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Image, { type StaticImageData } from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { type ReactElement, type PropsWithChildren } from 'react';
 import DashboardTopBar from '@/components/layouts/DashboardTopBar';
+import env from '@/lib/env';
 import backdrop from '../public/marijuana-backdrop.png';
 
 export default function DashboardHome() {
+	const router = useRouter();
 	const { t } = useTranslation('common');
-	console.info('t: ?', t);
-	console.info('t: ?', t('welcome-to-gras'));
+	const { status } = useSession();
+
+	const redirectUrl = env.redirectIfAuthenticated;
+
+	if (status === 'authenticated') {
+		router.push(redirectUrl);
+	}
+
 	return (
 		<Page className="m-0 flex grow border-b bg-transparent p-0 md:p-0 lg:p-0 h-[666px]">
 			<ImageBackDrop src={backdrop}>

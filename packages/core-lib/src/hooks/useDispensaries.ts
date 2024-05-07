@@ -17,7 +17,7 @@ const useDispensaries = () => {
 	return {
 		isLoading,
 		isError: error,
-		dispensaries: (data?.data && [data?.data]) || [],
+		dispensaries: data?.data,
 		mutateTeams,
 	};
 };

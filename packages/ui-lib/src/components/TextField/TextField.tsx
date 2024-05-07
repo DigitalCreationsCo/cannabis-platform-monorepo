@@ -73,9 +73,7 @@ function TextField({
 			{label && (
 				<FlexBox className="items-start w-full">
 					<label className={twMerge(styles.label_f(justifyLabel))}>
-						<Paragraph
-							className={twMerge(labelColor, 'text-lg', 'whitespace-wrap')}
-						>
+						<Paragraph className={twMerge(labelColor, 'whitespace-wrap')}>
 							{label}
 						</Paragraph>
 					</label>

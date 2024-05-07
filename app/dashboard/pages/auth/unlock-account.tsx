@@ -5,10 +5,10 @@ import {
 	isVerificationTokenExpired,
 	getUser,
 } from '@cd/data-access';
+import { Button } from '@cd/ui-lib';
 import type { GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { useState, type ReactElement, useEffect } from 'react';
-import { Button } from 'react-daisyui';
 import type { ComponentStatus } from 'react-daisyui/dist/types';
 
 import { AuthLayout } from '@/components/layouts';
