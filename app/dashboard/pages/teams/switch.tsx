@@ -1,4 +1,4 @@
-import { getStaffMemberDispensary } from '@cd/data-access';
+import { getStaffMemberDispensaries } from '@cd/data-access';
 import { deleteCookie } from 'cookies-next';
 import type {
 	GetServerSidePropsContext,
@@ -57,7 +57,7 @@ export const getServerSideProps = async (
 
 	deleteCookie('pending-invite', { req, res });
 
-	const teams = await getStaffMemberDispensary(session?.user.id as string);
+	const teams = await getStaffMemberDispensaries(session?.user.id as string);
 
 	return {
 		props: {

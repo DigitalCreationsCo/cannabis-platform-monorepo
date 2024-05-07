@@ -1,6 +1,6 @@
 import { type Price, type Service } from '@cd/data-access';
 import getSymbolFromCurrency from 'currency-symbol-map';
-import { Button } from 'react-daisyui';
+import { Button } from '@cd/ui-lib';
 
 interface PaymentButtonProps {
 	plan: Service;

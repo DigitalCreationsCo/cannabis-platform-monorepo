@@ -1,5 +1,5 @@
 import { signIn } from 'next-auth/react';
-import { Button } from 'react-daisyui';
+import { Button } from '@cd/ui-lib';
 import { useTranslation } from 'next-i18next';
 import { useInvitation } from '@cd/core-lib';
 import env from '@/lib/env';

@@ -1,7 +1,7 @@
 import { slugify, ApiError } from '@cd/core-lib';
 import {
 	createDispensary,
-	getStaffMemberDispensary,
+	getStaffMemberDispensaries,
 	isTeamExists,
 } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -40,7 +40,7 @@ export default async function handler(
 // Get teams
 const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
 	const user = await getCurrentUser(req, res);
-	const teams = await getStaffMemberDispensary(user.id);
+	const teams = await getStaffMemberDispensaries(user.id);
 
 	recordMetric('team.fetched');
 

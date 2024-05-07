@@ -19,8 +19,6 @@ export default function AppShell({ children }: PropsWithChildren) {
 		router.push('/auth/login');
 		return;
 	}
-	console.trace('session: ', session);
-	console.trace('status ', status);
 
 	return (
 		<div>

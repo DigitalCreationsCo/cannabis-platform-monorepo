@@ -67,6 +67,7 @@ export default function Button({
 		noClickWhileLoading: loading && 'cursor-not-allowed',
 		size: [
 			'text-inherit',
+			' px-4',
 			(size === 'lg' && 'text-xl min-w-[180px] min-h-[70px]') ||
 				(size === 'sm' && 'text-md h-[30px]') ||
 				'min-w-[140px] text-md h-10',

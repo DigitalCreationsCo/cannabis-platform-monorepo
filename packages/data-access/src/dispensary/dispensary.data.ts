@@ -84,17 +84,25 @@ export const removeStaffMember = async (
 		.deleteOne({ dispensaryId, _id: new ObjectId(userId) });
 };
 
-export const getStaffMemberDispensary = async (userId: string) => {
+export const getStaffMemberDispensaries = async (userId: string) => {
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
-	const dispensaryId = await client
-		.db(db)
-		.collection<StaffMember>(collections.staff)
-		.findOne({ _id: new ObjectId(userId) }, { projection: { teamId: 1 } });
+
 	return await client
 		.db(db)
-		.collection(collections.dispensaries)
-		.findOne({ _id: new ObjectId(dispensaryId?.teamId) });
+		.collection<Dispensary>(collections.dispensaries)
+		.aggregate<Dispensary>([
+			{
+				$match: { members: userId },
+			},
+			{
+				$addFields: {
+					id: { $toString: '$_id' },
+					_count: { members: { $size: '$members' } },
+				},
+			},
+		])
+		.toArray();
 };
 
 export async function getDispensaryRoles(userId: string) {
@@ -128,8 +136,24 @@ export const getStaffMembers = async (slug: string) => {
 	const { db, collections } = db_namespace;
 	const staffMembers = await client
 		.db(db)
-		.collection(collections.staff)
-		.find({ 'dispensary.slug': slug });
+		.collection<StaffMember>(collections.staff)
+		.aggregate<StaffMember>([
+			{
+				$match: { 'team.slug': slug },
+			},
+			{
+				$lookup: {
+					from: collections.users,
+					localField: '_id',
+					foreignField: '_id',
+					as: 'user',
+				},
+			},
+			{
+				$unwind: '$user',
+			},
+		])
+		.toArray();
 
 	return staffMembers?.map((member) => {
 		member = normalizeUser(member);

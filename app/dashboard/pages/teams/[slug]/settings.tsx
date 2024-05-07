@@ -3,7 +3,7 @@ import { LoadingPage } from '@cd/ui-lib';
 import type { GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { Error, Loading } from '@/components/shared';
+import { Error } from '@/components/shared';
 import { AccessControl } from '@/components/shared/AccessControl';
 import { RemoveTeam, TeamSettings, TeamTab } from '@/components/team';
 import env from '@/lib/env';

@@ -1,13 +1,12 @@
 /* eslint-disable sonarjs/no-redundant-jump */
 import { useInvitation, maxLengthPolicies } from '@cd/core-lib';
-import { LoadingDots } from '@cd/ui-lib';
+import { LoadingDots, Button } from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import { signIn, useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Button } from 'react-daisyui';
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
 import { InputWithLabel } from '@/components/shared';

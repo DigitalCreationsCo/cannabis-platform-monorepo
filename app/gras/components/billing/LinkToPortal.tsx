@@ -3,7 +3,7 @@ import { type Dispensary } from '@cd/data-access';
 import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'next-i18next';
 import { useState } from 'react';
-import { Button } from 'react-daisyui';
+import { Button } from '@cd/ui-lib';
 import toast from 'react-hot-toast';
 
 import { Card } from '@/components/shared';

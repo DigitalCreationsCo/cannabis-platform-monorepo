@@ -84,22 +84,6 @@ export const removeStaffMember = async (
 		.deleteOne({ dispensaryId, _id: new ObjectId(userId) });
 };
 
-export const getStaffMemberDispensary = async (userId: string) => {
-	const client = await clientPromise;
-	const { db, collections } = db_namespace;
-	const dispensaryId = await client
-		.db(db)
-		.collection(collections.staff)
-		.findOne(
-			{ _id: new ObjectId(userId) },
-			{ projection: { dispensaryId: 1 } },
-		);
-	return await client
-		.db(db)
-		.collection(collections.dispensaries)
-		.findOne({ _id: dispensaryId?._id });
-};
-
 export async function getDispensaryRoles(userId: string) {
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;

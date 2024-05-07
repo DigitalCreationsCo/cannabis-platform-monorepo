@@ -1,6 +1,5 @@
 import { type ApiResponse, defaultHeaders, useInvitations } from '@cd/core-lib';
 import { type Invitation } from '@cd/data-access';
-import { LoadingDots } from '@cd/ui-lib';
 import { useTranslation } from 'next-i18next';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -22,7 +21,7 @@ const PendingInvitations = ({ team }: { team: any }) => {
 	const { t } = useTranslation('common');
 
 	if (isLoading) {
-		return <LoadingDots />;
+		return <></>;
 	}
 
 	if (isError) {

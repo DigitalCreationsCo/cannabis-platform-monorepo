@@ -1,14 +1,15 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {
 	defaultHeaders,
 	type ApiResponse,
 	useDispensaries,
 } from '@cd/core-lib';
 import { type Dispensary } from '@cd/data-access';
+import { Button } from '@cd/ui-lib';
 import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
-import { Button } from 'react-daisyui';
 import toast from 'react-hot-toast';
 import { LetterAvatar, WithLoadingAndError } from '@/components/shared';
 import { Table } from '@/components/shared/table/Table';
@@ -91,7 +92,7 @@ const Teams = () => {
 											{ wrap: true, text: '' + team._count.members },
 											{
 												wrap: true,
-												text: new Date(team.createdAt).toDateString(),
+												text: new Date(team.createdAt!).toDateString(),
 											},
 											{
 												buttons: [

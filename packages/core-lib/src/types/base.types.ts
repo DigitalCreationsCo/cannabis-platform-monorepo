@@ -1,3 +1,5 @@
+import { type Dispensary } from '@cd/data-access';
+
 /* eslint-disable @typescript-eslint/naming-convention */
 type ApiError = {
 	code: number;
@@ -15,14 +17,11 @@ export type ApiResponse<T = unknown> =
 			error: ApiError;
 	  };
 
-export type TeamWithMemberCount = any;
-// export type TeamWithMemberCount = Prisma.TeamGetPayload<{
-// 	include: {
-// 		_count: {
-// 			select: { members: true };
-// 		};
-// 	};
-// }>;
+export type TeamWithMemberCount = Dispensary & {
+	_count: {
+		members: number;
+	};
+};
 
 export type WebookFormSchema = {
 	name: string;

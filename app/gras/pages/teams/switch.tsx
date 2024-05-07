@@ -1,7 +1,7 @@
 import { AuthLayout } from '@/components/layouts';
 import { getSession } from '@/lib/session';
 import { deleteCookie } from 'cookies-next';
-import { getStaffMemberDispensary } from '@cd/data-access';
+import { getStaffMemberDispensaries } from '@cd/data-access';
 import type {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
@@ -57,7 +57,7 @@ export const getServerSideProps = async (
 
   deleteCookie('pending-invite', { req, res });
 
-  const teams = await getStaffMemberDispensary(session?.user.id as string);
+  const teams = await getStaffMemberDispensaries(session?.user.id as string);
 
   return {
     props: {
