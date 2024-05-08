@@ -5,10 +5,10 @@
 import { getShopSite, TextContent } from '@cd/core-lib';
 import { Button, FlexBox, GrasSignature, Paragraph, styles } from '@cd/ui-lib';
 import { useSession, signOut } from 'next-auth/react';
+import { useTranslation } from 'next-i18next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCallback } from 'react';
-import { useTranslation } from 'next-i18next';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/logo.png';
 import { getNavLinkGroups } from './DashBoardNavigation';

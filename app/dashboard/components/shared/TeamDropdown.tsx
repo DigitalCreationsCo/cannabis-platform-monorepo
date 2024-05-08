@@ -33,13 +33,13 @@ const TeamDropdown = () => {
 			items: (dispensaries || []).map((team) => ({
 				id: team.id,
 				name: team.name,
-				href: `/teams/${team.slug}/settings`,
+				href: `/teams/${team.slug}/home`,
 				icon: FolderIcon,
 			})),
 		},
 		{
 			id: 1,
-			name: t('profile'),
+			name: t('account'),
 			items: [
 				{
 					id: user?.id,
@@ -73,7 +73,8 @@ const TeamDropdown = () => {
 		<div className="dropdown w-full">
 			<div
 				tabIndex={0}
-				className="border border-gray-300 dark:border-gray-600 flex h-10 items-center px-4 justify-between cursor-pointer rounded text-sm font-bold"
+				// className="border border-gray-300 dark:border-gray-600 flex h-10 items-center px-4 justify-between cursor-pointer rounded text-sm font-bold"
+				className="text-gray-900 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-gray-100 dark:hover:bg-gray-800 flex h-10 items-center px-4 justify-between cursor-pointer rounded font-semibold"
 			>
 				{currentTeam?.name ||
 					data?.user?.name?.substring(
@@ -84,7 +85,7 @@ const TeamDropdown = () => {
 			</div>
 			<ul
 				tabIndex={0}
-				className="dropdown-content dark:border-gray-600 p-2 shadow-md bg-base-100 w-full rounded border"
+				className="dropdown-content dark:border-gray-600 p-2 shadow-md bg-light w-full rounded-b border-t"
 			>
 				{menus.map(({ id, name, items }) => {
 					return (

@@ -124,6 +124,7 @@
   "all-products": "All Products",
   "new-team": "New Dispensary",
   "profile": "Profile",
+  "account": "Account",
   "team-not-found": "Dispensary not found",
   "no-webhook-title": "You haven't created any webhook yet",
   "sp-saml-config-title": "Service Provider (SP) SAML Configuration",

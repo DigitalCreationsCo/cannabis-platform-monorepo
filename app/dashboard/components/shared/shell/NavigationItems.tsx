@@ -49,8 +49,8 @@ const NavigationItem = ({ menu, className }: NavigationItemProps) => {
 	return (
 		<Link
 			href={menu.href}
-			className={`group flex items-center rounded text-sm text-gray-900 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-gray-100 dark:hover:bg-gray-800 p-2 gap-2${
-				menu.active ? 'text-white bg-gray-800 font-semibold' : ''
+			className={`group flex items-center rounded text-sm text-gray-900 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-gray-100 dark:hover:bg-gray-800 p-2 gap-2 ${
+				menu.active ? ' bg-gray-300 font-semibold' : ''
 			}${className}`}
 		>
 			{menu.icon && (
@@ -58,7 +58,7 @@ const NavigationItem = ({ menu, className }: NavigationItemProps) => {
 					className={classNames({
 						'h-5 w-5 shrink-0 group-hover:text-gray-900 dark:group-hover:text-gray-100':
 							true,
-						'text-gray-100': menu.active,
+						// 'text-gray-100': menu.active,
 					})}
 					aria-hidden="true"
 				/>

@@ -29,7 +29,7 @@ const TeamDropdown = () => {
       items: (dispensaries || []).map((team) => ({
         id: team.id,
         name: team.name,
-        href: `/teams/${team.slug}/settings`,
+        href: `/teams/${team.slug}/home`,
         icon: FolderIcon,
       })),
     },
