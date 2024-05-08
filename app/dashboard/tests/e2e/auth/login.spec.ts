@@ -39,8 +39,8 @@ test('Should login a user', async ({ page }) => {
 	await page.getByPlaceholder('Password').fill(user.password);
 	await page.getByRole('button', { name: 'Sign in' }).click();
 	await page.waitForURL('/dashboard');
-	await page.waitForURL(`/teams/${team.slug}/settings`);
-	await page.waitForSelector('text=Settings');
+	await page.waitForURL(`/teams/${team.slug}/home`);
+	await page.waitForSelector(`text=${team.name}`);
 });
 
 test.afterAll(async () => {

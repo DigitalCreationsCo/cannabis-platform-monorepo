@@ -9910,6 +9910,11 @@ html:has(.drawer-open.drawer-open) {
   border-radius: 0;
 }
 
+.rounded-b {
+  border-bottom-right-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
+}
+
 .rounded-l {
   border-top-left-radius: 0.25rem;
   border-bottom-left-radius: 0.25rem;
@@ -10029,6 +10034,11 @@ html:has(.drawer-open.drawer-open) {
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
 }
 
+.bg-gray-300 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(209 213 219 / var(--tw-bg-opacity));
+}
+
 .bg-gray-50 {
   --tw-bg-opacity: 1;
   background-color: rgb(249 250 251 / var(--tw-bg-opacity));
@@ -10036,11 +10046,6 @@ html:has(.drawer-open.drawer-open) {
 
 .bg-gray-600\/80 {
   background-color: rgb(75 85 99 / 0.8);
-}
-
-.bg-gray-800 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(31 41 55 / var(--tw-bg-opacity));
 }
 
 .bg-green-900 {
@@ -11538,8 +11543,8 @@ html:has(.drawer-open.drawer-open) {
 }
 
 @media (min-width: 1024px) {
-  .lg\:fixed {
-    position: fixed;
+  .lg\:\!fixed {
+    position: fixed !important;
   }
 
   .lg\:inset-y-0 {
@@ -11562,6 +11567,10 @@ html:has(.drawer-open.drawer-open) {
 
   .lg\:ml-0 {
     margin-left: 0px;
+  }
+
+  .lg\:\!flex {
+    display: flex !important;
   }
 
   .lg\:flex {

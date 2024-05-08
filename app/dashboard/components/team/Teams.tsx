@@ -81,7 +81,7 @@ const Teams = () => {
 											{
 												wrap: true,
 												element: (
-													<Link href={`/teams/${team.slug}/members`}>
+													<Link href={`/teams/${team.slug}/home`}>
 														<div className="flex items-center justify-start space-x-2">
 															<LetterAvatar name={team.name} />
 															<span className="underline">{team.name}</span>
