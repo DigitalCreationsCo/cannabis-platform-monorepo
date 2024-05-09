@@ -2,7 +2,7 @@ import { InputWithLabel } from '@/components/shared';
 import env from '@/lib/env';
 import { LoadingDots } from '@cd/ui-lib';
 import { useFormik } from 'formik';
-import {useInvitation,maxLengthPolicies} from '@cd/core-lib';
+import { useInvitation, maxLengthPolicies } from '@cd/core-lib';
 import { signIn, useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import Head from 'next/head';
@@ -87,8 +87,6 @@ const MagicLink = ({ csrfToken }: MagicLinkProps) => {
               type="submit"
               color="primary"
               loading={formik.isSubmitting}
-              active={formik.dirty}
-              fullWidth
               size="md"
             >
               {t('send-magic-link')}

@@ -33,7 +33,7 @@ const ConfirmationDialog = ({
       <Modal.Header>{title}</Modal.Header>
       <Modal.Body className="text-sm leading-6">{children}</Modal.Body>
       <Modal.Footer>
-        <Button type="button" variant="outline" onClick={onCancel} size="md">
+        <Button type="button" onClick={onCancel} size="md">
           {cancelText || t('cancel')}
         </Button>
         <Button type="button" color="error" onClick={handleConfirm} size="md">

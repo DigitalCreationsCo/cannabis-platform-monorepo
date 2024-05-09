@@ -51,6 +51,9 @@ import {
 } from '@cd/core-lib/src/lib/facebookIG';
 import { GetServerSidePropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { NextSeo } from 'next-seo';
+import app from '@/lib/app';
+import Head from 'next/head';
 
 function FBInit() {
   useEffect(() => {
@@ -167,6 +170,29 @@ export default function Browse({
   }
 
   return (
+    <>
+    <Head>
+      <NextSeo
+        title={app.name}
+        description={app.description}
+        openGraph={{
+          url: app.url,
+          title: app.opengraph.title,
+          type: 'website',
+          description: app.description,
+          images: [
+            { url: app.opengraph.image, alt: app.opengraph.title, width: 300 },
+          ],
+          site_name: app.name,
+        }}
+        twitter={{
+          cardType: 'summary_large_image',
+          site: app.url,
+          handle: '@grascannabis',
+        }}
+      />
+    </Head>
+    
     <Page
       gradient="green"
       className="pt-2 md:pt-2 px-0 lg:px-0 pb-16 min-h-[440px]"
@@ -400,6 +426,7 @@ export default function Browse({
                     </FlexBox> */}
       {/* </Grid> */}
     </Page>
+    </>
   );
 }
 

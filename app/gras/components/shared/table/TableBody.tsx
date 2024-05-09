@@ -77,9 +77,8 @@ export const TableBody = ({
                         return (
                           <Button
                             key={row.id + '-button-' + index}
-                            size="xs"
+                            size="sm"
                             color={button.color}
-                            variant="outline"
                             onClick={button.onClick}
                           >
                             {button.text}
@@ -99,7 +98,11 @@ export const TableBody = ({
                           >
                             <button
                               key={row.id + '-action-' + index}
-                              className={`py-2 ${action.destructive ? 'text-red-500 hover:text-red-900' : 'hover:text-green-400'}`}
+                              className={`py-2 ${
+                                action.destructive
+                                  ? 'text-red-500 hover:text-red-900'
+                                  : 'hover:text-green-400'
+                              }`}
                               onClick={action.onClick}
                             >
                               {action.icon}

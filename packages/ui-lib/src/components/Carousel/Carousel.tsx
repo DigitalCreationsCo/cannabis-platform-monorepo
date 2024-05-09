@@ -493,8 +493,6 @@ export default function Carousel<D>({ items, title }: CarouselProps<D>) {
 				// 	},
 				// }}
 				partialVisible
-				sliderClass="border"
-				itemClass="border"
 				removeArrowOnDeviceType={['tablet', 'mobile']}
 				renderArrowsWhenDisabled
 				responsive={{
