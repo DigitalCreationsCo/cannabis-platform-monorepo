@@ -24,7 +24,7 @@ import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
-import founder  from '../../public/founder.jpg'
+import founder  from '../../../public/founder.jpg'
 
 export type ContactUsFormResponse = {
 	firstName: string;

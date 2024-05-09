@@ -3,9 +3,9 @@ import { TextContent } from '@cd/core-lib';
 import { Button, FlexBox, H1, H2, Paragraph, styles } from '@cd/ui-lib';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
-import Partners from './partners/Partners';
-import { recognizedBy } from './partners/partners-data';
-import { CTA2XMyBusiness } from './';
+import Partners from '../partners/Partners';
+import { recognizedBy } from '../partners/partners-data';
+import { CTA } from '../';
 
 function Hero() {
 	const [heading, largeHeading] = [
@@ -46,16 +46,16 @@ function Hero() {
 					year.
 				</Paragraph>
 				<FlexBox className="items-center gap-4 sm:flex-row justify-center lg:gap-8">
-					<CTA2XMyBusiness />
+					<CTA />
 					<Link
 						href={'#letter-1'}
 						scroll={false}
-						className="w-[240px] placeholder:hover:scale-105 transition duration-200"
+						className="w-[240px] placeholder:hover:scale-105 transition duration-200 pb-2"
 					>
 						<Button
 							size="lg"
 							bg="secondary-light"
-							hover="secondary-light"
+							hover="primary"
 							className="w-full px-8"
 						>
 							{TextContent.info.LEARN_MORE}

@@ -25,10 +25,17 @@ const unAuthenticatedRoutes = [
   '/blog/*',
   '/blog',
   '/work-with-us',
+  '/workwithus',
+  '/messaging',
 ];
 
 export default async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
+
+  if (pathname === '/workwithus') {
+    const url = new URL('/work-with-us', req.url);
+    return NextResponse.redirect(url);
+  }
 
   // Bypass routes that don't require authentication
   if (micromatch.isMatch(pathname, unAuthenticatedRoutes)) {
