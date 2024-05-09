@@ -2,7 +2,7 @@ import { FlexBox, Paragraph, IconWrapper, H5, styles, H2 } from '@cd/ui-lib';
 import Image from 'next/image';
 import { type HTMLAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { CTA2XMyBusiness } from '../index';
+import { CTA } from '../index';
 import { type BenefitData } from './benefit-data';
 
 interface BenefitsProps extends HTMLAttributes<HTMLDivElement> {
@@ -99,7 +99,7 @@ export default function Benefits({
 				<>
 				{props.children}
 				</>
-				{(data.cta && <CTA2XMyBusiness cta={data.cta} />) || <></>}
+				{(data.cta && <CTA cta={data.cta} />) || <></>}
 			</FlexBox>
 		</div>
 	);

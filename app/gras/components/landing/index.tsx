@@ -4,21 +4,24 @@ import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
 
 export { default as ServicesTopBar } from './ServicesTopBar';
-export { default as Hero } from './Hero';
-export { default as ContactUs } from './ContactUs';
+export { default as Hero } from './workwithus/Hero';
+export { default as MessagingHero } from './messaging/Hero';
+export { default as ContactUs } from './workwithus/ContactUs';
 export { default as Benefits } from './benefits/Benefits';
 export { default as Letter } from './letter/Letter';
 
-export const CTA2XMyBusiness = ({
+export const CTA = ({
 	className,
 	cta,
+	href = '#contact-us-header',
 }: {
 	className?: any;
 	cta?: any;
+	href?: string;
 }) => {
 	return (
 		<Link
-			href={'#contact-us-header'}
+			href={href}
 			scroll={false}
 			className={twMerge(
 				'min-w-[240px] hover:scale-105 transition duration-200 pb-2',

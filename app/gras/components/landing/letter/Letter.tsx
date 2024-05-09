@@ -2,7 +2,7 @@ import { FlexBox, H2, Paragraph, styles } from '@cd/ui-lib';
 import Image from 'next/image';
 import { type HTMLAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { CTA2XMyBusiness } from '../';
+import { CTA } from '../';
 
 interface LetterProps extends HTMLAttributes<HTMLDivElement> {
 	title: string;
@@ -82,7 +82,7 @@ export default function Letter({
 				</FlexBox>
 				{(cta && (
 					<div className="py-6">
-						<CTA2XMyBusiness cta={cta} />
+						<CTA cta={cta} />
 					</div>
 				)) || <></>}
 			</FlexBox>
