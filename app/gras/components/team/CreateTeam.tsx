@@ -1,7 +1,9 @@
-import { Dispensary} from '@cd/data-access';
+import { Dispensary } from '@cd/data-access';
 import {
   defaultHeaders,
-  ApiResponse,maxLengthPolicies, useDispensaries
+  ApiResponse,
+  maxLengthPolicies,
+  useDispensaries,
 } from '@cd/core-lib';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
@@ -73,7 +75,7 @@ const CreateTeam = ({ visible, setVisible }: CreateTeamProps) => {
           />
         </Modal.Body>
         <Modal.Footer>
-          <Button type="button" variant="outline" onClick={onClose} size="md">
+          <Button type="button" onClick={onClose} size="md">
             {t('close')}
           </Button>
           <Button

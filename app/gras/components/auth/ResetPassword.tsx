@@ -92,14 +92,7 @@ const ResetPassword = () => {
           />
         </div>
         <div className="mt-4">
-          <Button
-            type="submit"
-            color="primary"
-            loading={submitting}
-            active={formik.dirty}
-            fullWidth
-            size="md"
-          >
+          <Button type="submit" color="primary" loading={submitting} size="md">
             {t('reset-password')}
           </Button>
         </div>

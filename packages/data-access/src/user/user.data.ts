@@ -34,13 +34,12 @@ export const createUser = async (data: {
 };
 
 export const updateUser = async ({
-	id,
+	key,
 	data,
 }: {
-	id: string;
+	key: { id: string } | { email: string };
 	data: UpdateFilter<User>;
 }): Promise<User> => {
-	console.trace('update user', id, data);
 	data = normalizeUser(data);
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;

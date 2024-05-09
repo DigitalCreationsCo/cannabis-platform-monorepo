@@ -9,7 +9,7 @@ export type StaffMember = {
 	role: Role;
 	createdAt: Date;
 	updatedAt: Date;
-	team: Partial<Dispensary>;
+	team: Dispensary;
 	teamId: string;
 };
 
@@ -19,7 +19,7 @@ export type StaffMemberWithUser = {
 	userId: string;
 	user: User;
 	role: Role;
-	team: Pick<Dispensary, 'slug' | 'name'>;
+	team: Dispensary;
 	teamId: string;
 	createdAt: Date;
 	updatedAt: Date;

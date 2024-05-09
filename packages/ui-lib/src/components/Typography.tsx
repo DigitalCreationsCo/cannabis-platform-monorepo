@@ -17,7 +17,7 @@ export const GrasSignature = ({
 	...props
 }: Props) => {
 	return (
-		<h1
+		<div
 			className={twMerge(
 				'text-secondary',
 				'pt-1 pb-0 mb-0',
@@ -34,7 +34,7 @@ export const GrasSignature = ({
 			{...props}
 		>
 			{children}
-		</h1>
+		</div>
 	);
 };
 

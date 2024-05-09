@@ -3,33 +3,31 @@ import { signOut } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 
 interface EmailMismatchProps {
-	email: string;
+  email: string;
 }
 
 const EmailMismatch = ({ email }: EmailMismatchProps) => {
-	const { t } = useTranslation('common');
+  const { t } = useTranslation('common');
 
-	return (
-		<>
-			<p className="text-sm text-center">
-				{t('email-mismatch-error', { email })}
-			</p>
-			<p className="text-sm text-center">
-				{t('accept-invitation-email-instruction')}
-			</p>
-			<Button
-				fullWidth
-				color="error"
-				size="md"
-				variant="outline"
-				onClick={() => {
-					signOut();
-				}}
-			>
-				{t('sign-out')}
-			</Button>
-		</>
-	);
+  return (
+    <>
+      <p className="text-sm text-center">
+        {t('email-mismatch-error', { email })}
+      </p>
+      <p className="text-sm text-center">
+        {t('accept-invitation-email-instruction')}
+      </p>
+      <Button
+        color="error"
+        size="md"
+        onClick={() => {
+          signOut();
+        }}
+      >
+        {t('sign-out')}
+      </Button>
+    </>
+  );
 };
 
 export default EmailMismatch;

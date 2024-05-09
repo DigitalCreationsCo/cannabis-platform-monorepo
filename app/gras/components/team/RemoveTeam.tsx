@@ -7,10 +7,7 @@ import { Button } from '@cd/ui-lib';
 import toast from 'react-hot-toast';
 
 import ConfirmationDialog from '../shared/ConfirmationDialog';
-import {
-  defaultHeaders,
-  ApiResponse
-} from '@cd/core-lib';
+import { defaultHeaders, ApiResponse } from '@cd/core-lib';
 interface RemoveTeamProps {
   team: Dispensary;
   allowDelete: boolean;
@@ -61,7 +58,6 @@ const RemoveTeam = ({ team, allowDelete }: RemoveTeamProps) => {
               color="error"
               onClick={() => setAskConfirmation(true)}
               loading={loading}
-              variant="outline"
               size="md"
             >
               {t('remove-team')}

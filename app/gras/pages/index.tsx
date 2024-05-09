@@ -24,13 +24,33 @@ import classNames from 'classnames';
 import logo from '../public/logo.png';
 import { twMerge } from 'tailwind-merge';
 import friendsVideo from '../public/Gras-community-clip.mp4';
+import { NextSeo } from 'next-seo';
+import app from '@/lib/app';
 
 const Home: NextPageWithLayout = () => {
   const { t } = useTranslation('common');
   return (
     <div className="flex flex-col">
       <Head>
-        <title>{t('homepage-title')}</title>
+      <NextSeo
+        title={app.name}
+        description={app.description}
+        openGraph={{
+          url: app.url,
+          title: app.opengraph.title,
+          type: 'website',
+          description: app.description,
+          images: [
+            { url: app.opengraph.image, alt: app.opengraph.title, width: 300 },
+          ],
+          site_name: app.name,
+        }}
+        twitter={{
+          cardType: 'summary_large_image',
+          site: app.url,
+          handle: '@grascannabis',
+        }}
+      />
       </Head>
 
       <div className={twMerge(styles.TOPBAR.topbar)}>

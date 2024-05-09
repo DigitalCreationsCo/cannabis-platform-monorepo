@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { ObjectId } from 'mongodb';
 import { db_namespace } from '../db';
 import { type Dispensary } from '../dispensary/dispensary.types';
@@ -7,29 +8,51 @@ import { getUser } from '../user/user.data';
 import { type StaffMember } from './staff.types';
 
 export const addStaffMember = async (
-	dispensary: Dispensary,
+	dispensary: Dispensary | string,
 	userId: string,
 	role: Role,
-) => {
+): Promise<StaffMember> => {
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
-	client
-		.db(db)
-		.collection<Dispensary>(collections.dispensaries)
-		.findOneAndUpdate(
-			{ _id: new ObjectId(dispensary.id) },
-			{ $push: { members: userId } },
-		);
-	await client
-		.db(db)
-		.collection<StaffMember>(collections.staff)
-		.updateOne(
-			{ teamId: dispensary.id, _id: new ObjectId(userId) },
-			{
-				$set: { role, team: { slug: dispensary.slug, name: dispensary.name } },
-			},
-			{ upsert: true },
-		);
+	if (typeof dispensary === 'string') {
+		dispensary = (
+			await client
+				.db(db)
+				.collection<Dispensary>(collections.dispensaries)
+				.findOneAndUpdate(
+					{ _id: new ObjectId(dispensary) },
+					{ $push: { members: userId } },
+				)
+		).value as Dispensary;
+	} else {
+		client
+			.db(db)
+			.collection<Dispensary>(collections.dispensaries)
+			.findOneAndUpdate(
+				{ _id: new ObjectId(dispensary.id) },
+				{ $push: { members: userId } },
+			);
+	}
+	const staffMember = (
+		await client
+			.db(db)
+			.collection<StaffMember>(collections.staff)
+			.findOneAndUpdate(
+				{ teamId: dispensary.id, _id: new ObjectId(userId) },
+				{
+					$set: {
+						role,
+						team: dispensary,
+					},
+				},
+				{ upsert: true },
+			)
+	).value;
+	return {
+		...staffMember!,
+		id: staffMember!._id.toString(),
+		team: dispensary,
+	};
 };
 
 export const updateStaffMember = async ({ id, data }: any) => {
