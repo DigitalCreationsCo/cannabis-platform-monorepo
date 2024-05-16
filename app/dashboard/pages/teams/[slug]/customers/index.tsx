@@ -14,6 +14,7 @@ import {
   Button,
 } from '@cd/ui-lib';
 import axios from 'axios';
+import { useTranslation } from 'next-i18next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -25,6 +26,8 @@ type CustomerDashboardProps = {
 };
 
 function CustomersPage({ customers }: CustomerDashboardProps) {
+  const { t } = useTranslation();
+
   if (!customers) throw new Error();
 
   const [, setDialogOpen] = useState(false);
@@ -57,22 +60,22 @@ function CustomersPage({ customers }: CustomerDashboardProps) {
         <div className="flex flex-row gap-x-5 my-4">
           <Link href="/customer/create">
             <Button className="bg-inverse active:bg-accent-soft place-self-start px-4 mt-2">
-              Add Customer
+              {t('add-customer')}
             </Button>
           </Link>
           <Link href="/customer/import">
             <Button className="bg-inverse active:bg-accent-soft place-self-start px-4 mt-2">
-              Import Customers
+              {t('import-customers')}
             </Button>
           </Link>
         </div>
       </PageHeader>
       <Grid className="gap-2">
         <Row className="grid h-[44px] grid-cols-12">
-          <H6 className="col-span-4">Name</H6>
-          <H6 className="col-span-4">Email</H6>
-          <H6 className="col-span-2">Phone</H6>
-          <H6 className="col-span-2">Role</H6>
+          <H6 className="col-span-4">{t('name')}</H6>
+          <H6 className="col-span-4">{t('email')}</H6>
+          <H6 className="col-span-2">{t('phone')}</H6>
+          <H6 className="col-span-2">{t('role')}</H6>
         </Row>
         {current.length > 0 ? (
           <>
@@ -111,7 +114,7 @@ function CustomersPage({ customers }: CustomerDashboardProps) {
             <PaginationButtons />
           </>
         ) : (
-          <Row className="h-[52px]">No users are found.</Row>
+          <Row className="h-[52px]">{`No users are found.`}</Row>
         )}
       </Grid>
 

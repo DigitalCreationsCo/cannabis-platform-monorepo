@@ -16,7 +16,7 @@ const styles = Object.freeze({
 		'relative',
 		// 'mx-4 my-8 sm:pt-4 pb-12 md:py-5 px-4 md:px-12',
 		'mx-3 my-3 sm:pt-4 md:py-5 px-4 md:px-12',
-		'rounded-btn shadow h-[280px]',
+		'rounded-btn shadow h-[220px]',
 		'drop-shadow-[-6px_4px_1px_#455555]',
 	],
 	infoCard: [
@@ -35,7 +35,7 @@ const styles = Object.freeze({
 	},
 	TOPBAR: {
 		topbar: [
-			'z-50 sticky flex flex-row px-2 bg-inverse-soft items-center shadow min-h-[40px] shrink-0 justify-between space-x-5 lg:pl-5 lg:pr-8',
+			'z-50 sticky flex flex-row py-2 px-4 bg-inverse-soft items-center min-h-[40px] shrink-0 justify-between space-x-5 lg:pl-10 lg:pr-12',
 		],
 		tagline: [
 			'p-0 m-0',
@@ -55,12 +55,12 @@ const styles = Object.freeze({
 			'btn focus:!border-primary focus:!ring-primary focus:!outline-primary h-32 w-32 col-span-1 !rounded-full p-0 m-0 overflow-hidden',
 		],
 		highlight: [
-			'border border-transparent transition-1 hover:border hover:border-primary rounded-btn px-4 tracking-wide',
+			'border border-transparent transition hover:border hover:border-primary rounded-btn px-4 py-1 tracking-wide text-lg',
 		],
 	},
 	FOOTER: {
 		container:
-			'cursor-default flex-col min-h-[188px] p-10 bg-secondary min-w-full bottom-0 shadow-lg',
+			'cursor-default flex-col min-h-[188px] p-10 bg-secondary min-w-full bottom-0 shadow-lg pb-[120px]',
 	},
 	label_f: (justifyLabel: 'left' | 'center' | 'right' | undefined = 'left') => [
 		'px-2 py-1',

@@ -14,7 +14,7 @@ const address: Address = {
 	street2: 'Apt 1',
 	city: 'Denver',
 	state: 'CO',
-	country: "United States",
+	country: 'United States',
 	countryCode: 'US',
 	coordinateId: '1',
 	zipcode: '80202',
@@ -63,16 +63,15 @@ describe('renderSchedule', () => {
 		{ day: 'Sunday', openAt: 800, closeAt: 1600 },
 	] as Schedule[];
 	test(' displays a correct address', () => {
-		expect(renderSchedule(schedule)).toStrictEqual(
-			`Monday 8am to 8pm
-Tuesday 8am to 8pm
-Wednesday 8am to 8pm
-Thursday 8am to 8pm
-Friday 8am to 8pm
-Saturday 8am to 4pm
-Sunday 8am to 4pm
-`,
-		);
+		expect(renderSchedule(schedule)).toStrictEqual([
+			['Monday', '8am to 8pm'],
+			['Tuesday', '8am to 8pm'],
+			['Wednesday', '8am to 8pm'],
+			['Thursday', '8am to 8pm'],
+			['Friday', '8am to 8pm'],
+			['Saturday', '8am to 4pm'],
+			['Sunday', '8am to 4pm'],
+		]);
 	});
 });
 

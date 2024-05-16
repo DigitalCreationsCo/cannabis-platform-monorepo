@@ -26,7 +26,7 @@ export const handleEvents = async (event: DirectorySyncEvent) => {
   // User has been added
   if (action === 'user.created') {
     const user = await upsertUser({
-      id,
+      where: { id },
       update: {
         name,
       },
@@ -61,7 +61,7 @@ export const handleEvents = async (event: DirectorySyncEvent) => {
     }
 
     await updateUser({
-      id: user.id,
+      where: { id: user.id },
       data: {
         name,
       },

@@ -3,12 +3,7 @@ import {
   urlBuilder,
   usStatesAbbreviationList,
 } from '@cd/core-lib';
-import {
-  type Address,
-  type ImageUser,
-  type User,
-  type UserWithDetails,
-} from '@cd/data-access';
+import { type Address, type User } from '@cd/data-access';
 import {
   AddAddressUserModal,
   Button,
@@ -51,7 +46,7 @@ import * as yup from 'yup';
 // create update record api route
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
-export default function UserDetails({ user }: { user: UserWithDetails }) {
+export default function UserDetails({ user }: { user: any }) {
   const initialValues = {
     id: user?.id || '',
     firstName: user?.firstName || '',
@@ -93,8 +88,8 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
   });
   const [files, setFiles] = useState<unknown[]>([]);
   const [loadingButton, setLoadingButton] = useState(false);
-  const [, setExistingImage] = useState<ImageUser | null>(user?.profilePicture);
-  const [deletedImage, setDeletedImage] = useState<ImageUser[]>([]);
+  const [, setExistingImage] = useState<any | null>(user?.profilePicture);
+  const [deletedImage, setDeletedImage] = useState<any[]>([]);
 
   const [address, setAddress] = useState<Address[]>(values.address || []);
   const [addressAddModal, setAddressAddModal] = useState(false);
@@ -167,7 +162,7 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
     }
   }
 
-  const handleDeleteExistingImage = (image: ImageUser) => {
+  const handleDeleteExistingImage = (image: any) => {
     setExistingImage(null);
     setDeletedImage((state) => [...state, image]);
   };
@@ -441,18 +436,10 @@ export default function UserDetails({ user }: { user: UserWithDetails }) {
               <Grid title="Images" className="space-y-2">
                 <FlexBox>
                   <UploadImageBox
-                    onClick={() =>
-                      handleDeleteExistingImage(
-                        user?.profilePicture as ImageUser
-                      )
-                    }
+                    onClick={() => handleDeleteExistingImage(user?.image)}
                     // onKeyUp={() => {}}
                   >
-                    <Image
-                      src={user?.profilePicture?.location as string}
-                      alt=""
-                      fill={true}
-                    />
+                    <Image src={user?.image as string} alt="" fill={true} />
                   </UploadImageBox>
                   {files.map(
                     (

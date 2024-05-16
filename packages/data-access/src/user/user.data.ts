@@ -34,13 +34,15 @@ export const createUser = async (data: {
 };
 
 export const updateUser = async ({
-	key,
+	where,
 	data,
 }: {
-	key: { id: string } | { email: string };
+	where: { id: string } | { email: string } | any;
 	data: UpdateFilter<User>;
 }): Promise<User> => {
 	data = normalizeUser(data);
+	Object.hasOwnProperty.call(where, 'id') &&
+		(where = { _id: new ObjectId(where.id) });
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
 	const user = (
@@ -48,7 +50,7 @@ export const updateUser = async ({
 			.db(db)
 			.collection<User>(collections.users)
 			.findOneAndUpdate(
-				{ _id: new ObjectId(id) },
+				where,
 				{ $set: normalizeUser(data) },
 				{
 					returnDocument: 'after',
@@ -59,43 +61,41 @@ export const updateUser = async ({
 };
 
 export const upsertUser = async ({
-	id,
+	where,
 	update,
 }: {
-	id: string;
+	where: { id: string } | { email: string } | any;
 	update: UpdateFilter<User>;
 }): Promise<User> => {
-	console.trace('upsertUser ', id, update);
 	update = normalizeUser(update);
+	Object.hasOwnProperty.call(where, 'id') &&
+		(where = { _id: new ObjectId(where.id) });
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
 	const user = (
-		await client
-			.db(db)
-			.collection<User>(collections.users)
-			.findOneAndUpdate(
-				{
-					_id: new ObjectId(id),
-				},
-				{ $set: update },
-				{
-					upsert: true,
-					returnDocument: 'after',
-				},
-			)
+		await client.db(db).collection<User>(collections.users).findOneAndUpdate(
+			where,
+			{ $set: update },
+			{
+				upsert: true,
+				returnDocument: 'after',
+			},
+		)
 	).value;
 	return { ...user!, id: user!._id.toString() };
 };
 
 export const getUser = async (
-	key: { id: string } | { email: string } | { phone: string },
+	where: { id: string } | { email: string } | { phone: string } | any,
 ): Promise<User | null> => {
+	Object.hasOwnProperty.call(where, 'id') &&
+		(where = { _id: new ObjectId(where.id) });
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
 	const user = await client
 		.db(db)
 		.collection<User>(collections.users)
-		.findOne(key);
+		.findOne(where);
 	return (user && { id: user._id, ...normalizeUser(user) }) || null;
 };
 
@@ -113,10 +113,14 @@ export const getUserBySession = async (session: any) => {
 	return await getUser({ id });
 };
 
-export const deleteUser = async (key: { id: string } | { email: string }) => {
+export const deleteUser = async (
+	where: { id: string } | { email: string } | any,
+) => {
+	Object.hasOwnProperty.call(where, 'id') &&
+		(where = { _id: new ObjectId(where.id) });
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
-	return await client.db(db).collection(collections.users).deleteOne(key);
+	return await client.db(db).collection(collections.users).deleteOne(where);
 };
 
 export const findFirstUserOrThrow = async ({ id }: any) => {

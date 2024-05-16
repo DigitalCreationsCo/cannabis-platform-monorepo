@@ -29,7 +29,10 @@ export default function IconWrapper({
 			)}
 		>
 			<Icon
-				className={twMerge(iconClass, styles.fill)}
+				className={twMerge(
+					iconClass,
+					// styles.fill
+				)}
 				height={iconSize}
 				width={iconSize}
 				{...props}

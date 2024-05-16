@@ -64,10 +64,10 @@
 // };
 
 // export const getInvitation = async (
-// 	key: { token: string } | { id: string },
+// 	where: { token: string } | { id: string },
 // ) => {
 // 	const invitation = await prisma.invitation.findUnique({
-// 		where: key,
+// 		where,
 // 		include: {
 // 			team: {
 // 				select: {
@@ -104,10 +104,10 @@
 // };
 
 // export const deleteInvitation = async (
-// 	key: { token: string } | { id: string },
+// 	where: { token: string } | { id: string },
 // ) => {
 // 	return await prisma.invitation.delete({
-// 		where: key,
+// 		where
 // 	});
 // };
 

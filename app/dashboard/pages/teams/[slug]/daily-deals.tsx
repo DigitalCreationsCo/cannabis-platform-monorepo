@@ -7,31 +7,21 @@ import {
   showTime,
   urlBuilder,
   useAppDispatch,
-  type AppState,
   type ResponseDataEnvelope,
   usStatesAbbreviationList,
   formatToTimeZone,
   TimeZoneMap,
 } from '@cd/core-lib';
 import { type CustomerSMSInvite } from '@cd/core-lib/src/sms/slicktext';
-import {
-  type USStateAbbreviated,
-  type DailyDeal,
-  type OrderWithFullDetails,
-  type OrganizationWithDashboardDetails,
-  type ProductWithDashboardDetails,
-  type UserDispensaryStaff,
-} from '@cd/data-access';
+import { type Dispensary } from '@cd/data-access';
 import {
   Button,
   FlexBox,
   Grid,
   Icons,
-  Page,
   PageHeader,
   Paragraph,
   TextField,
-  type LayoutContextProps,
   H2,
   Select,
   TextArea,
@@ -44,13 +34,13 @@ import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 import { wrapper } from '@/lib/store';
 
-interface DashboardProps {
-  organization: OrganizationWithDashboardDetails;
-  user: UserDispensaryStaff;
-  products: ProductWithDashboardDetails[];
-  orders: OrderWithFullDetails[];
-  dailyDeals: DailyDeal[];
-}
+// interface DashboardProps {
+// 	organization: Dispensary;
+// 	user: StaffMember;
+// 	products: any[];
+// 	orders: any[];
+// 	dailyDeals: DailyDeal[];
+// }
 
 const dailyDealsInfo = `Daily Deals are a great way to promote your business to your customers.
 Messages are sent to your customers through text message. 
@@ -79,7 +69,7 @@ export default function DailyDealsPage() {
   const organization = {
     id: '1',
     name: 'test',
-  } as OrganizationWithDashboardDetails;
+  } as Dispensary;
 
   const user = {
     id: '1',
@@ -104,13 +94,14 @@ export default function DailyDealsPage() {
     );
   }
   const DailyDeals = () => (
-    <div className="my-4 flex grow">
+    <div className="my-4 flex grow flex-col gap-y-4">
+      <Paragraph className="font-semibold">{`Your current message`}</Paragraph>
       <Grid className="flex grow flex-col md:flex-row gap-2 flex-wrap">
         {dailyDeals?.length ? (
           dailyDeals.map((deal, index) => (
             <div
               key={`daily-deal-${index + 1}`}
-              className="border rounded w-[386px] p-2"
+              className="border rounded w-[386px] h-[186px] p-4"
             >
               <FlexBox className="w-full flex-row justify-between">
                 <Paragraph>
@@ -131,7 +122,7 @@ export default function DailyDealsPage() {
             </div>
           ))
         ) : (
-          <Paragraph>You have no deals. Try adding one.</Paragraph>
+          <Paragraph>{`You have no deals. Try adding one.`}</Paragraph>
         )}
       </Grid>
     </div>
@@ -148,11 +139,11 @@ export default function DailyDealsPage() {
               Icon={Icons.Mobile}
             >
               <Button
-                className="my-4 px-4 bg-inverse active:bg-accent-soft place-self-start"
+                className="my-4 px-4 bg-inverse hover:bg-inverse active:bg-accent-soft place-self-start"
                 hover="accent-soft"
                 onClick={openNewDailyDealModal}
               >
-                new Daily Deal
+                {`new Daily Deal`}
               </Button>
             </PageHeader>
             <Button
@@ -162,7 +153,7 @@ export default function DailyDealsPage() {
               hover="transparent"
               className="hover:text-primary font-semibold underline place-self-start"
             >
-              What is a daily deal?
+              {`What is a daily deal?`}
             </Button>
           </FlexBox>
 
@@ -174,11 +165,7 @@ export default function DailyDealsPage() {
   );
 }
 
-function SendDailyDealsInviteForm({
-  dispensary,
-}: {
-  dispensary: OrganizationWithDashboardDetails;
-}) {
+function SendDailyDealsInviteForm({ dispensary }: { dispensary: Dispensary }) {
   const [loadingButton, setLoadingButton] = useState(false);
 
   const {
@@ -201,7 +188,7 @@ function SendDailyDealsInviteForm({
       state: undefined,
       zipcode: undefined,
       birthdate: '',
-      doubleOptInMessage: `Reply YES to join ${dispensary.name} daily deals program.`,
+      doubleOptInMessage: `Reply YES to join ${dispensary.name}.`,
     } as CustomerSMSInvite,
     onSubmit: async () => {
       try {
@@ -256,13 +243,13 @@ function SendDailyDealsInviteForm({
   return (
     <div className="space-y-4">
       <div className="border w-full xl:hidden"></div>
-      <H2 className="text-xl">Invite a Customer</H2>
-      <FlexBox className="gap-8">
+      <H2 className="text-xl">{`Invite a Customer`}</H2>
+      <FlexBox className="">
         <Grid className="grid-cols-2 max-w-lg gap-2">
           <Paragraph className="font-semibold col-span-2 row-span-1">
             {/* {`Send your customers an invite link to share with their friends. When their friends
 				place their first order, your customer will receive a $10 credit to their account.`} */}
-            {`Invite a customer to Daily Deals. The customer will receive a text message to join your program. 
+            {`Subscribe a customer to receive your text messages. The customer will receive a text message invite to join. 
 						* Required`}
           </Paragraph>
           <TextField
@@ -336,10 +323,9 @@ function SendDailyDealsInviteForm({
             onChange={handleChange}
             error={!!touched?.zipcode && !!errors?.zipcode}
           />
-          {values.birthdate}
           <TextField
             name="birthdate"
-            label="Birthday"
+            label="birthday"
             type="date"
             onChange={(e: any) => {
               const date = formatToTimeZone(
@@ -349,15 +335,12 @@ function SendDailyDealsInviteForm({
               setFieldValue('birthdate', date);
             }}
           />
-        </Grid>
-        <div className="border w-full"></div>
-        <Grid className="grid-cols-2 max-w-lg gap-2 row-span-2">
-          <Paragraph className="font-semibold col-span-2 row-span-1 row-start-1">
+          <Paragraph className="font-semibold col-span-2 pt-4">
             {`Invited customers will receive this message. 
-						The customer must reply YES to join your daily deals program.`}
+						The customer must reply YES to join.`}
           </Paragraph>
           <TextArea
-            containerClassName={'flex-1 row-start-2 col-span-2'}
+            containerClassName={'flex-1 col-span-2'}
             name="doubleOptInMessage"
             label="Customize Your Message"
             placeholder={values.doubleOptInMessage}
@@ -367,45 +350,43 @@ function SendDailyDealsInviteForm({
             error={!!touched.doubleOptInMessage && !!errors.doubleOptInMessage}
           />
         </Grid>
+        <Button
+          type="submit"
+          loading={loadingButton}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            notifyValidation();
+            handleSubmit();
+          }}
+          className="border mx-2 my-4 px-4 active:bg-accent hover:bg-accent place-self-end justify-self-end"
+        >
+          {`Send Invite`}
+        </Button>
       </FlexBox>
-      <Button
-        type="submit"
-        loading={loadingButton}
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          notifyValidation();
-          handleSubmit();
-        }}
-        className="bordermx-2 my-4 px-4 bg-inverse active:bg-accent-soft"
-        hover="accent-soft"
-      >
-        Send Invite Link
-      </Button>
     </div>
   );
 }
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  (): any =>
-    async ({ query, req, res }: any) => {
-      // const response = await axios.get<ResponseDataEnvelope<DailyDeal[]>>(
-      // 	urlBuilder.dashboard + '/api/daily-deals',
-      // 	{
-      // 		headers: {
-      // 			'organization-id': query.dashboard,
-      // 			Authorization: `Bearer ${session.getAccessToken()}`,
-      // 		},
-      // 	},
-      // );
+  (): any => async () => {
+    // const response = await axios.get<ResponseDataEnvelope<DailyDeal[]>>(
+    // 	urlBuilder.dashboard + '/api/daily-deals',
+    // 	{
+    // 		headers: {
+    // 			'organization-id': query.dashboard,
+    // 			Authorization: `Bearer ${session.getAccessToken()}`,
+    // 		},
+    // 	},
+    // );
 
-      // if (!response.data.success || response.data.success === 'false')
-      // 	throw new Error(response.data.error);
+    // if (!response.data.success || response.data.success === 'false')
+    // 	throw new Error(response.data.error);
 
-      // const dailyDeals = response.data.payload;
+    // const dailyDeals = response.data.payload;
 
-      return {
-        props: { dailyDeals: [] },
-      };
-    }
+    return {
+      props: { dailyDeals: [] },
+    };
+  }
 );

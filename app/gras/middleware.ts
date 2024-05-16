@@ -9,6 +9,7 @@ import env from './lib/env';
 const unAuthenticatedRoutes = [
   '/api/hello',
   '/api/health',
+  '/api/dispensaries',
   '/api/auth/**',
   '/api/oauth/**',
   '/api/scim/v2.0/**',
@@ -21,6 +22,7 @@ const unAuthenticatedRoutes = [
   '/unlock-account',
   '/login/saml',
   '/browse',
+  '/weed-text',
   '/blog/**',
   '/blog/*',
   '/blog',

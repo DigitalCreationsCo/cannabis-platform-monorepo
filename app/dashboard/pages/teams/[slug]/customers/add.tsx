@@ -18,7 +18,7 @@ export default function AddUser() {
         Icon={Icons.User2}
         Button={
           <Link href="/users">
-            <Button>Back to Users</Button>
+            <Button>{`Back to Users`}</Button>
           </Link>
         }
       />
@@ -61,7 +61,7 @@ export default function AddUser() {
                                                             /> */}
         </Row>
         <FlexBox className="items-stretch justify-center py-2">
-          <Button className="flex grow">Save User</Button>
+          <Button className="flex grow">{`Save User`}</Button>
         </FlexBox>
       </Grid>
     </Page>
