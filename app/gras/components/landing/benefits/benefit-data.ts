@@ -1,6 +1,22 @@
 import { Icons } from '@cd/ui-lib';
 import { type StaticImageData } from 'next/image';
 import FleetTrackingImage from '../../../public/fleet-tracking-and-app-view.png';
+import {
+  ChatBubbleLeftEllipsisIcon,
+  SpeakerWaveIcon,
+} from '@heroicons/react/24/outline';
+import CustomerService from '@cd/ui-lib/src/icons/CustomerService';
+import {
+  Help,
+  HelpDesk,
+  HelpFilled,
+  Time,
+  UserActivity,
+  UserAdmin,
+  UserCertification,
+  UserFavoriteAltFilled,
+} from '@carbon/icons-react';
+import OnlineSupport from '@cd/ui-lib/src/icons/OnlineSupport';
 
 export const unlockYourGrowth = {
   title: 'We Unlock Hyper Growth For Your Dispensary',
@@ -51,6 +67,7 @@ export const trackDeliveries: BenefitData = {
   description: `Track delivery drivers, orders and make adjustments on the fly`,
   image: FleetTrackingImage,
   bullets: [],
+  cta: `Upgrade my delivery service`,
 };
 
 export const deliveryManagementService: BenefitData = {
@@ -87,7 +104,7 @@ export const fullServiceDelivery: BenefitData = {
     {
       title: `Improved Delivery Times`,
       description: `Drivers stay out of traffic with navigation, delighting your customers with short wait times.`,
-      icon: Icons.AlarmClock,
+      icon: Time,
     },
     // {
     // 	description:
@@ -116,7 +133,7 @@ export const fullServiceDelivery: BenefitData = {
 
 export const consumerTextMessaging: BenefitData = {
   title: 'Stay In Touch With Your Customers',
-  description: `With trusted marketing that makes their day better, and keeps them coming back`,
+  description: `With engaging and trusted experiences that make their day better, and keep them coming back`,
   image: require('../../../public/message.png'),
   bullets: [
     {
@@ -132,7 +149,29 @@ export const consumerTextMessaging: BenefitData = {
       icon: Icons.UserAdmin,
     },
   ],
-  cta: `I want to message my customers`,
+  cta: `Starting messaging my customers`,
+};
+
+export const messageSupport: BenefitData = {
+  title: 'Support That Keeps You Going',
+  description: `You always have access to our customer support and success teams.`,
+  // image: require('../../../public/message.png'),
+  bullets: [
+    {
+      description: 'Deliver trusted customer experiences with compliance.',
+      icon: UserAdmin,
+    },
+    {
+      description:
+        'Guidance from industry-leading marketers helps you build engagement.',
+      icon: ChatBubbleLeftEllipsisIcon,
+    },
+    {
+      description: 'Technical support is available online and via email.',
+      icon: Help,
+    },
+  ],
+  cta: `Starting messaging my customers`,
 };
 
 export const takeUrgentAction: BenefitData = {

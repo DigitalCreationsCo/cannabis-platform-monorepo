@@ -32,66 +32,82 @@ const Home: NextPageWithLayout = () => {
   return (
     <div className="flex flex-col">
       <Head>
-      <NextSeo
-        title={app.name}
-        description={app.description}
-        openGraph={{
-          url: app.url,
-          title: app.opengraph.title,
-          type: 'website',
-          description: app.description,
-          images: [
-            { url: app.opengraph.image, alt: app.opengraph.title, width: 300 },
-          ],
-          site_name: app.name,
-        }}
-        twitter={{
-          cardType: 'summary_large_image',
-          site: app.url,
-          handle: '@grascannabis',
-        }}
-      />
+        <NextSeo
+          title={app.name}
+          description={app.description}
+          openGraph={{
+            url: app.url,
+            title: app.opengraph.title,
+            type: 'website',
+            description: app.description,
+            images: [
+              {
+                url: app.opengraph.image,
+                alt: app.opengraph.title,
+                width: 300,
+              },
+            ],
+            site_name: app.name,
+          }}
+          twitter={{
+            cardType: 'summary_large_image',
+            site: app.url,
+            handle: '@grascannabis',
+          }}
+        />
       </Head>
 
-      <div className={twMerge(styles.TOPBAR.topbar)}>
-        <div>
-          <FlexBox>
+      <Page
+        className={twMerge(
+          gradient,
+          'relative !pt-0 md:pt-0 px-0 lg:px-0 text-light'
+        )}
+      >
+        <div className={twMerge(styles.TOPBAR.topbar, 'bg-transparent')}>
+          <div>
             <FlexBox className="flex-row items-center">
               <Link href={'/'} className="z-50">
-                <GrasSignature className="text-secondary pt-1 pb-0 mb-0 leading-3">
-                  Gras
+                <GrasSignature className="text-inverse text-4xl shadow pt-1 pb-0 mb-0 leading-3">
+                  {t('gras')}
                 </GrasSignature>
               </Link>
-              <Link href={'/'}>
-                <Image alt="Gras" width={40} height={40} src={logo.src} />
+              <Link
+                href={'/'}
+                className="p-0.25 ml-4 bg-inverse w-fit rounded-full"
+              >
+                <Image alt="Gras" width={48} height={48} src={logo} />
               </Link>
             </FlexBox>
             <Link href={'/'}>
-              <Paragraph className={classNames(styles.TOPBAR.tagline)}>
+              <Paragraph
+                className={twMerge(styles.TOPBAR.tagline, 'text-inverse-soft')}
+              >
                 {TextContent.info.CANNABIS_DELIVERED_TEXT}
               </Paragraph>
             </Link>
-          </FlexBox>
+          </div>
+          <div className="flex-none">
+            <ul className="flex items-center gap-2 sm:gap-4">
+              <li>
+                <Link href="/auth/login">
+                  <Button
+                    className={twMerge(
+                      styles.BUTTON.highlight,
+                      'hover:border-light text-light'
+                    )}
+                    size="sm"
+                    bg="transparent"
+                    hover="transparent"
+                  >
+                    {t('sign-in')}
+                  </Button>
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div className="flex-none">
-          <ul className="flex items-center gap-2 sm:gap-4">
-            <li>
-              <Link href="/auth/join">
-                <Button
-                  className={twMerge(styles.BUTTON.highlight)}
-                  size="sm"
-                  bg="transparent"
-                  hover="transparent"
-                >
-                  {t('sign-in')}
-                </Button>
-              </Link>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <Page className={twMerge(gradient, 'text-light')}>
-        <div className="relative flex w-full h-full flex-col-reverse lg:!flex-row mx-auto gap-4 py-4 items-center justify-center">
+
+        <div className="flex w-full h-full flex-col-reverse lg:!flex-row mx-auto gap-4 py-4 items-center justify-center">
           <video
             className="absolute lg:!relative h-full w-full opacity-25 lg:opacity-100 lg:max-w-lg shrink-0 lg:rounded-lg lg:p-0 shadow"
             style={{
@@ -112,7 +128,7 @@ const Home: NextPageWithLayout = () => {
           <div className="w-[440px] h-[420px] z-10 m-auto lg:!m-0 pt-4 lg:!my-auto">
             <H1 className="text-center">Welcome to Gras</H1>
             <H2 className="text-center">Serving People And Cannabis</H2>
-            <CheckAge redirect={'/browse'} />
+            <CheckAge redirect={'/browse'} isMultiStep={false} />
           </div>
         </div>
       </Page>
@@ -125,7 +141,6 @@ const gradient = [
   'from-10%',
   'from-secondary-light',
   'to-secondary',
-  'p-0 lg:p-16 h-max',
 ];
 
 export const getServerSideProps = async (

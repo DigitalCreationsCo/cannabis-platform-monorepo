@@ -6,6 +6,7 @@ import { normalizeUser } from '../helpers';
 import { Role } from '../role.types';
 import { addStaffMember } from '../staff/staff.data';
 import { type StaffMember } from '../staff/staff.types';
+import { getZipcodeLocation } from '../zipcode.data';
 import { type Dispensary } from './dispensary.types';
 
 export const createDispensary = async ({
@@ -52,24 +53,26 @@ export const getDispensaryByCustomerId = async (
 		.findOne({ billingId });
 };
 
-export const getDispensary = async (key: { id: string } | { slug: string }) => {
+export const getDispensary = async (
+	where: { id: string } | { slug: string },
+) => {
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
 		.collection<Dispensary>(collections.dispensaries)
-		.findOne(key);
+		.findOne(where);
 };
 
 export const deleteDispensary = async (
-	key: { id: string } | { slug: string },
+	where: { id: string } | { slug: string },
 ) => {
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
 		.collection(collections.dispensaries)
-		.deleteOne(key);
+		.deleteOne(where);
 };
 
 export const removeStaffMember = async (
@@ -227,6 +230,42 @@ export async function getDispensariesByLocation(
 				$sort: {
 					distanceFromLoc: 1,
 				},
+			},
+		])
+		.toArray();
+}
+
+export async function getDispensariesByZipcode({
+	zipcode,
+	limit,
+	radius,
+}: any): Promise<Required<Dispensary[]>> {
+	const zip = await getZipcodeLocation(zipcode);
+
+	if (!zip?.loc) {
+		return [];
+	}
+	const client = await clientPromise;
+	const { db, collections } = db_namespace;
+	return await client
+		.db(db)
+		.collection<Dispensary>(collections.dispensaries)
+		.aggregate<Dispensary>([
+			{
+				$geoNear: {
+					near: zip.loc,
+					distanceField: 'distance',
+					maxDistance: Number(radius),
+					spherical: true,
+				},
+			},
+			{
+				$sort: {
+					distance: 1,
+				},
+			},
+			{
+				$limit: Number(limit),
 			},
 		])
 		.toArray();

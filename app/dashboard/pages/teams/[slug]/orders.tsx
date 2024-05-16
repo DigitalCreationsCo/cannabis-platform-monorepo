@@ -16,10 +16,12 @@ import {
   Row,
   type LayoutContextProps,
 } from '@cd/ui-lib';
+import { useTranslation } from 'next-i18next';
 import { twMerge } from 'tailwind-merge';
 import { wrapper } from '@/lib/store';
 
 export default function Orders() {
+  const { t } = useTranslation();
   // const { orders } = useOrders();
   const orders: any[] = [];
   const { current, PaginationButtons } = usePagination(orders);
@@ -31,10 +33,10 @@ export default function Orders() {
 
       <Grid className="gap-2">
         <Row className="grid h-[44px] grid-cols-12">
-          <H6 className="col-span-4">order</H6>
-          <H6 className="col-span-4">status</H6>
-          <H6 className="col-span-2">date of sale</H6>
-          <H6 className="col-span-2 justify-self-end">total</H6>
+          <H6 className="col-span-4">{t('order')}</H6>
+          <H6 className="col-span-4">{t('status')}</H6>
+          <H6 className="col-span-2">{t('date')}</H6>
+          <H6 className="col-span-2 justify-self-end">{t('total')}</H6>
         </Row>
         {current.length > 0 ? (
           <>
@@ -48,7 +50,7 @@ export default function Orders() {
             <PaginationButtons />
           </>
         ) : (
-          <Row className="h-[77px]">There are no orders.</Row>
+          <Row className="h-[77px]">{`There are no orders.`}</Row>
         )}
       </Grid>
     </div>

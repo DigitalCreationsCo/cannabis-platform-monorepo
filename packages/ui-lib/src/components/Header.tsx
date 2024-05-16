@@ -22,7 +22,7 @@ function Header({
 		'flex flex-row grow items-center',
 		'bg-inherit',
 		'space-x-4',
-		'px-4 lg:pr-12',
+		'px-4 lg:px-12',
 	];
 	const header = [
 		'flex flex-row grow',
@@ -31,11 +31,11 @@ function Header({
 		'justify-end',
 	];
 	return (
-		<div className={twMerge(container, 'bg-secondary-light', 'text-inherit')}>
+		<div className={twMerge(container, 'bg-transparent', 'text-inherit')}>
 			<div className={twMerge(header)}>
-				{(showHeaderDrawer && (
+				{/* {(showHeaderDrawer && (
 					<CategoriesMenu drawerComponentId={drawerComponentId} />
-				)) || <></>}
+				)) || <></>} */}
 				<Link href={TextContent.href.browse}>
 					<Button
 						className={twMerge(

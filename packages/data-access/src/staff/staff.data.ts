@@ -93,11 +93,11 @@ export const getStaffMemberBySession = async (session: any) => {
 };
 
 export const deleteStaffMember = async (
-	key: { id: string } | { email: string },
+	where: { id: string } | { email: string },
 ) => {
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
-	return await client.db(db).collection(collections.staff).deleteOne(key);
+	return await client.db(db).collection(collections.staff).deleteOne(where);
 };
 
 export const findFirstStaffMemberOrThrow = async ({ id }: any) => {

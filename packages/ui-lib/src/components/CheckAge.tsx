@@ -12,9 +12,11 @@ import { H3 } from './Typography';
 const CheckAge = ({
 	redirect = '/browse',
 	onContinue,
+	isMultiStep = true,
 }: {
 	onContinue?: () => void;
 	redirect?: string;
+	isMultiStep?: boolean;
 }) => {
 	const router = useRouter();
 	const [, setCookie] = useCookies(['yesOver21']);
@@ -22,6 +24,10 @@ const CheckAge = ({
 	const [yesOver21, setYesOver21] = useState(false);
 	const toggleOver21 = () => setYesOver21(!yesOver21);
 	const [showNext, setShowNext] = useState(false);
+
+	const next = () => {
+		isMultiStep ? setShowNext(true) : onSubmit();
+	};
 
 	const onSubmit = () => {
 		if (onContinue) onContinue();
@@ -46,7 +52,7 @@ const CheckAge = ({
 							<FlexBox className="p-4 space-y-4">
 								<H3>{TextContent.prompt.ARE_YOU_LEGAL}</H3>
 								<CheckBox
-									className="w-auto m-auto"
+									className="w-auto m-auto text-lg"
 									name={'checkAge'}
 									onChange={toggleOver21}
 									checked={yesOver21}
@@ -61,7 +67,7 @@ const CheckAge = ({
 									disabled={!yesOver21}
 									onClick={() => {
 										setCookie('yesOver21', 'true');
-										setShowNext(true);
+										next();
 									}}
 								>
 									Continue

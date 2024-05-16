@@ -1,9 +1,7 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { LetterAvatar } from '@/components/shared';
-import { Dispensary} from '@cd/data-access';
-import {
-  defaultHeaders,
-  ApiResponse, useDispensaries
-} from '@cd/core-lib';
+import { Dispensary } from '@cd/data-access';
+import { defaultHeaders, ApiResponse, useDispensaries } from '@cd/core-lib';
 import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
@@ -91,7 +89,7 @@ const Teams = () => {
                       { wrap: true, text: '' + team._count.members },
                       {
                         wrap: true,
-                        text: new Date(team.createdAt).toDateString(),
+                        text: new Date(team.createdAt!).toDateString(),
                       },
                       {
                         buttons: [

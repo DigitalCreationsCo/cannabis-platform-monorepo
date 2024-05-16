@@ -29,7 +29,7 @@ export default function Select({
 			{label && (
 				<FlexBox className="items-start w-full flex-row">
 					<label className={twMerge(labelColor, styles.label_f())}>
-						<Paragraph className="text-lg">{label}</Paragraph>
+						<Paragraph>{label}</Paragraph>
 					</label>
 				</FlexBox>
 			)}

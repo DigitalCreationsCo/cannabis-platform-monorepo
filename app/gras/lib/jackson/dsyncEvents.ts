@@ -1,102 +1,97 @@
 import { type DirectorySyncEvent } from '@boxyhq/saml-jackson';
 import {
-	countStaffMembers,
-	deleteUser,
-	getUser,
-	updateUser,
-	upsertUser,
-	addStaffMember,
-	removeStaffMember,
-	Role,
+  countStaffMembers,
+  deleteUser,
+  getUser,
+  updateUser,
+  upsertUser,
+  addStaffMember,
+  removeStaffMember,
+  Role,
 } from '@cd/data-access';
 
 // Handle SCIM events
 export const handleEvents = async (event: DirectorySyncEvent) => {
-	const { event: action, tenant: teamId, data } = event;
+  const { event: action, tenant: teamId, data } = event;
 
-	// Currently we only handle the user events
-	// TODO: Handle group events
-	if (!('email' in data)) {
-		return;
-	}
+  // Currently we only handle the user events
+  // TODO: Handle group events
+  if (!('email' in data)) {
+    return;
+  }
 
-	const { email, first_name, last_name, active } = data;
-	const name = `${first_name} ${last_name}`;
+  const { email, first_name, last_name, active } = data;
+  const name = `${first_name} ${last_name}`;
 
-	// User has been added
-	if (action === 'user.created') {
-		const user = await upsertUser({
-			where: {
-				email,
-			},
-			update: {
-				name,
-			},
-			create: {
-				email,
-				name,
-			},
-		});
+  // User has been added
+  if (action === 'user.created') {
+    const user = await upsertUser({
+      where: {
+        email,
+      },
+      update: {
+        name,
+      },
+    });
 
-		await addStaffMember(teamId, user.id, Role.MEMBER);
-	}
+    await addStaffMember(teamId, user.id, Role.MEMBER);
+  }
 
-	// User has been updated
-	else if (action === 'user.updated') {
-		const user = await getUser({ email });
+  // User has been updated
+  else if (action === 'user.updated') {
+    const user = await getUser({ email });
 
-		if (!user) {
-			return;
-		}
+    if (!user) {
+      return;
+    }
 
-		// Deactivation of user by removing them from the team
-		if (active === false) {
-			await removeStaffMember(teamId, user.id);
+    // Deactivation of user by removing them from the team
+    if (active === false) {
+      await removeStaffMember(teamId, user.id);
 
-			const otherTeamsCount = await countStaffMembers({
-				where: {
-					userId: user.id,
-				},
-			});
+      const otherTeamsCount = await countStaffMembers({
+        where: {
+          userId: user.id,
+        },
+      });
 
-			if (otherTeamsCount === 0) {
-				await deleteUser({ email: user.email });
-			}
+      if (otherTeamsCount === 0) {
+        await deleteUser({ email: user.email });
+      }
 
-			return;
-		}
+      return;
+    }
 
-		await updateUser({
-			where: {
-				email,
-			},
-			data: {
-				name,
-			},
-		});
+    await updateUser({
+      where: { email },
 
-		// Reactivation of user by adding them back to the team
-		await addStaffMember(teamId, user.id, Role.MEMBER);
-	}
+      data: {
+        name,
+      },
+    });
 
-	// User has been removed
-	else if (action === 'user.deleted') {
-		const user = await getUser({ email });
+    // Reactivation of user by adding them back to the team
+    await addStaffMember(teamId, user.id, Role.MEMBER);
+  }
 
-		if (!user) {
-			return;
-		}
+  // User has been removed
+  else if (action === 'user.deleted') {
+    const user = await getUser({ email });
 
-		await removeStaffMember(teamId, user.id);
+    if (!user) {
+      return;
+    }
 
-		const otherTeamsCount = await countStaffMembers({
-			where: {
-				userId: user.id,
-			},
-		});
+    await removeStaffMember(teamId, user.id);
 
-		if (otherTeamsCount === 0) {
-			await deleteUser({ email: user.email });
-		}
-	}
+    const otherTeamsCount = await countStaffMembers({
+      where: {
+        userId: user.id,
+      },
+    });
+
+    if (otherTeamsCount === 0) {
+      await deleteUser({ email: user.email });
+    }
+  }
 };

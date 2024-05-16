@@ -54,7 +54,9 @@ export type AppEvent =
 	| 'webhook.created'
 	| 'webhook.removed'
 	| 'webhook.fetched'
-	| 'webhook.updated';
+	| 'webhook.updated'
+	| 'event.fetched'
+	| 'dispensaries.fetched';
 
 export type AUTH_PROVIDER =
 	| 'github'

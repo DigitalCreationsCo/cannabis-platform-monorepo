@@ -89,13 +89,16 @@ export function getCoordinatePairFromCoordinates([lat, lon]: Coordinates): [
 	else throw new Error('Invalid coordinates');
 }
 
-export function getGeoJsonPairFromCoordinates(coordinates: Coordinates) {
-	if (coordinates[0] && coordinates[1])
-		return {
-			type: 'Point',
-			coordinates,
-		};
-	else throw new Error('Invalid coordinates');
+export function getGeoJsonPairFromCoordinates(coordinates: Coordinates): {
+	type: 'Point';
+	coordinates: [number, number];
+} {
+	if (coordinatesIsEmpty({ coordinates } as any))
+		throw new Error('Invalid coordinates');
+	return {
+		type: 'Point',
+		coordinates,
+	};
 }
 
 export function setCoordinateRadius() {
@@ -103,16 +106,8 @@ export function setCoordinateRadius() {
 }
 
 export function coordinatesIsEmpty(address: AddressCreateType) {
-	const latitude = address?.coordinates?.latitude;
-	const longitude = address?.coordinates?.longitude;
-
 	return (
-		latitude === 0 ||
-		latitude === undefined ||
-		latitude === null ||
-		longitude === 0 ||
-		longitude === undefined ||
-		longitude === null
+		!address.coordinates || (!address.coordinates[0] && !address.coordinates[1])
 	);
 }
 
@@ -205,4 +200,10 @@ export type RoutingDetailsResponse = {
 		distance: number;
 		duration: number;
 	}[];
+};
+
+export const isValidZipcode = (input: string) => {
+	// match 5 digit zip code
+	const zipCodeRegex = /^\d{5}$/;
+	return zipCodeRegex.test(input);
 };

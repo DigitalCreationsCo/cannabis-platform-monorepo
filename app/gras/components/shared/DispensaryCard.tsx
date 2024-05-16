@@ -1,11 +1,6 @@
 import { checkIsDispensaryOpen } from '@cd/core-lib';
 import { type Dispensary } from '@cd/data-access';
-import {
-  FlexBox,
-  H3,
-  Paragraph,
-  styles,
-} from '@cd/ui-lib';
+import { FlexBox, H3, Paragraph, styles } from '@cd/ui-lib';
 import Image from 'next/image';
 import { useCallback, type PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
@@ -42,7 +37,7 @@ function DispensaryCard({
           <Image
             placeholder={blurData ? 'blur' : 'empty'}
             blurDataURL={blurData}
-            className="object-contain self-center pt-6 px-2"
+            className="object-contain self-center pt-6 px-4 py-2"
             src={src}
             alt={dispensary?.name}
             sizes="(max-width: 180px)"
@@ -87,61 +82,68 @@ function DispensaryCard({
 
   if (loading)
     return (
-      <div className={twMerge([styles.dispensaryCard, 'animate-pulse', className])} />
+      <div
+        className={twMerge([
+          styles.dispensaryCard,
+          'bg-light',
+          'animate-pulse',
+          className,
+        ])}
+      />
     );
 
   if (!dispensary || !dispensary.name)
     return (
-      <div className={twMerge([styles.dispensaryCard, className])}>
+      <div className={twMerge([styles.dispensaryCard, 'bg-light', className])}>
         <Paragraph>!</Paragraph>
       </div>
     );
 
   return (
     // <Link
-      // href={formatDispensaryUrl(dispensary?.subdomainId, dispensary?.id)}
+    // href={formatDispensaryUrl(dispensary?.subdomainId, dispensary?.id)}
     //   className="shadow"
     // >
-      <div
-        style={{
-          borderColor: current
-            ? 'green'
-            : applyDispensaryStyles['background-color'],
-        }}
-        // data={dispensary}
-        className={twMerge([
-          styles.dispensaryCard,
-          current ? 'border-2 border-primary' : 'border-2 border-transparent',
-          className,
-        ])}
+    <div
+      style={{
+        borderColor: current
+          ? 'green'
+          : applyDispensaryStyles['background-color'],
+      }}
+      // data={dispensary}
+      className={twMerge([
+        styles.dispensaryCard,
+        current ? 'border-2 border-primary' : 'border-2 border-transparent',
+        className,
+      ])}
+    >
+      <ImageBackDrop
+        src={dispensary?.images?.[0]?.location || logo.src}
+        blurData={dispensary?.images?.[0]?.blurhash || ''}
       >
-        <ImageBackDrop
-          src={dispensary?.images?.[0]?.location || logo.src}
-          blurData={dispensary?.images?.[0]?.blurhash || ''}
-        >
-          <FlexBox className="z-5 left-0 flex-col px-2">
-            <H3
-              style={{ color: applyDispensaryStyles['primary-color'] }}
-              className="z-5 font-semibold left-0 top-0 max-w-[248px] whitespace-normal tracking-wide drop-shadow text-[22px]"
-            >
-              {dispensary?.name}
-            </H3>
-            <Paragraph
-              style={{ color: applyDispensaryStyles['secondary-color'] }}
-              className="drop-shadow tracking-wider"
-            >
-              {dispensary?.address?.street1}
-            </Paragraph>
-            <OpenBadge />
-          </FlexBox>
-          <FlexBox className="z-5 absolute bottom-0 left-0 flex-col p-2 px-4">
-            <Paragraph className="text-inverse text-xl font-semibold drop-shadow">
-              {(dispensary?.isSubscribedForDelivery && 'Accepting Delivery') ||
-                (dispensary?.isSubscribedForPickup && 'Order for Pickup')}
-            </Paragraph>
-          </FlexBox>
-        </ImageBackDrop>
-      </div>
+        <FlexBox className="z-5 left-0 flex-col px-2">
+          <H3
+            style={{ color: applyDispensaryStyles['primary-color'] }}
+            className="z-5 font-semibold left-0 top-0 max-w-[248px] whitespace-normal tracking-wide drop-shadow text-[22px]"
+          >
+            {dispensary?.name}
+          </H3>
+          <Paragraph
+            style={{ color: applyDispensaryStyles['secondary-color'] }}
+            className="drop-shadow tracking-wider"
+          >
+            {dispensary?.address?.street1}
+          </Paragraph>
+          <OpenBadge />
+        </FlexBox>
+        <FlexBox className="z-5 absolute bottom-0 left-0 flex-col p-2 px-4">
+          <Paragraph className="text-inverse text-xl font-semibold drop-shadow">
+            {(dispensary?.isSubscribedForDelivery && 'Accepting Delivery') ||
+              (dispensary?.isSubscribedForPickup && 'Order for Pickup')}
+          </Paragraph>
+        </FlexBox>
+      </ImageBackDrop>
+    </div>
   );
 }
 

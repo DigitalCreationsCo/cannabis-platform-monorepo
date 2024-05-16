@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable i18next/no-literal-string */
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable react/no-unknown-property */
 import {
   getCoordinatePairFromCoordinates,
+  isValidZipcode,
   // selectBlogsByTag,
   modalActions,
   modalTypes,
@@ -14,6 +16,8 @@ import {
   // selectShopState,
   // selectUserState,
   TextContent,
+  useEvents,
+  useLocalDispensaries,
   // debounce,
 } from '@cd/core-lib';
 import {
@@ -22,10 +26,20 @@ import {
   productCategories,
   Dispensary,
 } from '@cd/data-access';
-import { Grid, H1, Page, H4, Footer, Carousel, H5 } from '@cd/ui-lib';
+import {
+  Grid,
+  H1,
+  Page,
+  H4,
+  Footer,
+  Carousel,
+  H5,
+  H2,
+  H3,
+  Header,
+} from '@cd/ui-lib';
 import mapboxgl, { type MapboxGeoJSONFeature } from 'mapbox-gl';
 import { ReactElement, useEffect, useRef, useState } from 'react';
-import useSWR, { type SWRResponse } from 'swr';
 import { twMerge } from 'tailwind-merge';
 import markerImage from '../public/map-marker.png';
 import { DispensaryCard } from '@/components/shared';
@@ -39,6 +53,7 @@ import {
 } from '@/lib/sanity';
 import { InfoCard } from '@/components/blog';
 import Image from 'next/image';
+import { Error } from '@/components/shared';
 
 // import { shopTour } from '../../tour';
 // eslint-disable-next-line no-var
@@ -54,6 +69,8 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { NextSeo } from 'next-seo';
 import app from '@/lib/app';
 import Head from 'next/head';
+import env from '@/lib/env';
+import { TopBar } from '@/components/layouts';
 
 function FBInit() {
   useEffect(() => {
@@ -90,8 +107,10 @@ function FBInit() {
 
 //IMPLEMENT GET STATIC PATHS > BLOG
 export default function Browse({
+  token,
   posts,
 }: {
+  token: string;
   posts: Post[];
   settings: Settings;
 }) {
@@ -108,40 +127,16 @@ export default function Browse({
     }
     return null;
   };
-  const radius = '11000';
+  const radius = 11000;
   const [zipcode, setZipcode] = useState(getZipcodeLocalStorage() || '10011');
   const [zipcodeError, setZipcodeError] = useState('');
 
-  function isValidZipcode(input: string) {
-    const isValidZipcode = input.length === 5;
-    if (isValidZipcode) {
-      // setZipcodeError('');
-
-      return true;
-    } else {
-      // setZipcodeError('Enter a zipcode');
-      return false;
-    }
-  }
-
-  const { error, isLoading, data } = useSWR<Dispensary[]>(
-    () =>
-      isValidZipcode(zipcode)
-        ? `/api/organization?zipcode=${zipcode}&limit=${4}&radius=${radius}`
-        : null,
-    async (url: string) => {
-      const response = await fetch(url);
-      const json = await response.json();
-
-      if (!response.ok) {
-        throw new Error(
-          json.error.message || 'An error occurred while fetching the data'
-        );
-      }
-      return json.payload;
-    },
-    { keepPreviousData: true }
-  );
+  const { isLoading, isError, dispensaries } = useLocalDispensaries({
+    zipcode,
+    radius,
+    token,
+  });
+  const { events } = useEvents(zipcode);
 
   // const dispensaries = data || [];
 
@@ -155,7 +150,7 @@ export default function Browse({
 
   const styles = {
     responsiveHeading: [
-      'text-4xl pb-0 lg:px-5 whitespace-normal font-semibold',
+      'text-2xl pb-0 lg:px-5 whitespace-normal font-semibold',
     ],
   };
   const [current, setCurrent] = useState(0);
@@ -169,46 +164,57 @@ export default function Browse({
     // );
   }
 
+  if (isError) {
+    return <Error message={isError.message} />;
+  }
   return (
     <>
-    <Head>
-      <NextSeo
-        title={app.name}
-        description={app.description}
-        openGraph={{
-          url: app.url,
-          title: app.opengraph.title,
-          type: 'website',
-          description: app.description,
-          images: [
-            { url: app.opengraph.image, alt: app.opengraph.title, width: 300 },
-          ],
-          site_name: app.name,
-        }}
-        twitter={{
-          cardType: 'summary_large_image',
-          site: app.url,
-          handle: '@grascannabis',
-        }}
-      />
-    </Head>
-    
-    <Page
-      gradient="green"
-      className="pt-2 md:pt-2 px-0 lg:px-0 pb-16 min-h-[440px]"
-    >
-      <link
-        href="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css"
-        rel="stylesheet"
-      />
-      <script
-        async
-        defer
-        crossOrigin="anonymous"
-        src="https://connect.facebook.net/en_US/sdk.js"
-      ></script>
+      <Head>
+        <NextSeo
+          title={app.name}
+          description={app.description}
+          openGraph={{
+            url: app.url,
+            title: app.opengraph.title,
+            type: 'website',
+            description: app.description,
+            images: [
+              {
+                url: app.opengraph.image,
+                alt: app.opengraph.title,
+                width: 300,
+              },
+            ],
+            site_name: app.name,
+          }}
+          twitter={{
+            cardType: 'summary_large_image',
+            site: app.url,
+            handle: '@grascannabis',
+          }}
+        />
+      </Head>
 
-      {/* <Script async defer crossOrigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></Script>
+      <Page
+        gradient="green"
+        className="!pt-0 md:pt-0 px-0 lg:px-0 pb-16 min-h-[440px]"
+      >
+        <link
+          href="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css"
+          rel="stylesheet"
+        />
+        <script
+          async
+          defer
+          crossOrigin="anonymous"
+          src="https://connect.facebook.net/en_US/sdk.js"
+        ></script>
+        <div>
+          <TopBar SearchComponent={<></>} />
+          {/* <Header/> */}
+        </div>
+
+        {/* <Script async defer crossOrigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></Script>
             
   <>
   {( typeof window !== 'undefined' && (window.fbAsyncInit = function() {
@@ -232,51 +238,50 @@ export default function Browse({
   )}
   </> */}
 
-      <Grid className="relative grid-cols-3">
-        <div
-          id={'shop-tour-step1'}
-          className="row-start-1 cursor-default px-5 pt-0 col-start-1 col-span-full lg:col-span-2"
-        >
-          <H1
+        <Grid className="relative grid-cols-3">
+          <div
+            id={'shop-tour-step1'}
+            className="row-start-1 cursor-default pt-5 px-5 col-start-1 col-span-full lg:col-span-2"
+          >
+            {/* <H2
             className={twMerge(
               styles.responsiveHeading,
               'text-inverse-soft drop-shadow'
             )}
           >
             {TextContent.info.CANNABIS_DELIVERED}
-          </H1>
-          <FBInit />
-        </div>
-        <div className="col-span-full pb-2">
-          <H4 className="text-inverse-soft pt-2 px-7 lg:!px-6 leading-2 drop-shadow text-left">
-            Find dispensaries, edibles, and more near you
-          </H4>
-          <Carousel
-            items={
-              !isLoading
-                ? dispensaries?.map((d, index) => (
-                    <DispensaryCard
-                      loading={isLoading}
-                      key={`dispensary-card-${index}`}
-                      data={d}
-                    />
-                  ))
-                : [1, 2, 3, 4, 5, 6].map((d, index) => (
-                    <DispensaryCard
-                      loading={isLoading}
-                      key={`dispensary-card-${index}`}
-                      data={d as unknown as Required<Dispensary>}
-                    />
-                  ))
-            }
-          />
-        </div>
+          </H2>
+          <FBInit /> */}
+          </div>
+          <div className="col-span-full pb-2">
+            <H1 className="text-inverse-soft pt-2 px-7 lg:!px-6 leading-2 drop-shadow text-left">
+              Find dispensaries, edibles, and more near you
+            </H1>
+            <Carousel
+              items={
+                !isLoading && dispensaries.length
+                  ? dispensaries?.map((d, index) => (
+                      <DispensaryCard
+                        loading={isLoading}
+                        key={`dispensary-card-${index}`}
+                        data={d}
+                      />
+                    ))
+                  : [1, 2, 3, 4, 5, 6].map((d, index) => (
+                      <DispensaryCard
+                        loading={isLoading}
+                        key={`dispensary-card-${index}`}
+                        data={d as unknown as Required<Dispensary>}
+                      />
+                    ))
+              }
+            />
+          </div>
 
-        {/* <div className="col-span-full mx-auto gap-2 border grid grid-flow-col grid-cols-[repeat(auto-fill,minmax(100px,1fr))] flex-wrap px-4 items-stretch"> */}
-        <div className='col-span-full flex flex-col gap-1'>
-          <H4 className="px-4 pt-2 text-inverse-soft leading-2 drop-shadow text-left">
+          {/* <div className='col-span-full flex flex-col gap-1'>
+          <H3 className="px-4 pt-2 text-inverse-soft leading-2 drop-shadow text-left">
             🎁 Get What You Want
-          </H4>
+          </H3>
           <div className="col-span-full grid grid-cols-[repeat(auto-fill,minmax(100px,1fr))] gap-2">
             {productCategories.map((c, index) => (
               <div key={`category-card-${index}`} className="min-w-28">
@@ -287,12 +292,12 @@ export default function Browse({
               </div>
             ))}
             </div>
-        </div>
+        </div> */}
 
-        <div className="col-span-full">
-          <H4 className="col-span-full px-7 pt-2 lg:!px-11 text-inverse-soft leading-2 drop-shadow text-left">
+          {/* <div className="col-span-full">
+          <H3 className="col-span-full px-7 pt-2 lg:!px-11 text-inverse-soft leading-2 drop-shadow text-left">
             Recent Dispensaries
-          </H4>
+          </H3>
           <Carousel
             items={
               !isLoading
@@ -312,12 +317,12 @@ export default function Browse({
                   ))
             }
           />
-        </div>
+        </div> */}
 
-        <div className="col-span-full">
-          <H4 className="col-span-full px-7 pt-2 lg:!px-11 text-inverse-soft leading-2 drop-shadow text-left">
+          {/* <div className="col-span-full">
+          <H3 className="col-span-full px-7 pt-2 lg:!px-11 text-inverse-soft leading-2 drop-shadow text-left">
             New Arrivals
-          </H4>
+          </H3>
           <Carousel
             items={posts.map((post, index) => (
               <InfoCard
@@ -328,29 +333,29 @@ export default function Browse({
               />
             ))}
           />
-        </div>
+        </div> */}
 
-        <div className="col-span-full">
-          <H4 className="col-span-full px-7 pt-2 lg:!px-11 text-inverse-soft leading-2 drop-shadow text-left">
-            🍍 Fresh from our Blog
-          </H4>
-          <Carousel
-            title="Fresh from the Blog"
-            items={posts.map((post, index) => (
-              <InfoCard
-                loading={isLoading}
-                key={`blog-card-${index}`}
-                data={post}
-                showDescription={false}
-              />
-            ))}
-          />
-        </div>
+          <div className="col-span-full">
+            <H3 className="text-3xl col-span-full pt-2 px-5 text-inverse-soft leading-2 drop-shadow text-left">
+              🍍 Fresh from our blog
+            </H3>
+            <Carousel
+              title="Fresh from the Blog"
+              items={posts.map((post, index) => (
+                <InfoCard
+                  loading={isLoading}
+                  key={`blog-card-${index}`}
+                  data={post}
+                  showDescription={false}
+                />
+              ))}
+            />
+          </div>
 
-        <div className="col-span-full px-24">
-          <H4 className="col-span-full px-7 pt-2 lg:!px-11 text-inverse-soft leading-2 drop-shadow text-left">
+          {/* <div className="col-span-full px-24">
+          <H3 className="col-span-full px-7 pt-2 lg:!px-11 text-inverse-soft leading-2 drop-shadow text-left">
             🎨 Celebrate Artists
-          </H4>
+          </H3>
           <Carousel
             items={posts.map((post, index) => (
               <InfoCard
@@ -361,12 +366,27 @@ export default function Browse({
               />
             ))}
           />
-        </div>
+        </div> */}
 
-        <div className="col-span-full px-24">
-          <H4 className="col-span-full px-7 pt-2 lg:!px-11 text-inverse-soft leading-2 drop-shadow text-left">
+          {/* <div className="col-span-full px-24">
+          <H3 className="col-span-full px-7 pt-2 lg:!px-11 text-inverse-soft leading-2 drop-shadow text-left">
+            🎉 Events Near You
+          </H3>
+          <Carousel
+            items={events.map((event, index) => (
+              <div
+                key={`blog-card-${index}`}
+                >
+{event.name}
+</div>
+            ))}
+          />
+        </div> */}
+
+          {/* <div className="col-span-full px-24">
+          <H3 className="col-span-full px-7 pt-2 lg:!px-11 text-inverse-soft leading-2 drop-shadow text-left">
             Read Reviews
-          </H4>
+          </H3>
           <Carousel
             items={posts.map((post, index) => (
               <InfoCard
@@ -377,9 +397,9 @@ export default function Browse({
               />
             ))}
           />
-        </div>
+        </div> */}
 
-        {/* <div className="row-start-2 sm:col-start-2 col-span-full sm:col-span-1 lg:col-start-3 lg:row-start-1 px-4 py-2">
+          {/* <div className="row-start-2 sm:col-start-2 col-span-full sm:col-span-1 lg:col-start-3 lg:row-start-1 px-4 py-2">
 					<TextField
 						className="text-dark"
 						type="number"
@@ -397,16 +417,16 @@ export default function Browse({
 					/>
 				</div> */}
 
-        {/* <div className="p-4 row-start-3 lg:row-start-2 col-span-3 lg:col-span-1 space-y-4">
+          {/* <div className="p-4 row-start-3 lg:row-start-2 col-span-3 lg:col-span-1 space-y-4">
 					<RenderMapBox
 						data={dispensaries}
 						current={current}
 						setCurrent={setCurrent}
 					/>
 				</div> */}
-      </Grid>
+        </Grid>
 
-      {/* || <Center>
+        {/* || <Center>
                     <H6 color='light' className='whitespace-pre-line'>
                         Want to see your favorite Dispensary?{'\n'}
                         Ask them to start a Gras account!</H6>
@@ -418,14 +438,14 @@ export default function Browse({
                 </Center>
                 } */}
 
-      {/* <FlexBox className="cursor-default bg-inverse shadow shadow-md shadow-lg hover:shadow-xl hover:scale-101 duration-500 p-12 rounded max-w-[559px] margin-auto place-self-center space-y-2">
+        {/* <FlexBox className="cursor-default bg-inverse shadow shadow-md shadow-lg hover:shadow-xl hover:scale-101 duration-500 p-12 rounded max-w-[559px] margin-auto place-self-center space-y-2">
                 <H2 className='font-black text-gray'>
                     What is Gras?</H2>
                 <H5>{`Gras is a home-grown service provider for cannabis lovers.
                     We serve the people of our communities, that enjoy cannabis, by offering a bridge of communication, clarity and support.`}</H5>
                     </FlexBox> */}
-      {/* </Grid> */}
-    </Page>
+        {/* </Grid> */}
+      </Page>
     </>
   );
 }
@@ -770,7 +790,9 @@ const RenderMapBox = ({
 // 	};
 // };
 
-export const getServerSideProps = async (ctx:GetServerSidePropsContext) => {
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+  const authToken = env.nextAuth.secret;
+
   const { draftMode = false, locale } = ctx;
   const client = getClient(draftMode ? { token: readToken } : undefined);
 
@@ -781,11 +803,11 @@ export const getServerSideProps = async (ctx:GetServerSidePropsContext) => {
 
   return {
     props: {
-			...(locale ? await serverSideTranslations(locale, ['common']) : {}),
+      ...(locale ? await serverSideTranslations(locale, ['common']) : {}),
       posts,
       settings,
       draftMode,
-      token: draftMode ? readToken : '',
+      token: authToken,
     },
   };
 };

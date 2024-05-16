@@ -112,7 +112,7 @@ export default function Button({
 		border: [
 			border ? 'border-' + (borderColor || hover) : 'border-transparent',
 		],
-		text: [(size === 'sm' && 'font-normal') || 'font-medium'],
+		text: ['font-medium'],
 	};
 
 	return (
