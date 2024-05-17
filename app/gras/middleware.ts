@@ -2,11 +2,12 @@ import micromatch from 'micromatch';
 import { getToken } from 'next-auth/jwt';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-
+import { getCookie } from 'cookies-next';
 import env from './lib/env';
 
 // Add routes that don't require authentication
 const unAuthenticatedRoutes = [
+  '/',
   '/api/hello',
   '/api/health',
   '/api/dispensaries',
@@ -37,6 +38,18 @@ export default async function middleware(req: NextRequest) {
   if (pathname === '/workwithus') {
     const url = new URL('/work-with-us', req.url);
     return NextResponse.redirect(url);
+  }
+  
+  const over21 = await getCookie('yesOver21', { req});
+  // Redirect to browse page if user is over 21
+  if (pathname === '/' && over21 == 'true') {
+    const url = new URL('/browse', req.url);
+    return NextResponse.redirect(url);
+  }
+
+  // Redirect to home page if user is under 21
+  if (pathname !== '/' && over21 !== 'true') {
+    return NextResponse.redirect(new URL('/', req.url));
   }
 
   // Bypass routes that don't require authentication
@@ -81,5 +94,5 @@ export default async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico|api/auth/session).*)'],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|api/auth/session).*)', '/'],
 };
