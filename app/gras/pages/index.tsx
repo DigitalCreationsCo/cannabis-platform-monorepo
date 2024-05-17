@@ -75,7 +75,7 @@ const Home: NextPageWithLayout = () => {
                 href={'/'}
                 className="p-0.25 ml-4 bg-inverse w-fit rounded-full"
               >
-                <Image alt="Gras" width={48} height={48} src={logo} />
+              <Image alt="Gras" width={44} height={44} src={logo} />
               </Link>
             </FlexBox>
             <Link href={'/'}>
