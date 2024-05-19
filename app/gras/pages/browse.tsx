@@ -193,12 +193,6 @@ export default function Browse({
             handle: '@grascannabis',
           }}
         />
-      </Head>
-
-      <Page
-        gradient="green"
-        className="!pt-0 md:pt-0 px-0 lg:px-0 pb-16 min-h-[440px]"
-      >
         <link
           href="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css"
           rel="stylesheet"
@@ -209,6 +203,12 @@ export default function Browse({
           crossOrigin="anonymous"
           src="https://connect.facebook.net/en_US/sdk.js"
         ></script>
+      </Head>
+
+      <Page
+        gradient="green"
+        className="!pt-0 md:pt-0 px-0 lg:px-0 pb-0 min-h-[440px]"
+      >
         <div>
           <TopBar SearchComponent={<></>} />
           {/* <Header/> */}
@@ -238,12 +238,12 @@ export default function Browse({
   )}
   </> */}
 
-        <Grid className="relative grid-cols-3">
-          <div
+        <Grid className="relative grid-cols-3 pb-16">
+          {/* <div
             id={'shop-tour-step1'}
             className="row-start-1 cursor-default pt-5 px-5 col-start-1 col-span-full lg:col-span-2"
-          >
-            {/* <H2
+          > */}
+          {/* <H2
             className={twMerge(
               styles.responsiveHeading,
               'text-inverse-soft drop-shadow'
@@ -252,10 +252,10 @@ export default function Browse({
             {TextContent.info.CANNABIS_DELIVERED}
           </H2>
           <FBInit /> */}
-          </div>
+          {/* </div> */}
           <div className="col-span-full pb-2">
-            <H1 className="text-inverse-soft pt-2 px-7 lg:!px-6 leading-2 drop-shadow text-left">
-              Find dispensaries, edibles, and more near you
+            <H1 className="text-inverse-soft pt-2 px-4 leading-2 drop-shadow text-left">
+              {`Find flower, edibles, dispensaries near you`}
             </H1>
             <Carousel
               items={
@@ -336,9 +336,9 @@ export default function Browse({
         </div> */}
 
           <div className="col-span-full">
-            <H3 className="text-3xl col-span-full pt-2 px-5 text-inverse-soft leading-2 drop-shadow text-left">
+            <H2 className="col-span-full pt-2 px-2 md:px-4 text-inverse-soft leading-2 drop-shadow text-left">
               🍍 Fresh from our blog
-            </H3>
+            </H2>
             <Carousel
               title="Fresh from the Blog"
               items={posts.map((post, index) => (
@@ -445,6 +445,8 @@ export default function Browse({
                     We serve the people of our communities, that enjoy cannabis, by offering a bridge of communication, clarity and support.`}</H5>
                     </FlexBox> */}
         {/* </Grid> */}
+
+        <Footer className="bg-transparent bg-gradient-to-b from-transparent to-secondary" />
       </Page>
     </>
   );
@@ -813,10 +815,5 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 };
 
 Browse.getLayout = function getLayout(page: ReactElement) {
-  return (
-    <>
-      {page}
-      <Footer />
-    </>
-  );
+  return <>{page}</>;
 };

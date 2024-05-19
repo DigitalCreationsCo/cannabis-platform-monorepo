@@ -14,7 +14,11 @@ import FlexBox from './FlexBox';
 import Grid from './Grid';
 import { GrasSignature, H6, Paragraph } from './Typography';
 
-export default function Footer() {
+export default function Footer({
+	className,
+}: {
+	className?: string | string[];
+}) {
 	const navigation = [
 		{
 			name: TextContent.account.CREATE_DISPENSARY_ACCOUNT,
@@ -43,103 +47,104 @@ export default function Footer() {
 		// 	href: TextContent.href.driver_tos,
 		// },
 	];
-	return (
-		<>
-			<FlexBox className={twMerge(styles.FOOTER.container, 'text-light')}>
-				<Grid className="overflow-x-hidden mx-auto md:mt-5 grid w-3/4 md:w-full max-w-screen-xl pb-16 lg:pb-0 grid-rows-auto gap-10 lg:gap-4 md:grid-cols-8 overflow-visible">
-					<div className="row-start-2 md:row-span-5 md:col-span-2 md:col-start-2 md:row-start-auto">
-						<div className="flex w-full flex-col flex-wrap md:ml-0 space-y-3">
-							{navigation.map((item, index) => (
-								<Link
-									key={index}
-									href={replaceRelativePath(item.href)}
-									className="w-fit"
-								>
-									<Paragraph className="text-inverse underline lg:no-underline hover:underline">
-										{item.name}
-									</Paragraph>
-								</Link>
-							))}
-						</div>
-					</div>
-					<div className="row-start-3 md:row-span-3 md:col-span-2 md:row-start-auto">
-						<div className="flex-col space-y-3 flex w-full flex-wrap lg:ml-0">
-							{legal.map((item, index) => (
-								<Link
-									key={index}
-									href={replaceRelativePath(item.href)}
-									passHref
-									className="w-fit"
-								>
-									<Paragraph className="text-inverse underline lg:no-underline hover:underline">
-										{item.name}
-									</Paragraph>
-								</Link>
-							))}
-						</div>
-					</div>
-					<div className="md:col-span-3 flex flex-col-reverse md:flex-col md:space-y-4">
-						<div className="md:col-span-3 md:row-span-5 row-start-5 md:row-start-auto">
-							<FlexBox className="flex-row items-center">
-								<Link href={getShopSite('/')} className="z-50">
-									<GrasSignature className="text-inverse">Gras</GrasSignature>
-								</Link>
-								<Link
-									href={getShopSite('/')}
-									className="p-0.25 ml-4 bg-inverse w-fit rounded-full"
-								>
-									<Image alt="Gras" width={40} height={40} src={logo} />
-								</Link>
-							</FlexBox>
 
-							<Paragraph className="mt-8 max-w-sm text-white">
-								{TextContent.info.ABOUT_GRAS_AND_MISSION}
-							</Paragraph>
-							<CopyRight />
-						</div>
-						<div className="pb-12 md:pb-0">
-							<FlexBox className="mt-4 flex-row gap-x-8 text-inverse">
-								<a
-									href="https://twitter.com/gras_cannabis"
-									target="_blank"
-									rel="noopener noreferrer"
-								>
-									<span className="sr-only">Twitter</span>
-									<Twitter />
-								</a>
-								<a
-									href="https://www.facebook.com/profile.php?viewas=100000686899395&id=61553103098585"
-									target="_blank"
-									rel="noopener noreferrer"
-								>
-									<span className="sr-only">Facebook</span>
-									<Facebook />
-								</a>
-								<a
-									href="https://www.instagram.com/grascannabis/"
-									target="_blank"
-									rel="noopener noreferrer"
-								>
-									<span className="sr-only">Instagram</span>
-									<Instagram />
-								</a>
-								<a
-									href="https://www.linkedin.com/company/gras-delivery/"
-									target="_blank"
-									rel="noopener noreferrer"
-								>
-									<span className="sr-only">Linkedin</span>
-									<Linkedin />
-								</a>
-							</FlexBox>
-						</div>
+	return (
+		<FlexBox
+			className={twMerge(styles.FOOTER.container, 'text-light', className)}
+		>
+			<Grid className="overflow-x-hidden mx-auto md:mt-5 grid w-3/4 md:w-full max-w-screen-xl pb-16 lg:pb-0 grid-rows-auto gap-10 lg:gap-4 md:grid-cols-8 overflow-visible">
+				<div className="row-start-2 md:row-span-5 md:col-span-2 md:col-start-2 md:row-start-auto">
+					<div className="flex w-full flex-col flex-wrap md:ml-0 space-y-3">
+						{navigation.map((item, index) => (
+							<Link
+								key={index}
+								href={replaceRelativePath(item.href)}
+								className="w-fit"
+							>
+								<Paragraph className="text-inverse underline lg:no-underline hover:underline">
+									{item.name}
+								</Paragraph>
+							</Link>
+						))}
 					</div>
-					<div className="row-start-1 row-span-1 md:col-start-6 md:col-span-3 md:row-start-auto pt-4 md:pt-0">
-						<H6 color="light">{TextContent.info.CANNABIS_DELIVERED}</H6>
+				</div>
+				<div className="row-start-3 md:row-span-3 md:col-span-2 md:row-start-auto">
+					<div className="flex-col space-y-3 flex w-full flex-wrap lg:ml-0">
+						{legal.map((item, index) => (
+							<Link
+								key={index}
+								href={replaceRelativePath(item.href)}
+								passHref
+								className="w-fit"
+							>
+								<Paragraph className="text-inverse underline lg:no-underline hover:underline">
+									{item.name}
+								</Paragraph>
+							</Link>
+						))}
 					</div>
-				</Grid>
-			</FlexBox>
-		</>
+				</div>
+				<div className="md:col-span-3 flex flex-col-reverse md:flex-col md:space-y-4">
+					<div className="md:col-span-3 md:row-span-5 row-start-5 md:row-start-auto">
+						<FlexBox className="flex-row items-center">
+							<Link href={getShopSite('/')} className="z-50">
+								<GrasSignature className="text-inverse">Gras</GrasSignature>
+							</Link>
+							<Link
+								href={getShopSite('/')}
+								className="p-0.25 ml-4 bg-inverse w-fit rounded-full"
+							>
+								<Image alt="Gras" width={40} height={40} src={logo} />
+							</Link>
+						</FlexBox>
+
+						<Paragraph className="mt-8 max-w-sm text-white">
+							{TextContent.info.ABOUT_GRAS_AND_MISSION}
+						</Paragraph>
+						<CopyRight />
+					</div>
+					<div className="pb-12 md:pb-0">
+						<FlexBox className="mt-4 flex-row gap-x-8 text-inverse">
+							<a
+								href="https://twitter.com/gras_cannabis"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								<span className="sr-only">Twitter</span>
+								<Twitter />
+							</a>
+							<a
+								href="https://www.facebook.com/profile.php?viewas=100000686899395&id=61553103098585"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								<span className="sr-only">Facebook</span>
+								<Facebook />
+							</a>
+							<a
+								href="https://www.instagram.com/grascannabis/"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								<span className="sr-only">Instagram</span>
+								<Instagram />
+							</a>
+							<a
+								href="https://www.linkedin.com/company/gras-delivery/"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								<span className="sr-only">Linkedin</span>
+								<Linkedin />
+							</a>
+						</FlexBox>
+					</div>
+				</div>
+				<div className="row-start-1 row-span-1 md:col-start-6 md:col-span-3 md:row-start-auto pt-4 md:pt-0">
+					<H6 color="light">{TextContent.info.CANNABIS_DELIVERED}</H6>
+				</div>
+			</Grid>
+		</FlexBox>
 	);
 }
 

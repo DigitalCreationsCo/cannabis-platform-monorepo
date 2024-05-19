@@ -35,7 +35,8 @@ const styles = Object.freeze({
 	},
 	TOPBAR: {
 		topbar: [
-			'z-50 sticky flex flex-row py-2 px-4 bg-inverse-soft items-center min-h-[40px] shrink-0 justify-between space-x-5 lg:pl-10 lg:pr-12',
+			'z-50 sticky flex flex-row bg-inverse-soft items-center min-h-[40px] shrink-0 justify-between space-x-5',
+			'py-2 px-2',
 		],
 		tagline: [
 			'p-0 m-0',
@@ -60,7 +61,7 @@ const styles = Object.freeze({
 	},
 	FOOTER: {
 		container:
-			'cursor-default flex-col min-h-[188px] p-10 bg-secondary min-w-full bottom-0 shadow-lg pb-[120px]',
+			'cursor-default flex-col min-h-[188px] bg-secondary p-10 min-w-full bottom-0 shadow-lg pb-[120px]',
 	},
 	label_f: (justifyLabel: 'left' | 'center' | 'right' | undefined = 'left') => [
 		'px-2 py-1',

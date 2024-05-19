@@ -54,7 +54,7 @@ function DispensaryCard({
       );
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+    [dispensary]
   );
 
   const OpenBadge = () => (
@@ -78,7 +78,7 @@ function DispensaryCard({
     'background-color': dispensary?.siteSetting?.backgroundColor as string,
   };
 
-  const hasLogo = !!dispensary?.images?.[0]?.location;
+  const hasLogo = dispensary?.images?.[0]?.location || false;
 
   if (loading)
     return (
@@ -114,6 +114,7 @@ function DispensaryCard({
       className={twMerge([
         styles.dispensaryCard,
         current ? 'border-2 border-primary' : 'border-2 border-transparent',
+        'hover:border-white',
         className,
       ])}
     >
