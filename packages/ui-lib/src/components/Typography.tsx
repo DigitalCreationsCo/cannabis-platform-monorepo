@@ -47,11 +47,11 @@ export const H1 = ({
 	return (
 		<h1
 			className={twMerge(
-				'tracking-tight',
+				'tracking-wide',
 				'leading-tight',
 				'font-encode',
 				styles['cursor-inherit'],
-				'text-4xl font-semibold whitespace-normal',
+				'text-2xl md:text-4xl font-semibold whitespace-normal',
 				(color === 'light' && 'text-inverse') ||
 					(color === 'dark' && 'text-dark') ||
 					'text-inherit',
@@ -74,9 +74,10 @@ export const H2 = ({
 		<h2
 			className={twMerge(
 				'font-encode',
-				'tracking-tight',
+				'tracking-wide',
 				styles['cursor-inherit'],
-				'font-semibold text-3xl whitespace-normal',
+				'text-2xl md:!text-3xl',
+				'font-semibold whitespace-normal',
 				(color === 'light' && 'text-inverse') ||
 					(color === 'dark' && 'text-dark') ||
 					'text-inherit',
@@ -99,9 +100,10 @@ export const H3 = ({
 		<h3
 			className={twMerge(
 				'font-encode',
-				'tracking-tight',
+				'tracking-wide',
 				styles['cursor-inherit'],
-				'font-semibold text-2xl whitespace-normal',
+				'text-xl md:text-2xl',
+				'font-semibold whitespace-normal',
 				(color === 'light' && 'text-inverse') ||
 					(color === 'dark' && 'text-dark') ||
 					'text-inherit',
@@ -124,7 +126,7 @@ export const H4 = ({
 		<h4
 			className={twMerge(
 				'font-encode',
-				'tracking-normal',
+				'tracking-[1px]',
 				styles['cursor-inherit'],
 				'font-medium text-xl whitespace-normal',
 				(color === 'light' && 'text-inverse') ||
@@ -149,7 +151,7 @@ export const H5 = ({
 		<h5
 			className={twMerge(
 				'font-encode',
-				'tracking-wider',
+				'tracking-[1px]',
 				styles['cursor-inherit'],
 				'font-medium text-lg whitespace-normal',
 				(color === 'light' && 'text-inverse') ||
@@ -173,7 +175,8 @@ export const H6 = ({
 	return (
 		<h6
 			className={twMerge(
-				'tracking-wider',
+				'font-encode',
+				'tracking-[1px]',
 				styles['cursor-inherit'],
 				'font-semibold text-md whitespace-normal',
 				(color === 'light' && 'text-inverse') ||
@@ -274,7 +277,7 @@ export const Tiny = ({
 		<span
 			className={twMerge([
 				'w-fit',
-				'font-onest',
+				'font-encode',
 				(color === 'light' && 'text-inverse') ||
 					(color === 'dark' && 'text-dark') ||
 					'text-inherit',

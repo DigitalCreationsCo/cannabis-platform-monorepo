@@ -46,17 +46,14 @@ function TopBar({ showSearch = true, SearchComponent }: TopBarProps) {
   return (
     <div className={twMerge([styles.TOPBAR.topbar, 'bg-transparent pb-0'])}>
       <FlexBox>
-        <FlexBox className="flex-row items-center">
+        <FlexBox className="flex-row items-center gap-x-2">
           <Link href={'/'} className="z-50">
-            <GrasSignature className="text-inverse text-4xl drop-shadow-lg pt-1 pb-0 mb-0 leading-3">
+            <GrasSignature className="text-inverse lg:text-4xl drop-shadow-lg pt-1 pb-0 mb-0 leading-3">
               {t('gras')}
             </GrasSignature>
           </Link>
-          <Link
-            href={'/'}
-            className="p-0.25 ml-4 bg-inverse w-fit rounded-full"
-          >
-            <Image alt="Gras" width={44} height={44} src={logo} />
+          <Link href={'/'} className="p-0.25 w-fit rounded-full">
+            <Image alt="Gras" className="w-[36px] md:w-[48px]" src={logo} />
           </Link>
         </FlexBox>
         <Link href={'/'}>

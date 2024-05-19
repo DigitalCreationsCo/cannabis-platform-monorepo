@@ -19,7 +19,7 @@ const CheckAge = ({
 	isMultiStep?: boolean;
 }) => {
 	const router = useRouter();
-	const [, setCookie] = useCookies(['yesOver21']);
+	const [cookie, setCookie] = useCookies(['yesOver21']);
 
 	const [yesOver21, setYesOver21] = useState(false);
 	const toggleOver21 = () => setYesOver21(!yesOver21);
@@ -64,6 +64,7 @@ const CheckAge = ({
 									size="lg"
 									bg={'secondary-light'}
 									hover={'primary-light'}
+									loading={cookie.yesOver21 === 'true'}
 									disabled={!yesOver21}
 									onClick={() => {
 										setCookie('yesOver21', 'true');
