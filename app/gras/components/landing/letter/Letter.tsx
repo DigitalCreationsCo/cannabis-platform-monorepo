@@ -33,14 +33,14 @@ export default function Letter({
     >
       <FlexBox
         className={twMerge(
-          'bg-inherit flex flex-col flex-wrap items-center justify-center gap-2 space-y-0 max-w-lg md:max-w-2xl lg:max-w-5xl mx-auto'
-        )}
+          'bg-inherit flex flex-col flex-wrap items-center justify-center gap-2 space-y-0 max-w-md sm:!max-w-2xl lg:!max-w-4xl mx-auto'
+      )}
       >
         {title && (
           <H2
             className={twMerge(
               styles.textShadow,
-              'whitespace-pre-line mt-3 text-center text-5xl font-bold leading-snug tracking-tight lg:text-6xl lg:leading-tight'
+              'whitespace-pre-line mt-3 text-center font-bold leading-snug tracking-tight lg:leading-tight text-5xl lg:text-6xl'
             )}
           >
             {title}

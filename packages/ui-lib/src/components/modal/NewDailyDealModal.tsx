@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { axios, selectDispensaryState, urlBuilder } from '@cd/core-lib';
+import { type ModalStateProps, axios, urlBuilder } from '@cd/core-lib';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { Cron } from 'react-js-cron';
-import { useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 import { Button } from '../button';
@@ -17,7 +16,7 @@ import { H2, Paragraph } from '../Typography';
 import Modal from './Modal';
 import 'react-js-cron/dist/styles.css';
 
-interface NewDailyDealModalProps {
+interface NewDailyDealModalProps extends ModalStateProps {
 	dispatchCloseModal: () => void;
 	modalVisible: boolean;
 }
@@ -27,9 +26,7 @@ function NewDailyDealModal({
 	modalVisible,
 	...props
 }: NewDailyDealModalProps) {
-	const { dispensary } = useSelector(selectDispensaryState);
-	const dispensaryId = dispensary.id;
-
+	const dispensaryId = props.organization!.id;
 	const closeModalAndReset = () => {
 		dispatchCloseModal();
 	};

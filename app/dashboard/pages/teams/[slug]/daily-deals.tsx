@@ -11,9 +11,12 @@ import {
   usStatesAbbreviationList,
   formatToTimeZone,
   TimeZoneMap,
+  useDispensary,
+  type ApiResponse,
+  fetcher,
 } from '@cd/core-lib';
 import { type CustomerSMSInvite } from '@cd/core-lib/src/sms/slicktext';
-import { type Dispensary } from '@cd/data-access';
+import { type DailyDeal, type Dispensary } from '@cd/data-access';
 import {
   Button,
   FlexBox,
@@ -25,62 +28,57 @@ import {
   H2,
   Select,
   TextArea,
+  LoadingPage,
 } from '@cd/ui-lib';
 import { type AxiosResponse } from 'axios';
 import { useFormik } from 'formik';
+import { useTranslation } from 'next-i18next';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
+import useSWR from 'swr';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
+import { Error } from '@/components/shared';
 import { wrapper } from '@/lib/store';
 
-// interface DashboardProps {
-// 	organization: Dispensary;
-// 	user: StaffMember;
-// 	products: any[];
-// 	orders: any[];
-// 	dailyDeals: DailyDeal[];
-// }
-
 const dailyDealsInfo = `Daily Deals are a great way to promote your business to your customers.
-Messages are sent to your customers through text message. 
+Messages are sent to your customers via text message. 
 
-You can use daily deals to promote your products, advertise a discount, or promote events.
+Use daily deals to promote products or promote events.
 
-Schedule your Daily Deals, or send a one-time message.`;
+Schedule Daily Deals, or send a one-time message.`;
 
 export default function DailyDealsPage() {
   // const { user, organization, products, orders, dailyDeals } =
   const dispatch = useAppDispatch();
+  const { isLoading, isError, team } = useDispensary();
+  const { t } = useTranslation('common');
 
-  // const { dailyDeals } = useDailyDeals();
-  const dailyDeals: {
-    isExpired: boolean;
-    title: string;
-    startTime: string;
-  }[] = [
-    {
-      isExpired: false,
-      title: 'test',
-      startTime: '2022-01-01T00:00:00',
-    },
-  ];
+  const { data } = useSWR<ApiResponse<DailyDeal[]>>(
+    team?.slug ? `/api/teams/${team.slug}/daily-deals` : null,
+    fetcher
+  );
 
-  const organization = {
-    id: '1',
-    name: 'test',
-  } as Dispensary;
+  const dailyDeals = data?.data || [];
 
-  const user = {
-    id: '1',
-    organizationId: '1',
-    role: 'admin',
-  };
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+
+  if (isError) {
+    return <Error message={isError.message} />;
+  }
+
+  if (!team) {
+    return <Error message={t('team-not-found')} />;
+  }
 
   const openNewDailyDealModal = () => {
     dispatch(
       modalActions.openModal({
+        modalVisible: true,
         modalType: modalTypes.NewDailyDealModal,
+        organization: team,
       })
     );
   };
@@ -88,14 +86,27 @@ export default function DailyDealsPage() {
   async function openDailyDealsInfoModal() {
     dispatch(
       modalActions.openModal({
+        modalVisible: true,
         modalType: modalTypes.showModal,
         modalText: dailyDealsInfo,
       })
     );
   }
+
   const DailyDeals = () => (
     <div className="my-4 flex grow flex-col gap-y-4">
-      <Paragraph className="font-semibold">{`Your current message`}</Paragraph>
+      <FlexBox className="flex-row items-center">
+        <Paragraph className="font-semibold">{`Your latest message`}</Paragraph>
+        {/* <Button
+					onClick={() => {}}
+					size="sm"
+					bg="transparent"
+					hover="transparent"
+					className="hover:text-primary font-semibold underline place-self-start"
+				>
+					{`Previous messages`}
+				</Button> */}
+      </FlexBox>
       <Grid className="flex grow flex-col md:flex-row gap-2 flex-wrap">
         {dailyDeals?.length ? (
           dailyDeals.map((deal, index) => (
@@ -125,6 +136,13 @@ export default function DailyDealsPage() {
           <Paragraph>{`You have no deals. Try adding one.`}</Paragraph>
         )}
       </Grid>
+      <Button
+        className="my-4 px-4 bg-inverse hover:bg-inverse active:bg-accent-soft place-self-start"
+        hover="accent-soft"
+        onClick={openNewDailyDealModal}
+      >
+        {``}
+      </Button>
     </div>
   );
 
@@ -159,7 +177,7 @@ export default function DailyDealsPage() {
 
           <DailyDeals />
         </div>
-        <SendDailyDealsInviteForm dispensary={organization} />
+        <SendDailyDealsInviteForm dispensary={team} />
       </FlexBox>
     </div>
   );

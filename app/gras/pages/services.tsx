@@ -72,7 +72,91 @@ export default function DispensaryLandingPage() {
           'p-0 m-0 md:p-0 lg:p-0'
         )}
       >
-        <Letter id="grow" className="bg-inverse-soft pt-8" {...letters['growth']} title={letters['free-consultation'].title} />
+        <Hero />
+        <Letter id="grow" {...letters['growth']} />
+        <Benefits data={unlockYourGrowth} className="bg-inverse-soft" />
+
+        <Letter {...letters['delivery-painpoints']} />
+        <Benefits
+          className="bg-gradient-to-b from-10% from-inverse to-inverse-soft"
+          data={deliveryManagementService}
+        />
+        <Benefits
+          imagePosition="left"
+          data={automateDeliveryCompliance}
+          className="bg-inverse-soft"
+        />
+
+        <Letter {...letters['delivery-tracking']} />
+        <Benefits
+          imagePosition="left"
+          data={trackDeliveries}
+          className="bg-inverse-soft"
+        />
+
+        <div
+          className={twMerge(
+            'bg-gradient-to-b from-10% from-inverse to-inverse-soft'
+          )}
+        >
+          <Partners
+            scaleOnHover
+            title={`Partnered with the leading cannabis technology`}
+            partners={partners}
+          />
+        </div>
+
+        <Letter
+          className="bg-inverse-soft"
+          {...letters['full-service-delivery']}
+        />
+        <Benefits className="bg-inverse" data={fullServiceDelivery} />
+
+        <Letter
+          className="bg-inverse-soft"
+          {...letters['consumer-messaging']}
+        />
+        <Benefits
+          className="bg-inverse"
+          imagePosition="left"
+          data={consumerTextMessaging}
+        />
+        <Letter className="bg-inverse-soft" {...letters['events']} />
+
+        <Letter className="bg-inverse" {...letters['take-urgent-action']} />
+        <Letter className="bg-inverse-soft" {...letters['limited-offer']} />
+
+        <Letter className="bg-inverse" {...letters['partner-relationship']} />
+
+        <Benefits
+          className="bg-inverse-soft"
+          imagePosition="left"
+          data={dealValue}
+          values={dealValues}
+          valueColor="text-primary"
+        >
+          <Paragraph className="font-semibold text-3xl text-primary">
+            Total Value{' '}
+            <span className="line-through">{`$${dealValues.reduce(
+              (a, b) => a + b,
+              0
+            )}`}</span>
+          </Paragraph>
+          <Paragraph className="font-semibold text-4xl">
+            {`You don't pay this price today!`}
+          </Paragraph>
+          <Paragraph className="font-semibold text-3xl">
+            {`Find out your price today below 👇`}
+          </Paragraph>
+        </Benefits>
+
+        <Letter className="bg-inverse" {...letters['free-consultation']}>
+          <div className="py-6">
+            <Paragraph className="font-semibold text-3xl">
+              Fill Out The Form Below To Get Your Free Consultation 👇
+            </Paragraph>
+          </div>
+        </Letter>
 
         <ContactUs id="get-started" />
       </Page>
@@ -80,6 +164,7 @@ export default function DispensaryLandingPage() {
   );
 }
 
+const dealValues = [779, 1179, 4779, 979, 1479];
 
 DispensaryLandingPage.getLayoutContext = (): LayoutContextProps => ({
   TopBarComponent: () => (
@@ -96,6 +181,20 @@ DispensaryLandingPage.getLayoutContext = (): LayoutContextProps => ({
   showHeader: false,
   showSideNav: false,
 });
+
+const Bonus = ({ title }: { title: string }) => {
+  return (
+    <div>
+      <H2
+        className={twMerge(
+          'text-center text-5xl font-bold leading-snug max-w-lg md:max-w-6xl lg:text-6xl lg:leading-tight whitespace-pre-line'
+        )}
+      >
+        {title}
+      </H2>
+    </div>
+  );
+};
 
 DispensaryLandingPage.getLayout = function getLayout(page: ReactElement) {
   return (

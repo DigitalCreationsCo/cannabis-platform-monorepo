@@ -56,7 +56,11 @@ export type AppEvent =
 	| 'webhook.fetched'
 	| 'webhook.updated'
 	| 'event.fetched'
-	| 'dispensaries.fetched';
+	| 'dispensaries.fetched'
+	| 'dispensary.dailyDeal.fetched'
+	| 'dispensary.dailyDeal.created'
+	| 'dispensary.dailyDeal.updated'
+	| 'dispensary.dailyDeal.removed';
 
 export type AUTH_PROVIDER =
 	| 'github'

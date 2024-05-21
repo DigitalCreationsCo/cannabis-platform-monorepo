@@ -1,6 +1,5 @@
 import { type ModalStateProps } from '@cd/core-lib';
 import { useEffect, useState } from 'react';
-import Card from '../Card';
 import { Paragraph } from '../Typography';
 import Modal from './Modal';
 

@@ -11,7 +11,8 @@ export type Resource =
 	| 'team_audit_log'
 	| 'team_webhook'
 	| 'team_payments'
-	| 'team_api_key';
+	| 'team_api_key'
+	| 'team_daily_deals';
 
 type RolePermissions = {
 	[role in RoleType]: Permission[];

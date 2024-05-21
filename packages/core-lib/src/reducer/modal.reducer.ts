@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
+import { type Dispensary } from '@cd/data-access';
 import {
 	createAsyncThunk,
 	createSlice,
@@ -90,7 +91,7 @@ export type ModalType =
 	| 'STOREFRONT_MODAL';
 
 export type ModalStateProps = {
-	organization?: any;
+	organization?: Dispensary | null;
 	modalType: ModalType;
 	modalVisible: boolean;
 	modalText?: string;
@@ -119,10 +120,13 @@ const modalSlice = createSlice({
 	name: 'modal',
 	initialState,
 	reducers: {
-		openModal: (state, { payload }: { payload: any }) => {
+		openModal: (state, { payload }: { payload: ModalStateProps }) => {
 			state.modalType = payload.modalType || state.modalType;
 			state.modalText = payload.modalText || state.modalText;
 			state.modalVisible = true;
+			console.trace('openModal', payload);
+			state.organization = payload.organization || state.organization;
+			state = { ...state, ...payload };
 		},
 		closeModal: () => initialState,
 		waitLoading: (state) => {

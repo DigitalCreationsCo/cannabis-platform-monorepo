@@ -36,10 +36,7 @@ export type ContactUsFormResponse = {
   state: string | undefined;
   zipcode: string | undefined;
   whichServiceInterestedIn:
-    | ''
-    | 'Delivery Management'
-    | 'Delivery Service'
-    | 'Consumer Messaging';
+    typeof serviceOptions[number] | '';
   howDidYouHearAboutUs:
     | ''
     | 'Linkedin'
@@ -65,6 +62,8 @@ const howDidYouHearAboutUsOptions: {
   { value: 'search', label: 'search' },
   { value: 'other', label: 'other' },
 ];
+
+const serviceOptions = ['Delivery Management', 'Delivery Service', 'Consumer Messaging']
 
 export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
   const [loadingButton, setLoadingButton] = useState(false);
@@ -119,8 +118,8 @@ export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
       company: yup.string().required('Company is required'),
       whichServiceInterestedIn: yup
         .string()
-        .oneOf(
-          ['Delivery Management', 'Delivery Service', 'Consumer Messaging'],
+        .oneOf(serviceOptions
+          ,
           'Which service are you interested in?'
         )
         .required('Which service are you interested in?'),
@@ -192,7 +191,7 @@ export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
           >
             We deliver your business to more people, online and outside.
           </Paragraph>
-          <H2 className="text-6xl max-w-2xl lg:max-w-full lg:col-span-2">
+          <H2 className="text-5xl md:text-6xl max-w-2xl lg:max-w-full lg:col-span-2">
             <span className={twMerge(heading)}>Partner with Gras</span> for home
             delivery and retail services.
           </H2>
@@ -338,12 +337,7 @@ export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
             />
 
             <Select
-              values={[
-                '',
-                'Delivery Management',
-                'Delivery Service',
-                'Consumer Messaging',
-              ]}
+              values={['', ...serviceOptions]}
               containerClassName="p-2 xl:col-span-2"
               name="whichServiceInterestedIn"
               label="Which of our services are you most interested in?"
