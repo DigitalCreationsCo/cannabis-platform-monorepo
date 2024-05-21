@@ -12578,6 +12578,10 @@ html:has(.drawer-open.drawer-open) {
     width: 100%;
   }
 
+  .sm\:\!max-w-2xl {
+    max-width: 42rem !important;
+  }
+
   .sm\:max-w-\[320px\] {
     max-width: 320px;
   }
@@ -12987,14 +12991,14 @@ html:has(.drawer-open.drawer-open) {
     text-align: left;
   }
 
-  .md\:\!text-3xl {
-    font-size: 1.875rem !important;
-    line-height: 2.25rem !important;
-  }
-
   .md\:text-2xl {
     font-size: 1.5rem;
     line-height: 2rem;
+  }
+
+  .md\:text-3xl {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
   }
 
   .md\:text-4xl {
@@ -13187,12 +13191,12 @@ html:has(.drawer-open.drawer-open) {
     min-width: 800px;
   }
 
-  .lg\:max-w-3xl {
-    max-width: 48rem;
+  .lg\:\!max-w-4xl {
+    max-width: 56rem !important;
   }
 
-  .lg\:max-w-5xl {
-    max-width: 64rem;
+  .lg\:max-w-3xl {
+    max-width: 48rem;
   }
 
   .lg\:max-w-full {

@@ -35,8 +35,7 @@ export type ContactUsFormResponse = {
   city: string;
   state: string | undefined;
   zipcode: string | undefined;
-  whichServiceInterestedIn:
-    typeof serviceOptions[number] | '';
+  whichServiceInterestedIn: typeof serviceOptions[number] | '';
   howDidYouHearAboutUs:
     | ''
     | 'Linkedin'
@@ -63,7 +62,12 @@ const howDidYouHearAboutUsOptions: {
   { value: 'other', label: 'other' },
 ];
 
-const serviceOptions = ['Delivery Management', 'Delivery Service', 'Consumer Messaging']
+const serviceOptions = [
+  'Delivery Management',
+  'Delivery Service',
+  'Consumer Messaging',
+  'Promotional Events🔥',
+];
 
 export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
   const [loadingButton, setLoadingButton] = useState(false);
@@ -118,10 +122,7 @@ export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
       company: yup.string().required('Company is required'),
       whichServiceInterestedIn: yup
         .string()
-        .oneOf(serviceOptions
-          ,
-          'Which service are you interested in?'
-        )
+        .oneOf(serviceOptions, 'Which service are you interested in?')
         .required('Which service are you interested in?'),
       serviceAreaRange: yup.number().when('whichServiceInterestedIn', {
         is: (value: any) => {
