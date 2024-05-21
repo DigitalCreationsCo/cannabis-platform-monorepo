@@ -76,7 +76,7 @@ export const H2 = ({
 				'font-encode',
 				'tracking-wide',
 				styles['cursor-inherit'],
-				'text-2xl md:!text-3xl',
+				'text-2xl md:text-3xl',
 				'font-semibold whitespace-normal',
 				(color === 'light' && 'text-inverse-soft') ||
 					(color === 'dark' && 'text-dark') ||
@@ -202,7 +202,7 @@ export const Paragraph = ({
 			className={twMerge(
 				'font-encode',
 				'font-normal',
-				'text-sm',
+				'text-md',
 				'tracking-[1px]',
 				styles['cursor-inherit'],
 				'whitespace-pre-line',

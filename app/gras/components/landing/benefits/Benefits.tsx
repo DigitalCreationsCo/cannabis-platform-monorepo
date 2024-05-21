@@ -35,14 +35,14 @@ export default function Benefits({
     >
       <FlexBox
         className={twMerge(
-          'flex flex-col flex-wrap items-center justify-center gap-4'
+          'flex flex-col flex-wrap items-center justify-center gap-4 mx-auto'
         )}
       >
         {data.title && (
           <H2
             className={twMerge(
               styles.textShadow,
-              'text-center text-5xl font-bold leading-snug max-w-lg md:max-w-6xl lg:text-6xl lg:leading-tight whitespace-pre-line'
+              'text-center text-5xl lg:text-6xl font-bold leading-snug max-w-lg md:max-w-6xl lg:leading-tight whitespace-pre-line'
             )}
           >
             {data.title}

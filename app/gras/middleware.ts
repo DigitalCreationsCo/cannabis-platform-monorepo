@@ -30,8 +30,16 @@ const unAuthenticatedRoutes = [
   '/blog',
   '/work-with-us',
   '/workwithus',
+  '/services',
   '/messaging',
 ];
+
+const allowAllUsers = [
+  '/',
+  '/work-with-us',
+  '/workwithus',
+  '/services',
+]
 
 export default async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -49,7 +57,7 @@ export default async function middleware(req: NextRequest) {
   }
 
   // Redirect to home page if user is under 21
-  if (pathname !== '/' && over21 !== 'true') {
+  if (!micromatch.isMatch(pathname, allowAllUsers) && over21 !== 'true') {
     return NextResponse.redirect(new URL('/', req.url));
   }
 
