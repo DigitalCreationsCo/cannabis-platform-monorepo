@@ -17,7 +17,8 @@ export const createDispensary = async ({
 	Omit<Dispensary, 'id'>
 >): Promise<Dispensary> => {
 	try {
-		const { userId, ...data } = param;
+		console.trace('create Dispensary: ', param);
+		const { userId } = param;
 		const client = await clientPromise;
 		const { db, collections } = db_namespace;
 		const dispensary = (await (
@@ -26,10 +27,15 @@ export const createDispensary = async ({
 				.collection<Dispensary>(collections.dispensaries)
 				.findOneAndUpdate(
 					{ slug: param.slug },
-					{ ...data, createdAt, updatedAt },
+					{
+						$set: { name: param.name, slug: param.slug, createdAt, updatedAt },
+					},
 					{ upsert: true, returnDocument: 'after' },
 				)
 		).value) as WithId<Dispensary>;
+		dispensary.id = dispensary._id.toString();
+
+		console.info('dispensary: ', dispensary);
 
 		await addStaffMember(dispensary, userId, Role.OWNER);
 
@@ -54,19 +60,26 @@ export const getDispensaryByCustomerId = async (
 };
 
 export const getDispensary = async (
-	where: { id: string } | { slug: string },
+	where: { id: string } | { slug: string } | any,
 ) => {
+	Object.hasOwnProperty.call(where, 'id') &&
+		(where = { _id: new ObjectId(where.id) });
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
-	return await client
+	const dispensary = await client
 		.db(db)
 		.collection<Dispensary>(collections.dispensaries)
 		.findOne(where);
+
+	console.trace('dispensary: ', dispensary);
+	return { ...dispensary, id: dispensary!._id.toString() };
 };
 
 export const deleteDispensary = async (
-	where: { id: string } | { slug: string },
+	where: { id: string } | { slug: string } | any,
 ) => {
+	Object.hasOwnProperty.call(where, 'id') &&
+		(where = { _id: new ObjectId(where.id) });
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
 	return await client
@@ -157,6 +170,7 @@ export const getStaffMembers = async (slug: string) => {
 			},
 		])
 		.toArray();
+	console.trace('staffMembers: ', staffMembers);
 
 	return staffMembers?.map((member) => {
 		member = normalizeUser(member);
@@ -176,7 +190,7 @@ export const updateDispensary = async (
 		.updateOne({ slug }, update);
 };
 
-export const isTeamExists = async (slug: string) => {
+export const isTeamExists = async (slug: string): Promise<number> => {
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
 	return await client
@@ -191,7 +205,7 @@ export const getStaffMember = async (userId: string, slug: string) => {
 	return await client
 		.db(db)
 		.collection<StaffMember>(collections.staff)
-		.findOne({ 'team.slug': slug, _id: new ObjectId(userId) });
+		.findOne({ 'team.slug': slug, userId });
 };
 
 /**
