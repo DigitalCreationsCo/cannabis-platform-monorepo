@@ -1,5 +1,5 @@
 import { truncateWordsAndLeaveN } from '@cd/core-lib';
-import { FlexBox, H4, Paragraph } from '@cd/ui-lib';
+import { FlexBox, H4, H5, Paragraph } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
@@ -22,14 +22,14 @@ function EventCard({
     return (
       <div
         className={twMerge([
-          'flex flex-col',
-          'h-[240px]',
-          'm-3',
-          'bg-dark',
-          'rounded',
-          'overflow-hidden',
-          'border-2 border-transparent',
-          'drop-shadow-[-6px_4px_1px_#555]',
+          // 'flex flex-col',
+          // 'h-[240px]',
+          // 'm-3',
+          // 'bg-dark',
+          // 'rounded',
+          // 'overflow-hidden',
+          // 'border-2 border-transparent',
+          // 'drop-shadow-[-6px_4px_1px_#555]',
           className,
         ])}
       >
@@ -49,34 +49,31 @@ function EventCard({
       href={event.url}
       className={twMerge([
         'flex flex-col',
-        'h-[240px]',
+        'h-[240px] sm:max-w-[320px]',
         'm-3',
-        'bg-dark',
+        'bg-amber-200',
         'rounded',
         'overflow-hidden',
-        'border-2 border-transparent',
-        // 'hover:border-primary',
+        // 'border border-dark',
+        // 'hover:border-inverse-soft',
+        // 'text-inverse-soft',
         'drop-shadow-[-6px_4px_1px_#555]',
         className,
       ])}
     >
-      <FlexBox className="grow relative">
-        <Image
-          src={event.image.url}
-          alt={event.name}
-          fill
-          className="object-cover object-top"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        />
-      </FlexBox>
-      <div className={twMerge('max-h-36', 'px-2')}>
-        <H4 className="text-inverse">{event.name}</H4>
-        {(showDescription && (
-          <Paragraph className="text-inverse">
-            {truncateWordsAndLeaveN(event.full_description || '', 30)}
-          </Paragraph>
-        )) || <></>}
-      </div>
+      <H5 className="px-1 tracking-normal font-semibold drop-shadow-[-1px_1px_0px_#ccc]">
+        {event.name}
+      </H5>
+      {(showDescription && (
+        <Paragraph className="px-1">{event.full_description || ''}</Paragraph>
+      )) || <></>}
+      <Image
+        src={event.image.url}
+        alt={event.name}
+        fill
+        className="object-contain object-bottom"
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+      />
     </Link>
   );
 }
