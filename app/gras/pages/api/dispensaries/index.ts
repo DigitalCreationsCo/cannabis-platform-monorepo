@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { getDispensariesByZipcode } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { recordMetric } from '@/lib/metrics';
 import { dispensaries } from '@cd/data-access';
 import env from '@/lib/env';
+import clientPromise from '@/lib/db';
 
 export default async function handler(
   req: NextApiRequest,

@@ -7280,6 +7280,7 @@ __metadata:
     "@testing-library/jest-dom": 6.4.2
     "@typeform/embed-react": 2.28.0
     "@types/bcryptjs": 2.4.6
+    "@types/cheerio": ^0.22.35
     "@types/jest": 29.5.12
     "@types/mapbox-gl": ^3.1.0
     "@types/micromatch": 4.0.7
@@ -7294,6 +7295,7 @@ __metadata:
     autoprefixer: 10.4.19
     bcryptjs: 2.4.3
     boarding.js: 3.5.2
+    cheerio: 1.0.0-rc.12
     classnames: 2.5.1
     cookies-next: 4.1.1
     currency-symbol-map: 5.1.0
@@ -15426,7 +15428,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/cheerio@npm:*, @types/cheerio@npm:^0.22.22":
+"@types/cheerio@npm:*, @types/cheerio@npm:^0.22.22, @types/cheerio@npm:^0.22.35":
   version: 0.22.35
   resolution: "@types/cheerio@npm:0.22.35"
   dependencies:

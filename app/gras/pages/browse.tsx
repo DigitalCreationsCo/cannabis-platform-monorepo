@@ -71,6 +71,7 @@ import app from '@/lib/app';
 import Head from 'next/head';
 import env from '@/lib/env';
 import { TopBar } from '@/components/layouts';
+import EventCard from '@/components/shared/EventCard';
 
 function FBInit() {
   useEffect(() => {
@@ -136,9 +137,7 @@ export default function Browse({
     radius,
     token,
   });
-  const { events } = useEvents(zipcode);
-
-  // const dispensaries = data || [];
+  const events = useEvents({ token });
 
   // function startShopTour() {
   // 	shopTour.start();
@@ -336,6 +335,31 @@ export default function Browse({
         </div> */}
 
           <div className="col-span-full">
+            <H2 className="col-span-full pt-2 px-3 md:px-4 text-inverse-soft leading-2 drop-shadow text-left">
+              🎉 Events Near You
+            </H2>
+            <Carousel
+              items={
+                !events.isLoading && events.events.length
+                  ? events.events.map((event, index) => (
+                      <EventCard
+                        key={`event-card-${index}`}
+                        loading={events.isLoading}
+                        event={event}
+                      />
+                    ))
+                  : [1, 2, 3, 4, 5, 6].map((d, index) => (
+                      <EventCard
+                        key={`event-card-${index}`}
+                        loading={events.isLoading}
+                        event={d as any}
+                      />
+                    ))
+              }
+            />
+          </div>
+
+          <div className="col-span-full">
             <H2 className="col-span-full pt-2 px-2 md:px-4 text-inverse-soft leading-2 drop-shadow text-left">
               🍍 Fresh from our blog
             </H2>
@@ -364,21 +388,6 @@ export default function Browse({
                 data={post}
                 showDescription={false}
               />
-            ))}
-          />
-        </div> */}
-
-          {/* <div className="col-span-full px-24">
-          <H3 className="col-span-full px-7 pt-2 lg:!px-11 text-inverse-soft leading-2 drop-shadow text-left">
-            🎉 Events Near You
-          </H3>
-          <Carousel
-            items={events.map((event, index) => (
-              <div
-                key={`blog-card-${index}`}
-                >
-{event.name}
-</div>
             ))}
           />
         </div> */}

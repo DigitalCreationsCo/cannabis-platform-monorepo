@@ -1,19 +1,22 @@
 import { type Event } from '@cd/data-access';
 import { useRouter } from 'next/router';
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
 import { fetcher } from '../lib';
 import type { ApiResponse } from '../types';
 
-const useEvents = (zipcode?: string) => {
+const useEvents = ({ zipcode, token }: { zipcode?: string; token: string }) => {
 	const { query, isReady } = useRouter();
 
 	const localZip = zipcode || (isReady ? query.zipcode : null);
 
-	// const { data, error, isLoading } = useSWR<ApiResponse<Event>>(
-	// 	localZip ? `/api/events?zipcode=${localZip}` : null,
-	// 	fetcher,
-	// 	{ keepPreviousData: true },
-	// );
+	const { data, error, isLoading } = useSWR<ApiResponse<Event>>(
+		[
+			// localZip ? `/api/events?zipcode=${localZip}` : null,
+			`/api/events`,
+			token,
+		],
+		fetcher,
+	);
 
 	// async function fetchEvents(eventIds) {
 	// 	const eventPromises = eventIds.map(eventId =>
@@ -42,27 +45,11 @@ const useEvents = (zipcode?: string) => {
 	// 	}
 	// }
 
-	// fetch events from the eventbrite platform
-	// const { data, error, isLoading } = useSWR<ApiResponse<Event>>(
-	// 	localZip ? `/api/events?zipcode=${localZip}` : null,
-	// 	fetcher,
-	// 	{ keepPreviousData: true },
-	// );
-
-	const events = [
-		{
-			name: 'event 1',
-		},
-		{
-			name: 'event 2',
-		},
-	];
-
 	return {
-		// isLoading,
-		// isError: error,
-		// events: data?.data,
-		events,
+		isLoading,
+		isError: error,
+		events: data?.data as unknown as Event[],
+		mutate,
 	};
 };
 

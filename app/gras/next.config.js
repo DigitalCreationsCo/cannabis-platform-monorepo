@@ -1,4 +1,3 @@
-
 const { i18n } = require('./next-i18next.config');
 const { withSentryConfig } = require('@sentry/nextjs');
 const path = require('path');
@@ -71,6 +70,7 @@ const nextConfig = {
       'storage.googleapis.com',
       'unsplash.com',
       's3.amazonaws.com',
+      'img.evbuc.com',
     ],
     remotePatterns: [
       {
