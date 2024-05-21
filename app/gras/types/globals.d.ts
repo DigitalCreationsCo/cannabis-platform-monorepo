@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 declare const FB: any;
 
 interface Window {
@@ -24,5 +25,5 @@ interface Window {
   _dsSettings: any;
 }
 
-// eslint-disable-next-line no-var, @typescript-eslint/no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-var
 var clientPromise: Promise<MongoClient>;

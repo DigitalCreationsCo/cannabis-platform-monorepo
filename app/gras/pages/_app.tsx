@@ -31,6 +31,8 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import CacheProvider from '@cd/core-lib/src/lib/cache';
 import { AnimatePresence } from 'framer-motion';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import clientPromise from '@/lib/db';
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_API_KEY as string

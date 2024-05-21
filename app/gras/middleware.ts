@@ -11,6 +11,7 @@ const unAuthenticatedRoutes = [
   '/api/hello',
   '/api/health',
   '/api/dispensaries',
+  '/api/events',
   '/api/auth/**',
   '/api/oauth/**',
   '/api/scim/v2.0/**',
@@ -39,8 +40,8 @@ export default async function middleware(req: NextRequest) {
     const url = new URL('/work-with-us', req.url);
     return NextResponse.redirect(url);
   }
-  
-  const over21 = await getCookie('yesOver21', { req});
+
+  const over21 = await getCookie('yesOver21', { req });
   // Redirect to browse page if user is over 21
   if (pathname === '/' && over21 == 'true') {
     const url = new URL('/browse', req.url);
@@ -94,5 +95,8 @@ export default async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico|api/auth/session).*)', '/'],
+  matcher: [
+    '/((?!_next/static|_next/image|favicon.ico|api/auth/session).*)',
+    '/',
+  ],
 };
