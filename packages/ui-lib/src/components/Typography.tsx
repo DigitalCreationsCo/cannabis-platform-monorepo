@@ -26,7 +26,7 @@ export const GrasSignature = ({
 				'overflow-visible z-50',
 				styles['cursor-inherit'],
 				'text-3xl font-bold whitespace-normal',
-				(color === 'light' && 'text-inverse') ||
+				(color === 'light' && 'text-inverse-soft') ||
 					(color === 'dark' && 'text-secondary') ||
 					'text-secondary',
 				className,
@@ -52,7 +52,7 @@ export const H1 = ({
 				'font-encode',
 				styles['cursor-inherit'],
 				'text-2xl md:text-4xl font-semibold whitespace-normal',
-				(color === 'light' && 'text-inverse') ||
+				(color === 'light' && 'text-inverse-soft') ||
 					(color === 'dark' && 'text-dark') ||
 					'text-inherit',
 				className,
@@ -78,7 +78,7 @@ export const H2 = ({
 				styles['cursor-inherit'],
 				'text-2xl md:!text-3xl',
 				'font-semibold whitespace-normal',
-				(color === 'light' && 'text-inverse') ||
+				(color === 'light' && 'text-inverse-soft') ||
 					(color === 'dark' && 'text-dark') ||
 					'text-inherit',
 				className,
@@ -104,7 +104,7 @@ export const H3 = ({
 				styles['cursor-inherit'],
 				'text-xl md:text-2xl',
 				'font-semibold whitespace-normal',
-				(color === 'light' && 'text-inverse') ||
+				(color === 'light' && 'text-inverse-soft') ||
 					(color === 'dark' && 'text-dark') ||
 					'text-inherit',
 				className,
@@ -129,7 +129,7 @@ export const H4 = ({
 				'tracking-[1px]',
 				styles['cursor-inherit'],
 				'font-medium text-xl whitespace-normal',
-				(color === 'light' && 'text-inverse') ||
+				(color === 'light' && 'text-inverse-soft') ||
 					(color === 'dark' && 'text-dark') ||
 					'text-inherit',
 				className,
@@ -154,7 +154,7 @@ export const H5 = ({
 				'tracking-[1px]',
 				styles['cursor-inherit'],
 				'font-medium text-lg whitespace-normal',
-				(color === 'light' && 'text-inverse') ||
+				(color === 'light' && 'text-inverse-soft') ||
 					(color === 'dark' && 'text-dark') ||
 					'text-inherit',
 				className,
@@ -179,7 +179,7 @@ export const H6 = ({
 				'tracking-[1px]',
 				styles['cursor-inherit'],
 				'font-semibold text-md whitespace-normal',
-				(color === 'light' && 'text-inverse') ||
+				(color === 'light' && 'text-inverse-soft') ||
 					(color === 'dark' && 'text-dark') ||
 					'text-inherit',
 				className,
@@ -206,7 +206,7 @@ export const Paragraph = ({
 				'tracking-[1px]',
 				styles['cursor-inherit'],
 				'whitespace-pre-line',
-				(color === 'light' && 'text-inverse') ||
+				(color === 'light' && 'text-inverse-soft') ||
 					(color === 'dark' && 'text-dark') ||
 					'text-inherit',
 				className,
@@ -227,9 +227,10 @@ export const Small = ({
 	return (
 		<p
 			className={twMerge(
+				'tracking-[1px]',
 				'font-onest',
 				styles['cursor-inherit'],
-				(color === 'light' && 'text-inverse') ||
+				(color === 'light' && 'text-inverse-soft') ||
 					(color === 'dark' && 'text-dark') ||
 					'text-inherit',
 				'text-sm whitespace-pre-line',
@@ -253,7 +254,7 @@ export const Span = ({
 		<span
 			className={twMerge(
 				'font-onest',
-				(color === 'light' && 'text-inverse') ||
+				(color === 'light' && 'text-inverse-soft') ||
 					(color === 'dark' && 'text-dark') ||
 					'text-inherit',
 				styles['cursor-inherit'],
@@ -277,8 +278,9 @@ export const Tiny = ({
 		<span
 			className={twMerge([
 				'w-fit',
+				'tracking-[1px]',
 				'font-encode',
-				(color === 'light' && 'text-inverse') ||
+				(color === 'light' && 'text-inverse-soft') ||
 					(color === 'dark' && 'text-dark') ||
 					'text-inherit',
 				styles['cursor-inherit'],

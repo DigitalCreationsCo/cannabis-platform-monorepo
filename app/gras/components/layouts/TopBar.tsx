@@ -57,9 +57,7 @@ function TopBar({ showSearch = true, SearchComponent }: TopBarProps) {
           </Link>
         </FlexBox>
         <Link href={'/'}>
-          <Paragraph
-            className={twMerge(styles.TOPBAR.tagline, 'text-inverse-soft')}
-          >
+          <Paragraph className={twMerge(styles.TOPBAR.tagline, 'text-light')}>
             {TextContent.info.CANNABIS_DELIVERED_TEXT}
           </Paragraph>
         </Link>

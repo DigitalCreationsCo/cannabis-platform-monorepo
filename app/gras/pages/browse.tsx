@@ -253,7 +253,7 @@ export default function Browse({
           <FBInit /> */}
           {/* </div> */}
           <div className="col-span-full pb-2">
-            <H1 className="text-inverse-soft pt-2 px-4 leading-2 drop-shadow text-left">
+            <H1 className="text-light pt-2 px-4 leading-2 drop-shadow text-left">
               {`Find flower, edibles, dispensaries near you`}
             </H1>
             <Carousel
@@ -335,10 +335,40 @@ export default function Browse({
         </div> */}
 
           <div className="col-span-full">
-            <H2 className="col-span-full pt-2 px-3 md:px-4 text-inverse-soft leading-2 drop-shadow text-left">
+            <H2 className="col-span-full pt-2 px-3 md:px-4 text-light leading-2 drop-shadow text-left">
               🎉 Events Near You
             </H2>
             <Carousel
+              responsive={{
+                xl: {
+                  breakpoint: { max: 4000, min: 1400 },
+                  items: 4,
+                  slidesToSlide: 3,
+                  paritialVisibilityGutter: 40,
+                },
+                lg: {
+                  // the naming can be any, depends on you.
+                  breakpoint: { max: 1400, min: 1100 },
+                  items: 3,
+                  slidesToSlide: 2,
+                  paritialVisibilityGutter: 40,
+                },
+                md: {
+                  breakpoint: { max: 1100, min: 700 },
+                  items: 3,
+                  slidesToSlide: 2,
+                  paritialVisibilityGutter: 40,
+                },
+                sm: {
+                  breakpoint: { max: 700, min: 464 },
+                  items: 2,
+                },
+                xs: {
+                  breakpoint: { max: 464, min: 0 },
+                  items: 2,
+                  slidesToSlide: 1,
+                },
+              }}
               items={
                 !events.isLoading && events.events.length
                   ? events.events.map((event, index) => (
@@ -360,7 +390,7 @@ export default function Browse({
           </div>
 
           <div className="col-span-full">
-            <H2 className="col-span-full pt-2 px-2 md:px-4 text-inverse-soft leading-2 drop-shadow text-left">
+            <H2 className="col-span-full pt-2 px-2 md:px-4 text-light leading-2 drop-shadow text-left">
               🍍 Fresh from our blog
             </H2>
             <Carousel
