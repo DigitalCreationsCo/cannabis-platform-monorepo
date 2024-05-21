@@ -38,7 +38,7 @@ import { toast } from 'react-hot-toast';
 import useSWR from 'swr';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
-import { Error } from '@/components/shared';
+import { Error as ErrorComponent } from '@/components/shared';
 import { wrapper } from '@/lib/store';
 
 const dailyDealsInfo = `Daily Deals are a great way to promote your business to your customers.
@@ -66,11 +66,11 @@ export default function DailyDealsPage() {
   }
 
   if (isError) {
-    return <Error message={isError.message} />;
+    return <ErrorComponent message={isError.message} />;
   }
 
   if (!team) {
-    return <Error message={t('team-not-found')} />;
+    return <ErrorComponent message={t('team-not-found')} />;
   }
 
   const openNewDailyDealModal = () => {
@@ -227,8 +227,9 @@ function SendDailyDealsInviteForm({ dispensary }: { dispensary: Dispensary }) {
           doubleOptInMessage: values.doubleOptInMessage,
         });
 
-        if (!response.data.success || response.data.success === 'false')
+        if (!response.data.success || response.data.success === 'false') {
           throw new Error(response.data.error);
+        }
 
         toast.success(`Sent invite link to ${values.firstName}!`);
         setLoadingButton(false);
