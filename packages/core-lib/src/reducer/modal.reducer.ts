@@ -120,7 +120,7 @@ const modalSlice = createSlice({
 	name: 'modal',
 	initialState,
 	reducers: {
-		openModal: (state, { payload }: { payload: ModalStateProps }) => {
+		openModal: (state, { payload }: { payload: any }) => {
 			state.modalType = payload.modalType || state.modalType;
 			state.modalText = payload.modalText || state.modalText;
 			state.modalVisible = true;
