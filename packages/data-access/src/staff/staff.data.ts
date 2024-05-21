@@ -33,21 +33,24 @@ export const addStaffMember = async (
 				{ $push: { members: userId } },
 			);
 	}
+	console.info('dispensary here: ', dispensary);
 	const staffMember = (
 		await client
 			.db(db)
 			.collection<StaffMember>(collections.staff)
 			.findOneAndUpdate(
-				{ teamId: dispensary.id, _id: new ObjectId(userId) },
+				{ teamId: dispensary.id, userId },
 				{
 					$set: {
 						role,
 						team: dispensary,
 					},
 				},
-				{ upsert: true },
+				{ upsert: true, returnDocument: 'after' },
 			)
 	).value;
+
+	console.trace('staff member, ', staffMember);
 	return {
 		...staffMember!,
 		id: staffMember!._id.toString(),

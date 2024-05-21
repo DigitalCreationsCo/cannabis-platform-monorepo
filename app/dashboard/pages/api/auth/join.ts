@@ -1,14 +1,14 @@
 import { slugify, ApiError, generateToken } from '@cd/core-lib';
 import {
-	type Dispensary,
-	// getInvitation,
-	// isInvitationExpired,
-	createUser,
-	getUser,
-	createDispensary,
-	createVerificationToken,
-	// getDispensary,
-	isTeamExists,
+  type Dispensary,
+  // getInvitation,
+  // isInvitationExpired,
+  createUser,
+  getUser,
+  createDispensary,
+  createVerificationToken,
+  // getDispensary,
+  isTeamExists,
 } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { hashPassword } from '@/lib/auth';
@@ -24,151 +24,153 @@ import { userJoinSchema, validateWithSchema } from '@/lib/zod';
 // Add zod schema validation
 
 export default async function handler(
-	req: NextApiRequest,
-	res: NextApiResponse,
+  req: NextApiRequest,
+  res: NextApiResponse
 ) {
-	const { method } = req;
+  const { method } = req;
 
-	try {
-		switch (method) {
-			case 'POST':
-				await handlePOST(req, res);
-				break;
-			default:
-				res.setHeader('Allow', 'POST');
-				res.status(405).json({
-					error: { message: `Method ${method} Not Allowed` },
-				});
-		}
-	} catch (error: any) {
-		const message = error.message || 'Something went wrong';
-		const status = error.status || 500;
+  try {
+    switch (method) {
+      case 'POST':
+        await handlePOST(req, res);
+        break;
+      default:
+        res.setHeader('Allow', 'POST');
+        res.status(405).json({
+          error: { message: `Method ${method} Not Allowed` },
+        });
+    }
+  } catch (error: any) {
+    const message = error.message || 'Something went wrong';
+    const status = error.status || 500;
 
-		res.status(status).json({ error: { message } });
-	}
+    res.status(status).json({ error: { message } });
+  }
 }
 
 // Signup the user
 const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
-	try {
-		const {
-			name,
-			password,
-			dispensary,
-			// inviteToken,
-			recaptchaToken,
-		} = req.body;
+  try {
+    const {
+      name,
+      password,
+      dispensary,
+      // inviteToken,
+      recaptchaToken,
+    } = req.body;
 
-		await validateRecaptcha(recaptchaToken);
+    console.info('req.body: ', req.body);
 
-		// const invitation = inviteToken
-		//   ? await getInvitation({ token: inviteToken })
-		//   : null;
-		const invitation = null;
+    await validateRecaptcha(recaptchaToken);
 
-		const email: string = req.body.email;
+    // const invitation = inviteToken
+    //   ? await getInvitation({ token: inviteToken })
+    //   : null;
+    const invitation = null;
 
-		// When join via invitation
-		// if (invitation) {
-		//   if (await isInvitationExpired(invitation.expires)) {
-		//     throw new ApiError(400, 'Invitation expired. Please request a new one.');
-		//   }
+    const email: string = req.body.email;
 
-		//   if (invitation.sentViaEmail) {
-		//     email = invitation.email;
-		//   }
-		// }
+    // When join via invitation
+    // if (invitation) {
+    //   if (await isInvitationExpired(invitation.expires)) {
+    //     throw new ApiError(400, 'Invitation expired. Please request a new one.');
+    //   }
 
-		validateWithSchema(userJoinSchema, {
-			name,
-			email,
-			password,
-		});
+    //   if (invitation.sentViaEmail) {
+    //     email = invitation.email;
+    //   }
+    // }
 
-		if (!isEmailAllowed(email)) {
-			throw new ApiError(
-				400,
-				`We currently only accept work email addresses for sign-up. Please use your work email to create an account. If you don't have a work email, feel free to contact our support team for assistance.`,
-			);
-		}
+    validateWithSchema(userJoinSchema, {
+      name,
+      email,
+      password,
+    });
 
-		if (await getUser({ email })) {
-			throw new ApiError(400, 'An user with this email already exists.');
-		}
+    if (!isEmailAllowed(email)) {
+      throw new ApiError(
+        400,
+        `We currently only accept work email addresses for sign-up. Please use your work email to create an account. If you don't have a work email, feel free to contact our support team for assistance.`
+      );
+    }
 
-		// Check if team name is available
-		if (!invitation) {
-			if (!dispensary) {
-				throw new ApiError(400, 'A team name is required.');
-			}
+    if (await getUser({ email })) {
+      throw new ApiError(400, 'An user with this email already exists.');
+    }
 
-			const slug = slugify(dispensary);
-			console.info('slug: ', slug);
+    // Check if team name is available
+    if (!invitation) {
+      if (!dispensary) {
+        throw new ApiError(400, 'A team name is required.');
+      }
 
-			// validateWithSchema(userJoinSchema, { dispensary, slug });
+      const slug = slugify(dispensary);
+      console.info('slug: ', slug);
 
-			const slugCollisions = await isTeamExists(slug);
+      // validateWithSchema(userJoinSchema, { dispensary, slug });
 
-			if (slugCollisions > 0) {
-				throw new ApiError(400, 'A team with this slug already exists.');
-			}
-		}
+      const slugCollisions = await isTeamExists(slug);
 
-		const user = await createUser({
-			name,
-			email,
-			password: await hashPassword(password),
-			emailVerified: invitation ? new Date() : null,
-		});
+      if (slugCollisions > 0) {
+        throw new ApiError(400, 'A team with this slug already exists.');
+      }
+    }
 
-		console.info('user: ', user);
-		let userDispensary: Dispensary;
+    const user = await createUser({
+      name,
+      email,
+      password: await hashPassword(password),
+      emailVerified: invitation ? new Date() : null,
+    });
 
-		// Create team if user is not invited
-		// So we can create the team with the user as the owner
-		// if (!invitation) {
-		// eslint-disable-next-line prefer-const
-		userDispensary = await createDispensary({
-			userId: user.id,
-			name: dispensary,
-			slug: slugify(dispensary),
-		});
-		console.info('userDispensary: ', userDispensary);
-		// } else {
-		//   userDispensary = await getDispensary({ slug: invitation.team.slug });
-		// }
-		//
-		// Send account verification email
-		if (env.confirmEmail && !user.emailVerified) {
-			const verificationToken = await createVerificationToken({
-				token: generateToken(),
-				identifier: user.email,
-				expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
-			});
+    console.info('user: ', user);
+    let userDispensary: Dispensary;
 
-			await sendVerificationEmail({ user, verificationToken });
-		}
+    // Create team if user is not invited
+    // So we can create the team with the user as the owner
+    // if (!invitation) {
+    // eslint-disable-next-line prefer-const
+    userDispensary = await createDispensary({
+      userId: user.id,
+      name: dispensary,
+      slug: slugify(dispensary),
+    });
+    console.info('userDispensary: ', userDispensary);
+    // } else {
+    //   userDispensary = await getDispensary({ slug: invitation.team.slug });
+    // }
+    //
+    // Send account verification email
+    if (env.confirmEmail && !user.emailVerified) {
+      const verificationToken = await createVerificationToken({
+        token: generateToken(),
+        identifier: user.email,
+        expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+      });
 
-		recordMetric('user.signup');
+      await sendVerificationEmail({ user, verificationToken });
+    }
 
-		slackNotify()?.alert({
-			text: invitation
-				? 'New user signed up via invitation'
-				: 'New user signed up',
-			fields: {
-				Name: user.name,
-				Email: user.email,
-				Dispensary: userDispensary.name,
-			},
-		});
+    recordMetric('user.signup');
 
-		res.status(201).json({
-			data: {
-				confirmEmail: env.confirmEmail && !user.emailVerified,
-			},
-		});
-	} catch (error) {
-		console.log(error);
-		throw new ApiError(500, 'Something went wrong');
-	}
+    slackNotify()?.alert({
+      text: invitation
+        ? 'New user signed up via invitation'
+        : 'New user signed up',
+      fields: {
+        Name: user.name,
+        Email: user.email,
+        Dispensary: userDispensary.name,
+      },
+    });
+
+    res.status(201).json({
+      data: {
+        confirmEmail: env.confirmEmail && !user.emailVerified,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    throw new ApiError(500, 'Something went wrong');
+  }
 };
