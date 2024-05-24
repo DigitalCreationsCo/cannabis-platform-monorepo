@@ -32,7 +32,7 @@ const TeamSettings = ({ team }: { team: Dispensary }) => {
       }
     },
     onSubmit: async (values) => {
-      const response = await fetch(`/api/teams/${team.slug}`, {
+      const response = await fetch(`/api/dispensaries/${team.slug}`, {
         method: 'PUT',
         headers: defaultHeaders,
         body: JSON.stringify(values),

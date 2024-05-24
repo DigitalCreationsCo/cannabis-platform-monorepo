@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { ObjectId } from 'mongodb';
-import { db_namespace } from './db';
+import { db_namespace, clientPromise } from './db';
 
 export type DailyDeal = {
 	id: string;

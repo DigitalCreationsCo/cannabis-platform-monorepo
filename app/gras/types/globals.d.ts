@@ -24,6 +24,3 @@ interface Window {
   // dailystory
   _dsSettings: any;
 }
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-var
-var clientPromise: Promise<MongoClient>;

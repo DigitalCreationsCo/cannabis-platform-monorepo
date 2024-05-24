@@ -1,4 +1,4 @@
-import { db_namespace } from './db';
+import { db_namespace, clientPromise } from './db';
 
 export const getZipcodeLocation = async (zipcode: string) => {
 	const client = await clientPromise;

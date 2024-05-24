@@ -1,6 +1,4 @@
 import { Component, type PropsWithChildren } from 'react';
-import { render } from 'react-dom';
-import error from 'supertokens-node/lib/build/error';
 import ErrorMessage from './ErrorMessage';
 interface ErrorBoundaryProps extends PropsWithChildren {
 	fallback: React.ReactNode;

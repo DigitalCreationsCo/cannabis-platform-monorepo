@@ -1,4 +1,5 @@
-import { db_namespace } from './db';
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { db_namespace, clientPromise } from './db';
 
 export const createVerificationToken = async ({
 	token,
@@ -20,7 +21,7 @@ export const getVerificationToken = async (token: string) => {
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
-		.collection(collections.verificationToken)
+		.collection<VerificationToken>(collections.verificationToken)
 		.findOne({
 			token: decodeURIComponent(token),
 		});

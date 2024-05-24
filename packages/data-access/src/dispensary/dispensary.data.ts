@@ -1,11 +1,14 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { ObjectId, type WithId, type UpdateFilter } from 'mongodb';
-import { db_namespace } from '../db';
+import { db_namespace, clientPromise } from '../db';
 import { normalizeUser } from '../helpers';
 import { Role } from '../role.types';
 import { addStaffMember } from '../staff/staff.data';
-import { type StaffMember } from '../staff/staff.types';
+import {
+	type StaffMemberWithUser,
+	type StaffMember,
+} from '../staff/staff.types';
 import { getZipcodeLocation } from '../zipcode.data';
 import { type Dispensary } from './dispensary.types';
 
@@ -94,10 +97,11 @@ export const removeStaffMember = async (
 ) => {
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
-	return await client
+	const deleted = await client
 		.db(db)
 		.collection(collections.staff)
-		.deleteOne({ dispensaryId, _id: new ObjectId(userId) });
+		.findOneAndDelete({ dispensaryId, _id: new ObjectId(userId) });
+	return deleted.value!;
 };
 
 export const getStaffMemberDispensaries = async (userId: string) => {
@@ -181,13 +185,17 @@ export const getStaffMembers = async (slug: string) => {
 export const updateDispensary = async (
 	slug: string,
 	update: UpdateFilter<Dispensary>,
-) => {
+): Promise<Dispensary> => {
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
-	return await client
+	const updatedDispensary = await client
 		.db(db)
-		.collection(collections.dispensaries)
-		.updateOne({ slug }, update);
+		.collection<Dispensary>(collections.dispensaries)
+		.findOneAndUpdate({ slug }, { $set: update }, { returnDocument: 'after' });
+	return {
+		...updatedDispensary.value!,
+		id: updatedDispensary.value!._id.toString(),
+	};
 };
 
 export const isTeamExists = async (slug: string): Promise<number> => {
@@ -199,13 +207,35 @@ export const isTeamExists = async (slug: string): Promise<number> => {
 		.countDocuments({ slug });
 };
 
-export const getStaffMember = async (userId: string, slug: string) => {
+export const getStaffMember = async (
+	userId: string,
+	slug: string,
+): Promise<StaffMemberWithUser> => {
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
-	return await client
-		.db(db)
-		.collection<StaffMember>(collections.staff)
-		.findOne({ 'team.slug': slug, userId });
+
+	return (
+		await client
+			.db(db)
+			.collection(collections.staff)
+			.aggregate<StaffMemberWithUser>([
+				{
+					$match: { 'team.slug': slug },
+				},
+				{
+					$lookup: {
+						from: collections.users,
+						localField: '_id',
+						foreignField: '_id',
+						as: 'user',
+					},
+				},
+				{
+					$unwind: '$user',
+				},
+			])
+			.toArray()
+	)[0];
 };
 
 /**

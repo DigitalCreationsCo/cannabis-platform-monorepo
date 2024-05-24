@@ -1,10 +1,6 @@
 import { SessionProvider } from 'next-auth/react';
 import { appWithTranslation } from 'next-i18next';
 import { NextSeo } from 'next-seo';
-import { useEffect } from 'react';
-import { Provider as ReduxProvider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
-import colors from 'tailwindcss/colors';
 import '@boxyhq/react-ui/dist/style.css';
 import '../styles/globals.css';
 import '../styles/anim8-gradient.css';
@@ -14,18 +10,16 @@ import '../styles/tailwind.css';
 import { AccountLayout } from '@/components/layouts';
 import app from '@/lib/app';
 import env from '@/lib/env';
-import { Themer } from '@boxyhq/react-ui/shared';
 import { type AppPropsWithLayout } from '@/lib/next.types';
 import { wrapper } from '@/lib/store';
-import { loadHotJar } from '@cd/core-lib/src/lib/hotjar';
+import { Themer } from '@boxyhq/react-ui/shared';
 import { loadBrevoChat } from '@cd/core-lib/src/lib/brevoChat';
 import {
   GTMTag,
   loadGoogleTagManager,
 } from '@cd/core-lib/src/lib/googletagmanager';
-import { Elements } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
-import { AnimatePresence } from 'framer-motion';
+import { loadHotJar } from '@cd/core-lib/src/lib/hotjar';
+import { clientPromise } from '@cd/data-access';
 import {
   LoadingPage,
   ModalProvider,
@@ -33,9 +27,15 @@ import {
   type Theme,
   applyTheme,
 } from '@cd/ui-lib';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import { AnimatePresence } from 'framer-motion';
 import mixpanel from 'mixpanel-browser';
+import { useEffect } from 'react';
+import { Provider as ReduxProvider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import colors from 'tailwindcss/colors';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import clientPromise from '@/lib/db';
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_API_KEY as string

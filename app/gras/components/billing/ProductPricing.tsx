@@ -16,7 +16,7 @@ const ProductPricing = ({ plans, subscriptions }: ProductPricingProps) => {
 
   const initiateCheckout = async (price: string, quantity?: number) => {
     const res = await fetch(
-      `/api/teams/${team?.slug}/payments/create-checkout-session`,
+      `/api/dispensaries/${team?.slug}/payments/create-checkout-session`,
       {
         method: 'POST',
         headers: {

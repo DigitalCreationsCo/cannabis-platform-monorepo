@@ -55,7 +55,7 @@ export default function DailyDealsPage() {
   const { t } = useTranslation('common');
 
   const { data } = useSWR<ApiResponse<DailyDeal[]>>(
-    team?.slug ? `/api/teams/${team.slug}/daily-deals` : null,
+    team?.slug ? `/api/dispensaries/${team.slug}/daily-deals` : null,
     fetcher
   );
 
