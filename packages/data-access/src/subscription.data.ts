@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb';
-import { db_namespace } from './db';
+import { db_namespace, clientPromise } from './db';
 
 export const createStripeSubscription = async (
 	data: NonNullable<Subscription>,
@@ -38,13 +38,18 @@ export const updateStripeSubscription = async (id: string, data: any) => {
 		);
 };
 
-export const getSubscriptionByCustomerId = async (customerId: string) => {
+export const getSubscriptionByCustomerId = async (
+	customerId: string,
+): Promise<Subscription[]> => {
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
-	return await client
-		.db(db)
-		.collection<Subscription>(collections.subscriptions)
-		.findOne({ customerId });
+	return (
+		(await client
+			.db(db)
+			.collection<Subscription>(collections.subscriptions)
+			.find({ customerId })
+			.toArray()) || []
+	);
 };
 
 export const getBySubscriptionId = async (

@@ -10,7 +10,7 @@ const useDispensary = (slug?: string) => {
 	const dispensarySlug = slug || (isReady ? query.slug : null);
 
 	const { data, error, isLoading } = useSWR<ApiResponse<Dispensary>>(
-		dispensarySlug ? `/api/teams/${dispensarySlug}` : null,
+		dispensarySlug ? `/api/dispensaries/${dispensarySlug}` : null,
 		fetcher,
 	);
 

@@ -38,7 +38,7 @@ import { slackNotify } from './slack';
 import { maxLengthPolicies } from '@cd/core-lib';
 import { forceConsume } from '@cd/core-lib';
 import { MongoDBAdapter } from '@auth/mongodb-adapter';
-import clientPromise from '@/lib/db';
+import { clientPromise } from '@cd/data-access';
 
 const adapter = MongoDBAdapter(clientPromise);
 const providers: Provider[] = [];
@@ -440,7 +440,7 @@ const linkToTeam = async (profile: Profile, userId: string) => {
 
   // Sort out roles
   const roles = profile.roles || profile.groups || [];
-  let userRole: Role = team.defaultRole || Role.MEMBER;
+  let userRole: Role = Role.MEMBER;
 
   for (let role of roles) {
     if (env.groupPrefix) {

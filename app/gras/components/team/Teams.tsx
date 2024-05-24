@@ -30,7 +30,7 @@ const Teams = () => {
   }, [newTeam]);
 
   const leaveTeam = async (team: Dispensary) => {
-    const response = await fetch(`/api/teams/${team.slug}/members`, {
+    const response = await fetch(`/api/dispensaries/${team.slug}/members`, {
       method: 'PUT',
       headers: defaultHeaders,
     });

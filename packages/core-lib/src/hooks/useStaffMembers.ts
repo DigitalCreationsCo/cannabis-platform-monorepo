@@ -4,7 +4,7 @@ import fetcher from '../lib/fetcher';
 import type { ApiResponse } from '../types';
 
 const useStaffMembers = (slug: string) => {
-	const url = `/api/teams/${slug}/members`;
+	const url = `/api/dispensaries/${slug}/members`;
 
 	const { data, error, isLoading } = useSWR<ApiResponse<StaffMemberWithUser[]>>(
 		url,

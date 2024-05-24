@@ -21,7 +21,7 @@ const NewAPIKey = ({
 
   const onNewAPIKey = (apiKey: string) => {
     setApiKey(apiKey);
-    mutate(`/api/teams/${team.slug}/api-keys`);
+    mutate(`/api/dispensaries/${team.slug}/api-keys`);
   };
 
   const toggleVisible = () => {
@@ -64,7 +64,7 @@ const CreateAPIKeyForm = ({
       }
     },
     onSubmit: async (values) => {
-      const response = await fetch(`/api/teams/${team.slug}/api-keys`, {
+      const response = await fetch(`/api/dispensaries/${team.slug}/api-keys`, {
         method: 'POST',
         body: JSON.stringify(values),
         headers: defaultHeaders,

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable sonarjs/no-duplicate-string */
 import { ObjectId, type UpdateFilter } from 'mongodb';
-import { db_namespace } from '../db';
+import { db_namespace, clientPromise } from '../db';
 import { normalizeUser } from '../helpers';
 import { type User } from './user.types';
 

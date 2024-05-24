@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { ObjectId } from 'mongodb';
-import { db_namespace } from '../db';
+import { db_namespace, clientPromise } from '../db';
 import { type Dispensary } from '../dispensary/dispensary.types';
 import { normalizeUser } from '../helpers';
 import { type Role } from '../role.types';

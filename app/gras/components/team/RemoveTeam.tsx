@@ -22,7 +22,7 @@ const RemoveTeam = ({ team, allowDelete }: RemoveTeamProps) => {
   const removeTeam = async () => {
     setLoading(true);
 
-    const response = await fetch(`/api/teams/${team.slug}`, {
+    const response = await fetch(`/api/dispensaries/${team.slug}`, {
       method: 'DELETE',
       headers: defaultHeaders,
     });

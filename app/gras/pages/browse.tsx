@@ -7,40 +7,40 @@ import {
   getCoordinatePairFromCoordinates,
   isValidZipcode,
   // selectBlogsByTag,
-  modalActions,
-  modalTypes,
+  // modalActions,
+  // modalTypes,
   // selectBlogState,
   // selectLocationState,
   // selectMarketPlaceDispensaries,
   // selectSelectedLocationState,
   // selectShopState,
   // selectUserState,
-  TextContent,
+  // TextContent,
   useEvents,
   useLocalDispensaries,
   // debounce,
 } from '@cd/core-lib';
 import {
   type Coordinates,
-  dispensaries,
-  productCategories,
+  // dispensaries,
+  // productCategories,
   Dispensary,
 } from '@cd/data-access';
 import {
   Grid,
   H1,
   Page,
-  H4,
+  // H4,
   Footer,
   Carousel,
-  H5,
+  // H5,
   H2,
-  H3,
-  Header,
+  // H3,
+  // Header,
 } from '@cd/ui-lib';
-import mapboxgl, { type MapboxGeoJSONFeature } from 'mapbox-gl';
+import mapboxgl from 'mapbox-gl';
 import { ReactElement, useEffect, useRef, useState } from 'react';
-import { twMerge } from 'tailwind-merge';
+// import { twMerge } from 'tailwind-merge';
 import markerImage from '../public/map-marker.png';
 import { DispensaryCard } from '@/components/shared';
 import {
@@ -52,7 +52,7 @@ import {
   readToken,
 } from '@/lib/sanity';
 import { InfoCard } from '@/components/blog';
-import Image from 'next/image';
+// import Image from 'next/image';
 import { Error } from '@/components/shared';
 
 // import { shopTour } from '../../tour';
@@ -808,28 +808,6 @@ const RenderMapBox = ({
     </>
   );
 };
-
-// export const getStaticProps: GetStaticProps = async (
-// 	ctx,
-// ) => {
-// 	const { draftMode = false } = ctx;
-// 	const client = getClient(draftMode ? { token: readToken } : undefined);
-
-// 	const [settings, posts = []] = await Promise.all([
-// 		getSettings(client),
-// 		getPosts(client),
-// 	]);
-
-//   console.info('GSP posts from sanity', posts);
-// 	return {
-// 		props: {
-// 			posts,
-// 			settings,
-// 			draftMode,
-// 			token: draftMode ? readToken : '',
-// 		},
-// 	};
-// };
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const authToken = env.nextAuth.secret;

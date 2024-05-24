@@ -4,7 +4,7 @@ import {
   useDispensary,
   throwIfNotAllowed,
 } from '@cd/core-lib';
-import { type User, getStaffMember } from '@cd/data-access';
+import { type User, getStaffMember, StaffMember } from '@cd/data-access';
 import { type GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -80,10 +80,10 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { locale, req, res, query } = context;
 
   const session = (await getSession(req, res)) as { user: User } | null;
-  const teamMember = await getStaffMember(
+  const teamMember = (await getStaffMember(
     session?.user.id as string,
     query.slug as string
-  );
+  )) as StaffMember;
 
   try {
     throwIfNotAllowed(teamMember, 'team_audit_log', 'read');

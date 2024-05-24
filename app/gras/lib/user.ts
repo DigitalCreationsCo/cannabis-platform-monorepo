@@ -1,4 +1,4 @@
-import { getStaffMember } from '@cd/data-access';
+import { getStaffMember, StaffMember } from '@cd/data-access';
 import { getSession } from '../lib/session';
 
 // Get current user from session
@@ -18,7 +18,7 @@ export const getCurrentUserWithDispensary = async (req: any, res: any) => {
   // const { slug } = validateWithSchema(teamSlugSchema, req.query);
   const { slug } = req.query as { slug: string };
 
-  const { role, team } = await getStaffMember(user.id, slug);
+  const { role, team } = (await getStaffMember(user.id, slug)) as StaffMember;
 
   return {
     ...user,

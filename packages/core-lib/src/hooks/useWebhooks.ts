@@ -4,7 +4,7 @@ import { fetcher } from '../lib';
 import type { ApiResponse } from '../types';
 
 const useWebhooks = (slug: string) => {
-	const url = `/api/teams/${slug}/webhooks`;
+	const url = `/api/dispensaries/${slug}/webhooks`;
 
 	const { data, error, isLoading } = useSWR<ApiResponse<EndpointOut[]>>(
 		slug ? url : null,

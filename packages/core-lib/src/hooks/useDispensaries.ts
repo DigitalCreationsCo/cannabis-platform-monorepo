@@ -3,7 +3,7 @@ import fetcher from '../lib/fetcher';
 import type { ApiResponse, TeamWithMemberCount } from '../types';
 
 const useDispensaries = () => {
-	const url = `/api/teams`;
+	const url = `/api/dispensaries`;
 
 	const { data, error, isLoading } = useSWR<ApiResponse<TeamWithMemberCount[]>>(
 		url,

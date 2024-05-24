@@ -51,7 +51,7 @@ const Members = ({ team }: { team: Dispensary }) => {
     const sp = new URLSearchParams({ memberId: member.userId });
 
     const response = await fetch(
-      `/api/teams/${team.slug}/members?${sp.toString()}`,
+      `/api/dispensaries/${team.slug}/members?${sp.toString()}`,
       {
         method: 'DELETE',
         headers: defaultHeaders,

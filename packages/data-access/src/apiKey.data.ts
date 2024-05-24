@@ -1,6 +1,6 @@
 import { createHash, randomBytes } from 'crypto';
 import { ObjectId } from 'mongodb';
-import { db_namespace } from './db';
+import { db_namespace, clientPromise } from './db';
 
 interface CreateApiKeyParams {
 	name: string;

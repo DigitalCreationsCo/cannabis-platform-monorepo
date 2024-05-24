@@ -10,8 +10,6 @@ const _env =
     ? 'development'
     : process.env.NODE_ENV;
 
-expand(configEnv({ path: findUp.sync(`.env.${_env}`) }));
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
@@ -56,8 +54,10 @@ const nextConfig = {
     return config;
   },
   env: {
+    ...expand(configEnv({ path: findUp.sync(`.env.${_env}`) })).parsed,
     NEXT_PUBLIC_SHOP_APP_URL: process.env.NEXT_PUBLIC_SHOP_APP_URL,
     NEXTAUTH_URL: process.env.NEXT_PUBLIC_SHOP_APP_URL,
+    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
   },
   images: {
     minimumCacheTTL: 60 * 60,
