@@ -20,12 +20,12 @@ import Head from 'next/head';
 import { NextPageWithLayout } from '@/lib/next.types';
 import Image from 'next/image';
 import { TextContent } from '@cd/core-lib';
-import classNames from 'classnames';
 import logo from '../public/logo.png';
 import { twMerge } from 'tailwind-merge';
 import friendsVideo from '../public/Gras-community-clip.mp4';
 import { NextSeo } from 'next-seo';
 import app from '@/lib/app';
+import { Gallery } from "react-grid-gallery";
 
 const Home: NextPageWithLayout = () => {
   const { t } = useTranslation('common');
@@ -60,7 +60,9 @@ const Home: NextPageWithLayout = () => {
       <Page
         className={twMerge(
           gradient,
-          'relative !pt-0 md:pt-0 px-0 lg:px-0 text-light'
+          'relative',
+          '!pt-0 md:pt-0 px-0 lg:px-0 text-light',
+          // 'overflow-hidden'
         )}
       >
         <div className={twMerge(styles.TOPBAR.topbar, 'bg-transparent')}>
@@ -107,9 +109,25 @@ const Home: NextPageWithLayout = () => {
           </div>
         </div>
 
-        <div className="flex w-full h-full flex-col-reverse lg:!flex-row mx-auto gap-4 py-4 items-center justify-center">
-          <video
-            className="absolute lg:!relative h-full w-full opacity-25 lg:opacity-100 lg:max-w-lg shrink-0 lg:rounded-lg lg:p-0 shadow"
+        {/* <Gallery images={[
+   {
+      src: require('public/events-1.png'),
+      width: 400,
+      height: 400,
+   }]} /> */}
+
+        <div className="border mx-auto h-full w-full">
+          <div className="border h-full w-full self-center place-self-center grid grid-flow-row grid-rows-3 grid-cols-5 items-stretch gap-10">
+          <Image src={require('public/events-1.png')} alt={`cannabis-events`} className="object-cover rounded-lg aspect-square max-w-xs" />
+          <Image src={require('public/events-1.png')} alt={`cannabis-events`} className="object-cover rounded-lg aspect-square max-w-xs" />
+          <Image src={require('public/events-1.png')} alt={`cannabis-events`} className="object-cover rounded-lg aspect-square max-w-xs" />
+          <Image src={require('public/events-1.png')} alt={`cannabis-events`} className="object-cover rounded-lg aspect-square max-w-xs" />
+          <Image src={require('public/events-1.png')} alt={`cannabis-events`} className="object-cover rounded-lg aspect-square max-w-xs" />
+
+          <Image src={require('public/events-1.png')} alt={`cannabis-events`} className="object-cover rounded-lg aspect-square max-w-xs" />
+            <div className='col-span-3 border mx-auto justify-center flex flex-row items-center'>
+              <video
+            className="max-h-[300px] h-full w-full opacity-25 lg:opacity-100 lg:max-w-lg shrink-0 lg:rounded-lg lg:p-0 shadow"
             style={{
               aspectRatio: 'auto',
               // width: '100%',
@@ -124,11 +142,21 @@ const Home: NextPageWithLayout = () => {
             autoPlay
             loop
             muted
-          />
-          <div className="w-[440px] h-[420px] z-10 m-auto lg:!m-0 pt-4 lg:!my-auto">
+            />
+          <div 
+          // className="min-w-[440px] z-10 m-auto lg:!m-0"
+          >
             <H1 className="text-center">Welcome to Gras</H1>
             <H2 className="text-center">Serving People And Cannabis</H2>
             <CheckAge redirect={'/browse'} isMultiStep={false} />
+              </div>
+          </div>
+          <Image src={require('public/events-1.png')} alt={`cannabis-events`} className="object-cover rounded-lg aspect-square max-w-xs" />
+          <Image src={require('public/events-1.png')} alt={`cannabis-events`} className="object-cover rounded-lg aspect-square max-w-xs" />
+          <Image src={require('public/events-1.png')} alt={`cannabis-events`} className="object-cover rounded-lg aspect-square max-w-xs" />
+          <Image src={require('public/events-1.png')} alt={`cannabis-events`} className="object-cover rounded-lg aspect-square max-w-xs" />
+          <Image src={require('public/events-1.png')} alt={`cannabis-events`} className="object-cover rounded-lg aspect-square max-w-xs" />
+          <Image src={require('public/events-1.png')} alt={`cannabis-events`} className="object-cover rounded-lg aspect-square max-w-xs" />
           </div>
         </div>
       </Page>
