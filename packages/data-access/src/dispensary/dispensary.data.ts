@@ -5,10 +5,7 @@ import { db_namespace, clientPromise } from '../db';
 import { normalizeUser } from '../helpers';
 import { Role } from '../role.types';
 import { addStaffMember } from '../staff/staff.data';
-import {
-	type StaffMemberWithUser,
-	type StaffMember,
-} from '../staff/staff.types';
+import { type StaffMemberWithUser } from '../staff/staff.types';
 import { getZipcodeLocation } from '../zipcode.data';
 import { type Dispensary } from './dispensary.types';
 
@@ -156,8 +153,8 @@ export const getStaffMembers = async (slug: string) => {
 	const { db, collections } = db_namespace;
 	const staffMembers = await client
 		.db(db)
-		.collection<StaffMember>(collections.staff)
-		.aggregate<StaffMember>([
+		.collection<StaffMemberWithUser>(collections.staff)
+		.aggregate<StaffMemberWithUser>([
 			{
 				$match: { 'team.slug': slug },
 			},
@@ -213,19 +210,19 @@ export const getStaffMember = async (
 ): Promise<StaffMemberWithUser> => {
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
-
 	return (
 		await client
 			.db(db)
 			.collection(collections.staff)
 			.aggregate<StaffMemberWithUser>([
 				{
-					$match: { 'team.slug': slug },
+					$match: { 'team.slug': slug, userId },
 				},
+				{ $addFields: { _userId: { $toObjectId: '$userId' } } },
 				{
 					$lookup: {
 						from: collections.users,
-						localField: '_id',
+						localField: '_userId',
 						foreignField: '_id',
 						as: 'user',
 					},

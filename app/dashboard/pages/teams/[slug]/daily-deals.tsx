@@ -1,4 +1,6 @@
 /* eslint-disable sonarjs/no-duplicated-branches */
+import { Error as ErrorComponent } from '@/components/shared';
+import { wrapper } from '@/lib/store';
 import {
   axios,
   modalActions,
@@ -21,7 +23,6 @@ import {
   Button,
   FlexBox,
   Grid,
-  Icons,
   PageHeader,
   Paragraph,
   TextField,
@@ -30,6 +31,7 @@ import {
   TextArea,
   LoadingPage,
 } from '@cd/ui-lib';
+import { ChatBubbleBottomCenterTextIcon } from '@heroicons/react/24/outline';
 import { type AxiosResponse } from 'axios';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
@@ -38,8 +40,6 @@ import { toast } from 'react-hot-toast';
 import useSWR from 'swr';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
-import { Error as ErrorComponent } from '@/components/shared';
-import { wrapper } from '@/lib/store';
 
 const dailyDealsInfo = `Daily Deals are a great way to promote your business to your customers.
 Messages are sent to your customers via text message. 
@@ -136,13 +136,6 @@ export default function DailyDealsPage() {
           <Paragraph>{`You have no deals. Try adding one.`}</Paragraph>
         )}
       </Grid>
-      <Button
-        className="my-4 px-4 bg-inverse hover:bg-inverse active:bg-accent-soft place-self-start"
-        hover="accent-soft"
-        onClick={openNewDailyDealModal}
-      >
-        {``}
-      </Button>
     </div>
   );
 
@@ -154,11 +147,10 @@ export default function DailyDealsPage() {
             <PageHeader
               iconColor={'primary'}
               title={`Daily Deals`}
-              Icon={Icons.Mobile}
+              Icon={ChatBubbleBottomCenterTextIcon}
             >
               <Button
-                className="my-4 px-4 bg-inverse hover:bg-inverse active:bg-accent-soft place-self-start"
-                hover="accent-soft"
+                className="my-4 px-4 bg-amber-100 hover:bg-amber-200 active:bg-amber-200 place-self-start"
                 onClick={openNewDailyDealModal}
               >
                 {`new Daily Deal`}
@@ -273,6 +265,7 @@ function SendDailyDealsInviteForm({ dispensary }: { dispensary: Dispensary }) {
           </Paragraph>
           <TextField
             containerClassName="col-span-1"
+            className="text-lg"
             name="firstName"
             label="* first name"
             placeholder="first name"
@@ -284,6 +277,7 @@ function SendDailyDealsInviteForm({ dispensary }: { dispensary: Dispensary }) {
           />
           <TextField
             containerClassName="col-span-1"
+            className="text-lg"
             name="lastName"
             label="* last name"
             placeholder="last name"
@@ -294,6 +288,7 @@ function SendDailyDealsInviteForm({ dispensary }: { dispensary: Dispensary }) {
           />
           <TextField
             containerClassName="col-span-1"
+            className="text-lg"
             name="phone"
             label="* phone"
             placeholder="phone"
@@ -304,6 +299,7 @@ function SendDailyDealsInviteForm({ dispensary }: { dispensary: Dispensary }) {
           />
           <TextField
             containerClassName="col-span-1"
+            className="text-lg"
             name="email"
             label="* email"
             placeholder="email"
@@ -314,6 +310,7 @@ function SendDailyDealsInviteForm({ dispensary }: { dispensary: Dispensary }) {
           />
           <TextField
             containerClassName={'flex-1'}
+            className="text-lg"
             name="city"
             label="city"
             placeholder="City"
@@ -332,6 +329,7 @@ function SendDailyDealsInviteForm({ dispensary }: { dispensary: Dispensary }) {
             setOption={handleChange}
           />
           <TextField
+            className="text-lg"
             name="zipcode"
             label="zipcode"
             placeholder="Zipcode"
@@ -343,6 +341,7 @@ function SendDailyDealsInviteForm({ dispensary }: { dispensary: Dispensary }) {
             error={!!touched?.zipcode && !!errors?.zipcode}
           />
           <TextField
+            className="text-lg"
             name="birthdate"
             label="birthday"
             type="date"
@@ -354,12 +353,13 @@ function SendDailyDealsInviteForm({ dispensary }: { dispensary: Dispensary }) {
               setFieldValue('birthdate', date);
             }}
           />
-          <Paragraph className="font-semibold col-span-2 pt-4">
+          <Paragraph className="font-medium col-span-2 pt-4">
             {`Invited customers will receive this message. 
 						The customer must reply YES to join.`}
           </Paragraph>
           <TextArea
             containerClassName={'flex-1 col-span-2'}
+            className="text-lg"
             name="doubleOptInMessage"
             label="Customize Your Message"
             placeholder={values.doubleOptInMessage}
@@ -378,7 +378,7 @@ function SendDailyDealsInviteForm({ dispensary }: { dispensary: Dispensary }) {
             notifyValidation();
             handleSubmit();
           }}
-          className="border mx-2 my-4 px-4 active:bg-accent hover:bg-accent place-self-end justify-self-end"
+          className="border bg-amber-100 hover:bg-amber-200 active:bg-amber-200 mx-2 my-4 px-4 place-self-end justify-self-end"
         >
           {`Send Invite`}
         </Button>

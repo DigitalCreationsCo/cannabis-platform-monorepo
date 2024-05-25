@@ -111,7 +111,7 @@ function TextField({
 					}}
 					placeholder={helperText || placeholder}
 					className={twMerge(
-						'text-xl',
+						'text-lg',
 						'font-medium',
 						'tracking-wide',
 						'bg-light',
