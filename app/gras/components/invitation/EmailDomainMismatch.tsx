@@ -22,12 +22,12 @@ const EmailDomainMismatch = ({
 
   return (
     <>
-      <p className="text-sm text-center">
+      <Paragraph className="text-sm text-center">
         {t('email-domain-not-allowed', { emailDomain, allowedDomainsString })}
-      </p>
-      <p className="text-sm text-center">
+      </Paragraph>
+      <Paragraph className="text-sm text-center">
         {t('accept-invitation-email-domain-instruction')}
-      </p>
+      </Paragraph>
       <Button
         color="error"
         size="md"

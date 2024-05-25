@@ -47,7 +47,6 @@ try {
 
 export { clientPromise };
 
-console.info('NEXT_PUBLIC_GRAS_DB_NS', process.env.NEXT_PUBLIC_GRAS_DB_NS);
 export const db_namespace = {
 	db: process.env.NEXT_PUBLIC_GRAS_DB_NS as string,
 	collections: {

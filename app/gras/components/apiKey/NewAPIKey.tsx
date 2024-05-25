@@ -91,14 +91,15 @@ const CreateAPIKeyForm = ({
       <Modal.Header>{t('new-api-key')}</Modal.Header>
       <Modal.Description>{t('api-key-description')}</Modal.Description>
       <Modal.Body>
-        <InputWithLabel
+        <TextField
           label={t('name')}
           name="name"
           value={formik.values.name}
           onChange={formik.handleChange}
           placeholder="My API Key"
           className="text-sm"
-          error={formik.errors.name}
+          error={!!formik.errors.name}
+          helperText={formik.errors.name}
         />
       </Modal.Body>
       <Modal.Footer>

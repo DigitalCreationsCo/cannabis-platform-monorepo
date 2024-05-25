@@ -13,12 +13,11 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRef, type ReactElement, useState } from 'react';
-import { Button } from '@cd/ui-lib';
+import { Button, Paragraph, TextField } from '@cd/ui-lib';
 import type { default as ReCAPTCHA } from 'react-google-recaptcha';
 import { default as toast } from 'react-hot-toast';
 import * as Yup from 'yup';
 import { AuthLayout } from '@/components/layouts';
-import { InputWithLabel } from '@/components/shared';
 import GoogleReCAPTCHA from '@/components/shared/GoogleReCAPTCHA';
 import env from '@/lib/env';
 import type { NextPageWithLayout } from '@/lib/next.types';
@@ -69,13 +68,14 @@ const ForgotPassword: NextPageWithLayout<
       <div className="rounded p-6 border">
         <form onSubmit={formik.handleSubmit}>
           <div className="space-y-2">
-            <InputWithLabel
+            <TextField
               type="email"
               label="Email"
               name="email"
               placeholder="Email"
               value={formik.values.email}
-              error={formik.touched.email ? formik.errors.email : undefined}
+              error={formik.touched.email ? !!formik.errors.email : undefined}
+              helperText={formik.touched.email && formik.errors.email}
               onChange={formik.handleChange}
             />
             <GoogleReCAPTCHA
@@ -96,7 +96,7 @@ const ForgotPassword: NextPageWithLayout<
           </div>
         </form>
       </div>
-      <p className="text-center text-sm text-gray-600 mt-3">
+      <Paragraph className="text-center text-sm text-gray-600 mt-3">
         {t('already-have-an-account')}
         <Link
           href="/auth/login"
@@ -104,7 +104,7 @@ const ForgotPassword: NextPageWithLayout<
         >
           &nbsp;{t('sign-in')}
         </Link>
-      </p>
+      </Paragraph>
     </>
   );
 };

@@ -4,7 +4,7 @@ export type User = {
 	id: string;
 	name: string;
 	username: string;
-	image?: string;
+	image: string | null;
 	phone: string;
 	dialCode: string;
 	email: string;

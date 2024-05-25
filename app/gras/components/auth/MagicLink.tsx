@@ -1,6 +1,6 @@
 import { InputWithLabel } from '@/components/shared';
 import env from '@/lib/env';
-import { LoadingDots } from '@cd/ui-lib';
+import { LoadingDots, Paragraph, TextField } from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import { useInvitation, maxLengthPolicies } from '@cd/core-lib';
 import { signIn, useSession } from 'next-auth/react';
@@ -73,7 +73,7 @@ const MagicLink = ({ csrfToken }: MagicLinkProps) => {
       <div className="rounded p-6 border">
         <form onSubmit={formik.handleSubmit}>
           <div className="space-y-2">
-            <InputWithLabel
+            <TextField
               type="email"
               label="Email"
               name="email"
@@ -81,6 +81,7 @@ const MagicLink = ({ csrfToken }: MagicLinkProps) => {
               value={formik.values.email}
               descriptionText="We’ll email you a magic link for a password-free sign in."
               error={formik.touched.email ? formik.errors.email : undefined}
+              helperText={formik.touched.email && formik.errors.email}
               onChange={formik.handleChange}
             />
             <Button
@@ -106,7 +107,7 @@ const MagicLink = ({ csrfToken }: MagicLinkProps) => {
           </Link>
         </div>
       </div>
-      <p className="text-center text-sm text-gray-600 mt-3">
+      <Paragraph className="text-center text-sm text-gray-600 mt-3">
         {t('dont-have-an-account')}
         <Link
           href={`/auth/join${params}`}
@@ -114,7 +115,7 @@ const MagicLink = ({ csrfToken }: MagicLinkProps) => {
         >
           &nbsp;{t('create-a-free-account')}
         </Link>
-      </p>
+      </Paragraph>
     </>
   );
 };

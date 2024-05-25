@@ -1,13 +1,13 @@
+import { UpdateAccount } from '@/components/account';
+import env from '@/lib/env';
+import type { NextPageWithLayout } from '@/lib/next.types';
+import { getSession } from '@/lib/session';
 import { getUserBySession } from '@cd/data-access';
 import type {
 	GetServerSidePropsContext,
 	InferGetServerSidePropsType,
 } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { UpdateAccount } from '@/components/account';
-import env from '@/lib/env';
-import type { NextPageWithLayout } from '@/lib/next.types';
-import { getSession } from '@/lib/session';
 
 type AccountProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
@@ -30,6 +30,7 @@ export const getServerSideProps = async (
 			notFound: true,
 		};
 	}
+	console.log('user', user);
 
 	return {
 		props: {
@@ -38,7 +39,7 @@ export const getServerSideProps = async (
 				id: user.id,
 				email: user.email,
 				name: user.name,
-				image: user.image,
+				image: user.image || null,
 			},
 			allowEmailChange: env.confirmEmail === false,
 		},

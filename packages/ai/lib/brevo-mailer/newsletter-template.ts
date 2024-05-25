@@ -62,8 +62,8 @@ function buildNewsletterTemplate(
 																							<tr>
 																								<td align="left" class="r8-c nl2go-default-textstyle" style="color: #3e3a3a; font-family: Arial; font-size: 18px; word-break: break-word; line-height: 1; padding-top: 15px; text-align: left; valign: top;">
 																									<div>
-																										<p style="margin: 0;">
-																											<span style="font-family: Arial; font-size: 22px;">${header}</span></p>
+																										<Paragraph style="margin: 0;">
+																											<span style="font-family: Arial; font-size: 22px;">${header}</span></Paragraph>
 																									</div>
 																								</td>
 																							</tr>
@@ -170,8 +170,8 @@ function buildNewsletterTemplate(
 																											<tr>
 																												<td align="center" class="r17-i nl2go-default-textstyle" style="color: #3e3a3a; font-family: Arial; font-size: 18px; word-break: break-word; line-height: 1; padding-bottom: 15px; padding-top: 15px; text-align: center;" valign="top">
 																													<div>
-																														<p style="margin: 0;">
-																															Cannabis, Delivered</p>
+																														<Paragraph style="margin: 0;">
+																															Cannabis, Delivered</Paragraph>
 																													</div>
 																												</td>
 																											</tr>
@@ -214,17 +214,17 @@ function buildNewsletterTemplate(
 																											<tr>
 																												<td align="center" class="r17-i nl2go-default-textstyle" style="color: #3e3a3a; font-family: Arial; font-size: 18px; word-break: break-word; line-height: 1; padding-bottom: 15px; padding-top: 15px; text-align: center;" valign="top">
 																													<div>
-																														<p style="margin: 0; text-align: justify;">
-																															<span style="font-family: Arial, helvetica, sans-serif; font-size: 18px;">Hey, {{contact.COMPANY|default:'friend'}}!</span></p>
-																														<p style="margin: 0; text-align: justify;">
-																															</p>
-																														<p style="margin: 0; text-align: justify;">
-																															<span style="font-family: Arial, helvetica, sans-serif; font-size: 18px;">It's Bryant from Gras!</span></p>
-																														<p style="margin: 0; text-align: justify;">
+																														<Paragraph style="margin: 0; text-align: justify;">
+																															<span style="font-family: Arial, helvetica, sans-serif; font-size: 18px;">Hey, {{contact.COMPANY|default:'friend'}}!</span></Paragraph>
+																														<Paragraph style="margin: 0; text-align: justify;">
+																															</Paragraph>
+																														<Paragraph style="margin: 0; text-align: justify;">
+																															<span style="font-family: Arial, helvetica, sans-serif; font-size: 18px;">It's Bryant from Gras!</span></Paragraph>
+																														<Paragraph style="margin: 0; text-align: justify;">
 																															<br />
 																															<span style="color: #4bbe6e; font-family: Arial, helvetica, sans-serif; font-size: 18px;">Gras helps dispensaries deliver to customers with secure, same-day delivery service, all with no extra effort from your staff. </span><span style="font-family: Arial, helvetica, sans-serif; font-size: 18px;">🚛</span><span style="color: #4bbe6e; font-family: Arial, helvetica, sans-serif; font-size: 18px;"> </span><span style="font-family: Arial, helvetica, sans-serif; font-size: 18px;">🌿💨</span><br />
 																															<br />
-																															<span style="font-family: Arial, helvetica, sans-serif; font-size: 18px;">This is Cannabis Insider, where we bring you updates from our team and the world of cannabis.</span></p>
+																															<span style="font-family: Arial, helvetica, sans-serif; font-size: 18px;">This is Cannabis Insider, where we bring you updates from our team and the world of cannabis.</span></Paragraph>
 																													</div>
 																												</td>
 																											</tr>
@@ -310,10 +310,10 @@ function buildNewsletterTemplate(
 																										<tr>
 																											<td align="left" class="r20-i nl2go-default-textstyle" style="color: #3b3f44; font-family: arial,helvetica,sans-serif; font-size: 16px; line-height: 1.5; word-break: break-word; padding-bottom: 15px; padding-top: 15px; text-align: left;" valign="top">
 																												<div>
-																													<p style="margin: 0;">
+																													<Paragraph style="margin: 0;">
 																														<span style="color: #222222;">Our team is cracking away at the chestnut that is the cannabis industry. </span>😆<br />
 																														<span style="color: #222222;">We want {{contact.COMPANY|default:'your team' }} to have the biggest year of growth in 2024.</span><br />
-																														We're <span style="color: rgb(34,34,34);">helping you do it with </span><span style="color: #222222;"><strong>easy, secure same-day delivery</strong></span>.</p>
+																														We're <span style="color: rgb(34,34,34);">helping you do it with </span><span style="color: #222222;"><strong>easy, secure same-day delivery</strong></span>.</Paragraph>
 																												</div>
 																											</td>
 																										</tr>
@@ -340,8 +340,8 @@ function buildNewsletterTemplate(
 																										<tr>
 																											<td align="left" class="r20-i nl2go-default-textstyle" style="color: #3b3f44; font-family: arial,helvetica,sans-serif; font-size: 16px; line-height: 1.5; word-break: break-word; padding-bottom: 15px; padding-top: 15px; text-align: left;" valign="top">
 																												<div>
-																													<p style="margin: 0;">
-																														<span style="color: #222222;">We're excited to share what we're working on in the New Year! Our #1 goal is to make a positive difference for your dispensary and your customers by offering same-day delivery. Here's to a most prosperous and green new year. Cheers! </span>💚 🌿</p>
+																													<Paragraph style="margin: 0;">
+																														<span style="color: #222222;">We're excited to share what we're working on in the New Year! Our #1 goal is to make a positive difference for your dispensary and your customers by offering same-day delivery. Here's to a most prosperous and green new year. Cheers! </span>💚 🌿</Paragraph>
 																												</div>
 																											</td>
 																										</tr>
@@ -368,9 +368,9 @@ function buildNewsletterTemplate(
 																										<tr>
 																											<td class="r22-i nl2go-default-textstyle" style="color: rgb(59, 63, 68); font-family: arial, helvetica, sans-serif; font-size: 16px; line-height: 1.5; word-break: break-word; padding-bottom: 15px; padding-top: 15px; vertical-align: top; width: 100%; text-align: right;">
 																												<div>
-																													<p style="margin: 0; text-align: right;">
+																													<Paragraph style="margin: 0; text-align: right;">
 																														<i>Our team at Gras aspires to benefit our community by delivering cannabis as a public health service. We help businesses build lasting connections with patrons, and create a stronger local economy.</i><br />
-																														We're <i>dedicated to your prosperity and driven by a burning desire for innovation. We are thankful to aid in your continued growth.</i></p>
+																														We're <i>dedicated to your prosperity and driven by a burning desire for innovation. We are thankful to aid in your continued growth.</i></Paragraph>
 																												</div>
 																											</td>
 																										</tr>
@@ -397,9 +397,9 @@ function buildNewsletterTemplate(
 																										<tr>
 																											<td align="left" class="r20-i nl2go-default-textstyle" style="color: #3b3f44; font-family: arial,helvetica,sans-serif; font-size: 16px; line-height: 1.5; word-break: break-word; padding-bottom: 15px; padding-top: 15px; text-align: left;" valign="top">
 																												<div>
-																													<p style="margin: 0; text-align: right;">
+																													<Paragraph style="margin: 0; text-align: right;">
 																														<span style="color: #4bbe6e; font-family: Arial; font-size: 18px;"><i><strong>All the best in business and health,</strong></i></span><br />
-																														<span style="color: #4bbe6e; font-family: Arial; font-size: 18px;"><i><strong>Bryant Mejia, Gras</strong></i></span></p>
+																														<span style="color: #4bbe6e; font-family: Arial; font-size: 18px;"><i><strong>Bryant Mejia, Gras</strong></i></span></Paragraph>
 																												</div>
 																											</td>
 																										</tr>
@@ -482,8 +482,8 @@ function buildNewsletterTemplate(
 																										<tr>
 																											<td align="center" class="r25-i nl2go-default-textstyle" style="font-family: arial,helvetica,sans-serif; word-break: break-word; color: #3b3f44; font-size: 18px; line-height: 1.5; padding-top: 15px; text-align: center;" valign="top">
 																												<div>
-																													<p style="margin: 0;">
-																														<span style="color: #fff2da;"><strong>Gras</strong></span></p>
+																													<Paragraph style="margin: 0;">
+																														<span style="color: #fff2da;"><strong>Gras</strong></span></Paragraph>
 																												</div>
 																											</td>
 																										</tr>
@@ -498,8 +498,8 @@ function buildNewsletterTemplate(
 																										<tr>
 																											<td align="center" class="r26-i nl2go-default-textstyle" style="font-family: arial,helvetica,sans-serif; word-break: break-word; color: #3b3f44; font-size: 18px; line-height: 1.5; text-align: center;" valign="top">
 																												<div>
-																													<p style="margin: 0; font-size: 14px;">
-																														<span style="color: #fff2da;">832 Columbia Ave, 17603, Lancaster</span></p>
+																													<Paragraph style="margin: 0; font-size: 14px;">
+																														<span style="color: #fff2da;">832 Columbia Ave, 17603, Lancaster</span></Paragraph>
 																												</div>
 																											</td>
 																										</tr>
@@ -514,8 +514,8 @@ function buildNewsletterTemplate(
 																										<tr>
 																											<td align="center" class="r25-i nl2go-default-textstyle" style="font-family: arial,helvetica,sans-serif; word-break: break-word; color: #3b3f44; font-size: 18px; line-height: 1.5; padding-top: 15px; text-align: center;" valign="top">
 																												<div>
-																													<p style="margin: 0; font-size: 14px;">
-																														<span style="color: #fff2da;">This email was sent to </span>{{contact.EMAIL}}</p>
+																													<Paragraph style="margin: 0; font-size: 14px;">
+																														<span style="color: #fff2da;">This email was sent to </span>{{contact.EMAIL}}</Paragraph>
 																												</div>
 																											</td>
 																										</tr>
@@ -530,8 +530,8 @@ function buildNewsletterTemplate(
 																										<tr>
 																											<td align="center" class="r26-i nl2go-default-textstyle" style="font-family: arial,helvetica,sans-serif; word-break: break-word; color: #3b3f44; font-size: 18px; line-height: 1.5; text-align: center;" valign="top">
 																												<div>
-																													<p style="margin: 0; font-size: 14px;">
-																														<span style="color: #fff2da;">You've received it because you've subscribed to our newsletter.</span></p>
+																													<Paragraph style="margin: 0; font-size: 14px;">
+																														<span style="color: #fff2da;">You've received it because you've subscribed to our newsletter.</span></Paragraph>
 																												</div>
 																											</td>
 																										</tr>
@@ -546,8 +546,8 @@ function buildNewsletterTemplate(
 																										<tr>
 																											<td align="center" class="r27-i nl2go-default-textstyle" style="font-family: arial,helvetica,sans-serif; word-break: break-word; color: #3b3f44; font-size: 18px; line-height: 1.5; padding-bottom: 15px; padding-top: 15px; text-align: center;" valign="top">
 																												<div>
-																													<p style="margin: 0; font-size: 14px;">
-																														<a href="{{ mirror }}" style="color: #14a33d; text-decoration: underline;"><span style="color: #fff2da;">View in browser</span></a><span style="color: #fff2da;"> | </span><a href="{{ unsubscribe }}" style="color: #14a33d; text-decoration: underline;"><span style="color: #fff2da;">Unsubscribe</span></a></p>
+																													<Paragraph style="margin: 0; font-size: 14px;">
+																														<a href="{{ mirror }}" style="color: #14a33d; text-decoration: underline;"><span style="color: #fff2da;">View in browser</span></a><span style="color: #fff2da;"> | </span><a href="{{ unsubscribe }}" style="color: #14a33d; text-decoration: underline;"><span style="color: #fff2da;">Unsubscribe</span></a></Paragraph>
 																												</div>
 																											</td>
 																										</tr>
@@ -632,11 +632,11 @@ const articleMarkup = (content: {
 	<tr>
 		<td align="left" class="r23-c nl2go-default-textstyle" style="color: #3e3a3a; font-family: Arial; font-size: 18px; line-height: 1.5; word-break: break-word; padding-bottom: 15px; padding-top: 15px; text-align: left; valign: top;">
 			<div>
-				<p style="margin: 0;">${content.excerpt}<br />${
+				<Paragraph style="margin: 0;">${content.excerpt}<br />${
 		(content.footer &&
 			content.footer.replace(/here$/, `<a href="${content.link}">here</a>.`)) ||
 		`More info available <a href="${content.link}">here</a>.`
-	}</p>
+	}</Paragraph>
 	</div>
 </td>
 </tr>

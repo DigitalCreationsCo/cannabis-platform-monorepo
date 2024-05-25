@@ -10,6 +10,7 @@ import type { ApiResponse } from '@cd/core-lib';
 import { Button } from '@cd/ui-lib';
 import { Table } from '@/components/shared/table/Table';
 import NewAPIKey from './NewAPIKey';
+import { H2, Paragraph } from '@cd/ui-lib';
 
 interface APIKeysProps {
   team: Dispensary;
@@ -57,12 +58,12 @@ const APIKeys = ({ team }: APIKeysProps) => {
       <div className="space-y-3">
         <div className="flex justify-between items-center">
           <div className="space-y-3">
-            <h2 className="text-xl font-medium leading-none tracking-tight">
+            <H2 className="text-xl font-medium leading-none tracking-tight">
               {t('api-keys')}
-            </h2>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
+            </H2>
+            <Paragraph className="text-sm text-gray-500 dark:text-gray-400">
               {t('api-keys-description')}
-            </p>
+            </Paragraph>
           </div>
           <Button
             color="primary"

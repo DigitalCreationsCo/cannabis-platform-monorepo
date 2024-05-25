@@ -10,6 +10,7 @@ import { useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import { Button } from '@cd/ui-lib';
 import toast from 'react-hot-toast';
+import { H2, Paragraph } from '@cd/ui-lib';
 
 import { InviteMember } from '@/components/invitation';
 import UpdateMemberRole from './UpdateMemberRole';
@@ -90,12 +91,12 @@ const Members = ({ team }: { team: Dispensary }) => {
     <div className="space-y-3">
       <div className="flex justify-between items-center">
         <div className="space-y-3">
-          <h2 className="text-xl font-medium leading-none tracking-tight">
+          <H2 className="text-xl font-medium leading-none tracking-tight">
             {t('members')}
-          </h2>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
+          </H2>
+          <Paragraph className="text-sm text-gray-500 dark:text-gray-400">
             {t('members-description')}
-          </p>
+          </Paragraph>
         </div>
         <Button color="primary" size="md" onClick={() => setVisible(!visible)}>
           {t('add-member')}

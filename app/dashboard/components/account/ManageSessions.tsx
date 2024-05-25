@@ -1,14 +1,15 @@
+import { WithLoadingAndError } from '@/components/shared';
+import ConfirmationDialog from '@/components/shared/ConfirmationDialog';
+import { Table } from '@/components/shared/table/Table';
 import { fetcher } from '@cd/core-lib';
 import { type Session } from '@cd/data-access';
+import { H2, Paragraph } from '@cd/ui-lib';
 import { ComputerDesktopIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'next-i18next';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
 import useSWR from 'swr';
-import { WithLoadingAndError } from '@/components/shared';
-import ConfirmationDialog from '@/components/shared/ConfirmationDialog';
-import { Table } from '@/components/shared/table/Table';
 
 type NextAuthSession = Session & { isCurrent: boolean };
 
@@ -57,12 +58,12 @@ const ManageSessions = () => {
 		<WithLoadingAndError isLoading={isLoading} error={error}>
 			<div className="space-y-3">
 				<div className="space-y-2">
-					<h2 className="text-xl font-medium leading-none tracking-tight">
+					<H2 className="text-xl font-medium leading-none tracking-tight">
 						{t('browser-sessions')}
-					</h2>
-					<p className="text-sm text-gray-500 dark:text-gray-400">
+					</H2>
+					<Paragraph className="text-sm text-gray-500 dark:text-gray-400">
 						{t('manage-sessions')}
-					</p>
+					</Paragraph>
 				</div>
 
 				<Table

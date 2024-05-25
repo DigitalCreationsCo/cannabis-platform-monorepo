@@ -11,6 +11,7 @@ import {
 } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 import Link from 'next/link';
+import { H2, Paragraph } from '@cd/ui-lib';
 
 interface TeamTabProps {
 	activeTab: string;
@@ -114,9 +115,9 @@ const TeamTab = ({ activeTab, team, heading, teamFeatures }: TeamTabProps) => {
 
 	return (
 		<div className="flex flex-col pb-6">
-			<h2 className="text-xl font-semibold mb-2">
+			<H2 className="text-xl font-semibold mb-2">
 				{heading ? heading : team.name}
-			</h2>
+			</H2>
 			<nav
 				className=" flex space-x-5 border-b border-gray-300"
 				aria-label="Tabs"

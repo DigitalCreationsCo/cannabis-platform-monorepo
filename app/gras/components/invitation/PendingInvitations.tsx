@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 import { Error, LetterAvatar } from '@/components/shared';
 import { Table } from '@/components/shared/table/Table';
 import ConfirmationDialog from '../shared/ConfirmationDialog';
+import { H2, Paragraph } from '@cd/ui-lib';
 
 const PendingInvitations = ({ team }: { team: any }) => {
   const [selectedInvitation, setSelectedInvitation] = useState<any>(null);
@@ -62,12 +63,12 @@ const PendingInvitations = ({ team }: { team: any }) => {
   return (
     <div className="space-y-3">
       <div className="space-y-3">
-        <h2 className="text-xl font-medium leading-none tracking-tight">
+        <H2 className="text-xl font-medium leading-none tracking-tight">
           {t('pending-invitations')}
-        </h2>
-        <p className="text-sm text-gray-500 dark:text-gray-400">
+        </H2>
+        <Paragraph className="text-sm text-gray-500 dark:text-gray-400">
           {t('description-invitations')}
-        </p>
+        </Paragraph>
       </div>
 
       <Table

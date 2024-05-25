@@ -1,7 +1,6 @@
 import { useFormik } from 'formik';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'next-i18next';
-import { Button, Input } from 'react-daisyui';
 import { defaultHeaders, ApiResponse } from '@cd/core-lib';
 
 import { Card } from '@/components/shared';
@@ -9,6 +8,7 @@ import { User } from '@cd/data-access';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { updateAccountSchema } from '@/lib/zod';
+import { TextField,Button } from '@cd/ui-lib';
 
 const UpdateName = ({ user }: { user: Partial<User> }) => {
   const { t } = useTranslation('common');
@@ -58,7 +58,7 @@ const UpdateName = ({ user }: { user: Partial<User> }) => {
             <Card.Title>{t('name')}</Card.Title>
             <Card.Description>{t('name-appearance')}</Card.Description>
           </Card.Header>
-          <Input
+          <TextField
             type="text"
             name="name"
             placeholder={t('your-name')}

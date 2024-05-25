@@ -4,6 +4,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import Image from 'next/image';
 import { FlexBox } from '@cd/ui-lib';
+import { Paragraph } from './Typography';
 
 const Testimonials = () => {
 	return (
@@ -11,10 +12,10 @@ const Testimonials = () => {
 			<div className="grid gap-10 lg:grid-cols-2 xl:grid-cols-3">
 				<div className="lg:col-span-2 xl:col-auto">
 					<div className="dark:bg-trueGray-800 flex h-full w-full flex-col justify-between rounded-2xl bg-gray-100 p-14">
-						<p className="text-2xl leading-normal ">
+						<Paragraph className="text-2xl leading-normal ">
 							Share a real <Mark>testimonial</Mark>
 							that hits some of your benefits from one of your popular customer.
-						</p>
+						</Paragraph>
 
 						<Avatar
 							image={userOneImg}
@@ -25,10 +26,10 @@ const Testimonials = () => {
 				</div>
 				<div className="">
 					<div className="dark:bg-trueGray-800 flex h-full w-full flex-col justify-between rounded-2xl bg-gray-100 p-14">
-						<p className="text-2xl leading-normal ">
+						<Paragraph className="text-2xl leading-normal">
 							Make sure you only pick the <Mark>right sentence</Mark>
 							to keep it short and simple.
-						</p>
+						</Paragraph>
 
 						<Avatar
 							image={userTwoImg}
@@ -39,10 +40,10 @@ const Testimonials = () => {
 				</div>
 				<div className="">
 					<div className="dark:bg-trueGray-800 flex h-full w-full flex-col justify-between rounded-2xl bg-gray-100 p-14">
-						<p className="text-2xl leading-normal ">
+						<Paragraph className="text-2xl leading-normal ">
 							This is an <Mark>awesome</Mark> landing page template I&apos;ve
 							seen. I would use this for anything.
-						</p>
+						</Paragraph>
 
 						<Avatar
 							image={userThreeImg}

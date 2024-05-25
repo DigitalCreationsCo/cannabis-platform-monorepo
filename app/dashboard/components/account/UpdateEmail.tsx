@@ -1,12 +1,11 @@
-import { defaultHeaders, type ApiResponse } from '@cd/core-lib';
-import type { User } from '@cd/data-access';
-import { useFormik } from 'formik';
-import { useTranslation } from 'next-i18next';
-import { Button, Input } from 'react-daisyui';
-import toast from 'react-hot-toast';
-
 import { Card } from '@/components/shared';
 import { updateAccountSchema } from '@/lib/zod';
+import { defaultHeaders, type ApiResponse } from '@cd/core-lib';
+import type { User } from '@cd/data-access';
+import { TextField, Button } from '@cd/ui-lib';
+import { useFormik } from 'formik';
+import { useTranslation } from 'next-i18next';
+import toast from 'react-hot-toast';
 
 interface UpdateEmailProps {
 	user: Partial<User>;
@@ -56,13 +55,13 @@ const UpdateEmail = ({ user, allowEmailChange }: UpdateEmailProps) => {
 							{t('email-address-description')}
 						</Card.Description>
 					</Card.Header>
-					<Input
+					<TextField
 						type="email"
 						name="email"
 						placeholder={t('your-email')}
 						value={formik.values.email}
 						onChange={formik.handleChange}
-						className="w-full max-w-md"
+						className="w-full text-sm max-w-md"
 						required
 						disabled={!allowEmailChange}
 					/>

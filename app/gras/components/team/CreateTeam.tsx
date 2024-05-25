@@ -9,11 +9,10 @@ import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { Button } from '@cd/ui-lib';
+import { Button, TextField } from '@cd/ui-lib';
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
 import Modal from '../shared/Modal';
-import { InputWithLabel } from '../shared';
 
 interface CreateTeamProps {
   visible: boolean;
@@ -65,7 +64,7 @@ const CreateTeam = ({ visible, setVisible }: CreateTeamProps) => {
         <Modal.Header>{t('create-team')}</Modal.Header>
         <Modal.Description>{t('members-of-a-team')}</Modal.Description>
         <Modal.Body>
-          <InputWithLabel
+          <TextField
             label={t('name')}
             name="name"
             onChange={formik.handleChange}

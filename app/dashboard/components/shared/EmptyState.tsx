@@ -14,9 +14,9 @@ const EmptyState = ({ title, description }: EmptyStateProps) => {
 				{title}
 			</h3>
 			{description && (
-				<p className="text-default text-center font-light leading-6 text-sm">
+				<Paragraph className="text-default text-center font-light leading-6 text-sm">
 					{description}
-				</p>
+				</Paragraph>
 			)}
 		</div>
 	);

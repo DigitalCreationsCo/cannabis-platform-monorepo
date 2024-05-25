@@ -1,3 +1,4 @@
+import { H2, Paragraph } from '@cd/ui-lib';
 import React from 'react';
 
 const Card = ({ children }: { children: React.ReactNode }) => {
@@ -10,9 +11,9 @@ const Card = ({ children }: { children: React.ReactNode }) => {
 
 const Title = ({ children }: { children: React.ReactNode }) => {
 	return (
-		<h2 className="card-title text-xl font-medium leading-none tracking-tight">
+		<H2 className="card-title text-xl font-medium leading-none tracking-tight">
 			{children}
-		</h2>
+		</H2>
 	);
 };
 

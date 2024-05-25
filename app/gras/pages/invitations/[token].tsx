@@ -7,6 +7,7 @@ import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
 import { type ReactElement } from 'react';
+import { H2, Paragraph } from '@cd/ui-lib';
 
 import AcceptInvitation from '@/components/invitation/AcceptInvitation';
 import EmailDomainMismatch from '@/components/invitation/EmailDomainMismatch';
@@ -53,9 +54,9 @@ const AcceptTeamInvitation: NextPageWithLayout = () => {
 			</Head>
 			<div className="rounded p-6 border">
 				<div className="flex flex-col items-center space-y-6">
-					<h2 className="font-bold">
+					<H2 className="font-bold">
 						{`${invitation.team.name} ${t('team-invite')}`}
-					</h2>
+					</H2>
 
 					{/* User not authenticated */}
 					{status === 'unauthenticated' && (

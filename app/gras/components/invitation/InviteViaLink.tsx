@@ -10,13 +10,13 @@ import { type Dispensary } from '@cd/data-access';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import React, { useState } from 'react';
-import { Button, Input } from 'react-daisyui';
 import toast from 'react-hot-toast';
 
 import { mutate } from 'swr';
 import * as Yup from 'yup';
 import { InputWithCopyButton } from '../shared';
 import ConfirmationDialog from '../shared/ConfirmationDialog';
+import { Paragraph, TextField,Button } from '@cd/ui-lib';
 
 interface InviteViaLinkProps {
   team: Dispensary;
@@ -111,7 +111,7 @@ const InviteViaLink = ({ team }: InviteViaLinkProps) => {
           value={invitation.url}
           className="text-sm w-full"
         />
-        <p className="text-sm text-slate-500 my-2">
+        <Paragraph className="text-sm text-slate-500 my-2">
           {invitation.allowedDomains.length > 0
             ? `Anyone with an email address ending with ${invitation.allowedDomains} can use this link to join your team.`
             : 'Anyone can use this link to join your team.'}
@@ -121,7 +121,7 @@ const InviteViaLink = ({ team }: InviteViaLinkProps) => {
           >
             {t('delete-link')}
           </Button>
-        </p>
+        </Paragraph>
         <ConfirmationDialog
           visible={showDelDialog}
           onCancel={() => setShowDelDialog(false)}
@@ -138,7 +138,7 @@ const InviteViaLink = ({ team }: InviteViaLinkProps) => {
     <form onSubmit={formik.handleSubmit} method="POST" className="pt-4">
       <h3 className="font-medium text-[14px] pb-2">{t('invite-via-link')}</h3>
       <div className="flex gap-1">
-        <Input
+        <TextField
           name="domains"
           onChange={formik.handleChange}
           value={formik.values.domains}
@@ -168,11 +168,11 @@ const InviteViaLink = ({ team }: InviteViaLinkProps) => {
           {t('create-link')}
         </Button>
       </div>
-      <p className="text-sm text-slate-500 my-2">
+      <Paragraph className="text-sm text-slate-500 my-2">
         {formik.values.domains && !formik.errors.domains
           ? `Anyone with an email address ending with ${formik.values.domains} can use this link to join your team.`
           : 'Anyone can use this link to join your team.'}
-      </p>
+      </Paragraph>
     </form>
   );
 };

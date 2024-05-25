@@ -3,15 +3,15 @@ import env from './env';
 
 const app = {
 	version: packageInfo.version,
-	name: 'Dispensary Success Services from Gras',
+	name: 'Dispensary Services | Gras',
 	description:
-		'We help your dispensary grow with deliver, marketing, automation and more. ',
+		'Grow your dispensary with delivery, outreach, automations, events...',
 	logoUrl: require('../public/logo.png'),
 	url: env.appUrl,
 	opengraph: {
 		image:
 			'https://f5d8da031790bc54-image-dispensary.s3.amazonaws.com/gras/Gras-og.png',
-		title: 'Dispensary Success Services from Gras',
+		title: 'Dispensary Services | Gras',
 	},
 };
 

@@ -4,11 +4,11 @@ import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { Button } from '@cd/ui-lib';
+import { Button, TextField } from '@cd/ui-lib';
 import toast from 'react-hot-toast';
 
 import { type z } from 'zod';
-import { Card, InputWithLabel } from '@/components/shared';
+import { Card } from '@/components/shared';
 import { updateTeamSchema } from '@/lib/zod';
 import { AccessControl } from '../shared/AccessControl';
 
@@ -60,26 +60,29 @@ const TeamSettings = ({ team }: { team: Dispensary }) => {
               <Card.Description>{t('team-settings-config')}</Card.Description>
             </Card.Header>
             <div className="flex flex-col gap-4">
-              <InputWithLabel
+              <TextField
                 name="name"
                 label={t('team-name')}
                 value={formik.values.name}
                 onChange={formik.handleChange}
-                error={formik.errors.name}
+                error={!!formik.errors.name}
+                helperText={formik.errors.name}
               />
-              <InputWithLabel
+              <TextField
                 name="slug"
                 label={t('team-slug')}
                 value={formik.values.slug}
                 onChange={formik.handleChange}
-                error={formik.errors.slug}
+                error={!!formik.errors.slug}
+                helperText={formik.errors.slug}
               />
-              <InputWithLabel
+              <TextField
                 name="domain"
                 label={t('team-domain')}
                 value={formik.values.domain ? formik.values.domain : ''}
                 onChange={formik.handleChange}
-                error={formik.errors.domain}
+                error={!!formik.errors.domain}
+                helperText={formik.errors.domain}
               />
             </div>
           </Card.Body>
