@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { throwIfNotAllowed } from '@cd/core-lib';
+import { axios, throwIfNotAllowed } from '@cd/core-lib';
 import {
-  getDispensaryDailyDeals,
   deleteDispensaryDailyDeal,
   updateDispensaryDailyDeal,
   type DailyDeal,
+  createDispensaryDailyDeal,
 } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
@@ -23,6 +23,9 @@ export default async function handler(
       case 'GET':
         await handleGET(req, res);
         break;
+      case 'POST':
+        await handlePOST(req, res);
+        break;
       case 'DELETE':
         await handleDELETE(req, res);
         break;
@@ -30,7 +33,7 @@ export default async function handler(
         await handlePATCH(req, res);
         break;
       default:
-        res.setHeader('Allow', 'GET, DELETE, PATCH');
+        res.setHeader('Allow', 'GET, POST, DELETE, PATCH');
         res.status(405).json({
           error: { message: `Method ${method} Not Allowed` },
         });
@@ -53,16 +56,77 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
     {
       id: '1',
       title: 'Test',
-      description: 'This is a test daily deal.',
-      isExpired: false,
-      teamSlug: teamMember.team.slug,
+      message: 'This is a test daily deal.',
       startTime: new Date(),
+      endTime: new Date(),
+      doesRepeat: false,
+      schedule: 'daily',
+      teamSlug: teamMember.team.slug,
+      timezone: 'America/New_York',
     },
   ];
 
   recordMetric('dispensary.dailyDeal.fetched');
 
   res.status(200).json({ data: dailyDeals });
+};
+
+// Create dailyDeal
+const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
+  const teamMember = await throwIfNoDispensaryAccess(req, res);
+  throwIfNotAllowed(teamMember, 'team_member', 'create');
+
+  const create = req.body as DailyDeal;
+
+  const dailyDealCreated = await createDispensaryDailyDeal(create);
+
+  const { doesRepeat, teamSlug, schedule, id, startTime, endTime, timezone } =
+    dailyDealCreated;
+
+  const [minutes, hours, mdays, months, wdays] = schedule.split(' ');
+  if (doesRepeat) {
+    // schedule cron job to send notification to users
+    await axios.put(
+      `https://api.cron-job.org/jobs`,
+      {
+        job: {
+          title: `Daily Deal ${teamSlug}: ${id}-${startTime?.toISOString()}`,
+          enabled: true,
+          folderId: 36202,
+          schedule: {
+            timezone,
+            minutes,
+            hours,
+            mdays,
+            months,
+            wdays,
+            expiresAt: endTime?.toISOString() || 0,
+          },
+          url: `${process.env.NEXT_PUBLIC_DASHBOARD_APP_URL}/api/dispensaries/${teamSlug}/daily-deals/${id}`,
+          notification: {
+            onFailure: true,
+            onSuccess: true,
+            onDisable: true,
+          },
+          requestMethod: 'GET',
+          headers: { Authorization: `Bearer ${process.env.NEXTAUTH_SECRET}` },
+          body: dailyDealCreated,
+        },
+      },
+      { headers: { 'Content-Type': 'application/json' } }
+    );
+  }
+
+  sendAudit({
+    action: 'team.daily_deals.create',
+    crud: 'u',
+    user: teamMember.user,
+    team: teamMember.team,
+  });
+
+  recordMetric('dispensary.dailyDeal.created');
+
+  res.status(200).json({ data: dailyDealCreated });
 };
 
 // Delete dailyDeal
@@ -73,6 +137,14 @@ const handleDELETE = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query as { id: string };
 
   const dailyDealRemoved = await deleteDispensaryDailyDeal(id);
+
+  // DELETE cron job
+  await axios.delete(
+    `https://api.cron-job.org/jobs/${teamMember.team.slug}:${id}`,
+    {
+      headers: { Authorization: `Bearer ${process.env.NEXTAUTH_SECRET}` },
+    }
+  );
 
   await sendEvent(
     teamMember.teamId,
@@ -99,12 +171,9 @@ const handlePATCH = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const update = req.body as DailyDeal;
 
-  // const { memberId, role } = validateWithSchema(
-  // 	updateMemberSchema,
-  // 	req.body as { memberId: string; role: Role },
-  // );
-
   const dailyDealUpdated = await updateDispensaryDailyDeal(update);
+
+  // UPDATE CRON JOB
 
   sendAudit({
     action: 'team.daily_deals.update',

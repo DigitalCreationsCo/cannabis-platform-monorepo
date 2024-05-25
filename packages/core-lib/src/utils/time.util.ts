@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { formatInTimeZone, type OptionsWithTZ } from 'date-fns-tz';
+import { formatInTimeZone, type FormatOptionsWithTZ } from 'date-fns-tz';
 import { type ValueOf } from './index';
 
 export const showTime = (date: Date | string) =>
@@ -123,7 +123,7 @@ export function formatToTimeZone(
 	dateString: Date | string,
 	timeZone: ValueOf<typeof TimeZoneMap> = 'UTC',
 	formatStr = 'yyyy-MM-dd HH:mm:ss',
-	options: OptionsWithTZ = {},
+	options: FormatOptionsWithTZ = {},
 	// locale = 'en-US',
 ) {
 	try {

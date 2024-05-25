@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { type ModalStateProps, axios, urlBuilder } from '@cd/core-lib';
+import { type DailyDeal } from '@cd/data-access';
+import { toZonedTime } from 'date-fns-tz';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
@@ -26,25 +28,11 @@ function NewDailyDealModal({
 	modalVisible,
 	...props
 }: NewDailyDealModalProps) {
-	const dispensaryId = props.organization!.id;
 	const closeModalAndReset = () => {
 		dispatchCloseModal();
 	};
 
 	const [loadingButton, setLoadingButton] = useState(false);
-	// const [addProduct, setAddProduct] = useState<{
-	// 	sku: string;
-	// 	quantity: number;
-	// 	isDiscount: boolean;
-	// 	discount: number;
-	// 	organizationId: string;
-	// }>({
-	// 	sku: '',
-	// 	quantity: 1,
-	// 	isDiscount: false,
-	// 	discount: 0,
-	// 	organizationId: dispensaryId,
-	// });
 
 	const dailyDealSchema = yup.object().shape({
 		title: yup.string().required('Add a title'),
@@ -89,8 +77,9 @@ function NewDailyDealModal({
 			endTime: null,
 			doesRepeat: false,
 			schedule: '',
-			organizationId: dispensaryId,
-		},
+			timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+			teamSlug: props.organization!.slug,
+		} as Omit<DailyDeal, 'id'>,
 		async onSubmit() {
 			try {
 				setLoadingButton(true);
@@ -342,32 +331,48 @@ function NewDailyDealModal({
 								mode="single"
 							/>
 						)) || <></>}
-						{/* <TextField
+						<TextField
 							containerClassName="m-auto lg:flex-col lg:items-start"
 							className="my-2 border text-center"
 							autoComplete="off"
-							type="date"
+							type="datetime-local"
 							name="startTime"
 							label="start time"
 							placeholder=""
 							value={values.startTime as unknown as string}
 							onBlur={handleBlur}
-							onChange={handleChange}
+							onChange={(e: any) =>
+								setFieldValue(
+									'startTime',
+									toZonedTime(
+										e.target.value,
+										Intl.DateTimeFormat().resolvedOptions().timeZone,
+									),
+								)
+							}
 							error={!!touched.startTime && !!errors.startTime}
 						/>
 						<TextField
 							containerClassName="m-auto lg:flex-col lg:items-start"
 							className="my-2 border text-center"
 							autoComplete="off"
-							type="date"
+							type="datetime-local"
 							name="endTime"
 							label="end time"
 							placeholder=""
 							value={values.endTime as unknown as string}
 							onBlur={handleBlur}
-							onChange={handleChange}
+							onChange={(e: any) =>
+								setFieldValue(
+									'endTime',
+									toZonedTime(
+										e.target.value,
+										Intl.DateTimeFormat().resolvedOptions().timeZone,
+									),
+								)
+							}
 							error={!!touched.endTime && !!errors.endTime}
-						/> */}
+						/>
 						<Button
 							loading={loadingButton}
 							className="place-self-center mt-2 p-2"

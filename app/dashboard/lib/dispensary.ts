@@ -20,6 +20,7 @@ export const throwIfNoDispensaryAccess = async (
 
   const staffMember = await getStaffMember(session.user.id, slug);
 
+  console.info('staffMember: ', staffMember);
   if (!staffMember) {
     throw new Error('You do not have access to this team');
   }
@@ -28,8 +29,8 @@ export const throwIfNoDispensaryAccess = async (
     ...staffMember,
     user: {
       ...session.user,
-      image: session.user.image || '',
       ...staffMember.user,
+      image: session.user.image || '',
     },
   };
 };

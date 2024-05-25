@@ -5,11 +5,12 @@ import { db_namespace, clientPromise } from './db';
 export type DailyDeal = {
 	id: string;
 	title: string;
-	description: string;
-	// price: number;
-	// quantity: number;
-	isExpired: boolean;
-	startTime: Date;
+	message: string;
+	startTime: Date | null;
+	endTime: Date | null;
+	doesRepeat: boolean;
+	schedule: string;
+	timezone: string;
 	teamSlug: string;
 };
 

@@ -74,7 +74,7 @@ export default function TextArea({
 			{label && (
 				<FlexBox className="items-start w-full">
 					<label className={twMerge(labelColor, styles.label_f(justifyLabel))}>
-						<Paragraph className="text-lg">{label}</Paragraph>
+						<Paragraph className="text-md">{label}</Paragraph>
 					</label>
 				</FlexBox>
 			)}
@@ -109,6 +109,7 @@ export default function TextArea({
 					}}
 					placeholder={helperText || placeholder}
 					className={twMerge(
+						'font-medium',
 						'py-2',
 						'text-lg',
 						'bg-light',

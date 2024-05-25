@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { wrapper } from '@/lib/store';
 import { urlBuilder } from '@cd/core-lib';
 import {
   DeleteButton,
@@ -19,7 +20,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
-import { wrapper } from '@/lib/store';
 
 type CustomerDashboardProps = {
   customers: any[];
@@ -59,12 +59,12 @@ function CustomersPage({ customers }: CustomerDashboardProps) {
       <PageHeader title="Customer List" Icon={Icons.UserFavorite}>
         <div className="flex flex-row gap-x-5 my-4">
           <Link href="/customer/create">
-            <Button className="bg-inverse active:bg-accent-soft place-self-start px-4 mt-2">
+            <Button className="bg-amber-100 hover:bg-amber-200 active:bg-amber-200 place-self-start px-4 mt-2">
               {t('add-customer')}
             </Button>
           </Link>
           <Link href="/customer/import">
-            <Button className="bg-inverse active:bg-accent-soft place-self-start px-4 mt-2">
+            <Button className="bg-amber-100 hover:bg-amber-200 active:bg-amber-200 place-self-start px-4 mt-2">
               {t('import-customers')}
             </Button>
           </Link>
