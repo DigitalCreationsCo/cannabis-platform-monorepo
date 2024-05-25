@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { GetServerSidePropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import router from 'next/router';
+import { Paragraph } from '@cd/ui-lib';
 
 const Custom500 = () => {
   const { t } = useTranslation('common');

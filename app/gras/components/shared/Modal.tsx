@@ -1,5 +1,6 @@
 import { Button, Modal as DModal } from 'react-daisyui';
 import { useTranslation } from 'next-i18next';
+import { Paragraph } from '@cd/ui-lib';
 
 interface ModalProps {
   open: boolean;
@@ -37,7 +38,9 @@ const Header = ({ children }: { children: React.ReactNode }) => {
 };
 
 const Description = ({ children }: { children: React.ReactNode }) => {
-  return <Paragraph className="text-sm text-gray-700 pt-1">{children}</Paragraph>;
+  return (
+    <Paragraph className="text-sm text-gray-700 pt-1">{children}</Paragraph>
+  );
 };
 
 const Body = ({ children, className }: BodyProps) => {

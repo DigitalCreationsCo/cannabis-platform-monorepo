@@ -1,12 +1,4 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import AcceptInvitation from '@/components/invitation/AcceptInvitation';
-import EmailDomainMismatch from '@/components/invitation/EmailDomainMismatch';
-import EmailMismatch from '@/components/invitation/EmailMismatch';
-import NotAuthenticated from '@/components/invitation/NotAuthenticated';
-import { AuthLayout } from '@/components/layouts';
-import { Error } from '@/components/shared';
-import { extractEmailDomain } from '@/lib/email/utils';
-import { type NextPageWithLayout } from '@/lib/next.types';
 import { useInvitation } from '@cd/core-lib';
 import { LoadingDots, H2, Paragraph } from '@cd/ui-lib';
 import { type GetServerSidePropsContext } from 'next';
@@ -15,93 +7,101 @@ import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
 import { type ReactElement } from 'react';
+import AcceptInvitation from '@/components/invitation/AcceptInvitation';
+import EmailDomainMismatch from '@/components/invitation/EmailDomainMismatch';
+import EmailMismatch from '@/components/invitation/EmailMismatch';
+import NotAuthenticated from '@/components/invitation/NotAuthenticated';
+import { AuthLayout } from '@/components/layouts';
+import { Error } from '@/components/shared';
+import { extractEmailDomain } from '@/lib/email/utils';
+import { type NextPageWithLayout } from '@/lib/next.types';
 
 const AcceptTeamInvitation: NextPageWithLayout = () => {
-	const { status, data } = useSession();
-	const { t } = useTranslation('common');
-	const { isLoading, error, invitation } = useInvitation();
+  const { status, data } = useSession();
+  const { t } = useTranslation('common');
+  const { isLoading, error, invitation } = useInvitation();
 
-	if (isLoading) {
-		return <LoadingDots />;
-	}
+  if (isLoading) {
+    return <LoadingDots />;
+  }
 
-	if (error || !invitation) {
-		return <Error message={error.message} />;
-	}
+  if (error || !invitation) {
+    return <Error message={error.message} />;
+  }
 
-	const authUser = data?.user;
+  const authUser = data?.user;
 
-	const emailDomain = authUser?.email
-		? extractEmailDomain(authUser.email)
-		: null;
+  const emailDomain = authUser?.email
+    ? extractEmailDomain(authUser.email)
+    : null;
 
-	const emailMatch = invitation.email
-		? authUser?.email === invitation.email
-		: false;
+  const emailMatch = invitation.email
+    ? authUser?.email === invitation.email
+    : false;
 
-	const emailDomainMatch = invitation.allowedDomains.length
-		? invitation.allowedDomains.includes(emailDomain!)
-		: true;
+  const emailDomainMatch = invitation.allowedDomains.length
+    ? invitation.allowedDomains.includes(emailDomain!)
+    : true;
 
-	const acceptInvite = invitation.sentViaEmail ? emailMatch : emailDomainMatch;
+  const acceptInvite = invitation.sentViaEmail ? emailMatch : emailDomainMatch;
 
-	return (
-		<>
-			<Head>
-				<title>{`${t('invitation-title')} ${invitation.team.name}`}</title>
-			</Head>
-			<div className="rounded p-6 border">
-				<div className="flex flex-col items-center space-y-6">
-					<H2 className="font-bold">
-						{`${invitation.team.name} ${t('team-invite')}`}
-					</H2>
+  return (
+    <>
+      <Head>
+        <title>{`${t('invitation-title')} ${invitation.team.name}`}</title>
+      </Head>
+      <div className="rounded p-6 border">
+        <div className="flex flex-col items-center space-y-6">
+          <H2 className="font-bold">
+            {`${invitation.team.name} ${t('team-invite')}`}
+          </H2>
 
-					{/* User not authenticated */}
-					{status === 'unauthenticated' && (
-						<NotAuthenticated invitation={invitation} />
-					)}
+          {/* User not authenticated */}
+          {status === 'unauthenticated' && (
+            <NotAuthenticated invitation={invitation} />
+          )}
 
-					{/* User authenticated and email matches */}
-					{status === 'authenticated' && acceptInvite && (
-						<AcceptInvitation invitation={invitation} />
-					)}
+          {/* User authenticated and email matches */}
+          {status === 'authenticated' && acceptInvite && (
+            <AcceptInvitation invitation={invitation} />
+          )}
 
-					{/* User authenticated and email does not match */}
-					{status === 'authenticated' &&
-						invitation.sentViaEmail &&
-						authUser?.email &&
-						!emailMatch && <EmailMismatch email={authUser.email} />}
+          {/* User authenticated and email does not match */}
+          {status === 'authenticated' &&
+            invitation.sentViaEmail &&
+            authUser?.email &&
+            !emailMatch && <EmailMismatch email={authUser.email} />}
 
-					{/* User authenticated and email domain doesn not match */}
-					{status === 'authenticated' &&
-						!invitation.sentViaEmail &&
-						invitation.allowedDomains.length > 0 &&
-						!emailDomainMatch && (
-							<EmailDomainMismatch
-								invitation={invitation}
-								emailDomain={emailDomain!}
-							/>
-						)}
-				</div>
-			</div>
-		</>
-	);
+          {/* User authenticated and email domain doesn not match */}
+          {status === 'authenticated' &&
+            !invitation.sentViaEmail &&
+            invitation.allowedDomains.length > 0 &&
+            !emailDomainMatch && (
+              <EmailDomainMismatch
+                invitation={invitation}
+                emailDomain={emailDomain!}
+              />
+            )}
+        </div>
+      </div>
+    </>
+  );
 };
 
 AcceptTeamInvitation.getLayout = function getLayout(page: ReactElement) {
-	return <AuthLayout>{page}</AuthLayout>;
+  return <AuthLayout>{page}</AuthLayout>;
 };
 
 export const getServerSideProps = async (
-	context: GetServerSidePropsContext,
+  context: GetServerSidePropsContext
 ) => {
-	const { locale } = context;
+  const { locale } = context;
 
-	return {
-		props: {
-			...(locale ? await serverSideTranslations(locale, ['common']) : {}),
-		},
-	};
+  return {
+    props: {
+      ...(locale ? await serverSideTranslations(locale, ['common']) : {}),
+    },
+  };
 };
 
 export default AcceptTeamInvitation;

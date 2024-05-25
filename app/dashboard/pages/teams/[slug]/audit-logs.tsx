@@ -1,9 +1,3 @@
-import { Error, Card } from '@/components/shared';
-import { TeamTab } from '@/components/team';
-import env from '@/lib/env';
-import type { NextPageWithLayout } from '@/lib/next.types';
-import { getViewerToken } from '@/lib/retraced';
-import { getSession } from '@/lib/session';
 import {
   type inferSSRProps,
   useCanAccess,
@@ -16,6 +10,12 @@ import { type GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import dynamic from 'next/dynamic';
+import { Error, Card } from '@/components/shared';
+import { TeamTab } from '@/components/team';
+import env from '@/lib/env';
+import type { NextPageWithLayout } from '@/lib/next.types';
+import { getViewerToken } from '@/lib/retraced';
+import { getSession } from '@/lib/session';
 
 interface RetracedEventsBrowserProps {
   host: string;

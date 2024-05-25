@@ -5,6 +5,7 @@ import { GetServerSidePropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Link from 'next/link';
 import router from 'next/router';
+import { Paragraph } from '@cd/ui-lib';
 
 const Custom404 = () => {
   const { t } = useTranslation('common');

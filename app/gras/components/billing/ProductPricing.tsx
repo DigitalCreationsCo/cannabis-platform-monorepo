@@ -1,7 +1,7 @@
 import { useDispensary } from '@cd/core-lib';
 import { type Price, type Service, type Subscription } from '@cd/data-access';
 import { useTranslation } from 'next-i18next';
-import { Button } from '@cd/ui-lib';
+import { Button, Paragraph } from '@cd/ui-lib';
 import toast from 'react-hot-toast';
 import PaymentButton from './PaymentButton';
 
@@ -55,7 +55,9 @@ const ProductPricing = ({ plans, subscriptions }: ProductPricingProps) => {
                 <div className="flex items-center space-x-2">
                   <h3 className="text-2xl font-bold text-black">{plan.name}</h3>
                 </div>
-                <Paragraph className="mt-2 text-gray-500 h-20">{plan.description}</Paragraph>
+                <Paragraph className="mt-2 text-gray-500 h-20">
+                  {plan.description}
+                </Paragraph>
               </div>
               <div className="flex justify-center flex-col gap-2 border-gray-200 px-8 h-10">
                 {plan.prices.map((price: Price) =>

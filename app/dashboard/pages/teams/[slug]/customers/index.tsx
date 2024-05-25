@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { wrapper } from '@/lib/store';
 import { urlBuilder } from '@cd/core-lib';
 import {
   DeleteButton,
@@ -20,6 +19,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
+import { wrapper } from '@/lib/store';
 
 type CustomerDashboardProps = {
   customers: any[];
