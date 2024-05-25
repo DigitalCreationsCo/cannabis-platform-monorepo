@@ -5,10 +5,11 @@ import {
   maxLengthPolicies,
 } from '@cd/core-lib';
 import { type Dispensary } from '@cd/data-access';
+import { TextField } from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import React from 'react';
-import { Button, Input } from 'react-daisyui';
+import { Button } from '@cd/ui-lib';
 import toast from 'react-hot-toast';
 import { mutate } from 'swr';
 import * as Yup from 'yup';
@@ -65,7 +66,7 @@ const InviteViaEmail = ({ setVisible, team }: InviteViaEmailProps) => {
     <form onSubmit={formik.handleSubmit} method="POST" className="pb-6">
       <h3 className="font-medium text-[14px] pb-2">{t('invite-via-email')}</h3>
       <div className="flex gap-1">
-        <Input
+        <TextField
           name="email"
           onChange={formik.handleChange}
           value={formik.values.email}

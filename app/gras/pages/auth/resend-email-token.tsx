@@ -9,12 +9,12 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useState, type ReactElement, useEffect } from 'react';
-import { Button } from '@cd/ui-lib';
+import { Button, TextField } from '@cd/ui-lib';
 import type { ComponentStatus } from 'react-daisyui/dist/types';
 import { toast } from 'react-hot-toast';
 import * as Yup from 'yup';
 import { AuthLayout } from '@/components/layouts';
-import { Alert, InputWithLabel } from '@/components/shared';
+import { Alert } from '@/components/shared';
 import { type NextPageWithLayout } from '@/lib/next.types';
 
 const VerifyAccount: NextPageWithLayout<
@@ -76,13 +76,14 @@ const VerifyAccount: NextPageWithLayout<
       <div className="rounded p-6 border">
         <form onSubmit={formik.handleSubmit}>
           <div className="space-y-2">
-            <InputWithLabel
+            <TextField
               type="email"
               label="Email"
               name="email"
               placeholder="Email"
               value={formik.values.email}
-              error={formik.touched.email ? formik.errors.email : undefined}
+              error={formik.touched.email ? !!formik.errors.email : undefined}
+              helperText={formik.touched.email && formik.errors.email}
               onChange={formik.handleChange}
             />
           </div>

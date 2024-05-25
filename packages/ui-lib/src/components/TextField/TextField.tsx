@@ -14,13 +14,13 @@ type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
 	className?: string;
 	containerClassName?: string;
 	name?: string;
-	label?: string;
+	label?: any;
 	labelColor?: any;
 	justifyLabel?: 'left' | 'center' | 'right';
 	value?: string | number;
 	placeholder?: string;
 	defaultValue?: string | number;
-	onChange: ReactEventHandler;
+	onChange?: ReactEventHandler;
 	onBlur?: ReactEventHandler;
 	error?: boolean;
 	helperText?: string | false | string[] | any;
@@ -111,8 +111,9 @@ function TextField({
 					}}
 					placeholder={helperText || placeholder}
 					className={twMerge(
-						'font-onest',
 						'text-xl',
+						'font-medium',
+						'tracking-wide',
 						'bg-light',
 						'items-center',
 						'p-4 rounded-btn',

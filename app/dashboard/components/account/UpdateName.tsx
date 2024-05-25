@@ -1,13 +1,14 @@
+import { Card } from '@/components/shared';
+import { updateAccountSchema } from '@/lib/zod';
 import { defaultHeaders, type ApiResponse } from '@cd/core-lib';
 import type { User } from '@cd/data-access';
+import { TextField } from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import { useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
-import { Button, Input } from 'react-daisyui';
+import { Button } from '@cd/ui-lib';
 import toast from 'react-hot-toast';
-import { Card } from '@/components/shared';
-import { updateAccountSchema } from '@/lib/zod';
 
 const UpdateName = ({ user }: { user: Partial<User> }) => {
 	const { t } = useTranslation('common');
@@ -57,13 +58,13 @@ const UpdateName = ({ user }: { user: Partial<User> }) => {
 						<Card.Title>{t('name')}</Card.Title>
 						<Card.Description>{t('name-appearance')}</Card.Description>
 					</Card.Header>
-					<Input
+					<TextField
 						type="text"
 						name="name"
 						placeholder={t('your-name')}
 						value={formik.values.name}
 						onChange={formik.handleChange}
-						className="w-full max-w-md"
+						className="w-full text-sm max-w-md"
 						required
 					/>
 				</Card.Body>

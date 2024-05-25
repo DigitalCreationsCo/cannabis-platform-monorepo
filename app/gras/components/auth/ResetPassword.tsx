@@ -9,7 +9,7 @@ import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { Button } from '@cd/ui-lib';
+import { Button, TextField } from '@cd/ui-lib';
 import { toast } from 'react-hot-toast';
 import * as Yup from 'yup';
 
@@ -68,16 +68,17 @@ const ResetPassword = () => {
     <div className="rounded p-6 border">
       <form onSubmit={formik.handleSubmit}>
         <div className="space-y-2">
-          <InputWithLabel
+          <TextField
             type="password"
             label={t('new-password')}
             name="password"
             placeholder={t('new-password')}
             value={formik.values.password}
-            error={formik.touched.password ? formik.errors.password : undefined}
+            error={formik.touched.password ? !!formik.errors.password : undefined}
+            helperText={formik.touched.password && formik.errors.password}
             onChange={formik.handleChange}
           />
-          <InputWithLabel
+          <TextField
             type="password"
             label={t('confirm-password')}
             name="confirmPassword"
@@ -85,9 +86,10 @@ const ResetPassword = () => {
             value={formik.values.confirmPassword}
             error={
               formik.touched.confirmPassword
-                ? formik.errors.confirmPassword
+                ? !!formik.errors.confirmPassword
                 : undefined
             }
+            helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
             onChange={formik.handleChange}
           />
         </div>

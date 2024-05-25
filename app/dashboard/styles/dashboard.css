@@ -23,7 +23,7 @@
 	}
 
 	body {
-		@apply font-onest;
+		@apply font-encode;
 		-ms-overflow-style: none;
 	}
 

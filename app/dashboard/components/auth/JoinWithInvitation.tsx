@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { Error, WithLoadingAndError } from '@/components/shared';
 import {
 	defaultHeaders,
 	maxLengthPolicies,
@@ -6,7 +7,7 @@ import {
 	useInvitation,
 	type ApiResponse,
 } from '@cd/core-lib';
-import { Button } from '@cd/ui-lib';
+import { Button, TextField } from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
@@ -14,11 +15,6 @@ import { useRef, useState } from 'react';
 import type ReCAPTCHA from 'react-google-recaptcha';
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
-import {
-	Error,
-	InputWithLabel,
-	WithLoadingAndError,
-} from '@/components/shared';
 import GoogleReCAPTCHA from '../shared/GoogleReCAPTCHA';
 import TogglePasswordVisibility from '../shared/TogglePasswordVisibility';
 import AgreeMessage from './AgreeMessage';
@@ -106,43 +102,46 @@ const JoinWithInvitation = ({
 	return (
 		<WithLoadingAndError isLoading={isLoading} error={error}>
 			<form className="space-y-3" onSubmit={formik.handleSubmit}>
-				<InputWithLabel
+				<TextField
 					type="text"
 					label={t('name')}
 					name="name"
 					placeholder={t('your-name')}
 					value={formik.values.name}
-					error={formik.errors.name}
+					error={!!formik.errors.name}
+					helperText={formik.errors.name}
 					onChange={formik.handleChange}
 				/>
 
 				{invitation.sentViaEmail ? (
-					<InputWithLabel
+					<TextField
 						type="email"
 						label={t('email')}
 						value={invitation.email!}
 						disabled
 					/>
 				) : (
-					<InputWithLabel
+					<TextField
 						type="email"
 						label={t('email')}
 						name="email"
 						placeholder={t('email')}
 						value={formik.values.email}
-						error={formik.errors.email}
+						error={!!formik.errors.email}
+						helperText={formik.errors.email}
 						onChange={formik.handleChange}
 					/>
 				)}
 
 				<div className="relative flex">
-					<InputWithLabel
+					<TextField
 						type={isPasswordVisible ? 'text' : 'password'}
 						label={t('password')}
 						name="password"
 						placeholder={t('password')}
 						value={formik.values.password}
-						error={formik.errors.password}
+						error={!!formik.errors.password}
+						helperText={formik.errors.password}
 						onChange={formik.handleChange}
 					/>
 					<TogglePasswordVisibility

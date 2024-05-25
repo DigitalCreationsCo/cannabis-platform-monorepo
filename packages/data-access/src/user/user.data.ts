@@ -96,7 +96,7 @@ export const getUser = async (
 		.db(db)
 		.collection<User>(collections.users)
 		.findOne(where);
-	return (user && { id: user._id, ...normalizeUser(user) }) || null;
+	return (user && { id: user._id.toString(), ...normalizeUser(user) }) || null;
 };
 
 export const getUserBySession = async (session: any) => {

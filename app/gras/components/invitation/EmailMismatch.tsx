@@ -11,12 +11,12 @@ const EmailMismatch = ({ email }: EmailMismatchProps) => {
 
   return (
     <>
-      <p className="text-sm text-center">
+      <Paragraph className="text-sm text-center">
         {t('email-mismatch-error', { email })}
-      </p>
-      <p className="text-sm text-center">
+      </Paragraph>
+      <Paragraph className="text-sm text-center">
         {t('accept-invitation-email-instruction')}
-      </p>
+      </Paragraph>
       <Button
         color="error"
         size="md"

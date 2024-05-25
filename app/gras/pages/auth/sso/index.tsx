@@ -1,5 +1,5 @@
 import { maxLengthPolicies } from '@cd/core-lib';
-import { LoadingDots } from '@cd/ui-lib';
+import { LoadingDots, Paragraph, TextField } from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import {
   type GetServerSidePropsContext,
@@ -16,7 +16,6 @@ import { Button } from '@cd/ui-lib';
 import { toast } from 'react-hot-toast';
 import * as Yup from 'yup';
 import { AuthLayout } from '@/components/layouts';
-import { InputWithLabel } from '@/components/shared';
 import env from '@/lib/env';
 import type { NextPageWithLayout } from '@/lib/next.types';
 
@@ -72,14 +71,17 @@ const SSO: NextPageWithLayout<
       <div className="rounded p-6 border">
         <form onSubmit={formik.handleSubmit}>
           <div className="space-y-2">
-            <InputWithLabel
+            <Paragraph>
+              {`Contact your administrator to get your team slug`}
+            </Paragraph>
+            <TextField
               type="text"
               label="Team slug"
               name="slug"
               placeholder="boxyhq"
               value={formik.values.slug}
-              descriptionText="Contact your administrator to get your team slug"
-              error={formik.touched.slug ? formik.errors.slug : undefined}
+              error={formik.touched.slug ? !!formik.errors.slug : undefined}
+              helperText={formik.touched.slug && formik.errors.slug}
               onChange={formik.handleChange}
             />
             <Button

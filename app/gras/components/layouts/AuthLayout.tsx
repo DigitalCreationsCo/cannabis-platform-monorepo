@@ -1,6 +1,7 @@
 import app from '@/lib/app';
 import { useTranslation } from 'next-i18next';
 import Image from 'next/image';
+import { H2, Paragraph } from '@cd/ui-lib';
 
 interface AuthLayoutProps {
   children: React.ReactNode;
@@ -27,14 +28,14 @@ export default function AuthLayout({
             height={48}
           />
           {heading && (
-            <h2 className="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+            <H2 className="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
               {t(heading)}
-            </h2>
+            </H2>
           )}
           {description && (
-            <p className="text-center text-gray-600 dark:text-white">
+            <Paragraph className="text-center text-gray-600 dark:text-white">
               {t(description)}
-            </p>
+            </Paragraph>
           )}
         </div>
         <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-md">{children}</div>

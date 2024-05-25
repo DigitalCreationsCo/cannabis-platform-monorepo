@@ -1,6 +1,5 @@
-import { Input, type InputProps } from 'react-daisyui';
-
 import { CopyToClipboardButton } from '@/components/shared';
+import { Input, type InputProps } from 'react-daisyui';
 
 interface InputWithCopyButtonProps extends InputProps {
 	label: string;

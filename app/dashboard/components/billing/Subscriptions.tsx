@@ -1,4 +1,5 @@
 import { type Service, type Subscription } from '@cd/data-access';
+import { H2, Paragraph } from '@cd/ui-lib';
 import { useTranslation } from 'next-i18next';
 
 interface SubscriptionsProps {
@@ -14,9 +15,9 @@ const Subscriptions = ({ subscriptions }: SubscriptionsProps) => {
 
 	return (
 		<div className="space-y-3">
-			<h2 className="card-title text-xl font-medium leading-none tracking-tight">
+			<H2 className="card-title text-xl font-medium leading-none tracking-tight">
 				{t('subscriptions')}
-			</h2>
+			</H2>
 			<table className="table w-full text-sm border">
 				<thead>
 					<tr>

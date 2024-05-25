@@ -1,6 +1,7 @@
 import { useTranslation } from 'next-i18next';
 
 import Alert from './Alert';
+import { Paragraph } from '@cd/ui-lib';
 
 interface ErrorProps {
   message?: string;
@@ -12,7 +13,7 @@ const Error = (props: ErrorProps) => {
 
   return (
     <Alert status="error" className="my-2">
-      <p>{message || t('unknown-error')}</p>
+      <Paragraph>{message || t('unknown-error')}</Paragraph>
     </Alert>
   );
 };

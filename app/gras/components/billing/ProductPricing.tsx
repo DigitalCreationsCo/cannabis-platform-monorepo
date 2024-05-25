@@ -55,7 +55,7 @@ const ProductPricing = ({ plans, subscriptions }: ProductPricingProps) => {
                 <div className="flex items-center space-x-2">
                   <h3 className="text-2xl font-bold text-black">{plan.name}</h3>
                 </div>
-                <p className="mt-2 text-gray-500 h-20">{plan.description}</p>
+                <Paragraph className="mt-2 text-gray-500 h-20">{plan.description}</Paragraph>
               </div>
               <div className="flex justify-center flex-col gap-2 border-gray-200 px-8 h-10">
                 {plan.prices.map((price: Price) =>
@@ -98,7 +98,7 @@ const ProductPricing = ({ plans, subscriptions }: ProductPricingProps) => {
                         stroke="white"
                       />
                     </svg>
-                    <p className="text-gray-600">{feature}</p>
+                    <Paragraph className="text-gray-600">{feature}</Paragraph>
                   </li>
                 ))}
               </ul>

@@ -1,5 +1,5 @@
 import { maxLengthPolicies } from '@cd/core-lib';
-import { Button, LoadingPage } from '@cd/ui-lib';
+import { Button, LoadingPage, Paragraph, TextField } from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import type {
 	GetServerSidePropsContext,
@@ -21,7 +21,7 @@ import AgreeMessage from '@/components/auth/AgreeMessage';
 import GithubButton from '@/components/auth/GithubButton';
 import GoogleButton from '@/components/auth/GoogleButton';
 import { AuthLayout } from '@/components/layouts';
-import { Alert, InputWithLabel } from '@/components/shared';
+import { Alert } from '@/components/shared';
 import GoogleReCAPTCHA from '@/components/shared/GoogleReCAPTCHA';
 import TogglePasswordVisibility from '@/components/shared/TogglePasswordVisibility';
 import { authProviderEnabled } from '@/lib/auth';
@@ -132,17 +132,18 @@ const Login: NextPageWithLayout<
 				{authProviders.credentials && (
 					<form onSubmit={formik.handleSubmit}>
 						<div className="space-y-3">
-							<InputWithLabel
+							<TextField
 								type="email"
 								label="Email"
 								name="email"
 								placeholder={t('email')}
 								value={formik.values.email}
-								error={formik.touched.email ? formik.errors.email : undefined}
+								error={formik.touched.email ? !!formik.errors.email : undefined}
+								helperText={formik.touched.email && formik.errors.email}
 								onChange={formik.handleChange}
 							/>
 							<div className="relative flex">
-								<InputWithLabel
+								<TextField
 									type={isPasswordVisible ? 'text' : 'password'}
 									name="password"
 									placeholder={t('password')}
@@ -161,8 +162,9 @@ const Login: NextPageWithLayout<
 										</label>
 									}
 									error={
-										formik.touched.password ? formik.errors.password : undefined
+										formik.touched.password ? !!formik.errors.password : undefined
 									}
+									helperText={formik.touched.password && formik.errors.password}
 									onChange={formik.handleChange}
 								/>
 								<TogglePasswordVisibility
@@ -211,7 +213,7 @@ const Login: NextPageWithLayout<
 					)}
 				</div>
 			</div>
-			<p className="text-center text-sm text-gray-600 mt-3">
+			<Paragraph className="text-center text-sm text-gray-600 mt-3">
 				{t('dont-have-an-account')}
 				<Link
 					href={`/auth/join${params}`}
@@ -219,7 +221,7 @@ const Login: NextPageWithLayout<
 				>
 					&nbsp;{t('create-a-free-account')}
 				</Link>
-			</p>
+			</Paragraph>
 		</AuthLayout>
 	);
 };

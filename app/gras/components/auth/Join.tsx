@@ -9,7 +9,7 @@ import {
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
-import { Button } from '@cd/ui-lib';
+import { Button, TextField } from '@cd/ui-lib';
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
 import TogglePasswordVisibility from '../shared/TogglePasswordVisibility';
@@ -87,41 +87,45 @@ const Join = ({ recaptchaSiteKey }: JoinProps) => {
   return (
     <form onSubmit={formik.handleSubmit}>
       <div className="space-y-1">
-        <InputWithLabel
+        <TextField
           type="text"
           label={t('name')}
           name="name"
           placeholder={t('your-name')}
           value={formik.values.name}
-          error={formik.touched.name ? formik.errors.name : undefined}
+          error={formik.touched.name ? !!formik.errors.name : undefined}
+          helperText={formik.touched.name && formik.errors.name}
           onChange={formik.handleChange}
         />
-        <InputWithLabel
+        <TextField
           type="text"
           label={t('team')}
           name="team"
           placeholder={t('team-name')}
           value={formik.values.team}
-          error={formik.errors.team}
+          error={!!formik.errors.team}
+          helperText={formik.errors.team}
           onChange={formik.handleChange}
         />
-        <InputWithLabel
+        <TextField
           type="email"
           label={t('email')}
           name="email"
           placeholder={t('email-placeholder')}
           value={formik.values.email}
-          error={formik.errors.email}
+          error={!!formik.errors.email}
+          helperText={formik.errors.email}
           onChange={formik.handleChange}
         />
         <div className="relative flex">
-          <InputWithLabel
+          <TextField
             type={isPasswordVisible ? 'text' : 'password'}
             label={t('password')}
             name="password"
             placeholder={t('password')}
             value={formik.values.password}
-            error={formik.errors.password}
+            error={!!formik.errors.password}
+            helperText={formik.errors.password}
             onChange={formik.handleChange}
           />
           <TogglePasswordVisibility

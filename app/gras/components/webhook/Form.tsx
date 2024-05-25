@@ -3,9 +3,8 @@ import type { FormikConfig } from 'formik';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import React from 'react';
-import { Button } from '@cd/ui-lib';
+import { Button, Paragraph, TextField } from '@cd/ui-lib';
 import * as Yup from 'yup';
-import { InputWithLabel } from '@/components/shared';
 import Modal from '@/components/shared/Modal';
 import { EventTypes } from '@/components/webhook';
 
@@ -52,31 +51,30 @@ const Form = ({
         <Modal.Description>{t('webhook-create-desc')}</Modal.Description>
         <Modal.Body>
           <div className="flex flex-col space-y-3">
-            <InputWithLabel
+            <TextField
               name="name"
               label="Description"
               onChange={formik.handleChange}
               value={formik.values.name}
               placeholder="Description of what this endpoint is used for."
-              error={formik.errors.name}
+              error={!!formik.errors.name}
             />
-            <InputWithLabel
+            <TextField
               name="url"
-              label="Endpoint"
+              label="The endpoint URL must be HTTPS"
               onChange={formik.handleChange}
               value={formik.values.url}
               placeholder="https://api.example.com/svix-webhooks"
-              error={formik.errors.url}
-              descriptionText="The endpoint URL must be HTTPS"
+              error={!!formik.errors.url}
             />
             <div className="divider"></div>
             <div className="form-control w-full">
               <label className="label">
                 <span className="label-text">{t('events-to-send')}</span>
               </label>
-              <p className="ml-1 mb-3 text-sm font-normal text-gray-500">
+              <Paragraph className="ml-1 mb-3 text-sm font-normal text-gray-500">
                 {t('events-description')}
-              </p>
+              </Paragraph>
               <div className="grid grid-cols-2 gap-2">
                 <EventTypes
                   onChange={formik.handleChange}
