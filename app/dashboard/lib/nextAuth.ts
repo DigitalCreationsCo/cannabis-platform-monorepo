@@ -2,16 +2,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable sonarjs/cognitive-complexity */
 import { randomUUID } from 'crypto';
-import {
-  clearLoginAttempts,
-  exceededLoginAttemptsThreshold,
-  incrementLoginAttempts,
-} from '@/lib/accountLock';
-import { verifyPassword, isAuthProviderEnabled } from '@/lib/auth';
-import { sendMagicLink } from '@/lib/email/sendMagicLink';
-import { isEmailAllowed } from '@/lib/email/utils';
-import env from '@/lib/env';
-import { validateRecaptcha } from '@/lib/recaptcha';
 import { MongoDBAdapter } from '@auth/mongodb-adapter';
 import { maxLengthPolicies, forceConsume } from '@cd/core-lib';
 import {
@@ -43,6 +33,16 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import EmailProvider from 'next-auth/providers/email';
 import GitHubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
+import {
+  clearLoginAttempts,
+  exceededLoginAttemptsThreshold,
+  incrementLoginAttempts,
+} from '@/lib/accountLock';
+import { verifyPassword, isAuthProviderEnabled } from '@/lib/auth';
+import { sendMagicLink } from '@/lib/email/sendMagicLink';
+import { isEmailAllowed } from '@/lib/email/utils';
+import env from '@/lib/env';
+import { validateRecaptcha } from '@/lib/recaptcha';
 
 import { slackNotify } from './slack';
 

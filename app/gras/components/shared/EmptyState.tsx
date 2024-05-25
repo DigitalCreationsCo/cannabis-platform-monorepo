@@ -1,5 +1,6 @@
 import InformationCircleIcon from '@heroicons/react/24/outline/InformationCircleIcon';
 import React from 'react';
+import { Paragraph } from '@cd/ui-lib';
 
 interface EmptyStateProps {
   title: string;

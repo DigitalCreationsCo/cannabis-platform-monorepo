@@ -1,6 +1,4 @@
 /* eslint-disable sonarjs/no-duplicated-branches */
-import { Error as ErrorComponent } from '@/components/shared';
-import { wrapper } from '@/lib/store';
 import {
   axios,
   modalActions,
@@ -40,6 +38,8 @@ import { toast } from 'react-hot-toast';
 import useSWR from 'swr';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
+import { Error as ErrorComponent } from '@/components/shared';
+import { wrapper } from '@/lib/store';
 
 const dailyDealsInfo = `Daily Deals are a great way to promote your business to your customers.
 Messages are sent to your customers via text message. 
@@ -126,7 +126,10 @@ export default function DailyDealsPage() {
                 </Paragraph>
                 <FlexBox>
                   <Paragraph className="text-red-800">
-                    {deal.isExpired ? 'expired' : 'active'}
+                    {deal.endTime &&
+                    Date.now() > Number(deal.endTime.toUTCString)
+                      ? 'expired'
+                      : 'active' || ''}
                   </Paragraph>
                 </FlexBox>
               </FlexBox>

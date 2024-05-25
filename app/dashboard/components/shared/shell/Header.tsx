@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
-import env from '@/lib/env';
 import { useTheme } from '@cd/ui-lib';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import {
@@ -14,6 +13,7 @@ import { useSession, signOut } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
 import React from 'react';
+import env from '@/lib/env';
 
 interface HeaderProps {
   setSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;

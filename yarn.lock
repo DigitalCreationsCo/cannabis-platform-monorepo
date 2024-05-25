@@ -7339,6 +7339,7 @@ __metadata:
     react-dropzone: 14.2.3
     react-email: 2.1.1
     react-google-recaptcha: 3.1.0
+    react-grid-gallery: 1.0.1
     react-hot-toast: 2.4.1
     react-i18next: 12.3.1
     react-iframe: 1.8.5
@@ -38476,6 +38477,15 @@ __metadata:
   peerDependencies:
     react: ">=16.4.1"
   checksum: 9dc64daf9684d979b1f66d97e00a42c9ceaa9b9fe8b29c4d02d77edf86781e2008f2ae1bef14509351ff3b2ffbcc26463f0d88dd612d7280b455b8c07101e663
+  languageName: node
+  linkType: hard
+
+"react-grid-gallery@npm:1.0.1":
+  version: 1.0.1
+  resolution: "react-grid-gallery@npm:1.0.1"
+  peerDependencies:
+    react: ">=16.14.0"
+  checksum: 8d6037d485042be1209fbee827a05bb9f043f0ff68420e39db41fa4ae755756f63cd87f125a6fb9b64f9a70eafa3e6909869bc7a328d2d24701f3af564a0cbce
   languageName: node
   linkType: hard
 
