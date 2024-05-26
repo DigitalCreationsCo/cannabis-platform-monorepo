@@ -82,7 +82,8 @@ export default function Button({
 				(bg === 'accent-soft' && 'bg-accent-soft') ||
 				(bg === 'inverse' && 'bg-inverse') ||
 				(bg === 'inverse-soft' && 'bg-inverse-soft') ||
-				(bg === 'transparent' && 'bg-transparent'),
+				(bg === 'transparent' && 'bg-transparent') ||
+				'',
 		],
 		textColor: [
 			!disabled

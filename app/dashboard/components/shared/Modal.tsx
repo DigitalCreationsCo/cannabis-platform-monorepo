@@ -1,6 +1,7 @@
 import { H3, Paragraph } from '@cd/ui-lib';
 import { useTranslation } from 'next-i18next';
 import { Button, Modal as DModal } from 'react-daisyui';
+import { twMerge } from 'tailwind-merge';
 
 interface ModalProps {
 	open: boolean;
@@ -47,8 +48,18 @@ const Body = ({ children, className }: BodyProps) => {
 	return <div className={`py-3 ${className}`}>{children}</div>;
 };
 
-const Footer = ({ children }: { children: React.ReactNode }) => {
-	return <div className="flex justify-end gap-2">{children}</div>;
+const Footer = ({
+	children,
+	className,
+}: {
+	children: React.ReactNode;
+	className?: string | string[];
+}) => {
+	return (
+		<div className={twMerge('flex justify-end gap-2', className)}>
+			{children}
+		</div>
+	);
 };
 
 Modal.Header = Header;

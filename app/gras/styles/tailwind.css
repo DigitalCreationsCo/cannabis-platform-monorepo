@@ -10200,10 +10200,6 @@ html:has(.drawer-open.drawer-open) {
   border-style: solid;
 }
 
-.border-none {
-  border-style: none;
-}
-
 .border-\[\#eaeaea\] {
   --tw-border-opacity: 1;
   border-color: rgb(234 234 234 / var(--tw-border-opacity));
@@ -10278,6 +10274,11 @@ html:has(.drawer-open.drawer-open) {
 
 .bg-accent-soft {
   background-color: var(--accent-soft);
+}
+
+.bg-amber-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 243 199 / var(--tw-bg-opacity));
 }
 
 .bg-amber-200 {
@@ -10670,11 +10671,6 @@ html:has(.drawer-open.drawer-open) {
   padding-bottom: 1.25rem;
 }
 
-.py-52 {
-  padding-top: 13rem;
-  padding-bottom: 13rem;
-}
-
 .py-6 {
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
@@ -10907,10 +10903,6 @@ html:has(.drawer-open.drawer-open) {
   text-transform: capitalize;
 }
 
-.normal-case {
-  text-transform: none;
-}
-
 .italic {
   font-style: italic;
 }
@@ -10957,6 +10949,10 @@ html:has(.drawer-open.drawer-open) {
 
 .leading-tight {
   line-height: 1.25;
+}
+
+.tracking-\[\.5px\] {
+  letter-spacing: .5px;
 }
 
 .tracking-\[1px\] {
@@ -11125,10 +11121,6 @@ html:has(.drawer-open.drawer-open) {
 
 .line-through {
   text-decoration-line: line-through;
-}
-
-.no-underline {
-  text-decoration-line: none;
 }
 
 .decoration-inverse {
@@ -11471,6 +11463,11 @@ html:has(.drawer-open.drawer-open) {
   background-color: var(--accent-soft);
 }
 
+.hover\:bg-amber-200:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(253 230 138 / var(--tw-bg-opacity));
+}
+
 .hover\:bg-gray-100:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
@@ -11651,6 +11648,11 @@ html:has(.drawer-open.drawer-open) {
   background-color: var(--accent-soft);
 }
 
+.active\:bg-amber-200:active {
+  --tw-bg-opacity: 1;
+  background-color: rgb(253 230 138 / var(--tw-bg-opacity));
+}
+
 .active\:bg-orange-700:active {
   --tw-bg-opacity: 1;
   background-color: rgb(194 65 12 / var(--tw-bg-opacity));
@@ -11702,11 +11704,6 @@ html:has(.drawer-open.drawer-open) {
 .dark\:border-gray-100:is(.dark *) {
   --tw-border-opacity: 1;
   border-color: rgb(243 244 246 / var(--tw-border-opacity));
-}
-
-.dark\:border-gray-200:is(.dark *) {
-  --tw-border-opacity: 1;
-  border-color: rgb(229 231 235 / var(--tw-border-opacity));
 }
 
 .dark\:border-gray-600:is(.dark *) {
@@ -12098,10 +12095,6 @@ html:has(.drawer-open.drawer-open) {
 
   .md\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .md\:grid-cols-3 {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .md\:grid-cols-8 {

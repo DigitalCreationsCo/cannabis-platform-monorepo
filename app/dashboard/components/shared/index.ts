@@ -9,3 +9,5 @@ export { default as Error } from './Error';
 export { default as WithLoadingAndError } from './WithLoadingAndError';
 export { default as InputWithCopyButton } from './InputWithCopyButton';
 export { default as CopyToClipboardButton } from './CopyToClipboardButton';
+export { default as ConfirmationDialog } from './ConfirmationDialog';
+export { default as UpgradeAccountDialog } from './UpgradeAccountDialog';
