@@ -60,6 +60,7 @@ export type AppEvent =
 	| 'dispensary.dailyDeal.fetched'
 	| 'dispensary.dailyDeal.created'
 	| 'dispensary.dailyDeal.updated'
+	| 'dispensary.dailyDeal.sent'
 	| 'dispensary.dailyDeal.removed';
 
 export type AUTH_PROVIDER =

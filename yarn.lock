@@ -7182,6 +7182,7 @@ __metadata:
     bcryptjs: 2.4.3
     classnames: 2.5.1
     cookies-next: 4.1.1
+    cron-to-human: ^1.0.0
     currency-symbol-map: 5.1.0
     daisyui: 4.10.2
     date-fns-tz: 3.1.3
@@ -19675,7 +19676,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"call-bind@npm:^1.0.2, call-bind@npm:^1.0.5, call-bind@npm:^1.0.6, call-bind@npm:^1.0.7":
+"call-bind@npm:^1.0.0, call-bind@npm:^1.0.2, call-bind@npm:^1.0.5, call-bind@npm:^1.0.6, call-bind@npm:^1.0.7":
   version: 1.0.7
   resolution: "call-bind@npm:1.0.7"
   dependencies:
@@ -21432,6 +21433,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cron-parser@npm:^3.3.0":
+  version: 3.5.0
+  resolution: "cron-parser@npm:3.5.0"
+  dependencies:
+    is-nan: ^1.3.2
+    luxon: ^1.26.0
+  checksum: 80096ac1c30fa4017648ad2fa062ae002e6c0d7775b96a00dbadf1e2d7f9e01b3db0324eef2a33fe6136363be3ffb0d6065cf1b91e6a13fd5ed4d3c168abbc69
+  languageName: node
+  linkType: hard
+
+"cron-to-human@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "cron-to-human@npm:1.0.0"
+  dependencies:
+    cron-parser: ^3.3.0
+  checksum: d645570233a3be94d056b9cc42e70e6d131bd5a45e590d998f19c1db118058bb32ea63c5a6623ac4c168faffeb4489bd3483b8b2b1330aca21d7aa7e30700b19
+  languageName: node
+  linkType: hard
+
 "croner@npm:~4.1.92":
   version: 4.1.97
   resolution: "croner@npm:4.1.97"
@@ -22325,7 +22345,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"define-properties@npm:^1.2.0, define-properties@npm:^1.2.1":
+"define-properties@npm:^1.1.3, define-properties@npm:^1.2.0, define-properties@npm:^1.2.1":
   version: 1.2.1
   resolution: "define-properties@npm:1.2.1"
   dependencies:
@@ -29059,6 +29079,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"is-nan@npm:^1.3.2":
+  version: 1.3.2
+  resolution: "is-nan@npm:1.3.2"
+  dependencies:
+    call-bind: ^1.0.0
+    define-properties: ^1.1.3
+  checksum: 5dfadcef6ad12d3029d43643d9800adbba21cf3ce2ec849f734b0e14ee8da4070d82b15fdb35138716d02587c6578225b9a22779cab34888a139cc43e4e3610a
+  languageName: node
+  linkType: hard
+
 "is-negative-zero@npm:^2.0.3":
   version: 2.0.3
   resolution: "is-negative-zero@npm:2.0.3"
@@ -31819,6 +31849,13 @@ __metadata:
   dependencies:
     es5-ext: ~0.10.2
   checksum: 7f2c53c5e7f2de20efb6ebb3086b7aea88d6cf9ae91ac5618ece974122960c4e8ed04988e81d92c3e63d60b12c556b14d56ef7a9c5a4627b23859b813e39b1a2
+  languageName: node
+  linkType: hard
+
+"luxon@npm:^1.26.0":
+  version: 1.28.1
+  resolution: "luxon@npm:1.28.1"
+  checksum: 2c62999adea79645fd1e931d685f61aeb33eda7f39fbf79b84261a233b62f9590f48336654ee9efd405848bd9e13dc7fe087c701b7126187201a88998dc68b04
   languageName: node
   linkType: hard
 

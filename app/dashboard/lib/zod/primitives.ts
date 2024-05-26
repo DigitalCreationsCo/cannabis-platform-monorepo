@@ -42,6 +42,24 @@ export const teamName = z
 		`Team name should have at most ${maxLengthPolicies.team} characters`,
 	);
 
+export const isSubscribedForDelivery = z
+	.boolean({
+		invalid_type_error: 'isSubscribedForDelivery must be a boolean',
+	})
+	.default(false);
+
+export const isSubscribedForPickup = z
+	.boolean({
+		invalid_type_error: 'isSubscribedForPickup must be a boolean',
+	})
+	.default(false);
+
+export const isSubscribedForMessaging = z
+	.boolean({
+		invalid_type_error: 'isSubscribedForMessaging must be a boolean',
+	})
+	.default(false);
+
 export const name = z
 	.string({
 		required_error: 'Name is required',

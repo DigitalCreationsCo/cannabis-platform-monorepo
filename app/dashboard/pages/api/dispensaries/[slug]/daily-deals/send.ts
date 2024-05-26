@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
 import { recordMetric } from '@/lib/metrics';
-import { throwIfNotAllowed } from '@cd/core-lib';
+import { axios, throwIfNotAllowed } from '@cd/core-lib';
 import { type DailyDeal } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
@@ -14,10 +14,10 @@ export default async function handler(
 	try {
 		switch (method) {
 			case 'GET':
-				await handleGET(req, res);
+				await handlePOST(req, res);
 				break;
 			default:
-				res.setHeader('Allow', 'GET');
+				res.setHeader('Allow', 'POST');
 				res.status(405).json({
 					error: { message: `Method ${method} Not Allowed` },
 				});
@@ -30,15 +30,32 @@ export default async function handler(
 	}
 }
 
-const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
+const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 	const teamMember = await throwIfNoDispensaryAccess(req, res);
 	throwIfNotAllowed(teamMember, 'team_daily_deals', 'read');
 
-	// const dailyDeals = await getDispensaryDailyDeals(teamMember.team.slug);
+	const token = Buffer.from(
+		`${process.env.NEXT_PUBLIC_SLICKTEXT_PUBLIC_KEY}:${process.env.NEXT_PUBLIC_SLICKTEXT_PRIVATE_KEY}`,
+	).toString('base64');
 
-	const dailyDeals: DailyDeal[] = [];
+	await axios.post(
+		'https://api.slicktext.com/v1/messages/',
+		{
+			action: 'SEND',
+			// FINISH REQUEST BODY
+			// FINISH REQUEST BODY
+			// FINISH REQUEST BODY
+			// FINISH REQUEST BODY
+		},
+		{
+			headers: {
+				Authorization: `Bearer ${token}`,
+				'Content-Type': 'application/json',
+			},
+		},
+	);
 
-	recordMetric('dispensary.dailyDeal.fetched');
+	recordMetric('dispensary.dailyDeal.sent');
 
-	res.status(200).json({ data: dailyDeals });
+	res.status(200).json({ success: true });
 };

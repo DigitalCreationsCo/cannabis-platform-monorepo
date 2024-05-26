@@ -12,11 +12,11 @@ export const showTime = (date: Date | string) =>
 export const showDay = (date: Date | string) => {
 	// if the day is today, return 'today'
 	const today = new Date();
-	if (new Date(date).getDate() === today.getDate()) return 'today';
+	if (new Date(date).getDate() === today.getDate()) return 'Today';
 	// if the day is tomorrow, return 'tomorrow'
 	const tomorrow = new Date(today);
 	tomorrow.setDate(today.getDate() + 1);
-	if (new Date(date).getDate() === tomorrow.getDate()) return 'tomorrow';
+	if (new Date(date).getDate() === tomorrow.getDate()) return 'Tomorrow';
 	// return new Date(date).toLocaleDateString('en-US', {
 	// 	weekday: 'long',
 	// });
