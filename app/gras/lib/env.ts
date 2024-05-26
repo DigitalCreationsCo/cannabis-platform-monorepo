@@ -100,7 +100,7 @@ const env = {
 			process.env.FEATURE_TEAM_PAYMENTS === 'false'
 				? false
 				: Boolean(
-						process.env.STRIPE_SECRET_KEY && process.env.STRIPE_WEBHOOK_SECRET,
+						process.env.STRIPE_API_KEY_SECRET && process.env.STRIPE_WEBHOOK_SECRET,
 				  ),
 		deleteTeam: process.env.FEATURE_TEAM_DELETION !== 'false',
 	},

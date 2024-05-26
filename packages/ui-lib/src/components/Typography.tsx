@@ -227,14 +227,13 @@ export const Small = ({
 	return (
 		<p
 			className={twMerge(
-				'tracking-[1px]',
-				'font-onest',
+				'tracking-[.5px]',
+				'font-encode',
 				styles['cursor-inherit'],
 				(color === 'light' && 'text-inverse-soft') ||
 					(color === 'dark' && 'text-dark') ||
 					'text-inherit',
 				'text-sm whitespace-pre-line',
-				'tracking-wide',
 				className,
 			)}
 			{...props}
@@ -253,7 +252,6 @@ export const Span = ({
 	return (
 		<span
 			className={twMerge(
-				'font-onest',
 				(color === 'light' && 'text-inverse-soft') ||
 					(color === 'dark' && 'text-dark') ||
 					'text-inherit',

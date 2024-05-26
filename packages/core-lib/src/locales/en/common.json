@@ -155,8 +155,9 @@
 	"dispensary-success-services": "Dispensary Success Services",
 	"homepage-title": "Gras | Serving People and Cannabis",
 	"services": "Services",
+	"subscribe-to-services": "Choose Your Success Services",
 	"delivery-service": "Delivery Service",
-	"message-service": "Message Service",
+	"message-service": "Customer Messaging",
 	"sign-up-title": "Sign Up | Gras ",
 	"login-title": "Login | Gras",
 	"forgot-password-title": "Reset Password | Gras",
@@ -265,6 +266,12 @@
 	"send-message": "Send Message",
 	"successfully-sent": "Message sent successfully.",
 	"select-message-to-send": "Select a message to send",
+	"confirm-message-send": "Your customers will receive this message. Send now?",
+	"not-subscribed-for-messaging": "Whoops, you're not subscribed for customer messaging.",
+	"upgrade-to-messaging": "Upgrade to Customer Messaging",
+	"messaging-service-info": "Gain loyal new customers via text messaging.",
+	"upgrade-my-account": "Upgrade My Account",
 	"send": "SEND",
-	"learn-more": "Learn More"
+	"learn-more": "Learn More",
+	"send-invite": "Send Invite"
 }
