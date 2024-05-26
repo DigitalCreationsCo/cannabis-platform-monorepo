@@ -28,7 +28,7 @@ export const createDispensary = async ({
 				.findOneAndUpdate(
 					{ slug: param.slug },
 					{
-						$set: { name: param.name, slug: param.slug, createdAt, updatedAt },
+						$set: { ...param, createdAt, updatedAt },
 					},
 					{ upsert: true, returnDocument: 'after' },
 				)
@@ -38,6 +38,13 @@ export const createDispensary = async ({
 		console.info('dispensary: ', dispensary);
 
 		await addStaffMember(dispensary, userId, Role.OWNER);
+
+		if (param.isSubscribedForMessaging) {
+			// CREATE SLICKTEXT LIST
+			// CREATE SLICKTEXT LIST
+			// CREATE SLICKTEXT LIST
+			// CREATE SLICKTEXT LIST
+		}
 
 		// await findOrCreateApp(team.name, team.id);
 

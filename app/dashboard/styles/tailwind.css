@@ -8941,6 +8941,10 @@ html:has(.drawer-open.drawer-open) {
   margin-bottom: 0.5rem;
 }
 
+.mb-24 {
+  margin-bottom: 6rem;
+}
+
 .mb-3 {
   margin-bottom: 0.75rem;
 }
@@ -9200,10 +9204,6 @@ html:has(.drawer-open.drawer-open) {
   height: min-content;
 }
 
-.h-screen {
-  height: 100vh;
-}
-
 .max-h-12 {
   max-height: 3rem;
 }
@@ -9434,10 +9434,6 @@ html:has(.drawer-open.drawer-open) {
 
 .max-w-2xl {
   max-width: 42rem;
-}
-
-.max-w-7xl {
-  max-width: 80rem;
 }
 
 .max-w-\[420px\] {
@@ -9959,6 +9955,10 @@ html:has(.drawer-open.drawer-open) {
 
 .rounded-none {
   border-radius: 0;
+}
+
+.rounded-sm {
+  border-radius: 0.125rem;
 }
 
 .rounded-b {
@@ -11525,10 +11525,6 @@ html:has(.drawer-open.drawer-open) {
     border-radius: var(--rounded-btn) !important;
   }
 
-  .md\:rounded {
-    border-radius: 0.25rem;
-  }
-
   .md\:p-0 {
     padding: 0px;
   }
@@ -11738,12 +11734,21 @@ html:has(.drawer-open.drawer-open) {
          column-gap: 1.5rem;
   }
 
+  .lg\:rounded {
+    border-radius: 0.25rem;
+  }
+
   .lg\:p-0 {
     padding: 0px;
   }
 
   .lg\:p-20 {
     padding: 5rem;
+  }
+
+  .lg\:\!px-8 {
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
   }
 
   .lg\:px-12 {
@@ -11837,8 +11842,8 @@ html:has(.drawer-open.drawer-open) {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .xl\:flex-row {
-    flex-direction: row;
+  .xl\:\!flex-row {
+    flex-direction: row !important;
   }
 
   .xl\:p-0 {

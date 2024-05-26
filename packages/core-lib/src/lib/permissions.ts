@@ -1,7 +1,7 @@
 import { Role } from '@cd/data-access';
 
 type RoleType = typeof Role[keyof typeof Role];
-export type Action = 'create' | 'update' | 'read' | 'delete' | 'leave';
+export type Action = 'create' | 'update' | 'read' | 'delete' | 'leave' | 'send';
 export type Resource =
 	| 'team'
 	| 'team_member'

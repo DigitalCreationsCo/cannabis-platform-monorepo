@@ -12,6 +12,7 @@ export type DailyDeal = {
 	schedule: string;
 	timezone: string;
 	teamSlug: string;
+	isActive: boolean;
 };
 
 export const getDispensaryDailyDeals = async (slug: string) => {

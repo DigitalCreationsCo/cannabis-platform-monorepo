@@ -1,3 +1,8 @@
+import { Error } from '@/components/shared';
+import { AccessControl } from '@/components/shared/AccessControl';
+import { RemoveTeam, TeamSettings, TeamTab } from '@/components/team';
+import env from '@/lib/env';
+import { type NextPageWithLayout } from '@/lib/next.types';
 import { type TeamFeature, useDispensary } from '@cd/core-lib';
 import {
 	Card,
@@ -20,11 +25,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { Error } from '@/components/shared';
-import { AccessControl } from '@/components/shared/AccessControl';
-import { RemoveTeam, TeamSettings, TeamTab } from '@/components/team';
-import env from '@/lib/env';
-import { type NextPageWithLayout } from '@/lib/next.types';
 
 const Home: NextPageWithLayout<{
 	teamFeatures: TeamFeature;

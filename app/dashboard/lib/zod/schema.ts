@@ -25,6 +25,9 @@ import {
 	name,
 	image,
 	eventTypes,
+	isSubscribedForDelivery,
+	isSubscribedForPickup,
+	isSubscribedForMessaging,
 } from './primitives';
 
 export const createApiKeySchema = z.object({
@@ -47,6 +50,9 @@ export const updateTeamSchema = z.object({
 
 export const createTeamSchema = z.object({
 	name: teamName,
+	isSubscribedForDelivery,
+	isSubscribedForPickup,
+	isSubscribedForMessaging,
 });
 
 export const updateAccountSchema = z.union([

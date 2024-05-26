@@ -45,6 +45,7 @@ export type Dispensary = {
 	schedule?: Schedule[];
 	isSubscribedForDelivery?: boolean;
 	isSubscribedForPickup?: boolean;
+	isSubscribedForMessaging?: boolean;
 	billingProvider?: string;
 	stripeAccountId?: string;
 	siteSetting?: SiteSetting;

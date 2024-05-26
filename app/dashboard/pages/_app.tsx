@@ -20,6 +20,7 @@ import {
 	ToastProvider,
 	type Theme,
 	applyTheme,
+	Footer,
 } from '@cd/ui-lib';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
@@ -29,6 +30,7 @@ import { NextSeo } from 'next-seo';
 import { useEffect } from 'react';
 import { Provider as ReduxProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
+import { twMerge } from 'tailwind-merge';
 import colors from 'tailwindcss/colors';
 import { AccountLayout } from '@/components/layouts';
 import app from '@/lib/app';
@@ -66,7 +68,13 @@ function MyApp({ Component, ...appProps }: AppPropsWithLayout) {
 	}, []);
 
 	const getLayout =
-		Component.getLayout || ((page) => <AccountLayout>{page}</AccountLayout>);
+		Component.getLayout ||
+		((page) => (
+			<>
+				<AccountLayout>{page}</AccountLayout>
+				<Footer />
+			</>
+		));
 
 	return (
 		<>
