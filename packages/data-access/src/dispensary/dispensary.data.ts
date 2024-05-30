@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { ObjectId, type WithId, type UpdateFilter } from 'mongodb';
+import { ObjectId } from 'mongodb';
 import { db_namespace, clientPromise } from '../db';
 import { normalizeUser } from '../helpers';
 import { Role } from '../role.types';
@@ -13,38 +13,30 @@ export const createDispensary = async ({
 	createdAt = new Date(),
 	updatedAt = new Date(),
 	...param
-}: { userId: string } & NonNullable<
-	Omit<Dispensary, 'id'>
->): Promise<Dispensary> => {
+}: { userId: string } & Omit<Dispensary, 'id'>): Promise<Dispensary> => {
 	try {
-		console.trace('create Dispensary: ', param);
 		const { userId } = param;
 		const client = await clientPromise;
 		const { db, collections } = db_namespace;
-		const dispensary = (await (
-			await client
-				.db(db)
-				.collection<Dispensary>(collections.dispensaries)
-				.findOneAndUpdate(
-					{ slug: param.slug },
-					{
-						$set: { ...param, createdAt, updatedAt },
-					},
-					{ upsert: true, returnDocument: 'after' },
-				)
-		).value) as WithId<Dispensary>;
-		dispensary.id = dispensary._id.toString();
-
-		console.info('dispensary: ', dispensary);
-
-		await addStaffMember(dispensary, userId, Role.OWNER);
 
 		if (param.isSubscribedForMessaging) {
-			// CREATE SLICKTEXT LIST
-			// CREATE SLICKTEXT LIST
-			// CREATE SLICKTEXT LIST
-			// CREATE SLICKTEXT LIST
+			param.slickTextTextwordId = '4034501';
+			// param.slickTextSegmentId = '';
 		}
+
+		const dispensary = {
+			...param,
+			id: (
+				await client
+					.db(db)
+					.collection(collections.dispensaries)
+					.insertOne({ ...param, createdAt, updatedAt })
+			).insertedId.toString(),
+		};
+
+		// console.info('dispensary: ', dispensary);
+
+		await addStaffMember(dispensary, userId, Role.OWNER);
 
 		// await findOrCreateApp(team.name, team.id);
 
@@ -188,10 +180,16 @@ export const getStaffMembers = async (slug: string) => {
 
 export const updateDispensary = async (
 	slug: string,
-	update: UpdateFilter<Dispensary>,
+	update: Partial<Dispensary>,
 ): Promise<Dispensary> => {
 	const client = await clientPromise;
 	const { db, collections } = db_namespace;
+
+	// if (update.isSubscribedForMessaging) {
+	// 	update.slickTextTextwordId = '4034501';
+	// 	update.slickTextSegmentId = ''
+	// }
+
 	const updatedDispensary = await client
 		.db(db)
 		.collection<Dispensary>(collections.dispensaries)

@@ -12,7 +12,7 @@ import React from 'react';
 import { Button, TextField } from '@cd/ui-lib';
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
-import Modal from '../shared/Modal';
+import { Modal2 as Modal } from '@cd/ui-lib';
 
 interface CreateTeamProps {
   visible: boolean;

@@ -6,13 +6,25 @@ export type DailyDeal = {
 	id: string;
 	title: string;
 	message: string;
-	startTime: Date | null;
-	endTime: Date | null;
+	startTime: Date | string | null;
+	endTime: Date | string | null;
 	doesRepeat: boolean;
 	schedule: string;
 	timezone: string;
 	teamSlug: string;
 	isActive: boolean;
+	slickTextTextwordId?: string;
+	slickTextSegmentId?: string;
+	jobId?: string;
+};
+
+export const getDailyDeal = async (slug: string, id: string) => {
+	const client = await clientPromise;
+	const { db, collections } = db_namespace;
+	return await client
+		.db(db)
+		.collection<DailyDeal>(collections.daily_deals)
+		.findOne({ teamSlug: slug, _id: new ObjectId(id) });
 };
 
 export const getDispensaryDailyDeals = async (slug: string) => {

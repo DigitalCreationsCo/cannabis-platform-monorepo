@@ -1,6 +1,6 @@
 import { defaultHeaders, type ApiResponse } from '@cd/core-lib';
 import type { Dispensary } from '@cd/data-access';
-import { Button, TextField } from '@cd/ui-lib';
+import { Button, TextField, Modal2 as Modal } from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import { useState } from 'react';
@@ -9,7 +9,6 @@ import { useSWRConfig } from 'swr';
 import { type z } from 'zod';
 import { InputWithCopyButton } from '@/components/shared';
 import { createApiKeySchema } from '@/lib/zod';
-import Modal from '../shared/Modal';
 
 const NewAPIKey = ({
   team,

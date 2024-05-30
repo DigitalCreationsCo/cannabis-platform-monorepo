@@ -1,11 +1,21 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { throwIfNotAllowed } from '@cd/core-lib';
+import { axios, throwIfNotAllowed } from '@cd/core-lib';
 import Slicktext from '@cd/core-lib/src/sms/slicktext';
-import { type DailyDeal } from '@cd/data-access';
+import {
+  deleteDispensaryDailyDeal,
+  updateDispensaryDailyDeal,
+  type DailyDeal,
+  createDispensaryDailyDeal,
+  type Customer,
+  getOneCustomerByDispensary,
+  upsertCustomerByDispensary,
+} from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
 import { recordMetric } from '@/lib/metrics';
+import { sendAudit } from '@/lib/retraced';
+import { sendEvent } from '@/lib/svix';
 
 export default async function handler(
   req: NextApiRequest,
@@ -18,6 +28,9 @@ export default async function handler(
       case 'POST':
         await handlePOST(req, res);
         break;
+      // case 'DELETE':
+      // 	await handleDELETE(req, res);
+      // 	break;
       default:
         res.setHeader('Allow', 'POST');
         res.status(405).json({
@@ -32,25 +45,19 @@ export default async function handler(
   }
 }
 
+// Invite Customer to daily deals messages
 const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
-  try {
-    const teamMember = await throwIfNoDispensaryAccess(req, res);
-    throwIfNotAllowed(teamMember, 'team_daily_deals', 'read');
+  const teamMember = await throwIfNoDispensaryAccess(req, res);
+  throwIfNotAllowed(teamMember, 'team_customers', 'send');
 
-    const message = req.body as DailyDeal;
+  const customer = req.body as Customer;
+  const slickTextTextwordId = '4034501';
 
-    await Slicktext.sendToList({
-      textword: message.slickTextTextwordId!,
-      segment: message.slickTextSegmentId!,
-      message,
-    });
+  await upsertCustomerByDispensary({ ...customer, slickTextTextwordId });
 
-    recordMetric('dispensary.dailyDeal.sent');
+  recordMetric('dispensary.customer.fetched');
 
-    return res.status(200).json({ success: true });
-  } catch (error: any) {
-    return res
-      .status(error.response.status)
-      .json({ error: { message: 'An error occurred. Try again later.' } });
-  }
+  await Slicktext.optInCustomer(customer);
+
+  res.status(200).json({});
 };

@@ -61,7 +61,13 @@ export type AppEvent =
 	| 'dispensary.dailyDeal.created'
 	| 'dispensary.dailyDeal.updated'
 	| 'dispensary.dailyDeal.sent'
-	| 'dispensary.dailyDeal.removed';
+	| 'dispensary.dailyDeal.removed'
+	| 'dispensary.customers.fetched'
+	| 'dispensary.customers.removed'
+	| 'dispensary.customer.fetched'
+	| 'dispensary.customer.created'
+	| 'dispensary.customer.updated'
+	| 'dispensary.customer.removed';
 
 export type AUTH_PROVIDER =
 	| 'github'

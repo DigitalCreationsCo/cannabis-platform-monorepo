@@ -1,4 +1,3 @@
-import { InputWithLabel } from '@/components/shared';
 import env from '@/lib/env';
 import { LoadingDots, Paragraph, TextField } from '@cd/ui-lib';
 import { useFormik } from 'formik';
@@ -73,14 +72,14 @@ const MagicLink = ({ csrfToken }: MagicLinkProps) => {
       <div className="rounded p-6 border">
         <form onSubmit={formik.handleSubmit}>
           <div className="space-y-2">
+            <Paragraph>{`We'll email you a magic link for a password-free sign in.`}</Paragraph>
             <TextField
               type="email"
               label="Email"
               name="email"
               placeholder="jackson@boxyhq.com"
               value={formik.values.email}
-              descriptionText="We’ll email you a magic link for a password-free sign in."
-              error={formik.touched.email ? formik.errors.email : undefined}
+              error={!!formik.touched.email && !!formik.errors.email}
               helperText={formik.touched.email && formik.errors.email}
               onChange={formik.handleChange}
             />

@@ -12,7 +12,8 @@ export type Resource =
 	| 'team_webhook'
 	| 'team_payments'
 	| 'team_api_key'
-	| 'team_daily_deals';
+	| 'team_daily_deals'
+	| 'team_customers';
 
 type RolePermissions = {
 	[role in RoleType]: Permission[];
@@ -77,6 +78,7 @@ export const permissions: RolePermissions = {
 			actions: '*',
 		},
 		{ resource: 'team_daily_deals', actions: '*' },
+		{ resource: 'team_customers', actions: '*' },
 	],
 	ADMIN: [
 		{
@@ -112,6 +114,7 @@ export const permissions: RolePermissions = {
 			actions: '*',
 		},
 		{ resource: 'team_daily_deals', actions: '*' },
+		{ resource: 'team_customers', actions: '*' },
 	],
 	MEMBER: [
 		{
@@ -147,5 +150,6 @@ export const permissions: RolePermissions = {
 			actions: ['read'],
 		},
 		{ resource: 'team_daily_deals', actions: ['read'] },
+		{ resource: 'team_customers', actions: ['read'] },
 	],
 };

@@ -1,7 +1,7 @@
-import { H3, Paragraph } from '@cd/ui-lib';
 import { useTranslation } from 'next-i18next';
 import { Button, Modal as DModal } from 'react-daisyui';
 import { twMerge } from 'tailwind-merge';
+import { H3, Paragraph } from '../Typography';
 
 interface ModalProps {
 	open: boolean;

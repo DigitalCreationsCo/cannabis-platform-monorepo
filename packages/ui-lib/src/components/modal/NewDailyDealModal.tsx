@@ -1,26 +1,33 @@
+/* eslint-disable sonarjs/cognitive-complexity */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { type ModalStateProps, axios, urlBuilder } from '@cd/core-lib';
-import { type DailyDeal } from '@cd/data-access';
-import { toZonedTime } from 'date-fns-tz';
+import { axios, urlBuilder } from '@cd/core-lib';
+import { type Dispensary, type DailyDeal } from '@cd/data-access';
+// import { time} from 'date-fns-tz';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { Cron } from 'react-js-cron';
-import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 import { Button } from '../button';
-import Center from '../Center';
 import CheckBox from '../CheckBox';
-import Grid from '../Grid';
 import TextArea from '../TextArea';
 import TextField from '../TextField';
-import { H2, Paragraph } from '../Typography';
-import Modal from './Modal';
+import Modal from './Modal2';
 import 'react-js-cron/dist/styles.css';
 
-interface NewDailyDealModalProps extends ModalStateProps {
-	dispatchCloseModal: () => void;
+interface NewDailyDealModalProps {
+	dispatchCloseModal?: () => void;
 	modalVisible: boolean;
+	onSubmit?: () => any;
+	title?: string;
+	visible?: boolean;
+	onConfirm?: () => void | Promise<any>;
+	onCancel?: () => void;
+	confirmText?: string;
+	cancelText?: string;
+	children?: React.ReactNode;
+	modalType?: any;
+	organization?: Dispensary;
 }
 
 function NewDailyDealModal({
@@ -29,7 +36,7 @@ function NewDailyDealModal({
 	...props
 }: NewDailyDealModalProps) {
 	const closeModalAndReset = () => {
-		dispatchCloseModal();
+		dispatchCloseModal?.();
 	};
 
 	const [loadingButton, setLoadingButton] = useState(false);
@@ -79,12 +86,19 @@ function NewDailyDealModal({
 			schedule: '',
 			timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
 			teamSlug: props.organization!.slug,
+			slickTextTextwordId: props.organization!.slickTextTextwordId,
+			slickTextSegmentId: props.organization!.slickTextSegmentId,
 		} as Omit<DailyDeal, 'id'>,
 		async onSubmit() {
 			try {
+				console.info(
+					'time zone?? ',
+					Intl.DateTimeFormat().resolvedOptions().timeZone,
+				);
 				setLoadingButton(true);
 				const response = await axios.post(
-					urlBuilder.dashboard + '/api/daily-deals',
+					urlBuilder.dashboard +
+						`/api/dispensaries/${props.organization!.slug}/daily-deals`,
 					values,
 				);
 
@@ -94,8 +108,8 @@ function NewDailyDealModal({
 
 				toast.success('Saved.');
 				setLoadingButton(false);
-				closeModalAndReset();
-				window.location.reload();
+				(props.onCancel && props.onCancel()) || closeModalAndReset();
+				if (props.onSubmit) props.onSubmit();
 			} catch (error: any) {
 				console.error(error);
 				setLoadingButton(false);
@@ -118,277 +132,115 @@ function NewDailyDealModal({
 		setOpenModal(modalVisible);
 	}, [modalVisible]);
 
-	console.info('values: ', values);
 	return modalVisible ? (
-		<Modal
-			className={twMerge(styles.responsive, 'flex flex-col')}
-			modalVisible={openModal}
-			onClose={closeModalAndReset}
-			disableClickOutside={values.doesRepeat}
-			{...props}
-		>
-			<Grid className="relative space-y-2 m-auto">
-				<Center className="m-auto pb-8">
-					<H2>New Daily Deal</H2>
-					<Paragraph className="my-2">
-						{`Promote your business via text message.`}
-					</Paragraph>
-					<Grid>
-						{/* {values.products.length > 0 ? (
-							values.products.map((sku, index) => (
-								<div
-									key={`product-${index}`}
-									className="border border-b border-primary justify-start p-1"
-								>
-									<Paragraph className="ml-2 text-left">#{index + 1}</Paragraph>
-									<TextField
-										key={`product-sku-${index}`}
-										containerClassName="lg:flex-col lg:items-start"
-										className="my-2 border text-center"
-										autoComplete="off"
-										type="text"
-										name={`products[${index}].sku`}
-										label="sku"
-										placeholder=""
-										value={values.products[index].sku}
-										onBlur={handleBlur}
-										onChange={handleChange}
-										// error={!!touched.products && !!errors.products}
-									/>
-									<TextField
-										containerClassName="w-20 lg:flex-col lg:items-start"
-										className="my-2 border text-center"
-										autoComplete="off"
-										type="number"
-										name={`products[${index}].quantity`}
-										label="quantity"
-										placeholder="1"
-										value={values.products[index].quantity}
-										onBlur={handleBlur}
-										onChange={handleChange}
-										// error={!!touched.products && !!errors.products}
-									/>
-									<CheckBox
-										name={`products[${index}].isDiscount`}
-										onChange={handleChange}
-										checked={values.products[index].isDiscount}
-										LabelComponent={Paragraph}
-										label="discount"
-									/>
-									<TextField
-										disabled={!values.products[index]['isDiscount']}
-										containerClassName="w-20 lg:flex-col lg:items-start"
-										className="my-2 border text-center"
-										autoComplete="off"
-										min={0}
-										max={100}
-										type="number"
-										name={`products[${index}].discount`}
-										label="discount %"
-										placeholder="1"
-										value={values.products[index].discount}
-										onBlur={handleBlur}
-										onChange={handleChange}
-										// error={!!touched.products && !!errors.products}
-									/>
-								</div>
-							))
-						) : (
-							<Paragraph className="text-left">
-								Your deal needs products. Add a sku.
-							</Paragraph>
-						)} */}
-
-						{/* <FlexBox className="my-4 bg-light rounded shadow-inner border justify-start p-1 border-primary items-start justify-content-start content-start place-content-start">
-							<TextField
-								containerClassName="lg:flex-col lg:items-start"
-								className="my-2 border text-center"
-								autoComplete="off"
-								type="text"
-								name={`addProduct.sku`}
-								label="add a sku"
-								placeholder=""
-								value={addProduct['sku']}
-								onBlur={handleBlur}
-								onChange={(e: any) =>
-									setAddProduct((state) => ({
-										...state,
-										sku: e.target.value,
-									}))
-								}
-								// error={!!touched.products && !!errors.products}
-							/>
-							<TextField
-								containerClassName="w-20 lg:flex-col lg:items-start"
-								className="my-2 border text-center"
-								autoComplete="off"
-								type="number"
-								name={`addProduct.quantity`}
-								label="quantity"
-								placeholder="1"
-								value={addProduct['quantity'] || 1}
-								onBlur={handleBlur}
-								onChange={(e: any) =>
-									setAddProduct((state) => ({
-										...state,
-										quantity: e.target.value,
-									}))
-								}
-								// error={!!touched.products && !!errors.products}
-							/>
-							<CheckBox
-								name={'addProduct.isDiscount'}
-								onChange={() => {
-									setAddProduct((state) => ({
-										...state,
-										isDiscount: !state.isDiscount,
-									}));
-								}}
-								checked={addProduct['isDiscount']}
-								LabelComponent={Paragraph}
-								label="apply discount?"
-							/>
-							<FlexBox className="flex-row w-full justify-between items-center">
-								<TextField
-									disabled={!addProduct['isDiscount']}
-									containerClassName="w-20 lg:flex-col lg:items-start"
-									className="my-2 border text-center"
-									autoComplete="off"
-									type="number"
-									name={`addProduct.discount`}
-									label="discount %"
-									min={0}
-									max={100}
-									placeholder="0"
-									value={addProduct['discount'] || 0}
-									onBlur={handleBlur}
-									onChange={(e: any) =>
-										setAddProduct((state) => ({
-											...state,
-											discount: e.target.value,
-										}))
-									}
-									// error={!!touched.products && !!errors.products}
-								/>
-
-								<Button
-									size="sm"
-									className="self-end w-10 h-10 mb-2"
-									onClick={() => {
-										values.products.push(addProduct);
-										setAddProduct({
-											sku: '',
-											quantity: 1,
-											isDiscount: false,
-											discount: 0,
-											organizationId: dispensaryId,
-										});
-									}}
-								>
-									+
-								</Button>
-							</FlexBox>
-						</FlexBox> */}
-						<TextField
-							containerClassName="m-auto lg:flex-col lg:items-start"
-							className="my-2 border"
-							autoComplete="off"
-							type="text"
-							name="title"
-							label="Title"
-							placeholder=""
-							value={values.title}
-							onBlur={handleBlur}
-							onChange={handleChange}
-							error={!!touched.title && !!errors.title}
-						/>
-						<TextArea
-							containerClassName="m-auto lg:flex-col lg:items-start"
-							className="my-2 border m-auto lg:flex-col lg:items-start"
-							autoComplete="off"
-							name="message"
-							label="Message"
-							placeholder=""
-							value={values?.message}
-							onBlur={handleBlur}
-							onChange={handleChange}
-							rows={6}
-							error={!!touched.message && !!errors.message}
-						/>
-						<CheckBox
-							className="my-2 w-full bg-light accent-light px-2 pt-4"
-							name="doesRepeat"
-							onChange={handleChange}
-							checked={values.doesRepeat}
-							label={values.doesRepeat ? 'Does Repeat' : 'Does Not Repeat'}
-						/>
-						{(values.doesRepeat && (
-							<Cron
-								value={values.schedule || ''}
-								setValue={(value: string) => {
-									setFieldValue('schedule', value);
-								}}
-								mode="single"
-							/>
-						)) || <></>}
-						<TextField
-							containerClassName="m-auto lg:flex-col lg:items-start"
-							className="my-2 border text-center"
-							autoComplete="off"
-							type="datetime-local"
-							name="startTime"
-							label="start time"
-							placeholder=""
-							value={values.startTime as unknown as string}
-							onBlur={handleBlur}
-							onChange={(e: any) =>
-								setFieldValue(
-									'startTime',
-									toZonedTime(
-										e.target.value,
-										Intl.DateTimeFormat().resolvedOptions().timeZone,
-									),
-								)
-							}
-							error={!!touched.startTime && !!errors.startTime}
+		<Modal open={openModal} close={props.onCancel || closeModalAndReset}>
+			<Modal.Header>{`New Text Message`}</Modal.Header>
+			<Modal.Body className="h-[540px] text-sm leading-6 flex flex-col text-center gap-y-2">
+				<TextField
+					className="border"
+					autoComplete="off"
+					type="text"
+					name="title"
+					label="Title"
+					placeholder=""
+					value={values.title}
+					onBlur={handleBlur}
+					onChange={handleChange}
+					error={!!touched.title && !!errors.title}
+					helperText={touched.title && errors.title}
+				/>
+				<TextArea
+					className="border"
+					autoComplete="off"
+					name="message"
+					label="Message"
+					placeholder=""
+					value={values?.message}
+					onBlur={handleBlur}
+					onChange={handleChange}
+					rows={6}
+					error={!!touched.message && !!errors.message}
+					helperText={touched.message && errors.message}
+				/>
+				<CheckBox
+					className="w-full bg-light accent-light px-2"
+					name="doesRepeat"
+					onChange={handleChange}
+					checked={values.doesRepeat}
+					label={values.doesRepeat ? 'Does Repeat' : 'Does Not Repeat'}
+				/>
+				{(values.doesRepeat && (
+					<>
+						<Cron
+							value={values.schedule || ''}
+							setValue={(value: string) => {
+								setFieldValue('schedule', value);
+							}}
+							mode="single"
 						/>
 						<TextField
-							containerClassName="m-auto lg:flex-col lg:items-start"
-							className="my-2 border text-center"
+							className="border"
 							autoComplete="off"
 							type="datetime-local"
 							name="endTime"
-							label="end time"
+							label="Ending date"
 							placeholder=""
-							value={values.endTime as unknown as string}
 							onBlur={handleBlur}
-							onChange={(e: any) =>
+							onChange={(e: any) => {
 								setFieldValue(
 									'endTime',
-									toZonedTime(
-										e.target.value,
-										Intl.DateTimeFormat().resolvedOptions().timeZone,
-									),
-								)
-							}
-							error={!!touched.endTime && !!errors.endTime}
-						/>
-						<Button
-							loading={loadingButton}
-							className="place-self-center mt-2 p-2"
-							type="submit"
-							onClick={(e) => {
-								e.preventDefault();
-								e.stopPropagation();
-								notifyValidation();
-								handleSubmit();
+									new Date(e.target.value),
+									// new Date(
+									// 	toZonedTime(
+									// 		e.target.value,
+									// 		Intl.DateTimeFormat().resolvedOptions().timeZone,
+									// 	).toISOString(),
+									// ),
+								);
 							}}
-						>
-							Create Daily Deal
-						</Button>
-					</Grid>
-				</Center>
-			</Grid>
+							error={!!touched.endTime && !!errors.endTime}
+							helperText={touched.endTime && errors.endTime}
+						/>
+					</>
+				)) || <></>}
+				{/* <TextField
+					containerClassName="m-auto lg:flex-col lg:items-start"
+					className="my-2 border text-center"
+					autoComplete="off"
+					type="datetime-local"
+					name="startTime"
+					label="start time"
+					placeholder=""
+					onBlur={handleBlur}
+					onChange={(e: any) => {
+						setFieldValue(
+							'startTime',
+							new Date(
+								toZonedTime(
+									e.target.value,
+									Intl.DateTimeFormat().resolvedOptions().timeZone,
+								).toISOString(),
+							),
+						);
+					}}
+					error={!!touched.startTime && !!errors.startTime}
+					helperText={touched.startTime && errors.startTime}
+				/> */}
+			</Modal.Body>
+			<Modal.Footer className="py-2">
+				<Button
+					loading={loadingButton}
+					type="submit"
+					onClick={(e) => {
+						e.preventDefault();
+						e.stopPropagation();
+						notifyValidation();
+						handleSubmit();
+					}}
+				>
+					Create Daily Deal
+				</Button>
+			</Modal.Footer>
 		</Modal>
 	) : (
 		<></>
@@ -396,8 +248,3 @@ function NewDailyDealModal({
 }
 
 export default NewDailyDealModal;
-
-const styles = {
-	responsive:
-		'w-full md:max-w-2xl min-h-screen sm:!rounded-none md:min-h-min md:!rounded px-0 py-8 xl:ml-[200px] bg-light',
-};

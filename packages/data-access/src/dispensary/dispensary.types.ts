@@ -52,6 +52,8 @@ export type Dispensary = {
 	images?: { location: string; blurhash: string }[];
 	pos?: POS;
 	isSignupComplete?: boolean;
+	slickTextTextwordId?: string;
+	slickTextSegmentId?: string;
 	members?: string[];
 	createdAt?: Date;
 	updatedAt?: Date;

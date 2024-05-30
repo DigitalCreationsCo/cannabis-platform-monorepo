@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { urlBuilder } from '@cd/core-lib';
 import {
   DeleteButton,
   Grid,

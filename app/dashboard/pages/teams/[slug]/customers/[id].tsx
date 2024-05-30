@@ -24,7 +24,7 @@ import {
   UploadImageBox,
 } from '@cd/ui-lib';
 import axios from 'axios';
-import { format } from 'date-fns-tz';
+import { formatInTimeZone } from 'date-fns-tz';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -309,8 +309,9 @@ export default function UserDetails({ user }: { user: any }) {
               }}
             >
               <FlexBox className="flex-col space-x-0 space-y-2 items-stretch">
-                <H6>{`Member since ${format(
+                <H6>{`Member since ${formatInTimeZone(
                   new Date(user?.createdAt!),
+                  Intl.DateTimeFormat().resolvedOptions().timeZone,
                   'MMM dd, yyyy'
                 )}`}</H6>
                 <TextField

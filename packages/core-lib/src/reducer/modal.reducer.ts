@@ -91,7 +91,7 @@ export type ModalType =
 	| 'STOREFRONT_MODAL';
 
 export type ModalStateProps = {
-	organization?: Dispensary | null;
+	organization?: Dispensary;
 	modalType: ModalType;
 	modalVisible: boolean;
 	modalText?: string;
@@ -100,10 +100,11 @@ export type ModalStateProps = {
 	isDeclined?: boolean;
 	isSelected?: boolean;
 	errorMessage?: string;
+	onSubmit?: () => any;
 };
 
 const initialState: ModalStateProps = {
-	organization: null,
+	organization: undefined,
 	modalType: 'SHOW_MODAL',
 	modalVisible: false,
 	modalText: '',
