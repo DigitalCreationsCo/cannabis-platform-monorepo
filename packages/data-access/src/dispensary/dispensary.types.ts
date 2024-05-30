@@ -34,6 +34,8 @@ export type SiteSetting = {
 	textColor: string;
 	backgroundColor: string;
 	accentFont: string;
+	description: string;
+	bannerText: string;
 };
 export type Dispensary = {
 	id: string;
@@ -43,6 +45,7 @@ export type Dispensary = {
 	billingId?: string;
 	address?: Address;
 	schedule?: Schedule[];
+	ecommerceUrl?: string;
 	isSubscribedForDelivery?: boolean;
 	isSubscribedForPickup?: boolean;
 	isSubscribedForMessaging?: boolean;

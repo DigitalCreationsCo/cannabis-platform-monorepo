@@ -25,6 +25,8 @@ import {
   // dispensaries,
   // productCategories,
   Dispensary,
+  Event,
+  getEvents,
 } from '@cd/data-access';
 import {
   Grid,
@@ -41,7 +43,7 @@ import {
 import mapboxgl from 'mapbox-gl';
 import { ReactElement, useEffect, useRef, useState } from 'react';
 // import { twMerge } from 'tailwind-merge';
-import markerImage from '../public/map-marker.png';
+import markerImage from 'public/map-marker.png';
 import { DispensaryCard } from '@/components/shared';
 import {
   Post,
@@ -110,9 +112,11 @@ function FBInit() {
 export default function Browse({
   token,
   posts,
+  events,
 }: {
   token: string;
   posts: Post[];
+  events: Event[];
   settings: Settings;
 }) {
   const saveZipcodeToLocalStorage = (zipcode: string): void => {
@@ -137,7 +141,7 @@ export default function Browse({
     radius,
     token,
   });
-  const events = useEvents({ token });
+  // const events = useEvents({ token });
 
   // function startShopTour() {
   // 	shopTour.start();
@@ -370,21 +374,22 @@ export default function Browse({
                 },
               }}
               items={
-                !events.isLoading && events.events.length
-                  ? events.events.map((event, index) => (
-                      <EventCard
-                        key={`event-card-${index}`}
-                        loading={events.isLoading}
-                        event={event}
-                      />
-                    ))
-                  : [1, 2, 3, 4, 5, 6].map((d, index) => (
-                      <EventCard
-                        key={`event-card-${index}`}
-                        loading={events.isLoading}
-                        event={d as any}
-                      />
-                    ))
+                // !events.isLoading && events.events.length
+                //   ? events.
+                events.map((event, index) => (
+                  <EventCard
+                    key={`event-card-${index}`}
+                    loading={false}
+                    event={event}
+                  />
+                ))
+                // : [1, 2, 3, 4, 5, 6].map((d, index) => (
+                //     <EventCard
+                //       key={`event-card-${index}`}
+                //       loading={events.isLoading}
+                //       event={d as any}
+                //     />
+                //   ))
               }
             />
           </div>
@@ -825,6 +830,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
       ...(locale ? await serverSideTranslations(locale, ['common']) : {}),
       posts,
       settings,
+      events: JSON.parse(JSON.stringify(await getEvents())),
       draftMode,
       token: authToken,
     },

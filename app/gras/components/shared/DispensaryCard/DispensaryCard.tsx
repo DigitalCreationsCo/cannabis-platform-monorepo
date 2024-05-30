@@ -1,10 +1,12 @@
-import { checkIsDispensaryOpen } from '@cd/core-lib';
+import { checkIsDispensaryOpen, formatDispensaryUrl } from '@cd/core-lib';
 import { type Dispensary } from '@cd/data-access';
 import { FlexBox, H3, Paragraph, styles } from '@cd/ui-lib';
 import Image from 'next/image';
 import { useCallback, type PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
-import logo from '../../public/logo.png';
+import logo from 'public/logo.png';
+import Link from 'next/link';
+import { default as css } from './DispensaryCard.module.css';
 
 type DispensaryCardProps = {
   data: Required<Dispensary>;
@@ -100,23 +102,13 @@ function DispensaryCard({
     );
 
   return (
-    // <Link
-    // href={formatDispensaryUrl(dispensary?.subdomainId, dispensary?.id)}
-    //   className="shadow"
-    // >
     <div
+      // href={formatDispensaryUrl(dispensary?.subdomainId, dispensary?.id)}
+      // href={`/browse/${dispensary?.id}`}
       style={{
-        borderColor: current
-          ? 'green'
-          : applyDispensaryStyles['background-color'],
+        borderColor: applyDispensaryStyles['background-color'],
       }}
-      // data={dispensary}
-      className={twMerge([
-        styles.dispensaryCard,
-        current ? 'border-2 border-primary' : 'border-2 border-transparent',
-        'hover:border-white',
-        className,
-      ])}
+      className={twMerge(styles.dispensaryCard, css.dispensaryCard)}
     >
       <ImageBackDrop
         src={dispensary?.images?.[0]?.location || logo.src}

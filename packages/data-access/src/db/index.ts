@@ -1,9 +1,5 @@
 /* eslint-disable prefer-const */
-import {
-	MongoClient,
-	ServerApiVersion,
-	type MongoClientOptions,
-} from 'mongodb';
+import { MongoClient, type MongoClientOptions } from 'mongodb';
 
 let client: MongoClient;
 let clientPromise: Promise<MongoClient>;
@@ -54,6 +50,7 @@ export const db_namespace = {
 		daily_deals: 'daily_deals',
 		dispensaries: 'dispensaries',
 		drivers: 'drivers',
+		events: 'events',
 		orders: 'orders',
 		staff: 'staff',
 		users: 'users',
