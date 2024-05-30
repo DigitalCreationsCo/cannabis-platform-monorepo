@@ -44,6 +44,7 @@ function EventCard({
 
   return (
     <Link
+      // href={`/events/${event.id}`}
       href={event.url}
       className={twMerge([
         'flex flex-col',
@@ -52,8 +53,8 @@ function EventCard({
         'bg-amber-200',
         'rounded',
         'overflow-hidden',
-        // 'border border-dark',
-        // 'hover:border-inverse-soft',
+        'border border-transparent',
+        'hover:border-dark',
         // 'text-inverse-soft',
         'drop-shadow-[-6px_4px_1px_#555]',
         className,

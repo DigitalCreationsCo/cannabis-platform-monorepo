@@ -9,7 +9,7 @@ const useEvents = ({ zipcode, token }: { zipcode?: string; token: string }) => {
 
 	const localZip = zipcode || (isReady ? query.zipcode : null);
 
-	const { data, error, isLoading } = useSWR<ApiResponse<Event>>(
+	const { data, error, isLoading } = useSWR<ApiResponse<Event[]>>(
 		[
 			// localZip ? `/api/events?zipcode=${localZip}` : null,
 			`/api/events`,

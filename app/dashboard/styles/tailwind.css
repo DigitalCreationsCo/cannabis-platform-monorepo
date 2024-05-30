@@ -9769,10 +9769,6 @@ html:has(.drawer-open.drawer-open) {
   height: 200px;
 }
 
-.h-\[220px\] {
-  height: 220px;
-}
-
 .h-\[30px\] {
   height: 30px;
 }
@@ -9847,6 +9843,10 @@ html:has(.drawer-open.drawer-open) {
 
 .min-h-\[200px\] {
   min-height: 200px;
+}
+
+.min-h-\[220px\] {
+  min-height: 220px;
 }
 
 .min-h-\[400px\] {

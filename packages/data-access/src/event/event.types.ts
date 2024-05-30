@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+
 type ImageObject = {
 	edge_color_set: boolean;
 	edge_color: string;
@@ -31,6 +32,7 @@ type PrimaryVenue = {
 export type Event = {
 	image: ImageObject;
 	timezone: string;
+	location?: string;
 	id: string;
 	tickets_url: string;
 	urgency_signals: UrgencySignals;
