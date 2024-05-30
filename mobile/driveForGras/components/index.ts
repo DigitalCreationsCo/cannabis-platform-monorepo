@@ -15,7 +15,7 @@ export * from './IconWrapper';
 export { default as Label } from './Label';
 export { default as Greeting } from './Greeting';
 export { default as LoadingDots } from './LoadingDots';
-// export * from './modal';
+// export * from '@cd/ui-lib'';
 export { default as NavLink } from './NavLink';
 export { default as PhoneNumber } from './PhoneNumber';
 export { default as Price } from './Price';

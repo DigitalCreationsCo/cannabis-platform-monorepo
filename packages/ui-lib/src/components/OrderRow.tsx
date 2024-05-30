@@ -1,6 +1,6 @@
 import { truncate } from '@cd/core-lib';
 import { type Order } from '@cd/data-access';
-import { format } from 'date-fns-tz';
+import { formatInTimeZone } from 'date-fns-tz';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
 import Price from './Price';
@@ -27,7 +27,11 @@ function OrderRow({ order, orderDetailsRoute, className }: OrderRowProps) {
 				</Paragraph>
 
 				<Small className="col-span-2">
-					{format(new Date(order.createdAt), 'MMM dd, hh:mm')}
+					{formatInTimeZone(
+						new Date(order.createdAt),
+						Intl.DateTimeFormat().resolvedOptions().timeZone,
+						'MMM dd, hh:mm',
+					)}
 				</Small>
 				<Price
 					className="col-span-2 justify-self-end"

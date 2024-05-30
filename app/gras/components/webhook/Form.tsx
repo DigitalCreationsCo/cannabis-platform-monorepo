@@ -3,9 +3,8 @@ import type { FormikConfig } from 'formik';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import React from 'react';
-import { Button, Paragraph, TextField } from '@cd/ui-lib';
+import { Button, Paragraph, TextField, Modal2 as Modal } from '@cd/ui-lib';
 import * as Yup from 'yup';
-import Modal from '@/components/shared/Modal';
 import { EventTypes } from '@/components/webhook';
 
 interface FormProps {

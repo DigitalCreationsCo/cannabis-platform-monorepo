@@ -45,7 +45,7 @@ export function truncate(text: string) {
 	return text.slice(0, 5) + text.slice(-4).padStart(7, '.');
 }
 
-export function truncateWordsAfterChars(text: string, maxChars: number) {
+export function truncateWordsLongerThanNChars(text: string, maxChars: number) {
 	const words = text.split(' ');
 	let truncatedString = '';
 	for (const word of words) {

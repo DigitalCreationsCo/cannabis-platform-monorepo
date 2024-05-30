@@ -1,5 +1,7 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { type USStateAbbreviated } from '@cd/data-access';
+import { type DailyDeal } from '@cd/data-access';
+import { type Customer } from '@cd/data-access';
 import axios from 'axios';
 
 const auth = Buffer.from(
@@ -9,13 +11,9 @@ const auth = Buffer.from(
 class SlickTextSMS {
 	async send(phoneTo: string, data: string) {
 		try {
-			console.info(
-				`sending slick text sms message to ${phoneTo} with data: `,
-				data,
-			);
-
+			console.trace({ phoneTo, data });
 			await axios.post(
-				process.env.NEXT_PUBLIC_SLICKTEXT_API_URL as string,
+				`${process.env.NEXT_PUBLIC_SLICKTEXT_API_URL}/messages/`,
 				{
 					body: data,
 				},
@@ -31,11 +29,43 @@ class SlickTextSMS {
 		}
 	}
 
+	async sendToList({
+		textword,
+		segment,
+		message,
+	}: {
+		textword: string;
+		segment: string;
+		message: DailyDeal;
+	}) {
+		try {
+			console.trace({ textword, segment, message });
+			await axios.post(
+				`${process.env.NEXT_PUBLIC_SLICKTEXT_API_URL}/messages/`,
+				{
+					action: 'SEND',
+					textword,
+					segment,
+					body: message.message,
+				},
+				{
+					headers: {
+						Authorization: `Basic ${auth}`,
+						'Content-type': 'application/x-www-form-urlencoded',
+					},
+				},
+			);
+		} catch (error) {
+			console.error('slicktext.send: ', error);
+			throw error;
+		}
+	}
+
 	async optInCustomer(data: CustomerSMSInvite) {
 		try {
 			console.info(
-				`opt in customer to daily deals with slick text, phone: ${data.phone}, data: `,
-				data,
+				`opt in customer to daily deals with slick text, phone: ${data.phone}`,
+				{ data },
 			);
 
 			await axios.post(
@@ -53,6 +83,7 @@ class SlickTextSMS {
 					zipCode: data.zipcode,
 					birthdate: data.birthdate,
 					country: 'US',
+					dispensary: data.teamSlug,
 				},
 				{
 					headers: {
@@ -63,20 +94,49 @@ class SlickTextSMS {
 			);
 		} catch (error) {
 			console.error('slicktext.optincustomer: ', error.response.data);
+			throw error;
 		}
 	}
+
+	// async createDispensaryTextword(textword: string) {
+	// 	try {
+	// 		console.info(
+	// 			`opt in customer to daily deals with slick text, phone: ${data.phone}, data: `,
+	// 			data,
+	// 		);
+
+	// 		await axios.post(
+	// 			`${process.env.NEXT_PUBLIC_SLICKTEXT_API_URL}/contacts`,
+	// 			{
+	// 				action: 'DOUBLEOPTIN',
+	// 				textword: '4034501',
+	// 				doubleOptInMessage: data.doubleOptInMessage,
+	// 				number: data.phone,
+	// 				firstName: data.firstName,
+	// 				lastName: data.lastName,
+	// 				email: data.email,
+	// 				city: data.city,
+	// 				state: data.state,
+	// 				zipCode: data.zipcode,
+	// 				birthdate: data.birthdate,
+	// 				country: 'US',
+	// 			},
+	// 			{
+	// 				headers: {
+	// 					Authorization: `Basic ${auth}`,
+	// 					'Content-type': 'application/x-www-form-urlencoded',
+	// 				},
+	// 			},
+	// 		);
+	// 	} catch (error) {
+	// 		console.error(
+	// 			'slicktext.createDispensaryTextword: ',
+	// 			error.response.data,
+	// 		);
+	// 	}
+	// }
 }
 
 export default new SlickTextSMS();
 
-export type CustomerSMSInvite = {
-	firstName: string;
-	lastName: string;
-	phone: string;
-	email: string;
-	city?: string;
-	state?: USStateAbbreviated;
-	zipcode?: number;
-	birthdate?: string;
-	doubleOptInMessage: string;
-};
+export type CustomerSMSInvite = Customer;
