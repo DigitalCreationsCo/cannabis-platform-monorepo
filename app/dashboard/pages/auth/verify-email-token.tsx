@@ -1,69 +1,72 @@
 import {
-	deleteVerificationToken,
-	updateUser,
-	getVerificationToken,
+  deleteVerificationToken,
+  updateUser,
+  getVerificationToken,
 } from '@cd/data-access';
 import type { GetServerSidePropsContext } from 'next';
 import type { ReactElement } from 'react';
+import { clientPromise } from '@/lib/db';
 
 const VerifyEmailToken = () => {
-	return <></>;
+  return <></>;
 };
 
 VerifyEmailToken.getLayout = function getLayout(page: ReactElement) {
-	return <>{page}</>;
+  return <>{page}</>;
 };
 
 export const getServerSideProps = async ({
-	query,
+  query,
 }: GetServerSidePropsContext) => {
-	const { token } = query as { token: string };
+  const { token } = query as { token: string };
+  const client = await clientPromise;
 
-	if (!token) {
-		return {
-			notFound: true,
-		};
-	}
+  if (!token) {
+    return {
+      notFound: true,
+    };
+  }
 
-	const verificationToken = await getVerificationToken(token);
+  const verificationToken = await getVerificationToken({ client, token });
 
-	if (!verificationToken) {
-		return {
-			redirect: {
-				destination: '/auth/login?error=token-not-found',
-				permanent: false,
-			},
-		};
-	}
+  if (!verificationToken) {
+    return {
+      redirect: {
+        destination: '/auth/login?error=token-not-found',
+        permanent: false,
+      },
+    };
+  }
 
-	if (new Date() > verificationToken.expires) {
-		return {
-			redirect: {
-				destination: '/auth/resend-email-token?error=verify-account-expired',
-				permanent: false,
-			},
-		};
-	}
+  if (new Date() > verificationToken.expires) {
+    return {
+      redirect: {
+        destination: '/auth/resend-email-token?error=verify-account-expired',
+        permanent: false,
+      },
+    };
+  }
 
-	await Promise.allSettled([
-		updateUser({
-			where: {
-				email: verificationToken.identifier,
-			},
-			data: {
-				emailVerified: new Date(),
-			},
-		}),
+  await Promise.allSettled([
+    updateUser({
+      client,
+      where: {
+        email: verificationToken.identifier,
+      },
+      data: {
+        emailVerified: new Date(),
+      },
+    }),
 
-		deleteVerificationToken(verificationToken.token),
-	]);
+    deleteVerificationToken({ client, token: verificationToken.token }),
+  ]);
 
-	return {
-		redirect: {
-			destination: '/auth/login?success=email-verified',
-			permanent: false,
-		},
-	};
+  return {
+    redirect: {
+      destination: '/auth/login?success=email-verified',
+      permanent: false,
+    },
+  };
 };
 
 export default VerifyEmailToken;

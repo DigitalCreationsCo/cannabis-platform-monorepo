@@ -5,6 +5,7 @@ import type {
 } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { UpdateAccount } from '@/components/account';
+import { clientPromise } from '@/lib/db';
 import env from '@/lib/env';
 import type { NextPageWithLayout } from '@/lib/next.types';
 import { getSession } from '@/lib/session';
@@ -21,8 +22,9 @@ const Account: NextPageWithLayout<AccountProps> = ({
 export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
+  const client = await clientPromise;
   const session = await getSession(context.req, context.res);
-  const user = await getUserBySession(session);
+  const user = await getUserBySession({ client, session });
   const { locale } = context;
 
   if (!user) {

@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { ObjectId } from 'mongodb';
-import { db_namespace, clientPromise } from './db';
+import { ObjectId, type MongoClient } from 'mongodb';
+import { db_namespace } from './db';
 
-export const getAllPrices = async () => {
-	const client = await clientPromise;
+export const getAllPrices = async ({ client }: { client: MongoClient }) => {
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
@@ -12,14 +11,19 @@ export const getAllPrices = async () => {
 		.toArray();
 };
 
-export const getServiceByPriceId = async (priceId: string) => {
-	const client = await clientPromise;
+export const getServiceByPriceId = async ({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where: { priceId: string };
+}) => {
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
 		.collection(collections.prices)
 		.find(
-			{ _id: new ObjectId(priceId) },
+			{ _id: new ObjectId(where.priceId) },
 			{
 				projection: { service: 1 },
 			},

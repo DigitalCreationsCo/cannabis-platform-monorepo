@@ -15,7 +15,6 @@ import { type ReactElement } from 'react';
 import { toast } from 'react-hot-toast';
 import * as Yup from 'yup';
 import { AuthLayout } from '@/components/layouts';
-import { InputWithLabel } from '@/components/shared';
 import env from '@/lib/env';
 import type { NextPageWithLayout } from '@/lib/next.types';
 

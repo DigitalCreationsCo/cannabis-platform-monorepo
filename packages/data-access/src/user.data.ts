@@ -1,17 +1,22 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable sonarjs/no-duplicate-string */
-import { ObjectId, type UpdateFilter } from 'mongodb';
-import { db_namespace, clientPromise } from '../db';
-import { normalizeUser } from '../helpers';
-import { type User } from './user.types';
+import { type MongoClient, ObjectId, type UpdateFilter } from 'mongodb';
+import { db_namespace } from './db';
+import { normalizeUser } from './helpers';
+import { type User } from './types/user.types';
 
-export const createUser = async (data: {
-	name: string;
-	email: string;
-	password?: string;
-	emailVerified?: Date | null;
+export const createUser = async ({
+	client,
+	data,
+}: {
+	client: MongoClient;
+	data: {
+		name: string;
+		email: string;
+		password?: string;
+		emailVerified?: Date | null;
+	};
 }): Promise<User> => {
-	const client = await clientPromise;
 	const { db, collections } = db_namespace;
 	const user = await (
 		await client
@@ -34,16 +39,17 @@ export const createUser = async (data: {
 };
 
 export const updateUser = async ({
+	client,
 	where,
 	data,
 }: {
+	client: MongoClient;
 	where: { id: string } | { email: string } | any;
 	data: UpdateFilter<User>;
 }): Promise<User> => {
 	data = normalizeUser(data);
 	Object.hasOwnProperty.call(where, 'id') &&
 		(where = { _id: new ObjectId(where.id) });
-	const client = await clientPromise;
 	const { db, collections } = db_namespace;
 	const user = (
 		await client
@@ -61,16 +67,17 @@ export const updateUser = async ({
 };
 
 export const upsertUser = async ({
+	client,
 	where,
 	update,
 }: {
+	client: MongoClient;
 	where: { id: string } | { email: string } | any;
 	update: UpdateFilter<User>;
 }): Promise<User> => {
 	update = normalizeUser(update);
 	Object.hasOwnProperty.call(where, 'id') &&
 		(where = { _id: new ObjectId(where.id) });
-	const client = await clientPromise;
 	const { db, collections } = db_namespace;
 	const user = (
 		await client.db(db).collection<User>(collections.users).findOneAndUpdate(
@@ -85,12 +92,15 @@ export const upsertUser = async ({
 	return { ...user!, id: user!._id.toString() };
 };
 
-export const getUser = async (
-	where: { id: string } | { email: string } | { phone: string } | any,
-): Promise<User | null> => {
+export const getUser = async ({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where: { id: string } | { email: string } | { phone: string } | any;
+}): Promise<User | null> => {
 	Object.hasOwnProperty.call(where, 'id') &&
 		(where = { _id: new ObjectId(where.id) });
-	const client = await clientPromise;
 	const { db, collections } = db_namespace;
 	const user = await client
 		.db(db)
@@ -99,7 +109,13 @@ export const getUser = async (
 	return (user && { id: user._id.toString(), ...normalizeUser(user) }) || null;
 };
 
-export const getUserBySession = async (session: any) => {
+export const getUserBySession = async ({
+	client,
+	session,
+}: {
+	client: MongoClient;
+	session: any;
+}) => {
 	if (session === null || session.user === null) {
 		return null;
 	}
@@ -110,26 +126,34 @@ export const getUserBySession = async (session: any) => {
 		return null;
 	}
 
-	return await getUser({ id });
+	return await getUser({ client, where: { id } });
 };
 
-export const deleteUser = async (
-	where: { id: string } | { email: string } | any,
-) => {
+export const deleteUser = async ({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where: { id: string } | { email: string } | any;
+}) => {
 	Object.hasOwnProperty.call(where, 'id') &&
 		(where = { _id: new ObjectId(where.id) });
-	const client = await clientPromise;
 	const { db, collections } = db_namespace;
 	return await client.db(db).collection(collections.users).deleteOne(where);
 };
 
-export const findFirstUserOrThrow = async ({ id }: any) => {
-	const client = await clientPromise;
+export const findFirstUserOrThrow = async ({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where: { id: string };
+}) => {
 	const { db, collections } = db_namespace;
 	const user = await client
 		.db(db)
 		.collection(collections.users)
-		.findOne({ _id: id });
+		.findOne({ _id: new ObjectId(where.id) });
 
 	if (!user) {
 		throw new Error('User not found');

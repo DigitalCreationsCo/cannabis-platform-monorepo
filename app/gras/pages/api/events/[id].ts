@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { recordMetric } from '@/lib/metrics';
 import env from '@/lib/env';
 import { deleteEvent, getEvent } from '@cd/data-access';
+import { clientPromise } from '@/lib/db';
 
 export default async function handler(
   req: NextApiRequest,
@@ -31,6 +32,7 @@ export default async function handler(
 
 // Get cannabis events
 const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
+  const client = await clientPromise;
   const clientToken = req.headers.authorization?.split(' ')[1];
   const token = env.nextAuth.secret;
   if (clientToken !== token) {
@@ -38,18 +40,19 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
   }
   const { location = 'ny--new-york', query = 'cannabis' } = req.query;
   const { id } = req.query as { id: string };
-  const event = await getEvent(id);
+  const event = await getEvent({ client, where: { id } });
   recordMetric('event.fetched');
   res.status(200).json({ data: event });
 };
 
 const handleDELETE = async (req: NextApiRequest, res: NextApiResponse) => {
+  const client = await clientPromise;
   const clientToken = req.headers.authorization?.split(' ')[1];
   const token = env.nextAuth.secret;
   if (clientToken !== token) {
     throw new Error('Unauthorized');
   }
   const { id } = req.query as { id: string };
-  await deleteEvent(id);
+  await deleteEvent({ where: { id }, client });
   res.status(200).json({});
 };

@@ -11,6 +11,7 @@ import {
   getPasswordReset,
 } from '@cd/data-access';
 import { resetPasswordSchema, validateWithSchema } from '@/lib/zod';
+import { clientPromise } from '@/lib/db';
 
 export default async function handler(
   req: NextApiRequest,
@@ -38,13 +39,14 @@ export default async function handler(
 }
 
 const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
+  const client = await clientPromise;
   const { token, password } = validateWithSchema(resetPasswordSchema, req.body);
 
   if (!token) {
     throw new ApiError(422, 'Password reset token is required');
   }
 
-  const passwordReset = await getPasswordReset(token);
+  const passwordReset = await getPasswordReset({ client, where: { token } });
 
   if (!passwordReset) {
     throw new ApiError(
@@ -63,6 +65,7 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
   const hashedPassword = await hashPassword(password);
 
   const updatedUser = await updateUser({
+    client,
     where: { email: passwordReset.email },
     data: {
       password: hashedPassword,
@@ -82,7 +85,7 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
     });
   }
 
-  await deletePasswordReset(token);
+  await deletePasswordReset({ client, where: { token } });
 
   recordMetric('user.password.reset');
 

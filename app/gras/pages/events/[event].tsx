@@ -1,3 +1,4 @@
+import { clientPromise } from '@/lib/db';
 import env from '@/lib/env';
 import { ApiResponse, fetcher } from '@cd/core-lib';
 import { Event, getEvent, getEvents } from '@cd/data-access';
@@ -32,7 +33,8 @@ EventPage.getLayout = function getLayout(page: ReactElement) {
 };
 
 export const getStaticPaths = async () => {
-  const events = await getEvents();
+  const client = await clientPromise;
+  const events = await getEvents({ client });
   return {
     paths: events.map(({ id }) => `/events/${id}`) || [],
     fallback: 'blocking',
@@ -44,9 +46,12 @@ export const getStaticProps = async ({
   params,
   locale,
 }: GetServerSidePropsContext) => {
+  const client = await clientPromise;
   const token = env.nextAuth.secret as string;
   const { event: id } = params as { event: string };
-  const event = JSON.parse(JSON.stringify(await getEvent(id)));
+  const event = JSON.parse(
+    JSON.stringify(await getEvent({ client, where: { id } }))
+  );
   if (!event) {
     return {
       notFound: true,

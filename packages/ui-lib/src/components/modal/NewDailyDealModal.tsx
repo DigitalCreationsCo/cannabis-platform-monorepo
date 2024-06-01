@@ -108,7 +108,7 @@ function NewDailyDealModal({
 
 				toast.success('Saved.');
 				setLoadingButton(false);
-				(props.onCancel && props.onCancel()) || closeModalAndReset();
+				props.onCancel ? props.onCancel() : closeModalAndReset();
 				if (props.onSubmit) props.onSubmit();
 			} catch (error: any) {
 				console.error(error);

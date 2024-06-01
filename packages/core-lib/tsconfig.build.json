@@ -1,11 +1,30 @@
+// {
+// 	"$schema": "https://json.schemastore.org/tsconfig",
+// 	"extends": "./tsconfig.json",
+// 	"compilerOptions": {
+// 		"declaration": true,
+// 		"jsxFactory": "",
+// 		"jsxFragmentFactory": ""
+// 	},
+// 	"include": ["src"],
+// 	"exclude": ["**/node_modules", "**/.*/", "dist", "build", "**/test/*"]
+// }
+
+
 {
 	"$schema": "https://json.schemastore.org/tsconfig",
 	"extends": "./tsconfig.json",
 	"compilerOptions": {
-		"declaration": true,
-		"jsxFactory": "",
-		"jsxFragmentFactory": ""
+	  "target": "esnext",
+	  "strict": false,
+	  "module": "esnext",
+	  "jsx": "react-jsx",
+	  "incremental": false // dts with tsup requires rootDir if incremental (which does not work well aliases)
 	},
-	"include": ["src"],
-	"exclude": ["**/node_modules", "**/.*/", "dist", "build", "**/test/*"]
-}
+	"exclude": [
+	  "**/*.stories.tsx",
+	  "**/*.stories.ts",
+	  "**/*.stories.mdx",
+	  ".storybook/**"
+	]
+  }

@@ -1,9 +1,9 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-
-import { deleteVerificationToken, getUser } from '@cd/data-access';
-import { ApiError } from '@cd/core-lib';
 import { isAccountLocked, sendLockoutEmail } from '@/lib/accountLock';
+import { clientPromise } from '@/lib/db';
 import { resendLinkRequestSchema, validateWithSchema } from '@/lib/zod';
+import { ApiError } from '@cd/core-lib';
+import { deleteVerificationToken, getUser } from '@cd/data-access';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
   req: NextApiRequest,
@@ -30,12 +30,13 @@ export default async function handler(
 
 // Resend unlock account email
 const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
+  const client = await clientPromise;
   const { email, expiredToken } = validateWithSchema(
     resendLinkRequestSchema,
     req.body
   );
 
-  const user = await getUser({ email });
+  const user = await getUser({ client, where: { email } });
 
   if (!user) {
     throw new ApiError(400, 'User not found');
@@ -48,7 +49,7 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
     );
   }
 
-  await deleteVerificationToken(expiredToken);
+  await deleteVerificationToken({ client, token: expiredToken });
   await sendLockoutEmail(user, true);
 
   res.status(204).end();

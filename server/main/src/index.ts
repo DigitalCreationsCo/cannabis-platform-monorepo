@@ -1,5 +1,4 @@
 import { axios } from '@cd/core-lib';
-import prisma from '@cd/data-access';
 import { MongoClient } from 'mongodb';
 import { DriverDA, LocationDA, ShopDA } from './api/data-access';
 import { initializeRedis } from './lib/redis-cart';
@@ -67,7 +66,7 @@ async function connectDb() {
 				console.info(' >> Server-Main: Mongo Database 👏 is ready for query.');
 			})
 			.then(async () => {
-				await prisma.$connect();
+				// await prisma.$connect();
 				console.info(
 					' >> Server-Main: Prisma Database 👏👏 is ready for query.',
 				);
@@ -77,19 +76,19 @@ async function connectDb() {
 			' >> Server-Main: Error connecting to database: ',
 			error.stack,
 		);
-		prisma.$disconnect();
+		// prisma.$disconnect();
 		process.exit(1);
 	}
 }
 
 process.on('SIGINT', async function () {
-	await prisma
-		.$disconnect()
-		.then(process.exit(0))
-		.catch((error: any) => {
-			console.info('sigint ', error.message);
-			process.exit(1);
-		});
+	// await prisma
+	// .$disconnect()
+	// .then(process.exit(0))
+	// .catch((error: any) => {
+	// 	console.info('sigint ', error.message);
+	process.exit(1);
+	// });
 });
 
 export { connectDb, server };

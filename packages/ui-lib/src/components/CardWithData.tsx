@@ -18,7 +18,7 @@ class CardWithData extends Component<CardWithDataProps> {
 		this.state = { hasError: false };
 		this.data = this.props.data;
 	}
-	render() {
+	override render() {
 		if (!this.data.id)
 			return <SkeletonCard className={twMerge(this.props.className)} />;
 		return <Card {...this.props}>{this.props.children}</Card>;

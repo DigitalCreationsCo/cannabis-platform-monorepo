@@ -22,7 +22,7 @@
 // } from '../product/product.data';
 // import { type MembershipWithUser } from '../user/user.data';
 
-import { type Address } from '../address.types';
+import { type Address } from './address.types';
 
 export type POS = 'dutchie' | 'blaze' | 'weedmaps';
 export type Inventory = 'metrc' | 'biotrack';

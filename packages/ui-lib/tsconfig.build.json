@@ -2,9 +2,10 @@
 	"$schema": "https://json.schemastore.org/tsconfig",
 	"extends": "./tsconfig.json",
 	"compilerOptions": {
-		"target": "ES2015",
-		"noEmit": true,
-		"module": "es2020",
+		"target": "esnext",
+		"module": "esnext",
+		"declaration": true,
+	    "declarationMap": true,
 		"jsx": "react-jsx",
 		"incremental": false // dts with tsup requires rootDir if incremental (which does not work well aliases)
 	},

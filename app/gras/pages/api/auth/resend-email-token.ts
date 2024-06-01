@@ -3,6 +3,7 @@ import { ApiError } from '@cd/core-lib';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getUser, createVerificationToken } from '@cd/data-access';
 import { resendEmailToken, validateWithSchema } from '@/lib/zod';
+import { clientPromise } from '@/lib/db';
 
 export default async function handler(
   req: NextApiRequest,
@@ -28,15 +29,18 @@ export default async function handler(
 }
 
 const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
+  const client = await clientPromise;
   const { email } = validateWithSchema(resendEmailToken, req.body);
 
-  const user = await getUser({ email });
+  const user = await getUser({ client, where: { email } });
 
   if (!user) {
     throw new ApiError(422, `We can't find a user with that e-mail address`);
   }
 
   const newVerificationToken = await createVerificationToken({
+    client,
+    token: req.body.token || '',
     identifier: email,
     expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // Expires in 24 hours),
   });

@@ -10,11 +10,15 @@ import app from './app';
 import { sendEmail } from './email/sendEmail';
 import env from './env';
 import { generateToken } from '@cd/core-lib';
+import { clientPromise } from './db';
 
 const UNLOCK_ACCOUNT_TOKEN_EXPIRATION = 7 * 24 * 60 * 60 * 1000; // 7 days
 
 export const incrementLoginAttempts = async (user: User) => {
+  const client = await clientPromise;
+
   const updatedUser = await updateUser({
+    client,
     where: { id: user.id },
     data: {
       invalid_login_attempts: {
@@ -25,6 +29,7 @@ export const incrementLoginAttempts = async (user: User) => {
 
   if (exceededLoginAttemptsThreshold(updatedUser)) {
     await updateUser({
+      client,
       where: { id: user.id },
       data: {
         lockedAt: new Date(),
@@ -38,7 +43,9 @@ export const incrementLoginAttempts = async (user: User) => {
 };
 
 export const clearLoginAttempts = async (user: User) => {
+  const client = await clientPromise;
   await updateUser({
+    client,
     where: { id: user.id },
     data: {
       invalid_login_attempts: 0,
@@ -47,7 +54,9 @@ export const clearLoginAttempts = async (user: User) => {
 };
 
 export const unlockAccount = async (user: User) => {
+  const client = await clientPromise;
   await updateUser({
+    client,
     where: { id: user.id },
     data: {
       invalid_login_attempts: 0,
@@ -57,7 +66,9 @@ export const unlockAccount = async (user: User) => {
 };
 
 export const sendLockoutEmail = async (user: User, resending = false) => {
+  const client = await clientPromise;
   const verificationToken = await createVerificationToken({
+    client,
     token: generateToken(),
     identifier: user.email,
     expires: new Date(Date.now() + UNLOCK_ACCOUNT_TOKEN_EXPIRATION),

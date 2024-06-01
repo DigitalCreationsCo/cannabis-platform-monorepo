@@ -18,6 +18,7 @@ import {
   updateMemberSchema,
   validateWithSchema,
 } from '@/lib/zod';
+import { clientPromise } from '@/lib/db';
 
 export default async function handler(
   req: NextApiRequest,
@@ -56,9 +57,14 @@ export default async function handler(
 // Get members of a team
 const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
   const teamMember = await throwIfNoDispensaryAccess(req, res);
+  const client = await clientPromise;
+
   throwIfNotAllowed(teamMember, 'team_member', 'read');
 
-  const members = await getStaffMembers(teamMember.team.slug);
+  const members = await getStaffMembers({
+    client,
+    where: { slug: teamMember.team.slug },
+  });
 
   recordMetric('member.fetched');
 
@@ -69,6 +75,7 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
 const handleDELETE = async (req: NextApiRequest, res: NextApiResponse) => {
   const teamMember = await throwIfNoDispensaryAccess(req, res);
   throwIfNotAllowed(teamMember, 'team_member', 'delete');
+  const client = await clientPromise;
 
   const { memberId } = validateWithSchema(
     deleteMemberSchema,
@@ -77,10 +84,10 @@ const handleDELETE = async (req: NextApiRequest, res: NextApiResponse) => {
 
   await validateMembershipOperation(memberId, teamMember);
 
-  const teamMemberRemoved = await removeStaffMember(
-    teamMember.teamId,
-    memberId
-  );
+  const teamMemberRemoved = await removeStaffMember({
+    client,
+    where: { dispensaryId: teamMember.teamId, userId: memberId },
+  });
 
   await sendEvent(teamMember.teamId, 'member.removed', teamMemberRemoved);
 
@@ -100,6 +107,7 @@ const handleDELETE = async (req: NextApiRequest, res: NextApiResponse) => {
 const handlePUT = async (req: NextApiRequest, res: NextApiResponse) => {
   const teamMember = await throwIfNoDispensaryAccess(req, res);
   throwIfNotAllowed(teamMember, 'team', 'leave');
+  const client = await clientPromise;
 
   /*
   Aggregate  (cost=64.62..64.63 rows=1 width=8) (actual time=0.222..0.223 rows=1 loops=1)
@@ -133,6 +141,7 @@ Execution Time: 0.057 ms
 */
 
   const totalTeamOwners = await countStaffMembers({
+    client,
     where: {
       role: Role.OWNER,
       teamId: teamMember.teamId,
@@ -143,7 +152,10 @@ Execution Time: 0.057 ms
     throw new ApiError(400, 'A team should have at least one owner.');
   }
 
-  await removeStaffMember(teamMember.teamId, teamMember.user.id);
+  await removeStaffMember({
+    client,
+    where: { dispensaryId: teamMember.teamId, userId: teamMember.user.id },
+  });
 
   recordMetric('member.left');
 
@@ -154,6 +166,7 @@ Execution Time: 0.057 ms
 const handlePATCH = async (req: NextApiRequest, res: NextApiResponse) => {
   const teamMember = await throwIfNoDispensaryAccess(req, res);
   throwIfNotAllowed(teamMember, 'team_member', 'update');
+  const client = await clientPromise;
 
   const { memberId, role } = validateWithSchema(
     updateMemberSchema,
@@ -165,13 +178,10 @@ const handlePATCH = async (req: NextApiRequest, res: NextApiResponse) => {
   });
 
   const memberUpdated = await updateStaffMember({
-    where: {
-      teamId_userId: {
-        teamId: teamMember.teamId,
-        userId: memberId,
-      },
-    },
+    client,
     data: {
+      teamId: teamMember.teamId,
+      userId: memberId,
       role,
     },
   });

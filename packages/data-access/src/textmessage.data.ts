@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { ObjectId } from 'mongodb';
-import { db_namespace, clientPromise } from './db';
+import { type MongoClient, ObjectId } from 'mongodb';
+import { db_namespace } from './db';
 
 export type DailyDeal = {
 	id: string;
@@ -8,6 +8,7 @@ export type DailyDeal = {
 	message: string;
 	startTime: Date | string | null;
 	endTime: Date | string | null;
+	lastSentAt: Date | string | null;
 	doesRepeat: boolean;
 	schedule: string;
 	timezone: string;
@@ -18,67 +19,86 @@ export type DailyDeal = {
 	jobId?: string;
 };
 
-export const getDailyDeal = async (slug: string, id: string) => {
-	const client = await clientPromise;
+export const getDailyDeal = async ({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where: { slug: string; id: string };
+}) => {
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
 		.collection<DailyDeal>(collections.daily_deals)
-		.findOne({ teamSlug: slug, _id: new ObjectId(id) });
+		.findOne({ teamSlug: where.slug, _id: new ObjectId(where.id) });
 };
 
-export const getDispensaryDailyDeals = async (slug: string) => {
-	const client = await clientPromise;
+export const getDispensaryDailyDeals = async ({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where: { slug: string };
+}) => {
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
 		.collection<DailyDeal>(collections.daily_deals)
-		.find({ teamSlug: slug })
+		.find({ teamSlug: where.slug })
 		.toArray();
 };
 
-export const createDispensaryDailyDeal = async (
-	deal: DailyDeal,
-): Promise<DailyDeal> => {
-	const client = await clientPromise;
+export const createDispensaryDailyDeal = async ({
+	client,
+	data,
+}: {
+	client: MongoClient;
+	data: DailyDeal;
+}): Promise<DailyDeal> => {
 	const { db, collections } = db_namespace;
 	const dailyDeal = await client
 		.db(db)
 		.collection<DailyDeal>(collections.daily_deals)
-		.insertOne(deal);
-	return { ...deal, id: dailyDeal.insertedId.toString() };
+		.insertOne(data);
+	return { ...data, id: dailyDeal.insertedId.toString() };
 };
 
-export const updateDispensaryDailyDeal = async (
-	deal: DailyDeal,
-): Promise<DailyDeal> => {
-	const client = await clientPromise;
+export const updateDispensaryDailyDeal = async ({
+	client,
+	data,
+}: {
+	client: MongoClient;
+	data: DailyDeal;
+}): Promise<DailyDeal> => {
 	const { db, collections } = db_namespace;
 	const dailyDeal = await (
 		await client
 			.db(db)
 			.collection<DailyDeal>(collections.daily_deals)
 			.findOneAndUpdate(
-				{ _id: new ObjectId(deal.id), teamSlug: deal.teamSlug },
-				deal,
+				{ _id: new ObjectId(data.id), teamSlug: data.teamSlug },
+				data,
 				{
 					returnDocument: 'after',
 				},
 			)
 	).value;
-	return { ...deal, id: dailyDeal!._id.toString() };
+	return { ...data, id: dailyDeal!._id.toString() };
 };
 
-export const deleteDispensaryDailyDeal = async (
-	id: string,
-): Promise<DailyDeal> => {
-	const client = await clientPromise;
+export const deleteDispensaryDailyDeal = async ({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where: { id: string };
+}): Promise<DailyDeal> => {
 	const { db, collections } = db_namespace;
 	const deletedDailyDeal = await (
 		await client
 			.db(db)
 			.collection<DailyDeal>(collections.daily_deals)
-			.findOneAndDelete({ _id: new ObjectId(id) })
+			.findOneAndDelete({ _id: new ObjectId(where.id) })
 	).value;
 	return { ...deletedDailyDeal!, id: deletedDailyDeal!._id.toString() };
 };

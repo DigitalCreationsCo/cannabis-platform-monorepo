@@ -12,6 +12,7 @@ import { recordMetric } from '@/lib/metrics';
 import { sendAudit } from '@/lib/retraced';
 import { getCurrentUserWithDispensary } from '@/lib/user';
 import { updateTeamSchema, validateWithSchema } from '@/lib/zod';
+import { clientPromise } from '@/lib/db';
 
 export default async function handler(
   req: NextApiRequest,
@@ -46,11 +47,12 @@ export default async function handler(
 
 // Get a team by slug
 const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
+  const client = await clientPromise;
   const user = await getCurrentUserWithDispensary(req, res);
 
   throwIfNotAllowed(user, 'team', 'read');
 
-  const team = await getDispensary({ id: user.team.id });
+  const team = await getDispensary({ client, where: { id: user.team.id } });
 
   recordMetric('team.fetched');
 
@@ -59,6 +61,7 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
 
 // Update a team
 const handlePUT = async (req: NextApiRequest, res: NextApiResponse) => {
+  const client = await clientPromise;
   const user = await getCurrentUserWithDispensary(req, res);
 
   throwIfNotAllowed(user, 'team', 'update');
@@ -68,10 +71,13 @@ const handlePUT = async (req: NextApiRequest, res: NextApiResponse) => {
   let updatedTeam: Dispensary | null = null;
 
   try {
-    updatedTeam = await updateDispensary(user.team.slug, {
-      name,
-      slug,
-      domain: domain as string,
+    updatedTeam = await updateDispensary({
+      client,
+      data: {
+        name,
+        slug,
+        domain: domain as string,
+      },
     });
   } catch (error: any) {
     if (error.message.includes('slug')) {
@@ -102,12 +108,12 @@ const handleDELETE = async (req: NextApiRequest, res: NextApiResponse) => {
   if (!env.teamFeatures.deleteTeam) {
     throw new ApiError(404, 'Not Found');
   }
-
+  const client = await clientPromise;
   const user = await getCurrentUserWithDispensary(req, res);
 
   throwIfNotAllowed(user, 'team', 'delete');
 
-  await deleteDispensary({ id: user.team.id });
+  await deleteDispensary({ client, where: { id: user.team.id } });
 
   sendAudit({
     action: 'team.delete',

@@ -6,6 +6,7 @@ import env from '@/lib/env';
 import { recordMetric } from '@/lib/metrics';
 import { getCurrentUserWithDispensary } from '@/lib/user';
 import { deleteApiKeySchema, validateWithSchema } from '@/lib/zod';
+import { clientPromise } from '@/lib/db';
 
 export default async function handler(
   req: NextApiRequest,
@@ -38,13 +39,13 @@ export default async function handler(
 
 // Delete an API key
 const handleDELETE = async (req: NextApiRequest, res: NextApiResponse) => {
+  const client = await clientPromise;
   const user = await getCurrentUserWithDispensary(req, res);
-
   throwIfNotAllowed(user, 'team_api_key', 'delete');
 
   const { apiKeyId } = validateWithSchema(deleteApiKeySchema, req.query);
 
-  await deleteApiKey(apiKeyId);
+  await deleteApiKey({ client, where: { id: apiKeyId } });
 
   recordMetric('apikey.removed');
 

@@ -1,12 +1,18 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { db_namespace, clientPromise } from './db';
+import { type MongoClient } from 'mongodb';
+import { db_namespace } from './db';
 
 export const createVerificationToken = async ({
+	client,
 	token,
 	identifier,
 	expires,
-}: any) => {
-	const client = await clientPromise;
+}: {
+	client: MongoClient;
+	token: string;
+	identifier: any;
+	expires: any;
+}) => {
 	const { db, collections } = db_namespace;
 	await client.db(db).collection(collections.verificationToken).insertOne({
 		identifier,
@@ -16,8 +22,13 @@ export const createVerificationToken = async ({
 	return { token, identifier, expires };
 };
 
-export const getVerificationToken = async (token: string) => {
-	const client = await clientPromise;
+export const getVerificationToken = async ({
+	client,
+	token,
+}: {
+	client: MongoClient;
+	token: string;
+}) => {
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
@@ -27,8 +38,13 @@ export const getVerificationToken = async (token: string) => {
 		});
 };
 
-export const deleteVerificationToken = async (token: string) => {
-	const client = await clientPromise;
+export const deleteVerificationToken = async ({
+	client,
+	token,
+}: {
+	client: MongoClient;
+	token: string;
+}) => {
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)

@@ -43,7 +43,6 @@ const ModalContainer = ({
 	modalVisible = false,
 	...props
 }: ModalContainerProps) => {
-	console.trace('modalContainer', modalVisible, props);
 	const modalType: ModalType = useMemo(
 		() => props.modalType,
 		[modalVisible, props],

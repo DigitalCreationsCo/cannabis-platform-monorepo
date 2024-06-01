@@ -14,6 +14,7 @@ import type { ComponentStatus } from 'react-daisyui/dist/types';
 import { AuthLayout } from '@/components/layouts';
 import { Alert } from '@/components/shared';
 import { unlockAccount } from '@/lib/accountLock';
+import { clientPromise } from '@/lib/db';
 
 interface UnlockAccountProps {
   email: string;
@@ -105,13 +106,17 @@ export const getServerSideProps = async ({
 }: GetServerSidePropsContext) => {
   const { token } = query as { token: string };
 
+  const client = await clientPromise;
   if (!token) {
     return {
       notFound: true,
     };
   }
 
-  const verificationToken = await getVerificationToken(token);
+  const verificationToken = await getVerificationToken({
+    client,
+    token,
+  });
 
   if (!verificationToken) {
     return {
@@ -125,7 +130,10 @@ export const getServerSideProps = async ({
     };
   }
 
-  const user = await getUser({ email: verificationToken.identifier });
+  const user = await getUser({
+    client,
+    where: { email: verificationToken.identifier },
+  });
 
   if (!user) {
     return {
@@ -147,7 +155,7 @@ export const getServerSideProps = async ({
 
   await Promise.allSettled([
     unlockAccount(user),
-    deleteVerificationToken(verificationToken.token),
+    deleteVerificationToken({ client, token: verificationToken.token }),
   ]);
 
   return {

@@ -6,6 +6,7 @@ import { recordMetric } from '@/lib/metrics';
 import { validateRecaptcha } from '@/lib/recaptcha';
 import { getUser, createPasswordReset } from '@cd/data-access';
 import { forgotPasswordSchema, validateWithSchema } from '@/lib/zod';
+import { clientPromise } from '@/lib/db';
 
 export default async function handler(
   req: NextApiRequest,
@@ -35,14 +36,14 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
     forgotPasswordSchema,
     req.body
   );
-
+  const client = await clientPromise;
   await validateRecaptcha(recaptchaToken);
 
   if (!email || !validateEmail(email)) {
     throw new ApiError(422, 'The e-mail address you entered is invalid');
   }
 
-  const user = await getUser({ email });
+  const user = await getUser({ client, where: { email } });
 
   if (!user) {
     throw new ApiError(422, `We can't find a user with that e-mail address`);
@@ -51,6 +52,7 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
   const resetToken = generateToken();
 
   await createPasswordReset({
+    client,
     data: {
       email,
       token: resetToken,

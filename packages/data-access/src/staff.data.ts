@@ -1,18 +1,26 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { ObjectId } from 'mongodb';
-import { db_namespace, clientPromise } from '../db';
-import { type Dispensary } from '../dispensary/dispensary.types';
-import { normalizeUser } from '../helpers';
-import { type Role } from '../role.types';
-import { getUser } from '../user/user.data';
-import { type StaffMember } from './staff.types';
+import { type MongoClient, ObjectId } from 'mongodb';
+import { db_namespace } from './db';
+import { normalizeUser } from './helpers';
+import { type Dispensary } from './types/dispensary.types';
+import { type Role } from './types/role.types';
+import {
+	type StaffMemberWithUser,
+	type StaffMember,
+} from './types/staff.types';
+import { getUser } from './user.data';
 
-export const addStaffMember = async (
-	dispensary: Dispensary | string,
-	userId: string,
-	role: Role,
-): Promise<StaffMember> => {
-	const client = await clientPromise;
+export const addStaffMember = async ({
+	client,
+	dispensary,
+	userId,
+	role,
+}: {
+	client: MongoClient;
+	dispensary: Dispensary | string;
+	userId: string;
+	role: Role;
+}): Promise<StaffMember> => {
 	const { db, collections } = db_namespace;
 	if (typeof dispensary === 'string') {
 		dispensary = (
@@ -49,8 +57,6 @@ export const addStaffMember = async (
 				{ upsert: true, returnDocument: 'after' },
 			)
 	).value;
-
-	console.trace('staff member, ', staffMember);
 	return {
 		...staffMember!,
 		id: staffMember!._id.toString(),
@@ -58,30 +64,46 @@ export const addStaffMember = async (
 	};
 };
 
-export const updateStaffMember = async ({ id, data }: any) => {
+export const updateStaffMember = async ({
+	client,
+	data,
+}: {
+	client: MongoClient;
+	data: Partial<StaffMemberWithUser>;
+}) => {
 	data = normalizeUser(data);
-	const client = await clientPromise;
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
 		.collection(collections.staff)
-		.updateOne({ _id: id }, normalizeUser(data));
+		.updateOne({ _id: new Object(data.id) }, normalizeUser(data));
 };
 
-export const upsertStaffMember = async ({ id, update }: any) => {
-	update = normalizeUser(update);
-	const client = await clientPromise;
+export const upsertStaffMember = async ({
+	client,
+	data,
+}: {
+	client: MongoClient;
+	data: any;
+}) => {
+	data = normalizeUser(data);
 	const { db, collections } = db_namespace;
 	return await client.db(db).collection(collections.staff).updateOne(
 		{
-			_id: id,
+			_id: data.id,
 		},
-		{ $set: update },
+		{ $set: data },
 		{ upsert: true },
 	);
 };
 
-export const getStaffMemberBySession = async (session: any) => {
+export const getStaffMemberBySession = async ({
+	client,
+	session,
+}: {
+	client: MongoClient;
+	session: any;
+}) => {
 	if (session === null || session.user === null) {
 		return null;
 	}
@@ -92,24 +114,32 @@ export const getStaffMemberBySession = async (session: any) => {
 		return null;
 	}
 
-	return await getUser({ id });
+	return await getUser({ client, where: { id } });
 };
 
-export const deleteStaffMember = async (
-	where: { id: string } | { email: string },
-) => {
-	const client = await clientPromise;
+export const deleteStaffMember = async ({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where: { id: string } | { email: string };
+}) => {
 	const { db, collections } = db_namespace;
 	return await client.db(db).collection(collections.staff).deleteOne(where);
 };
 
-export const findFirstStaffMemberOrThrow = async ({ id }: any) => {
-	const client = await clientPromise;
+export const findFirstStaffMemberOrThrow = async ({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where: { id: string };
+}) => {
 	const { db, collections } = db_namespace;
 	const user = await client
 		.db(db)
 		.collection(collections.staff)
-		.findOne({ _id: id });
+		.findOne({ _id: new ObjectId(where.id) });
 
 	if (!user) {
 		throw new Error('Staff Member not found');
@@ -118,8 +148,13 @@ export const findFirstStaffMemberOrThrow = async ({ id }: any) => {
 	return normalizeUser(user);
 };
 
-export const countStaffMembers = async ({ where }: any) => {
-	const client = await clientPromise;
+export const countStaffMembers = async ({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where: any;
+}) => {
 	const { db, collections } = db_namespace;
 	return client.db(db).collection(collections.staff).countDocuments(where);
 };

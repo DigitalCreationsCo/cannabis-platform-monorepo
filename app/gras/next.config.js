@@ -13,7 +13,8 @@ const _env =
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    esmExternals: false,
+    esmExternals: 'loose', // <-- add this
+    // serverComponentsExternalPackages: ["mongodb"],
     outputFileTracingRoot: path.join(__dirname, '../../'),
     webpackBuildWorker: true,
   },
@@ -25,24 +26,32 @@ const nextConfig = {
     '@cd/data-access',
     '@cd/core-lib',
     '@cd/ui-lib',
+    'mongodb',
   ],
   webpack: (config, { isServer }) => {
     // const prefix = config.assetPrefix ?? config.basePath ?? '';
 
-    config.module.rules.push({
-      test: /\.mp4$/,
-      use: [
-        {
-          loader: 'file-loader',
-          options: {
-            // publicPath: `${prefix}/_next/static/media/`,
-            publicPath: `/_next/static/media/`,
-            outputPath: `${isServer ? '../' : ''}static/media/`,
-            name: '[name].[hash].[ext]',
+    config.module.rules.push(
+      {
+        test: /\.mp4$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              // publicPath: `${prefix}/_next/static/media/`,
+              publicPath: `/_next/static/media/`,
+              outputPath: `${isServer ? '../' : ''}static/media/`,
+              name: '[name].[hash].[ext]',
+            },
           },
-        },
-      ],
-    });
+        ],
+      },
+      { test: /\.txt$/, use: 'raw-loader' },
+      {
+        test: /\.node$/,
+        loader: 'node-loader',
+      }
+    );
 
     config.resolve.fallback = {
       ...config.resolve.fallback,
@@ -50,6 +59,13 @@ const nextConfig = {
       dns: false,
       fs: false,
       tls: false,
+      // 'mongodb-client-encryption': false,
+      // 'aws4': false,
+      // "snappy": false,
+      // '@mongodb-js/zstd': false,
+      // '@mongodb-js/zstd-darwin-arm64': false,
+      // '@napi-rs': false,
+      // 'kerberos': false
     };
     return config;
   },

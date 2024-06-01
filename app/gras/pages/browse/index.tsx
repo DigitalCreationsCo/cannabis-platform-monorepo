@@ -74,6 +74,7 @@ import Head from 'next/head';
 import env from '@/lib/env';
 import { TopBar } from '@/components/layouts';
 import EventCard from '@/components/shared/EventCard';
+import { clientPromise } from '@/lib/db';
 
 function FBInit() {
   useEffect(() => {
@@ -241,7 +242,7 @@ export default function Browse({
   )}
   </> */}
 
-        <Grid className="relative grid-cols-3 pb-16">
+        <Grid className="relative grid-cols-3 xs:pb-16 gap-y-2">
           {/* <div
             id={'shop-tour-step1'}
             className="row-start-1 cursor-default pt-5 px-5 col-start-1 col-span-full lg:col-span-2"
@@ -256,8 +257,8 @@ export default function Browse({
           </H2>
           <FBInit /> */}
           {/* </div> */}
-          <div className="col-span-full pb-2">
-            <H1 className="text-light pt-2 px-4 leading-2 drop-shadow text-left">
+          <div className="col-span-full">
+            <H1 className="text-light text-lg sm:pt-2 px-4 leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left">
               {`Find flower, edibles, dispensaries near you`}
             </H1>
             <Carousel
@@ -339,7 +340,7 @@ export default function Browse({
         </div> */}
 
           <div className="col-span-full">
-            <H2 className="col-span-full pt-2 px-3 md:px-4 text-light leading-2 drop-shadow text-left">
+            <H2 className="col-span-full text-lg sm:pt-2 px-3 md:px-4 text-light leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left">
               🎉 Events Near You
             </H2>
             <Carousel
@@ -348,20 +349,20 @@ export default function Browse({
                   breakpoint: { max: 4000, min: 1400 },
                   items: 4,
                   slidesToSlide: 3,
-                  paritialVisibilityGutter: 40,
+                  partialVisibilityGutter: 40,
                 },
                 lg: {
                   // the naming can be any, depends on you.
                   breakpoint: { max: 1400, min: 1100 },
                   items: 3,
                   slidesToSlide: 2,
-                  paritialVisibilityGutter: 40,
+                  partialVisibilityGutter: 40,
                 },
                 md: {
                   breakpoint: { max: 1100, min: 700 },
                   items: 3,
                   slidesToSlide: 2,
-                  paritialVisibilityGutter: 40,
+                  partialVisibilityGutter: 40,
                 },
                 sm: {
                   breakpoint: { max: 700, min: 464 },
@@ -395,11 +396,22 @@ export default function Browse({
           </div>
 
           <div className="col-span-full">
-            <H2 className="col-span-full pt-2 px-2 md:px-4 text-light leading-2 drop-shadow text-left">
+            <H2 className="col-span-full text-lg sm:pt-2 px-2 md:px-4 text-light leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left">
               🍍 Fresh from our blog
             </H2>
             <Carousel
               title="Fresh from the Blog"
+              responsive={{
+                sm: {
+                  breakpoint: { max: 700, min: 464 },
+                  items: 2,
+                },
+                xs: {
+                  breakpoint: { max: 464, min: 0 },
+                  items: 2,
+                  slidesToSlide: 1,
+                },
+              }}
               items={posts.map((post, index) => (
                 <InfoCard
                   loading={isLoading}
@@ -815,14 +827,15 @@ const RenderMapBox = ({
 };
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+  const client = await clientPromise;
   const authToken = env.nextAuth.secret;
 
   const { draftMode = false, locale } = ctx;
-  const client = getClient(draftMode ? { token: readToken } : undefined);
+  const sanityClient = getClient(draftMode ? { token: readToken } : undefined);
 
   const [settings, posts = []] = await Promise.all([
-    getSettings(client),
-    getPosts(client),
+    getSettings(sanityClient),
+    getPosts(sanityClient),
   ]);
 
   return {
@@ -830,7 +843,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
       ...(locale ? await serverSideTranslations(locale, ['common']) : {}),
       posts,
       settings,
-      events: JSON.parse(JSON.stringify(await getEvents())),
+      events: JSON.parse(JSON.stringify(await getEvents({ client }))),
       draftMode,
       token: authToken,
     },

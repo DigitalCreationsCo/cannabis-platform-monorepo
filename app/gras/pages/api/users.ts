@@ -6,6 +6,7 @@ import env from '@/lib/env';
 import { getUser, updateUser } from '@cd/data-access';
 import { isEmailAllowed } from '@/lib/email/utils';
 import { updateAccountSchema, validateWithSchema } from '@/lib/zod';
+import { clientPromise } from '@/lib/db';
 
 export default async function handler(
   req: NextApiRequest,
@@ -31,6 +32,7 @@ export default async function handler(
 }
 
 const handlePUT = async (req: NextApiRequest, res: NextApiResponse) => {
+  const client = await clientPromise;
   const data = validateWithSchema(updateAccountSchema, req.body);
 
   const session = await getSession(req, res);
@@ -46,7 +48,7 @@ const handlePUT = async (req: NextApiRequest, res: NextApiResponse) => {
       throw new ApiError(400, 'Please use your work email.');
     }
 
-    const user = await getUser({ email: data.email });
+    const user = await getUser({ client, where: { email: data.email } });
 
     if (user && user.id !== session?.user.id) {
       throw new ApiError(400, 'Email already in use.');
@@ -54,6 +56,7 @@ const handlePUT = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   await updateUser({
+    client,
     where: { id: session?.user.id },
     data,
   });

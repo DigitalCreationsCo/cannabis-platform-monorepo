@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { throwIfNotAllowed } from '@cd/core-lib';
-import Slicktext from '@cd/core-lib/src/sms/slicktext';
-import { type DailyDeal } from '@cd/data-access';
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { clientPromise } from '@/lib/db';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
 import { recordMetric } from '@/lib/metrics';
+import { throwIfNotAllowed } from '@cd/core-lib';
+import Slicktext from '@cd/core-lib/src/sms/slicktext';
+import { updateDispensaryDailyDeal, type DailyDeal } from '@cd/data-access';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
   req: NextApiRequest,
@@ -36,6 +37,7 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const teamMember = await throwIfNoDispensaryAccess(req, res);
     throwIfNotAllowed(teamMember, 'team_daily_deals', 'read');
+    const client = await clientPromise;
 
     const message = req.body as DailyDeal;
 
@@ -44,8 +46,17 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
       segment: message.slickTextSegmentId!,
       message,
     });
-
     recordMetric('dispensary.dailyDeal.sent');
+
+    await updateDispensaryDailyDeal({
+      client,
+      data: {
+        ...message,
+        lastSentAt: Date.now().toString(),
+      },
+    });
+
+    recordMetric('dispensary.dailyDeal.updated');
 
     return res.status(200).json({ success: true });
   } catch (error: any) {

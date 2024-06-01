@@ -16,7 +16,7 @@ function EventCard({
   loading,
   event,
   className,
-  showDescription = true,
+  showDescription = false,
 }: EventCardProps) {
   if (loading) {
     return (
@@ -50,17 +50,16 @@ function EventCard({
         'flex flex-col',
         'h-[240px] sm:max-w-[320px]',
         'm-3',
-        'bg-amber-200',
+        // 'bg-amber-200',
         'rounded',
         'overflow-hidden',
         'border border-transparent',
-        'hover:border-dark',
+        'hover:bg-gray-300/25',
         // 'text-inverse-soft',
-        'drop-shadow-[-6px_4px_1px_#555]',
         className,
       ])}
     >
-      <H5 className="px-2 flex-1 tracking-normal text-xl font-semibold drop-shadow-[-1px_1px_0px_#ccc]">
+      <H5 className="px-2 content-end flex-1 tracking-wide bottom-0 text-xl text-white font-medium drop-shadow-[0px_2px_0px_#555555]">
         {truncateWordsAndLeaveN(event.name, 8)}
       </H5>
       {(showDescription && (
@@ -68,13 +67,13 @@ function EventCard({
           {event.full_description || ''}
         </Paragraph>
       )) || <></>}
-      <div className="h-[180px]">
+      <div className="h-[180px] p-2">
         <Image
           src={event.image?.url || require('public/hemp.png')}
           alt={event.name}
           width={300}
           height={200}
-          className="w-full h-auto aspect-auto object-bottom pb-4"
+          className="w-full h-auto aspect-auto object-bottom drop-shadow-[-6px_4px_1px_#555]"
           sizes="600px"
         />
       </div>

@@ -3,6 +3,10 @@
   "module": "./dist/index.js",
   "name": "@cd/core-lib",
   "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts"
+  },
   "peerDependencies": {
     "@paralleldrive/cuid2": "2.2.1",
     "@reduxjs/toolkit": "1.9.2",

@@ -1,6 +1,6 @@
 import { createHash, randomBytes } from 'crypto';
-import { ObjectId } from 'mongodb';
-import { db_namespace, clientPromise } from './db';
+import { type MongoClient, ObjectId } from 'mongodb';
+import { db_namespace } from './db';
 
 interface CreateApiKeyParams {
 	name: string;
@@ -17,14 +17,19 @@ const generateUniqueApiKey = () => {
 	return [hashApiKey(apiKey), apiKey];
 };
 
-export const createApiKey = async (params: CreateApiKeyParams) => {
-	const { name, teamId } = params;
+export const createApiKey = async ({
+	client,
+	data,
+}: {
+	client: MongoClient;
+	data: CreateApiKeyParams;
+}) => {
+	const { name, teamId } = data;
 
 	const [hashedKey, apiKey] = generateUniqueApiKey();
 
-	const client = await clientPromise;
 	const { db, collections } = db_namespace;
-	return await client
+	await client
 		.db(db)
 		.collection(collections.apiKey)
 		.insertOne({
@@ -38,31 +43,46 @@ export const createApiKey = async (params: CreateApiKeyParams) => {
 	return apiKey;
 };
 
-export const fetchApiKeys = async (teamId: string) => {
-	const client = await clientPromise;
+export const fetchApiKeys = async ({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where: { teamId: string };
+}) => {
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
 		.collection<ApiKey>(collections.apiKey)
-		.find({ teamId: new ObjectId(teamId) });
+		.find({ teamId: new ObjectId(where.teamId) });
 };
 
-export const deleteApiKey = async (id: string) => {
-	const client = await clientPromise;
+export const deleteApiKey = async ({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where: { id: string };
+}) => {
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
 		.collection(collections.apiKey)
-		.deleteOne({ _id: new ObjectId(id) });
+		.deleteOne({ _id: new ObjectId(where.id) });
 };
 
-export const getApiKey = async (apiKey: string) => {
-	const client = await clientPromise;
+export const getApiKey = async ({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where: { apiKey: string };
+}) => {
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
 		.collection<ApiKey>(collections.apiKey)
-		.findOne({ hashedKey: hashApiKey(apiKey) });
+		.findOne({ hashedKey: hashApiKey(where.apiKey) });
 };
 
 export type ApiKey = {

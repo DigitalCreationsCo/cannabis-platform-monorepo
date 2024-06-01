@@ -4,6 +4,7 @@ import { axios } from '@cd/core-lib';
 import * as cheerio from 'cheerio';
 import env from '@/lib/env';
 import { Event, getEvents, updateManyEvents } from '@cd/data-access';
+import { clientPromise } from '@/lib/db';
 
 export default async function handler(
   req: NextApiRequest,
@@ -34,13 +35,14 @@ export default async function handler(
 
 // Get cannabis events
 const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
+  const client = await clientPromise;
   const { location = 'ny--new-york', query = 'cannabis' } = req.query;
   const clientToken = req.headers.authorization?.split(' ')[1];
   const token = env.nextAuth.secret;
   if (clientToken !== token) {
     throw new Error('Unauthorized');
   }
-  const events = await getEvents();
+  const events = await getEvents({ client });
   console.trace('events[0] ', events[0]);
   recordMetric('event.fetched');
   res.status(200).json({ data: events });
@@ -48,6 +50,7 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
 
 // save events from eventbrite search
 const handlePUT = async (req: NextApiRequest, res: NextApiResponse) => {
+  const client = await clientPromise;
   const { location = 'ny--new-york', query = 'cannabis' } = req.query;
   const clientToken = req.headers.authorization?.split(' ')[1];
   const token = env.nextAuth.secret;
@@ -76,7 +79,7 @@ const handlePUT = async (req: NextApiRequest, res: NextApiResponse) => {
     }
   });
   const { ok, matchedCount, modifiedCount, hasWriteErrors, upsertedCount } =
-    await updateManyEvents(events);
+    await updateManyEvents({ client, data: { ...events } });
   res.status(200).json({
     ok,
     matchedCount,

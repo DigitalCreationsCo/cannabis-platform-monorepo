@@ -1,7 +1,13 @@
-import { db_namespace, clientPromise } from './db';
+import { type MongoClient } from 'mongodb';
+import { db_namespace } from './db';
 
-export const createPasswordReset = async ({ data }: any) => {
-	const client = await clientPromise;
+export const createPasswordReset = async ({
+	client,
+	data,
+}: {
+	client: MongoClient;
+	data: any;
+}) => {
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
@@ -9,20 +15,30 @@ export const createPasswordReset = async ({ data }: any) => {
 		.insertOne(data);
 };
 
-export const getPasswordReset = async (token: string) => {
-	const client = await clientPromise;
+export const getPasswordReset = async ({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where: { token: string };
+}) => {
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
 		.collection(collections.passwordReset)
-		.findOne({ token });
+		.findOne({ token: where.token });
 };
 
-export const deletePasswordReset = async (token: string) => {
-	const client = await clientPromise;
+export const deletePasswordReset = async ({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where: { token: string };
+}) => {
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
 		.collection(collections.passwordReset)
-		.deleteOne({ token });
+		.deleteOne({ token: where.token });
 };

@@ -6,7 +6,7 @@
 		"axios": {
 			"optional": true
 		}
-	},
+	},  
 	"sideEffects": false,
 	"devDependencies": {
 		"@babel/core": "7.21.4",
@@ -33,7 +33,9 @@
 		"tsx": "3.12.6",
 		"typescript": "4.9.3"
 	},
+	// "main": "./dist/index.js",
 	"main": "./src/index.ts",
+
 	"name": "@cd/data-access",
 	"exports": {
 		".": "./src/index.ts"

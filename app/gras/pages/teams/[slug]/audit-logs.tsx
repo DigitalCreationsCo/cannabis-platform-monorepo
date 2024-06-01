@@ -4,18 +4,19 @@ import {
   useDispensary,
   throwIfNotAllowed,
 } from '@cd/core-lib';
-import { type User, getStaffMember, StaffMember } from '@cd/data-access';
+import { type User, getStaffMember, type StaffMember } from '@cd/data-access';
+import { LoadingPage } from '@cd/ui-lib';
 import { type GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import dynamic from 'next/dynamic';
 import { Error, Card } from '@/components/shared';
 import { TeamTab } from '@/components/team';
+import { clientPromise } from '@/lib/db';
 import env from '@/lib/env';
 import type { NextPageWithLayout } from '@/lib/next.types';
 import { getViewerToken } from '@/lib/retraced';
 import { getSession } from '@/lib/session';
-import { LoadingPage } from '@cd/ui-lib';
 
 interface RetracedEventsBrowserProps {
   host: string;
@@ -76,14 +77,19 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       notFound: true,
     };
   }
-
+  const client = await clientPromise;
   const { locale, req, res, query } = context;
 
-  const session = (await getSession(req, res)) as { user: User } | null;
-  const teamMember = (await getStaffMember(
-    session?.user.id as string,
-    query.slug as string
-  )) as StaffMember;
+  const session = (await getSession(req, res)) as unknown as {
+    user: User;
+  } | null;
+  const teamMember = (await getStaffMember({
+    client,
+    where: {
+      userId: session?.user.id as string,
+      slug: query.slug as string,
+    },
+  })) as StaffMember;
 
   try {
     throwIfNotAllowed(teamMember, 'team_audit_log', 'read');
