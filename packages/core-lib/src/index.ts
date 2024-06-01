@@ -20,7 +20,7 @@
 // 	dummyData,
 // };
 
-export { default as SMSModule } from './sms/sms.module';
+// export { default as SMSModule } from './sms/sms.module';
 export * from './auth';
 export * from './axiosInstance';
 export * from './constants';
@@ -32,7 +32,12 @@ export * from './utils';
 export { default } from './locales';
 export * from './lib';
 export * from './dummyData';
-export * from './point-of-sale/IntegrationService';
+// export * from './point-of-sale/IntegrationService';
+// export * from './point-of-sale/blazePOS';
+// export * from './point-of-sale/dutchiePOS';
+// export * from './point-of-sale/integration.types';
+// export * from './point-of-sale/metrcInventory';
+// export * from './point-of-sale/weedmapsPOS';
 export * from './errors';
 // export * from './lib'; // import lib files directly from the lib folder
 // eslint-disable-next-line import/no-cycle

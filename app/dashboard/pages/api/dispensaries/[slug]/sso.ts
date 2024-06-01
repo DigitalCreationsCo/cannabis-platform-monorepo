@@ -1,6 +1,3 @@
-import { ApiError, throwIfNotAllowed } from '@cd/core-lib';
-import type { NextApiRequest, NextApiResponse } from 'next';
-
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
 import env from '@/lib/env';
 import {
@@ -9,6 +6,8 @@ import {
 } from '@/lib/guards/team-sso';
 import { ssoManager } from '@/lib/jackson/sso/index';
 import { sendAudit } from '@/lib/retraced';
+import { ApiError, throwIfNotAllowed } from '@cd/core-lib';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 const sso = ssoManager();
 

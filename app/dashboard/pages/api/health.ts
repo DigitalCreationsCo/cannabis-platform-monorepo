@@ -1,6 +1,7 @@
-import { db_namespace, clientPromise } from '@cd/data-access';
+import { db_namespace } from '@cd/data-access';
 import { type NextApiRequest, type NextApiResponse } from 'next';
 
+import { clientPromise } from '@/lib/db';
 import packageInfo from '../../package.json';
 
 export default async function handler(

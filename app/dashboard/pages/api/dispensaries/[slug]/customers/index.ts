@@ -1,5 +1,9 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable @typescript-eslint/naming-convention */
+import { clientPromise } from '@/lib/db';
+import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
+import { recordMetric } from '@/lib/metrics';
+import { sendAudit } from '@/lib/retraced';
 import { axios, throwIfNotAllowed } from '@cd/core-lib';
 import {
   type DailyDeal,
@@ -7,9 +11,6 @@ import {
   getCustomersByDispensary,
 } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
-import { recordMetric } from '@/lib/metrics';
-import { sendAudit } from '@/lib/retraced';
 
 export default async function handler(
   req: NextApiRequest,
@@ -41,10 +42,14 @@ export default async function handler(
 
 // get all customers
 const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
+  const client = await clientPromise;
   const teamMember = await throwIfNoDispensaryAccess(req, res);
   throwIfNotAllowed(teamMember, 'team_customers', 'read');
 
-  const customers = getCustomersByDispensary(teamMember.team.slug);
+  const customers = getCustomersByDispensary({
+    client,
+    where: { teamSlug: teamMember.team.slug },
+  });
   recordMetric('dispensary.customers.fetched');
 
   res.status(200).json({ data: customers });
@@ -52,12 +57,16 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
 
 // Create dailyDeal
 const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
+  const client = await clientPromise;
   const teamMember = await throwIfNoDispensaryAccess(req, res);
   throwIfNotAllowed(teamMember, 'team_member', 'create');
 
   const create = req.body as DailyDeal;
 
-  const dailyDealCreated = await createDispensaryDailyDeal(create);
+  const dailyDealCreated = await createDispensaryDailyDeal({
+    client,
+    data: create,
+  });
 
   const { doesRepeat, teamSlug, schedule, id, startTime, endTime, timezone } =
     dailyDealCreated;

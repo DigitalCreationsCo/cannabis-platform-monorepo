@@ -1,11 +1,11 @@
 /* eslint-disable sonarjs/no-small-switch */
-import { type NextApiRequest, type NextApiResponse } from 'next';
 
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
 import env from '@/lib/env';
 import { getSession } from '@/lib/session';
 import { stripe, getStripeCustomerId } from '@/lib/stripe';
 import { checkoutSessionSchema, validateWithSchema } from '@/lib/zod';
+import { type NextApiRequest, type NextApiResponse } from 'next';
 
 export default async function handler(
   req: NextApiRequest,

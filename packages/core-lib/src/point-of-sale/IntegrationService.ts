@@ -26,7 +26,6 @@ export class IntegrationService {
 					break;
 				case null:
 					throw new Error('POS is not set');
-					break;
 				default:
 					throw new Error('POS is not set');
 			}
@@ -61,7 +60,6 @@ export class IntegrationService {
 					break;
 				case null:
 					throw new Error('Seed to Sale Service is not set');
-					break;
 				default:
 					throw new Error('Seed to Sale Service is not set');
 			}

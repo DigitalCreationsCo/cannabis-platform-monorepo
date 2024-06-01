@@ -4,6 +4,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { recordMetric } from '@/lib/metrics';
 import { dispensaries } from '@cd/data-access';
 import env from '@/lib/env';
+import { clientPromise } from '@/lib/db';
 
 export default async function handler(
   req: NextApiRequest,
@@ -38,20 +39,17 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
   const clientToken = req.headers.authorization?.split(' ')[1];
   const token = env.nextAuth.secret;
 
-  console.trace('clientToken', clientToken);
-  console.trace('token', token);
-
   if (clientToken !== token) {
     throw new Error('Unauthorized');
   }
 
+  const client = await clientPromise;
   const _dispensaries = await getDispensariesByZipcode({
+    client,
     zipcode,
     limit,
     radius,
   });
-  console.trace('_dispensaries from db', _dispensaries);
-
   recordMetric('dispensaries.fetched');
 
   res.status(200).json({ data: dispensaries });

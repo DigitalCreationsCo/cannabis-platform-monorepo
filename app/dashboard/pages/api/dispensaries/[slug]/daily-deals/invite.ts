@@ -1,5 +1,10 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable @typescript-eslint/naming-convention */
+import { clientPromise } from '@/lib/db';
+import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
+import { recordMetric } from '@/lib/metrics';
+import { sendAudit } from '@/lib/retraced';
+import { sendEvent } from '@/lib/svix';
 import { axios, throwIfNotAllowed } from '@cd/core-lib';
 import Slicktext from '@cd/core-lib/src/sms/slicktext';
 import {
@@ -12,10 +17,6 @@ import {
   upsertCustomerByDispensary,
 } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
-import { recordMetric } from '@/lib/metrics';
-import { sendAudit } from '@/lib/retraced';
-import { sendEvent } from '@/lib/svix';
 
 export default async function handler(
   req: NextApiRequest,
@@ -49,11 +50,15 @@ export default async function handler(
 const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
   const teamMember = await throwIfNoDispensaryAccess(req, res);
   throwIfNotAllowed(teamMember, 'team_customers', 'send');
+  const client = await clientPromise;
 
   const customer = req.body as Customer;
   const slickTextTextwordId = '4034501';
 
-  await upsertCustomerByDispensary({ ...customer, slickTextTextwordId });
+  await upsertCustomerByDispensary({
+    client,
+    data: { ...customer, slickTextTextwordId },
+  });
 
   recordMetric('dispensary.customer.fetched');
 

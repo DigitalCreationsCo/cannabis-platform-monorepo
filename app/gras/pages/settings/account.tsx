@@ -9,6 +9,7 @@ import { getSession } from '@/lib/session';
 import { getUserBySession } from '@cd/data-access';
 import { UpdateAccount } from '@/components/account';
 import env from '@/lib/env';
+import { clientPromise } from '@/lib/db';
 
 type AccountProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
@@ -22,8 +23,9 @@ const Account: NextPageWithLayout<AccountProps> = ({
 export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
+  const client = await clientPromise;
   const session = await getSession(context.req, context.res);
-  const user = await getUserBySession(session);
+  const user = await getUserBySession({ client, session });
   const { locale } = context;
 
   if (!user) {

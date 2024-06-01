@@ -1,33 +1,88 @@
+// {
+// 	"$schema": "https://json.schemastore.org/tsconfig",
+// 	"extends": "../../tsconfig.base.json",
+// 	"compilerOptions": {
+// 		"baseUrl": "./src",
+// 		"strict": true,
+// 		"target": "es2015",
+// 		"lib": ["dom", "dom.iterable", "es2015"],
+// 		"module": "es2020",
+// 		"moduleResolution": "node",
+// 		"resolveJsonModule": true,
+// 		"esModuleInterop": true,
+// 		"noImplicitAny": false,
+// 		// "allowImportingTsExtensions": true,
+// 		"jsx": "react-jsx",
+// 		"paths": {
+// 			"@cd/data-access": ["../../../packages/data-access/src/index"],
+// 			"@cd/eslint-config": ["../../../packages/eslint-config/src/index"]
+// 		}
+// 	},
+// 	"exclude": ["**/node_modules", "**/.*/", "dist", "build", "**/test/*"],
+// 	"include": [
+// 		"next-env.d.ts",
+// 		"**/*.ts",
+// 		"**/*.tsx",
+// 		"**/*.mts",
+// 		"**/*.js",
+// 		"**/*.cjs",
+// 		"**/*.mjs",
+// 		"**/*.jsx",
+// 		"**/*.json"
+// 	]
+// }
+
+// {
+// 	"compilerOptions": {
+// 	  "target": "esnext",
+// 	  "module": "esnext",
+// 	  "declaration": true,
+// 	  "declarationMap": true,
+// 	  "outDir": "dist",
+// 	  "rootDir": "src",
+// 	  "strict": false,
+// 	  "moduleResolution": "node",
+// 	  "esModuleInterop": true,
+// 	  "skipLibCheck": true,
+// 	  "forceConsistentCasingInFileNames": true,
+// 	  "paths": {
+// 		"@cd/data-access": ["../../../packages/data-access/src/index"],
+// 	  },
+// 	},
+// 	"include": ["src"],
+// 	"exclude": ["**/node_modules", "dist"]
+//   }
+
+
 {
 	"$schema": "https://json.schemastore.org/tsconfig",
 	"extends": "../../tsconfig.base.json",
 	"compilerOptions": {
-		"baseUrl": "./src",
-		"strict": true,
-		"target": "es2015",
-		"lib": ["dom", "dom.iterable", "es2015"],
-		"module": "es2020",
-		"moduleResolution": "node",
-		"resolveJsonModule": true,
-		"esModuleInterop": true,
-		"noImplicitAny": false,
-		// "allowImportingTsExtensions": true,
-		"jsx": "react-jsx",
-		"paths": {
-			"@cd/data-access": ["../../../packages/data-access/src/index"],
-			"@cd/eslint-config": ["../../../packages/eslint-config/src/index"]
-		}
+	  "strict": false,
+	  "baseUrl": "./src",
+	  "target": "ESNext",
+	  "lib": ["dom", "dom.iterable", "esnext"],
+	  "module": "ESNext",
+	  "jsx": "react-jsx",
+	  "noEmit": false,
+	  "incremental": true,
+	  "paths": {
+		"@cd/data-access": ["../../../packages/data-access/src/index"],
+		"@cd/eslint-config": ["../../../packages/eslint-config/src/index"]
 	},
-	"exclude": ["**/node_modules", "**/.*/", "dist", "build", "**/test/*"],
+	  "types": ["vitest/globals"]
+	},
+	"exclude": ["**/node_modules", "**/.*/*", "dist"],
 	"include": [
-		"next-env.d.ts",
-		"**/*.ts",
-		"**/*.tsx",
-		"**/*.mts",
-		"**/*.js",
-		"**/*.cjs",
-		"**/*.mjs",
-		"**/*.jsx",
-		"**/*.json"
+	  ".eslintrc.*",
+	  "**/*.ts",
+	  "**/*.tsx",
+	  "**/*.mts",
+	  "**/*.js",
+	  "**/*.cjs",
+	  "**/*.mjs",
+	  "**/*.jsx",
+	  "**/*.json"
 	]
-}
+  }
+  

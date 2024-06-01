@@ -1,8 +1,12 @@
-import { db_namespace, clientPromise } from './db';
+import { type MongoClient } from 'mongodb';
+import { db_namespace } from './db';
 import { type Service } from './price.data';
 
-export const getAllServices = async (): Promise<Service[]> => {
-	const client = await clientPromise;
+export const getAllServices = async ({
+	client,
+}: {
+	client: MongoClient;
+}): Promise<Service[]> => {
 	const { db, collections } = db_namespace;
 	return (
 		(await client

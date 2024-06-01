@@ -3,6 +3,7 @@ import { getCookie } from 'cookies-next';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { sessionTokenCookieName } from '@/lib/nextAuth';
 import { getSession } from '@/lib/session';
+import { clientPromise } from '@/lib/db';
 
 export default async function handler(
   req: NextApiRequest,
@@ -31,8 +32,9 @@ export default async function handler(
 const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession(req, res);
   const sessionToken = getCookie(sessionTokenCookieName, { req, res });
-
+  const client = await clientPromise;
   let sessions = await findManySessions({
+    client,
     where: {
       userId: session?.user.id,
     },

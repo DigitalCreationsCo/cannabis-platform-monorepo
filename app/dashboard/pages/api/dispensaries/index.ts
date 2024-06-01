@@ -1,3 +1,7 @@
+import { clientPromise } from '@/lib/db';
+import { recordMetric } from '@/lib/metrics';
+import { getCurrentUser } from '@/lib/user';
+import { createTeamSchema, validateWithSchema } from '@/lib/zod';
 import { slugify, ApiError } from '@cd/core-lib';
 import {
   createDispensary,
@@ -5,9 +9,6 @@ import {
   isTeamExists,
 } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { recordMetric } from '@/lib/metrics';
-import { getCurrentUser } from '@/lib/user';
-import { createTeamSchema, validateWithSchema } from '@/lib/zod';
 
 export default async function handler(
   req: NextApiRequest,
@@ -39,8 +40,12 @@ export default async function handler(
 
 // Get teams
 const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
+  const client = await clientPromise;
   const user = await getCurrentUser(req, res);
-  const teams = await getStaffMemberDispensaries(user.id);
+  const teams = await getStaffMemberDispensaries({
+    client,
+    where: { userId: user.id },
+  });
 
   recordMetric('team.fetched');
 
@@ -49,19 +54,24 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
 
 // Create a team
 const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
+  const client = await clientPromise;
   const create = validateWithSchema(createTeamSchema, req.body);
 
   const user = await getCurrentUser(req, res);
   const slug = slugify(create.name);
 
-  if (await isTeamExists(slug)) {
+  if (await isTeamExists({ client, where: { slug } })) {
     throw new ApiError(400, 'A team with the slug already exists.');
   }
 
   const team = await createDispensary({
+    client,
     userId: user.id,
-    ...create,
-    slug,
+    data: {
+      ...create,
+      name: create.name,
+      slug,
+    },
   });
 
   recordMetric('team.created');

@@ -6,6 +6,7 @@ import env from '@/lib/env';
 import { recordMetric } from '@/lib/metrics';
 import { getCurrentUserWithDispensary } from '@/lib/user';
 import { createApiKeySchema, validateWithSchema } from '@/lib/zod';
+import { clientPromise } from '@/lib/db';
 
 export default async function handler(
   req: NextApiRequest,
@@ -41,11 +42,15 @@ export default async function handler(
 
 // Get API keys
 const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
+  const client = await clientPromise;
   const user = await getCurrentUserWithDispensary(req, res);
 
   throwIfNotAllowed(user, 'team_api_key', 'read');
 
-  const apiKeys = await fetchApiKeys(user.team.id);
+  const apiKeys = await fetchApiKeys({
+    client,
+    where: { teamId: user.team.id },
+  });
 
   recordMetric('apikey.fetched');
 
@@ -54,6 +59,7 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
 
 // Create an API key
 const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
+  const client = await clientPromise;
   const user = await getCurrentUserWithDispensary(req, res);
 
   throwIfNotAllowed(user, 'team_api_key', 'create');
@@ -61,8 +67,11 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
   const { name } = validateWithSchema(createApiKeySchema, req.body);
 
   const apiKey = await createApiKey({
-    name,
-    teamId: user.team.id,
+    client,
+    data: {
+      name,
+      teamId: user.team.id,
+    },
   });
 
   recordMetric('apikey.created');

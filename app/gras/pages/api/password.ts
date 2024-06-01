@@ -9,6 +9,7 @@ import env from '@/lib/env';
 import { findFirstUserOrThrow, updateUser } from '@cd/data-access';
 import { deleteManySessions } from '@cd/data-access';
 import { validateWithSchema, updatePasswordSchema } from '@/lib/zod';
+import { clientPromise } from '@/lib/db';
 
 export default async function handler(
   req: NextApiRequest,
@@ -36,6 +37,7 @@ export default async function handler(
 }
 
 const handlePUT = async (req: NextApiRequest, res: NextApiResponse) => {
+  const client = await clientPromise;
   const session = await getSession(req, res);
 
   const { currentPassword, newPassword } = validateWithSchema(
@@ -44,7 +46,8 @@ const handlePUT = async (req: NextApiRequest, res: NextApiResponse) => {
   );
 
   const user = await findFirstUserOrThrow({
-    where: { id: session?.user.id },
+    client,
+    where: { id: session!.user.id },
   });
 
   if (!(await verifyPassword(currentPassword, user.password as string))) {
@@ -52,6 +55,7 @@ const handlePUT = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   await updateUser({
+    client,
     where: { id: session?.user.id },
     data: { password: await hashPassword(newPassword) },
   });
@@ -61,6 +65,7 @@ const handlePUT = async (req: NextApiRequest, res: NextApiResponse) => {
     const sessionToken = getCookie(sessionTokenCookieName, { req, res });
 
     await deleteManySessions({
+      client,
       where: {
         userId: session?.user.id,
         NOT: {

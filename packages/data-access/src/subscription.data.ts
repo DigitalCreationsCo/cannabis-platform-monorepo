@@ -1,10 +1,13 @@
-import { ObjectId } from 'mongodb';
-import { db_namespace, clientPromise } from './db';
+import { type MongoClient, ObjectId } from 'mongodb';
+import { db_namespace } from './db';
 
-export const createStripeSubscription = async (
-	data: NonNullable<Subscription>,
-) => {
-	const client = await clientPromise;
+export const createStripeSubscription = async ({
+	client,
+	data,
+}: {
+	client: MongoClient;
+	data: NonNullable<Subscription>;
+}) => {
 	const { db, collections } = db_namespace;
 	const subscription = await client
 		.db(db)
@@ -15,52 +18,72 @@ export const createStripeSubscription = async (
 	return { ...data, id: subscription.insertedId.toString() };
 };
 
-export const deleteStripeSubscription = async (id: string) => {
-	const client = await clientPromise;
+export const deleteStripeSubscription = async ({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where: { id: string };
+}) => {
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
 		.collection<Subscription>(collections.subscriptions)
-		.deleteOne({ _id: new ObjectId(id) });
+		.deleteOne({ _id: new ObjectId(where.id) });
 };
 
-export const updateStripeSubscription = async (id: string, data: any) => {
-	const client = await clientPromise;
+export const updateStripeSubscription = async ({
+	client,
+	data,
+}: {
+	client: MongoClient;
+	data: any;
+}) => {
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
 		.collection<Subscription>(collections.subscriptions)
 		.updateOne(
 			{
-				_id: new ObjectId(id),
+				_id: new ObjectId(data.id),
 			},
 			data,
 		);
 };
 
-export const getSubscriptionByCustomerId = async (
-	customerId: string,
-): Promise<Subscription[]> => {
-	const client = await clientPromise;
+export const getSubscriptionByCustomerId = async ({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where: {
+		customerId: string;
+	};
+}): Promise<Subscription[]> => {
 	const { db, collections } = db_namespace;
 	return (
 		(await client
 			.db(db)
 			.collection<Subscription>(collections.subscriptions)
-			.find({ customerId })
+			.find({ customerId: where.customerId })
 			.toArray()) || []
 	);
 };
 
-export const getBySubscriptionId = async (
-	subscriptionId: string,
-): Promise<Subscription | null> => {
-	const client = await clientPromise;
+export const getBySubscriptionId = async ({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where: {
+		subscriptionId: string;
+	};
+}): Promise<Subscription | null> => {
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
 		.collection<Subscription>(collections.subscriptions)
-		.findOne({ _id: new ObjectId(subscriptionId) });
+		.findOne({ _id: new ObjectId(where.subscriptionId) });
 };
 
 export type Subscription = {

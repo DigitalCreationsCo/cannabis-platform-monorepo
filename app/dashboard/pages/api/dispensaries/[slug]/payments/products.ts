@@ -1,4 +1,9 @@
 /* eslint-disable sonarjs/no-small-switch */
+
+import { clientPromise } from '@/lib/db';
+import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
+import { getSession } from '@/lib/session';
+import { getStripeCustomerId } from '@/lib/stripe';
 import {
   type Price,
   type Service,
@@ -8,10 +13,6 @@ import {
   getSubscriptionByCustomerId,
 } from '@cd/data-access';
 import { type NextApiRequest, type NextApiResponse } from 'next';
-
-import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
-import { getSession } from '@/lib/session';
-import { getStripeCustomerId } from '@/lib/stripe';
 
 export default async function handler(
   req: NextApiRequest,
@@ -42,14 +43,15 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
   if (!session?.user?.id) {
     throw Error('Could not get user');
   }
+  const client = await clientPromise;
   const customerId = await getStripeCustomerId(teamMember, session);
 
   const [subscriptions, products, prices] = await Promise.all<
     [Promise<Subscription[]>, Promise<Service[]>, Promise<Price[]>]
   >([
-    getSubscriptionByCustomerId(customerId),
-    getAllServices(),
-    getAllPrices(),
+    getSubscriptionByCustomerId({ client, where: { customerId } }),
+    getAllServices({ client }),
+    getAllPrices({ client }),
   ]);
 
   // create a unified object with prices associated with the product

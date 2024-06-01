@@ -9,9 +9,11 @@ import {
   removeStaffMember,
   Role,
 } from '@cd/data-access';
+import { clientPromise } from '../db';
 
 // Handle SCIM events
 export const handleEvents = async (event: DirectorySyncEvent) => {
+  const client = await clientPromise;
   const { event: action, tenant: teamId, data } = event;
 
   // Currently we only handle the user events
@@ -26,6 +28,7 @@ export const handleEvents = async (event: DirectorySyncEvent) => {
   // User has been added
   if (action === 'user.created') {
     const user = await upsertUser({
+      client,
       where: {
         email,
       },
@@ -34,12 +37,17 @@ export const handleEvents = async (event: DirectorySyncEvent) => {
       },
     });
 
-    await addStaffMember(teamId, user.id, Role.MEMBER);
+    await addStaffMember({
+      client,
+      dispensary: teamId,
+      userId: user.id,
+      role: Role.MEMBER,
+    });
   }
 
   // User has been updated
   else if (action === 'user.updated') {
-    const user = await getUser({ email });
+    const user = await getUser({ client, where: { email } });
 
     if (!user) {
       return;
@@ -47,51 +55,64 @@ export const handleEvents = async (event: DirectorySyncEvent) => {
 
     // Deactivation of user by removing them from the team
     if (active === false) {
-      await removeStaffMember(teamId, user.id);
+      await removeStaffMember({
+        client,
+        where: { dispensaryId: teamId, userId: user.id },
+      });
 
       const otherTeamsCount = await countStaffMembers({
+        client,
         where: {
           userId: user.id,
         },
       });
 
       if (otherTeamsCount === 0) {
-        await deleteUser({ email: user.email });
+        await deleteUser({ client, where: { email: user.email } });
       }
 
       return;
     }
 
     await updateUser({
+      client,
       where: { email },
-
       data: {
         name,
       },
     });
 
     // Reactivation of user by adding them back to the team
-    await addStaffMember(teamId, user.id, Role.MEMBER);
+    await addStaffMember({
+      client,
+      dispensary: teamId,
+      userId: user.id,
+      role: Role.MEMBER,
+    });
   }
 
   // User has been removed
   else if (action === 'user.deleted') {
-    const user = await getUser({ email });
+    const user = await getUser({ client, where: { email } });
 
     if (!user) {
       return;
     }
 
-    await removeStaffMember(teamId, user.id);
+    await removeStaffMember({
+      client,
+      where: { dispensaryId: teamId, userId: user.id },
+    });
 
     const otherTeamsCount = await countStaffMembers({
+      client,
       where: {
         userId: user.id,
       },
     });
 
     if (otherTeamsCount === 0) {
-      await deleteUser({ email: user.email });
+      await deleteUser({ client, where: { email: user.email } });
     }
   }
 };

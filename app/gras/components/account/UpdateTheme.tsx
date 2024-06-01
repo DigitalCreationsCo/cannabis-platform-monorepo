@@ -1,7 +1,6 @@
 import { ChevronUpDownIcon } from '@heroicons/react/24/outline';
-
 import { Card } from '@/components/shared';
-import {useTheme} from '@cd/ui-lib';
+import { useTheme } from '@cd/ui-lib';
 import { useTranslation } from 'next-i18next';
 
 const UpdateTheme = () => {

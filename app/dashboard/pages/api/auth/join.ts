@@ -1,3 +1,12 @@
+import { hashPassword } from '@/lib/auth';
+import { clientPromise } from '@/lib/db';
+import { sendVerificationEmail } from '@/lib/email/sendVerificationEmail';
+import { isEmailAllowed } from '@/lib/email/utils';
+import env from '@/lib/env';
+import { recordMetric } from '@/lib/metrics';
+import { validateRecaptcha } from '@/lib/recaptcha';
+import { slackNotify } from '@/lib/slack';
+import { userJoinSchema, validateWithSchema } from '@/lib/zod';
 import { slugify, ApiError, generateToken } from '@cd/core-lib';
 import {
   type Dispensary,
@@ -11,14 +20,6 @@ import {
   isTeamExists,
 } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { hashPassword } from '@/lib/auth';
-import { sendVerificationEmail } from '@/lib/email/sendVerificationEmail';
-import { isEmailAllowed } from '@/lib/email/utils';
-import env from '@/lib/env';
-import { recordMetric } from '@/lib/metrics';
-import { validateRecaptcha } from '@/lib/recaptcha';
-import { slackNotify } from '@/lib/slack';
-import { userJoinSchema, validateWithSchema } from '@/lib/zod';
 
 // TODO:
 // Add zod schema validation
@@ -58,8 +59,7 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
       // inviteToken,
       recaptchaToken,
     } = req.body;
-
-    console.info('req.body: ', req.body);
+    const client = await clientPromise;
 
     await validateRecaptcha(recaptchaToken);
 
@@ -94,7 +94,7 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
       );
     }
 
-    if (await getUser({ email })) {
+    if (await getUser({ client, where: { email } })) {
       throw new ApiError(400, 'An user with this email already exists.');
     }
 
@@ -105,11 +105,10 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       const slug = slugify(dispensary);
-      console.info('slug: ', slug);
 
-      // validateWithSchema(userJoinSchema, { dispensary, slug });
+      validateWithSchema(userJoinSchema, { dispensary, slug });
 
-      const slugCollisions = await isTeamExists(slug);
+      const slugCollisions = await isTeamExists({ client, where: { slug } });
 
       if (slugCollisions > 0) {
         throw new ApiError(400, 'A team with this slug already exists.');
@@ -117,13 +116,15 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     const user = await createUser({
-      name,
-      email,
-      password: await hashPassword(password),
-      emailVerified: invitation ? new Date() : null,
+      client,
+      data: {
+        name,
+        email,
+        password: await hashPassword(password),
+        emailVerified: invitation ? new Date() : null,
+      },
     });
 
-    console.info('user: ', user);
     let userDispensary: Dispensary;
 
     // Create team if user is not invited
@@ -131,11 +132,13 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
     // if (!invitation) {
     // eslint-disable-next-line prefer-const
     userDispensary = await createDispensary({
+      client,
+      data: {
+        name: dispensary,
+        slug: slugify(dispensary),
+      },
       userId: user.id,
-      name: dispensary,
-      slug: slugify(dispensary),
     });
-    console.info('userDispensary: ', userDispensary);
     // } else {
     //   userDispensary = await getDispensary({ slug: invitation.team.slug });
     // }
@@ -143,6 +146,7 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
     // Send account verification email
     if (env.confirmEmail && !user.emailVerified) {
       const verificationToken = await createVerificationToken({
+        client,
         token: generateToken(),
         identifier: user.email,
         expires: new Date(Date.now() + 24 * 60 * 60 * 1000),

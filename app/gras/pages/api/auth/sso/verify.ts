@@ -1,8 +1,9 @@
+import { clientPromise } from '@/lib/db';
 import env from '@/lib/env';
 import { ssoManager } from '@/lib/jackson/sso';
 import { teamSlugSchema, validateWithSchema } from '@/lib/zod';
 import { getDispensary } from '@cd/data-access';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { type NextApiRequest, type NextApiResponse } from 'next';
 
 const sso = ssoManager();
 
@@ -31,6 +32,7 @@ export default async function handler(
 }
 
 const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
+  const client = await clientPromise;
   const { slug } = validateWithSchema(
     teamSlugSchema,
     JSON.parse(req.body) as { slug: string }
@@ -40,7 +42,7 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
     throw new Error('Missing the SSO identifier.');
   }
 
-  const team = await getDispensary({ slug });
+  const team = await getDispensary({ client, where: { slug } });
 
   if (!team) {
     throw new Error('Team not found.');

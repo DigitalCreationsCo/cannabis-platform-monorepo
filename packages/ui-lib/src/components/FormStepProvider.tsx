@@ -65,7 +65,8 @@ function FormStepProvider({
 	const formComponentProps: FormComponentProps = { loading, setLoading };
 
 	const [cookies, setCookie] = useEncryptCookies(
-		[`form-data-context-${formId}`] || ({} as FormValuesType),
+		// [`form-data-context-${formId}`] || ({} as FormValuesType),
+		[`form-data-context-${formId}`],
 	);
 	const [formValues, setFormData] = useState<FormValuesType>(
 		cookies[`form-data-context-${formId}`] || {},

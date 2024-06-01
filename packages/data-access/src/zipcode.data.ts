@@ -1,7 +1,13 @@
-import { db_namespace, clientPromise } from './db';
+import { type MongoClient } from 'mongodb';
+import { db_namespace } from './db';
 
-export const getZipcodeLocation = async (zipcode: string) => {
-	const client = await clientPromise;
+export const getZipcodeLocation = async ({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where: { zipcode: string };
+}) => {
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
@@ -12,5 +18,5 @@ export const getZipcodeLocation = async (zipcode: string) => {
 			pop: number;
 			state: string;
 		}>(collections.zipcodes)
-		.findOne({ _id: zipcode.toString() });
+		.findOne({ _id: where.zipcode.toString() });
 };

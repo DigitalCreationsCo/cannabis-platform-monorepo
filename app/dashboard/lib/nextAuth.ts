@@ -11,7 +11,6 @@ import {
   getAccount,
   addStaffMember,
   getDispensary,
-  clientPromise,
 } from '@cd/data-access';
 import { setCookie, getCookie } from 'cookies-next';
 import type {
@@ -43,6 +42,7 @@ import { sendMagicLink } from '@/lib/email/sendMagicLink';
 import { isEmailAllowed } from '@/lib/email/utils';
 import env from '@/lib/env';
 import { validateRecaptcha } from '@/lib/recaptcha';
+import { clientPromise } from './db';
 
 import { slackNotify } from './slack';
 
@@ -68,6 +68,7 @@ if (isAuthProviderEnabled('credentials')) {
           throw new Error('no-credentials');
         }
 
+        const client = await clientPromise;
         const { email, password, recaptchaToken } = credentials;
 
         await validateRecaptcha(recaptchaToken);
@@ -76,7 +77,7 @@ if (isAuthProviderEnabled('credentials')) {
           return null;
         }
 
-        const user = await getUser({ email });
+        const user = await getUser({ client, where: { email } });
 
         console.trace('user ', user);
         if (!user) {
@@ -317,7 +318,11 @@ export const getAuthOptions = (
           return '/auth/login?error=allow-only-work-email';
         }
 
-        const existingUser = await getUser({ email: user.email });
+        const client = await clientPromise;
+        const existingUser = await getUser({
+          client,
+          where: { email: user.email },
+        });
         const isIdpLogin = account.provider === 'boxyhq-idp';
 
         // Handle credentials provider
@@ -337,8 +342,11 @@ export const getAuthOptions = (
         // First time users
         if (!existingUser) {
           const newUser = await createUser({
-            name: `${user.name}`,
-            email: `${user.email}`,
+            client,
+            data: {
+              name: `${user.name}`,
+              email: `${user.email}`,
+            },
           });
 
           await linkAccount(newUser, account);
@@ -371,7 +379,10 @@ export const getAuthOptions = (
           await createDatabaseSession(existingUser, req, res);
         }
 
-        const linkedAccount = await getAccount({ userId: existingUser.id });
+        const linkedAccount = await getAccount({
+          client,
+          where: { userId: existingUser.id },
+        });
 
         if (!linkedAccount) {
           await linkAccount(existingUser, account);
@@ -454,8 +465,10 @@ const linkAccount = async (user: User, account: Account) => {
 };
 
 const linkToTeam = async (profile: any, userId: string) => {
+  const client = await clientPromise;
   const team = await getDispensary({
-    id: profile.requested.tenant,
+    client,
+    where: { id: profile.requested.tenant },
   });
 
   // Sort out roles
@@ -482,5 +495,5 @@ const linkToTeam = async (profile: any, userId: string) => {
     }
   }
 
-  await addStaffMember(team.id, userId, userRole);
+  await addStaffMember({ client, dispensary: team.id, userId, role: userRole });
 };

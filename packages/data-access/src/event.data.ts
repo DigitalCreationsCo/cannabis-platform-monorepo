@@ -1,24 +1,35 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { db_namespace, clientPromise } from '../db';
-import { type Event } from './event.types';
+import { type MongoClient } from 'mongodb';
+import { db_namespace } from './db';
+import { type Event } from './types';
 
-export const createManyEvents = async (events: Event[]) => {
-	const client = await clientPromise;
+export const createManyEvents = async ({
+	client,
+	data,
+}: {
+	client: MongoClient;
+	data: Event[];
+}) => {
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
 		.collection<Event>(collections.events)
-		.insertMany(events);
+		.insertMany(data);
 };
 
-export const updateManyEvents = async (events: Event[]) => {
-	const client = await clientPromise;
+export const updateManyEvents = async ({
+	client,
+	data,
+}: {
+	client: MongoClient;
+	data: Event[];
+}) => {
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
 		.collection<Event>(collections.events)
 		.bulkWrite(
-			events.map((event) => ({
+			data.map((event) => ({
 				updateOne: {
 					filter: { id: event.id },
 					update: { $set: { ...event } },
@@ -28,8 +39,13 @@ export const updateManyEvents = async (events: Event[]) => {
 		);
 };
 
-export const createEvent = async (data: Event): Promise<Event> => {
-	const client = await clientPromise;
+export const createEvent = async ({
+	client,
+	data,
+}: {
+	client: MongoClient;
+	data: Event;
+}): Promise<Event> => {
 	const { db, collections } = db_namespace;
 	const event = await (
 		await client.db(db).collection<Event>(collections.events).findOneAndUpdate(
@@ -47,13 +63,14 @@ export const createEvent = async (data: Event): Promise<Event> => {
 };
 
 export const updateEvent = async ({
+	client,
 	where,
 	data,
 }: {
+	client: MongoClient;
 	where: { id: string };
 	data: Event;
 }): Promise<Event> => {
-	const client = await clientPromise;
 	const { db, collections } = db_namespace;
 	const event = await (
 		await client.db(db).collection<Event>(collections.events).findOneAndUpdate(
@@ -70,33 +87,48 @@ export const updateEvent = async ({
 	};
 };
 
-export const getEvent = async (id: string): Promise<Event | null> => {
-	const client = await clientPromise;
+export const getEvent = async ({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where: { id: string };
+}): Promise<Event | null> => {
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
 		.collection<Event>(collections.events)
-		.findOne({ id });
+		.findOne(where);
 };
 
-export const getEvents = async (): Promise<Event[]> => {
-	const client = await clientPromise;
+export const getEvents = async ({
+	client,
+	limit = 12,
+}: {
+	client: MongoClient;
+	limit?: number;
+}): Promise<Event[]> => {
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
 		.collection<Event>(collections.events)
 		.find()
-		.limit(24)
+		.limit(limit)
 		.toArray();
 };
 
-export const deleteEvent = async (id: string) => {
-	const client = await clientPromise;
+export const deleteEvent = async ({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where: { id: string };
+}) => {
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
 		.collection<Event>(collections.events)
-		.deleteOne({ id });
+		.deleteOne(where);
 };
 
 // Currently using Mongo TTL index to expire events

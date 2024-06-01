@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { ObjectId } from 'mongodb';
-import { type USStateAbbreviated } from '../address.types';
-import { clientPromise, db_namespace } from '../db';
+import { type MongoClient, ObjectId } from 'mongodb';
+import { db_namespace } from './db';
+import { type USStateAbbreviated } from './types';
 
 /* METHODS
  * createCustomer
@@ -16,16 +16,21 @@ import { clientPromise, db_namespace } from '../db';
  * @param customer customer data
  * @returns created customer
  */
-export async function createCustomer(customer: Customer) {
-	const client = await clientPromise;
+export async function createCustomer({
+	client,
+	data,
+}: {
+	client: MongoClient;
+	data: Customer;
+}) {
 	const { db, collections } = db_namespace;
 	return {
-		...customer,
+		...data,
 		id: (
 			await client
 				.db(db)
 				.collection<Customer>(collections.customers)
-				.insertOne(customer)
+				.insertOne(data)
 		).insertedId.toString(),
 	};
 }
@@ -35,15 +40,20 @@ export async function createCustomer(customer: Customer) {
  * @param organizationId organization id
  * @returns customers
  */
-export async function getCustomersByDispensary(teamSlug: string) {
-	const client = await clientPromise;
+export async function getCustomersByDispensary({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where: { teamSlug: string };
+}) {
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
 		.collection(collections.customers)
 		.aggregate([
 			{
-				$match: { teamSlug },
+				$match: { teamSlug: where.teamSlug },
 			},
 			{
 				$addFields: {
@@ -59,15 +69,20 @@ export async function getCustomersByDispensary(teamSlug: string) {
  * @param customer update data
  * @returns updated customer
  */
-export async function updateCustomer(update: Customer) {
-	const client = await clientPromise;
+export async function updateCustomer({
+	client,
+	data,
+}: {
+	client: MongoClient;
+	data: Customer;
+}) {
 	const { db, collections } = db_namespace;
 	const customer = await client
 		.db(db)
 		.collection(collections.customers)
 		.findOneAndUpdate(
-			{ _id: new ObjectId(update.id) },
-			{ $set: update },
+			{ _id: new ObjectId(data.id) },
+			{ $set: data },
 			{ returnDocument: 'after' },
 		);
 	return { ...customer.value!, id: customer.value!._id.toString() };
@@ -78,13 +93,18 @@ export async function updateCustomer(update: Customer) {
  * @param id customer id
  * @returns string
  */
-export async function deleteCustomer(id: string): Promise<string> {
-	const client = await clientPromise;
+export async function deleteCustomer({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where: { id: string };
+}): Promise<string> {
 	const { db, collections } = db_namespace;
 	const customer = await client
 		.db(db)
 		.collection(collections.customers)
-		.findOneAndDelete({ _id: new ObjectId(id) });
+		.findOneAndDelete({ _id: new ObjectId(where.id) });
 	return customer.value!._id.toString();
 }
 
@@ -95,13 +115,17 @@ export async function deleteCustomer(id: string): Promise<string> {
  * @param teamSlug
  * @returns string
  */
-export async function getOneCustomerByDispensary(
-	where: { id: string } | { email: string } | any,
-	teamSlug: string,
-): Promise<Customer> {
+export async function getOneCustomerByDispensary({
+	client,
+	where,
+	teamSlug,
+}: {
+	client: MongoClient;
+	where: { id: string } | { email: string } | any;
+	teamSlug: string;
+}): Promise<Customer> {
 	Object.hasOwnProperty.call(where, 'id') &&
 		(where = { _id: new ObjectId(where.id) });
-	const client = await clientPromise;
 	const { db, collections } = db_namespace;
 	const customer = await client
 		.db(db)
@@ -110,18 +134,21 @@ export async function getOneCustomerByDispensary(
 	return { ...customer!, id: customer!._id.toString() };
 }
 
-export async function upsertCustomerByDispensary(
-	upsert: Customer,
-): Promise<Customer> {
-	const client = await clientPromise;
+export async function upsertCustomerByDispensary({
+	client,
+	data,
+}: {
+	client: MongoClient;
+	data: Customer;
+}): Promise<Customer> {
 	const { db, collections } = db_namespace;
 	const customer = (
 		await client
 			.db(db)
 			.collection<Customer>(collections.customers)
 			.findOneAndUpdate(
-				{ email: upsert.email },
-				{ $set: upsert },
+				{ email: data.email },
+				{ $set: data },
 				{ upsert: true, returnDocument: 'after' },
 			)
 	).value;

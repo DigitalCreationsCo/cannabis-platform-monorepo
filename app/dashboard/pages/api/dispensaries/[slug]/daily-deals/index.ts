@@ -1,5 +1,10 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable @typescript-eslint/naming-convention */
+import { clientPromise } from '@/lib/db';
+import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
+import { recordMetric } from '@/lib/metrics';
+import { sendAudit } from '@/lib/retraced';
+import { sendEvent } from '@/lib/svix';
 import { axios, throwIfNotAllowed } from '@cd/core-lib';
 import {
   deleteDispensaryDailyDeal,
@@ -9,10 +14,6 @@ import {
   getDispensaryDailyDeals,
 } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
-import { recordMetric } from '@/lib/metrics';
-import { sendAudit } from '@/lib/retraced';
-import { sendEvent } from '@/lib/svix';
 
 export default async function handler(
   req: NextApiRequest,
@@ -52,8 +53,12 @@ export default async function handler(
 const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
   const teamMember = await throwIfNoDispensaryAccess(req, res);
   throwIfNotAllowed(teamMember, 'team_daily_deals', 'read');
+  const client = await clientPromise;
 
-  const dailyDeals = await getDispensaryDailyDeals(teamMember.team.slug);
+  const dailyDeals = await getDispensaryDailyDeals({
+    client,
+    where: { slug: teamMember.team.slug },
+  });
 
   // const dailyDeals: DailyDeal[] = [
   // 	{
@@ -103,6 +108,7 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
 const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
   const teamMember = await throwIfNoDispensaryAccess(req, res);
   throwIfNotAllowed(teamMember, 'team_member', 'create');
+  const client = await clientPromise;
 
   const create = req.body as DailyDeal;
   const { doesRepeat, teamSlug, schedule, id, startTime, endTime, timezone } =
@@ -164,7 +170,10 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
     create.jobId = jobId;
   }
 
-  const dailyDealCreated = await createDispensaryDailyDeal(create);
+  const dailyDealCreated = await createDispensaryDailyDeal({
+    client,
+    data: create,
+  });
 
   sendAudit({
     action: 'team.daily_deals.create',
@@ -182,10 +191,14 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 const handleDELETE = async (req: NextApiRequest, res: NextApiResponse) => {
   const teamMember = await throwIfNoDispensaryAccess(req, res);
   throwIfNotAllowed(teamMember, 'team_daily_deals', 'delete');
+  const client = await clientPromise;
 
   const { id } = req.query as { id: string };
 
-  const dailyDealRemoved = await deleteDispensaryDailyDeal(id);
+  const dailyDealRemoved = await deleteDispensaryDailyDeal({
+    client,
+    where: { id },
+  });
 
   if (dailyDealRemoved.jobId) {
     // DELETE cron job
@@ -222,6 +235,7 @@ const handleDELETE = async (req: NextApiRequest, res: NextApiResponse) => {
 const handlePATCH = async (req: NextApiRequest, res: NextApiResponse) => {
   const teamMember = await throwIfNoDispensaryAccess(req, res);
   throwIfNotAllowed(teamMember, 'team_member', 'update');
+  const client = await clientPromise;
 
   const update = req.body as DailyDeal;
 
@@ -229,7 +243,10 @@ const handlePATCH = async (req: NextApiRequest, res: NextApiResponse) => {
     update;
   const [minutes, hours, mdays, months, wdays] = schedule.split(' ');
 
-  const dailyDealUpdated = await updateDispensaryDailyDeal(update);
+  const dailyDealUpdated = await updateDispensaryDailyDeal({
+    client,
+    data: update,
+  });
 
   if (update.jobId) {
     // UPDATE CRON JOB

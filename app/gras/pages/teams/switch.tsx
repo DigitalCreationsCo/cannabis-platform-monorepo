@@ -1,7 +1,5 @@
-import { AuthLayout } from '@/components/layouts';
-import { getSession } from '@/lib/session';
-import { deleteCookie } from 'cookies-next';
 import { getStaffMemberDispensaries } from '@cd/data-access';
+import { deleteCookie } from 'cookies-next';
 import type {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
@@ -12,7 +10,10 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useRouter } from 'next/router';
 import { type ReactElement, useEffect } from 'react';
 import toast from 'react-hot-toast';
+import { AuthLayout } from '@/components/layouts';
+import { clientPromise } from '@/lib/db';
 import type { NextPageWithLayout } from '@/lib/next.types';
+import { getSession } from '@/lib/session';
 
 const Organizations: NextPageWithLayout<
   InferGetServerSidePropsType<typeof getServerSideProps>
@@ -52,12 +53,15 @@ export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
   const { req, res, locale }: GetServerSidePropsContext = context;
-
+  const client = await clientPromise;
   const session = await getSession(req, res);
 
   deleteCookie('pending-invite', { req, res });
 
-  const teams = await getStaffMemberDispensaries(session?.user.id as string);
+  const teams = await getStaffMemberDispensaries({
+    client,
+    where: { userId: session?.user.id as string },
+  });
 
   return {
     props: {

@@ -75,7 +75,7 @@ const notAdminUser: any = {
 };
 
 // @ts-ignore
-const organization: OrganizationWithDashboardDetails = {
+const organization = {
 	id: '1234',
 	name: 'McNuggs',
 	stripeAccountId: 'acct_1JX2Zz2eZvKYlo2C',

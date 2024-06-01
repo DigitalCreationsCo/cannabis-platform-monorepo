@@ -1,42 +1,45 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { ObjectId } from 'mongodb';
-import { db_namespace, clientPromise } from '../db';
-import { normalizeUser } from '../helpers';
-import { Role } from '../role.types';
-import { addStaffMember } from '../staff/staff.data';
-import { type StaffMemberWithUser } from '../staff/staff.types';
-import { getZipcodeLocation } from '../zipcode.data';
-import { type Dispensary } from './dispensary.types';
+import { type MongoClient, ObjectId } from 'mongodb';
+import { db_namespace } from './db';
+import { normalizeUser } from './helpers';
+import { addStaffMember } from './staff.data';
+import { type Dispensary } from './types/dispensary.types';
+import { Role } from './types/role.types';
+import { type StaffMemberWithUser } from './types/staff.types';
+import { getZipcodeLocation } from './zipcode.data';
 
 export const createDispensary = async ({
-	createdAt = new Date(),
-	updatedAt = new Date(),
-	...param
-}: { userId: string } & Omit<Dispensary, 'id'>): Promise<Dispensary> => {
+	client,
+	userId,
+	data,
+}: {
+	client: MongoClient;
+	userId: string;
+	data: Omit<Dispensary, 'id'>;
+}): Promise<Dispensary> => {
 	try {
-		const { userId } = param;
-		const client = await clientPromise;
+		const { createdAt = new Date(), updatedAt = new Date() } = data;
 		const { db, collections } = db_namespace;
 
-		if (param.isSubscribedForMessaging) {
-			param.slickTextTextwordId = '4034501';
+		if (data.isSubscribedForMessaging) {
+			data.slickTextTextwordId = '4034501';
 			// param.slickTextSegmentId = '';
 		}
 
 		const dispensary = {
-			...param,
+			...data,
 			id: (
 				await client
 					.db(db)
 					.collection(collections.dispensaries)
-					.insertOne({ ...param, createdAt, updatedAt })
+					.insertOne({ ...data, createdAt, updatedAt })
 			).insertedId.toString(),
 		};
 
 		// console.info('dispensary: ', dispensary);
 
-		await addStaffMember(dispensary, userId, Role.OWNER);
+		await addStaffMember({ client, dispensary, userId, role: Role.OWNER });
 
 		// await findOrCreateApp(team.name, team.id);
 
@@ -47,39 +50,48 @@ export const createDispensary = async ({
 	}
 };
 
-export const getDispensaryByCustomerId = async (
-	billingId: string,
-): Promise<Dispensary | null> => {
-	const client = await clientPromise;
+export const getDispensaryByCustomerId = async ({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where: {
+		billingId: string;
+	};
+}): Promise<Dispensary | null> => {
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
 		.collection<Dispensary>(collections.dispensaries)
-		.findOne({ billingId });
+		.findOne({ billingId: where.billingId });
 };
 
-export const getDispensary = async (
-	where: { id: string } | { slug: string } | any,
-) => {
+export const getDispensary = async ({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where: { id: string } | { slug: string } | any;
+}) => {
 	Object.hasOwnProperty.call(where, 'id') &&
 		(where = { _id: new ObjectId(where.id) });
-	const client = await clientPromise;
 	const { db, collections } = db_namespace;
 	const dispensary = await client
 		.db(db)
 		.collection<Dispensary>(collections.dispensaries)
 		.findOne(where);
-
-	console.trace('dispensary: ', dispensary);
 	return { ...dispensary, id: dispensary!._id.toString() };
 };
 
-export const deleteDispensary = async (
-	where: { id: string } | { slug: string } | any,
-) => {
+export const deleteDispensary = async ({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where: { id: string } | { slug: string } | any;
+}) => {
 	Object.hasOwnProperty.call(where, 'id') &&
 		(where = { _id: new ObjectId(where.id) });
-	const client = await clientPromise;
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
@@ -87,29 +99,41 @@ export const deleteDispensary = async (
 		.deleteOne(where);
 };
 
-export const removeStaffMember = async (
-	dispensaryId: string,
-	userId: string,
-) => {
-	const client = await clientPromise;
+export const removeStaffMember = async ({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where: {
+		dispensaryId: string;
+		userId: string;
+	};
+}) => {
 	const { db, collections } = db_namespace;
 	const deleted = await client
 		.db(db)
 		.collection(collections.staff)
-		.findOneAndDelete({ dispensaryId, _id: new ObjectId(userId) });
+		.findOneAndDelete({
+			dispensaryId: where.dispensaryId,
+			_id: new ObjectId(where.userId),
+		});
 	return deleted.value!;
 };
 
-export const getStaffMemberDispensaries = async (userId: string) => {
-	const client = await clientPromise;
+export const getStaffMemberDispensaries = async ({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where: { userId: string };
+}) => {
 	const { db, collections } = db_namespace;
-
 	return await client
 		.db(db)
 		.collection<Dispensary>(collections.dispensaries)
 		.aggregate<Dispensary>([
 			{
-				$match: { members: userId },
+				$match: { members: where.userId },
 			},
 			{
 				$addFields: {
@@ -121,14 +145,19 @@ export const getStaffMemberDispensaries = async (userId: string) => {
 		.toArray();
 };
 
-export async function getDispensaryRoles(userId: string) {
-	const client = await clientPromise;
+export async function getDispensaryRoles({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where: { userId: string };
+}) {
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
 		.collection(collections.staff)
 		.findOne(
-			{ _id: new ObjectId(userId) },
+			{ _id: new ObjectId(where.userId) },
 			{ projection: { role: 1, dispensaryId: 1 } },
 		);
 }
@@ -136,26 +165,38 @@ export async function getDispensaryRoles(userId: string) {
 /**
  *  Check if the user is an admin or owner of the dispensary
  */
-export async function isDispensaryAdmin(userId: string, dispensaryId: string) {
-	const client = await clientPromise;
+export async function isDispensaryAdmin({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where: { userId: string; dispensaryId: string };
+}) {
 	const { db, collections } = db_namespace;
 	const staffMember = await client
 		.db(db)
 		.collection(collections.staff)
-		.findOne({ _id: new ObjectId(userId), dispensaryId });
-
+		.findOne({
+			_id: new ObjectId(where.userId),
+			dispensaryId: where.dispensaryId,
+		});
 	return staffMember?.role === Role.ADMIN || staffMember?.role === Role.OWNER;
 }
 
-export const getStaffMembers = async (slug: string) => {
-	const client = await clientPromise;
+export const getStaffMembers = async ({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where: { slug: string };
+}) => {
 	const { db, collections } = db_namespace;
 	const staffMembers = await client
 		.db(db)
 		.collection<StaffMemberWithUser>(collections.staff)
 		.aggregate<StaffMemberWithUser>([
 			{
-				$match: { 'team.slug': slug },
+				$match: { 'team.slug': where.slug },
 			},
 			{
 				$lookup: {
@@ -170,50 +211,62 @@ export const getStaffMembers = async (slug: string) => {
 			},
 		])
 		.toArray();
-	console.trace('staffMembers: ', staffMembers);
-
 	return staffMembers?.map((member) => {
 		member = normalizeUser(member);
 		return member;
 	});
 };
 
-export const updateDispensary = async (
-	slug: string,
-	update: Partial<Dispensary>,
-): Promise<Dispensary> => {
-	const client = await clientPromise;
+export const updateDispensary = async ({
+	client,
+	data,
+}: {
+	client: MongoClient;
+	data: Partial<Dispensary>;
+}): Promise<Dispensary> => {
 	const { db, collections } = db_namespace;
-
 	// if (update.isSubscribedForMessaging) {
 	// 	update.slickTextTextwordId = '4034501';
 	// 	update.slickTextSegmentId = ''
 	// }
-
 	const updatedDispensary = await client
 		.db(db)
 		.collection<Dispensary>(collections.dispensaries)
-		.findOneAndUpdate({ slug }, { $set: update }, { returnDocument: 'after' });
+		.findOneAndUpdate(
+			{ slug: data.slug },
+			{ $set: data },
+			{ returnDocument: 'after' },
+		);
 	return {
 		...updatedDispensary.value!,
 		id: updatedDispensary.value!._id.toString(),
 	};
 };
 
-export const isTeamExists = async (slug: string): Promise<number> => {
-	const client = await clientPromise;
+export const isTeamExists = async ({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where: { slug: string };
+}): Promise<number> => {
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
 		.collection(collections.dispensaries)
-		.countDocuments({ slug });
+		.countDocuments({ slug: where.slug });
 };
 
-export const getStaffMember = async (
-	userId: string,
-	slug: string,
-): Promise<StaffMemberWithUser> => {
-	const client = await clientPromise;
+export const getStaffMember = async ({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where: {
+		userId: string;
+		slug: string;
+	};
+}): Promise<StaffMemberWithUser> => {
 	const { db, collections } = db_namespace;
 	return (
 		await client
@@ -221,7 +274,7 @@ export const getStaffMember = async (
 			.collection(collections.staff)
 			.aggregate<StaffMemberWithUser>([
 				{
-					$match: { 'team.slug': slug, userId },
+					$match: { 'team.slug': where.slug, userId: where.userId },
 				},
 				{ $addFields: { _userId: { $toObjectId: '$userId' } } },
 				{
@@ -237,28 +290,38 @@ export const getStaffMember = async (
 				},
 			])
 			.toArray()
-	)[0];
+	)[0] as StaffMemberWithUser;
 };
 
 /**
  * get zero or more Dispensaries
  * @param dispensaryIds string[]
  */
-export const getDispensaries = async (dispensaryIds: string[]) => {
-	const client = await clientPromise;
+export const getDispensaries = async ({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where: { dispensaryIds: string[] };
+}) => {
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
 		.collection(collections.dispensaries)
-		.find(dispensaryIds.map((id) => ({ _id: new ObjectId(id) })));
+		.find(where.dispensaryIds.map((id) => ({ _id: new ObjectId(id) })));
 };
 
-export async function getDispensariesByLocation(
-	loc: [number, number],
-	limit: number,
-	radius: number,
-) {
-	const client = await clientPromise;
+export async function getDispensariesByLocation({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where: {
+		loc: [number, number];
+		limit: number;
+		radius: number;
+	};
+}) {
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
@@ -266,9 +329,9 @@ export async function getDispensariesByLocation(
 		.aggregate([
 			{
 				$geoNear: {
-					near: loc,
+					near: where.loc,
 					distanceField: 'distanceFromLoc',
-					maxDistance: radius,
+					maxDistance: where.radius,
 					spherical: true,
 				},
 			},
@@ -282,16 +345,20 @@ export async function getDispensariesByLocation(
 }
 
 export async function getDispensariesByZipcode({
+	client,
 	zipcode,
 	limit,
 	radius,
-}: any): Promise<Required<Dispensary[]>> {
-	const zip = await getZipcodeLocation(zipcode);
-
+}: {
+	client: MongoClient;
+	zipcode: string;
+	limit: string;
+	radius: string;
+}): Promise<Required<Dispensary[]>> {
+	const zip = await getZipcodeLocation({ client, where: { zipcode } });
 	if (!zip?.loc) {
 		return [];
 	}
-	const client = await clientPromise;
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
@@ -323,19 +390,20 @@ export async function getDispensariesByZipcode({
  * @param stripeAccountId stripe account id
  * @param accountParams additional params to update
  */
-export async function updateDispensaryStripeAccount(
-	id: string,
-	stripeAccountId: string,
-	accountParams: Dispensary,
-) {
-	const client = await clientPromise;
+export async function updateDispensaryStripeAccount({
+	client,
+	data,
+}: {
+	client: MongoClient;
+	data: Dispensary;
+}) {
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
 		.collection(collections.dispensaries)
 		.updateOne(
-			{ _id: new ObjectId(id) },
-			{ $set: { stripeAccountId, ...accountParams } },
+			{ _id: new ObjectId(data.id) },
+			{ $set: { stripeAccountId: data.stripeAccountId, ...data } },
 		);
 }
 
@@ -344,14 +412,19 @@ export async function updateDispensaryStripeAccount(
  * @param organizationId
  * @returns stripeAccountId
  */
-export async function getStripeAccountId(dispensaryId: string) {
-	const client = await clientPromise;
+export async function getStripeAccountId({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where: { dispensaryId: string };
+}) {
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
 		.collection<Dispensary>(collections.dispensaries)
 		.findOne(
-			{ _id: new ObjectId(dispensaryId) },
+			{ _id: new ObjectId(where.dispensaryId) },
 			{ projection: { stripeAccountId: 1 } },
 		);
 }

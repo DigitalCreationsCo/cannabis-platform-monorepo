@@ -1,6 +1,6 @@
-import { type Dispensary } from '../dispensary/dispensary.types';
-import { type Role } from '../role.types';
-import { type User } from '../user/user.types';
+import { type Dispensary } from './dispensary.types';
+import { type Role } from './role.types';
+import { type User } from './user.types';
 
 export type StaffMember = {
 	id: string;
