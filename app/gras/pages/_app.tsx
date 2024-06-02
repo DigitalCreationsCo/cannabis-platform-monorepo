@@ -11,7 +11,7 @@ import {
 import mixpanel from 'mixpanel-browser';
 import { Provider as ReduxProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-// import '@boxyhq/react-ui/dist/style.css';
+import '@boxyhq/react-ui/dist/style.css';
 import '../styles/anim8-gradient.css';
 import '../styles/globals.css';
 import '../styles/shop.css';

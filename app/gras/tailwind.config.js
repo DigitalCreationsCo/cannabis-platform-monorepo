@@ -89,8 +89,6 @@ module.exports = {
     base: true,
     utils: true,
     themes: [
-      'corporate',
-      'black',
       {
         cannabis: {
           '--primary': '#14a33d',
@@ -113,6 +111,8 @@ module.exports = {
           '--yellow': '#FFF244',
         },
       },
+      'corporate',
+      'black',
     ],
   },
   plugins: [require('@tailwindcss/typography'), require('daisyui')],

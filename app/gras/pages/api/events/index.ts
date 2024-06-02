@@ -73,13 +73,12 @@ const handlePUT = async (req: NextApiRequest, res: NextApiResponse) => {
       const regex = /window\.__SERVER_DATA__\s*=\s*(\{.*?\});/;
       const match = scriptContent.match(regex);
       if (match && match[1]) {
-        // console.info('result ', JSON.parse(match[1])['search_data']['events']);
         events = JSON.parse(match[1])['search_data']['events']['results'];
       }
     }
   });
   const { ok, matchedCount, modifiedCount, hasWriteErrors, upsertedCount } =
-    await updateManyEvents({ client, data: { ...events } });
+    await updateManyEvents({ client, data: [...events] });
   res.status(200).json({
     ok,
     matchedCount,
