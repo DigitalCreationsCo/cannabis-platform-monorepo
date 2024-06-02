@@ -53,7 +53,7 @@ export default class OrganizationDA {
 					phone: organization.phone,
 					address: organization.address,
 					vendorId: organization.vendorId,
-					subdomain: organization.subdomainId,
+					subdomain: organization.slug,
 				},
 				{
 					headers: {
@@ -108,9 +108,9 @@ export default class OrganizationDA {
 				};
 			}
 
-			// update subdomainId if applicable
-			if (!organization.subdomainId && organization.name) {
-				organization.subdomainId = makeUrlFriendly(organization.name);
+			// update slug if applicable
+			if (!organization.slug && organization.name) {
+				organization.slug = makeUrlFriendly(organization.name);
 			}
 
 			const data = await updateOrganization(organization);

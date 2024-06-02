@@ -9344,6 +9344,10 @@ html:has(.drawer-open.drawer-open) {
   bottom: 0px;
 }
 
+.left-0 {
+  left: 0px;
+}
+
 .left-full {
   left: 100%;
 }
@@ -10054,6 +10058,10 @@ html:has(.drawer-open.drawer-open) {
 
 .max-w-2xl {
   max-width: 42rem;
+}
+
+.max-w-\[248px\] {
+  max-width: 248px;
 }
 
 .max-w-\[420px\] {
@@ -10817,6 +10825,11 @@ html:has(.drawer-open.drawer-open) {
   stroke: currentColor;
 }
 
+.object-contain {
+  -o-object-fit: contain;
+  object-fit: contain;
+}
+
 .object-cover {
   -o-object-fit: cover;
   object-fit: cover;
@@ -11080,6 +11093,10 @@ html:has(.drawer-open.drawer-open) {
   padding-top: 1.25rem;
 }
 
+.pt-6 {
+  padding-top: 1.5rem;
+}
+
 .text-left {
   text-align: left;
 }
@@ -11118,6 +11135,10 @@ html:has(.drawer-open.drawer-open) {
 
 .text-\[14px\] {
   font-size: 14px;
+}
+
+.text-\[22px\] {
+  font-size: 22px;
 }
 
 .text-lg {

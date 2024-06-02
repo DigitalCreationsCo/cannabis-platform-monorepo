@@ -285,7 +285,7 @@ const TextContent = Object.freeze({
 			ORDERING_FROM_VENDOR_f: (vendorName: string) =>
 				`Ordering from ${vendorName}`,
 			DELIVERY_DEADLINE_f: (order: any) =>
-				`Deliver order by ${showTime(order.deliveryDeadline)}`,
+				`Deliver order by ${showTime(order.deliveryDeadline, order.timeZone)}`,
 			NAVIGATE_DELIVERY: `Navigate to start delivering your order.`,
 			NEW_ORDER: `New Order`,
 			NEW_ORDER_FROM_GRAS: `New Order from Gras!`,

@@ -50,7 +50,7 @@ export default defineConfig((options) => ({
 		// 		'next/router',
 		// 		'formik',
 		// 		'find-up',
-		// 		'mongodb',
+		'mongodb',
 		// 		'mongodb-client-encryption',
 		// 		'kerberos',
 		// 		'@mongodb-js/zstd',

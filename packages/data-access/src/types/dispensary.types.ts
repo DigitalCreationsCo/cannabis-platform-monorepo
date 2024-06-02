@@ -27,13 +27,17 @@ import { type Address } from './address.types';
 export type POS = 'dutchie' | 'blaze' | 'weedmaps';
 export type Inventory = 'metrc' | 'biotrack';
 export type SiteSetting = {
-	theme: string;
+	// theme: string;
 	primaryColor: string;
 	secondaryColor: string;
 	tertiaryColor: string;
 	textColor: string;
 	backgroundColor: string;
-	accentFont: string;
+	// accentFont: string;
+	showTitle: boolean;
+	showBanner: boolean;
+	showDescription: boolean;
+	title: string;
 	description: string;
 	bannerText: string;
 };
@@ -43,16 +47,22 @@ export type Dispensary = {
 	slug: string;
 	domain?: string;
 	billingId?: string;
+	subscriptionPlanId?: string;
 	address?: Address;
+	dialCode?: string;
+	phone?: string;
 	schedule?: Schedule[];
 	ecommerceUrl?: string;
+	timeZone?: string;
 	isSubscribedForDelivery?: boolean;
 	isSubscribedForPickup?: boolean;
 	isSubscribedForMessaging?: boolean;
+	termsAccepted?: boolean;
 	billingProvider?: string;
 	stripeAccountId?: string;
+	stripeOnboardingComplete?: boolean;
 	siteSetting?: SiteSetting;
-	images?: { location: string; blurhash: string }[];
+	images?: { location: string; blurhash: string; alt: string }[];
 	pos?: POS;
 	isSignupComplete?: boolean;
 	slickTextTextwordId?: string;
@@ -60,6 +70,7 @@ export type Dispensary = {
 	members?: string[];
 	createdAt?: Date;
 	updatedAt?: Date;
+	showInMarketPlace?: boolean;
 };
 
 //  export type Dispensary = Prisma.OrganizationUncheckedCreateInput & {
@@ -121,8 +132,8 @@ export type Dispensary = {
 
 export type Schedule = {
 	day: string;
-	openAt: number;
-	closeAt: number;
+	openAt: number | string | any;
+	closeAt: number | string | any;
 };
 
 export type Invitation = any;
