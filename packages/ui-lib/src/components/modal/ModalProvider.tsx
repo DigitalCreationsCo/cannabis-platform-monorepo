@@ -12,7 +12,7 @@ import CheckoutModal from './CheckoutModal';
 import EmailModal from './EmailModal';
 import LoginModal from './LoginModal/LoginModal';
 import MessageModal from './MessageModal';
-import NewDailyDealModal from './NewDailyDealModal';
+import NewDailyDealModal from './NewDailyDeal';
 import StoreFrontModal from './StoreFrontModal';
 // import ConfirmModal from "./ConfirmModal";
 // import MessageBanner from "./MessageBanner";

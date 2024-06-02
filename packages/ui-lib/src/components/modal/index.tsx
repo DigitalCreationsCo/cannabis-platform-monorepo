@@ -9,7 +9,7 @@ export { default as ConfirmationModal } from './ConfirmationModal';
 export { default as EmailModal } from './EmailModal';
 export { default as StoreFrontModal } from './StoreFrontModal';
 export * from './LoginModal';
-export { default as NewDailyDealModal } from './NewDailyDealModal';
+export { default as NewDailyDeal } from './NewDailyDeal';
 export * from './Modal';
 export { default as ModalProvider } from './ModalProvider';
 export { default as Modal } from './Modal';

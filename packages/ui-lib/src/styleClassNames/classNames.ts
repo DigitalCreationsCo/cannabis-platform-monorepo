@@ -16,7 +16,7 @@ const styles = Object.freeze({
 		'block',
 		'rounded',
 		// 'mx-4 my-8 sm:pt-4 pb-12 md:py-5 px-4 md:px-12',
-		// 'mx-3 my-3 sm:pt-4 md:py-5 px-4 md:px-12',
+		'mx-3 my-3 sm:pt-4 md:py-5 px-4 md:px-12',
 		// 'rounded-btn',
 		'rounded',
 		'overflow-hidden',

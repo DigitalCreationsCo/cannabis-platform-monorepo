@@ -64,6 +64,7 @@
 	"created-at": "Created At",
 	"remove": "Remove",
 	"edit": "Edit",
+	"update": "Update",
 	"close": "Close",
 	"unknown-error": "Unknown Error",
 	"add-member": "Invite Member",
@@ -266,6 +267,11 @@
 	"send-message": "Send Message",
 	"successfully-sent": "Message sent successfully.",
 	"select-message-to-send": "Select a message to send",
+	"select-message-to-delete": "Select a message to delete",
+	"new-daily-deal": "New Daily Deal",
+	"delete-daily-deal": "Delete? This can't be undone.",
+	"confirm-delete-daily-deal": "Delete this daily deal?",
+	"daily-deal-deleted": "Daily Deal deleted.",
 	"confirm-message-send": "Your customers will receive this message. Send now?",
 	"not-subscribed-for-messaging": "Whoops, you're not subscribed for customer messaging.",
 	"upgrade-to-messaging": "Upgrade to Customer Messaging",
@@ -273,5 +279,6 @@
 	"upgrade-my-account": "Upgrade My Account",
 	"send": "SEND",
 	"learn-more": "Learn More",
-	"send-invite": "Send Invite"
+	"send-invite": "Send Invite",
+	"invite-customer": "Invite Customer"
 }

@@ -1,19 +1,17 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { clientPromise } from '@/lib/db';
-import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
-import { recordMetric } from '@/lib/metrics';
-import { sendAudit } from '@/lib/retraced';
-import { sendEvent } from '@/lib/svix';
 import { axios, throwIfNotAllowed } from '@cd/core-lib';
 import {
-  deleteDispensaryDailyDeal,
   updateDispensaryDailyDeal,
   type DailyDeal,
   createDispensaryDailyDeal,
   getDispensaryDailyDeals,
 } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { clientPromise } from '@/lib/db';
+import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
+import { recordMetric } from '@/lib/metrics';
+import { sendAudit } from '@/lib/retraced';
 
 export default async function handler(
   req: NextApiRequest,
@@ -29,14 +27,11 @@ export default async function handler(
       case 'POST':
         await handlePOST(req, res);
         break;
-      case 'DELETE':
-        await handleDELETE(req, res);
-        break;
       case 'PATCH':
         await handlePATCH(req, res);
         break;
       default:
-        res.setHeader('Allow', 'GET, POST, DELETE, PATCH');
+        res.setHeader('Allow', 'GET, POST, PATCH');
         res.status(405).json({
           error: { message: `Method ${method} Not Allowed` },
         });
@@ -50,6 +45,7 @@ export default async function handler(
   }
 }
 
+// get team daily deals
 const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
   const teamMember = await throwIfNoDispensaryAccess(req, res);
   throwIfNotAllowed(teamMember, 'team_daily_deals', 'read');
@@ -59,45 +55,6 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
     client,
     where: { slug: teamMember.team.slug },
   });
-
-  // const dailyDeals: DailyDeal[] = [
-  // 	{
-  // 		id: '1',
-  // 		title: 'Test',
-  // 		message: 'This is a test daily deal.',
-  // 		startTime: new Date(),
-  // 		endTime: new Date(),
-  // 		isActive: true,
-  // 		doesRepeat: true,
-  // 		schedule: '5 3 4 5 2',
-  // 		teamSlug: teamMember.team.slug,
-  // 		timezone: 'America/New_York',
-  // 	},
-  // 	{
-  // 		id: '2',
-  // 		title: 'Test2',
-  // 		message: 'This is a 2nd daily deal.',
-  // 		startTime: new Date(),
-  // 		endTime: new Date(),
-  // 		doesRepeat: true,
-  // 		schedule: '5 2 * * 2',
-  // 		teamSlug: teamMember.team.slug,
-  // 		isActive: true,
-  // 		timezone: 'America/New_York',
-  // 	},
-  // 	{
-  // 		id: '3',
-  // 		title: 'Test3',
-  // 		message: 'This is a daily deal.',
-  // 		startTime: new Date(),
-  // 		endTime: new Date(),
-  // 		doesRepeat: false,
-  // 		schedule: '5 2 * * 2',
-  // 		isActive: true,
-  // 		teamSlug: teamMember.team.slug,
-  // 		timezone: 'America/New_York',
-  // 	},
-  // ];
 
   recordMetric('dispensary.dailyDeal.fetched');
 
@@ -128,9 +85,6 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
   console.info('end time ', endTime);
 
   if (schedule) {
-    // console.trace('startTime: ', startTime);
-    // console.trace('endtime: ', endTime);
-    // console.info('schedule split: ', schedule.replace(/\*/g, '-1').split(' '));
     // create cron job
     const response = await axios.put<{ jobId: string }>(
       `https://api.cron-job.org/jobs`,
@@ -185,50 +139,6 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
   recordMetric('dispensary.dailyDeal.created');
 
   res.status(201).json({ data: dailyDealCreated });
-};
-
-// Delete dailyDeal
-const handleDELETE = async (req: NextApiRequest, res: NextApiResponse) => {
-  const teamMember = await throwIfNoDispensaryAccess(req, res);
-  throwIfNotAllowed(teamMember, 'team_daily_deals', 'delete');
-  const client = await clientPromise;
-
-  const { id } = req.query as { id: string };
-
-  const dailyDealRemoved = await deleteDispensaryDailyDeal({
-    client,
-    where: { id },
-  });
-
-  if (dailyDealRemoved.jobId) {
-    // DELETE cron job
-    await axios.delete(
-      `https://api.cron-job.org/jobs/${dailyDealRemoved.jobId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.CRON_API_KEY}`,
-          'Content-Type': 'application/json',
-        },
-      }
-    );
-  }
-
-  await sendEvent(
-    teamMember.teamId,
-    'dispensary.dailyDeal.removed',
-    dailyDealRemoved
-  );
-
-  sendAudit({
-    action: 'team.daily_deals.delete',
-    crud: 'd',
-    user: teamMember.user,
-    team: teamMember.team,
-  });
-
-  recordMetric('dispensary.dailyDeal.removed');
-
-  res.status(200).json({ data: {} });
 };
 
 // Update dailyDeal

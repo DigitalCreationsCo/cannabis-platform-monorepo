@@ -1,6 +1,6 @@
-import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
 import { permissions } from '@cd/core-lib';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
 
 export default async function handler(
   req: NextApiRequest,
