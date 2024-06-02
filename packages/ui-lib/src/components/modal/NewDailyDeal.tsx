@@ -1,12 +1,14 @@
 /* eslint-disable sonarjs/cognitive-complexity */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { axios, urlBuilder } from '@cd/core-lib';
+import { axios, urlBuilder, type ApiResponse, fetcher } from '@cd/core-lib';
 import { type Dispensary, type DailyDeal } from '@cd/data-access';
 // import { time} from 'date-fns-tz';
+// import cronToHuman from 'cron-to-human';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { Cron } from 'react-js-cron';
+import useSWR from 'swr';
 import * as yup from 'yup';
 import { Button } from '../button';
 import CheckBox from '../CheckBox';
@@ -27,14 +29,20 @@ interface NewDailyDealModalProps {
 	cancelText?: string;
 	children?: React.ReactNode;
 	modalType?: any;
-	organization?: Dispensary;
+	team?: Dispensary;
 }
 
-function NewDailyDealModal({
+function NewDailyDeal({
+	team,
 	dispatchCloseModal,
 	modalVisible,
 	...props
 }: NewDailyDealModalProps) {
+	const { mutate: mutateDailyDeals } = useSWR<ApiResponse<DailyDeal[]>>(
+		team?.slug ? `/api/dispensaries/${team.slug}/daily-deals` : null,
+		fetcher,
+	);
+
 	const closeModalAndReset = () => {
 		dispatchCloseModal?.();
 	};
@@ -85,9 +93,9 @@ function NewDailyDealModal({
 			doesRepeat: false,
 			schedule: '',
 			timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-			teamSlug: props.organization!.slug,
-			slickTextTextwordId: props.organization!.slickTextTextwordId,
-			slickTextSegmentId: props.organization!.slickTextSegmentId,
+			teamSlug: team.slug,
+			slickTextTextwordId: team.slickTextTextwordId,
+			slickTextSegmentId: team.slickTextSegmentId,
 		} as Omit<DailyDeal, 'id'>,
 		async onSubmit() {
 			try {
@@ -97,8 +105,7 @@ function NewDailyDealModal({
 				);
 				setLoadingButton(true);
 				const response = await axios.post(
-					urlBuilder.dashboard +
-						`/api/dispensaries/${props.organization!.slug}/daily-deals`,
+					urlBuilder.dashboard + `/api/dispensaries/${team.slug}/daily-deals`,
 					values,
 				);
 
@@ -108,8 +115,9 @@ function NewDailyDealModal({
 
 				toast.success('Saved.');
 				setLoadingButton(false);
+				mutateDailyDeals();
 				props.onCancel ? props.onCancel() : closeModalAndReset();
-				if (props.onSubmit) props.onSubmit();
+				// if (props.onSubmit) props.onSubmit();
 			} catch (error: any) {
 				console.error(error);
 				setLoadingButton(false);
@@ -247,4 +255,4 @@ function NewDailyDealModal({
 	);
 }
 
-export default NewDailyDealModal;
+export default NewDailyDeal;

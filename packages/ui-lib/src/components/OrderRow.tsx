@@ -28,7 +28,7 @@ function OrderRow({ order, orderDetailsRoute, className }: OrderRowProps) {
 
 				<Small className="col-span-2">
 					{formatInTimeZone(
-						new Date(order.createdAt),
+						new Date(order.createdAt || ''),
 						Intl.DateTimeFormat().resolvedOptions().timeZone,
 						'MMM dd, hh:mm',
 					)}

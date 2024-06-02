@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+import { axios, throwIfNotAllowed } from '@cd/core-lib';
+import { deleteDispensaryDailyDeal, getDailyDeal } from '@cd/data-access';
+import type { NextApiRequest, NextApiResponse } from 'next';
 import { clientPromise } from '@/lib/db';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
 import { recordMetric } from '@/lib/metrics';
-import { throwIfNotAllowed } from '@cd/core-lib';
-import { getDailyDeal } from '@cd/data-access';
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { sendAudit } from '@/lib/retraced';
+import { sendEvent } from '@/lib/svix';
 
 export default async function handler(
   req: NextApiRequest,
@@ -17,8 +19,11 @@ export default async function handler(
       case 'GET':
         await handleGET(req, res);
         break;
+      case 'DELETE':
+        await handleDELETE(req, res);
+        break;
       default:
-        res.setHeader('Allow', 'GET');
+        res.setHeader('Allow', 'GET, DELETE');
         res.status(405).json({
           error: { message: `Method ${method} Not Allowed` },
         });
@@ -45,4 +50,48 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
   recordMetric('dispensary.dailyDeal.fetched');
 
   res.status(200).json({ data: dailyDeal });
+};
+
+// Delete dailyDeal
+const handleDELETE = async (req: NextApiRequest, res: NextApiResponse) => {
+  const teamMember = await throwIfNoDispensaryAccess(req, res);
+  throwIfNotAllowed(teamMember, 'team_daily_deals', 'delete');
+  const client = await clientPromise;
+
+  const { id } = req.query as { id: string };
+
+  const dailyDealRemoved = await deleteDispensaryDailyDeal({
+    client,
+    where: { id },
+  });
+
+  if (dailyDealRemoved.jobId) {
+    // DELETE cron job
+    await axios.delete(
+      `https://api.cron-job.org/jobs/${dailyDealRemoved.jobId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.CRON_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+  }
+
+  await sendEvent(
+    teamMember.teamId,
+    'dispensary.dailyDeal.removed',
+    dailyDealRemoved
+  );
+
+  sendAudit({
+    action: 'team.daily_deals.delete',
+    crud: 'd',
+    user: teamMember.user,
+    team: teamMember.team,
+  });
+
+  recordMetric('dispensary.dailyDeal.removed');
+
+  res.status(200).json({ data: {} });
 };
