@@ -11,6 +11,10 @@ function getAbsolutePath(value: string): any {
 	return dirname(require.resolve(join(value, 'package.json')));
 }
 const config: StorybookConfig = {
+	typescript: {
+		check: true,
+		checkOptions: {},
+	},
 	stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
 	staticDirs: [{ from: '../public/assets/images/logo.png', to: '/public' }],
 	env: (config) => ({

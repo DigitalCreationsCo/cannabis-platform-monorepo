@@ -2,12 +2,15 @@
 import { formatInTimeZone, type FormatOptionsWithTZ } from 'date-fns-tz';
 import { type ValueOf } from './index';
 
-export const showTime = (date: Date | string) =>
-	new Date(date).toLocaleTimeString('en-US', {
+export const showTime = (
+	date: Date | string,
+	timeZone: string,
+	formatOptions: Intl.DateTimeFormatOptions = {
 		hour: '2-digit',
 		minute: '2-digit',
 		hour12: true,
-	});
+	},
+) => new Date(date).toLocaleTimeString('en-US', { ...formatOptions, timeZone });
 
 export const showDay = (date: Date | string) => {
 	// if the day is today, return 'today'

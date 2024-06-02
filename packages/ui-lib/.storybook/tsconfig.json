@@ -1,0 +1,18 @@
+{
+    "extends": "../tsconfig.json",
+    "compilerOptions": {
+      "types": ["node", "jest"],
+      "importsNotUsedAsValues": "remove",
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true,
+      "allowSyntheticDefaultImports": true,
+      "resolveJsonModule": true,
+      "isolatedModules": true,
+    },
+    "include": [
+      "../src",
+      "**/*.stories.*",
+      "../.storybook"
+    ]
+}

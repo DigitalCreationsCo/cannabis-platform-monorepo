@@ -39,12 +39,12 @@ import {
   H2,
   // H3,
   // Header,
+  DispensaryCard,
 } from '@cd/ui-lib';
 import mapboxgl from 'mapbox-gl';
 import { ReactElement, useEffect, useRef, useState } from 'react';
 // import { twMerge } from 'tailwind-merge';
 import markerImage from 'public/map-marker.png';
-import { DispensaryCard } from '@/components/shared';
 import {
   Post,
   Settings,

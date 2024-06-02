@@ -1,27 +1,24 @@
-export function formatDispensaryUrl(
-	subdomainId: string,
-	organizationId: string,
-) {
+export function formatDispensaryUrl(slug: string, organizationId: string) {
 	switch (process.env.NODE_ENV) {
 		case 'development':
-			return `http://localhost:3000/browse/${subdomainId}/${organizationId}`;
+			return `http://localhost:3000/browse/${slug}/${organizationId}`;
 		case 'test':
-			return `http://localhost:3000/browse/${subdomainId}/${organizationId}`;
+			return `http://localhost:3000/browse/${slug}/${organizationId}`;
 		case 'production':
-			return `https://grascannabis.org/browse/${subdomainId}/${organizationId}`;
+			return `https://grascannabis.org/browse/${slug}/${organizationId}`;
 		default:
-			return `http://localhost:3000/browse/${subdomainId}/${organizationId}`;
+			return `http://localhost:3000/browse/${slug}/${organizationId}`;
 	}
 }
 
-// export function formatDispensaryUrl(subdomainId: string) {
+// export function formatDispensaryUrl(slug: string) {
 // 	switch (process.env.NODE_ENV) {
 // 		case 'development':
-// 			return `http://${subdomainId}.localhost:3000`;
+// 			return `http://${slug}.localhost:3000`;
 // 		case 'test':
-// 			return `http://${subdomainId}.localhost:3000`;
+// 			return `http://${slug}.localhost:3000`;
 // 		case 'production':
-// 			return `http://${subdomainId}.grascannabis.org`;
+// 			return `http://${slug}.grascannabis.org`;
 // 	}
 // }
 

@@ -7,6 +7,7 @@ export * from './cart';
 export * from './skeleton';
 export { default as Center } from './Center';
 export { default as CheckAge } from './CheckAge';
+export { default as DispensaryCard } from './DispensaryCard/DispensaryCard';
 export * from './FAQ';
 export { default as FAQ } from './FAQ';
 export * from './CheckBox';

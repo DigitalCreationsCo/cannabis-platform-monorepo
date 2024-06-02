@@ -199,7 +199,7 @@ const organization = {
 			updatedAt: new Date(),
 		},
 	],
-	subdomainId: 'mcnuggs',
+	slug: 'mcnuggs',
 	subdomain: {
 		id: 'mcnuggs',
 		isValid: true,

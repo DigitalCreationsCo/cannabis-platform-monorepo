@@ -260,7 +260,8 @@ export default function DailyDealsPage() {
                         <Small>
                           {deal.startTime
                             ? `created ${showDay(deal.startTime)} ${showTime(
-                                deal.startTime
+                                deal.startTime,
+                                Intl.DateTimeFormat().resolvedOptions().timeZone
                               )}`
                             : null}
                         </Small>

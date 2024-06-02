@@ -1146,7 +1146,7 @@
 // 										},
 // 									},
 // 									vendorId: organization.vendorId,
-// 									subdomain: organization.subdomainId,
+// 									subdomain: organization.slug,
 // 								},
 // 								{
 // 									headers: {

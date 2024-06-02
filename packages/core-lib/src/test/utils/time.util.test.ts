@@ -3,7 +3,7 @@ import { formatToTimeZone, integerToTime, showTime } from '../..';
 describe('showTime', () => {
 	const time = new Date('2020-01-01T12:00:00');
 	test(' displays a correct time', () => {
-		expect(showTime(time)).toStrictEqual('12:00 PM');
+		expect(showTime(time, 'America/New_York')).toStrictEqual('12:00 PM');
 	});
 });
 
