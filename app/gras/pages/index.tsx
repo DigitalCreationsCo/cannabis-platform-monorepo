@@ -20,41 +20,17 @@ import Head from 'next/head';
 import { NextPageWithLayout } from '@/lib/next.types';
 import Image from 'next/image';
 import { TextContent } from '@cd/core-lib';
-import classNames from 'classnames';
 import logo from '../public/logo.png';
 import { twMerge } from 'tailwind-merge';
 import friendsVideo from '../public/Gras-community-clip.mp4';
-import { NextSeo } from 'next-seo';
-import app from '@/lib/app';
+import SEOMetaTags from '@/lib/SEOMetaTags';
 
 const Home: NextPageWithLayout = () => {
   const { t } = useTranslation('common');
   return (
     <div className="flex flex-col">
       <Head>
-        <NextSeo
-          title={app.name}
-          description={app.description}
-          openGraph={{
-            url: app.url,
-            title: app.opengraph.title,
-            type: 'website',
-            description: app.description,
-            images: [
-              {
-                url: app.opengraph.image,
-                alt: app.opengraph.title,
-                width: 300,
-              },
-            ],
-            site_name: app.name,
-          }}
-          twitter={{
-            cardType: 'summary_large_image',
-            site: app.url,
-            handle: '@grascannabis',
-          }}
-        />
+        <SEOMetaTags />
       </Head>
 
       <Page
@@ -75,7 +51,7 @@ const Home: NextPageWithLayout = () => {
                 href={'/'}
                 className="p-0.25 ml-4 bg-inverse w-fit rounded-full"
               >
-              <Image alt="Gras" width={44} height={44} src={logo} />
+                <Image alt="Gras" width={44} height={44} src={logo} />
               </Link>
             </FlexBox>
             <Link href={'/'}>

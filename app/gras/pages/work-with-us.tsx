@@ -31,6 +31,7 @@ import {
 import { partners } from '@/components/landing/partners/partners-data';
 import { GetServerSidePropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import SEOMetaTags from '@/lib/SEOMetaTags';
 
 export default function DispensaryLandingPage() {
   useEffect(() => {
@@ -41,6 +42,23 @@ export default function DispensaryLandingPage() {
   return (
     <>
       <Head>
+        <SEOMetaTags
+          additionalKeywords={[
+            'grow my cannabis business',
+            'new york dispensary',
+            'marketing dispensary',
+            'marketing cannabis',
+            'cannabis delivery software',
+            'cannabis business software',
+            'cannabis business',
+            'cannabis business services',
+            'cannabis delivery',
+            'weed delivery software',
+            'weed business',
+            'dispensary software',
+            'weed delivery service',
+          ]}
+        />
       </Head>
       <Page
         className={twMerge(
@@ -49,14 +67,18 @@ export default function DispensaryLandingPage() {
           'p-0 m-0 md:p-0 lg:p-0'
         )}
       >
-        <Letter id="grow" className="bg-inverse-soft pt-8" {...letters['growth']} title={letters['free-consultation'].title} />
-
+        <Hero showPretext={false} />
+        <Letter
+          id="grow"
+          className="bg-inverse-soft pt-8"
+          {...letters['growth']}
+          title={letters['free-consultation'].title}
+        />
         <ContactUs id="get-started" />
       </Page>
     </>
   );
 }
-
 
 DispensaryLandingPage.getLayoutContext = (): LayoutContextProps => ({
   TopBarComponent: () => (

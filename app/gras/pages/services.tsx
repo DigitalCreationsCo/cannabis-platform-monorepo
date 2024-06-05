@@ -42,8 +42,22 @@ export default function DispensaryLandingPage() {
   return (
     <>
       <Head>
-        <SEOMetaTags additionalKeywords={['cannabis delivery software', 'cannabis business', 'cannabis business services', 'cannabis delivery service',
-      'weed delivery software', 'weed business', 'dispensary software', 'weed delivery service']}/>
+        <SEOMetaTags
+          additionalKeywords={[
+            'cannabis business help',
+            'cannabis dispensary help',
+            'cannabis dispensary sales',
+            'cannabis dispensary growth',
+            'cannabis delivery software',
+            'cannabis business',
+            'cannabis business services',
+            'cannabis delivery service',
+            'weed delivery software',
+            'weed business',
+            'dispensary software',
+            'weed delivery service',
+          ]}
+        />
       </Head>
       <Page
         className={twMerge(

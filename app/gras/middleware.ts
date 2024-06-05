@@ -10,6 +10,7 @@ const unAuthenticatedRoutes = [
   '/',
   '/api/hello',
   '/api/health',
+  '/api/robots',
   '/api/dispensaries',
   '/api/events',
   '/api/auth/**',
@@ -25,17 +26,24 @@ const unAuthenticatedRoutes = [
   '/login/saml',
   '/browse',
   '/events/*',
-  '/weed-text',
+  // '/weed-text',
   '/blog/**',
   '/blog/*',
   '/blog',
+  // '/help',
   '/work-with-us',
   '/workwithus',
   '/services',
   '/messaging',
 ];
 
-const allowAllUsers = ['/', '/work-with-us', '/workwithus', '/services'];
+const allowAllUsers = [
+  '/',
+  '/work-with-us',
+  '/workwithus',
+  '/services',
+  '/messaging',
+];
 
 export default async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
