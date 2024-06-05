@@ -27,10 +27,11 @@ export const getDailyDeal = async ({
 	where: { slug: string; id: string };
 }) => {
 	const { db, collections } = db_namespace;
-	return await client
+	const deal = await client
 		.db(db)
 		.collection<DailyDeal>(collections.daily_deals)
 		.findOne({ teamSlug: where.slug, _id: new ObjectId(where.id) });
+	return { ...deal, id: deal?._id.toString() };
 };
 
 export const getDispensaryDailyDeals = async ({
@@ -44,7 +45,21 @@ export const getDispensaryDailyDeals = async ({
 	return await client
 		.db(db)
 		.collection<DailyDeal>(collections.daily_deals)
-		.find({ teamSlug: where.slug })
+		.aggregate([
+			{
+				$match: { teamSlug: where.slug },
+			},
+			{
+				$sort: {
+					startTime: -1,
+				},
+			},
+			{
+				$addFields: {
+					id: { $toString: '$_id' },
+				},
+			},
+		])
 		.toArray();
 };
 
@@ -100,5 +115,5 @@ export const deleteDispensaryDailyDeal = async ({
 			.collection<DailyDeal>(collections.daily_deals)
 			.findOneAndDelete({ _id: new ObjectId(where.id) })
 	).value;
-	return { ...deletedDailyDeal!, id: deletedDailyDeal!._id.toString() };
+	return { ...deletedDailyDeal!, id: where.id };
 };

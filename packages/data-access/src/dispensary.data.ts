@@ -23,7 +23,7 @@ export const createDispensary = async ({
 		const { db, collections } = db_namespace;
 
 		if (data.isSubscribedForMessaging) {
-			data.slickTextTextwordId = '4034501';
+			data.slickTextTextwordId = '4084547';
 			// param.slickTextSegmentId = '';
 		}
 
@@ -225,10 +225,6 @@ export const updateDispensary = async ({
 	data: Partial<Dispensary>;
 }): Promise<Dispensary> => {
 	const { db, collections } = db_namespace;
-	// if (update.isSubscribedForMessaging) {
-	// 	update.slickTextTextwordId = '4034501';
-	// 	update.slickTextSegmentId = ''
-	// }
 	const updatedDispensary = await client
 		.db(db)
 		.collection<Dispensary>(collections.dispensaries)
