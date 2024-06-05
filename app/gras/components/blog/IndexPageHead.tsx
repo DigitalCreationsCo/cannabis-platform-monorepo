@@ -1,8 +1,8 @@
 import { toPlainText } from '@portabletext/react';
 import Head from 'next/head';
-import BlogMeta from '@/components/blog/BlogMeta';
 import * as demo from '@/lib/sanity/demo.data';
 import { type Settings } from '@/lib/sanity';
+import SEOMetaTags from '@/lib/SEOMetaTags';
 
 export interface IndexPageHeadProps {
 	settings: Settings;
@@ -19,18 +19,9 @@ export default function IndexPageHead({ settings }: IndexPageHeadProps) {
 	return (
 		<Head>
 			<title>{title}</title>
-			<BlogMeta />
-			<meta
-				key="description"
-				name="description"
-				content={toPlainText(description)}
-			/>
-			<meta
-				property="og:image"
-				content={`${
+			<SEOMetaTags title={title} description={toPlainText(description)} openGraph={{ images: [{ url: `${
 					process.env.NEXT_PUBLIC_BLOG_APP_URL
-				}/api/og?${new URLSearchParams({ title: ogImageTitle })}`}
-			/>
+				}/api/og?${new URLSearchParams({ title: ogImageTitle })}`}]}} />
 		</Head>
 	);
 }

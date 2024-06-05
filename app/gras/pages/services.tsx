@@ -31,6 +31,7 @@ import {
 import { partners } from '@/components/landing/partners/partners-data';
 import { GetServerSidePropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import SEOMetaTags from '@/lib/SEOMetaTags';
 
 export default function DispensaryLandingPage() {
   useEffect(() => {
@@ -41,29 +42,8 @@ export default function DispensaryLandingPage() {
   return (
     <>
       <Head>
-        <>
-          {(function (
-            d,
-            a,
-            i,
-            l,
-            ye,
-            s,
-            t,
-            o?: HTMLScriptElement | undefined,
-            r?: HTMLScriptElement | undefined,
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            y
-          ) {
-            d._dsSettings = i;
-            r = a.createElement('script');
-            o = a.getElementsByTagName('script')[0];
-            r.src = '//us-1.dailystory.com/ds/ds' + i + '.js';
-            r.async = true;
-            r.id = 'ds-sitescript';
-            o.parentNode!.insertBefore(r, o);
-          })(window, document, 'driilnbagyzhfydo')}
-        </>
+        <SEOMetaTags additionalKeywords={['cannabis delivery software', 'cannabis business', 'cannabis business services', 'cannabis delivery service',
+      'weed delivery software', 'weed business', 'dispensary software', 'weed delivery service']}/>
       </Head>
       <Page
         className={twMerge(

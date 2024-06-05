@@ -36,6 +36,8 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import CacheProvider from '@cd/core-lib/src/lib/cache';
 import { AnimatePresence } from 'framer-motion';
+import Head from 'next/head';
+import SEOMetaTags from '@/lib/SEOMetaTags';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
 const stripePromise = loadStripe(
@@ -78,29 +80,19 @@ function MyApp({
 
   return (
     <>
+    <Head>
+      <>
       {loadBrevoChat()}
+      </>
+      <>
       {loadGoogleTagManager()}
+      </>
+      <>
       {loadHotJar()}
+      </>
       <GTMTag />
-      <NextSeo
-        title={app.name}
-        description={app.description}
-        openGraph={{
-          url: app.url,
-          title: app.opengraph.title,
-          type: 'website',
-          description: app.description,
-          images: [
-            { url: app.opengraph.image, alt: app.opengraph.title, width: 300 },
-          ],
-          site_name: app.name,
-        }}
-        twitter={{
-          cardType: 'summary_large_image',
-          site: app.url,
-          handle: '@grascannabis',
-        }}
-      />
+      <SEOMetaTags />
+    </Head>
       <SWRConfig
         value={{
           revalidateOnFocus: false,

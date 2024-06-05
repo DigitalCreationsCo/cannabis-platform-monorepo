@@ -75,6 +75,7 @@ import env from '@/lib/env';
 import { TopBar } from '@/components/layouts';
 import EventCard from '@/components/shared/EventCard';
 import { clientPromise } from '@/lib/db';
+import SEOMetaTags from '@/lib/SEOMetaTags';
 
 function FBInit() {
   useEffect(() => {
@@ -174,30 +175,8 @@ export default function Browse({
   return (
     <>
       <Head>
-        <NextSeo
-          title={app.name}
-          description={app.description}
-          openGraph={{
-            url: app.url,
-            title: app.opengraph.title,
-            type: 'website',
-            description: app.description,
-            images: [
-              {
-                url: app.opengraph.image,
-                alt: app.opengraph.title,
-                width: 300,
-              },
-            ],
-            site_name: app.name,
-          }}
-          twitter={{
-            cardType: 'summary_large_image',
-            site: app.url,
-            handle: '@grascannabis',
-          }}
-        />
-        <link
+        <SEOMetaTags />
+        {/* <link
           href="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css"
           rel="stylesheet"
         />
@@ -206,7 +185,7 @@ export default function Browse({
           defer
           crossOrigin="anonymous"
           src="https://connect.facebook.net/en_US/sdk.js"
-        ></script>
+        ></script> */}
       </Head>
 
       <Page

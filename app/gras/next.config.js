@@ -4,7 +4,7 @@ const path = require('path');
 const { config: configEnv } = require('dotenv');
 const { expand } = require('dotenv-expand');
 const findUp = require('find-up');
-
+const workspaceRoot = path.join(__dirname, '../../')
 const _env =
   process.env.NEXT_PUBLIC_IS_LOCAL_BUILD == '1'
     ? 'development'
@@ -12,10 +12,16 @@ const _env =
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  env: {
+    ...expand(configEnv({ path: findUp.sync(`.env.${_env}`) })).parsed,
+    NEXT_PUBLIC_SHOP_APP_URL: process.env.NEXT_PUBLIC_SHOP_APP_URL,
+    NEXTAUTH_URL: process.env.NEXT_PUBLIC_SHOP_APP_URL,
+    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
+  },
   experimental: {
     esmExternals: 'loose', // <-- add this
     // serverComponentsExternalPackages: ["mongodb"],
-    outputFileTracingRoot: path.join(__dirname, '../../'),
+    outputFileTracingRoot: workspaceRoot,
     webpackBuildWorker: true,
   },
   reactStrictMode: true,
@@ -29,8 +35,12 @@ const nextConfig = {
     'mongodb',
   ],
   webpack: (config, { isServer }) => {
-    // const prefix = config.assetPrefix ?? config.basePath ?? '';
+    console.info('NEXT_PUBLIC_SHOP_APP_URL', process.env.NEXT_PUBLIC_SHOP_APP_URL)
+    if (isServer) {
+    require(path.resolve( "./scripts/generate-gras-sitemap"));
+    }
 
+    // const prefix = config.assetPrefix ?? config.basePath ?? '';
     config.module.rules.push(
       {
         test: /\.mp4$/,
@@ -38,7 +48,6 @@ const nextConfig = {
           {
             loader: 'file-loader',
             options: {
-              // publicPath: `${prefix}/_next/static/media/`,
               publicPath: `/_next/static/media/`,
               outputPath: `${isServer ? '../' : ''}static/media/`,
               name: '[name].[hash].[ext]',
@@ -69,12 +78,7 @@ const nextConfig = {
     };
     return config;
   },
-  env: {
-    ...expand(configEnv({ path: findUp.sync(`.env.${_env}`) })).parsed,
-    NEXT_PUBLIC_SHOP_APP_URL: process.env.NEXT_PUBLIC_SHOP_APP_URL,
-    NEXTAUTH_URL: process.env.NEXT_PUBLIC_SHOP_APP_URL,
-    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
-  },
+
   images: {
     minimumCacheTTL: 60 * 60,
     domains: [
@@ -110,6 +114,10 @@ const nextConfig = {
         source: '/.well-known/saml-configuration',
         destination: '/well-known/saml-configuration',
       },
+      {
+        source: '/robots.txt',
+        destination: '/api/robots'
+      }
     ];
   },
   sentry: {
