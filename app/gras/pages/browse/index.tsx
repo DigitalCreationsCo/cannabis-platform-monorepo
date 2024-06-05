@@ -175,7 +175,20 @@ export default function Browse({
   return (
     <>
       <Head>
-        <SEOMetaTags />
+        <SEOMetaTags
+          additionalKeywords={[
+            'drake leaked text messages',
+            'current events new york',
+            'msg new york events',
+            'new york events today',
+            'new york city events today',
+            'cannabis events',
+            'cannabis events near me',
+            'discovery green events',
+            'events new york',
+            'weed show',
+          ]}
+        />
         {/* <link
           href="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css"
           rel="stylesheet"

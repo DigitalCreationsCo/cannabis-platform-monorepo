@@ -2,7 +2,6 @@ export { default as AlertBanner } from './AlertBanner';
 export { default as AuthorAvatar } from './AuthorAvatar';
 export * from './AutoPreviewPane';
 export { default as BlogHeader } from './BlogHeader';
-export { default as BlogMeta } from './BlogMeta';
 export { default as BlogNavigation } from './BlogNavigation';
 export { default as BlogTopBar } from './BlogTopBar';
 export { default as HeroPost } from './HeroPost';

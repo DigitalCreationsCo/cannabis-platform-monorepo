@@ -29,6 +29,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import PricingCard from '@/components/landing/Pricing/Pricing';
 import messagingPrices from '@/components/landing/Pricing/messagingPrices';
+import SEOMetaTags from '@/lib/SEOMetaTags';
 
 export default function MessagingLandingPage() {
   useEffect(() => {
@@ -39,9 +40,18 @@ export default function MessagingLandingPage() {
   return (
     <>
       <Head>
-        <>
-      
-        </>
+        <SEOMetaTags
+          additionalKeywords={[
+            'cannabis text message marketing',
+            'cannabis text message',
+            'cannabis text message marketing',
+            'cannabis sms',
+            'dispensary text message',
+            'send messages from dispensary',
+            'message dispensary customers',
+            'weed text',
+          ]}
+        />
       </Head>
       <Page
         className={twMerge(

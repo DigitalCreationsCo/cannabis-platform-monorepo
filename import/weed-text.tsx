@@ -23,9 +23,11 @@ import Icons from '@cd/ui-lib/src/icons';
 import { type StaticImageData } from 'next/image';
 import { type PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
-import ContinueSignUp from 'components/form/ContinueSignUp';
+// import ContinueSignUp from 'components/form/ContinueSignUp';
+import Head from 'next/head';
+import SEOMetaTags from '@/lib/SEOMetaTags';
 
-function WeedTextSignUp() {
+export default function WeedTextSignUp() {
 	const { isSignedIn } = useAppSelector(selectUserState);
 	const dispatch = useAppDispatch();
 
@@ -39,41 +41,54 @@ function WeedTextSignUp() {
 	}
 
 	return (
-		<Page
-			className={twMerge(
-				styles.gradient,
-				'text-light p-0 sm:p-0 md:p-0 lg:p-0',
-			)}
-		>
-			{/* <ImageBackDrop video={friendsVideo}></ImageBackDrop> */}
-			<FlexBox className="mx-auto flex p-4 px-8 md:px-20 w-full space-x-2 items-center space-y-8 lg:space-y-8">
-				<div className="flex flex-col self-center text-center lg:py-2">
-					<H1 className="text-[1.4rem] md:text-4xl text-light mx-auto text-center whitespace-pre-line overflow-x-visible w-lg font-semibold tracking-wide">
-						{/* {TextContent.info.SAME_DAY_DELIVERY}&nbsp;🌴 */}
-						{/* {TextContent.info.TOP_SHELF_CANNABIS_DELIVERED_DAILY}&nbsp;🌴 */}
-						We Deliver Top-Shelf Cannabis Daily&nbsp;🌴
-					</H1>
-					{/* <Button
+		<>
+			<Head>
+				<SEOMetaTags
+					additionalKeywords={[
+						'weed text',
+						'get weed delivery',
+						'weed delivery text',
+						'text weed',
+						'get my weed delivered',
+						'cannabis text delivery',
+					]}
+				/>
+			</Head>
+			<Page
+				className={twMerge(
+					styles.gradient,
+					'text-light p-0 sm:p-0 md:p-0 lg:p-0',
+				)}
+			>
+				{/* <ImageBackDrop video={friendsVideo}></ImageBackDrop> */}
+				<FlexBox className="mx-auto flex p-4 px-8 md:px-20 w-full space-x-2 items-center space-y-8 lg:space-y-8">
+					<div className="flex flex-col self-center text-center lg:py-2">
+						<H1 className="text-[1.4rem] md:text-4xl text-light mx-auto text-center whitespace-pre-line overflow-x-visible w-lg font-semibold tracking-wide">
+							{/* {TextContent.info.SAME_DAY_DELIVERY}&nbsp;🌴 */}
+							{/* {TextContent.info.TOP_SHELF_CANNABIS_DELIVERED_DAILY}&nbsp;🌴 */}
+							We Deliver Top-Shelf Cannabis Daily&nbsp;🌴
+						</H1>
+						{/* <Button
 										size="lg"
 										bg="primary"
 										transparent
 										className="uppercase hover:bg-primary-light p-8 self-end"
 										onClick={openCheckAgeModalOrEnterSite}
 									> */}
-					<H2 className="text-[1.2rem] md:text-3xl">
-						{/* {TextContent.info.ENJOY_BUD_WITH_YOUR_BUDS} */}
-						{/* So You Can Enjoy Bud With Your Buds */}
-						Enjoy Bud With Your Buds
-					</H2>
-					{/* </Button> */}
-				</div>
+						<H2 className="text-[1.2rem] md:text-3xl">
+							{/* {TextContent.info.ENJOY_BUD_WITH_YOUR_BUDS} */}
+							{/* So You Can Enjoy Bud With Your Buds */}
+							Enjoy Bud With Your Buds
+						</H2>
+						{/* </Button> */}
+					</div>
 
-				<HowItWorks />
-			</FlexBox>
+					<HowItWorks />
+				</FlexBox>
 
-			<SignUpForm />
+				<SignUpForm />
 
-			{/* <div className="px-8 w-5/6 mx-auto pt-20">
+				{/* <div className="px-8 w-5/6 mx-auto pt-20">
 				<hr className="border-2" />
 			</div>
 			{!isSignedIn && (
@@ -96,7 +111,8 @@ function WeedTextSignUp() {
 					</Link>
 				</FlexBox>
 			)} */}
-		</Page>
+			</Page>
+		</>
 	);
 }
 
@@ -212,15 +228,10 @@ const SignUpForm = () => {
 			>
 				(Already A Member? Sign In)
 			</Button>
-			<ContinueSignUp />
+			{/* <ContinueSignUp /> */}
 		</Card>
 	);
 };
-
-WeedTextSignUp.getLayoutContext = (): LayoutContextProps => ({
-	showTopBar: true,
-});
-export default WeedTextSignUp;
 
 const styles = {
 	gradient: [

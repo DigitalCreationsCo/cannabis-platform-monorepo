@@ -4,7 +4,7 @@ const path = require('path');
 const { config: configEnv } = require('dotenv');
 const { expand } = require('dotenv-expand');
 const findUp = require('find-up');
-const workspaceRoot = path.join(__dirname, '../../')
+const workspaceRoot = path.join(__dirname, '../../');
 const _env =
   process.env.NEXT_PUBLIC_IS_LOCAL_BUILD == '1'
     ? 'development'
@@ -35,9 +35,8 @@ const nextConfig = {
     'mongodb',
   ],
   webpack: (config, { isServer }) => {
-    console.info('NEXT_PUBLIC_SHOP_APP_URL', process.env.NEXT_PUBLIC_SHOP_APP_URL)
     if (isServer) {
-    require(path.resolve( "./scripts/generate-gras-sitemap"));
+      require(path.resolve('./scripts/generate-gras-sitemap'));
     }
 
     // const prefix = config.assetPrefix ?? config.basePath ?? '';
@@ -116,8 +115,8 @@ const nextConfig = {
       },
       {
         source: '/robots.txt',
-        destination: '/api/robots'
-      }
+        destination: '/api/robots',
+      },
     ];
   },
   sentry: {
