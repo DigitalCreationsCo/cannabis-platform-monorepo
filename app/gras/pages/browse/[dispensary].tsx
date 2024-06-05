@@ -31,6 +31,7 @@ import { type PropsWithChildren, useState, ReactElement } from 'react';
 import useSWR from 'swr';
 import { twMerge } from 'tailwind-merge';
 import logo from 'public/logo.png';
+import SEOMetaTags from '@/lib/SEOMetaTags';
 
 function DispensaryPage({ dispensaryId }: { dispensaryId: string }) {
   const Router = useRouter();
@@ -286,8 +287,8 @@ function DispensaryPage({ dispensaryId }: { dispensaryId: string }) {
       className="w-full p-0 md:pt-12 md:pb-24 flex flex-col grow min-h-[96vh]"
     >
       <Head>
-        <title>Grascannabis.org - Cannabis, Delivered.</title>
-        <meta name="Gras App" content="Built by Gras Cannabis Co." />
+        {/* CUSTOMIZE META */}
+        <SEOMetaTags />
       </Head>
       <Card
         style={{ backgroundColor: applyDispensaryStyles['background-color'] }}
