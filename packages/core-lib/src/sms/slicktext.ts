@@ -1,7 +1,6 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { type DailyDeal } from '@cd/data-access';
-import { type Customer } from '@cd/data-access';
+import { type DailyDeal, type Customer } from '@cd/data-access';
 import axios from 'axios';
 
 const auth = Buffer.from(
@@ -72,7 +71,7 @@ class SlickTextSMS {
 				`${process.env.NEXT_PUBLIC_SLICKTEXT_API_URL}/contacts`,
 				{
 					action: 'DOUBLEOPTIN',
-					textword: '4034501',
+					textword: '4084547',
 					doubleOptInMessage: data.doubleOptInMessage,
 					number: data.phone,
 					firstName: data.firstName,
@@ -109,7 +108,7 @@ class SlickTextSMS {
 	// 			`${process.env.NEXT_PUBLIC_SLICKTEXT_API_URL}/contacts`,
 	// 			{
 	// 				action: 'DOUBLEOPTIN',
-	// 				textword: '4034501',
+	// 				textword: '4084547',
 	// 				doubleOptInMessage: data.doubleOptInMessage,
 	// 				number: data.phone,
 	// 				firstName: data.firstName,
