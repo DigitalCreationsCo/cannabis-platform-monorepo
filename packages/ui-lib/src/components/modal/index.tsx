@@ -10,6 +10,7 @@ export { default as EmailModal } from './EmailModal';
 export { default as StoreFrontModal } from './StoreFrontModal';
 export * from './LoginModal';
 export { default as NewDailyDeal } from './NewDailyDeal';
+export { default as NewDailyDealModal } from './NewDailyDealModal';
 export * from './Modal';
 export { default as ModalProvider } from './ModalProvider';
 export { default as Modal } from './Modal';
