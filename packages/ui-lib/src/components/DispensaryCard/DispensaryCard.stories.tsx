@@ -1,8 +1,9 @@
-import { dispensaries } from '@cd/data-access';
-import type { Meta, StoryObj } from '@storybook/react';
+import { type Dispensary, dispensaries } from '@cd/data-access';
+import { type Meta, type StoryObj } from '@storybook/react';
 import DispensaryCard, { type DispensaryCardProps } from './DispensaryCard';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
+type Story = StoryObj<typeof meta>;
 const meta = {
 	title: 'DispensaryCard',
 	component: DispensaryCard,
@@ -19,15 +20,22 @@ const meta = {
 } satisfies Meta<typeof DispensaryCard>;
 
 export default meta;
-type Story = StoryObj<DispensaryCardProps>;
 
 // const Template: Story = (args) => <DispensaryCard {...args} />;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
-export const MultipleDispensaryCards = () => (
-	<>
-		{dispensaries.map((d, index) => (
-			<DispensaryCard key={index} {...d} />
-		))}
-	</>
+// export const MultipleDispensaryCards: Story[] = dispensaries.map(
+// 	(disp, index) => ({
+// 		args: { data: disp, loading: false },
+// 	}),
+// );
+
+export const DispensaryCards = () => (
+	<div className="flex flex-row">
+		{dispensaries
+			.map((dispensary, index) => {
+				return <DispensaryCard key={`dispensary-${index}`} data={dispensary} />;
+			})
+			.concat(<DispensaryCard data={{} as any} loading={true} />)}
+	</div>
 );

@@ -1,5 +1,5 @@
-import { dispensaries, type Dispensary } from '@cd/data-access';
-import type { Meta, StoryObj } from '@storybook/react';
+import { dispensaries } from '@cd/data-access';
+import { type Meta, type StoryObj } from '@storybook/react';
 import DispensaryCard from '../DispensaryCard/DispensaryCard';
 import Carousel from './Carousel';
 
@@ -18,16 +18,16 @@ const meta = {
 
 export default meta;
 
-export const DispensaryCarousel: Story = {
-	args: {
-		title: 'Dispensaries Near You',
-		// Component: () => <>Dispensary Card</>,
-		items: dispensaries.map((d, index) => (
-			<DispensaryCard key={index} {...d} />
-		)),
-	},
-};
+const items = dispensaries.map((d, index) => (
+	<DispensaryCard key={`dispensary-card-${index}`} data={d} />
+));
 
-// export const ArticleCarousel: Story = {
-// 	args: {},
-// };
+export const DispensaryCarousel = () => (
+	<div className="w-full">
+		<Carousel
+			className="w-screen"
+			title={'Dispensaries Near You'}
+			items={items}
+		/>
+	</div>
+);

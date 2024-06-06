@@ -112,8 +112,18 @@ export const getEvents = async ({
 	return await client
 		.db(db)
 		.collection<Event>(collections.events)
-		.find()
-		.limit(limit)
+		.aggregate<Event>([
+			{
+				$limit: limit,
+			},
+			{
+				$addFields: {
+					id: { $toString: '$_id' },
+					date: { $dateFromString: { dateString: '$start_date' } },
+				},
+			},
+			{ $sort: { date: 1 } },
+		])
 		.toArray();
 };
 

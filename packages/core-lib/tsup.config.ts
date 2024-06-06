@@ -47,6 +47,9 @@ export default defineConfig((options) => ({
 	tsconfig: new URL('./tsconfig.build.json', import.meta.url).pathname,
 	sourcemap: !options.watch,
 	minify: !options.watch,
+	external: [
+		// 'swr'
+	],
 	// external: [
 	// 	'@cd/data-access', // Mark core-lib as an external dependency
 	// ],

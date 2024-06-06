@@ -93,7 +93,11 @@
     "read-csr": "openssl req -text -in $0 -noout",
     "read-cert": "openssl x509 -in $0 -text -noout",
     "deps:sync": "yarn syncpack fix-mismatches",
-    "snippet": "node scripts/create-snippet.js"
+    "snippet": "node scripts/create-snippet.js",
+    "build:storybook": "storybook build --output-dir dist/storybook",
+    "storybook": "storybook dev -p 6006",
+    "storybook debug": "storybook dev -p 6006 --debug-webpack",
+    "storybook check": "BABEL_SHOW_CONFIG_FOR=.storybook/main.ts yarn storybook"
   },
   "engines": {
     "node": "18.19.0",
@@ -119,6 +123,15 @@
     "@rollup/plugin-node-resolve": "15.0.1",
     "@rollup/plugin-typescript": "11.0.0",
     "@rushstack/eslint-patch": "1.2.0",
+    "@storybook/addon-essentials": "8.1.5",
+    "@storybook/addon-interactions": "8.1.5",
+    "@storybook/addon-links": "8.1.5",
+    "@storybook/addon-onboarding": "8.1.5",
+    "@storybook/addon-styling-webpack": "1.0.0",
+    "@storybook/blocks": "8.1.5",
+    "@storybook/nextjs": "8.1.5",
+    "@storybook/react": "8.1.5",
+    "@storybook/testing-library": "0.2.2",
     "@tailwindcss/typography": "0.5.8",
     "@testing-library/react": "14.0.0",
     "@types/carbon__icons-react": "11.16.0",
@@ -163,7 +176,7 @@
     "eslint-plugin-regexp": "1.15.0",
     "eslint-plugin-simple-import-sort": "8.0.0",
     "eslint-plugin-sonarjs": "0.19.0",
-    "eslint-plugin-storybook": "0.6.15",
+    "eslint-plugin-storybook": "0.8.0",
     "eslint-plugin-tailwindcss": "3.12.1",
     "eslint-plugin-testing-library": "5.11.0",
     "express": "4.18.2",
@@ -189,13 +202,17 @@
     "postcss-cli": "10.1.0",
     "prettier": "2.8.0",
     "raw-loader": "^4.0.2",
+    "react": "^18.3.1",
     "react-cookie": "4.1.1",
+    "react-dom": "^18.3.1",
     "react-redux": "8.0.2",
     "rimraf": "4.4.1",
     "rollup": "3.20.2",
     "rollup-plugin-postcss": "4.0.2",
     "serve": "14.2.0",
     "sharp": "0.33.1",
+    "speed-measure-webpack-plugin": "^1.5.0",
+    "storybook": "8.1.5",
     "stripe": "11.15.0",
     "style-loader": "3.3.2",
     "supertest": "6.3.3",
@@ -218,6 +235,7 @@
   },
   "dependencies": {
     "next-seo": "^6.5.0",
+    "storybook-addon-performance": "^0.17.3",
     "supertokens-web-js": "0.8.0"
   }
 }
