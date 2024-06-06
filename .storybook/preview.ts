@@ -1,7 +1,11 @@
-import type { Preview } from '@storybook/react';
-import '../src/styles/tailwind.css';
+import { Preview } from '@storybook/react';
+import '../packages/ui-lib/src/styles/tailwind.css';
+import '../app/gras/styles/tailwind.css'
+import '../app/dashboard/styles/tailwind.css'
 import * as NextImage from 'next/image';
+import { withPerformance } from 'storybook-addon-performance';
 
+export const decorators = [withPerformance];
 const OriginalNextImage = NextImage.default;
 
 // OriginalNextImage.propTypes = {
@@ -12,7 +16,7 @@ OriginalNextImage.defaultProps = {
 	unoptimized: true,
 };
 
-const preview: Preview = {
+const preview = {
 	parameters: {
 		actions: { argTypesRegex: '^on[A-Z].*' },
 		controls: {

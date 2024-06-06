@@ -20,7 +20,7 @@ const styles = Object.freeze({
 		// 'rounded-btn',
 		'rounded',
 		'overflow-hidden',
-		'shadow min-h-[220px]',
+		'shadow min-h-[220px] min-w-[240px]',
 		'drop-shadow-[-6px_4px_1px_#455555]',
 		'border border-transparent hover:border-primary',
 	],
@@ -29,7 +29,7 @@ const styles = Object.freeze({
 		'w-[200px] md:min-w-[224px] md:w-[340px] h-[200px] p-4 !rounded',
 	],
 	isOpenBadge: [
-		'text-inherit border-b tracking-wider text-sm z-10 top-0 right-0',
+		'text-inherit border-b tracking-wider inline-block text-sm z-10 top-0 right-0',
 	],
 	HERO: {
 		container: ['w-full p-4 md:px-14 lg:px-32', 'justify-center'],
