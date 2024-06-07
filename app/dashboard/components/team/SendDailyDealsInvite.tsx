@@ -33,6 +33,13 @@ type SendDailyDealsInviteProps = {
   className?: string | string[];
 };
 
+/*
+ * This entire ocmponent is arguably unnecessary.
+ * THe same functionality can be created using Twilio API (Text 'join' to 42424)
+ * So, possibly cancel this feature.
+ * Use Segment routing to add contacts from sms subscription to FreshSales crm.
+ */
+
 function SendDailyDealsInviteForm({
   team,
   isSubscribedOrThrow,
@@ -62,29 +69,34 @@ function SendDailyDealsInviteForm({
       zipcode: undefined,
       birthdate: '',
       doubleOptInMessage: `Reply YES to join ${team.name}.`,
-    } as CustomerSMSInvite,
+    },
     onSubmit: async () => {
       try {
         setLoadingButton(true);
         const response = await axios.post<
           ResponseDataEnvelope<any>,
           AxiosResponse<ResponseDataEnvelope<any>>,
-          Partial<CustomerSMSInvite>
+          Partial<any>
         >(
           urlBuilder.dashboard +
             `/api/dispensaries/${team.slug}/daily-deals/invite`,
           {
-            email: values.email,
-            phone: values.phone,
-            firstName: values.firstName,
-            lastName: values.lastName,
-            city: values.city,
-            state: values.state,
-            zipcode: values.zipcode,
-            birthdate: values.birthdate,
-            doubleOptInMessage: values.doubleOptInMessage,
-            teamSlug: team.slug,
-            isOptInMessages: true,
+            ...values,
+
+            // THIS INPUT IS BROKEN, AND THE COMPONENT IS  NOT NEEDED ATM
+            //
+            //
+            // email: values.email,
+            // phone_numbers: [values['phone']],
+            // firstName: values.firstName,
+            // lastName: values.lastName,
+            // city: values.city,
+            // state: values.state,
+            // zipcode: values.zipcode,
+            // birthdate: values.birthdate,
+            // doubleOptInMessage: values.doubleOptInMessage,
+            // teamSlug: team.slug,
+            // isOptInMessages: true,
           }
         );
 

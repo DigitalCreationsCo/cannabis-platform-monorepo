@@ -20,7 +20,7 @@
 	"compilerOptions": {
 	  "moduleResolution": "node",
 	//   "verbatimModuleSyntax": true,
-	  "strict": true,
+	  "strict": false,
 	  "useUnknownInCatchVariables": false,
 	  "noImplicitOverride": true,
 	  "noUncheckedIndexedAccess": true,

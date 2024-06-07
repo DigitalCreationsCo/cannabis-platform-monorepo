@@ -1,14 +1,14 @@
-import { clientPromise } from '@/lib/db';
-import { recordMetric } from '@/lib/metrics';
-import { getCurrentUser } from '@/lib/user';
-import { createTeamSchema, validateWithSchema } from '@/lib/zod';
-import { slugify, ApiError } from '@cd/core-lib';
+import { slugify, ApiError, FreshSales } from '@cd/core-lib';
 import {
   createDispensary,
   getStaffMemberDispensaries,
   isTeamExists,
 } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { clientPromise } from '@/lib/db';
+import { recordMetric } from '@/lib/metrics';
+import { getCurrentUser } from '@/lib/user';
+import { createTeamSchema, validateWithSchema } from '@/lib/zod';
 
 export default async function handler(
   req: NextApiRequest,
@@ -64,6 +64,8 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
     throw new ApiError(400, 'A team with the slug already exists.');
   }
 
+  const weedTextSegmentId = await FreshSales.createSegment(slug);
+
   const team = await createDispensary({
     client,
     userId: user.id,
@@ -71,6 +73,7 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
       ...create,
       name: create.name,
       slug,
+      weedTextSegmentId,
     },
   });
 

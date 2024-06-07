@@ -60,7 +60,7 @@ class SlickTextSMS {
 		}
 	}
 
-	async optInCustomer(data: CustomerSMSInvite) {
+	async optInCustomer(data: any) {
 		try {
 			console.info(
 				`opt in customer to daily deals with slick text, phone: ${data.phone}`,

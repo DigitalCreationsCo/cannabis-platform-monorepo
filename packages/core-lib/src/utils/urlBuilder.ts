@@ -164,6 +164,10 @@ const urlBuilder = {
 	freshSales: {
 		baseUrl: process.env.FRESHSALES_API_URL,
 		createContact: () => `${urlBuilder.freshSales.baseUrl}/api/contacts`,
+		upsertContact: () => `${urlBuilder.freshSales.baseUrl}/api/contacts/upsert`,
+		marketingList: () => `${urlBuilder.freshSales.baseUrl}/api/lists`,
+		getContactsFromList: (id: string) =>
+			`${urlBuilder.freshSales.baseUrl}/api/contacts/lists/${id}`,
 	},
 };
 

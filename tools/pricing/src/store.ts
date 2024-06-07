@@ -59,17 +59,17 @@ const makeStore = () => {
 		store = configureStore({
 			devTools: process.env.NODE_ENV !== 'production',
 			reducer: persistReducer(persistConfig, rootReducer),
-			middleware: (getDefaultMiddleware) => [
-				...getDefaultMiddleware({
+			middleware: (getDefaultMiddleware) =>
+				getDefaultMiddleware({
+					...getDefaultMiddleware(),
 					serializableCheck: {
 						ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
 					},
 					thunk: {
 						extraArgument: thunkArguments,
 					},
+					...middlewares,
 				}),
-				...middlewares,
-			],
 		});
 		// @ts-ignore
 		store._persistor = persistStore(store);
@@ -77,17 +77,17 @@ const makeStore = () => {
 		store = configureStore({
 			devTools: process.env.NODE_ENV !== 'production',
 			reducer: hydratableReducer,
-			middleware: (getDefaultMiddleware) => [
-				...getDefaultMiddleware({
+			middleware: (getDefaultMiddleware) =>
+				getDefaultMiddleware({
+					...getDefaultMiddleware(),
 					serializableCheck: {
 						ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
 					},
 					thunk: {
 						extraArgument: thunkArguments,
 					},
+					...middlewares,
 				}),
-				...middlewares,
-			],
 		});
 	}
 	thunkArguments.store = store;

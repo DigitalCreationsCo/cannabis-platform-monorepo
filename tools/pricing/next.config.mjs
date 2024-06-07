@@ -1,4 +1,4 @@
-import { config } from 'dotenv';
+import { config as configEnv } from 'dotenv';
 import { expand } from 'dotenv-expand';
 import {
 	PHASE_DEVELOPMENT_SERVER,
@@ -8,15 +8,16 @@ import {
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { loadEnv } from './src/config/loadEnv.mjs';
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const _env =
 	process.env.NEXT_PUBLIC_IS_LOCAL_BUILD == '1'
 		? 'development'
 		: process.env.NODE_ENV;
-expand(config({ path: loadEnv(_env) }));
 
+/**
+ * @type {import('next').NextConfig}
+ */
 const nextConfig = (phase) => {
 	const isDev = phase === PHASE_DEVELOPMENT_SERVER;
 	const isProd =
@@ -28,10 +29,33 @@ const nextConfig = (phase) => {
 	console.info(
 		`isDev:${isDev}  isProd:${isProd}   isStaging:${isStaging} isTest:${isTest}`,
 	);
-	/**
-	 * @type {import('next').NextConfig}
-	 */
+
 	const config = {
+		env: {
+			...expand(configEnv({ path: loadEnv(_env) })).parsed,
+			BACKEND_URL: (() => {
+				if (isDev) return 'http://localhost:6001';
+				if (isProd) return 'https://backend.grascannabis.org';
+				if (isStaging) return 'http://localhost:6001';
+				if (isTest) return 'http://localhost:6001';
+			})(),
+		},
+		experimental: {
+			outputFileTracingRoot: path.join(__dirname, '../../'),
+			// resolve javascript out of heap memory issue in development
+			esmExternals: false,
+		},
+		images: {
+			minimumCacheTTL: 60 * 60,
+			domains: [
+				'https://storage.cloud.google.com',
+				'www.storage.cloud.google.com',
+				'storage.cloud.google.com',
+			],
+		},
+		output: 'standalone',
+		reactStrictMode: true,
+		swcMinify: true,
 		transpilePackages: [
 			'@cd/eslint-config',
 			'@cd/data-access',
@@ -47,30 +71,6 @@ const nextConfig = (phase) => {
 				tls: false,
 			};
 			return config;
-		},
-		env: {
-			BACKEND_URL: (() => {
-				if (isDev) return 'http://localhost:6001';
-				if (isProd) return 'https://backend.grascannabis.org';
-				if (isStaging) return 'http://localhost:6001';
-				if (isTest) return 'http://localhost:6001';
-			})(),
-		},
-		reactStrictMode: true,
-		swcMinify: true,
-		output: 'standalone',
-		experimental: {
-			outputFileTracingRoot: path.join(__dirname, '../../'),
-			// resolve javascript out of heap memory issue in development
-			esmExternals: false,
-		},
-		images: {
-			minimumCacheTTL: 60 * 60,
-			domains: [
-				'https://storage.cloud.google.com',
-				'www.storage.cloud.google.com',
-				'storage.cloud.google.com',
-			],
 		},
 	};
 	return config;

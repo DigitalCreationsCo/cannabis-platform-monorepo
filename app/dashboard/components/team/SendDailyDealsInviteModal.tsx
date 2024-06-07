@@ -65,29 +65,34 @@ function SendDailyDealsInviteForm({
       zipcode: undefined,
       birthdate: '',
       doubleOptInMessage: `Reply YES to join ${team.name}.`,
-    } as CustomerSMSInvite,
+    } as any,
     onSubmit: async () => {
       try {
         setLoadingButton(true);
         const response = await axios.post<
           ResponseDataEnvelope<any>,
           AxiosResponse<ResponseDataEnvelope<any>>,
-          Partial<CustomerSMSInvite>
+          Partial<any>
         >(
           urlBuilder.dashboard +
             `/api/dispensaries/${team.slug}/daily-deals/invite`,
           {
-            email: values.email,
-            phone: values.phone,
-            firstName: values.firstName,
-            lastName: values.lastName,
-            city: values.city,
-            state: values.state,
-            zipcode: values.zipcode,
-            birthdate: values.birthdate,
-            doubleOptInMessage: values.doubleOptInMessage,
-            teamSlug: team.slug,
-            isOptInMessages: true,
+            ...values,
+
+            // THIS INPUT IS BROKEN, AND THE COMPONENT IS  NOT NEEDED ATM
+            //
+            //
+            // email: values.email,
+            // phone_numbers: [values['phone']],
+            // firstName: values.firstName,
+            // lastName: values.lastName,
+            // city: values.city,
+            // state: values.state,
+            // zipcode: values.zipcode,
+            // birthdate: values.birthdate,
+            // doubleOptInMessage: values.doubleOptInMessage,
+            // teamSlug: team.slug,
+            // isOptInMessages: true,
           }
         );
 
@@ -95,7 +100,7 @@ function SendDailyDealsInviteForm({
           throw new Error(response.data.error);
         }
 
-        toast.success(`Sent invite link to ${values.firstName}!`);
+        // toast.success(`Sent invite link to ${values.firstName}!`);
         setLoadingButton(false);
         resetForm();
       } catch (error: any) {

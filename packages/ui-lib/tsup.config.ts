@@ -42,6 +42,7 @@ export default defineConfig((options) => ({
 		'fs',
 		'zlib',
 		'stream',
+		'swr',
 		// 		'react',
 		// 		'react-dom',
 		// 		'usehooks-ts',
