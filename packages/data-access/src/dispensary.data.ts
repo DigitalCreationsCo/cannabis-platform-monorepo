@@ -22,11 +22,6 @@ export const createDispensary = async ({
 		const { createdAt = new Date(), updatedAt = new Date() } = data;
 		const { db, collections } = db_namespace;
 
-		if (data.isSubscribedForMessaging) {
-			data.slickTextTextwordId = '4084547';
-			// param.slickTextSegmentId = '';
-		}
-
 		const dispensary = {
 			...data,
 			id: (

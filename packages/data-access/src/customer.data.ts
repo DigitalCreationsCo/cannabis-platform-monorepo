@@ -1,21 +1,10 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { type MongoClient, ObjectId } from 'mongodb';
 import { db_namespace } from './db';
 import { type USStateAbbreviated } from './types';
 
-/* METHODS
- * createCustomer
- * findCustomersByOrg
- * updateCustomer
- * deleteCustomer
- */
-
-/**
- * create customer
- * @param customer customer data
- * @returns created customer
- */
 export async function createCustomer({
 	client,
 	data,
@@ -123,13 +112,13 @@ export async function getOneCustomerByDispensary({
 	client: MongoClient;
 	where: { id: string } | { email: string } | any;
 	teamSlug: string;
-}): Promise<Customer> {
+}) {
 	Object.hasOwnProperty.call(where, 'id') &&
 		(where = { _id: new ObjectId(where.id) });
 	const { db, collections } = db_namespace;
 	const customer = await client
 		.db(db)
-		.collection<Customer>(collections.customers)
+		.collection(collections.customers)
 		.findOne({ ...where, teamSlug });
 	return { ...customer!, id: customer!._id.toString() };
 }
@@ -140,12 +129,12 @@ export async function upsertCustomerByDispensary({
 }: {
 	client: MongoClient;
 	data: Customer;
-}): Promise<Customer> {
+}) {
 	const { db, collections } = db_namespace;
 	const customer = (
 		await client
 			.db(db)
-			.collection<Customer>(collections.customers)
+			.collection(collections.customers)
 			.findOneAndUpdate(
 				{ email: data.email },
 				{ $set: data },
@@ -155,19 +144,88 @@ export async function upsertCustomerByDispensary({
 	return { ...customer!, id: customer!._id.toString() };
 }
 
-export type Customer = {
-	id: string;
-	firstName: string;
-	lastName: string;
-	phone: string;
+// from mongo
+
+// export type Customer = {
+// 	id: string;
+// 	firstName: string;
+// 	lastName: string;
+// 	phone: string;
+// 	email: string;
+// 	city?: string;
+// 	state?: USStateAbbreviated;
+// 	zipcode?: string;
+// 	birthdate?: string;
+// 	teamSlug: string;
+// 	doubleOptInMessage: string;
+// 	isOptInMessages: boolean;
+// 	weedTextSegmentId: string;
+// 	rewards: any;
+// };
+
+// from FreshSales
+export type Customer = Partial<{
+	id: number;
+	first_name: string;
+	last_name: string;
+	display_name: string;
+	avatar: string | null;
+	job_title: string | null;
+	city: string | null;
+	state: string | null;
+	zipcode: string | null;
+	country: string | null;
 	email: string;
-	city?: string;
-	state?: USStateAbbreviated;
-	zipcode?: number;
-	birthdate?: string;
-	teamSlug: string;
-	doubleOptInMessage: string;
-	isOptInMessages: boolean;
-	slickTextTextwordId: string;
-	rewards: any;
-};
+	emails: Array<{
+		id: number;
+		value: string;
+		is_primary: boolean;
+		label: string | null;
+		_destroy: boolean;
+	}>;
+	time_zone: string | null;
+	work_number: string | null;
+	mobile_number: string | null;
+	address: string | null;
+	last_seen: string | null;
+	lead_score: number;
+	last_contacted: string | null;
+	open_deals_amount: string;
+	won_deals_amount: string;
+	last_contacted_sales_activity_mode: string | null;
+	custom_field: Record<string, any>;
+	created_at: string;
+	updated_at: string;
+	keyword: string | null;
+	medium: string | null;
+	last_contacted_mode: string | null;
+	recent_note: string | null;
+	won_deals_count: number;
+	last_contacted_via_sales_activity: string | null;
+	completed_sales_sequences: string | null;
+	active_sales_sequences: string | null;
+	web_form_ids: string | null;
+	open_deals_count: number;
+	last_assigned_at: string;
+	tags: string[];
+	facebook: string | null;
+	twitter: string | null;
+	linkedin: string | null;
+	is_deleted: boolean;
+	team_user_ids: string | null;
+	external_id: string | null;
+	work_email: string | null;
+	subscription_status: any;
+	// subscription_status: number;
+	subscription_types: any;
+	// subscription_types: string;
+	customer_fit: number;
+	record_type_id: string;
+	whatsapp_subscription_status: number;
+	sms_subscription_status: number;
+	last_seen_chat: string | null;
+	first_seen_chat: string | null;
+	locale: string | null;
+	total_sessions: string | null;
+	phone_numbers: string[];
+}>;

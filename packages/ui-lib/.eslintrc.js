@@ -20,7 +20,7 @@ module.exports = {
 		'plugin:storybook/recommended',
 	],
 	rules: {
-		// optional overrides per project
+		'import/no-unresolved': 'off',
 	},
 	overrides: [
 		// optional overrides per project file match

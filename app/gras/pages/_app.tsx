@@ -39,6 +39,7 @@ import { AnimatePresence } from 'framer-motion';
 import Head from 'next/head';
 import SEOMetaTags from '@/lib/SEOMetaTags';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { loadSegment } from '@cd/core-lib/src/lib/segment';
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_API_KEY as string
@@ -80,19 +81,16 @@ function MyApp({
 
   return (
     <>
-    <Head>
-      <>
-      {loadBrevoChat()}
-      </>
-      <>
-      {loadGoogleTagManager()}
-      </>
-      <>
-      {loadHotJar()}
-      </>
-      <GTMTag />
-      <SEOMetaTags />
-    </Head>
+      <Head>
+        <>
+          {loadBrevoChat()}
+          {loadSegment()}
+          {loadGoogleTagManager()}
+          {loadHotJar()}
+          <GTMTag />
+          <SEOMetaTags />
+        </>
+      </Head>
       <SWRConfig
         value={{
           revalidateOnFocus: false,

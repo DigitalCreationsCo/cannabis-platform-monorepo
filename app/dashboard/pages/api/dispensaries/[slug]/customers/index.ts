@@ -1,16 +1,12 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable @typescript-eslint/naming-convention */
+import { FreshSales, axios, throwIfNotAllowed } from '@cd/core-lib';
+import { type DailyDeal, createDispensaryDailyDeal } from '@cd/data-access';
+import type { NextApiRequest, NextApiResponse } from 'next';
 import { clientPromise } from '@/lib/db';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
 import { recordMetric } from '@/lib/metrics';
 import { sendAudit } from '@/lib/retraced';
-import { axios, throwIfNotAllowed } from '@cd/core-lib';
-import {
-  type DailyDeal,
-  createDispensaryDailyDeal,
-  getCustomersByDispensary,
-} from '@cd/data-access';
-import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
   req: NextApiRequest,
@@ -42,14 +38,13 @@ export default async function handler(
 
 // get all customers
 const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
-  const client = await clientPromise;
   const teamMember = await throwIfNoDispensaryAccess(req, res);
   throwIfNotAllowed(teamMember, 'team_customers', 'read');
 
-  const customers = getCustomersByDispensary({
-    client,
-    where: { teamSlug: teamMember.team.slug },
-  });
+  const customers = await FreshSales.getSegmentCustomers(
+    teamMember.team.weedTextSegmentId
+  );
+
   recordMetric('dispensary.customers.fetched');
 
   res.status(200).json({ data: customers });

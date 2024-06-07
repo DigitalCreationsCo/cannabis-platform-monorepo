@@ -24,6 +24,7 @@
 export * from './auth';
 export * from './axiosInstance';
 export * from './constants';
+export * from './crm';
 export * from './hooks';
 export * from './middleware';
 export * from './reducer';

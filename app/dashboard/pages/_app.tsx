@@ -36,6 +36,7 @@ import env from '@/lib/env';
 import { type AppPropsWithLayout } from '@/lib/next.types';
 import { wrapper } from '@/lib/store';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { loadSegment } from '@cd/core-lib/src/lib/segment';
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_API_KEY as string
@@ -77,6 +78,7 @@ function MyApp({ Component, ...appProps }: AppPropsWithLayout) {
   return (
     <>
       {loadBrevoChat()}
+      {loadSegment()}
       {loadGoogleTagManager()}
       {loadHotJar()}
       <GTMTag />

@@ -14,8 +14,7 @@ export type DailyDeal = {
 	timezone: string;
 	teamSlug: string;
 	isActive: boolean;
-	slickTextTextwordId?: string;
-	slickTextSegmentId?: string;
+	weedTextSegmentId?: string;
 	jobId?: string;
 };
 

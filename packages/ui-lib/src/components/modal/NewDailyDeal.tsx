@@ -94,9 +94,8 @@ function NewDailyDeal({
 			schedule: '',
 			timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
 			teamSlug: team.slug,
-			slickTextTextwordId: team.slickTextTextwordId,
-			slickTextSegmentId: team.slickTextSegmentId,
-		} as Omit<DailyDeal, 'id'>,
+			weedTextSegmentId: team.weedTextSegmentId,
+		} as Partial<DailyDeal>,
 		async onSubmit() {
 			try {
 				console.info(

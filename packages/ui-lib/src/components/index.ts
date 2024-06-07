@@ -35,6 +35,7 @@ export * from './modal';
 export * from './NavLink';
 export { default as NavLink } from './NavLink';
 export { default as OrderRow } from './OrderRow';
+export { default as Over21Button } from './Over21Button';
 export { default as Padding } from './Padding';
 export { default as PlainTopBar } from './PlainTopBar';
 export { default as Page } from './Page';
