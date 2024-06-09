@@ -65,7 +65,10 @@ export type Dispensary = {
 	images?: { location: string; blurhash: string; alt: string }[];
 	pos?: POS;
 	isSignupComplete?: boolean;
+
+	weedTextPhoneNumber?: string;
 	weedTextSegmentId?: string;
+
 	members?: string[];
 	createdAt?: Date;
 	updatedAt?: Date;

@@ -43,6 +43,7 @@ export default defineConfig((options) => ({
 		'zlib',
 		'stream',
 		'swr',
+		'twilio',
 		// 		'react',
 		// 		'react-dom',
 		// 		'usehooks-ts',

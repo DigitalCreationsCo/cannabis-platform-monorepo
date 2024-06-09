@@ -58,7 +58,12 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
       dispensary,
       // inviteToken,
       recaptchaToken,
-    } = req.body;
+    } = req.body as {
+      name: string;
+      password: string;
+      dispensary: string;
+      recaptchaToken: string;
+    };
     const client = await clientPromise;
 
     await validateRecaptcha(recaptchaToken);
@@ -125,13 +130,7 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
       },
     });
 
-    let userDispensary: Dispensary;
-
-    // Create team if user is not invited
-    // So we can create the team with the user as the owner
-    // if (!invitation) {
-    // eslint-disable-next-line prefer-const
-    userDispensary = await createDispensary({
+    let userDispensary = await createDispensary({
       client,
       data: {
         name: dispensary,
@@ -139,10 +138,7 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
       },
       userId: user.id,
     });
-    // } else {
-    //   userDispensary = await getDispensary({ slug: invitation.team.slug });
-    // }
-    //
+
     // Send account verification email
     if (env.confirmEmail && !user.emailVerified) {
       const verificationToken = await createVerificationToken({
