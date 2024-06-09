@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { axios, throwIfNotAllowed } from '@cd/core-lib';
+import { CronJobApi, axios, throwIfNotAllowed } from '@cd/core-lib';
 import { deleteDispensaryDailyDeal, getDailyDeal } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { clientPromise } from '@/lib/db';
@@ -65,17 +65,8 @@ const handleDELETE = async (req: NextApiRequest, res: NextApiResponse) => {
     where: { id },
   });
 
-  if (dailyDealRemoved.jobId) {
-    // DELETE cron job
-    await axios.delete(
-      `https://api.cron-job.org/jobs/${dailyDealRemoved.jobId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.CRON_API_KEY}`,
-          'Content-Type': 'application/json',
-        },
-      }
-    );
+  if (dailyDealRemoved.doesRepeat && dailyDealRemoved.jobId) {
+    await CronJobApi.deleteDailyDealJob(dailyDealRemoved.jobId);
   }
 
   await sendEvent(
