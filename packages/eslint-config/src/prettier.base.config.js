@@ -8,7 +8,7 @@ module.exports = {
 	semi: true,
 	tabWidth: 2,
 	bracketSpacing: true,
-	trailingComma: 'all',
+	trailingComma: 'es5',
 	bracketSameLine: false,
 	useTabs: true,
 	endOfLine: 'lf',
