@@ -115,7 +115,7 @@ Full Service Delivery relieves you of these issues, and integrates with your sto
 
 		Because when you take action, amazing things happen.
 		
-		Contact our team of marketing and dispensary growth experts and start boosting your sales today. 👇`,
+		Click below to contact our team of dispensary growth experts and start boosting your sales today.`,
     cta: `I'm ready to 2X my business`,
   },
 

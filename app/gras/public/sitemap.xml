@@ -2,79 +2,79 @@
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
     <loc>https://grascannabis.org/404.tsx</loc>
-    <lastmod>2024-06-09T12:12:23.420Z</lastmod>
+    <lastmod>2024-06-09T18:09:20.929Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://grascannabis.org/500.tsx</loc>
-    <lastmod>2024-06-09T12:12:23.420Z</lastmod>
+    <lastmod>2024-06-09T18:09:20.929Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://grascannabis.org/dashboard.tsx</loc>
-    <lastmod>2024-06-09T12:12:23.420Z</lastmod>
+    <lastmod>2024-06-09T18:09:20.929Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://grascannabis.org/index.tsx</loc>
-    <lastmod>2024-06-09T12:12:23.420Z</lastmod>
+    <lastmod>2024-06-09T18:09:20.929Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://grascannabis.org/messaging.tsx</loc>
-    <lastmod>2024-06-09T12:12:23.420Z</lastmod>
+    <lastmod>2024-06-09T18:09:20.929Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://grascannabis.org/services.tsx</loc>
-    <lastmod>2024-06-09T12:12:23.420Z</lastmod>
+    <lastmod>2024-06-09T18:09:20.929Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://grascannabis.org/work-with-us.tsx</loc>
-    <lastmod>2024-06-09T12:12:23.420Z</lastmod>
+    <lastmod>2024-06-09T18:09:20.929Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://grascannabis.org/blog/index.tsx</loc>
-    <lastmod>2024-06-09T12:12:23.420Z</lastmod>
+    <lastmod>2024-06-09T18:09:20.929Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://grascannabis.org/browse/[dispensary].tsx</loc>
-    <lastmod>2024-06-09T12:12:23.420Z</lastmod>
+    <lastmod>2024-06-09T18:09:20.929Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://grascannabis.org/browse/index.tsx</loc>
-    <lastmod>2024-06-09T12:12:23.420Z</lastmod>
+    <lastmod>2024-06-09T18:09:20.929Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://grascannabis.org/events/[event].tsx</loc>
-    <lastmod>2024-06-09T12:12:23.420Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://grascannabis.org/blog/studio/[[...studio]].tsx</loc>
-    <lastmod>2024-06-09T12:12:23.420Z</lastmod>
+    <lastmod>2024-06-09T18:09:20.929Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://grascannabis.org/blog/posts/[slug].tsx</loc>
-    <lastmod>2024-06-09T12:12:23.420Z</lastmod>
+    <lastmod>2024-06-09T18:09:20.929Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://grascannabis.org/blog/studio/[[...studio]].tsx</loc>
+    <lastmod>2024-06-09T18:09:20.929Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>

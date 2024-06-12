@@ -11,14 +11,19 @@ class Twilio {
 		});
 	}
 
-	async send() {}
+	async send() {
+		// this.t.messages.create({
+		// })
+	}
 
 	async sendAll() {
 		// USE FRESHSALES DATA FOR NOW, WHEN SCALING TO 1000+ CONTACTS, USE SEGMENT AUDIENCE
 		// this.t.notify.v1.services().
 	}
 
-	async optInCustomer() {}
+	async inviteCustomer() {
+		return;
+	}
 
 	async provisionSMSPhoneNumber(slug: string): Promise<string> {
 		// provision new phone number and return;
@@ -52,5 +57,5 @@ class Twilio {
 
 export default new Twilio(
 	process.env.TWILIO_ACCOUNT_SID,
-	process.env.TWILIO_AUTH_TOKEN,
+	process.env.TWILIO_AUTH_TOKEN
 );
