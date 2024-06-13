@@ -58,7 +58,7 @@ export const normalizeUserData = (user: UserCreateType) => {
 
 export const pruneData = <T extends Record<string, unknown>>(
 	data: T,
-	fields: (keyof T)[],
+	fields: (keyof T)[]
 ) => {
 	return Object.keys(data)
 		.filter((field) => !fields.includes(field))

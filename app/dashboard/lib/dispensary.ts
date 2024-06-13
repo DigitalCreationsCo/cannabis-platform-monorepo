@@ -8,28 +8,28 @@ import { clientPromise } from './db';
  *
  */
 export const throwIfNoDispensaryAccess = async (
-	req: any,
-	res: any,
+  req: any,
+  res: any
 ): Promise<StaffMemberWithUser> => {
-	const client = await clientPromise;
-	const session = await getSession(req, res);
-	if (!session) {
-		throw new Error('Unauthorized');
-	}
-	const { slug } = req.query as { slug: string };
-	const staffMember = await getStaffMember({
-		client,
-		where: { slug, userId: session.user.id },
-	});
-	if (!staffMember) {
-		throw new Error('You do not have access to this team');
-	}
-	return {
-		...staffMember,
-		user: {
-			...session.user,
-			...staffMember.user,
-			image: session.user.image || '',
-		},
-	};
+  const client = await clientPromise;
+  const session = await getSession(req, res);
+  if (!session) {
+    throw new Error('Unauthorized');
+  }
+  const { slug } = req.query as { slug: string };
+  const staffMember = await getStaffMember({
+    client,
+    where: { slug, userId: session.user.id },
+  });
+  if (!staffMember) {
+    throw new Error('You do not have access to this team');
+  }
+  return {
+    ...staffMember,
+    user: {
+      ...session.user,
+      ...staffMember.user,
+      image: session.user.image || '',
+    },
+  };
 };

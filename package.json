@@ -29,7 +29,7 @@
     "g:test-watch": "cd scripts && node watch/test-watch.js",
     "g:test-unit-changed": "yarn workspaces foreach --since=HEAD~1 run test:unit",
     "g:test-unit-ci": "yarn workspaces foreach --since=origin/master run test:unit-ci",
-    "g:test-e2e": "yarn workspaces foreach -tv run test-e2e",
+    "g:test-e2e": "yarn workspaces foreach --since=HEAD~1 run test:e2e",
     "g:build": "NEXT_PUBLIC_IS_LOCAL_BUILD=1 SKIP_BUILD_STATIC_GENERATION=1 yarn workspaces foreach -p --topological-dev -v run build",
     "g:build-all": "yarn workspaces foreach -ptv --include '@cd/*' run build",
     "g:build-changed": "yarn workspaces foreach --topological-dev -v --since=origin/production run build:ci",

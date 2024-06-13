@@ -6,21 +6,21 @@ import env from '../env';
 import { sendEmail } from './sendEmail';
 
 export const sendTeamInviteEmail = async (
-	team: Dispensary,
-	invitation: Invitation,
+  team: Dispensary,
+  invitation: Invitation
 ) => {
-	if (!invitation.email) {
-		return;
-	}
+  if (!invitation.email) {
+    return;
+  }
 
-	const subject = `You've been invited to join ${team.name} on ${app.name}`;
-	const invitationLink = `${env.appUrl}/invitations/${invitation.token}`;
+  const subject = `You've been invited to join ${team.name} on ${app.name}`;
+  const invitationLink = `${env.appUrl}/invitations/${invitation.token}`;
 
-	const html = render(TeamInviteEmail({ invitationLink, team, subject }));
+  const html = render(TeamInviteEmail({ invitationLink, team, subject }));
 
-	await sendEmail({
-		to: invitation.email,
-		subject,
-		html,
-	});
+  await sendEmail({
+    to: invitation.email,
+    subject,
+    html,
+  });
 };

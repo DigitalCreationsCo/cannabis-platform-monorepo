@@ -1,17 +1,17 @@
-import { clientPromise } from '@/lib/db';
-import env from '@/lib/env';
 import { ApiResponse, fetcher } from '@cd/core-lib';
-import { Event, getEvent, getEvents } from '@cd/data-access';
+import { type Event, getEvent, getEvents } from '@cd/data-access';
 import { FlexBox } from '@cd/ui-lib';
 import {
-  GetServerSidePropsContext,
+  type GetServerSidePropsContext,
   GetStaticProps,
   NextApiRequest,
   NextApiResponse,
 } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { ReactElement } from 'react';
+import { type ReactElement } from 'react';
 import useSWR from 'swr';
+import { clientPromise } from '@/lib/db';
+import env from '@/lib/env';
 
 interface EventPageProps {
   event: Event;

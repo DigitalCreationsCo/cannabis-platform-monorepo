@@ -1,10 +1,9 @@
-import { useState } from 'react';
-import { useSession } from 'next-auth/react';
-import React from 'react';
-import Header from './Header';
-import Drawer from './Drawer';
-import { useRouter } from 'next/navigation';
 import { Center, LoadingDots } from '@cd/ui-lib';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
+import Drawer from './Drawer';
+import Header from './Header';
 
 export default function AppShell({ children }) {
   const router = useRouter();

@@ -16,7 +16,7 @@ async function getOTPCodeEmailAPI(email: string): Promise<CreateCodeResponse> {
 	try {
 		const response = await axios.post<CreateCodeResponse>(
 			urlBuilder.main.getOTP(),
-			{ email },
+			{ email }
 		);
 
 		if (response.data.status !== 'OK') throw new Error(response.data.message);
@@ -30,14 +30,14 @@ async function getOTPCodeEmailAPI(email: string): Promise<CreateCodeResponse> {
 }
 
 async function getOTPCodePhoneAPI(
-	phoneNumber: string,
+	phoneNumber: string
 ): Promise<CreateCodeResponse> {
 	try {
 		const response = await axios.post<CreateCodeResponse>(
 			urlBuilder.main.getOTP(),
 			{
 				phoneNumber,
-			},
+			}
 		);
 
 		if (response.data.status !== 'OK') throw new Error(response.data.message);

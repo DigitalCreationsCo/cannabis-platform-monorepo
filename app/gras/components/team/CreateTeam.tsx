@@ -1,18 +1,17 @@
-import { Dispensary } from '@cd/data-access';
 import {
   defaultHeaders,
-  ApiResponse,
+  type ApiResponse,
   maxLengthPolicies,
   useDispensaries,
 } from '@cd/core-lib';
+import { type Dispensary } from '@cd/data-access';
+import { Button, TextField, Modal2 as Modal } from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { Button, TextField } from '@cd/ui-lib';
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
-import { Modal2 as Modal } from '@cd/ui-lib';
 
 interface CreateTeamProps {
   visible: boolean;

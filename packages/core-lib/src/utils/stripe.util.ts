@@ -6,7 +6,7 @@ type ProductVariantWithDetails = any;
  * @returns array of stripe line item objects
  */
 function generateCheckoutLineItemsFromOrderItems(
-	items: ProductVariantWithDetails[],
+	items: ProductVariantWithDetails[]
 ) {
 	try {
 		console.info('generateCheckoutLineItemsFromOrderItems: ', items);

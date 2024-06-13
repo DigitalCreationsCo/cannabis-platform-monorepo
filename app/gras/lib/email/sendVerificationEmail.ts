@@ -1,8 +1,8 @@
-import { sendEmail } from './sendEmail';
 import { render } from '@react-email/components';
 import { VerificationEmail } from '@/components/emailTemplates';
 import app from '../app';
 import env from '../env';
+import { sendEmail } from './sendEmail';
 
 export const sendVerificationEmail = async ({
   user,

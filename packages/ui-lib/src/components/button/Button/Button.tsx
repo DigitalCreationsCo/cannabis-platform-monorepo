@@ -91,7 +91,7 @@ export default function Button({
 						(bg === 'transparent' && 'text-dark shadow-none') ||
 							(bg === 'accent-soft' && 'text-dark') ||
 							'text-light',
-				  ]
+					]
 				: 'text-secondary',
 		],
 		focus: ['focus:bg-' + bg],
@@ -118,6 +118,7 @@ export default function Button({
 
 	return (
 		<button
+			name={children.toString()}
 			type={type}
 			disabled={loading || disabled}
 			onClick={(e) => {
@@ -137,7 +138,7 @@ export default function Button({
 					className={twMerge(
 						classes.text,
 						size === 'lg' ? 'text-xl' : 'text-md',
-						'text-inherit',
+						'text-inherit'
 					)}
 				>
 					{children}

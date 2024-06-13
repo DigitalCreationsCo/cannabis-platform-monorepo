@@ -63,7 +63,7 @@ export default function useCategory() {
 	function searchCategories(value: string) {
 		if (value) {
 			setSearchResult(
-				categoryList.filter((c) => c.name.toLowerCase().match(value)),
+				categoryList.filter((c) => c.name.toLowerCase().match(value))
 			);
 		} else {
 			setSearchResult(categoryList);

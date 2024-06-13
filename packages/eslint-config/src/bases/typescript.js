@@ -37,7 +37,7 @@ module.exports = {
 		'plugin:@typescript-eslint/recommended',
 	],
 	rules: {
-		'import/no-cycle': 2,
+		'import/no-cycle': 1,
 		'import/default': ['error'],
 		'import/namespace': 'off', // ['error'] If you want the extra check (typechecks will spot most issues already)
 		'no-duplicate-imports': 'off',

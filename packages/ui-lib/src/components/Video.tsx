@@ -15,7 +15,7 @@ const Video = ({ Embed }: { Embed: () => JSX.Element }) => {
 				onClick={() => setPlayVideo(!playVideo)}
 				className={twMerge(
 					'm-auto place-items-center flex items-center content-center relative cursor-pointer bg-gradient-to-tr from-primary hover:from-primary to-primary-light hover:to-secondary-light',
-					!playVideo ? 'rounded-full p-2 w-full' : 'w-full h-full',
+					!playVideo ? 'rounded-full p-2 w-full' : 'w-full h-full'
 				)}
 			>
 				{!playVideo && (

@@ -4,7 +4,7 @@ import { type DailyDeal, type Customer } from '@cd/data-access';
 import axios from 'axios';
 
 const auth = Buffer.from(
-	`${process.env.NEXT_PUBLIC_SLICKTEXT_PUBLIC_KEY}:${process.env.NEXT_PUBLIC_SLICKTEXT_PRIVATE_KEY}`,
+	`${process.env.NEXT_PUBLIC_SLICKTEXT_PUBLIC_KEY}:${process.env.NEXT_PUBLIC_SLICKTEXT_PRIVATE_KEY}`
 ).toString('base64');
 
 class SlickTextSMS {
@@ -21,7 +21,7 @@ class SlickTextSMS {
 						Authorization: `Basic ${auth}`,
 						'Content-type': 'application/x-www-form-urlencoded',
 					},
-				},
+				}
 			);
 		} catch (error) {
 			console.error('slicktext.send: ', error);
@@ -52,7 +52,7 @@ class SlickTextSMS {
 						Authorization: `Basic ${auth}`,
 						'Content-type': 'application/x-www-form-urlencoded',
 					},
-				},
+				}
 			);
 		} catch (error) {
 			console.error('slicktext.send: ', error);
@@ -64,7 +64,7 @@ class SlickTextSMS {
 		try {
 			console.info(
 				`opt in customer to daily deals with slick text, phone: ${data.phone}`,
-				{ data },
+				{ data }
 			);
 
 			await axios.post(
@@ -89,7 +89,7 @@ class SlickTextSMS {
 						Authorization: `Basic ${auth}`,
 						'Content-type': 'application/x-www-form-urlencoded',
 					},
-				},
+				}
 			);
 		} catch (error) {
 			console.error('slicktext.optincustomer: ', error.response.data);

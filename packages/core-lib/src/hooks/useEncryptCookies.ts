@@ -3,7 +3,7 @@ import { useCookies } from 'react-cookie';
 import { crypto } from '../utils';
 
 const useEncryptCookies = (
-	cookieKeys: string[],
+	cookieKeys: string[]
 ): [typeof cookies, typeof setCookie, typeof removeCookie] => {
 	const [cookies, setCookie, removeCookie] = useCookies(cookieKeys);
 
@@ -17,7 +17,7 @@ const useEncryptCookies = (
 	const setEncryptCookie = (
 		cookieArg: string,
 		data: string,
-		options: CookieOptions | undefined,
+		options: CookieOptions | undefined
 	) => {
 		setCookie(cookieArg, crypto.encrypt(data), options);
 	};

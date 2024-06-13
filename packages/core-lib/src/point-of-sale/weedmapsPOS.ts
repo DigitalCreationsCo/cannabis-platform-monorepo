@@ -28,7 +28,7 @@ export const WeedmapsPOS: POSIntegration = class {
 		} catch (error: any) {
 			console.error(
 				'weedmapsPOSIntegration processPickupOrder: ',
-				error.message,
+				error.message
 			);
 			throw new Error(error.message);
 		}
@@ -40,7 +40,7 @@ export const WeedmapsPOS: POSIntegration = class {
 		} catch (error: any) {
 			console.error(
 				'weedmapsPOSIntegration processDeliveryOrder: ',
-				error.message,
+				error.message
 			);
 			throw new Error(error.message);
 		}

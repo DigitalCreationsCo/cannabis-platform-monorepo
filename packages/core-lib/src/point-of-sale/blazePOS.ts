@@ -39,7 +39,7 @@ export const BlazePOS: POSIntegration = class {
 		} catch (error: any) {
 			console.error(
 				'blazePOSIntegration processDeliveryOrder: ',
-				error.message,
+				error.message
 			);
 			throw new Error(error.message);
 		}

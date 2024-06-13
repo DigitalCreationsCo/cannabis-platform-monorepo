@@ -1,6 +1,6 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { type NextApiRequest, type NextApiResponse } from 'next';
 
-import jackson, { OIDCAuthzResponsePayload } from '@/lib/jackson';
+import jackson, { type OIDCAuthzResponsePayload } from '@/lib/jackson';
 
 export default async function handler(
   req: NextApiRequest,

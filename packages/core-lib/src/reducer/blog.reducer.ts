@@ -32,7 +32,7 @@ export const getLatestArticles = createAsyncThunk(
 			console.error('getLatestArticles: ', error);
 			return rejectWithValue('Could not get latest articles');
 		}
-	},
+	}
 );
 
 export type BlogStateProps = {
@@ -67,7 +67,7 @@ export const blogSlice = createSlice({
 				state.isLoading = false;
 				state.isSuccess = true;
 				state.isError = false;
-			},
+			}
 		),
 			builder.addCase(getLatestArticles.pending, (state) => {
 				state.isLoading = true;
@@ -98,7 +98,7 @@ export const selectBlogTags = (state: AppState) =>
 
 export function saveArticlesByTag(
 	_articlesInState: Record<ArticleTag, ArticleWithDetails[]>,
-	_articles: ArticleWithDetails[],
+	_articles: ArticleWithDetails[]
 ) {
 	// create a map of new articles by tag
 	const tagMap = new Map<ArticleTag, ArticleWithDetails[]>();
@@ -115,7 +115,7 @@ export function saveArticlesByTag(
 		if (!isEmpty(_articlesInState[tag]))
 			_articlesInState[tag] = reconcileStateArray(
 				_articlesInState[tag],
-				tagMap.get(tag),
+				tagMap.get(tag)
 			);
 		else _articlesInState[tag] = tagMap.get(tag);
 	});

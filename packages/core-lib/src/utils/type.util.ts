@@ -8,7 +8,7 @@ export function assertValue<T>(v: T | undefined, errorMessage: string): T {
 
 export function assertType<T>(
 	v: unknown,
-	errorMessage: string,
+	errorMessage: string
 ): asserts v is T {
 	if (!(v instanceof Object)) {
 		throw new Error(errorMessage);

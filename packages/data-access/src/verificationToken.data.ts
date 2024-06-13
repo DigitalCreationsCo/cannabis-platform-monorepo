@@ -55,7 +55,7 @@ export const deleteVerificationToken = async ({
 };
 
 export const isVerificationTokenExpired = (
-	verificationToken: VerificationToken,
+	verificationToken: VerificationToken
 ) => {
 	return verificationToken.expires < new Date();
 };

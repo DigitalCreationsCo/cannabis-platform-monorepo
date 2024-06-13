@@ -2,7 +2,7 @@
 import { axios } from '../axiosInstance';
 
 export async function searchUnsplashPhotoByKeyword(
-	searchTerms: string,
+	searchTerms: string
 ): Promise<any[]> {
 	try {
 		const response = await axios(
@@ -12,7 +12,7 @@ export async function searchUnsplashPhotoByKeyword(
 					Authorization: `Client-ID ${process.env.UNSPLASH_ACCESS_KEY}`,
 					'Accept-Encoding': 'gzip,deflate,compress',
 				},
-			},
+			}
 		);
 
 		console.info('results: ', response.data.results);
@@ -24,7 +24,7 @@ export async function searchUnsplashPhotoByKeyword(
 }
 
 export async function triggerUnsplashDownload(
-	downloadLocationEndpoint: string,
+	downloadLocationEndpoint: string
 ) {
 	try {
 		const response = await axios(downloadLocationEndpoint, {

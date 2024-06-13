@@ -1,9 +1,9 @@
-import { sendEmail } from './sendEmail';
+import { type User } from '@cd/data-access';
 import { render } from '@react-email/render';
 import { ResetPasswordEmail } from '@/components/emailTemplates';
 import app from '../app';
 import env from '../env';
-import { User } from '@cd/data-access';
+import { sendEmail } from './sendEmail';
 
 export const sendPasswordResetEmail = async (user: User, token: string) => {
   const subject = `Reset your ${app.name} password`;

@@ -1,5 +1,5 @@
-import NextAuth from 'next-auth';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import NextAuth from 'next-auth';
 
 import { getAuthOptions } from '@/lib/nextAuth';
 

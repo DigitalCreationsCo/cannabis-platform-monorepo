@@ -1,9 +1,9 @@
-import { Invitation, Dispensary } from '@cd/data-access';
-import { sendEmail } from './sendEmail';
-import { TeamInviteEmail } from '@/components/emailTemplates';
+import { type Invitation, type Dispensary } from '@cd/data-access';
 import { render } from '@react-email/components';
-import env from '../env';
+import { TeamInviteEmail } from '@/components/emailTemplates';
 import app from '../app';
+import env from '../env';
+import { sendEmail } from './sendEmail';
 
 export const sendTeamInviteEmail = async (
   team: Dispensary,

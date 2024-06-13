@@ -11,7 +11,7 @@ function CheckoutButton(props: CheckoutButtonProps) {
 	const checkout = async () => {
 		try {
 			const response = await dispatch(
-				cartActions.createOrderForCheckout() as any,
+				cartActions.createOrderForCheckout() as any
 			);
 			if (response?.error?.message === 'Rejected')
 				throw new Error(response.payload);

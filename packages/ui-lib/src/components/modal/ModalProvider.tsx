@@ -45,12 +45,12 @@ const ModalContainer = ({
 }: ModalContainerProps) => {
 	const modalType: ModalType = useMemo(
 		() => props.modalType,
-		[modalVisible, props],
+		[modalVisible, props]
 	);
 
 	const ModalComponent = useMemo(
 		() => MODAL_COMPONENTS[modalType],
-		[props.modalType],
+		[props.modalType]
 	);
 
 	if (typeof modalVisible == 'undefined') return <></>;

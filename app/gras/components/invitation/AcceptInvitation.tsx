@@ -1,8 +1,8 @@
 import { defaultHeaders, type ApiResponse } from '@cd/core-lib';
 import { type Dispensary, type Invitation } from '@cd/data-access';
+import { Button } from '@cd/ui-lib';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
-import { Button } from '@cd/ui-lib';
 import toast from 'react-hot-toast';
 
 interface AcceptInvitationProps {

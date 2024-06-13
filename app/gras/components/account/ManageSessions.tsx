@@ -1,14 +1,14 @@
-import useSWR from 'swr';
-import { useState } from 'react';
-import { useTranslation } from 'next-i18next';
-import { ComputerDesktopIcon } from '@heroicons/react/24/outline';
-import toast from 'react-hot-toast';
-import { Session } from '@cd/data-access';
 import { fetcher } from '@cd/core-lib';
+import { type Session } from '@cd/data-access';
+import { H2, Paragraph } from '@cd/ui-lib';
+import { ComputerDesktopIcon } from '@heroicons/react/24/outline';
+import { useTranslation } from 'next-i18next';
+import { useState } from 'react';
+import toast from 'react-hot-toast';
+import useSWR from 'swr';
 import { WithLoadingAndError } from '@/components/shared';
 import ConfirmationDialog from '@/components/shared/ConfirmationDialog';
 import { Table } from '@/components/shared/table/Table';
-import { H2, Paragraph } from '@cd/ui-lib';
 
 type NextAuthSession = Session & { isCurrent: boolean };
 

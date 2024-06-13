@@ -24,7 +24,7 @@ async function getCoordinatesByAddressString(addressString: string): Promise<{
 		console.info(`Getting coordinates for address: ${addressString}`);
 		const format = 'json';
 		const response = await fetch(
-			`${process.env.NEXT_PUBLIC_LOCATION_IQ_GEOCODE_URL}?key=${process.env.NEXT_PUBLIC_LOCATION_IQ_API_KEY}&q=${addressString}&format=${format}`,
+			`${process.env.NEXT_PUBLIC_LOCATION_IQ_GEOCODE_URL}?key=${process.env.NEXT_PUBLIC_LOCATION_IQ_API_KEY}&q=${addressString}&format=${format}`
 		);
 
 		if (!response.ok) {
@@ -50,7 +50,7 @@ export async function getGeoAddressFromCoordinates(coordinates: {
 		const format = 'json';
 		const { latitude, longitude } = coordinates;
 		const response = await fetch(
-			`${process.env.NEXT_PUBLIC_LOCATION_IQ_REVERSE_GEOCODE_URL}?key=${process.env.NEXT_PUBLIC_LOCATION_IQ_API_KEY}&lat=${latitude}&lon=${longitude}&format=${format}`,
+			`${process.env.NEXT_PUBLIC_LOCATION_IQ_REVERSE_GEOCODE_URL}?key=${process.env.NEXT_PUBLIC_LOCATION_IQ_API_KEY}&lat=${latitude}&lon=${longitude}&format=${format}`
 		);
 
 		if (!response.ok) {
@@ -116,14 +116,14 @@ export function coordinatesIsEmpty(address: AddressCreateType) {
  */
 export function getHaversineDistanceFromCoordinates(
 	source: Coordinates,
-	dest: Coordinates,
+	dest: Coordinates
 ) {
 	return haversine(source, dest);
 }
 
 export async function getTravelDistanceFromCoordinates(
 	source: Coordinates,
-	dest: Coordinates,
+	dest: Coordinates
 ) {
 	return await (
 		await getRoutingDetails(source, dest)
@@ -137,13 +137,13 @@ export async function getTravelDistanceFromCoordinates(
  */
 export async function getRoutingDetails(
 	source: Coordinates,
-	dest: Coordinates,
+	dest: Coordinates
 ): Promise<RoutingDetailsResponse> {
 	try {
 		const sourceCoordinates = getCoordinatePairFromCoordinates(source);
 		const destCoordinates = getCoordinatePairFromCoordinates(dest);
 		const response = await fetch(
-			`${process.env.NEXT_PUBLIC_LOCATION_IQ_ROUTING_URL}/${sourceCoordinates};${destCoordinates}?key=${process.env.NEXT_PUBLIC_LOCATION_IQ_API_KEY}&overview=false&roundtrip=false`,
+			`${process.env.NEXT_PUBLIC_LOCATION_IQ_ROUTING_URL}/${sourceCoordinates};${destCoordinates}?key=${process.env.NEXT_PUBLIC_LOCATION_IQ_API_KEY}&overview=false&roundtrip=false`
 		);
 
 		if (!response.ok) {

@@ -1,7 +1,7 @@
 import { copyToClipboard } from '@cd/core-lib';
+import { Button } from '@cd/ui-lib';
 import { ClipboardDocumentIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'next-i18next';
-import { Button } from '@cd/ui-lib';
 import { toast } from 'react-hot-toast';
 
 interface CopyToClipboardProps {

@@ -29,7 +29,7 @@ function ProductItem({
 			<div
 				className={twMerge(
 					'w-full border-b-2 flex flex-row col-span-2 lg:col-span-2 xl:col-span-1 justify-stretch',
-					className,
+					className
 				)}
 				// onClick={toggleConfirm}
 			>
@@ -80,7 +80,7 @@ function ProductItem({
 					value={quantity}
 					onChange={(event) =>
 						setQuantity(
-							(event.target as HTMLInputElement).value as unknown as number,
+							(event.target as HTMLInputElement).value as unknown as number
 						)
 					}
 				/>

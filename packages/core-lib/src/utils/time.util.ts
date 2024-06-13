@@ -9,7 +9,7 @@ export const showTime = (
 		hour: '2-digit',
 		minute: '2-digit',
 		hour12: true,
-	},
+	}
 ) => new Date(date).toLocaleTimeString('en-US', { ...formatOptions, timeZone });
 
 export const showDay = (date: Date | string) => {
@@ -126,7 +126,7 @@ export function formatToTimeZone(
 	dateString: Date | string,
 	timeZone: ValueOf<typeof TimeZoneMap> = 'UTC',
 	formatStr = 'yyyy-MM-dd HH:mm:ss',
-	options: FormatOptionsWithTZ = {},
+	options: FormatOptionsWithTZ = {}
 	// locale = 'en-US',
 ) {
 	try {

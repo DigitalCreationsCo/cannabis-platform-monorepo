@@ -1,8 +1,7 @@
 import { type Invitation } from '@cd/data-access';
+import { Button, Paragraph } from '@cd/ui-lib';
 import { signOut } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
-import { Button } from '@cd/ui-lib';
-import { Paragraph } from '@cd/ui-lib';
 
 interface EmailDomainMismatchProps {
   invitation: Invitation;

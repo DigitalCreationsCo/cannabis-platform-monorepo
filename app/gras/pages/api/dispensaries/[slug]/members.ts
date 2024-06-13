@@ -8,6 +8,7 @@ import {
   updateStaffMember,
 } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { clientPromise } from '@/lib/db';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
 import { recordMetric } from '@/lib/metrics';
 import { validateMembershipOperation } from '@/lib/rbac';
@@ -18,7 +19,6 @@ import {
   updateMemberSchema,
   validateWithSchema,
 } from '@/lib/zod';
-import { clientPromise } from '@/lib/db';
 
 export default async function handler(
   req: NextApiRequest,

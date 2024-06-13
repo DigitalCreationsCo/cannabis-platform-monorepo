@@ -1,8 +1,8 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { recordMetric } from '@/lib/metrics';
-import env from '@/lib/env';
 import { deleteEvent, getEvent } from '@cd/data-access';
+import type { NextApiRequest, NextApiResponse } from 'next';
 import { clientPromise } from '@/lib/db';
+import env from '@/lib/env';
+import { recordMetric } from '@/lib/metrics';
 
 export default async function handler(
   req: NextApiRequest,

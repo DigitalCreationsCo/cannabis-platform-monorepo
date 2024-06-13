@@ -1,6 +1,6 @@
 import { convertCentsToDollars } from '@cd/core-lib';
 import { H2, H3, Paragraph, Price, styles } from '@cd/ui-lib';
-import { HTMLAttributes } from 'react';
+import { type HTMLAttributes } from 'react';
 import { Card } from 'react-daisyui';
 import { twMerge } from 'tailwind-merge';
 import { CTA } from '..';

@@ -1,9 +1,9 @@
+import { Paragraph } from '@cd/ui-lib';
 import Link from 'next/link';
 import Avatar from '@/components/blog/AuthorAvatar';
 import MainImage from '@/components/blog/MainImage';
 import Date from '@/components/blog/PostDate';
 import type { Post } from '@/lib/sanity';
-import { Paragraph } from '@cd/ui-lib';
 
 export default function PostPreview({
   title,

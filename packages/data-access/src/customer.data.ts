@@ -72,7 +72,7 @@ export async function updateCustomer({
 		.findOneAndUpdate(
 			{ _id: new ObjectId(data.id) },
 			{ $set: data },
-			{ returnDocument: 'after' },
+			{ returnDocument: 'after' }
 		);
 	return { ...customer.value!, id: customer.value!._id.toString() };
 }
@@ -138,7 +138,7 @@ export async function upsertCustomerByDispensary({
 			.findOneAndUpdate(
 				{ email: data.email },
 				{ $set: data },
-				{ upsert: true, returnDocument: 'after' },
+				{ upsert: true, returnDocument: 'after' }
 			)
 	).value;
 	return { ...customer!, id: customer!._id.toString() };

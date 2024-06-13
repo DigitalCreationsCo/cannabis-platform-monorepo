@@ -62,9 +62,12 @@ axios.interceptors.response.use(
 			error.config.retryCount = retryCount;
 			if (retryCount <= MAX_RETRIES) {
 				return new Promise((resolve, _) => {
-					setTimeout(() => {
-						resolve(axios(error.config));
-					}, 2 * retryCount * TIMEOUT);
+					setTimeout(
+						() => {
+							resolve(axios(error.config));
+						},
+						2 * retryCount * TIMEOUT
+					);
 					// increase subsequent timeout length by 2
 				});
 			}
@@ -72,7 +75,7 @@ axios.interceptors.response.use(
 		} else {
 			return Promise.reject(error);
 		}
-	},
+	}
 );
 
 // handle ECONNREFUSED error code
@@ -100,7 +103,7 @@ instance.interceptors.response.use(
 		}
 
 		return Promise.reject(error);
-	},
+	}
 );
 
 const applicationHeaders = {

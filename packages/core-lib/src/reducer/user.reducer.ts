@@ -78,7 +78,7 @@ export const userSlice = createSlice({
 	reducers: {
 		signinUserSync: (
 			state,
-			{ payload }: { payload: { user: UserWithDetails; token: string } },
+			{ payload }: { payload: { user: UserWithDetails; token: string } }
 		) => {
 			console.info('signinUserSync payload', payload);
 			let { token, user } = payload;
@@ -89,7 +89,7 @@ export const userSlice = createSlice({
 					if (membership.organizations) {
 						delete membership.organizations;
 					}
-				},
+				}
 			);
 			state.user = user;
 			state.isSignedIn = true;
@@ -113,7 +113,7 @@ export const userSlice = createSlice({
 				payload,
 			}: {
 				payload: OrderWithShopDetails[];
-			},
+			}
 		) => {
 			const orders = payload;
 			reconcileStateArray(state.user.orders, orders);

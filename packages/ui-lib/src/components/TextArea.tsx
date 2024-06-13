@@ -68,7 +68,7 @@ export default function TextArea({
 			className={twMerge(
 				'space-x-0 space-y-0 w-full',
 				'text-dark',
-				containerClassName,
+				containerClassName
 			)}
 		>
 			{label && (
@@ -87,7 +87,7 @@ export default function TextArea({
 							onClickIcon && onClickIcon(e);
 						}}
 						className={twMerge(
-							'bg-transparent hover:bg-transparent md:hover:bg-transparent focus:bg-transparent shadow-none px-0 pl-2 m-0 w-min h-min place-self-center',
+							'bg-transparent hover:bg-transparent md:hover:bg-transparent focus:bg-transparent shadow-none px-0 pl-2 m-0 w-min h-min place-self-center'
 						)}
 						Icon={insertIcon}
 					/>
@@ -124,7 +124,7 @@ export default function TextArea({
 						error && 'input-error border-2',
 						'border',
 						'transition',
-						className,
+						className
 					)}
 					{...inputProps}
 				/>

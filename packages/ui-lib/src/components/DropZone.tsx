@@ -23,7 +23,7 @@ export default function DropZone({
 		(acceptedFiles: any) => {
 			if (onChange) onChange(acceptedFiles);
 		},
-		[onChange],
+		[onChange]
 	);
 	const { getRootProps, getInputProps, open, isDragActive } = useDropzone({
 		onDrop,
@@ -43,7 +43,7 @@ export default function DropZone({
 					isDragActive ? 'bg-accent' : 'transparent',
 					'transition',
 					// 'outline-none',
-					'dropzone',
+					'dropzone'
 				),
 			})}
 		>

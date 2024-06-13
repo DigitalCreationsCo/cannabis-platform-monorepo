@@ -6,8 +6,8 @@ import handlerProxy from '../../oauth/saml';
 // The new endpoint is pages/api/oauth/saml.ts
 
 export default async function handler(
-	req: NextApiRequest,
-	res: NextApiResponse,
+  req: NextApiRequest,
+  res: NextApiResponse
 ) {
-	return handlerProxy(req, res);
+  return handlerProxy(req, res);
 }

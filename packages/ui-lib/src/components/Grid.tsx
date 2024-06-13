@@ -37,7 +37,7 @@ function Grid({
 				lg && `lg:grid-cols-${lg}`,
 				xl && `xl:grid-cols-${xl}`,
 				gap && 'gap-' + gap,
-				className,
+				className
 			)}
 			{...props}
 		>

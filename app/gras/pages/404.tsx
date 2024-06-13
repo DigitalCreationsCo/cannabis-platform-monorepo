@@ -1,11 +1,11 @@
-import React, { ReactElement } from 'react';
-import { AccountLayout } from '@/components/layouts';
-import { useTranslation } from 'react-i18next';
-import { GetServerSidePropsContext } from 'next';
+import { Paragraph } from '@cd/ui-lib';
+import { type GetServerSidePropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Link from 'next/link';
 import router from 'next/router';
-import { Paragraph } from '@cd/ui-lib';
+import React, { type ReactElement } from 'react';
+import { useTranslation } from 'react-i18next';
+import { AccountLayout } from '@/components/layouts';
 
 const Custom404 = () => {
   const { t } = useTranslation('common');

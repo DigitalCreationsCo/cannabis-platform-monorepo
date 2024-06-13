@@ -1,5 +1,6 @@
 import { DirectoriesWrapper } from '@boxyhq/react-ui/dsync';
 import { type TeamFeature, useDispensary } from '@cd/core-lib';
+import { LoadingPage } from '@cd/ui-lib';
 import { type GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -8,7 +9,6 @@ import { Error, Loading } from '@/components/shared';
 import { BOXYHQ_UI_CSS } from '@/components/styles';
 import { TeamTab } from '@/components/team';
 import env from '@/lib/env';
-import { LoadingPage } from '@cd/ui-lib';
 
 const DirectorySync = ({ teamFeatures }: { teamFeatures: TeamFeature }) => {
   const { isLoading, isError, team } = useDispensary();

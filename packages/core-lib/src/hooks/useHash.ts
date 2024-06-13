@@ -15,7 +15,7 @@ function useHashNavigate(formId: string): HashNavigateProps {
 	const [cookies, setCookie] = useCookies([`form-step-${formId}-proceed`]);
 
 	const [canProceed, setProceed] = useState<boolean>(
-		cookies[`form-step-${formId}-proceed`],
+		cookies[`form-step-${formId}-proceed`]
 	);
 
 	useEffect(() => {

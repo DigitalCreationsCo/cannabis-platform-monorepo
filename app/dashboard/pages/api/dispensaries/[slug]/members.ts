@@ -1,4 +1,13 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+import { throwIfNotAllowed, ApiError } from '@cd/core-lib';
+import {
+  Role,
+  getStaffMembers,
+  removeStaffMember,
+  countStaffMembers,
+  updateStaffMember,
+} from '@cd/data-access';
+import type { NextApiRequest, NextApiResponse } from 'next';
 import { clientPromise } from '@/lib/db';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
 import { recordMetric } from '@/lib/metrics';
@@ -10,15 +19,6 @@ import {
   updateMemberSchema,
   validateWithSchema,
 } from '@/lib/zod';
-import { throwIfNotAllowed, ApiError } from '@cd/core-lib';
-import {
-  Role,
-  getStaffMembers,
-  removeStaffMember,
-  countStaffMembers,
-  updateStaffMember,
-} from '@cd/data-access';
-import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
   req: NextApiRequest,

@@ -20,7 +20,7 @@ function OrderRow({ order, orderDetailsRoute, className }: OrderRowProps) {
 				<Paragraph
 					className={twMerge(
 						'col-span-4',
-						`text-${getOrderStatusColor(order.orderStatus)}`,
+						`text-${getOrderStatusColor(order.orderStatus)}`
 					)}
 				>
 					{order.orderStatus}
@@ -30,7 +30,7 @@ function OrderRow({ order, orderDetailsRoute, className }: OrderRowProps) {
 					{formatInTimeZone(
 						new Date(order.createdAt || ''),
 						Intl.DateTimeFormat().resolvedOptions().timeZone,
-						'MMM dd, hh:mm',
+						'MMM dd, hh:mm'
 					)}
 				</Small>
 				<Price

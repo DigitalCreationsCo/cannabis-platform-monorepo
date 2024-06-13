@@ -52,6 +52,7 @@ module.exports = {
 						leadingUnderscore: 'allow',
 					},
 				],
+				'jsx-a11y/no-noninteractive-tabindex': 'off',
 			},
 		},
 	],

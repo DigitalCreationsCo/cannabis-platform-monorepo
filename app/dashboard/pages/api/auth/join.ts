@@ -130,7 +130,7 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
       },
     });
 
-    let userDispensary = await createDispensary({
+    const userDispensary = await createDispensary({
       client,
       data: {
         name: dispensary,

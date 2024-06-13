@@ -66,7 +66,7 @@ const stateChangeLogger: any =
 
 		console.groupCollapsed(
 			`%cAction Dispatched: ${action.type}`,
-			'color: yellow',
+			'color: yellow'
 		);
 		console.log('%cState Before Dispatch:', 'color: orange', previousState);
 		console.log('%cAction:', 'color: yellow', action);

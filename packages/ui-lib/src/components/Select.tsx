@@ -44,7 +44,7 @@ export default function Select({
 					'shadow-inner',
 					'input-md',
 					'focus:shadow-md',
-					className,
+					className
 				)}
 				onChange={setOption}
 				// className={twMerge('select focus:outline-none w-fit border', className)}

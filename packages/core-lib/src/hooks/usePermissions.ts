@@ -19,7 +19,7 @@ const usePermissions = () => {
 
 	const { data, error, isLoading } = useSWR<ApiResponse<Permission[]>>(
 		teamSlug ? `/api/dispensaries/${teamSlug}/permissions` : null,
-		fetcher,
+		fetcher
 	);
 
 	return {

@@ -68,7 +68,7 @@ function DispensaryCard({
 			);
 		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[dispensary],
+		[dispensary]
 	);
 
 	const OpenBadge = ({ schedule }: { schedule: Dispensary['schedule'] }) => {
@@ -86,7 +86,7 @@ function DispensaryCard({
 					? `closes at ${integerToTime(Number(nextScheduleDay.closeAt))}`
 					: `opens ${
 							nextScheduleDay.day === 'today' ? '' : nextScheduleDay.day
-					  } at ${integerToTime(Number(nextScheduleDay.openAt))}`}
+						} at ${integerToTime(Number(nextScheduleDay.openAt))}`}
 			</Paragraph>
 		);
 	};

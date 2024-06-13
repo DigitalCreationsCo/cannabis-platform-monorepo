@@ -29,7 +29,7 @@ export const addStaffMember = async ({
 				.collection<Dispensary>(collections.dispensaries)
 				.findOneAndUpdate(
 					{ _id: new ObjectId(dispensary) },
-					{ $push: { members: userId } },
+					{ $push: { members: userId } }
 				)
 		).value as Dispensary;
 	} else {
@@ -38,7 +38,7 @@ export const addStaffMember = async ({
 			.collection<Dispensary>(collections.dispensaries)
 			.findOneAndUpdate(
 				{ _id: new ObjectId(dispensary.id) },
-				{ $push: { members: userId } },
+				{ $push: { members: userId } }
 			);
 	}
 	console.info('dispensary here: ', dispensary);
@@ -54,7 +54,7 @@ export const addStaffMember = async ({
 						team: dispensary,
 					},
 				},
-				{ upsert: true, returnDocument: 'after' },
+				{ upsert: true, returnDocument: 'after' }
 			)
 	).value;
 	return {
@@ -93,7 +93,7 @@ export const upsertStaffMember = async ({
 			_id: data.id,
 		},
 		{ $set: data },
-		{ upsert: true },
+		{ upsert: true }
 	);
 };
 

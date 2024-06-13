@@ -17,7 +17,9 @@
 			"@cd/core-lib/*": ["../../../packages/core-lib/src/*"]
 		}
 	},
-	"exclude": ["**/node_modules", "**/.*/", "dist", "build", "**/test/*"],
+	"exclude": ["**/node_modules", "**/.*/", "dist", "build", 
+	// "**/test/*"
+],
 	"include": [
 		".eslintrc.*",
 		"**/*.ts",
@@ -30,26 +32,3 @@
 		"**/*.json"
 	]
 }
-
-// {
-// 	"compilerOptions": {
-// 	  "target": "esnext",
-// 	  "module": "esnext",
-// 	  "declaration": true,
-// 	  "declarationMap": true,
-// 	  "outDir": "dist",
-// 	  "rootDir": "src",
-// 	  "strict": false,
-// 	  "moduleResolution": "node",
-// 	  "esModuleInterop": true,
-// 	  "skipLibCheck": true,
-// 	  "jsx": "react-jsx",
-// 	  "forceConsistentCasingInFileNames": true,
-// 	  "paths": {
-// 		"@cd/data-access": ["../../packages/data-access/src/index"],
-// 		"@cd/core-lib": ["../../packages/core-lib/src/index"],
-// 	  },
-// 	},
-// 	"include": ["src"],
-// 	"exclude": ["node_modules", "dist"]
-//   }

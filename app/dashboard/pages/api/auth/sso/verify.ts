@@ -1,9 +1,9 @@
+import { getDispensary } from '@cd/data-access';
+import { type NextApiRequest, type NextApiResponse } from 'next';
 import { clientPromise } from '@/lib/db';
 import env from '@/lib/env';
 import { ssoManager } from '@/lib/jackson/sso';
 import { teamSlugSchema, validateWithSchema } from '@/lib/zod';
-import { getDispensary } from '@cd/data-access';
-import { type NextApiRequest, type NextApiResponse } from 'next';
 
 const sso = ssoManager();
 

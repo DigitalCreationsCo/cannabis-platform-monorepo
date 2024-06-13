@@ -1,4 +1,3 @@
-import app from '@/lib/app';
 import {
   Button,
   Container,
@@ -7,6 +6,7 @@ import {
   Preview,
   Text,
 } from '@react-email/components';
+import app from '@/lib/app';
 import EmailLayout from './EmailLayout';
 
 interface ResetPasswordEmailProps {

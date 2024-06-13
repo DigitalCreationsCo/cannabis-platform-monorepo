@@ -135,9 +135,9 @@ const socketMiddleware = (store: MiddlewareAPI<any, AppState>) => {
 					console.info('message: ', message);
 					console.info('order: ', data);
 					store.dispatch(
-						socketActions.receiveNewOrderRequest({ message, data }),
+						socketActions.receiveNewOrderRequest({ message, data })
 					);
-				},
+				}
 			);
 
 			// YES

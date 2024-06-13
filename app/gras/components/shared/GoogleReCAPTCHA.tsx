@@ -14,7 +14,11 @@ const GoogleReCAPTCHA = ({ recaptchaRef, onChange, siteKey }: Props) => {
 
   return (
     <div className="pt-4">
-      <ReCAPTCHA ref={recaptchaRef} onChange={onChange as any} sitekey={siteKey} />
+      <ReCAPTCHA
+        ref={recaptchaRef}
+        onChange={onChange as any}
+        sitekey={siteKey}
+      />
     </div>
   );
 };

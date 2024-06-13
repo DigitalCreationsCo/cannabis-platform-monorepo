@@ -121,7 +121,7 @@ export const createOrderForCheckout = createAsyncThunk<OrderCreateType, void>(
 			if (!organization) {
 				console.debug('fetching organization from server');
 				const response = await axios(
-					urlBuilder.shop + `/api/organization/${cart.organizationId}`,
+					urlBuilder.shop + `/api/organization/${cart.organizationId}`
 				);
 				if (response.data.success === 'false')
 					throw new Error(response.data.error);
@@ -130,7 +130,7 @@ export const createOrderForCheckout = createAsyncThunk<OrderCreateType, void>(
 
 			if (!organization?.id)
 				throw new Error(
-					'Could not get your Dispensary details. Please try again.',
+					'Could not get your Dispensary details. Please try again.'
 				);
 
 			// const location = thunkAPI.getState().location as LocationStateProps;
@@ -168,7 +168,7 @@ export const createOrderForCheckout = createAsyncThunk<OrderCreateType, void>(
 			console.info('createOrderForCheckout: ', error);
 			return thunkAPI.rejectWithValue(error.message);
 		}
-	},
+	}
 );
 
 // export const createOrderForCheckout = createAsyncThunk(
@@ -423,10 +423,10 @@ const cartSlice = createSlice({
 
 		updateItem: (
 			state,
-			{ payload }: PayloadAction<ProductVariantWithDetails>,
+			{ payload }: PayloadAction<ProductVariantWithDetails>
 		) => {
 			const itemInCart = state.cart.find(
-				(item) => item.id == payload.id,
+				(item) => item.id == payload.id
 			) as ProductVariantWithDetails;
 			const index = state.cart.indexOf(itemInCart);
 
@@ -494,7 +494,7 @@ const cartSlice = createSlice({
 					state.isLoading = false;
 					state.isSuccess = true;
 					state.isError = false;
-				},
+				}
 			),
 			builder.addCase(createOrderForCheckout.pending, (state) => {
 				state.isLoading = true;

@@ -1,10 +1,10 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { recordMetric } from '@/lib/metrics';
 import { axios } from '@cd/core-lib';
+import { type Event, getEvents, updateManyEvents } from '@cd/data-access';
 import * as cheerio from 'cheerio';
-import env from '@/lib/env';
-import { Event, getEvents, updateManyEvents } from '@cd/data-access';
+import type { NextApiRequest, NextApiResponse } from 'next';
 import { clientPromise } from '@/lib/db';
+import env from '@/lib/env';
+import { recordMetric } from '@/lib/metrics';
 
 export default async function handler(
   req: NextApiRequest,

@@ -1,4 +1,3 @@
-import { clientPromise } from '@/lib/db';
 import {
   deleteVerificationToken,
   updateUser,
@@ -6,6 +5,7 @@ import {
 } from '@cd/data-access';
 import type { GetServerSidePropsContext } from 'next';
 import type { ReactElement } from 'react';
+import { clientPromise } from '@/lib/db';
 
 const VerifyEmailToken = () => {
   return <></>;

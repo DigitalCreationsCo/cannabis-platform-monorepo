@@ -3,9 +3,9 @@ import { TextContent } from '@cd/core-lib';
 import { Button, FlexBox, H1, H2, Paragraph, styles } from '@cd/ui-lib';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
+import { CTA } from '../';
 import Partners from '../partners/Partners';
 import { recognizedBy } from '../partners/partners-data';
-import { CTA } from '../';
 
 function Hero({ showPretext = true }) {
   const { heading, largeHeading } = styles.HERO;

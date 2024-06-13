@@ -1,6 +1,6 @@
 import type {
-	GetServerSidePropsContext,
-	InferGetServerSidePropsType,
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType,
 } from 'next';
 import { getCsrfToken } from 'next-auth/react';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -12,28 +12,28 @@ import type { NextPageWithLayout } from '@/lib/next.types';
 type LoginProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const Login: NextPageWithLayout<LoginProps> = ({ csrfToken }) => {
-	return <MagicLink csrfToken={csrfToken} />;
+  return <MagicLink csrfToken={csrfToken} />;
 };
 
 Login.getLayout = function getLayout(page: ReactElement) {
-	return (
-		<AuthLayout heading="welcome-back" description="log-in-to-account">
-			{page}
-		</AuthLayout>
-	);
+  return (
+    <AuthLayout heading="welcome-back" description="log-in-to-account">
+      {page}
+    </AuthLayout>
+  );
 };
 
 export const getServerSideProps = async (
-	context: GetServerSidePropsContext,
+  context: GetServerSidePropsContext
 ) => {
-	const { locale } = context;
+  const { locale } = context;
 
-	return {
-		props: {
-			...(locale ? await serverSideTranslations(locale, ['common']) : {}),
-			csrfToken: await getCsrfToken(context),
-		},
-	};
+  return {
+    props: {
+      ...(locale ? await serverSideTranslations(locale, ['common']) : {}),
+      csrfToken: await getCsrfToken(context),
+    },
+  };
 };
 
 export default Login;

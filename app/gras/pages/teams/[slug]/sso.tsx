@@ -1,5 +1,6 @@
 import { ConnectionsWrapper } from '@boxyhq/react-ui/sso';
 import { useDispensary } from '@cd/core-lib';
+import { LoadingPage } from '@cd/ui-lib';
 import { type GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -8,7 +9,6 @@ import { Error, Loading } from '@/components/shared';
 import { BOXYHQ_UI_CSS } from '@/components/styles';
 import { TeamTab } from '@/components/team';
 import env from '@/lib/env';
-import { LoadingPage } from '@cd/ui-lib';
 
 const TeamSSO = ({ teamFeatures, SPConfigURL }: any) => {
   const { t } = useTranslation('common');
@@ -46,8 +46,8 @@ const TeamSSO = ({ teamFeatures, SPConfigURL }: any) => {
           const ssoType = connectionIsSAML
             ? 'SAML'
             : connectionIsOIDC
-            ? 'OIDC'
-            : '';
+              ? 'OIDC'
+              : '';
           if (operation === 'CREATE') {
             toast.success(`${ssoType} connection created successfully.`);
           } else if (operation === 'UPDATE') {

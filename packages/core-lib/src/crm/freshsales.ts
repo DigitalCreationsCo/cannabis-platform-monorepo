@@ -30,7 +30,7 @@ class FreshSales {
 						...applicationHeaders,
 						authorization: `Token token=${process.env.FRESHSALES_API_KEY}`,
 					},
-				},
+				}
 			);
 
 			if (response.status > 299)
@@ -39,14 +39,14 @@ class FreshSales {
 		} catch (error: any) {
 			console.error('freshsales create contact: ', error.message);
 			throw new Error(
-				error.response?.data?.errors?.message[0] || error.message,
+				error.response?.data?.errors?.message[0] || error.message
 			);
 		}
 	}
 
 	async upsertContact(
 		contact: Partial<Customer>,
-		attribution: FreshSalesAttribution,
+		attribution: FreshSalesAttribution
 	) {
 		try {
 			const response = await axios.post<
@@ -77,7 +77,7 @@ class FreshSales {
 						...applicationHeaders,
 						authorization: `Token token=${process.env.FRESHSALES_API_KEY}`,
 					},
-				},
+				}
 			);
 
 			if (response.status > 299)
@@ -86,7 +86,7 @@ class FreshSales {
 		} catch (error: any) {
 			console.error('freshsales upsert contact: ', error.message);
 			throw new Error(
-				error.response?.data?.errors?.message[0] || error.message,
+				error.response?.data?.errors?.message[0] || error.message
 			);
 		}
 	}
@@ -109,7 +109,7 @@ class FreshSales {
 						...applicationHeaders,
 						authorization: `Token token=${process.env.FRESHSALES_API_KEY}`,
 					},
-				},
+				}
 			);
 
 			if (response.status > 299) throw new Error('Failed to create segment.');
@@ -124,7 +124,7 @@ class FreshSales {
 		} catch (error: any) {
 			console.error('freshsales create segment: ', error.message);
 			throw new Error(
-				error.response?.data?.errors?.message[0] || error.message,
+				error.response?.data?.errors?.message[0] || error.message
 			);
 		}
 	}
@@ -138,7 +138,7 @@ class FreshSales {
 						...applicationHeaders,
 						authorization: `Token token=${process.env.FRESHSALES_API_KEY}`,
 					},
-				},
+				}
 			);
 
 			if (response.status > 299) throw new Error('Failed to create segment.');
@@ -152,7 +152,7 @@ class FreshSales {
 		} catch (error: any) {
 			console.error('freshsales get segment customers: ', error.message);
 			throw new Error(
-				error.response?.data?.errors?.message[0] || error.message,
+				error.response?.data?.errors?.message[0] || error.message
 			);
 		}
 	}

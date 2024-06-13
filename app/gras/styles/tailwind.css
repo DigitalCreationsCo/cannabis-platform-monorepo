@@ -8960,11 +8960,6 @@ html:has(.drawer-open.drawer-open) {
   margin-bottom: 40px;
 }
 
-.my-auto {
-  margin-top: auto;
-  margin-bottom: auto;
-}
-
 .-ml-1 {
   margin-left: -0.25rem;
 }

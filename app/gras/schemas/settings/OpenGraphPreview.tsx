@@ -1,3 +1,4 @@
+/* eslint-disable no-self-assign */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Card } from '@sanity/ui';

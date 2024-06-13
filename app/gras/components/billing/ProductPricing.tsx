@@ -1,7 +1,7 @@
 import { useDispensary } from '@cd/core-lib';
 import { type Price, type Service, type Subscription } from '@cd/data-access';
-import { useTranslation } from 'next-i18next';
 import { Button, Paragraph } from '@cd/ui-lib';
+import { useTranslation } from 'next-i18next';
 import toast from 'react-hot-toast';
 import PaymentButton from './PaymentButton';
 

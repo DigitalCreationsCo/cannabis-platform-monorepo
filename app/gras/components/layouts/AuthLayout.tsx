@@ -1,7 +1,7 @@
-import app from '@/lib/app';
+import { H2, Paragraph } from '@cd/ui-lib';
 import { useTranslation } from 'next-i18next';
 import Image from 'next/image';
-import { H2, Paragraph } from '@cd/ui-lib';
+import app from '@/lib/app';
 
 interface AuthLayoutProps {
   children: React.ReactNode;

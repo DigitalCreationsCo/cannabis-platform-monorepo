@@ -5,9 +5,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
 import { urlForImage } from '@/lib/sanity/sanity.image';
-import logo from '../../public/logo.png';
 import { resolveHref } from '@/lib/sanity/sanity.links';
 import { type Post } from '@/lib/sanity/sanity.queries';
+import logo from '../../public/logo.png';
 
 type InfoCardProps = {
   data: Post;

@@ -87,7 +87,7 @@ export const renderNestedDataObject = (
 	Component: React.FunctionComponent,
 	options: { removeFields: string[]; sort?: 'asc' | 'desc' } = {
 		removeFields: [],
-	},
+	}
 ): any => {
 	const removeFields = options?.removeFields;
 	return Object.keys({ ...data })
@@ -95,7 +95,7 @@ export const renderNestedDataObject = (
 		.map((key, index) => {
 			if (Array.isArray(data[key]) && data[key].length > 0) {
 				return data[key].map((item: Record<string, string>) =>
-					renderNestedDataObject(item, Component, { removeFields }).flat(),
+					renderNestedDataObject(item, Component, { removeFields }).flat()
 				);
 				// return Component({
 				// 	key: data[key],

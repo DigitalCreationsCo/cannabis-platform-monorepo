@@ -35,7 +35,7 @@ export const updateManyEvents = async ({
 					update: { $set: { ...event } },
 					upsert: true,
 				},
-			})),
+			}))
 		);
 };
 
@@ -54,7 +54,7 @@ export const createEvent = async ({
 			{
 				upsert: true,
 				returnDocument: 'after',
-			},
+			}
 		)
 	).value;
 	return {
@@ -79,7 +79,7 @@ export const updateEvent = async ({
 			{
 				upsert: true,
 				returnDocument: 'after',
-			},
+			}
 		)
 	).value;
 	return {

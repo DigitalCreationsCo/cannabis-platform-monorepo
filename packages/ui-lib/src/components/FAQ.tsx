@@ -143,7 +143,7 @@ export default function FAQ({ data = faqData }: { data?: FAQDATA }) {
 				(item, index: number) =>
 					item.topic === activeTopic && (
 						<Collapse key={`faq-${index}`} item={item} />
-					),
+					)
 			)}
 		</FlexBox>
 	);

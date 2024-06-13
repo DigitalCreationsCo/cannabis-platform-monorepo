@@ -11,7 +11,7 @@ function Center({
 			className={twMerge(
 				'md:grow',
 				'justify-center items-center text-center',
-				className,
+				className
 			)}
 		>
 			{children}

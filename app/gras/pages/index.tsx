@@ -1,8 +1,4 @@
-import Link from 'next/link';
-import { useRef, type ReactElement, useState, useEffect } from 'react';
-import { useTranslation } from 'next-i18next';
-import { GetServerSidePropsContext } from 'next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { TextContent } from '@cd/core-lib';
 import {
   FlexBox,
   Paragraph,
@@ -15,15 +11,19 @@ import {
   Footer,
   Over21Button,
 } from '@cd/ui-lib';
-import env from '@/lib/env';
+import { type GetServerSidePropsContext } from 'next';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
-import { NextPageWithLayout } from '@/lib/next.types';
 import Image from 'next/image';
-import { TextContent } from '@cd/core-lib';
-import logo from '../public/logo.png';
+import Link from 'next/link';
+import { useRef, type ReactElement, useState, useEffect } from 'react';
 import { twMerge } from 'tailwind-merge';
-import friendsVideo from '../public/Gras-community-clip.mp4';
+import env from '@/lib/env';
+import { type NextPageWithLayout } from '@/lib/next.types';
 import SEOMetaTags from '@/lib/SEOMetaTags';
+import friendsVideo from '../public/Gras-community-clip.mp4';
+import logo from '../public/logo.png';
 
 const Home: NextPageWithLayout = () => {
   const { t } = useTranslation('common');

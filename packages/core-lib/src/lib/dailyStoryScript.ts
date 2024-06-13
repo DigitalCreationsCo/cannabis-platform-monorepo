@@ -12,7 +12,7 @@ export const loadBrevoChat = () =>
 		o?: HTMLScriptElement | undefined,
 		r?: HTMLScriptElement | undefined,
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		y,
+		y
 	) {
 		d._dsSettings = i;
 		r = a.createElement('script');

@@ -65,7 +65,7 @@ const checkOrderIsCompleteOrCanceled = (order: OrderWithShopDetails) =>
 function calculateSalePrice(
 	price: number,
 	isDiscount: boolean,
-	discount: number,
+	discount: number
 ) {
 	const _discountPercentage = discount / 100;
 	const _price = price;
@@ -115,7 +115,7 @@ function convertDollarsToWholeNumber(value: number | string) {
 }
 
 function calculateTransactionFees(
-	order: OrderWithShopDetails,
+	order: OrderWithShopDetails
 ): OrderWithShopDetails {
 	// DailyDeals include taxes and fees in the price.
 	if (order.isWeedTextOrder) {
@@ -174,12 +174,12 @@ function calculateDeliveryFeeFromSubtotal(subtotal: number) {
 function calculateMileageFee(meters: number) {
 	const miles = convertMetersToMiles(meters);
 	const distanceAfter2MilesUpTo10Msiles = Number(
-		(miles < 10 ? miles - 2 : 10 - 2).toFixed(2),
+		(miles < 10 ? miles - 2 : 10 - 2).toFixed(2)
 	);
 	return Math.round(
 		distanceAfter2MilesUpTo10Msiles *
 			Number(process.env.NEXT_PUBLIC_MILEAGE_RATE) *
-			100,
+			100
 	);
 }
 
@@ -216,7 +216,7 @@ async function buildOrderRecord({
 		if (!distance) {
 			distance = await getTravelDistanceFromCoordinates(
 				organization.address.coordinates as Coordinates,
-				customer.address[0].coordinates as Coordinates,
+				customer.address[0].coordinates as Coordinates
 			);
 		}
 

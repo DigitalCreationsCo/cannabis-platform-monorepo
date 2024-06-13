@@ -153,7 +153,7 @@ export async function getDispensaryRoles({
 		.collection(collections.staff)
 		.findOne(
 			{ _id: new ObjectId(where.userId) },
-			{ projection: { role: 1, dispensaryId: 1 } },
+			{ projection: { role: 1, dispensaryId: 1 } }
 		);
 }
 
@@ -226,7 +226,7 @@ export const updateDispensary = async ({
 		.findOneAndUpdate(
 			{ slug: data.slug },
 			{ $set: data },
-			{ returnDocument: 'after' },
+			{ returnDocument: 'after' }
 		);
 	return {
 		...updatedDispensary.value!,
@@ -394,7 +394,7 @@ export async function updateDispensaryStripeAccount({
 		.collection(collections.dispensaries)
 		.updateOne(
 			{ _id: new ObjectId(data.id) },
-			{ $set: { stripeAccountId: data.stripeAccountId, ...data } },
+			{ $set: { stripeAccountId: data.stripeAccountId, ...data } }
 		);
 }
 
@@ -416,7 +416,7 @@ export async function getStripeAccountId({
 		.collection<Dispensary>(collections.dispensaries)
 		.findOne(
 			{ _id: new ObjectId(where.dispensaryId) },
-			{ projection: { stripeAccountId: 1 } },
+			{ projection: { stripeAccountId: 1 } }
 		);
 }
 

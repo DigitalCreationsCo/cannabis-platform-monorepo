@@ -1,8 +1,8 @@
 /* eslint-disable sonarjs/no-small-switch */
-import { getSession } from '@/lib/session';
-import { validateWithSchema, deleteSessionSchema } from '@/lib/zod';
 import { deleteSession, findFirstSessionOrThrown } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { getSession } from '@/lib/session';
+import { validateWithSchema, deleteSessionSchema } from '@/lib/zod';
 
 export default async function handler(
   req: NextApiRequest,

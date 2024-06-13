@@ -44,14 +44,14 @@ const dispensaryMiddleware =
 			if (typeof window !== 'undefined' && userState.isSignedIn) {
 				if (window.location.pathname === '/' && userState.isSignedIn) {
 					window.location.href = TextContent.href.dashboard_f(
-						dispensaryState.dispensary?.id,
+						dispensaryState.dispensary?.id
 					);
 				}
 
 				switch (window.location.pathname) {
 					case '/daily-deals':
 						window.location.href = TextContent.href.daily_deals_weed_text_f(
-							dispensaryState.dispensary?.id,
+							dispensaryState.dispensary?.id
 						);
 						break;
 					default:

@@ -1,3 +1,7 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
+import { useDispensaries, maxLengthPolicies } from '@cd/core-lib';
 import {
   ChevronUpDownIcon,
   FolderIcon,
@@ -5,7 +9,6 @@ import {
   RectangleStackIcon,
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
-import {useDispensaries, maxLengthPolicies} from '@cd/core-lib';
 import { useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
@@ -80,7 +83,7 @@ const TeamDropdown = () => {
       </div>
       <ul
         tabIndex={0}
-        className="dropdown-content dark:border-gray-600 p-2 shadow-md bg-base-100 w-full rounded border px-2"
+        className="dropdown-content dark:border-gray-600 p-2 shadow-md bg-base-100 w-full rounded border"
       >
         {menus.map(({ id, name, items }) => {
           return (
@@ -103,7 +106,7 @@ const TeamDropdown = () => {
                   }}
                 >
                   <Link href={item.href}>
-                    <div className="flex hover:bg-gray-100 hover:dark:text-black focus:bg-gray-100 focus:outline-none py-2 px-2 rounded text-sm font-medium gap-2 items-center">
+                    <div className="flex hover:bg-gray-100 hover:dark:text-black focus:bg-gray-100 focus:outline-none p-2 rounded text-sm font-medium gap-2 items-center">
                       <item.icon className="w-5 h-5" /> {item.name}
                     </div>
                   </Link>

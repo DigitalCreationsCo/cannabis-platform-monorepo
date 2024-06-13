@@ -4,8 +4,10 @@ import {
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
 import { useTranslation } from 'next-i18next';
-import NavigationItems from './NavigationItems';
-import { MenuItem, NavigationProps } from './NavigationItems';
+import NavigationItems, {
+  type MenuItem,
+  type NavigationProps,
+} from './NavigationItems';
 
 const UserNavigation = ({ activePathname }: NavigationProps) => {
   const { t } = useTranslation('common');

@@ -29,7 +29,7 @@ export const GrasSignature = ({
 				(color === 'light' && 'text-inverse-soft') ||
 					(color === 'dark' && 'text-secondary') ||
 					'text-secondary',
-				className,
+				className
 			)}
 			{...props}
 		>
@@ -55,7 +55,7 @@ export const H1 = ({
 				(color === 'light' && 'text-inverse-soft') ||
 					(color === 'dark' && 'text-dark') ||
 					'text-inherit',
-				className,
+				className
 			)}
 			{...props}
 		>
@@ -81,7 +81,7 @@ export const H2 = ({
 				(color === 'light' && 'text-inverse-soft') ||
 					(color === 'dark' && 'text-dark') ||
 					'text-inherit',
-				className,
+				className
 			)}
 			{...props}
 		>
@@ -107,7 +107,7 @@ export const H3 = ({
 				(color === 'light' && 'text-inverse-soft') ||
 					(color === 'dark' && 'text-dark') ||
 					'text-inherit',
-				className,
+				className
 			)}
 			{...props}
 		>
@@ -132,7 +132,7 @@ export const H4 = ({
 				(color === 'light' && 'text-inverse-soft') ||
 					(color === 'dark' && 'text-dark') ||
 					'text-inherit',
-				className,
+				className
 			)}
 			{...props}
 		>
@@ -157,7 +157,7 @@ export const H5 = ({
 				(color === 'light' && 'text-inverse-soft') ||
 					(color === 'dark' && 'text-dark') ||
 					'text-inherit',
-				className,
+				className
 			)}
 			{...props}
 		>
@@ -182,7 +182,7 @@ export const H6 = ({
 				(color === 'light' && 'text-inverse-soft') ||
 					(color === 'dark' && 'text-dark') ||
 					'text-inherit',
-				className,
+				className
 			)}
 			{...props}
 		>
@@ -209,7 +209,7 @@ export const Paragraph = ({
 				(color === 'light' && 'text-inverse-soft') ||
 					(color === 'dark' && 'text-dark') ||
 					'text-inherit',
-				className,
+				className
 			)}
 			{...props}
 		>
@@ -234,7 +234,7 @@ export const Small = ({
 					(color === 'dark' && 'text-dark') ||
 					'text-inherit',
 				'text-sm whitespace-pre-line',
-				className,
+				className
 			)}
 			{...props}
 		>
@@ -257,7 +257,7 @@ export const Span = ({
 					'text-inherit',
 				styles['cursor-inherit'],
 				'text-md inline whitespace-normal',
-				className,
+				className
 			)}
 			{...props}
 		>

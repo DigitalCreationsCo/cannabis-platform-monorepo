@@ -6,27 +6,27 @@ import { AuthLayout } from '@/components/layouts';
 import type { NextPageWithLayout } from '@/lib/next.types';
 
 const ResetPasswordPage: NextPageWithLayout = () => {
-	return <ResetPasswordForm />;
+  return <ResetPasswordForm />;
 };
 
 ResetPasswordPage.getLayout = function getLayout(page: ReactElement) {
-	return (
-		<AuthLayout heading="reset-password" description="enter-new-password">
-			{page}
-		</AuthLayout>
-	);
+  return (
+    <AuthLayout heading="reset-password" description="enter-new-password">
+      {page}
+    </AuthLayout>
+  );
 };
 
 export const getServerSideProps = async (
-	context: GetServerSidePropsContext,
+  context: GetServerSidePropsContext
 ) => {
-	const { locale }: GetServerSidePropsContext = context;
+  const { locale }: GetServerSidePropsContext = context;
 
-	return {
-		props: {
-			...(locale ? await serverSideTranslations(locale, ['common']) : {}),
-		},
-	};
+  return {
+    props: {
+      ...(locale ? await serverSideTranslations(locale, ['common']) : {}),
+    },
+  };
 };
 
 export default ResetPasswordPage;

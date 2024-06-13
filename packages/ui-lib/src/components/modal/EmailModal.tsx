@@ -28,7 +28,7 @@ function EmailModal({
 	const sendEmail = () => {
 		modalText &&
 			window.open(
-				`mailto:${email}?subject=${'Install Delivery By Gras widget for customer deliveries'}&body=${modalText}`,
+				`mailto:${email}?subject=${'Install Delivery By Gras widget for customer deliveries'}&body=${modalText}`
 			);
 	};
 

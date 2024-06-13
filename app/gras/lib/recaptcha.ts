@@ -1,5 +1,5 @@
-import env from './env';
 import { ApiError } from '@cd/core-lib';
+import env from './env';
 
 export const validateRecaptcha = async (token?: string) => {
   if (!env.recaptcha.siteKey || !env.recaptcha.secretKey) {

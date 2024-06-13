@@ -34,7 +34,7 @@ export default function Letter({
       <FlexBox
         className={twMerge(
           'bg-inherit flex flex-col flex-wrap items-center justify-center gap-2 space-y-0 max-w-md sm:!max-w-2xl lg:!max-w-4xl mx-auto'
-      )}
+        )}
       >
         {title && (
           <H2

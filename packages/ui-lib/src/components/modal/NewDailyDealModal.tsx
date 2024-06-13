@@ -99,7 +99,7 @@ function NewDailyDealModal({
 				setLoadingButton(true);
 				const response = await axios.post(
 					urlBuilder.dashboard + '/api/daily-deals',
-					values,
+					values
 				);
 
 				if (response.data.success === 'false') {

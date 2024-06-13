@@ -26,7 +26,7 @@ export const getServiceByPriceId = async ({
 			{ _id: new ObjectId(where.priceId) },
 			{
 				projection: { service: 1 },
-			},
+			}
 		);
 };
 

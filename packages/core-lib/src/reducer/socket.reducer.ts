@@ -18,7 +18,7 @@ export const testAsyncAction = createAsyncThunk(
 		setTimeout(() => {
 			return console.info('test-action');
 		}, 2000);
-	},
+	}
 );
 
 // ACTIONS TRIGGER EVENTS IN THE SOCKET MIDDLEWARE
@@ -165,7 +165,7 @@ const socketSlice = createSlice({
 			state,
 			{
 				payload,
-			}: { payload: SocketEventPayload<OrderWithDispatchDetails['order']> },
+			}: { payload: SocketEventPayload<OrderWithDispatchDetails['order']> }
 		) => {
 			state.incomingOrder.message = payload.message;
 			state.incomingOrder.newOrder =
@@ -202,7 +202,7 @@ const socketSlice = createSlice({
 		},
 		updateDestinationType: (
 			state,
-			{ payload }: { payload: 'vendor' | 'customer' },
+			{ payload }: { payload: 'vendor' | 'customer' }
 		) => {
 			state.destinationType = payload;
 		},
@@ -216,11 +216,11 @@ const socketSlice = createSlice({
 		removeCompletedOrder: (state, { payload }) => {
 			const { orderId } = payload;
 			const updateRemainingRoute = state.remainingRoute.filter(
-				(destination) => destination.id !== orderId,
+				(destination) => destination.id !== orderId
 			);
 			state.remainingRoute = updateRemainingRoute;
 			const updateDispatchOrders = state.dispatchOrders.filter(
-				(order) => order.id !== orderId,
+				(order) => order.id !== orderId
 			);
 			state.dispatchOrders = updateDispatchOrders;
 		},
@@ -286,7 +286,7 @@ const socketSlice = createSlice({
 			(state, { payload }) => {
 				// const { sortedRoute } = payload;
 				// state.remainingRoute = sortedRoute;
-			},
+			}
 		);
 		builder.addCase(addOrderAndOptimizeRoute.pending, () => {});
 		builder.addCase(addOrderAndOptimizeRoute.rejected, (state, { payload }) => {

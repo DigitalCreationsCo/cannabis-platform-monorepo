@@ -29,6 +29,6 @@ export function generateWidgetScriptTag({
 			pos: ${pos},
 			inventory: ${inventory},
 			parentElement: ${parentElement},
-		});</script>`,
+		});</script>`
 	).textContent as string;
 }

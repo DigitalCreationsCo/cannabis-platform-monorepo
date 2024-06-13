@@ -15,7 +15,7 @@ export default function Collapse({
 			className={twMerge(
 				'collapse mb-5 rounded drop-shadow-md w-full',
 				'bg-inverse',
-				className,
+				className
 			)}
 		>
 			<input type="checkbox" />

@@ -1,11 +1,15 @@
+import {
+  defaultHeaders,
+  maxLengthPolicies,
+  passwordPolicies,
+} from '@cd/core-lib';
+import { Button, TextField } from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
-import { Button, TextField } from '@cd/ui-lib';
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
 
 import { Card, InputWithLabel } from '@/components/shared';
-import { defaultHeaders, maxLengthPolicies, passwordPolicies } from '@cd/core-lib';
 
 const schema = Yup.object().shape({
   currentPassword: Yup.string().required().max(maxLengthPolicies.password),
@@ -64,7 +68,10 @@ const UpdatePassword = () => {
                     ? !!formik.errors.currentPassword
                     : undefined
                 }
-                helperText={formik.touched.currentPassword && formik.errors.currentPassword}
+                helperText={
+                  formik.touched.currentPassword &&
+                  formik.errors.currentPassword
+                }
                 onChange={formik.handleChange}
                 className="text-sm"
               />
@@ -79,7 +86,9 @@ const UpdatePassword = () => {
                     ? !!formik.errors.newPassword
                     : undefined
                 }
-                helperText={formik.touched.newPassword && formik.errors.newPassword}
+                helperText={
+                  formik.touched.newPassword && formik.errors.newPassword
+                }
                 onChange={formik.handleChange}
                 className="text-sm"
               />

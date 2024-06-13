@@ -392,9 +392,9 @@ export const SMSTemplate = Object.freeze({
 	driver: {
 		delivery_info_f: (order: { organization: any }) =>
 			`${TextContent.dispatch.status.DELIVERY_DEADLINE_f(
-				order,
+				order
 			)}\n${TextContent.dispatch.status.PICKUP_ADDRESS_f(
-				order.organization,
+				order.organization
 			)}\n${TextContent.dispatch.status.DELIVER_TO_CUSTOMER_f(order)}`,
 		new_order_f: (order: { organization: any }) =>
 			TextContent.dispatch.status.NEW_ORDER_FROM_GRAS +
