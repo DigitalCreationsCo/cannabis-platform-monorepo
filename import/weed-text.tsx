@@ -24,7 +24,6 @@ import { type StaticImageData } from 'next/image';
 import { type PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 // import ContinueSignUp from 'components/form/ContinueSignUp';
-import Head from 'next/head';
 import SEOMetaTags from '@/lib/SEOMetaTags';
 
 export default function WeedTextSignUp() {
@@ -42,7 +41,6 @@ export default function WeedTextSignUp() {
 
 	return (
 		<>
-			<Head>
 				<SEOMetaTags
 					additionalKeywords={[
 						'weed text',
@@ -53,7 +51,6 @@ export default function WeedTextSignUp() {
 						'cannabis text delivery',
 					]}
 				/>
-			</Head>
 			<Page
 				className={twMerge(
 					styles.gradient,
