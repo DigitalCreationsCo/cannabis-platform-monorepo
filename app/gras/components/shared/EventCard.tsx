@@ -1,9 +1,9 @@
 import { truncateWordsAndLeaveN } from '@cd/core-lib';
+import { type Event } from '@cd/data-access';
 import { FlexBox, H4, H5, Paragraph } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
-import { Event } from '@cd/data-access';
 
 type EventCardProps = {
   event: Event;

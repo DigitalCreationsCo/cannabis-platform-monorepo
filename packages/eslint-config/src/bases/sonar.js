@@ -23,6 +23,7 @@ module.exports = {
 			excludedFiles: sonarPatterns.excludedFiles,
 			extends: ['plugin:sonarjs/recommended'],
 			rules: {
+				'sonarjs/no-duplicate-string': 'off',
 				'sonarjs/no-nested-template-literals': 'off',
 				'sonarjs/no-small-switch': 'off',
 			},
@@ -32,9 +33,6 @@ module.exports = {
 			rules: {
 				// relax complexity for react code
 				'sonarjs/cognitive-complexity': ['error', 15],
-				// relax duplicate strings
-				'sonarjs/no-duplicate-string': 'off',
-				'sonarjs/no-small-switch': 'off',
 			},
 		},
 		{

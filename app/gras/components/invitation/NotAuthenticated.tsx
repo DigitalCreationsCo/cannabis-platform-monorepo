@@ -1,7 +1,7 @@
 import { type Invitation } from '@cd/data-access';
+import { Button } from '@cd/ui-lib';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
-import { Button } from '@cd/ui-lib';
 
 interface NotAuthenticatedProps {
   invitation: Invitation;

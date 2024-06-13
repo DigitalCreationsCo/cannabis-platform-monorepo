@@ -71,20 +71,20 @@ export default function SendOTPForm({
 
 					toast.success(
 						TextContent.account.ONETIME_PASSCODE_SENT_MOBILE_f(
-							values.emailOrPhone,
+							values.emailOrPhone
 						),
 						{
 							duration: 5000,
-						},
+						}
 					);
 				} else {
 					await createCode({ email: values.emailOrPhone });
 
 					toast.success(
 						TextContent.account.ONETIME_PASSCODE_SENT_EMAIL_f(
-							values.emailOrPhone,
+							values.emailOrPhone
 						),
-						{ duration: 5000 },
+						{ duration: 5000 }
 					);
 				}
 				nextFormStep();

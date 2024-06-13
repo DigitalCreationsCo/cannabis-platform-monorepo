@@ -1,23 +1,21 @@
-import { Error, LetterAvatar } from '@/components/shared';
-import { Dispensary, StaffMember } from '@cd/data-access';
 import {
   useStaffMembers,
   useCanAccess,
   defaultHeaders,
-  ApiResponse,
+  type ApiResponse,
 } from '@cd/core-lib';
+import { type Dispensary, type StaffMember } from '@cd/data-access';
+import { Button, H2, Paragraph, LoadingDots } from '@cd/ui-lib';
 import { useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
-import { Button } from '@cd/ui-lib';
-import toast from 'react-hot-toast';
-import { H2, Paragraph } from '@cd/ui-lib';
-
-import { InviteMember } from '@/components/invitation';
-import UpdateMemberRole from './UpdateMemberRole';
-import ConfirmationDialog from '../shared/ConfirmationDialog';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
+import { InviteMember } from '@/components/invitation';
+import { Error, LetterAvatar } from '@/components/shared';
 import { Table } from '@/components/shared/table/Table';
-import { LoadingDots } from '@cd/ui-lib';
+
+import ConfirmationDialog from '../shared/ConfirmationDialog';
+import UpdateMemberRole from './UpdateMemberRole';
 
 const Members = ({ team }: { team: Dispensary }) => {
   const { data: session } = useSession();

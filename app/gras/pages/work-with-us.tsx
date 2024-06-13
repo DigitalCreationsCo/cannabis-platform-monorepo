@@ -7,6 +7,8 @@ import {
   Paragraph,
   Footer,
 } from '@cd/ui-lib';
+import { type GetServerSidePropsContext } from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
 import { type ReactElement, useEffect } from 'react';
 import { twMerge } from 'tailwind-merge';
@@ -17,8 +19,6 @@ import {
   Hero,
   ServicesTopBar,
 } from '@/components/landing';
-import { letters } from '@/components/landing/letter/letter-data';
-import Partners from '@/components/landing/partners/Partners';
 import {
   automateDeliveryCompliance,
   consumerTextMessaging,
@@ -28,9 +28,9 @@ import {
   trackDeliveries,
   unlockYourGrowth,
 } from '@/components/landing/benefits/benefit-data';
+import { letters } from '@/components/landing/letter/letter-data';
+import Partners from '@/components/landing/partners/Partners';
 import { partners } from '@/components/landing/partners/partners-data';
-import { GetServerSidePropsContext } from 'next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import SEOMetaTags from '@/lib/SEOMetaTags';
 
 export default function DispensaryLandingPage() {

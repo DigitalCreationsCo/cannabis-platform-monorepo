@@ -1,9 +1,9 @@
+import { throwIfNotAllowed, ApiError } from '@cd/core-lib';
+import type { NextApiRequest, NextApiResponse } from 'next';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
 import env from '@/lib/env';
 import { dsyncManager } from '@/lib/jackson/dsync';
 import { sendAudit } from '@/lib/retraced';
-import { throwIfNotAllowed, ApiError } from '@cd/core-lib';
-import type { NextApiRequest, NextApiResponse } from 'next';
 
 const dsync = dsyncManager();
 

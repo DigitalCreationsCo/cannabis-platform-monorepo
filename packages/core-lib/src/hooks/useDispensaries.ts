@@ -7,7 +7,7 @@ const useDispensaries = () => {
 
 	const { data, error, isLoading } = useSWR<ApiResponse<TeamWithMemberCount[]>>(
 		url,
-		fetcher,
+		fetcher
 	);
 
 	const mutateTeams = async () => {

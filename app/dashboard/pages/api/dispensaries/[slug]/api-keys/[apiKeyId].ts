@@ -1,12 +1,12 @@
+import { throwIfNotAllowed, ApiError } from '@cd/core-lib';
+import { deleteApiKey } from '@cd/data-access';
+import type { NextApiRequest, NextApiResponse } from 'next';
 import { clientPromise } from '@/lib/db';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
 import env from '@/lib/env';
 import { recordMetric } from '@/lib/metrics';
 import { getCurrentUserWithDispensary } from '@/lib/user';
 import { deleteApiKeySchema, validateWithSchema } from '@/lib/zod';
-import { throwIfNotAllowed, ApiError } from '@cd/core-lib';
-import { deleteApiKey } from '@cd/data-access';
-import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
   req: NextApiRequest,

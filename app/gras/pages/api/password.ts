@@ -1,15 +1,18 @@
-import { hashPassword, verifyPassword } from '@/lib/auth';
-import { getSession } from '@/lib/session';
+import {
+  findFirstUserOrThrow,
+  updateUser,
+  deleteManySessions,
+} from '@cd/data-access';
+import { getCookie } from 'cookies-next';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { ApiError } from 'next/dist/server/api-utils';
-import { recordMetric } from '@/lib/metrics';
-import { getCookie } from 'cookies-next';
-import { sessionTokenCookieName } from '@/lib/nextAuth';
-import env from '@/lib/env';
-import { findFirstUserOrThrow, updateUser } from '@cd/data-access';
-import { deleteManySessions } from '@cd/data-access';
-import { validateWithSchema, updatePasswordSchema } from '@/lib/zod';
+import { hashPassword, verifyPassword } from '@/lib/auth';
 import { clientPromise } from '@/lib/db';
+import env from '@/lib/env';
+import { recordMetric } from '@/lib/metrics';
+import { sessionTokenCookieName } from '@/lib/nextAuth';
+import { getSession } from '@/lib/session';
+import { validateWithSchema, updatePasswordSchema } from '@/lib/zod';
 
 export default async function handler(
   req: NextApiRequest,

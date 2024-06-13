@@ -3,7 +3,7 @@ import { twMerge } from 'tailwind-merge';
 
 const usePagination = <T,>(
 	data: T[],
-	pageSize = 10,
+	pageSize = 10
 ): { current: T[]; PaginationButtons: () => JSX.Element } => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const totalPages = Math.ceil(data.length / pageSize);

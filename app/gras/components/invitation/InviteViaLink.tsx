@@ -7,6 +7,7 @@ import {
   maxLengthPolicies,
 } from '@cd/core-lib';
 import { type Dispensary } from '@cd/data-access';
+import { Paragraph, TextField, Button } from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import React, { useState } from 'react';
@@ -16,7 +17,6 @@ import { mutate } from 'swr';
 import * as Yup from 'yup';
 import { InputWithCopyButton } from '../shared';
 import ConfirmationDialog from '../shared/ConfirmationDialog';
-import { Paragraph, TextField,Button } from '@cd/ui-lib';
 
 interface InviteViaLinkProps {
   team: Dispensary;

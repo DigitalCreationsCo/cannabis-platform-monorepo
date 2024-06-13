@@ -1,8 +1,8 @@
 import { type Dispensary } from '@cd/data-access';
+import { Modal2 as Modal } from '@cd/ui-lib';
 import { useTranslation } from 'next-i18next';
 import React from 'react';
 
-import { Modal2 as Modal } from '@cd/ui-lib';
 import InviteViaEmail from './InviteViaEmail';
 import InviteViaLink from './InviteViaLink';
 

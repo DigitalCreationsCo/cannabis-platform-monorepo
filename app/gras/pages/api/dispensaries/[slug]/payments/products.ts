@@ -8,10 +8,10 @@ import {
 } from '@cd/data-access';
 import { type NextApiRequest, type NextApiResponse } from 'next';
 
+import { clientPromise } from '@/lib/db';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
 import { getSession } from '@/lib/session';
 import { getStripeCustomerId } from '@/lib/stripe';
-import { clientPromise } from '@/lib/db';
 
 export default async function handler(
   req: NextApiRequest,

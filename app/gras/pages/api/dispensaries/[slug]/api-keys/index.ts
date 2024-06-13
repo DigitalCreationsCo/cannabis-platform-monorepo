@@ -1,12 +1,12 @@
 import { throwIfNotAllowed, ApiError } from '@cd/core-lib';
 import { createApiKey, fetchApiKeys } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { clientPromise } from '@/lib/db';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
 import env from '@/lib/env';
 import { recordMetric } from '@/lib/metrics';
 import { getCurrentUserWithDispensary } from '@/lib/user';
 import { createApiKeySchema, validateWithSchema } from '@/lib/zod';
-import { clientPromise } from '@/lib/db';
 
 export default async function handler(
   req: NextApiRequest,

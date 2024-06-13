@@ -1,7 +1,7 @@
+import { Paragraph } from '@cd/ui-lib';
 import { useTranslation } from 'next-i18next';
 
 import Alert from './Alert';
-import { Paragraph } from '@cd/ui-lib';
 
 interface ErrorProps {
   message?: string;

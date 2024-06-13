@@ -116,7 +116,7 @@ export default function EnterOTPForm({
 				signInSyncAction({
 					token,
 					user: user as User,
-				}),
+				})
 			);
 			setLoadingButton(false);
 			toast.success(TextContent.account.SIGNING_IN, { duration: 5000 });

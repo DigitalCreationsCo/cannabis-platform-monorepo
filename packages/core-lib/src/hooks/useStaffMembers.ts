@@ -8,7 +8,7 @@ const useStaffMembers = (slug: string) => {
 
 	const { data, error, isLoading } = useSWR<ApiResponse<StaffMemberWithUser[]>>(
 		url,
-		fetcher,
+		fetcher
 	);
 
 	const mutateTeamMembers = async () => {

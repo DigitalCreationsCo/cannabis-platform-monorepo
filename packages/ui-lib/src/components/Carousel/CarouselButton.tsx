@@ -47,7 +47,7 @@ export default function CarouselButton({
 				disabled={disabled}
 				className={twMerge(
 					styles.carouselButton,
-					'btn-circle btn items-center content-center justify-center shadow-none',
+					'btn-circle btn items-center content-center justify-center shadow-none'
 				)}
 				Icon={arrowIcon()}
 			/>

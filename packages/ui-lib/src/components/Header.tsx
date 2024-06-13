@@ -41,7 +41,7 @@ function Header({
 						className={twMerge(
 							styles.BUTTON.highlight,
 							'hover:border-light',
-							'text-light font-bold text-md',
+							'text-light font-bold text-md'
 						)}
 						bg="transparent"
 						hover="transparent"
@@ -56,7 +56,7 @@ function Header({
 						className={twMerge(
 							styles.BUTTON.highlight,
 							'hover:border-light',
-							'text-light font-bold text-md',
+							'text-light font-bold text-md'
 						)}
 						bg="transparent"
 						hover="transparent"

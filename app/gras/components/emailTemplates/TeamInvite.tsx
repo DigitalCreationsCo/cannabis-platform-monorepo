@@ -1,3 +1,4 @@
+import { type Dispensary } from '@cd/data-access';
 import {
   Button,
   Container,
@@ -6,9 +7,8 @@ import {
   Preview,
   Text,
 } from '@react-email/components';
-import EmailLayout from './EmailLayout';
-import { Dispensary } from '@cd/data-access';
 import app from '@/lib/app';
+import EmailLayout from './EmailLayout';
 
 interface TeamInviteEmailProps {
   team: Dispensary;

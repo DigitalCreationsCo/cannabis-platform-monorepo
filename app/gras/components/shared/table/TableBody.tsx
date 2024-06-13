@@ -1,6 +1,7 @@
+/* eslint-disable sonarjs/cognitive-complexity */
 import { Button } from '@cd/ui-lib';
-import Badge from '@/components/shared/Badge';
 import { useTranslation } from 'next-i18next';
+import Badge from '@/components/shared/Badge';
 
 const trClass =
   'border-b bg-white last:border-b-0 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800';

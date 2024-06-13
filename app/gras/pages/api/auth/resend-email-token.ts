@@ -1,9 +1,9 @@
-import { sendVerificationEmail } from '@/lib/email/sendVerificationEmail';
 import { ApiError } from '@cd/core-lib';
-import type { NextApiRequest, NextApiResponse } from 'next';
 import { getUser, createVerificationToken } from '@cd/data-access';
-import { resendEmailToken, validateWithSchema } from '@/lib/zod';
+import type { NextApiRequest, NextApiResponse } from 'next';
 import { clientPromise } from '@/lib/db';
+import { sendVerificationEmail } from '@/lib/email/sendVerificationEmail';
+import { resendEmailToken, validateWithSchema } from '@/lib/zod';
 
 export default async function handler(
   req: NextApiRequest,

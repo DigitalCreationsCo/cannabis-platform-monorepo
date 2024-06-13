@@ -1,9 +1,5 @@
 /* eslint-disable sonarjs/no-small-switch */
 
-import { clientPromise } from '@/lib/db';
-import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
-import { getSession } from '@/lib/session';
-import { getStripeCustomerId } from '@/lib/stripe';
 import {
   type Price,
   type Service,
@@ -13,6 +9,10 @@ import {
   getSubscriptionByCustomerId,
 } from '@cd/data-access';
 import { type NextApiRequest, type NextApiResponse } from 'next';
+import { clientPromise } from '@/lib/db';
+import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
+import { getSession } from '@/lib/session';
+import { getStripeCustomerId } from '@/lib/stripe';
 
 export default async function handler(
   req: NextApiRequest,

@@ -1,5 +1,5 @@
+import { H2 } from '@cd/ui-lib';
 import React from 'react';
-import { H2, Paragraph } from '@cd/ui-lib';
 
 const Card = ({ children }: { children: React.ReactNode }) => {
   return (

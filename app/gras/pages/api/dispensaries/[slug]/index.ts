@@ -6,13 +6,13 @@ import {
   type Dispensary,
 } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { clientPromise } from '@/lib/db';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
 import env from '@/lib/env';
 import { recordMetric } from '@/lib/metrics';
 import { sendAudit } from '@/lib/retraced';
 import { getCurrentUserWithDispensary } from '@/lib/user';
 import { updateTeamSchema, validateWithSchema } from '@/lib/zod';
-import { clientPromise } from '@/lib/db';
 
 export default async function handler(
   req: NextApiRequest,

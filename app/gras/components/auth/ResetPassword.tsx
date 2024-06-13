@@ -1,17 +1,17 @@
-import { InputWithLabel } from '@/components/shared';
 import {
   defaultHeaders,
   maxLengthPolicies,
   passwordPolicies,
-  ApiResponse,
+  type ApiResponse,
 } from '@cd/core-lib';
+import { Button, TextField } from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { Button, TextField } from '@cd/ui-lib';
 import { toast } from 'react-hot-toast';
 import * as Yup from 'yup';
+import { InputWithLabel } from '@/components/shared';
 
 const ResetPassword = () => {
   const [submitting, setSubmitting] = useState<boolean>(false);
@@ -74,7 +74,9 @@ const ResetPassword = () => {
             name="password"
             placeholder={t('new-password')}
             value={formik.values.password}
-            error={formik.touched.password ? !!formik.errors.password : undefined}
+            error={
+              formik.touched.password ? !!formik.errors.password : undefined
+            }
             helperText={formik.touched.password && formik.errors.password}
             onChange={formik.handleChange}
           />
@@ -89,7 +91,9 @@ const ResetPassword = () => {
                 ? !!formik.errors.confirmPassword
                 : undefined
             }
-            helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
+            helperText={
+              formik.touched.confirmPassword && formik.errors.confirmPassword
+            }
             onChange={formik.handleChange}
           />
         </div>

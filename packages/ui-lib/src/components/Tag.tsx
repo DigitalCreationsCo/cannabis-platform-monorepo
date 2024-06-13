@@ -18,7 +18,7 @@ function Tag({ Icon, onClick, children, className }: TagProps) {
 				'badge badge-primary',
 				'm-2 gap-2',
 				'w-[112px]',
-				className,
+				className
 			)}
 		>
 			<Small>{children}</Small>

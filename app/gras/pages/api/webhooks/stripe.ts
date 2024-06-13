@@ -10,9 +10,9 @@ import {
 } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import type Stripe from 'stripe';
+import { clientPromise } from '@/lib/db';
 import env from '@/lib/env';
 import { stripe } from '@/lib/stripe';
-import { clientPromise } from '@/lib/db';
 
 export const config = {
   api: {

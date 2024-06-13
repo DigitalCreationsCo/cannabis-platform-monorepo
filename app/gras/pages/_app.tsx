@@ -1,29 +1,33 @@
-import app from '@/lib/app';
-import { SessionProvider } from 'next-auth/react';
-import { appWithTranslation } from 'next-i18next';
-import colors from 'tailwindcss/colors';
 import {
   ErrorBoundary,
   LoadingPage,
   ModalProvider,
   ToastProvider,
+  type Theme,
+  applyTheme,
 } from '@cd/ui-lib';
 import mixpanel from 'mixpanel-browser';
+import { SessionProvider } from 'next-auth/react';
+import { appWithTranslation } from 'next-i18next';
+import { NextSeo } from 'next-seo';
+import Head from 'next/head';
+import { useEffect } from 'react';
 import { Provider as ReduxProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
+import { SWRConfig } from 'swr';
+import colors from 'tailwindcss/colors';
+import app from '@/lib/app';
 import '@boxyhq/react-ui/dist/style.css';
 import '../styles/anim8-gradient.css';
 import '../styles/globals.css';
 import '../styles/shop.css';
 // eslint-disable-next-line import/no-unresolved, @typescript-eslint/no-unused-vars
 import '../styles/tailwind.css';
-import { useEffect } from 'react';
 import env from '@/lib/env';
-import { Theme, applyTheme } from '@cd/ui-lib';
 import { Themer } from '@boxyhq/react-ui/shared';
 import { AccountLayout } from '@/components/layouts';
-import { NextSeo } from 'next-seo';
-import { AppPropsWithLayout } from '@/lib/next.types';
+import { type AppPropsWithLayout } from '@/lib/next.types';
+import SEOMetaTags from '@/lib/SEOMetaTags';
 import { wrapper } from '@/lib/store';
 import { loadHotJar } from '@cd/core-lib/src/lib/hotjar';
 import { loadBrevoChat } from '@cd/core-lib/src/lib/brevoChat';
@@ -31,13 +35,10 @@ import {
   GTMTag,
   loadGoogleTagManager,
 } from '@cd/core-lib/src/lib/googletagmanager';
-import { SWRConfig } from 'swr';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import CacheProvider from '@cd/core-lib/src/lib/cache';
 import { AnimatePresence } from 'framer-motion';
-import Head from 'next/head';
-import SEOMetaTags from '@/lib/SEOMetaTags';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { loadSegment } from '@cd/core-lib/src/lib/segment';
 

@@ -40,10 +40,10 @@ function ProtectedPage({
 
 	const anyPrivatePage = protectedPages?.concat(memberPages, adminPages);
 	const isProtectedPage = anyPrivatePage.find((page) =>
-		router.pathname.includes(page),
+		router.pathname.includes(page)
 	);
 	const isMemberPage = memberPages.find((page) =>
-		router.pathname.includes(page),
+		router.pathname.includes(page)
 	);
 	const isAdminPage = adminPages.find((page) => router.pathname.includes(page));
 

@@ -1,12 +1,12 @@
-import type { InferGetStaticPropsType } from 'next';
-import Link from 'next/link';
-import React, { ReactElement } from 'react';
-import { useTranslation, Trans } from 'next-i18next';
-import jackson from '@/lib/jackson';
-import InputWithCopyButton from '@/components/shared/InputWithCopyButton';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import type { NextPageWithLayout } from '@/lib/next.types';
 import { H2, Paragraph } from '@cd/ui-lib';
+import type { InferGetStaticPropsType } from 'next';
+import { useTranslation, Trans } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import Link from 'next/link';
+import React, { type ReactElement } from 'react';
+import InputWithCopyButton from '@/components/shared/InputWithCopyButton';
+import jackson from '@/lib/jackson';
+import type { NextPageWithLayout } from '@/lib/next.types';
 
 const SPConfig: NextPageWithLayout<
   InferGetStaticPropsType<typeof getServerSideProps>
@@ -69,7 +69,9 @@ const SPConfig: NextPageWithLayout<
                 <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300">
                   {t('assertion-signature')}
                 </label>
-                <Paragraph className="text-sm">{config.assertionSignature}</Paragraph>
+                <Paragraph className="text-sm">
+                  {config.assertionSignature}
+                </Paragraph>
               </div>
             </div>
             <div className="form-control w-full">
@@ -77,7 +79,9 @@ const SPConfig: NextPageWithLayout<
                 <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300">
                   {t('signature-algorithm')}
                 </label>
-                <Paragraph className="text-sm">{config.signatureAlgorithm}</Paragraph>
+                <Paragraph className="text-sm">
+                  {config.signatureAlgorithm}
+                </Paragraph>
               </div>
             </div>
             <div className="form-control w-full">

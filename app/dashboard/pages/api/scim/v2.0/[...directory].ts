@@ -1,9 +1,9 @@
-import env from '@/lib/env';
-import jackson from '@/lib/jackson';
-import { handleEvents } from '@/lib/jackson/dsyncEvents';
 import type { DirectorySyncRequest } from '@boxyhq/saml-jackson';
 import { extractAuthToken } from '@cd/core-lib';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import env from '@/lib/env';
+import jackson from '@/lib/jackson';
+import { handleEvents } from '@/lib/jackson/dsyncEvents';
 
 export default async function handler(
   req: NextApiRequest,

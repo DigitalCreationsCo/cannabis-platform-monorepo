@@ -1,10 +1,10 @@
 /* eslint-disable i18next/no-literal-string */
 import { Button, FlexBox, H1, Paragraph, styles } from '@cd/ui-lib';
+import Image from 'next/image';
+import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
 import { CTA } from '..';
-import Image from 'next/image';
 import messageImg from '../../../public/message-1.png';
-import Link from 'next/link';
 
 function Hero() {
   const [heading, largeHeading] = [

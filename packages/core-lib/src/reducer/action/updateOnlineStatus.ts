@@ -31,7 +31,7 @@ export const updateOnlineStatus = createAsyncThunk<
 					headers: {
 						Authorization: `Bearer ${token}`,
 					},
-				},
+				}
 			);
 			if (response.data.success === 'false')
 				throw new Error(response.data.error);

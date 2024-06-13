@@ -6,7 +6,7 @@ export const loadHotJar = () =>
 		t,
 		j,
 		a: HTMLHeadElement | undefined,
-		r: HTMLScriptElement | undefined,
+		r: HTMLScriptElement | undefined
 	) {
 		h.hj =
 			h.hj ||
@@ -25,5 +25,5 @@ export const loadHotJar = () =>
 		'https://static.hotjar.com/c/hotjar-',
 		'.js?sv=',
 		undefined,
-		undefined,
+		undefined
 	);

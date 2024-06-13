@@ -9,7 +9,7 @@ export const getAddressByCoordinates = createAsyncThunk(
 	'location/getAddressByCoordinates',
 	async (
 		coordinates: { latitude: number; longitude: number },
-		{ rejectWithValue },
+		{ rejectWithValue }
 	) => {
 		try {
 			return await getGeoAddressFromCoordinates(coordinates);
@@ -17,7 +17,7 @@ export const getAddressByCoordinates = createAsyncThunk(
 			console.info('getAddressByCoordinates: ', error);
 			return rejectWithValue('Could not get address');
 		}
-	},
+	}
 );
 
 export const locationTypes = {
@@ -124,7 +124,7 @@ const locationSlice = createSlice({
 	reducers: {
 		setCurrentCoordinates: (
 			state,
-			{ payload }: { payload: { latitude: number; longitude: number } },
+			{ payload }: { payload: { latitude: number; longitude: number } }
 		) => {
 			console.debug('setCurrentCoordinates action, ', payload);
 			state.currentLocation.address.coordinates.latitude = payload.latitude;
@@ -132,7 +132,7 @@ const locationSlice = createSlice({
 		},
 		setSelectLocationType: (
 			state,
-			{ payload }: { payload: LocationStateProps['selectLocationType'] },
+			{ payload }: { payload: LocationStateProps['selectLocationType'] }
 		) => {
 			console.debug('setSelectLocationType action');
 			state.selectLocationType = payload;
@@ -183,7 +183,7 @@ const locationSlice = createSlice({
 				state.isLoading = false;
 				state.isSuccess = true;
 				state.isError = false;
-			},
+			}
 		),
 			builder.addCase(getAddressByCoordinates.pending, (state) => {
 				console.info('getAddressByCoordinates pending');
@@ -200,7 +200,7 @@ const locationSlice = createSlice({
 					state.isLoading = false;
 					state.isSuccess = false;
 					state.isError = true;
-				},
+				}
 			);
 	},
 });

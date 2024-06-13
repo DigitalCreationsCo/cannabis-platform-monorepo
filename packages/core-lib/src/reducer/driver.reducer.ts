@@ -85,7 +85,7 @@ export const driverSlice = createSlice({
 		 */
 		signinDriverSync: (
 			state,
-			{ payload }: { payload: { user: DriverWithSessionJoin; token: string } },
+			{ payload }: { payload: { user: DriverWithSessionJoin; token: string } }
 		) => {
 			console.info('signinDriverSync payload:', payload);
 			const { token, user: driver } = payload;
@@ -110,7 +110,7 @@ export const driverSlice = createSlice({
 
 		updateCoordinates: (
 			state,
-			{ payload }: { payload: CoordinatesCreateType },
+			{ payload }: { payload: CoordinatesCreateType }
 		) => {
 			// const previousCoordinates = state.driver.driverSession.currentCoordinates;
 			const coordinates = payload;
@@ -119,7 +119,7 @@ export const driverSlice = createSlice({
 
 		appendCoordinatesToRoute: (
 			state,
-			{ payload }: { payload: CoordinatesCreateType },
+			{ payload }: { payload: CoordinatesCreateType }
 		) => {
 			state.driver.driverSession.currentRoute.push(payload);
 		},
@@ -173,7 +173,7 @@ export const driverSlice = createSlice({
 					state.isLoading = false;
 					state.isError = true;
 					state.errorMessage = error;
-				},
+				}
 			),
 			builder.addCase(signOutUserAsync.fulfilled, () => initialState),
 			builder.addCase(signOutUserAsync.pending, (state) => {

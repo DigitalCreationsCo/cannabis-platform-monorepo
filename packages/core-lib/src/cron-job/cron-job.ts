@@ -1,5 +1,7 @@
-import { DailyDeal } from '@cd/data-access';
-import { axios } from '../';
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable sonarjs/no-duplicate-string */
+import { type DailyDeal } from '@cd/data-access';
+import { axios } from '../axiosInstance';
 import Twilio from '../sms/twilio';
 
 class CronJobApi {
@@ -64,7 +66,7 @@ class CronJobApi {
 					Authorization: `Bearer ${process.env.CRON_API_KEY}`,
 					'Content-Type': 'application/json',
 				},
-			},
+			}
 		);
 		const { jobId } = response.data;
 		return jobId;
@@ -74,7 +76,7 @@ class CronJobApi {
 	 * Update cron job
 	 */
 	async updateDailyDealJob(jobId: string, deal: DailyDeal) {
-		const { teamSlug, schedule, id, startTime, endTime, timezone } = deal;
+		const { teamSlug, schedule, endTime, timezone } = deal;
 		const [minutes, hours, mdays, months, wdays] = schedule
 			.split(' ')
 			.reduce((arr, t) => {
@@ -119,7 +121,7 @@ class CronJobApi {
 					Authorization: `Bearer ${process.env.CRON_API_KEY}`,
 					'Content-Type': 'application/json',
 				},
-			},
+			}
 		);
 	}
 
@@ -134,7 +136,7 @@ class CronJobApi {
 					Authorization: `Bearer ${process.env.CRON_API_KEY}`,
 					'Content-Type': 'application/json',
 				},
-			},
+			}
 		);
 	}
 }

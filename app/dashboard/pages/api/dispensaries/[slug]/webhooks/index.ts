@@ -1,4 +1,7 @@
 /* eslint-disable sonarjs/no-duplicate-string */
+import { ApiError, throwIfNotAllowed } from '@cd/core-lib';
+import type { NextApiRequest, NextApiResponse } from 'next';
+import { type EndpointIn } from 'svix';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
 import env from '@/lib/env';
 import { recordMetric } from '@/lib/metrics';
@@ -14,9 +17,6 @@ import {
   validateWithSchema,
   webhookEndpointSchema,
 } from '@/lib/zod';
-import { ApiError, throwIfNotAllowed } from '@cd/core-lib';
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { type EndpointIn } from 'svix';
 
 export default async function handler(
   req: NextApiRequest,

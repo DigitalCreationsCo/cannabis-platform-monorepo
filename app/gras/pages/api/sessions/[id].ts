@@ -1,8 +1,8 @@
 import { deleteSession, findFirstSessionOrThrown } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { clientPromise } from '@/lib/db';
 import { getSession } from '@/lib/session';
 import { validateWithSchema, deleteSessionSchema } from '@/lib/zod';
-import { clientPromise } from '@/lib/db';
 
 export default async function handler(
   req: NextApiRequest,

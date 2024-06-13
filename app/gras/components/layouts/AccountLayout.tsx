@@ -6,7 +6,5 @@ interface AccountLayoutProps {
 }
 
 export default function AccountLayout({ children }: AccountLayoutProps) {
-  return (
-      <AppShell>{children}</AppShell>
-  );
+  return <AppShell>{children}</AppShell>;
 }

@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { getDispensariesByZipcode } from '@cd/data-access';
+import { getDispensariesByZipcode, dispensaries } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { recordMetric } from '@/lib/metrics';
-import { dispensaries } from '@cd/data-access';
-import env from '@/lib/env';
 import { clientPromise } from '@/lib/db';
+import env from '@/lib/env';
+import { recordMetric } from '@/lib/metrics';
 
 export default async function handler(
   req: NextApiRequest,

@@ -1,5 +1,6 @@
-import Link from 'next/link';
+/* eslint-disable jsx-a11y/no-redundant-roles */
 import classNames from 'classnames';
+import Link from 'next/link';
 
 export interface MenuItem {
   name: string;
@@ -48,7 +49,7 @@ const NavigationItem = ({ menu, className }: NavigationItemProps) => {
   return (
     <Link
       href={menu.href}
-      className={`group flex items-center rounded text-sm text-gray-900 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-gray-100 dark:hover:bg-gray-800 px-2 p-2 gap-2 ${
+      className={`group flex items-center rounded text-sm text-gray-900 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-gray-100 dark:hover:bg-gray-800 p-2 gap-2${
         menu.active ? 'text-white bg-gray-800 font-semibold' : ''
       }${className}`}
     >

@@ -1,8 +1,8 @@
+import { Paragraph } from '@cd/ui-lib';
 import { type GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import type { NextPageWithLayout } from '@/lib/next.types';
-import { Paragraph } from '@cd/ui-lib';
 
 const Products: NextPageWithLayout = () => {
   const { t } = useTranslation('common');

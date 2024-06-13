@@ -8,7 +8,7 @@ const useWebhooks = (slug: string) => {
 
 	const { data, error, isLoading } = useSWR<ApiResponse<EndpointOut[]>>(
 		slug ? url : null,
-		fetcher,
+		fetcher
 	);
 
 	const mutateWebhooks = async () => {

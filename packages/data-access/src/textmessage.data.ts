@@ -94,7 +94,7 @@ export const updateDispensaryDailyDeal = async ({
 				data,
 				{
 					returnDocument: 'after',
-				},
+				}
 			)
 	).value;
 	return { ...data, id: dailyDeal!._id.toString() };

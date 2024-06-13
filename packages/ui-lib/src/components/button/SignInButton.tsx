@@ -11,7 +11,7 @@ function SignInButton(props: SignInButtonProps) {
 		dispatch(
 			modalActions.openModal({
 				modalType: modalTypes.loginModal,
-			}),
+			})
 		);
 	}
 

@@ -1,4 +1,4 @@
-import { LoadingPage } from '@cd/ui-lib';
+import { LoadingPage, Paragraph } from '@cd/ui-lib';
 import {
   type GetServerSidePropsContext,
   type InferGetServerSidePropsType,
@@ -11,7 +11,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { type ReactElement, useEffect } from 'react';
 import toast from 'react-hot-toast';
-import { Paragraph } from '@cd/ui-lib';
 
 import { JoinWithInvitation, Join } from '@/components/auth';
 import GithubButton from '@/components/auth/GithubButton';

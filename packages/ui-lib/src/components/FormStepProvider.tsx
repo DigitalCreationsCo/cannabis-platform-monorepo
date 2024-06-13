@@ -66,10 +66,10 @@ function FormStepProvider({
 
 	const [cookies, setCookie] = useEncryptCookies(
 		// [`form-data-context-${formId}`] || ({} as FormValuesType),
-		[`form-data-context-${formId}`],
+		[`form-data-context-${formId}`]
 	);
 	const [formValues, setFormData] = useState<FormValuesType>(
-		cookies[`form-data-context-${formId}`] || {},
+		cookies[`form-data-context-${formId}`] || {}
 	);
 
 	useEffect(() => {
@@ -78,7 +78,7 @@ function FormStepProvider({
 	}, [formId, formValues]);
 
 	const validFormSteps = FormStepComponents.filter(
-		(component) => component !== null,
+		(component) => component !== null
 	);
 
 	const { canProceed, setCanProceed, formstep, nextFormStep, prevFormStep } =
@@ -94,7 +94,7 @@ function FormStepProvider({
 
 	const FormStepComponent = useMemo(
 		() => validFormSteps[formstep],
-		[formstep, validFormSteps],
+		[formstep, validFormSteps]
 	);
 	if (!FormStepComponent)
 		return <ErrorMessage code={404} message="Page not found" />;

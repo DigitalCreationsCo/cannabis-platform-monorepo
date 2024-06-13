@@ -1,28 +1,27 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {
-  Error,
-  InputWithLabel,
-  WithLoadingAndError,
-} from '@/components/shared';
-import {
   defaultHeaders,
   maxLengthPolicies,
   passwordPolicies,
   useInvitation,
-  ApiResponse,
+  type ApiResponse,
 } from '@cd/core-lib';
+import { Button, TextField, LoadingDots } from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
-import { Button, TextField } from '@cd/ui-lib';
 import { useRouter } from 'next/router';
+import { useRef, useState } from 'react';
+import type ReCAPTCHA from 'react-google-recaptcha';
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
-import TogglePasswordVisibility from '../shared/TogglePasswordVisibility';
-import { useRef, useState } from 'react';
-import AgreeMessage from './AgreeMessage';
+import {
+  Error,
+  InputWithLabel,
+  WithLoadingAndError,
+} from '@/components/shared';
 import GoogleReCAPTCHA from '../shared/GoogleReCAPTCHA';
-import ReCAPTCHA from 'react-google-recaptcha';
-import { LoadingDots } from '@cd/ui-lib';
+import TogglePasswordVisibility from '../shared/TogglePasswordVisibility';
+import AgreeMessage from './AgreeMessage';
 
 interface JoinWithInvitationProps {
   inviteToken: string;
@@ -161,7 +160,7 @@ const JoinWithInvitation = ({
         />
         <div className="space-y-3">
           <Button
-            className='w-full font-bold bg-primary hover:bg-primary-light'
+            className="w-full font-bold bg-primary hover:bg-primary-light"
             type="submit"
             color="primary"
             loading={formik.isSubmitting}

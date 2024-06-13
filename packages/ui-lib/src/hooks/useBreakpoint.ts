@@ -10,7 +10,7 @@ export const getBreakpointValue = (value: string): number => {
 	// console.info(fullConfig?.theme?.screens?.[value]?.slice(0, fullConfig.theme.screens[value].indexOf('px')));
 	return +fullConfig?.theme?.screens?.[value]?.slice(
 		0,
-		fullConfig.theme.screens[value].indexOf('px'),
+		fullConfig.theme.screens[value].indexOf('px')
 	);
 };
 

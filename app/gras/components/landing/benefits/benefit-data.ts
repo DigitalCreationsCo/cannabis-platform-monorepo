@@ -1,11 +1,3 @@
-import { Icons } from '@cd/ui-lib';
-import { type StaticImageData } from 'next/image';
-import FleetTrackingImage from '../../../public/fleet-tracking-and-app-view.png';
-import {
-  ChatBubbleLeftEllipsisIcon,
-  SpeakerWaveIcon,
-} from '@heroicons/react/24/outline';
-import CustomerService from '@cd/ui-lib/src/icons/CustomerService';
 import {
   Help,
   HelpDesk,
@@ -16,7 +8,15 @@ import {
   UserCertification,
   UserFavoriteAltFilled,
 } from '@carbon/icons-react';
+import { Icons } from '@cd/ui-lib';
+import CustomerService from '@cd/ui-lib/src/icons/CustomerService';
 import OnlineSupport from '@cd/ui-lib/src/icons/OnlineSupport';
+import {
+  ChatBubbleLeftEllipsisIcon,
+  SpeakerWaveIcon,
+} from '@heroicons/react/24/outline';
+import { type StaticImageData } from 'next/image';
+import FleetTrackingImage from '../../../public/fleet-tracking-and-app-view.png';
 
 export const unlockYourGrowth = {
   title: 'We Unlock Hyper Growth For Your Dispensary',

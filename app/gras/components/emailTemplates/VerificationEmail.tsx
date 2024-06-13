@@ -7,8 +7,8 @@ import {
   Preview,
   Text,
 } from '@react-email/components';
-import EmailLayout from './EmailLayout';
 import app from '@/lib/app';
+import EmailLayout from './EmailLayout';
 
 interface VerificationEmailProps {
   subject: string;

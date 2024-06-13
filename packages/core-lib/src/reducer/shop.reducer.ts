@@ -26,7 +26,7 @@ export const getInitialDispensaries = createAsyncThunk(
 					headers: {
 						...applicationHeaders,
 					},
-				},
+				}
 			);
 			console.info('getInitialDispensaries response ,', response);
 
@@ -36,7 +36,7 @@ export const getInitialDispensaries = createAsyncThunk(
 			console.error('getInitialDispensaries: ', error);
 			return rejectWithValue('Could not get initial dispensaries');
 		}
-	},
+	}
 );
 
 // TODO: IMPROVE THIS, SO IT ONLY FETCHES FOR DATA THAT IS NOT ALREADY IN STATE
@@ -60,7 +60,7 @@ export const getDispensariesLocal = createAsyncThunk<
 				headers: {
 					...applicationHeaders,
 				},
-			},
+			}
 		);
 
 		// ADD AXIOS REPSONSE TYPE TO INSTANCE CONFIG!
@@ -149,7 +149,7 @@ export const getProductsFromLocal = createAsyncThunk<
 				headers: {
 					...applicationHeaders,
 				},
-			},
+			}
 		);
 
 		// ADD AXIOS REPSONSE TYPE TO INSTANCE CONFIG!
@@ -188,9 +188,7 @@ export const shopSlice = createSlice({
 				state,
 				{
 					payload,
-				}: PayloadAction<
-					(OrganizationWithShopDetails & OrganizationMetadata)[]
-				>,
+				}: PayloadAction<(OrganizationWithShopDetails & OrganizationMetadata)[]>
 			) => {
 				const dispensaries = payload;
 
@@ -207,13 +205,13 @@ export const shopSlice = createSlice({
 						// else state.dispensaries[index] = dispensary;
 						state.dispensaries = reconcileStateArray(
 							state.dispensaries,
-							dispensaries,
+							dispensaries
 						);
 					});
 				state.isLoading = false;
 				state.isSuccess = true;
 				state.isError = false;
-			},
+			}
 		),
 			builder.addCase(getInitialDispensaries.pending, (state) => {
 				state.isLoading = true;
@@ -234,7 +232,7 @@ export const shopSlice = createSlice({
 						payload,
 					}: PayloadAction<
 						(OrganizationWithShopDetails & OrganizationMetadata)[]
-					>,
+					>
 				) => {
 					const dispensaries = payload;
 
@@ -251,13 +249,13 @@ export const shopSlice = createSlice({
 							// else state.dispensaries[index] = dispensary;
 							state.dispensaries = reconcileStateArray(
 								state.dispensaries,
-								dispensaries,
+								dispensaries
 							);
 						});
 					state.isLoading = false;
 					state.isSuccess = true;
 					state.isError = false;
-				},
+				}
 			),
 			builder.addCase(getDispensariesLocal.pending, (state) => {
 				state.isLoading = true;
@@ -295,7 +293,7 @@ export const shopSlice = createSlice({
 					state.isLoading = false;
 					state.isSuccess = true;
 					state.isError = false;
-				},
+				}
 			),
 			builder.addCase(getProductsFromLocal.pending, (state) => {
 				state.isLoading = true;
@@ -381,7 +379,7 @@ export const selectOrganizationById = (id: string) => (state: AppState) =>
 export const selectOrganizationBySubdomain =
 	(subdomain: string) => (state: AppState) =>
 		state.shop.dispensaries.find(
-			(organization) => organization.subdomain.id === subdomain,
+			(organization) => organization.subdomain.id === subdomain
 		);
 export const selectMarketPlaceDispensaries = (state: AppState) =>
 	state.shop.dispensaries.filter((disp) => disp.showInMarketPlace);

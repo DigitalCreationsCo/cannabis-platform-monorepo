@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { FreshSales, applicationHeaders, urlBuilder } from '@cd/core-lib';
+import { FreshSalesContactParameters } from '@cd/core-lib/src/crm/freshsales';
+import { Customer } from '@cd/data-access';
 import axios from 'axios';
 import { type NextApiRequest, type NextApiResponse } from 'next';
 import { type ContactUsFormResponse } from '@/components/landing/workwithus/ContactUs';
-import { Customer } from '@cd/data-access';
-import { FreshSalesContactParameters } from '@cd/core-lib/src/crm/freshsales';
 
 const FRESHSALES_ADMIN_USERID = 26004178205;
 

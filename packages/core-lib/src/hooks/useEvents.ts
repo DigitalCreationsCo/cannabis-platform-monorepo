@@ -15,7 +15,7 @@ const useEvents = ({ zipcode, token }: { zipcode?: string; token: string }) => {
 			`/api/events`,
 			token,
 		],
-		fetcher,
+		fetcher
 	);
 
 	// async function fetchEvents(eventIds) {

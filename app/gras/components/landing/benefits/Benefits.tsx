@@ -38,14 +38,16 @@ export default function Benefits({
           'flex flex-col flex-wrap items-center justify-center gap-4 mx-auto'
         )}
       >
-        {data.title && (
-          <H2 className={twMerge(
+        {(data.title && (
+          <H2
+            className={twMerge(
               styles.textShadow,
               'text-center text-5xl lg:text-6xl font-bold leading-snug max-w-lg md:max-w-6xl lg:leading-tight whitespace-pre-line'
-            )}>
+            )}
+          >
             {data.title}
           </H2>
-        ) || <></>}
+        )) || <></>}
         {data.description && (
           <Paragraph className="font-encode font-semibold text-center max-w-md lg:max-w-3xl mx-auto text-2xl">
             {data.description}

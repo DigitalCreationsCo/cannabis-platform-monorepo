@@ -1,15 +1,14 @@
-import type { NextPageWithLayout } from '@/lib/next.types';
+import { getUserBySession } from '@cd/data-access';
 import type {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
 } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-
-import { getSession } from '@/lib/session';
-import { getUserBySession } from '@cd/data-access';
 import { UpdateAccount } from '@/components/account';
-import env from '@/lib/env';
 import { clientPromise } from '@/lib/db';
+import env from '@/lib/env';
+import type { NextPageWithLayout } from '@/lib/next.types';
+import { getSession } from '@/lib/session';
 
 type AccountProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 

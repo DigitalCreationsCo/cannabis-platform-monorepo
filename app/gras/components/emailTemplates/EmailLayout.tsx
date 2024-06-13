@@ -1,4 +1,3 @@
-import React, { ReactNode } from 'react';
 import {
   Body,
   Container,
@@ -8,6 +7,7 @@ import {
   Tailwind,
   Text,
 } from '@react-email/components';
+import React, { type ReactNode } from 'react';
 import app from '@/lib/app';
 
 interface EmailLayoutProps {
@@ -27,7 +27,7 @@ const EmailLayout = ({ children }: EmailLayoutProps) => {
         },
       }}
     >
-      <Body className="bg-white my-auto mx-auto font-sans">
+      <Body className="bg-white m-auto font-sans">
         <Container className="border border-solid bg-white border-[#f0f0f0] rounded my-[40px] mx-auto p-[20px] w-[465px]">
           <Img
             src={app.logoUrl}

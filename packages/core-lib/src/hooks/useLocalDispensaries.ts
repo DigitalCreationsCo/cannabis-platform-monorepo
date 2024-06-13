@@ -24,7 +24,7 @@ const useDispensaries = ({
 				: null,
 			token,
 		],
-		fetcher,
+		fetcher
 	);
 
 	const mutateDispensaries = async () => {

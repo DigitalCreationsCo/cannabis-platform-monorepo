@@ -1,21 +1,21 @@
-import { useState, useRef } from 'react';
-import { InputWithLabel } from '@/components/shared';
 import {
-  ApiResponse,
+  type ApiResponse,
   defaultHeaders,
   maxLengthPolicies,
   passwordPolicies,
 } from '@cd/core-lib';
+import { Button, TextField } from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
-import { Button, TextField } from '@cd/ui-lib';
+import { useState, useRef } from 'react';
+import type ReCAPTCHA from 'react-google-recaptcha';
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
+import { InputWithLabel } from '@/components/shared';
+import GoogleReCAPTCHA from '../shared/GoogleReCAPTCHA';
 import TogglePasswordVisibility from '../shared/TogglePasswordVisibility';
 import AgreeMessage from './AgreeMessage';
-import GoogleReCAPTCHA from '../shared/GoogleReCAPTCHA';
-import ReCAPTCHA from 'react-google-recaptcha';
 
 interface JoinProps {
   recaptchaSiteKey: string | null;
@@ -140,14 +140,14 @@ const Join = ({ recaptchaSiteKey }: JoinProps) => {
         />
       </div>
       <div className="mt-3 space-y-3">
-          <Button
-            className='w-full font-bold bg-primary hover:bg-primary-light'
-            type="submit"
-            color="primary"
-            loading={formik.isSubmitting}
-          >
-            {t('create-account')}
-          </Button>
+        <Button
+          className="w-full font-bold bg-primary hover:bg-primary-light"
+          type="submit"
+          color="primary"
+          loading={formik.isSubmitting}
+        >
+          {t('create-account')}
+        </Button>
         <AgreeMessage text={t('create-account')} />
       </div>
     </form>

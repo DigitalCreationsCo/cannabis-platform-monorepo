@@ -29,14 +29,14 @@ export const getDispensaryById = createAsyncThunk(
 					headers: {
 						...applicationHeaders,
 					},
-				},
+				}
 			);
 			if (response.data.success === 'true') return response.data.payload;
 		} catch (error) {
 			console.error('getDispensaryById: ', error);
 			return thunkAPI.rejectWithValue(TextContent.error.DISPENSARY_NOT_FOUND);
 		}
-	},
+	}
 );
 
 export type DispensaryStateProps = {
@@ -67,7 +67,7 @@ export const dispensarySlice = createSlice({
 	reducers: {
 		setDispensary: (
 			state,
-			{ payload }: { payload: OrganizationWithDashboardDetails },
+			{ payload }: { payload: OrganizationWithDashboardDetails }
 		) => {
 			const organization = payload;
 			state.dispensary = organization;
@@ -79,7 +79,7 @@ export const dispensarySlice = createSlice({
 				payload,
 			}: {
 				payload: OrderWithFullDetails[];
-			},
+			}
 		) => {
 			const orders = payload;
 			if (state.dispensary?.orders) {
@@ -100,7 +100,7 @@ export const dispensarySlice = createSlice({
 					state.products = dispensary.products;
 					state.orders = dispensary.orders;
 					state.users = dispensary.memberships.map(
-						(membership) => membership.user,
+						(membership) => membership.user
 					);
 					state.isLoading = false;
 					state.isSuccess = true;
@@ -108,7 +108,7 @@ export const dispensarySlice = createSlice({
 				} catch (error) {
 					console.error('getDispensaryById: ', error);
 				}
-			},
+			}
 		),
 			builder.addCase(getDispensaryById.pending, (state) => {
 				state.isLoading = true;

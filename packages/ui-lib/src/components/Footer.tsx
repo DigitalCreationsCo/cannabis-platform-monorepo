@@ -53,7 +53,7 @@ export default function Footer({
 			className={twMerge(
 				styles.FOOTER.container,
 				'text-inverse-soft',
-				className,
+				className
 			)}
 		>
 			<Grid className="overflow-x-hidden mx-auto md:mt-5 grid w-3/4 md:w-full max-w-screen-xl pb-16 lg:pb-0 grid-rows-auto gap-10 lg:gap-4 md:grid-cols-8 overflow-visible">

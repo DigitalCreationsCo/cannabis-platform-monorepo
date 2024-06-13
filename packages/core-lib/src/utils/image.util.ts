@@ -2,9 +2,9 @@ const baseUrl = process.env.NEXT_PUBLIC_DOMAIN;
 
 export async function dynamicBlurDataUrl(url: string) {
 	const base64str = await fetch(
-		`${baseUrl}/_next/image?url=${url}&w=16&q=75`,
+		`${baseUrl}/_next/image?url=${url}&w=16&q=75`
 	).then(async (res) =>
-		Buffer.from(await res.arrayBuffer()).toString('base64'),
+		Buffer.from(await res.arrayBuffer()).toString('base64')
 	);
 
 	const blurSvg = `

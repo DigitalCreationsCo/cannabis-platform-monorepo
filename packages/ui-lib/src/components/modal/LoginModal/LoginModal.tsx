@@ -21,7 +21,7 @@ export default function LoginModal({
 	const prevFormStep = () => setFormStep((currentStep) => currentStep - 1);
 	const nextFormStep = () =>
 		setFormStep((currentStep) =>
-			currentStep <= 1 ? currentStep + 1 : currentStep,
+			currentStep <= 1 ? currentStep + 1 : currentStep
 		);
 
 	const FormStepComponents: (({
@@ -31,7 +31,7 @@ export default function LoginModal({
 
 	const FormStepComponent = useMemo(
 		() => FormStepComponents[formStep],
-		[formStep],
+		[formStep]
 	);
 
 	const [inputValue, setInputValue] = useState('');

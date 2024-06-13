@@ -40,7 +40,7 @@ function NewDailyDeal({
 }: NewDailyDealModalProps) {
 	const { mutate: mutateDailyDeals } = useSWR<ApiResponse<DailyDeal[]>>(
 		team?.slug ? `/api/dispensaries/${team.slug}/daily-deals` : null,
-		fetcher,
+		fetcher
 	);
 
 	const closeModalAndReset = () => {
@@ -100,12 +100,12 @@ function NewDailyDeal({
 			try {
 				console.info(
 					'time zone?? ',
-					Intl.DateTimeFormat().resolvedOptions().timeZone,
+					Intl.DateTimeFormat().resolvedOptions().timeZone
 				);
 				setLoadingButton(true);
 				const response = await axios.post(
 					urlBuilder.dashboard + `/api/dispensaries/${team.slug}/daily-deals`,
-					values,
+					values
 				);
 
 				if (response.data.success === 'false') {
@@ -196,7 +196,7 @@ function NewDailyDeal({
 							onChange={(e: any) => {
 								setFieldValue(
 									'endTime',
-									new Date(e.target.value),
+									new Date(e.target.value)
 									// new Date(
 									// 	toZonedTime(
 									// 		e.target.value,

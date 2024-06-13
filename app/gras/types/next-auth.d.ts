@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-use-before-define
+import { type Role } from '@cd/data-access';
 import type { DefaultSession } from 'next-auth';
-import { Role } from '@cd/data-access';
 
 declare module 'next-auth' {
   /**

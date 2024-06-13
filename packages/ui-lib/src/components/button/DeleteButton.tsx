@@ -20,7 +20,7 @@ export default function DeleteButton({
 			Icon={Icons.XIcon}
 			className={twMerge(
 				'bg-amber-100 hover:bg-amber-200 active:bg-amber-200 max-w-[50px] md:max-w-[120px] text-primary sm:space-x-2 min-h-full sm:min-h-max',
-				className,
+				className
 			)}
 			iconSize={iconSize}
 			type="button"

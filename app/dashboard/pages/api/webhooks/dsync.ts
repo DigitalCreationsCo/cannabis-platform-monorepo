@@ -1,8 +1,8 @@
 import crypto from 'crypto';
-import env from '@/lib/env';
-import { handleEvents } from '@/lib/jackson/dsyncEvents';
 import { ApiError } from '@cd/core-lib';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import env from '@/lib/env';
+import { handleEvents } from '@/lib/jackson/dsyncEvents';
 
 export default async function handler(
   req: NextApiRequest,

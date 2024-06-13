@@ -1,18 +1,20 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { LetterAvatar } from '@/components/shared';
-import { Dispensary } from '@cd/data-access';
-import { defaultHeaders, ApiResponse, useDispensaries } from '@cd/core-lib';
+import {
+  defaultHeaders,
+  type ApiResponse,
+  useDispensaries,
+} from '@cd/core-lib';
+import { type Dispensary } from '@cd/data-access';
+import { Button, H2, Paragraph } from '@cd/ui-lib';
 import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
-import { Button } from '@cd/ui-lib';
-import toast from 'react-hot-toast';
 import { useRouter } from 'next/router';
-import ConfirmationDialog from '../shared/ConfirmationDialog';
-import { WithLoadingAndError } from '@/components/shared';
-import { CreateTeam } from '@/components/team';
+import { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
+import { WithLoadingAndError, LetterAvatar } from '@/components/shared';
 import { Table } from '@/components/shared/table/Table';
-import { H2, Paragraph } from '@cd/ui-lib';
+import { CreateTeam } from '@/components/team';
+import ConfirmationDialog from '../shared/ConfirmationDialog';
 
 const Teams = () => {
   const router = useRouter();

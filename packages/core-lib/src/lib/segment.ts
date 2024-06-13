@@ -44,7 +44,7 @@ export const loadSegment = () =>
 						const n = Array.prototype.slice.call(arguments);
 						if (
 							['track', 'screen', 'alias', 'group', 'page', 'identify'].indexOf(
-								e,
+								e
 							) > -1
 						) {
 							const c = document.querySelector("link[rel='canonical']");

@@ -46,7 +46,7 @@ function AddAddressUserModal({
 			.test(
 				'len',
 				'zipcode is required',
-				(val: number | undefined) => val?.toString().length === 5,
+				(val: number | undefined) => val?.toString().length === 5
 			),
 		country: Yup.string().required('Country is required'),
 		countryCode: Yup.string().required('Country Code is required'),
@@ -94,7 +94,7 @@ function AddAddressUserModal({
 						headers: {
 							'Content-Type': 'application/json',
 						},
-					},
+					}
 				);
 				console.info('address created: ', data);
 				setLoadingButton(false);

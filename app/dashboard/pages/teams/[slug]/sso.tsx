@@ -46,8 +46,8 @@ const TeamSSO = ({ teamFeatures, SPConfigURL }: any) => {
           const ssoType = connectionIsSAML
             ? 'SAML'
             : connectionIsOIDC
-            ? 'OIDC'
-            : '';
+              ? 'OIDC'
+              : '';
           if (operation === 'CREATE') {
             toast.success(`${ssoType} connection created successfully.`);
           } else if (operation === 'UPDATE') {

@@ -1,5 +1,5 @@
-import { useTranslation } from 'next-i18next';
 import { Modal2 as Modal, Button } from '@cd/ui-lib';
+import { useTranslation } from 'next-i18next';
 
 interface ConfirmationDialogProps {
   title: string;

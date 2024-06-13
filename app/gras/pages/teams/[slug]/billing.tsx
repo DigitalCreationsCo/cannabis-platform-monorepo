@@ -4,6 +4,7 @@ import {
   useCanAccess,
   type TeamFeature,
 } from '@cd/core-lib';
+import { LoadingPage } from '@cd/ui-lib';
 import { type GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -15,7 +16,6 @@ import Subscriptions from '@/components/billing/Subscriptions';
 import { Error } from '@/components/shared';
 import { TeamTab } from '@/components/team';
 import env from '@/lib/env';
-import { LoadingPage } from '@cd/ui-lib';
 
 const Payments = ({ teamFeatures }: { teamFeatures: TeamFeature }) => {
   const { t } = useTranslation('common');

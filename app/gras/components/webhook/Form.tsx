@@ -1,9 +1,9 @@
 import { type WebookFormSchema, maxLengthPolicies } from '@cd/core-lib';
+import { Button, Paragraph, TextField, Modal2 as Modal } from '@cd/ui-lib';
 import type { FormikConfig } from 'formik';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import React from 'react';
-import { Button, Paragraph, TextField, Modal2 as Modal } from '@cd/ui-lib';
 import * as Yup from 'yup';
 import { EventTypes } from '@/components/webhook';
 

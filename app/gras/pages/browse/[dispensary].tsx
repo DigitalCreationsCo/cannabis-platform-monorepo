@@ -4,7 +4,10 @@ import {
   renderSchedule,
   TextContent,
 } from '@cd/core-lib';
-import { type ProductVariantWithDetails, Dispensary } from '@cd/data-access';
+import {
+  type ProductVariantWithDetails,
+  type Dispensary,
+} from '@cd/data-access';
 import {
   Button,
   Card,
@@ -27,11 +30,11 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { type PropsWithChildren, useState, ReactElement } from 'react';
+import { type PropsWithChildren, useState, type ReactElement } from 'react';
 import useSWR from 'swr';
 import { twMerge } from 'tailwind-merge';
-import logo from 'public/logo.png';
 import SEOMetaTags from '@/lib/SEOMetaTags';
+import logo from 'public/logo.png';
 
 function DispensaryPage({ dispensaryId }: { dispensaryId: string }) {
   const Router = useRouter();

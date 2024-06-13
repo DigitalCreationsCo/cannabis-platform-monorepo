@@ -14,7 +14,7 @@ class SMSModule {
 		switch (apiName) {
 			case 'SlickText':
 				import('./slicktext').then(
-					(SlickText) => (this.smsApi = SlickText.default),
+					(SlickText) => (this.smsApi = SlickText.default)
 				);
 				break;
 			// case 'TextGrid':
@@ -41,13 +41,13 @@ class SMSModule {
 	async send(
 		event: keyof typeof dispatchEvents,
 		phoneTo: string,
-		data: string,
+		data: string
 	) {
 		try {
 			data += `\n${TextContent.info.CONTACT_SUPPORT}`;
 			data += `\n${TextContent.info.SMS_FOOTER}`;
 			console.info(
-				`sending sms message to ${phoneTo} using ${this.apiName} api: "${data}"`,
+				`sending sms message to ${phoneTo} using ${this.apiName} api: "${data}"`
 			);
 			const to = `+1${phoneTo}`;
 			this.smsApi?.send(event, to, data);

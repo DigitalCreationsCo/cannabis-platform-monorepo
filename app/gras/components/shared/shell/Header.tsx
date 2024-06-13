@@ -1,17 +1,19 @@
-import Link from 'next/link';
-import React from 'react';
-import { useSession } from 'next-auth/react';
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
+import { useTheme } from '@cd/ui-lib';
+import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import {
   ArrowRightOnRectangleIcon,
   Bars3Icon,
   SunIcon,
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
-import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import {useTheme} from '@cd/ui-lib';
-import env from '@/lib/env';
-import { signOut } from 'next-auth/react';
+import { useSession, signOut } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
+import Link from 'next/link';
+import React from 'react';
+import env from '@/lib/env';
 
 interface HeaderProps {
   setSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;

@@ -52,7 +52,7 @@ export const isAllowed = (role: Role, resource: Resource, action: Action) => {
 export const throwIfNotAllowed = (
 	user: Pick<StaffMember, 'role'>,
 	resource: Resource,
-	action: Action,
+	action: Action
 ) => {
 	if (isAllowed(user.role, resource, action)) {
 		return true;
@@ -60,12 +60,12 @@ export const throwIfNotAllowed = (
 
 	throw new ApiError(
 		403,
-		`You are not allowed to perform ${action} on ${resource}`,
+		`You are not allowed to perform ${action} on ${resource}`
 	);
 };
 
 export const isLegalAgeAndVerified = (
-	user?: User,
+	user?: User
 ): { verified: boolean; isLegal: boolean } | false => {
 	if (
 		typeof user?.id_verified === 'undefined' ||

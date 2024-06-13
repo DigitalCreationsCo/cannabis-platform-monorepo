@@ -1,7 +1,11 @@
 /* eslint-disable i18next/no-literal-string */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Page, H2, Paragraph, Footer } from '@cd/ui-lib';
+import { type GetServerSidePropsContext } from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { type ReactElement, useEffect } from 'react';
 import { twMerge } from 'tailwind-merge';
 import {
@@ -11,8 +15,6 @@ import {
   MessagingHero,
   ServicesTopBar,
 } from '@/components/landing';
-import { letters } from '@/components/landing/letter/letter-data';
-import Partners from '@/components/landing/partners/Partners';
 import {
   automateDeliveryCompliance,
   consumerTextMessaging,
@@ -23,12 +25,10 @@ import {
   trackDeliveries,
   unlockYourGrowth,
 } from '@/components/landing/benefits/benefit-data';
-import { GetServerSidePropsContext } from 'next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
-import PricingCard from '@/components/landing/Pricing/Pricing';
+import { letters } from '@/components/landing/letter/letter-data';
+import Partners from '@/components/landing/partners/Partners';
 import messagingPrices from '@/components/landing/Pricing/messagingPrices';
+import PricingCard from '@/components/landing/Pricing/Pricing';
 import SEOMetaTags from '@/lib/SEOMetaTags';
 
 export default function MessagingLandingPage() {

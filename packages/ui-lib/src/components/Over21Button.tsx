@@ -1,20 +1,20 @@
 import {
-	ResponseDataEnvelope,
+	type ResponseDataEnvelope,
 	TextContent,
 	applicationHeaders,
 	axios,
 } from '@cd/core-lib';
+import { type AxiosResponse } from 'axios';
+import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
+import { toast } from 'react-hot-toast';
+import * as yup from 'yup';
 import Button from './button/Button/Button';
 import Center from './Center';
 import FlexBox from './FlexBox';
-import { useFormik } from 'formik';
-import * as yup from 'yup';
 import TextField from './TextField';
-import { toast } from 'react-hot-toast';
-import { AxiosResponse } from 'axios';
 
 const Over21Button = ({
 	redirect = '/browse',

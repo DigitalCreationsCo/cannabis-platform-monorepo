@@ -47,7 +47,7 @@ export const updateStripeSubscription = async ({
 			{
 				_id: new ObjectId(data.id),
 			},
-			data,
+			data
 		);
 };
 

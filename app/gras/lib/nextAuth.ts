@@ -1,20 +1,9 @@
+/* eslint-disable sonarjs/no-duplicate-string */
+/* eslint-disable sonarjs/cognitive-complexity */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import type {
-  NextApiRequest,
-  NextApiResponse,
-  GetServerSidePropsContext,
-} from 'next';
-import { Account, NextAuthOptions, Profile, User } from 'next-auth';
-import BoxyHQSAMLProvider from 'next-auth/providers/boxyhq-saml';
-import CredentialsProvider from 'next-auth/providers/credentials';
-import EmailProvider from 'next-auth/providers/email';
-import GitHubProvider from 'next-auth/providers/github';
-import GoogleProvider from 'next-auth/providers/google';
-import type { Provider } from 'next-auth/providers';
-import { setCookie, getCookie } from 'cookies-next';
-import { encode, decode } from 'next-auth/jwt';
 import { randomUUID } from 'crypto';
-
+import { MongoDBAdapter } from '@auth/mongodb-adapter';
+import { maxLengthPolicies, forceConsume } from '@cd/core-lib';
 import {
   createUser,
   getUser,
@@ -23,22 +12,38 @@ import {
   addStaffMember,
   getDispensary,
 } from '@cd/data-access';
-import { verifyPassword } from '@/lib/auth';
-import { isEmailAllowed } from '@/lib/email/utils';
-import env from '@/lib/env';
-import { isAuthProviderEnabled } from '@/lib/auth';
-import { validateRecaptcha } from '@/lib/recaptcha';
-import { sendMagicLink } from '@/lib/email/sendMagicLink';
+import { setCookie, getCookie } from 'cookies-next';
+import type {
+  NextApiRequest,
+  NextApiResponse,
+  GetServerSidePropsContext,
+} from 'next';
+import {
+  type Account,
+  type NextAuthOptions,
+  type Profile,
+  type User,
+} from 'next-auth';
+import { encode, decode } from 'next-auth/jwt';
+import type { Provider } from 'next-auth/providers';
+import BoxyHQSAMLProvider from 'next-auth/providers/boxyhq-saml';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import EmailProvider from 'next-auth/providers/email';
+import GitHubProvider from 'next-auth/providers/github';
+import GoogleProvider from 'next-auth/providers/google';
 import {
   clearLoginAttempts,
   exceededLoginAttemptsThreshold,
   incrementLoginAttempts,
 } from '@/lib/accountLock';
-import { slackNotify } from './slack';
-import { maxLengthPolicies } from '@cd/core-lib';
-import { forceConsume } from '@cd/core-lib';
-import { MongoDBAdapter } from '@auth/mongodb-adapter';
+import { verifyPassword, isAuthProviderEnabled } from '@/lib/auth';
 import { clientPromise } from '@/lib/db';
+import { sendMagicLink } from '@/lib/email/sendMagicLink';
+import { isEmailAllowed } from '@/lib/email/utils';
+import env from '@/lib/env';
+import { validateRecaptcha } from '@/lib/recaptcha';
+
+import { slackNotify } from './slack';
 
 const adapter = MongoDBAdapter(clientPromise);
 const providers: Provider[] = [];

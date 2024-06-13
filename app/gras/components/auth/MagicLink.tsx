@@ -1,15 +1,14 @@
-import env from '@/lib/env';
-import { LoadingDots, Paragraph, TextField } from '@cd/ui-lib';
-import { useFormik } from 'formik';
 import { useInvitation, maxLengthPolicies } from '@cd/core-lib';
+import { LoadingDots, Paragraph, TextField, Button } from '@cd/ui-lib';
+import { useFormik } from 'formik';
 import { signIn, useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Button } from '@cd/ui-lib';
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
+import env from '@/lib/env';
 
 interface MagicLinkProps {
   csrfToken: string | undefined;
@@ -51,7 +50,6 @@ const MagicLink = ({ csrfToken }: MagicLinkProps) => {
 
       if (response?.status === 200 && response?.ok) {
         toast.success(t('email-login-success'));
-        return;
       }
     },
   });

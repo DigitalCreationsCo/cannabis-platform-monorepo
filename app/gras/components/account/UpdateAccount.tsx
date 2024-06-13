@@ -1,9 +1,9 @@
 import type { User } from '@cd/data-access';
-import UploadAvatar from './UploadAvatar';
-import UpdateName from './UpdateName';
-import UpdateEmail from './UpdateEmail';
-import UpdateTheme from './UpdateTheme';
 import env from '@/lib/env';
+import UpdateEmail from './UpdateEmail';
+import UpdateName from './UpdateName';
+import UpdateTheme from './UpdateTheme';
+import UploadAvatar from './UploadAvatar';
 
 interface UpdateAccountProps {
   user: Partial<User>;

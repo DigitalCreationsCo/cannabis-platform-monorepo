@@ -25,12 +25,12 @@ export default function IconWrapper({
 		<div
 			className={twMerge(
 				'items-center justify-center flex align-items',
-				className,
+				className
 			)}
 		>
 			<Icon
 				className={twMerge(
-					iconClass,
+					iconClass
 					// styles.fill
 				)}
 				height={iconSize}

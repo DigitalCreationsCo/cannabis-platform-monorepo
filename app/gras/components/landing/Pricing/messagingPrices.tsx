@@ -1,4 +1,4 @@
-import { PricingProps } from './Pricing';
+import { type PricingProps } from './Pricing';
 
 const messagingPrices: PricingProps = {
   title: 'Pricing',

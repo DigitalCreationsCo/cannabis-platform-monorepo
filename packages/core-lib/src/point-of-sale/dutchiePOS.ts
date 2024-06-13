@@ -34,7 +34,7 @@ export const DutchiePOS: POSIntegration = class {
 		} catch (error: any) {
 			console.error(
 				'dutchiePOSIntegration processPickupOrder: ',
-				error.message,
+				error.message
 			);
 			throw new Error(error.message);
 		}
@@ -47,7 +47,7 @@ export const DutchiePOS: POSIntegration = class {
 		} catch (error: any) {
 			console.error(
 				'dutchiePOSIntegration processDeliveryOrder: ',
-				error.message,
+				error.message
 			);
 			throw new Error(error.message);
 		}

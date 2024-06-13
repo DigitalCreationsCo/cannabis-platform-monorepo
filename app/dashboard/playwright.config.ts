@@ -9,7 +9,9 @@ const config: PlaywrightTestConfig = {
 	],
 	reporter: 'html',
 	webServer: {
-		command: 'npm run start',
+		// command: 'npm run start',
+		// command: 'yarn dev',
+		command: 'npx next dev',
 		url: 'http://localhost:3001',
 		reuseExistingServer: !process.env.CI,
 	},

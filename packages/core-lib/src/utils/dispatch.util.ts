@@ -6,7 +6,7 @@ export function checkClientsForUser(clients: Client[], id: string) {
 
 export function createRoomId(
 	namespace: 'select-driver' | 'deliver-order',
-	orderId: string,
+	orderId: string
 ) {
 	return `${namespace}:${orderId}`;
 }

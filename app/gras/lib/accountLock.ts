@@ -1,16 +1,16 @@
-import AccountLocked from '@/components/emailTemplates/AccountLocked';
+import { generateToken } from '@cd/core-lib';
 import {
   type User,
   updateUser,
   createVerificationToken,
 } from '@cd/data-access';
 import { render } from '@react-email/components';
+import AccountLocked from '@/components/emailTemplates/AccountLocked';
 
 import app from './app';
+import { clientPromise } from './db';
 import { sendEmail } from './email/sendEmail';
 import env from './env';
-import { generateToken } from '@cd/core-lib';
-import { clientPromise } from './db';
 
 const UNLOCK_ACCOUNT_TOKEN_EXPIRATION = 7 * 24 * 60 * 60 * 1000; // 7 days
 

@@ -8,7 +8,7 @@ const useWebhook = (slug: string, endpointId: string | null) => {
 
 	const { data, error, isLoading } = useSWR<ApiResponse<EndpointOut>>(
 		slug ? url : null,
-		fetcher,
+		fetcher
 	);
 
 	const mutateWebhook = async () => {

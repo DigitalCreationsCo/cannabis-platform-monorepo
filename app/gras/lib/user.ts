@@ -1,4 +1,4 @@
-import { getStaffMember, StaffMember } from '@cd/data-access';
+import { getStaffMember, type StaffMember } from '@cd/data-access';
 import { getSession } from '../lib/session';
 import { clientPromise } from './db';
 

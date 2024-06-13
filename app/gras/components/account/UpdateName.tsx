@@ -1,14 +1,14 @@
+import { defaultHeaders, type ApiResponse } from '@cd/core-lib';
+import { type User } from '@cd/data-access';
+import { TextField, Button } from '@cd/ui-lib';
 import { useFormik } from 'formik';
-import toast from 'react-hot-toast';
+import { useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
-import { defaultHeaders, ApiResponse } from '@cd/core-lib';
+import { useRouter } from 'next/router';
+import toast from 'react-hot-toast';
 
 import { Card } from '@/components/shared';
-import { User } from '@cd/data-access';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
 import { updateAccountSchema } from '@/lib/zod';
-import { TextField,Button } from '@cd/ui-lib';
 
 const UpdateName = ({ user }: { user: Partial<User> }) => {
   const { t } = useTranslation('common');

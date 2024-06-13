@@ -1,13 +1,12 @@
 import { type ApiResponse, defaultHeaders, useInvitations } from '@cd/core-lib';
 import { type Invitation } from '@cd/data-access';
-import { LoadingDots } from '@cd/ui-lib';
+import { LoadingDots, H2, Paragraph } from '@cd/ui-lib';
 import { useTranslation } from 'next-i18next';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { Error, LetterAvatar } from '@/components/shared';
 import { Table } from '@/components/shared/table/Table';
 import ConfirmationDialog from '../shared/ConfirmationDialog';
-import { H2, Paragraph } from '@cd/ui-lib';
 
 const PendingInvitations = ({ team }: { team: any }) => {
   const [selectedInvitation, setSelectedInvitation] = useState<any>(null);

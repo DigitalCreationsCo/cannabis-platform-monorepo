@@ -1,7 +1,7 @@
-import { ChevronUpDownIcon } from '@heroicons/react/24/outline';
-import { Card } from '@/components/shared';
 import { useTheme } from '@cd/ui-lib';
+import { ChevronUpDownIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'next-i18next';
+import { Card } from '@/components/shared';
 
 const UpdateTheme = () => {
   const { setTheme, themes, selectedTheme, applyTheme } = useTheme();
@@ -26,12 +26,12 @@ const UpdateTheme = () => {
           </div>
           <ul
             tabIndex={0}
-            className="dropdown-content dark:border-gray-600 p-2 shadow-md bg-base-100 w-full rounded border px-2"
+            className="dropdown-content dark:border-gray-600 p-2 shadow-md bg-base-100 w-full rounded border"
           >
             {themes.map((theme) => (
               <li key={theme.id}>
                 <button
-                  className="w-full flex hover:bg-gray-100 hover:dark:text-black focus:bg-gray-100 focus:outline-none py-2 px-2 rounded text-sm font-medium gap-2 items-center"
+                  className="w-full flex hover:bg-gray-100 hover:dark:text-black focus:bg-gray-100 focus:outline-none p-2 rounded text-sm font-medium gap-2 items-center"
                   onClick={() => {
                     applyTheme(theme.id);
                     setTheme(theme.id);

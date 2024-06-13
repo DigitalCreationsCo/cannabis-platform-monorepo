@@ -28,7 +28,7 @@ export const createUser = async ({
 				{
 					upsert: true,
 					returnDocument: 'after',
-				},
+				}
 			)
 	).value;
 	console.trace('create user', user);
@@ -60,7 +60,7 @@ export const updateUser = async ({
 				{ $set: normalizeUser(data) },
 				{
 					returnDocument: 'after',
-				},
+				}
 			)
 	).value;
 	return { ...user!, id: user!._id.toString() };
@@ -86,7 +86,7 @@ export const upsertUser = async ({
 			{
 				upsert: true,
 				returnDocument: 'after',
-			},
+			}
 		)
 	).value;
 	return { ...user!, id: user!._id.toString() };
