@@ -195,8 +195,10 @@
     "lint-staged": "13.2.0",
     "mongodb": "5.8.1",
     "nanoid": "3.3.4",
+    "newrelic": "^11.19.0",
     "next": "14.1.0",
     "next-connect": "0.13.0",
+    "next-seo": "6.5.0",
     "node-cache": "5.1.2",
     "node-loader": "^2.0.0",
     "node-mocks-http": "1.12.1",
@@ -238,7 +240,6 @@
     "postcss-js": "4.0.1"
   },
   "dependencies": {
-    "next-seo": "^6.5.0",
     "storybook-addon-performance": "^0.17.3",
     "supertokens-web-js": "0.8.0"
   }
