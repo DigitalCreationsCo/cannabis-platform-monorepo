@@ -5,10 +5,13 @@ const { config: configEnv } = require('dotenv');
 const { expand } = require('dotenv-expand');
 const findUp = require('find-up');
 const workspaceRoot = path.join(__dirname, '../../');
+
 const _env =
 	process.env.NEXT_PUBLIC_IS_LOCAL_BUILD == '1'
 		? 'development'
 		: process.env.NODE_ENV;
+
+const nrExternals = require('@newrelic/next/load-externals');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -100,6 +103,10 @@ const nextConfig = {
 		if (isServer) {
 			require(path.resolve('./scripts/generate-dashboard-sitemap'));
 		}
+
+		// externalize new relic packages
+		nrExternals(config);
+
 		// const prefix = config.assetPrefix ?? config.basePath ?? '';
 		config.module.rules.push({
 			test: /\.mp4$/,
