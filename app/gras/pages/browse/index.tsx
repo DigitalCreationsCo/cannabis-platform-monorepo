@@ -256,6 +256,31 @@ export default function Browse({
 							{`Find flower, edibles, dispensaries near you`}
 						</H1>
 						<Carousel
+							responsive={{
+								xl: {
+									breakpoint: { max: 4000, min: 1400 },
+									items: 5,
+									slidesToSlide: 4,
+									partialVisibilityGutter: 20,
+								},
+								lg: {
+									breakpoint: { max: 1400, min: 1100 },
+									items: 4,
+									slidesToSlide: 3,
+									partialVisibilityGutter: 20,
+								},
+								md: {
+									breakpoint: { max: 1100, min: 800 },
+									items: 3,
+									slidesToSlide: 2,
+									partialVisibilityGutter: 10,
+								},
+								sm: {
+									breakpoint: { max: 800, min: 464 },
+									items: 2,
+									partialVisibilityGutter: 10,
+								},
+							}}
 							items={
 								!isLoading && dispensaries.length
 									? dispensaries?.map((d, index) => (
