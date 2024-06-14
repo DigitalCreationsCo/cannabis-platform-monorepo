@@ -324,11 +324,11 @@ DispensaryPage.getLayout = function getLayout(page: ReactElement) {
 export const getServerSideProps = async ({ query }: any) => {
 	try {
 		console.info('query', query);
-		if (!query['dispensary-id'])
+		if (!query['dispensary'])
 			throw new Error(TextContent.error.DISPENSARY_NOT_FOUND);
 		return {
 			props: {
-				dispensaryId: query['dispensary-id'],
+				dispensaryId: query['dispensary'],
 			},
 		};
 	} catch (error) {
