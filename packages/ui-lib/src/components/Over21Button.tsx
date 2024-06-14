@@ -1,6 +1,5 @@
 import {
 	type ResponseDataEnvelope,
-	TextContent,
 	applicationHeaders,
 	axios,
 } from '@cd/core-lib';
@@ -15,6 +14,7 @@ import Button from './button/Button/Button';
 import Center from './Center';
 import FlexBox from './FlexBox';
 import TextField from './TextField';
+import { Paragraph } from './Typography';
 
 const Over21Button = ({
 	redirect = '/browse',
@@ -54,9 +54,6 @@ const Over21Button = ({
 					headers: { ...applicationHeaders },
 				});
 
-				// if (!response.data.success || response.data.success === 'false')
-				// 	throw new Error(response.data.error);
-
 				setCookie('yesOver21', 'true');
 				setCookie('email', values.email);
 				setLoading(false);
@@ -76,12 +73,15 @@ const Over21Button = ({
 					type="email"
 					containerClassName="w-full"
 					name="email"
-					placeholder="Enter your email"
+					placeholder="Enter your email..."
 					value={values.email}
 					onBlur={handleBlur}
 					onChange={handleChange}
 					error={!!errors.email || !!touched.email}
 				/>
+				<Paragraph className="text-lg font-medium">
+					By entering your email, you agree you are over 21.
+				</Paragraph>
 				<Button
 					type="submit"
 					bg={'secondary-light'}

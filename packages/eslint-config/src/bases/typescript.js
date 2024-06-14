@@ -35,8 +35,10 @@ module.exports = {
 		'plugin:import/recommended',
 		'plugin:import/typescript',
 		'plugin:@typescript-eslint/recommended',
+		'plugin:prettier/recommended',
 	],
 	rules: {
+		indent: ['error', 'tab', { SwitchCase: 1 }],
 		'import/no-cycle': 1,
 		'import/default': ['error'],
 		'import/namespace': 'off', // ['error'] If you want the extra check (typechecks will spot most issues already)

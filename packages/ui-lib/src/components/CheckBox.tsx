@@ -34,6 +34,8 @@ function CheckBox({
 				style={{ minHeight: '30px', minWidth: '30px' }}
 				type="checkbox"
 				id={name}
+				// if the componenet breaks, remove name prop
+				name={name}
 				onChange={onChange}
 				{...inputProps}
 			/>
