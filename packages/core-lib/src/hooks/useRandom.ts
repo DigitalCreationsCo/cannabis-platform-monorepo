@@ -10,8 +10,7 @@ import { useState } from 'react';
  * console.log(random); // 'c'
  * console.log(random); // 'd'
  **/
-export default function useRandom(data: any[]) {
-	const [random] = useState(Math.floor(Math.random() * data.length));
-
-	return data && data[random];
+export default function useRandom(n: number) {
+	const [random] = useState(Math.floor(Math.random() * n));
+	return random;
 }
