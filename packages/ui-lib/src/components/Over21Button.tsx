@@ -46,7 +46,7 @@ const Over21Button = ({
 				validateForm(values);
 
 				setLoading(true);
-				axios.post<
+				const response = await axios.post<
 					ResponseDataEnvelope<any>,
 					AxiosResponse<ResponseDataEnvelope<any>>,
 					{ email: string }
@@ -54,11 +54,14 @@ const Over21Button = ({
 					headers: { ...applicationHeaders },
 				});
 
-				setCookie('yesOver21', 'true');
+				// if (!response.data.success || response.data.success === 'false')
+				// 	throw new Error(response.data.error);
+
+				// setCookie('yesOver21', 'true');
 				setCookie('email', values.email);
 				setLoading(false);
 
-				router.push(redirect);
+				// router.push(redirect);
 			} catch (error: any) {
 				setLoading(false);
 				toast.error(error.message);

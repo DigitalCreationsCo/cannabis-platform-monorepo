@@ -177,11 +177,7 @@ export type Customer = Partial<{
 	country: string | null;
 	email: string;
 	emails: Array<{
-		id: number;
-		value: string;
-		is_primary: boolean;
-		label: string | null;
-		_destroy: boolean;
+		email: string;
 	}>;
 	time_zone: string | null;
 	work_number: string | null;
