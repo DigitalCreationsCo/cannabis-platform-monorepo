@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { FreshSales, applicationHeaders, urlBuilder } from '@cd/core-lib';
-import { FreshSalesContactParameters } from '@cd/core-lib/src/crm/freshsales';
-import { Customer } from '@cd/data-access';
 import axios from 'axios';
 import { type NextApiRequest, type NextApiResponse } from 'next';
 import { type ContactUsFormResponse } from '@/components/landing/workwithus/ContactUs';
@@ -81,32 +79,37 @@ const handlePOST = async (req: any, res: any) => {
 	// send an email to Gras with the contact information
 	// send an email to the contact with information about Gras
 
-	await FreshSales.createContact({
-		first_name: firstName,
-		last_name: lastName,
-		job_title: title,
-		emails: [{ email: fromEmail }],
-		mobile_number: phone,
-		work_number: phone,
-		city,
-		state,
-		zipcode,
-		country: 'United_States',
-		sales_accounts: [{ id: account.data.sales_account.id }],
-		lead_source_id: null,
-		owner_id: FRESHSALES_ADMIN_USERID,
-		subscription_status: [1],
-		subscription_types: `${subscribeCannabisInsiderNewsletter ? 4 : 0};1;2;3;`,
-		medium: 'contact-us-form',
-		keyword: 'growth',
-		custom_field: {
-			company: company,
-			'How did you hear about us': howDidYouHearAboutUs,
-			'Service Area Range': serviceAreaRange,
-			'Weekly Deliveries': weeklyDeliveries,
-			'Contact Us Message': message,
+	await FreshSales.upsertContact(
+		{
+			first_name: firstName,
+			last_name: lastName,
+			job_title: title,
+			emails: [{ email: fromEmail }],
+			mobile_number: phone,
+			work_number: phone,
+			city,
+			state,
+			zipcode,
+			country: 'United_States',
+			medium: 'contact-us-form',
+			keyword: 'growth',
+			custom_field: {
+				company: company,
+				'How did you hear about us': howDidYouHearAboutUs,
+				'Service Area Range': serviceAreaRange,
+				'Weekly Deliveries': weeklyDeliveries,
+				'Contact Us Message': message,
+			},
 		},
-	});
+		{
+			sales_accounts: [{ id: account.data.sales_account.id }],
+			owner_id: FRESHSALES_ADMIN_USERID,
+			lead_source_id: null,
+			subscription_status: [1],
+			subscription_types: `${subscribeCannabisInsiderNewsletter ? 4 : 0};1;2;3;`,
+			keyword: 'dispensary lead',
+		}
+	);
 
 	// Internal and customer journeys are handled via crm workflows
 

@@ -21,7 +21,7 @@ const unAuthenticatedRoutes = [
 	'/api/webhooks/stripe',
 	'/api/webhooks/dsync',
 	'/api/contact-us',
-	'api/save-visitor',
+	'/api/save-visitor',
 	'/auth/**',
 	'/invitations/*',
 	'/terms-condition',
