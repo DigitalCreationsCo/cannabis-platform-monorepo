@@ -11,10 +11,10 @@ const formValues = {
   city: 'Anytown',
   state: 'CA',
   zipcode: '90210',
-  whichServiceInterestedIn: 'Delivery',
+  whichServiceInterestedIn: 'Delivery Service',
   serviceAreaRange: '15',
   weeklyDeliveries: '50',
-  howDidYouHearAboutUs: 'Friend',
+  howDidYouHearAboutUs: 'Linkedin',
   message: 'Looking forward to working with you.',
   allowProcessResponse: true,
   subscribeCannabisInsiderNewsletter: true,
@@ -39,7 +39,7 @@ test('Should submit the contact form successfully', async ({ page }) => {
     formValues.whichServiceInterestedIn
   );
 
-  if (formValues.whichServiceInterestedIn === 'Delivery') {
+  if (formValues.whichServiceInterestedIn.includes('Delivery')) {
     await page.fill(
       'input[name="serviceAreaRange"]',
       formValues.serviceAreaRange
@@ -69,7 +69,7 @@ test('Should submit the contact form successfully', async ({ page }) => {
   // Wait for the success message
   await expect(
     page.locator(
-      'text=Thank you for contacting us! We will reach out within 24 hours.'
+      'text=Your request is submitted. Our team will reach out within 1 business day.'
     )
   ).toBeVisible();
 });
