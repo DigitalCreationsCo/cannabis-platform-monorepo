@@ -55,7 +55,12 @@ function TopBar({ showSearch = true, SearchComponent }: TopBarProps) {
 						</GrasSignature>
 					</Link>
 					<Link href={'/'} className="p-0.25 w-fit rounded-full">
-						<Image alt="Gras" className="w-[36px] md:w-[48px]" src={logo} />
+						<Image
+							alt="Gras"
+							className="w-[36px] md:w-[48px]"
+							src={logo}
+							quality={25}
+						/>
 					</Link>
 				</FlexBox>
 				<Link href={'/'}>
@@ -107,6 +112,7 @@ function TopBar({ showSearch = true, SearchComponent }: TopBarProps) {
 						width={40}
 						height={40}
 						className="rounded-full border"
+						quality={25}
 						loader={({ src }) => src}
 						unoptimized
 					/>

@@ -45,9 +45,10 @@ export default function Post({ post }: { post: Post }) {
 						className="rounded shadow"
 						// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 						src={urlForImage(post.mainImage)!.url()}
-						height={400}
-						width={800}
+						height={300}
+						width={600}
 						alt=""
+						quality={25}
 					/>
 				</div>
 			) : (

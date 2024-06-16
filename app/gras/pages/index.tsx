@@ -2,15 +2,15 @@ import env from '@/lib/env';
 import { type NextPageWithLayout } from '@/lib/next.types';
 import { TextContent } from '@cd/core-lib';
 import {
-  FlexBox,
-  Paragraph,
-  GrasSignature,
-  styles,
-  Button,
-  Page,
-  H1,
-  Footer,
-  Over21Button,
+	FlexBox,
+	Paragraph,
+	GrasSignature,
+	styles,
+	Button,
+	Page,
+	H1,
+	Footer,
+	Over21Button,
 } from '@cd/ui-lib';
 import { type GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
@@ -25,164 +25,169 @@ import friendsVideo from '../public/Gras-community-clip.mp4';
 import logo from '../public/logo.png';
 
 const Home: NextPageWithLayout = () => {
-  const { t } = useTranslation('common');
+	const { t } = useTranslation('common');
 
-  const EnterEmail = () => (
-    <>
-      <H1 className="text-center !text-4xl">{`Find cannabis experiences in your city`}</H1>
-      <Over21Button />
-    </>
-  );
-  return (
-    <>
-      <SEOMetaTags />
-      <Page
-        className={twMerge(
-          gradient,
-          'relative',
-          '!pt-0 md:pt-0 px-0 lg:px-0 pb-0',
-          'text-light'
-          // 'overflow-hidden'
-        )}
-      >
-        <div className={twMerge(styles.TOPBAR.topbar, 'bg-transparent')}>
-          <div>
-            <FlexBox className="flex-row items-center">
-              <Link href={'/'} className="z-50">
-                <GrasSignature className="text-inverse text-4xl pt-1 pb-0 mb-0 leading-3">
-                  {t('gras')}
-                </GrasSignature>
-              </Link>
-              <Link
-                href={'/'}
-                className="p-0.25 ml-4 bg-inverse w-fit rounded-full"
-              >
-                <Image alt="Gras" className="w-[36px] md:w-[48px]" src={logo} />
-              </Link>
-            </FlexBox>
-            <Link href={'/'}>
-              <Paragraph
-                className={twMerge(styles.TOPBAR.tagline, 'text-inverse-soft')}
-              >
-                {TextContent.info.CANNABIS_DELIVERED_TEXT}
-              </Paragraph>
-            </Link>
-          </div>
-          <div className="flex-none">
-            <ul className="flex items-center gap-2 sm:gap-4 md:pr-2">
-              <li>
-                <Link href="/auth/login">
-                  <Button
-                    className={twMerge(
-                      styles.BUTTON.highlight,
-                      'hover:border-light text-light'
-                    )}
-                    size="sm"
-                    bg="transparent"
-                    hover="transparent"
-                  >
-                    {t('sign-in')}
-                  </Button>
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </div>
+	const EnterEmail = () => (
+		<>
+			<H1 className="text-center !text-4xl">{`Find cannabis experiences in your city`}</H1>
+			<Over21Button />
+		</>
+	);
+	return (
+		<>
+			<SEOMetaTags />
+			<Page
+				className={twMerge(
+					gradient,
+					'relative',
+					'!pt-0 md:pt-0 px-0 lg:px-0 pb-0',
+					'text-light'
+					// 'overflow-hidden'
+				)}
+			>
+				<div className={twMerge(styles.TOPBAR.topbar, 'bg-transparent')}>
+					<div>
+						<FlexBox className="flex-row items-center">
+							<Link href={'/'} className="z-50">
+								<GrasSignature className="text-inverse text-4xl pt-1 pb-0 mb-0 leading-3">
+									{t('gras')}
+								</GrasSignature>
+							</Link>
+							<Link
+								href={'/'}
+								className="p-0.25 ml-4 bg-inverse w-fit rounded-full"
+							>
+								<Image
+									alt="Gras"
+									className="w-[36px] md:w-[48px]"
+									src={logo}
+									quality={25}
+								/>
+							</Link>
+						</FlexBox>
+						<Link href={'/'}>
+							<Paragraph
+								className={twMerge(styles.TOPBAR.tagline, 'text-inverse-soft')}
+							>
+								{TextContent.info.CANNABIS_DELIVERED_TEXT}
+							</Paragraph>
+						</Link>
+					</div>
+					<div className="flex-none">
+						<ul className="flex items-center gap-2 sm:gap-4 md:pr-2">
+							<li>
+								<Link href="/auth/login">
+									<Button
+										className={twMerge(
+											styles.BUTTON.highlight,
+											'hover:border-light text-light'
+										)}
+										size="sm"
+										bg="transparent"
+										hover="transparent"
+									>
+										{t('sign-in')}
+									</Button>
+								</Link>
+							</li>
+						</ul>
+					</div>
+				</div>
 
-        <ImageGrid>
-          <video
-            className={twMerge(
-              'flex-1 w-full opacity-25',
-              'lg:max-w-lg lg:rounded-lg lg:opacity-100',
-              'min-h-full',
-              'shadow'
-            )}
-            style={{
-              aspectRatio: 'auto',
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              objectPosition: '40% 40%',
-              left: '0',
-              top: '0',
-            }}
-            src={friendsVideo}
-            autoPlay
-            loop
-            muted
-          />
-          <div className="m-auto items-center max-w-sm">
-            <EnterEmail />
-          </div>
-        </ImageGrid>
+				<ImageGrid>
+					<video
+						className={twMerge(
+							'flex-1 w-full opacity-25',
+							'lg:max-w-lg lg:rounded-lg lg:opacity-100',
+							'min-h-full',
+							'shadow'
+						)}
+						style={{
+							aspectRatio: 'auto',
+							width: '100%',
+							height: '100%',
+							objectFit: 'cover',
+							objectPosition: '40% 40%',
+							left: '0',
+							top: '0',
+						}}
+						src={friendsVideo}
+						autoPlay
+						loop
+						muted
+					/>
+					<div className="m-auto items-center max-w-sm">
+						<EnterEmail />
+					</div>
+				</ImageGrid>
 
-        <div className="lg:hidden flex flex-row w-full h-[550px] min-h-full grow col-span-3">
-          <video
-            className={twMerge(
-              'absolute flex-1 w-full opacity-25',
-              'lg:max-w-lg lg:rounded-lg lg:opacity-100',
-              'min-h-full',
-              'shadow'
-            )}
-            style={{
-              aspectRatio: 'auto',
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              objectPosition: '40% 40%',
-              left: '0',
-              top: '0',
-            }}
-            src={friendsVideo}
-            autoPlay
-            loop
-            muted
-          />
-          <div className="z-10 mx-auto mt-20 items-center max-w-xs md:!max-w-md">
-            <EnterEmail />
-          </div>
-        </div>
-      </Page>
-    </>
-  );
+				<div className="lg:hidden flex flex-row w-full h-[550px] min-h-full grow col-span-3">
+					<video
+						className={twMerge(
+							'absolute flex-1 w-full opacity-25',
+							'lg:max-w-lg lg:rounded-lg lg:opacity-100',
+							'min-h-full',
+							'shadow'
+						)}
+						style={{
+							aspectRatio: 'auto',
+							width: '100%',
+							height: '100%',
+							objectFit: 'cover',
+							objectPosition: '40% 40%',
+							left: '0',
+							top: '0',
+						}}
+						src={friendsVideo}
+						autoPlay
+						loop
+						muted
+					/>
+					<div className="z-10 mx-auto mt-20 items-center max-w-xs md:!max-w-md">
+						<EnterEmail />
+					</div>
+				</div>
+			</Page>
+		</>
+	);
 };
 
 const gradient = [
-  'bg-gradient-to-b',
-  'from-10%',
-  'from-secondary-light',
-  'to-secondary',
+	'bg-gradient-to-b',
+	'from-10%',
+	'from-secondary-light',
+	'to-secondary',
 ];
 
 export const getServerSideProps = async (
-  context: GetServerSidePropsContext
+	context: GetServerSidePropsContext
 ) => {
-  // Redirect to login page if landing page is disabled
-  if (env.hideLandingPage) {
-    return {
-      redirect: {
-        destination: '/auth/login',
-        permanent: true,
-      },
-    };
-  }
+	// Redirect to login page if landing page is disabled
+	if (env.hideLandingPage) {
+		return {
+			redirect: {
+				destination: '/auth/login',
+				permanent: true,
+			},
+		};
+	}
 
-  const { locale } = context;
+	const { locale } = context;
 
-  return {
-    props: {
-      ...(locale ? await serverSideTranslations(locale, ['common']) : {}),
-    },
-  };
+	return {
+		props: {
+			...(locale ? await serverSideTranslations(locale, ['common']) : {}),
+		},
+	};
 };
 
 Home.getLayout = function getLayout(page: ReactElement) {
-  return (
-    <>
-      {page}
-      <Footer />
-    </>
-  );
+	return (
+		<>
+			{page}
+			<Footer />
+		</>
+	);
 };
 
 export default Home;

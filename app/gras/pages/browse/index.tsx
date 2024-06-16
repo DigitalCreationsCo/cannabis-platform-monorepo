@@ -283,6 +283,7 @@ export default function Browse({
 								!isLoading && dispensaries.length
 									? dispensaries?.map((d, index) => (
 											<DispensaryCard
+												priority={index < 4}
 												loading={isLoading}
 												key={`dispensary-card-${index}`}
 												data={d}
@@ -396,6 +397,7 @@ export default function Browse({
 								//   ? events.
 								eventsToday.map((event, index) => (
 									<EventCard
+										priority={index < 4}
 										key={`event-card-${index}`}
 										loading={false}
 										event={event}

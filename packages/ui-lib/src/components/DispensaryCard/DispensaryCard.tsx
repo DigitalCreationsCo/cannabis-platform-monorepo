@@ -34,6 +34,7 @@ export type DispensaryCardProps = {
 	loading?: boolean;
 	className?: string | string[];
 	current?: boolean;
+	priority?: boolean;
 };
 
 function DispensaryCard({
@@ -41,6 +42,7 @@ function DispensaryCard({
 	loading,
 	className,
 	current,
+	priority = false,
 }: DispensaryCardProps) {
 	const [isHovered, setIsHovered] = useState(false);
 	// Event handlers for mouse enter and leave
@@ -56,6 +58,8 @@ function DispensaryCard({
 			return (
 				<div className="absolute left-0 top-0 bg-transparent h-full w-full flex -z-5">
 					<Image
+						priority={priority}
+						loading="lazy"
 						placeholder={blurData ? 'blur' : 'empty'}
 						blurDataURL={blurData}
 						className={`${
@@ -70,7 +74,6 @@ function DispensaryCard({
 						style={{
 							maxHeight: '220px',
 						}}
-						priority
 					/>
 					{children}
 				</div>

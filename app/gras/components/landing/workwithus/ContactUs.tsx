@@ -218,6 +218,8 @@ export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
 							className="rounded-full"
 							src={founder}
 							alt={'founder'}
+							quality={25}
+							unoptimized
 						/>
 						<FlexBox className="ml-8 flex-col self-center">
 							<Paragraph className="text-2xl font-semibold mb-1">

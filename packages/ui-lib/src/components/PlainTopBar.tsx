@@ -15,7 +15,7 @@ function TopBar({ className = '' }: { className?: string | string[] }) {
 					<GrasSignature className="text-secondary pt-0.5">Gras</GrasSignature>
 				</Link>
 				<Link href={'/'} className="shrink-0">
-					<Image alt="Gras" width={40} height={40} src={logo} />
+					<Image alt="Gras" width={40} height={40} src={logo} quality={25} />
 				</Link>
 				<Link href={'/'}>
 					<Paragraph className={twMerge(styles.TOPBAR.tagline)}>
