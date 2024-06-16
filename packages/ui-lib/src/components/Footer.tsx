@@ -94,7 +94,13 @@ export default function Footer({
 								href={getShopSite('/')}
 								className="p-0.25 ml-4 bg-inverse w-fit rounded-full"
 							>
-								<Image alt="Gras" width={40} height={40} src={logo} />
+								<Image
+									alt="Gras"
+									width={40}
+									height={40}
+									src={logo}
+									quality={25}
+								/>
 							</Link>
 						</FlexBox>
 

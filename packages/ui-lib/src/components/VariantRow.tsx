@@ -28,6 +28,7 @@ export default function ProductVariantRow({ variant }: ProductVariantRowProps) {
 					alt={variant.name}
 					width={40}
 					height={40}
+					quality={25}
 				/>
 
 				<Small className="col-span-3">{variant.name}</Small>

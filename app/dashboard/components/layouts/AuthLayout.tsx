@@ -22,7 +22,13 @@ export default function AuthLayout({
 				<div className="sm:mx-auto sm:w-full sm:max-w-sm">
 					<FlexBox className="flex-row justify-center content-center items-center">
 						<GrasSignature>{t('gras')}</GrasSignature>
-						<Image src={app.logoUrl} alt={app.name} width={53} height={53} />
+						<Image
+							src={app.logoUrl}
+							alt={app.name}
+							width={53}
+							height={53}
+							quality={25}
+						/>
 					</FlexBox>
 					{heading && (
 						<H2 className="mt-6 text-center text-4xl leading-9">

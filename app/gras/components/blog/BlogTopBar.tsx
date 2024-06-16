@@ -67,7 +67,7 @@ function TopBar({ signOut }: TopBarProps) {
 					</GrasSignature>
 				</Link>
 				<Link href={'/'} className="shrink-0">
-					<Image alt="Gras" width={40} height={40} src={logo} />
+					<Image alt="Gras" width={40} height={40} src={logo} quality={25} />
 				</Link>
 				<Link href={'/'}>
 					<Paragraph className={twMerge(styles.TOPBAR.tagline)}>
@@ -112,6 +112,7 @@ function TopBar({ signOut }: TopBarProps) {
 							height={40}
 							className="rounded-full border"
 							loader={({ src }) => src}
+							quality={25}
 							unoptimized
 						/>
 					</label>

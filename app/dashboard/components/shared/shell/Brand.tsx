@@ -17,7 +17,7 @@ const Brand = () => {
 				<GrasSignature className="text-secondary drop-shadow-sm lg:text-4xl pt-1 pb-0 mb-0 leading-3">
 					{t('gras')}
 				</GrasSignature>
-				<Image alt="Gras" width={48} height={48} src={logo} />
+				<Image alt="Gras" width={48} height={48} src={logo} quality={25} />
 			</Link>
 			{/* <Image
 				className="w-auto"

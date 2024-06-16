@@ -10,6 +10,7 @@ type EventCardProps = {
 	loading?: boolean;
 	className?: string | string[];
 	showDescription?: boolean;
+	priority?: boolean;
 };
 
 function EventCard({
@@ -17,6 +18,7 @@ function EventCard({
 	event,
 	className,
 	showDescription = false,
+	priority = false,
 }: EventCardProps) {
 	if (loading) {
 		return (
@@ -69,12 +71,15 @@ function EventCard({
 			)) || <></>}
 			<div className="h-[180px] p-2">
 				<Image
+					priority={priority}
+					loading="lazy"
 					src={event.image?.url || require('public/hemp.png')}
 					alt={event.name}
 					width={300}
 					height={200}
 					className="w-full h-auto aspect-auto object-bottom drop-shadow-[-6px_4px_1px_#555]"
-					sizes="600px"
+					sizes="300px"
+					quality={25}
 				/>
 			</div>
 		</Link>

@@ -441,7 +441,7 @@ export default function UserDetails({ user }: { user: any }) {
                     onClick={() => handleDeleteExistingImage(user?.image)}
                     // onKeyUp={() => {}}
                   >
-                    <Image src={user?.image as string} alt="" fill={true} />
+                    <Image src={user?.image as string} alt="" fill={true} quality={25}/>
                   </UploadImageBox>
                   {files.map(
                     (
@@ -463,6 +463,7 @@ export default function UserDetails({ user }: { user: any }) {
                             alt=""
                             height={100}
                             width={100}
+                            quality={25}
                           />
                         </UploadImageBox>
                       );
