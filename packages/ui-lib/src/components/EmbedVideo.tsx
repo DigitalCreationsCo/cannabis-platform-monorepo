@@ -1,6 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-import Iframe from 'react-iframe';
 import FlexBox from './FlexBox';
 import { H3 } from './Typography';
 import Video from './Video';
@@ -15,14 +12,14 @@ const EmbedVideo = ({ url }: { url: string }) => {
 			</div>
 			<Video
 				Embed={() => (
-					<Iframe
+					<iframe
 						className="m-auto rounded h-full aspect-video max-h-[240px] w-full max-w[620px]"
 						src={url}
 						title="YouTube video player"
 						frameBorder="0"
 						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-						allowfullscreen
-					></Iframe>
+						allowFullScreen
+					></iframe>
 				)}
 			/>
 		</FlexBox>

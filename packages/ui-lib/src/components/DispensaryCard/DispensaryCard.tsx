@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import {
 	checkIsDispensaryOpen,
 	// formatDispensaryUrl,
@@ -6,7 +8,14 @@ import {
 	// showTime,
 } from '@cd/core-lib';
 import { type Dispensary } from '@cd/data-access';
+import {
+	ArrowRightStartOnRectangleIcon,
+	BuildingLibraryIcon,
+	BuildingOfficeIcon,
+	BuildingStorefrontIcon,
+} from '@heroicons/react/24/outline';
 import Image from 'next/image';
+import Link from 'next/link';
 import {
 	useCallback,
 	type PropsWithChildren,
@@ -133,12 +142,15 @@ function DispensaryCard({
 
 	return (
 		<div
-			// href={formatDispensaryUrl(dispensary?.slug, dispensary?.id)}
-			// href={`/browse/${dispensary?.id}`}
 			style={{
 				borderColor: applyDispensaryStyles['background-color'],
 				backgroundColor:
 					(hasLogo && applyDispensaryStyles['background-color']) || '#fff2da',
+			}}
+			onClick={() => {
+				if (document.activeElement) {
+					(document.activeElement as HTMLElement).blur();
+				}
 			}}
 			onMouseEnter={handleMouseEnter}
 			onMouseLeave={handleMouseLeave}
@@ -158,11 +170,17 @@ function DispensaryCard({
 				>
 					{isHovered ? (
 						<div style={{ ...hoverStyles }} className="w-full px-2">
+							<Link
+								href={`/browse/${dispensary.slug}`}
+								className="absolute hover:bg-dark transition-50 w-30 h-30 bottom-1 right-1 p-2.5 rounded-full"
+							>
+								<BuildingStorefrontIcon height={28} width={28} />
+							</Link>
 							<H3 className="z-5 font-semibold left-0 top-0 max-w-[248px] whitespace-normal tracking-wide drop-shadow text-[22px]">
 								{dispensary?.name}
 							</H3>
 							<Paragraph className="drop-shadow tracking-wider text-sm">
-								{dispensary?.address?.street1}
+								{dispensary?.address?.street1}{' '}
 								<OpenBadge schedule={dispensary?.schedule || []} />
 							</Paragraph>
 							<FlexBox className="z-5 absolute bottom-0 left-0 flex-col p-2 px-4">

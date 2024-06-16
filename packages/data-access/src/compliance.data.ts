@@ -1,6 +1,3 @@
-// import { type Compliance, type USStateAbbreviated } from '@prisma/client';
-// import prisma from '../db/prisma';
-
 // export async function findCompliance({
 // 	state,
 // }: ComplianceSelectorType): Promise<Compliance | null> {

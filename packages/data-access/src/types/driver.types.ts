@@ -3,7 +3,6 @@
 // 	type DriverSession,
 // 	type Prisma,
 // 	type Route,
-// } from '@prisma/client';
 // import { type CoordinatesCreateType } from '../address.types';
 // import { type UserWithDetails } from '../user/user.data';
 

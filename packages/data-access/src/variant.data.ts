@@ -8,7 +8,6 @@
 // 	type Prisma,
 // 	type ProductVariant,
 // 	type Unit,
-// } from '@prisma/client';
 // import { type OrderCreateType } from '../order/order.types';
 // import prisma from './db/prisma';
 

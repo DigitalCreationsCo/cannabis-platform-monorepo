@@ -1,6 +1,5 @@
 import { type PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
-import AnimationWrapper from './AnimationWrapper';
 
 type PageProps = {
 	gradient?: 'pink' | 'green';
@@ -20,7 +19,6 @@ function Page({
 			'p-2',
 			'bg-inverse-soft',
 			'flex flex-col grow',
-			// 'min-w-screen',
 			'lg:pt-8 pb-24',
 			'lg:px-16',
 			'min-h-[440px]',
@@ -35,10 +33,9 @@ function Page({
 	});
 
 	return (
-		<AnimationWrapper className="flex flex-col w-full grow">
-			<div className={twMerge(styles, className)}>
-				{children}
-				{/* <div className="fixed flex items-center bottom-0 right-0 cursor-default text-accent-soft space-x-1 pr-1">
+		<div className={twMerge(styles, className)}>
+			{children}
+			{/* <div className="fixed flex items-center bottom-0 right-0 cursor-default text-accent-soft space-x-1 pr-1">
 					<div
 						className={twMerge([
 							'hidden',
@@ -50,8 +47,7 @@ function Page({
 					</div>
 					<Tiny>{appVersion}</Tiny>
 				</div> */}
-			</div>
-		</AnimationWrapper>
+		</div>
 	);
 }
 

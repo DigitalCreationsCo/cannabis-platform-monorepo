@@ -1,12 +1,16 @@
 import {
+	type ApiResponse,
+	fetcher,
 	isArray,
 	renderAddress,
 	renderSchedule,
 	TextContent,
+	urlBuilder,
 } from '@cd/core-lib';
 import {
 	type ProductVariantWithDetails,
 	type Dispensary,
+	dispensaries,
 } from '@cd/data-access';
 import {
 	Button,
@@ -26,42 +30,55 @@ import {
 	H1,
 } from '@cd/ui-lib';
 import icons from '@cd/ui-lib/src/icons';
+import {
+	ArrowLeftIcon,
+	CurrencyDollarIcon,
+	TruckIcon,
+} from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import logo from 'public/logo.png';
 import { type PropsWithChildren, useState, type ReactElement } from 'react';
 import useSWR from 'swr';
 import { twMerge } from 'tailwind-merge';
+import env from '@/lib/env';
 import SEOMetaTags from '@/lib/SEOMetaTags';
+import logo from 'public/logo.png';
 
-function DispensaryPage({ dispensaryId }: { dispensaryId: string }) {
+function DispensaryPage({
+	dispensary: organization,
+}: {
+	dispensary: Dispensary;
+}) {
 	const Router = useRouter();
 
-	const { error, isLoading, data } = useSWR<Dispensary>(
-		() => `/api/organization/${dispensaryId}`,
-		async (url: string) => {
-			const response = await fetch(url);
-			const json = await response.json();
+	// const { error, isLoading, data } = useSWR<Dispensary>(
+	// 	() => `/api/dispensaries/${dispensaryId}`,
+	// 	async (url: string) => {
+	// 		const response = await fetch(url);
+	// 		const json = await response.json();
 
-			if (!response.ok) {
-				throw new Error(
-					json.error.message || 'An error occurred while fetching the data'
-				);
-			}
+	// 		if (!response.ok) {
+	// 			throw new Error(
+	// 				json.error.message || 'An error occurred while fetching the data'
+	// 			);
+	// 		}
 
-			return json.payload;
-		}
-	);
+	// 		return json.payload;
+	// 	}
+	// );
 
-	console.info('data', data);
-	const organization = data;
+	// console.info('token: ', token);
+	// const { data, error, isLoading } = useSWR<ApiResponse<Dispensary>>(
+	// 	[`/api/dispensaries/${slug}`, token],
+	// 	fetcher
+	// );
 
-	if (isLoading) {
-		return <LoadingPage />;
-	}
+	// if (isLoading) {
+	// 	return <LoadingPage />;
+	// }
 
-	if (error || !organization) {
+	if (!organization.name) {
 		return (
 			<Page gradient="pink" className="w-full bg-transparent py-0 md:pb-24">
 				<Card className={twMerge(`m-auto items-center h-full w-full`)}>
@@ -127,7 +144,7 @@ function DispensaryPage({ dispensaryId }: { dispensaryId: string }) {
 		>
 			{organization.isSubscribedForDelivery ? (
 				<FlexBox className="flex-row">
-					<IconWrapper Icon={icons.Truck} iconSize={28} />
+					<IconWrapper Icon={TruckIcon} iconSize={28} />
 					<Paragraph
 						style={{ color: applyDispensaryStyles['text-color'] }}
 						className="whitespace-pre text-lg font-semibold tracking-wider"
@@ -142,7 +159,7 @@ function DispensaryPage({ dispensaryId }: { dispensaryId: string }) {
 						style={{ color: applyDispensaryStyles['text-color'] }}
 						className="flex-row"
 					>
-						<IconWrapper Icon={icons.CurrencyDollar} iconSize={28} />
+						<IconWrapper Icon={CurrencyDollarIcon} iconSize={28} />
 						<Paragraph className="whitespace-pre text-lg font-semibold tracking-wider">
 							{'Order for Pickup'}
 						</Paragraph>
@@ -203,7 +220,7 @@ function DispensaryPage({ dispensaryId }: { dispensaryId: string }) {
 				Hours
 			</Paragraph>
 			<FlexBox className="flex-col w-fit whitespace-pre-line">
-				{renderSchedule(organization.schedule!).map((day) => (
+				{renderSchedule(organization.schedule).map((day) => (
 					<FlexBox
 						key={`schedule-${day[0]}`}
 						className="flex-row justify-between w-full space-x-4 font-light"
@@ -260,7 +277,7 @@ function DispensaryPage({ dispensaryId }: { dispensaryId: string }) {
 				className="text-dark self-start sm:py-0 hover:underline"
 				onClick={() => Router.back()}
 			>
-				<IconWrapper Icon={icons.ArrowLeft} className="pr-1" />
+				<IconWrapper Icon={ArrowLeftIcon} className="pr-1" />
 				back
 			</Button>
 		);
@@ -286,10 +303,7 @@ function DispensaryPage({ dispensaryId }: { dispensaryId: string }) {
 	return (
 		<>
 			<SEOMetaTags />
-			<Page
-				gradient="pink"
-				className="w-full p-0 md:pt-12 md:pb-24 flex flex-col grow min-h-[96vh]"
-			>
+			<Page gradient="pink" className="w-full !p-0 md:pt-12 md:pb-24">
 				<Card
 					style={{ backgroundColor: applyDispensaryStyles['background-color'] }}
 					className={twMerge(
@@ -321,14 +335,30 @@ DispensaryPage.getLayout = function getLayout(page: ReactElement) {
 	return <>{page}</>;
 };
 
-export const getServerSideProps = async ({ query }: any) => {
+export const getServerSideProps = async ({ req, query }: any) => {
 	try {
-		console.info('query', query);
-		if (!query['dispensary'])
-			throw new Error(TextContent.error.DISPENSARY_NOT_FOUND);
+		if (!query['dispensary']) throw new Error("Couldn't find the dispensary.");
+
+		const token = env.nextAuth.secret;
+		console.info('token: ', token);
+		// const response = await fetch(
+		// 	`${urlBuilder.shop}/api/dispensaries/${query['dispensary']}`,
+		// 	{ headers: { authorization: 'Bearer ' + token } }
+		// );
+
+		// if (!response.ok) {
+		// 	throw new Error(
+		// 		(await response.json()).error.message ||
+		// 			'An error occurred while fetching the data'
+		// 	);
+		// }
+		// const dispensary = await response.json();
+
+		const dispensary = dispensaries.find((d) => d.slug === query['dispensary']);
+		console.info('fetched dummy data: dispensary: ', dispensary);
 		return {
 			props: {
-				dispensaryId: query['dispensary'],
+				dispensary: JSON.parse(JSON.stringify(dispensary)),
 			},
 		};
 	} catch (error) {

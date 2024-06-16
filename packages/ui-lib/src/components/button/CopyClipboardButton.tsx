@@ -1,13 +1,12 @@
-import { type CarbonIconType } from '@carbon/icons-react';
+import { ClipboardIcon } from '@heroicons/react/24/outline';
 import { type SVGAttributes } from 'react';
 import { toast } from 'react-hot-toast';
 import { twMerge } from 'tailwind-merge';
-import { useCopyToClipboard } from 'usehooks-ts';
 import Icons from '../../icons';
 import IconButton from './IconButton';
 
 interface CopyClipboardButtonProps {
-	Icon?: ((props: SVGAttributes<SVGElement>) => JSX.Element) | CarbonIconType;
+	Icon?: ((props: SVGAttributes<SVGElement>) => JSX.Element) | any;
 	onClick?: (e: any) => void;
 	theme?: 'light' | 'dark';
 	iconSize?: number;
@@ -16,7 +15,7 @@ interface CopyClipboardButtonProps {
 }
 
 function CopyClipboardButton({
-	Icon = Icons.Copy,
+	Icon = ClipboardIcon,
 	iconSize = 20,
 	className,
 	onClick,
