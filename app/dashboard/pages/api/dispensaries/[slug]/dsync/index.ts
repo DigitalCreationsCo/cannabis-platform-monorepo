@@ -8,70 +8,70 @@ import { sendAudit } from '@/lib/retraced';
 const dsync = dsyncManager();
 
 export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
+	req: NextApiRequest,
+	res: NextApiResponse
 ) {
-  const { method } = req;
+	const { method } = req;
 
-  try {
-    if (!env.teamFeatures.dsync) {
-      throw new ApiError(404, 'Not Found');
-    }
+	try {
+		if (!env.teamFeatures.dsync) {
+			throw new ApiError(404, 'Not Found');
+		}
 
-    switch (method) {
-      case 'GET':
-        await handleGET(req, res);
-        break;
-      case 'POST':
-        await handlePOST(req, res);
-        break;
+		switch (method) {
+			case 'GET':
+				await handleGET(req, res);
+				break;
+			case 'POST':
+				await handlePOST(req, res);
+				break;
 
-      default:
-        res.setHeader('Allow', 'GET, POST');
-        res.status(405).json({
-          error: { message: `Method ${method} Not Allowed` },
-        });
-    }
-  } catch (error: any) {
-    console.error(error);
+			default:
+				res.setHeader('Allow', 'GET, POST');
+				res.status(405).json({
+					error: { message: `Method ${method} Not Allowed` },
+				});
+		}
+	} catch (error: any) {
+		console.error(error);
 
-    const message = error.message || 'Something went wrong';
-    const status = error.status || 500;
+		const message = error.message || 'Something went wrong';
+		const status = error.status || 500;
 
-    res.status(status).json({ error: { message } });
-  }
+		res.status(status).json({ error: { message } });
+	}
 }
 
 const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
-  const teamMember = await throwIfNoDispensaryAccess(req, res);
+	const teamMember = await throwIfNoDispensaryAccess(req, res);
 
-  throwIfNotAllowed(teamMember, 'team_dsync', 'read');
+	throwIfNotAllowed(teamMember, 'team_dsync', 'read');
 
-  const connections = await dsync.getConnections({
-    tenant: teamMember.teamId,
-  });
+	const connections = await dsync.getConnections({
+		tenant: teamMember.teamId,
+	});
 
-  res.status(200).json(connections);
+	res.status(200).json(connections);
 };
 
 const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
-  const teamMember = await throwIfNoDispensaryAccess(req, res);
+	const teamMember = await throwIfNoDispensaryAccess(req, res);
 
-  throwIfNotAllowed(teamMember, 'team_dsync', 'create');
+	throwIfNotAllowed(teamMember, 'team_dsync', 'create');
 
-  const { body } = req;
+	const { body } = req;
 
-  const connection = await dsync.createConnection({
-    ...body,
-    tenant: teamMember.teamId,
-  });
+	const connection = await dsync.createConnection({
+		...body,
+		tenant: teamMember.teamId,
+	});
 
-  sendAudit({
-    action: 'dsync.connection.create',
-    crud: 'c',
-    user: teamMember.user,
-    team: teamMember.team,
-  });
+	sendAudit({
+		action: 'dsync.connection.create',
+		crud: 'c',
+		user: teamMember.user,
+		team: teamMember.team,
+	});
 
-  res.status(201).json(connection);
+	res.status(201).json(connection);
 };

@@ -5,7 +5,6 @@ import {
 	ToastProvider,
 	type Theme,
 	applyTheme,
-	AnimationWrapper,
 } from '@cd/ui-lib';
 import mixpanel from 'mixpanel-browser';
 import { SessionProvider } from 'next-auth/react';
@@ -125,15 +124,13 @@ function MyApp({
 											'--primary-color-950': colors.blue['950'],
 										}}
 									>
-										<AnimationWrapper className="flex flex-col w-full min-h-screen">
-											<AnimatePresence
-												mode="wait"
-												initial={false}
-												onExitComplete={() => window.scrollTo(0, 0)}
-											>
-												{getLayout(<Component {...props} />)}
-											</AnimatePresence>
-										</AnimationWrapper>
+										<AnimatePresence
+											mode="wait"
+											initial={false}
+											onExitComplete={() => window.scrollTo(0, 0)}
+										>
+											{getLayout(<Component {...props} />)}
+										</AnimatePresence>
 									</Themer>
 								</Elements>
 							</PersistGate>

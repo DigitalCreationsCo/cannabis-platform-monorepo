@@ -1,16 +1,16 @@
 import NavigationItems, {
-  type NavigationProps,
-  type MenuItem,
+	type NavigationProps,
+	type MenuItem,
 } from './NavigationItems';
 
 const ProductNavigation = ({ activePathname }: NavigationProps) => {
-  if (!activePathname) {
-    return null;
-  }
+	if (!activePathname) {
+		return null;
+	}
 
-  const menus: MenuItem[] = [];
+	const menus: MenuItem[] = [];
 
-  return <NavigationItems menus={menus} />;
+	return <NavigationItems menus={menus} />;
 };
 
 export default ProductNavigation;

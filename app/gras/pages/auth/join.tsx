@@ -1,10 +1,3 @@
-import { JoinWithInvitation, Join } from '@/components/auth';
-import GithubButton from '@/components/auth/GithubButton';
-import GoogleButton from '@/components/auth/GoogleButton';
-import { AuthLayout } from '@/components/layouts';
-import { authProviderEnabled } from '@/lib/auth';
-import env from '@/lib/env';
-import type { NextPageWithLayout } from '@/lib/next.types';
 import { LoadingPage, Paragraph } from '@cd/ui-lib';
 import {
 	type GetServerSidePropsContext,
@@ -18,6 +11,13 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { type ReactElement, useEffect } from 'react';
 import toast from 'react-hot-toast';
+import { JoinWithInvitation, Join } from '@/components/auth';
+import GithubButton from '@/components/auth/GithubButton';
+import GoogleButton from '@/components/auth/GoogleButton';
+import { AuthLayout } from '@/components/layouts';
+import { authProviderEnabled } from '@/lib/auth';
+import env from '@/lib/env';
+import type { NextPageWithLayout } from '@/lib/next.types';
 
 const Signup: NextPageWithLayout<
 	InferGetServerSidePropsType<typeof getServerSideProps>

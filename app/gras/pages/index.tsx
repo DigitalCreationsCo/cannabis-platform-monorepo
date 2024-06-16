@@ -1,5 +1,3 @@
-import env from '@/lib/env';
-import { type NextPageWithLayout } from '@/lib/next.types';
 import { TextContent } from '@cd/core-lib';
 import {
 	FlexBox,
@@ -20,6 +18,8 @@ import Link from 'next/link';
 import { type ReactElement } from 'react';
 import { twMerge } from 'tailwind-merge';
 import ImageGrid from '@/components/shared/ImageGrid/ImageGrid';
+import env from '@/lib/env';
+import { type NextPageWithLayout } from '@/lib/next.types';
 import SEOMetaTags from '@/lib/SEOMetaTags';
 import friendsVideo from '../public/Gras-community-clip.mp4';
 import logo from '../public/logo.png';
@@ -94,32 +94,34 @@ const Home: NextPageWithLayout = () => {
 					</div>
 				</div>
 
-				<ImageGrid>
-					<video
-						className={twMerge(
-							'flex-1 w-full opacity-25',
-							'lg:max-w-lg lg:rounded-lg lg:opacity-100',
-							'min-h-full',
-							'shadow'
-						)}
-						style={{
-							aspectRatio: 'auto',
-							width: '100%',
-							height: '100%',
-							objectFit: 'cover',
-							objectPosition: '40% 40%',
-							left: '0',
-							top: '0',
-						}}
-						src={friendsVideo}
-						autoPlay
-						loop
-						muted
-					/>
-					<div className="m-auto items-center max-w-sm">
-						<EnterEmail />
-					</div>
-				</ImageGrid>
+				<div className="pt-4">
+					<ImageGrid>
+						<video
+							className={twMerge(
+								'flex-1 w-full opacity-25',
+								'lg:max-w-lg lg:rounded-lg lg:opacity-100',
+								'min-h-full',
+								'shadow'
+							)}
+							style={{
+								aspectRatio: 'auto',
+								width: '100%',
+								height: '100%',
+								objectFit: 'cover',
+								objectPosition: '40% 40%',
+								left: '0',
+								top: '0',
+							}}
+							src={friendsVideo}
+							autoPlay
+							loop
+							muted
+						/>
+						<div className="m-auto items-center max-w-sm">
+							<EnterEmail />
+						</div>
+					</ImageGrid>
+				</div>
 
 				<div className="lg:hidden flex flex-row w-full h-[550px] min-h-full grow col-span-3">
 					<video

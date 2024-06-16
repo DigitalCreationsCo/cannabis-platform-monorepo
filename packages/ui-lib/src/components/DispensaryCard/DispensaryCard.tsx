@@ -163,11 +163,9 @@ function DispensaryCard({
 				blurData={dispensary?.images?.[0]?.blurhash || ''}
 			>
 				<FlexBox
-					className="z-5 left-0 flex-col transition"
-					// className={`z-5 left-0 flex-col transition transition-transform transition-opacity duration-300 ${
-					// 	isHovered
-					// 		? 'opacity-100 transform translate-y-0'
-					// 		: 'opacity-0 transform translate-y-5'
+					className="z-5 left-0 flex-col"
+					// className={`z-5 left-0 flex-col transition transition-opacity duration-300 ${
+					// 	isHovered ? 'opacity-100' : 'opacity-0'
 					// }`}
 				>
 					{isHovered ? (

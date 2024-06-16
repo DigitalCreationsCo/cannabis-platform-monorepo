@@ -35,13 +35,13 @@ function EventPage({ event }: EventPageProps) {
 					<H1 className="text-white drop-shadow-[0px_2px_0px_#666]">
 						{event.name}
 					</H1>
-					<div className="max-w-full">
+					<div className="min-w-full">
 						<Image
 							src={event.image.url}
 							alt={event.name}
 							width={150}
 							height={150}
-							className="w-full md:max-w-[600px] rounded shadow"
+							className="w-full max-w-[440px] rounded shadow"
 							priority
 							quality={25}
 						/>
@@ -51,7 +51,7 @@ function EventPage({ event }: EventPageProps) {
 
 					<FlexBox className="flex-row flex-wrap gap-x-8">
 						<RSVP />
-						<Share />
+						{/* <Share /> */}
 					</FlexBox>
 				</FlexBox>
 			</Page>
@@ -61,9 +61,9 @@ function EventPage({ event }: EventPageProps) {
 	function EventDetails() {
 		return (
 			<FlexBox className="flex-row gap-x-2 flex-wrap">
-				<FlexBox className="flex-row gap-2 items-center flex-wrap">
+				<FlexBox className="flex-row gap-2 items-center sm:items-start flex-wrap">
 					<MapPinIcon height={20} width={20} className="text-white" />
-					<Paragraph className="text-gray-200 font-medium whitespace-wrap">
+					<Paragraph className="text-white font-medium whitespace-wrap">
 						{renderAddress({
 							address: {
 								street1: event.primary_venue.address.address_1 || '',
@@ -76,9 +76,9 @@ function EventPage({ event }: EventPageProps) {
 						})}
 					</Paragraph>
 				</FlexBox>
-				<FlexBox className="flex-row gap-2 items-center flex-wrap">
+				<FlexBox className="flex-row gap-2 items-center sm:items-start flex-wrap">
 					<ClockIcon height={20} width={20} className="text-white" />
-					<Paragraph className="text-gray-200 font-medium">
+					<Paragraph className="text-white font-medium">
 						{new Date(event.start_date).toLocaleString()}
 					</Paragraph>
 				</FlexBox>
@@ -88,7 +88,9 @@ function EventPage({ event }: EventPageProps) {
 
 	function Summary() {
 		return (
-			<Paragraph className="text-white font-medium">{event.summary}</Paragraph>
+			<Paragraph className="text-white font-medium drop-shadow-[0px_1px_0px_#666]">
+				{event.summary}
+			</Paragraph>
 		);
 	}
 

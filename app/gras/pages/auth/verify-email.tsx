@@ -4,27 +4,27 @@ import type { ReactElement } from 'react';
 import { AuthLayout } from '@/components/layouts';
 
 const VerifyEmail = () => {
-  return <></>;
+	return <></>;
 };
 
 VerifyEmail.getLayout = function getLayout(page: ReactElement) {
-  return (
-    <AuthLayout heading="confirm-email" description="confirm-email-description">
-      {page}
-    </AuthLayout>
-  );
+	return (
+		<AuthLayout heading="confirm-email" description="confirm-email-description">
+			{page}
+		</AuthLayout>
+	);
 };
 
 export const getServerSideProps = async (
-  context: GetServerSidePropsContext
+	context: GetServerSidePropsContext
 ) => {
-  const { locale }: GetServerSidePropsContext = context;
+	const { locale }: GetServerSidePropsContext = context;
 
-  return {
-    props: {
-      ...(locale ? await serverSideTranslations(locale, ['common']) : {}),
-    },
-  };
+	return {
+		props: {
+			...(locale ? await serverSideTranslations(locale, ['common']) : {}),
+		},
+	};
 };
 
 export default VerifyEmail;

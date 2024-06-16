@@ -7097,6 +7097,7 @@ __metadata:
     "@types/jest": ^29.5.12
     "@types/micromatch": 4.0.7
     "@types/mixpanel-browser": 2.49.0
+    "@types/newrelic": 9.14.4
     "@types/node": 20.12.7
     "@types/nodemailer": 6.4.14
     "@types/react": 18.2.79
@@ -7188,7 +7189,7 @@ __metadata:
     "@types/mapbox-gl": ^3.1.0
     "@types/micromatch": 4.0.7
     "@types/mixpanel-browser": 2.49.0
-    "@types/newrelic": ^9.14.4
+    "@types/newrelic": 9.14.4
     "@types/node": 20.12.7
     "@types/nodemailer": 6.4.14
     "@types/react": 18.2.79
@@ -14795,7 +14796,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/newrelic@npm:^9.14.4":
+"@types/newrelic@npm:9.14.4":
   version: 9.14.4
   resolution: "@types/newrelic@npm:9.14.4"
   checksum: 21673187f9f9d73031df962a19aecb7c2dd20ea6796ca99581eab746fa94b32f5ec6563c4828efba280b699cf19fac4f8b5a0616ef7772031f01a41227bd8b3d
