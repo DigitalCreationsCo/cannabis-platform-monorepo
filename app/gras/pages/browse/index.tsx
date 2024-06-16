@@ -3,12 +3,8 @@
 /* eslint-disable i18next/no-literal-string */
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable react/no-unknown-property */
-import { TopBar } from '@/components/layouts';
-import { Error } from '@/components/shared';
-import app from '@/lib/app';
-import { clientPromise } from '@/lib/db';
-import env from '@/lib/env';
 import {
+	debounce,
 	getCoordinatePairFromCoordinates,
 	isValidZipcode,
 	// selectBlogsByTag,
@@ -57,13 +53,19 @@ import {
 	// H3,
 	// Header,
 	DispensaryCard,
+	TextField,
 } from '@cd/ui-lib';
 import mapboxgl from 'mapbox-gl';
 import { type GetServerSidePropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { type ReactElement, useEffect, useRef, useState } from 'react';
 import { InfoCard } from '@/components/blog';
+import { TopBar } from '@/components/layouts';
+import { Error } from '@/components/shared';
 import EventCard from '@/components/shared/EventCard';
+import app from '@/lib/app';
+import { clientPromise } from '@/lib/db';
+import env from '@/lib/env';
 import {
 	type Post,
 	type Settings,
@@ -126,18 +128,18 @@ export default function Browse({
 		setZipcode(zipcode);
 	};
 
-	const getZipcodeLocalStorage = (): string | null => {
+	const getZipcodeLocalStorage = (): string => {
 		if (typeof window !== 'undefined') {
-			return localStorage.getItem('zipcode') || null;
+			return localStorage.getItem('zipcode') || '';
 		}
-		return null;
+		return '';
 	};
 	const radius = 11000;
-	const [zipcode, setZipcode] = useState(getZipcodeLocalStorage() || '10011');
+	const [zipcode, setZipcode] = useState(getZipcodeLocalStorage());
 	const [zipcodeError, setZipcodeError] = useState('');
 
 	const { isLoading, isError, dispensaries } = useLocalDispensaries({
-		zipcode,
+		zipcode: isValidZipcode(zipcode) ? zipcode : getZipcodeLocalStorage(),
 		radius,
 		token,
 	});
@@ -160,7 +162,7 @@ export default function Browse({
 			'text-2xl pb-0 lg:px-5 whitespace-normal font-semibold',
 		],
 	};
-	const [current, setCurrent] = useState(0);
+	// const [current, setCurrent] = useState(0);
 
 	function openStoreFrontModal() {
 		// dispatch(
@@ -206,7 +208,31 @@ export default function Browse({
 				className="!pt-0 md:pt-0 px-0 lg:px-0 pb-0 min-h-[440px]"
 			>
 				<div>
-					<TopBar SearchComponent={<></>} />
+					<TopBar
+						SearchComponent={
+							<div>
+								<TextField
+									className="text-dark"
+									name="zipcode"
+									maxLength={5}
+									// label="search your zipcode"
+									defaultValue={'Enter your zipcode'}
+									value={zipcode}
+									placeholder="Enter your zipcode"
+									onBlur={undefined}
+									onChange={(e: any) =>
+										// eslint-disable-next-line sonarjs/no-use-of-empty-return-value
+										debounce(
+											() => saveZipcodeToLocalStorage(e.target.value || ''),
+											2000
+										)
+									}
+									error={!!zipcodeError}
+									helperText={zipcodeError}
+								/>
+							</div>
+						}
+					/>
 					{/* <Header/> */}
 				</div>
 
@@ -250,8 +276,9 @@ export default function Browse({
           <FBInit /> */}
 					{/* </div> */}
 					<div className="col-span-full">
-						<H1 className="text-light text-lg sm:pt-2 px-4 leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left">
-							{`Find flower, edibles, dispensaries near you`}
+						<H1 className="text-light text-lg pt-2 px-4 leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left">
+							{`Find flower, edibles, dispensaries`}
+							<span className="hidden lg:!inline">{` near you`}</span>
 						</H1>
 						<Carousel
 							responsive={{
@@ -529,24 +556,6 @@ export default function Browse({
             ))}
           />
         </div> */}
-
-					{/* <div className="row-start-2 sm:col-start-2 col-span-full sm:col-span-1 lg:col-start-3 lg:row-start-1 px-4 py-2">
-					<TextField
-						className="text-dark"
-						type="number"
-						name="zipcode"
-						maxLength={5}
-						label="search your zipcode"
-						value={zipcode}
-						onBlur={undefined}
-						onChange={(e: any) =>
-							// eslint-disable-next-line sonarjs/no-use-of-empty-return-value
-							debounce(saveZipcodeToLocalStorage(e.target.value), 2000)
-						}
-						error={!!zipcodeError}
-						helperText={zipcodeError}
-					/>
-				</div> */}
 
 					{/* <div className="p-4 row-start-3 lg:row-start-2 col-span-3 lg:col-span-1 space-y-4">
 					<RenderMapBox

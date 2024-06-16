@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable sonarjs/cognitive-complexity */
 /* eslint-disable sonarjs/no-duplicated-branches */
-import ConfirmationDialog from '@/components/shared/ConfirmationDialog';
-import { Table } from '@/components/shared/table/Table';
 import { fetcher, type ApiResponse, useCanAccess } from '@cd/core-lib';
 import { type DailyDeal, type Dispensary } from '@cd/data-access';
 import { Paragraph } from '@cd/ui-lib';
@@ -17,6 +15,8 @@ import { useTranslation } from 'next-i18next';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import useSWR from 'swr';
+import ConfirmationDialog from '@/components/shared/ConfirmationDialog';
+import { Table } from '@/components/shared/table/Table';
 import UpdateDailyDeal from '@/components/team/UpdateDailyDeal';
 
 type DailyDealsProps = {

@@ -1,4 +1,3 @@
-import { InputWithLabel } from '@/components/shared';
 import {
 	type ApiResponse,
 	defaultHeaders,
@@ -14,6 +13,7 @@ import { useState, useRef } from 'react';
 import type ReCAPTCHA from 'react-google-recaptcha';
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
+import { InputWithLabel } from '@/components/shared';
 import GoogleReCAPTCHA from '../shared/GoogleReCAPTCHA';
 import TogglePasswordVisibility from '../shared/TogglePasswordVisibility';
 import AgreeMessage from './AgreeMessage';

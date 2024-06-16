@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {
-  findFirstUserOrThrow,
-  updateUser,
-  deleteManySessions,
+	findFirstUserOrThrow,
+	updateUser,
+	deleteManySessions,
 } from '@cd/data-access';
 import { getCookie } from 'cookies-next';
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -16,70 +16,70 @@ import { getSession } from '@/lib/session';
 import { validateWithSchema, updatePasswordSchema } from '@/lib/zod';
 
 export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
+	req: NextApiRequest,
+	res: NextApiResponse
 ) {
-  const { method } = req;
+	const { method } = req;
 
-  try {
-    switch (method) {
-      case 'PUT':
-        await handlePUT(req, res);
-        break;
-      default:
-        res.setHeader('Allow', 'PUT');
-        res.status(405).json({
-          error: { message: `Method ${method} Not Allowed` },
-        });
-    }
-  } catch (error: any) {
-    const message = error.message || 'Something went wrong';
-    const status = error.status || 500;
+	try {
+		switch (method) {
+			case 'PUT':
+				await handlePUT(req, res);
+				break;
+			default:
+				res.setHeader('Allow', 'PUT');
+				res.status(405).json({
+					error: { message: `Method ${method} Not Allowed` },
+				});
+		}
+	} catch (error: any) {
+		const message = error.message || 'Something went wrong';
+		const status = error.status || 500;
 
-    res.status(status).json({ error: { message } });
-  }
+		res.status(status).json({ error: { message } });
+	}
 }
 
 const handlePUT = async (req: NextApiRequest, res: NextApiResponse) => {
-  const client = await clientPromise;
-  const session = await getSession(req, res);
+	const client = await clientPromise;
+	const session = await getSession(req, res);
 
-  const { currentPassword, newPassword } = validateWithSchema(
-    updatePasswordSchema,
-    req.body
-  );
+	const { currentPassword, newPassword } = validateWithSchema(
+		updatePasswordSchema,
+		req.body
+	);
 
-  const user = await findFirstUserOrThrow({
-    client,
-    where: { id: session!.user.id },
-  });
+	const user = await findFirstUserOrThrow({
+		client,
+		where: { id: session!.user.id },
+	});
 
-  if (!(await verifyPassword(currentPassword, user.password as string))) {
-    throw new ApiError(400, 'Your current password is incorrect');
-  }
+	if (!(await verifyPassword(currentPassword, user.password as string))) {
+		throw new ApiError(400, 'Your current password is incorrect');
+	}
 
-  await updateUser({
-    client,
-    where: { id: session?.user.id },
-    data: { password: await hashPassword(newPassword) },
-  });
+	await updateUser({
+		client,
+		where: { id: session?.user.id },
+		data: { password: await hashPassword(newPassword) },
+	});
 
-  // Remove all sessions other than the current one
-  if (env.nextAuth.sessionStrategy === 'database') {
-    const sessionToken = getCookie(sessionTokenCookieName, { req, res });
+	// Remove all sessions other than the current one
+	if (env.nextAuth.sessionStrategy === 'database') {
+		const sessionToken = getCookie(sessionTokenCookieName, { req, res });
 
-    await deleteManySessions({
-      client,
-      where: {
-        userId: session?.user.id,
-        NOT: {
-          sessionToken,
-        },
-      },
-    });
-  }
+		await deleteManySessions({
+			client,
+			where: {
+				userId: session?.user.id,
+				NOT: {
+					sessionToken,
+				},
+			},
+		});
+	}
 
-  recordMetric('user.password.updated');
+	recordMetric('user.password.updated');
 
-  res.status(200).json({ data: {} });
+	res.status(200).json({ data: {} });
 };

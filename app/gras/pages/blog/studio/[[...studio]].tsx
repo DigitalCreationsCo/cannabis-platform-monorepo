@@ -9,16 +9,16 @@ export { metadata } from 'next-sanity/studio/metadata';
 export { viewport } from 'next-sanity/studio/viewport';
 
 export default function StudioPage() {
-  useEffect(() => {
-    window.BrevoConversationsSetup = {
-      startHidden: true,
-    };
-  }, []);
-  return (
-    <div className="h-full w-full">
-      <NextStudio config={config} />;
-    </div>
-  );
+	useEffect(() => {
+		window.BrevoConversationsSetup = {
+			startHidden: true,
+		};
+	}, []);
+	return (
+		<div className="h-full w-full">
+			<NextStudio config={config} />;
+		</div>
+	);
 }
 
 // StudioPage.getLayoutContext = (): LayoutContextProps => ({
@@ -29,10 +29,10 @@ export default function StudioPage() {
 // });
 
 StudioPage.getLayout = function getLayout(page: ReactElement) {
-  return (
-    <>
-      {page}
-      <Footer />
-    </>
-  );
+	return (
+		<>
+			{page}
+			<Footer />
+		</>
+	);
 };

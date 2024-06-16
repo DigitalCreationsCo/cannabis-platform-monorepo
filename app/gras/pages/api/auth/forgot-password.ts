@@ -1,11 +1,11 @@
+import { generateToken, validateEmail, ApiError } from '@cd/core-lib';
+import { getUser, createPasswordReset } from '@cd/data-access';
+import type { NextApiRequest, NextApiResponse } from 'next';
 import { clientPromise } from '@/lib/db';
 import { sendPasswordResetEmail } from '@/lib/email/sendPasswordResetEmail';
 import { recordMetric } from '@/lib/metrics';
 import { validateRecaptcha } from '@/lib/recaptcha';
 import { forgotPasswordSchema, validateWithSchema } from '@/lib/zod';
-import { generateToken, validateEmail, ApiError } from '@cd/core-lib';
-import { getUser, createPasswordReset } from '@cd/data-access';
-import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
 	req: NextApiRequest,

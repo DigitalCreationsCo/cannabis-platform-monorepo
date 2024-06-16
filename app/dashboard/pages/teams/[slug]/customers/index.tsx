@@ -1,9 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Table } from '@/components/shared/table/Table';
-import { clientPromise } from '@/lib/db';
-import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
-import env from '@/lib/env';
-import { wrapper } from '@/lib/store';
 import { FreshSales, useDispensary } from '@cd/core-lib';
 import { type Customer } from '@cd/data-access';
 import {
@@ -25,6 +20,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
+import { Table } from '@/components/shared/table/Table';
+import { clientPromise } from '@/lib/db';
+import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
+import env from '@/lib/env';
+import { wrapper } from '@/lib/store';
 
 type CustomerDashboardProps = {
 	customers: Customer[];

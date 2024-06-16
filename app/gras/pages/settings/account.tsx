@@ -1,7 +1,7 @@
 import { getUserBySession } from '@cd/data-access';
 import type {
-  GetServerSidePropsContext,
-  InferGetServerSidePropsType,
+	GetServerSidePropsContext,
+	InferGetServerSidePropsType,
 } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { UpdateAccount } from '@/components/account';
@@ -13,38 +13,38 @@ import { getSession } from '@/lib/session';
 type AccountProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const Account: NextPageWithLayout<AccountProps> = ({
-  user,
-  allowEmailChange,
+	user,
+	allowEmailChange,
 }) => {
-  return <UpdateAccount user={user} allowEmailChange={allowEmailChange} />;
+	return <UpdateAccount user={user} allowEmailChange={allowEmailChange} />;
 };
 
 export const getServerSideProps = async (
-  context: GetServerSidePropsContext
+	context: GetServerSidePropsContext
 ) => {
-  const client = await clientPromise;
-  const session = await getSession(context.req, context.res);
-  const user = await getUserBySession({ client, session });
-  const { locale } = context;
+	const client = await clientPromise;
+	const session = await getSession(context.req, context.res);
+	const user = await getUserBySession({ client, session });
+	const { locale } = context;
 
-  if (!user) {
-    return {
-      notFound: true,
-    };
-  }
+	if (!user) {
+		return {
+			notFound: true,
+		};
+	}
 
-  return {
-    props: {
-      ...(locale ? await serverSideTranslations(locale, ['common']) : {}),
-      user: {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        image: user.image,
-      },
-      allowEmailChange: env.confirmEmail === false,
-    },
-  };
+	return {
+		props: {
+			...(locale ? await serverSideTranslations(locale, ['common']) : {}),
+			user: {
+				id: user.id,
+				email: user.email,
+				name: user.name,
+				image: user.image,
+			},
+			allowEmailChange: env.confirmEmail === false,
+		},
+	};
 };
 
 export default Account;

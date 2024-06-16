@@ -1,11 +1,3 @@
-import { hashPassword } from '@/lib/auth';
-import { clientPromise } from '@/lib/db';
-import { sendVerificationEmail } from '@/lib/email/sendVerificationEmail';
-import { isEmailAllowed } from '@/lib/email/utils';
-import env from '@/lib/env';
-import { recordMetric } from '@/lib/metrics';
-import { validateRecaptcha } from '@/lib/recaptcha';
-import { userJoinSchema, validateWithSchema } from '@/lib/zod';
 import { slugify, ApiError, generateToken } from '@cd/core-lib';
 import {
 	type Dispensary,
@@ -19,6 +11,14 @@ import {
 	isTeamExists,
 } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { hashPassword } from '@/lib/auth';
+import { clientPromise } from '@/lib/db';
+import { sendVerificationEmail } from '@/lib/email/sendVerificationEmail';
+import { isEmailAllowed } from '@/lib/email/utils';
+import env from '@/lib/env';
+import { recordMetric } from '@/lib/metrics';
+import { validateRecaptcha } from '@/lib/recaptcha';
+import { userJoinSchema, validateWithSchema } from '@/lib/zod';
 
 // TODO:
 // Add zod schema validation

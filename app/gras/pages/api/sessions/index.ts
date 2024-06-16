@@ -1,9 +1,9 @@
-import { clientPromise } from '@/lib/db';
-import { sessionTokenCookieName } from '@/lib/nextAuth';
-import { getSession } from '@/lib/session';
 import { findManySessions } from '@cd/data-access';
 import { getCookie } from 'cookies-next';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { clientPromise } from '@/lib/db';
+import { sessionTokenCookieName } from '@/lib/nextAuth';
+import { getSession } from '@/lib/session';
 
 export default async function handler(
 	req: NextApiRequest,

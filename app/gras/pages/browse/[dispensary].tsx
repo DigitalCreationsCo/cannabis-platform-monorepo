@@ -304,11 +304,14 @@ function DispensaryPage({
 	return (
 		<>
 			<SEOMetaTags />
-			<Page gradient="pink" className="w-full !p-0 md:pt-12 md:pb-24">
+			<Page
+				gradient="pink"
+				className="w-full !pt-0 pb-0 px-0 md:!pt-12 sm:!pb-24 md:!pb-24 lg:!pb-24 xl:!pb-24 !min-h-full"
+			>
 				<Card
 					style={{ backgroundColor: applyDispensaryStyles['background-color'] }}
 					className={twMerge(
-						`flex grow m-auto items-center h-full !w-full !py-12 !pb-24`
+						'mx-auto flex grow md:!flex-grow-0 !w-full !py-12 !pb-24'
 					)}
 				>
 					<BackButton />

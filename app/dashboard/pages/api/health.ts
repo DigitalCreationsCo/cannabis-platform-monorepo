@@ -5,22 +5,22 @@ import { clientPromise } from '@/lib/db';
 import packageInfo from '../../package.json';
 
 export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
+	req: NextApiRequest,
+	res: NextApiResponse
 ) {
-  try {
-    if (req.method !== 'GET') {
-      throw new Error('Method not allowed');
-    }
+	try {
+		if (req.method !== 'GET') {
+			throw new Error('Method not allowed');
+		}
 
-    const client = await clientPromise;
-    await client.db(db_namespace.db).command({ ping: 1 });
+		const client = await clientPromise;
+		await client.db(db_namespace.db).command({ ping: 1 });
 
-    res.status(200).json({
-      version: packageInfo.version,
-    });
-  } catch (err: any) {
-    const { statusCode = 503 } = err;
-    res.status(statusCode).json({});
-  }
+		res.status(200).json({
+			version: packageInfo.version,
+		});
+	} catch (err: any) {
+		const { statusCode = 503 } = err;
+		res.status(statusCode).json({});
+	}
 }

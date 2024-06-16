@@ -1,5 +1,4 @@
 /* eslint-disable sonarjs/no-duplicate-string */
-import { type Dispensary } from './types/dispensary.types';
 
 const dispensaries: any[] = [
 	{

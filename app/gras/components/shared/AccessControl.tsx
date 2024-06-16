@@ -1,21 +1,21 @@
 import { type Action, type Resource, useCanAccess } from '@cd/core-lib';
 
 interface AccessControlProps {
-  children: React.ReactNode;
-  resource: Resource;
-  actions: Action[];
+	children: React.ReactNode;
+	resource: Resource;
+	actions: Action[];
 }
 
 export const AccessControl = ({
-  children,
-  resource,
-  actions,
+	children,
+	resource,
+	actions,
 }: AccessControlProps) => {
-  const { canAccess } = useCanAccess();
+	const { canAccess } = useCanAccess();
 
-  if (!canAccess(resource, actions)) {
-    return null;
-  }
+	if (!canAccess(resource, actions)) {
+		return null;
+	}
 
-  return <>{children}</>;
+	return <>{children}</>;
 };

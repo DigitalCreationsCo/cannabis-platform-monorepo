@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { wrapper } from '@/lib/store';
 import {
 	type AppState,
 	axios,
@@ -21,6 +20,7 @@ import {
 import { DocumentIcon } from '@heroicons/react/20/solid';
 import { useTranslation } from 'next-i18next';
 import { twMerge } from 'tailwind-merge';
+import { wrapper } from '@/lib/store';
 
 export default function Orders({ orders }: { orders: Order[] }) {
 	const { t } = useTranslation();
