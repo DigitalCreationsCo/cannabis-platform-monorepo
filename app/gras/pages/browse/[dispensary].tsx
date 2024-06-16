@@ -35,6 +35,7 @@ import {
 	CurrencyDollarIcon,
 	TruckIcon,
 } from '@heroicons/react/24/outline';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -216,10 +217,10 @@ function DispensaryPage({
 
 	const Schedule = () => (
 		<>
-			<Paragraph style={{ color: applyDispensaryStyles['text-color'] }}>
-				Hours
-			</Paragraph>
 			<FlexBox className="flex-col w-fit whitespace-pre-line">
+				<Paragraph style={{ color: applyDispensaryStyles['text-color'] }}>
+					Hours
+				</Paragraph>
 				{renderSchedule(organization.schedule).map((day) => (
 					<FlexBox
 						key={`schedule-${day[0]}`}
@@ -335,12 +336,11 @@ DispensaryPage.getLayout = function getLayout(page: ReactElement) {
 	return <>{page}</>;
 };
 
-export const getServerSideProps = async ({ req, query }: any) => {
+export const getServerSideProps = async ({ query, locale }: any) => {
 	try {
 		if (!query['dispensary']) throw new Error("Couldn't find the dispensary.");
 
 		const token = env.nextAuth.secret;
-		console.info('token: ', token);
 		// const response = await fetch(
 		// 	`${urlBuilder.shop}/api/dispensaries/${query['dispensary']}`,
 		// 	{ headers: { authorization: 'Bearer ' + token } }
@@ -358,6 +358,7 @@ export const getServerSideProps = async ({ req, query }: any) => {
 		console.info('fetched dummy data: dispensary: ', dispensary);
 		return {
 			props: {
+				...(locale ? await serverSideTranslations(locale, ['common']) : {}),
 				dispensary: JSON.parse(JSON.stringify(dispensary)),
 			},
 		};

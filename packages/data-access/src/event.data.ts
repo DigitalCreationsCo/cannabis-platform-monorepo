@@ -118,7 +118,7 @@ export const getEvents = async ({
 			},
 			{
 				$addFields: {
-					id: { $toString: '$_id' },
+					// id: { $toString: '$_id' },
 					date: { $dateFromString: { dateString: '$start_date' } },
 				},
 			},
