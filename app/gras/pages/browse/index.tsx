@@ -3,6 +3,10 @@
 /* eslint-disable i18next/no-literal-string */
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable react/no-unknown-property */
+import { TopBar } from '@/components/layouts';
+import { Error } from '@/components/shared';
+import { clientPromise } from '@/lib/db';
+import env from '@/lib/env';
 import {
 	debounce,
 	getCoordinatePairFromCoordinates,
@@ -60,12 +64,7 @@ import { type GetServerSidePropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { type ReactElement, useEffect, useRef, useState } from 'react';
 import { InfoCard } from '@/components/blog';
-import { TopBar } from '@/components/layouts';
-import { Error } from '@/components/shared';
 import EventCard from '@/components/shared/EventCard';
-import app from '@/lib/app';
-import { clientPromise } from '@/lib/db';
-import env from '@/lib/env';
 import {
 	type Post,
 	type Settings,
