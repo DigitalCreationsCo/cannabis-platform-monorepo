@@ -3533,16 +3533,6 @@ html:has(.drawer-toggle:checked) {
   table-layout: auto;
 }
 
-.translate-y-0 {
-  --tw-translate-y: 0px;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.translate-y-5 {
-  --tw-translate-y: 1.25rem;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
 .rotate-90 {
   --tw-rotate: 90deg;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
@@ -3712,6 +3702,10 @@ html:has(.drawer-toggle:checked) {
 
 .gap-8 {
   gap: 2rem;
+}
+
+.gap-x-1 {
+  column-gap: 0.25rem;
 }
 
 .gap-x-8 {
@@ -3953,6 +3947,10 @@ html:has(.drawer-toggle:checked) {
 .bg-amber-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(254 243 199 / var(--tw-bg-opacity));
+}
+
+.bg-dark {
+  background-color: var(--dark);
 }
 
 .bg-gray-100 {
@@ -4582,12 +4580,6 @@ html:has(.drawer-toggle:checked) {
   transition-duration: 150ms;
 }
 
-.transition-transform {
-  transition-property: transform;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
-
 .duration-300 {
   transition-duration: 300ms;
 }
@@ -4651,10 +4643,6 @@ html:has(.drawer-toggle:checked) {
   background-color: rgb(253 230 138 / var(--tw-bg-opacity));
 }
 
-.hover\:bg-dark:hover {
-  background-color: var(--dark);
-}
-
 .hover\:bg-gray-100:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
@@ -4696,6 +4684,11 @@ html:has(.drawer-toggle:checked) {
 
 .hover\:to-secondary-light:hover {
   --tw-gradient-to: var(--secondary-light) var(--tw-gradient-to-position);
+}
+
+.hover\:text-\[\#f4d03f\]:hover {
+  --tw-text-opacity: 1;
+  color: rgb(244 208 63 / var(--tw-text-opacity));
 }
 
 .hover\:text-light:hover {

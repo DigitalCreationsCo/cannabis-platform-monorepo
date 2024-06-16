@@ -50,6 +50,8 @@ class FreshSales {
 		attribution: FreshSalesAttribution
 	) {
 		try {
+			console.info('upsert contact: ', contact, attribution);
+
 			const response = await axios.post<
 				any,
 				any,
@@ -63,7 +65,7 @@ class FreshSales {
 					unique_identifier: { emails: contact.email },
 					contact: {
 						...contact,
-						emails: [{ email: contact.email }],
+						email: contact.email,
 						first_name: contact.first_name || '',
 						last_name: contact.last_name || '',
 						lead_source_id: null,
@@ -81,6 +83,7 @@ class FreshSales {
 				}
 			);
 
+			console.info('response: ', response.data);
 			if (response.status > 299)
 				throw new Error('Failed to upsert the contact.');
 			return response.data.Response;
@@ -212,8 +215,8 @@ export type FreshSalesAttribution = {
 	territory_id?: number;
 	lead_source_id?: number;
 	owner_id?: number;
-	subscription_status: Array<{ status: string }> | any; // Assuming each status is an object with a status string property
-	subscription_types:
+	subscription_status?: Array<{ status: string }> | any; // Assuming each status is an object with a status string property
+	subscription_types?:
 		| Array<{
 				id: number;
 				type:
