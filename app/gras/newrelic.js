@@ -30,6 +30,7 @@ exports.config = {
 		 * production applications.
 		 */
 		level: 'trace',
+		max_size_in_bytes: 10485760, // 10 MB
 	},
 
 	/**
