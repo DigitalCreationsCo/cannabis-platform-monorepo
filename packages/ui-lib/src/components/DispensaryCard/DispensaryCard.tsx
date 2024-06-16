@@ -59,7 +59,6 @@ function DispensaryCard({
 				<div className="absolute left-0 top-0 bg-transparent h-full w-full flex -z-5">
 					<Image
 						priority={priority}
-						loading="lazy"
 						placeholder={blurData ? 'blur' : 'empty'}
 						blurDataURL={blurData}
 						className={`${
@@ -175,17 +174,19 @@ function DispensaryCard({
 						<div style={{ ...hoverStyles }} className="w-full px-2">
 							<Link
 								href={`/browse/${dispensary.slug}`}
-								className="absolute hover:bg-dark transition-50 w-30 h-30 bottom-1 right-1 p-2.5 rounded-full"
+								className="absolute bg-dark transition-50 w-30 h-30 bottom-1 right-1 p-2.5 rounded-full hover:text-[#f4d03f]"
 							>
 								<BuildingStorefrontIcon height={28} width={28} />
 							</Link>
 							<H3 className="z-5 font-semibold left-0 top-0 max-w-[248px] whitespace-normal tracking-wide drop-shadow text-[22px]">
 								{dispensary?.name}
 							</H3>
-							<Paragraph className="drop-shadow tracking-wider text-sm">
-								{dispensary?.address?.street1}{' '}
+							<FlexBox className="flex-wrap flex-row gap-x-1">
+								<Paragraph className="drop-shadow tracking-wider text-sm">
+									{dispensary?.address?.street1}{' '}
+								</Paragraph>
 								<OpenBadge schedule={dispensary?.schedule || []} />
-							</Paragraph>
+							</FlexBox>
 							<FlexBox className="z-5 absolute bottom-0 left-0 flex-col p-2 px-4">
 								<Paragraph className="text-inverse text-xl font-semibold drop-shadow">
 									{(dispensary?.isSubscribedForDelivery &&

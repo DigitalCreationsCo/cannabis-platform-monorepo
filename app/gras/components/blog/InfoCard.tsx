@@ -43,7 +43,6 @@ function InfoCard({
 			<FlexBox className="grow relative">
 				<Image
 					priority={priority}
-					loading="lazy"
 					blurDataURL={urlForImage(info.mainImage)?.blur(100).url()}
 					src={urlForImage(info.mainImage)?.url() || logo.src}
 					alt={info.title as string}

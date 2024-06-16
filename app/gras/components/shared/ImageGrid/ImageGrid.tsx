@@ -90,7 +90,14 @@ export default function ImageGrid({ children }: { children: ReactElement[] }) {
 							display: 'inline-block',
 						}}
 					>
-						<Image {...randomImages[i]} className={gridItem} quality={25} />
+						<Image
+							src={randomImages?.[i + imagePadStart]?.src}
+							alt={randomImages?.[i + imagePadStart]?.alt}
+							className={gridItem}
+							quality={25}
+							// placeholder="blur"
+							loading="lazy"
+						/>
 						<div
 							style={{
 								position: 'absolute',
@@ -116,9 +123,12 @@ export default function ImageGrid({ children }: { children: ReactElement[] }) {
 						}}
 					>
 						<Image
-							{...randomImages[i + imagePadStart]}
+							src={randomImages?.[i + imagePadStart]?.src}
+							alt={randomImages?.[i + imagePadStart]?.alt}
 							className={gridItem}
 							quality={25}
+							// placeholder="blur"
+							loading="lazy"
 						/>
 						<div
 							style={{
