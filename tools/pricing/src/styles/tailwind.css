@@ -856,25 +856,6 @@ details > summary {
   content: var(--tw-content);
 }
 
-.carousel-item {
-  box-sizing: content-box;
-  display: flex;
-  flex: none;
-  scroll-snap-align: start;
-}
-
-.carousel-start .carousel-item {
-  scroll-snap-align: start;
-}
-
-.carousel-center .carousel-item {
-  scroll-snap-align: center;
-}
-
-.carousel-end .carousel-item {
-  scroll-snap-align: end;
-}
-
 .checkbox {
   flex-shrink: 0;
   --chkbg: var(--fallback-bc,oklch(var(--bc)/1));
@@ -3015,12 +2996,20 @@ html:has(.drawer-toggle:checked) {
   bottom: 0px;
 }
 
+.bottom-1 {
+  bottom: 0.25rem;
+}
+
 .left-0 {
   left: 0px;
 }
 
 .right-0 {
   right: 0px;
+}
+
+.right-1 {
+  right: 0.25rem;
 }
 
 .right-2 {
@@ -3335,11 +3324,6 @@ html:has(.drawer-toggle:checked) {
   max-height: 240px;
 }
 
-.max-h-fit {
-  max-height: -moz-fit-content;
-  max-height: fit-content;
-}
-
 .min-h-\[188px\] {
   min-height: 188px;
 }
@@ -3456,10 +3440,6 @@ html:has(.drawer-toggle:checked) {
   width: 330px;
 }
 
-.w-\[400px\] {
-  width: 400px;
-}
-
 .w-\[66px\] {
   width: 66px;
 }
@@ -3487,10 +3467,6 @@ html:has(.drawer-toggle:checked) {
 
 .w-screen {
   width: 100vw;
-}
-
-.min-w-20 {
-  min-width: 5rem;
 }
 
 .min-w-\[140px\] {
@@ -3531,11 +3507,6 @@ html:has(.drawer-toggle:checked) {
 
 .max-w-\[50px\] {
   max-width: 50px;
-}
-
-.max-w-fit {
-  max-width: -moz-fit-content;
-  max-width: fit-content;
 }
 
 .max-w-screen-xl {
@@ -4103,6 +4074,10 @@ html:has(.drawer-toggle:checked) {
   padding: 0.5rem;
 }
 
+.p-2\.5 {
+  padding: 0.625rem;
+}
+
 .p-4 {
   padding: 1rem;
 }
@@ -4621,10 +4596,6 @@ html:has(.drawer-toggle:checked) {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.ease-out {
-  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
-}
-
 .cursor-inherit {
   cursor: inherit;
 }
@@ -4678,6 +4649,10 @@ html:has(.drawer-toggle:checked) {
 .hover\:bg-amber-200:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(253 230 138 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-dark:hover {
+  background-color: var(--dark);
 }
 
 .hover\:bg-gray-100:hover {
@@ -4768,10 +4743,6 @@ html:has(.drawer-toggle:checked) {
 
 .focus\:\!ring-primary:focus {
   --tw-ring-color: var(--primary) !important;
-}
-
-.active\:bg-accent:active {
-  background-color: var(--accent);
 }
 
 .active\:bg-amber-200:active {

@@ -1,5 +1,4 @@
 // /* eslint-disable sonarjs/no-duplicate-string */
-// import { Prisma } from '@prisma/client';
 // import { type UserCreateType } from '../user/user.data';
 // import prisma from './db/prisma';
 // import { type DriverCreateType, type DriverWithDetails } from './driver.types';

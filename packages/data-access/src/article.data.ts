@@ -1,9 +1,3 @@
-// import {
-// 	type Article,
-// 	type ArticleTag,
-// 	type ImageArticle,
-// 	type Prisma,
-// } from '@prisma/client';
 // import prisma from './db/prisma';
 
 // export async function findArticles(): Promise<ArticleWithDetails[]> {

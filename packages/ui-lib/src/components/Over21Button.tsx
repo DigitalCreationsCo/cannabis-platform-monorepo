@@ -54,14 +54,15 @@ const Over21Button = ({
 					headers: { ...applicationHeaders },
 				});
 
+				console.info('response, ', response);
 				// if (!response.data.success || response.data.success === 'false')
 				// 	throw new Error(response.data.error);
 
-				// setCookie('yesOver21', 'true');
+				setCookie('yesOver21', 'true');
 				setCookie('email', values.email);
 				setLoading(false);
 
-				// router.push(redirect);
+				router.push(redirect);
 			} catch (error: any) {
 				setLoading(false);
 				toast.error(error.message);

@@ -132,7 +132,7 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 		>
 			{organization.isSubscribedForDelivery ? (
 				<FlexBox className="flex-row">
-					<IconWrapper Icon={icons.Truck} iconSize={28} />
+					<IconWrapper Icon={truckicon} iconSize={28} />
 					<Paragraph
 						style={{ color: applyDispensaryStyles['text-color'] }}
 						className="whitespace-pre text-lg font-semibold tracking-wider"

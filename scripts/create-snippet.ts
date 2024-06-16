@@ -208,7 +208,7 @@ function composeSnippet<T extends Record<string, any>>(): Record<string, SNIPPET
         "\t\t\t\t\t\t\thover={'transparent'}",
         "\t\t\t\t\t\t\tonClick={prevFormStep}",
         "\t\t\t\t\t\t>",
-        "\t\t\t\t\t\t\t<IconWrapper Icon={Icons.ArrowLeft} className=\"text-dark pr-2\" />",
+        "\t\t\t\t\t\t\t<IconWrapper Icon={null} className=\"text-dark pr-2\" />",
         "\t\t\t\t\t\t\tChange email",
         "\t\t\t\t\t\t</Button>",
         "\t\t\t\t\t</FlexBox>",

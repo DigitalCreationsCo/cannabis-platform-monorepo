@@ -1,4 +1,3 @@
-import { type CarbonIconType } from '@carbon/icons-react';
 import {
 	type TextareaHTMLAttributes,
 	useState,
@@ -25,9 +24,7 @@ type TextAreaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
 	onBlur?: ReactEventHandler;
 	error?: boolean;
 	helperText?: string | false;
-	insertIcon?:
-		| ((props: SVGAttributes<SVGElement>) => JSX.Element)
-		| CarbonIconType;
+	insertIcon?: ((props: SVGAttributes<SVGElement>) => JSX.Element) | any;
 	onClickIcon?: any;
 	inputRef?: any;
 };

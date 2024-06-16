@@ -1,28 +1,29 @@
 import {
-  renderAddress,
-  urlBuilder,
-  usStatesAbbreviationList,
+	renderAddress,
+	urlBuilder,
+	usStatesAbbreviationList,
 } from '@cd/core-lib';
 import { type Address, type User } from '@cd/data-access';
 import {
-  AddAddressUserModal,
-  Button,
-  Card,
-  ConfirmationModal,
-  DeleteButton,
-  DropZone,
-  FlexBox,
-  Grid,
-  H6,
-  Icons,
-  Modal,
-  Page,
-  PageHeader,
-  Paragraph,
-  Select,
-  TextField,
-  UploadImageBox,
+	AddAddressUserModal,
+	Button,
+	Card,
+	ConfirmationModal,
+	DeleteButton,
+	DropZone,
+	FlexBox,
+	Grid,
+	H6,
+	Icons,
+	Modal,
+	Page,
+	PageHeader,
+	Paragraph,
+	Select,
+	TextField,
+	UploadImageBox,
 } from '@cd/ui-lib';
+import { ShoppingBagIcon } from '@heroicons/react/24/outline';
 import axios from 'axios';
 import { formatInTimeZone } from 'date-fns-tz';
 import { useFormik } from 'formik';
@@ -47,127 +48,127 @@ import * as yup from 'yup';
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
 export default function UserDetails({ user }: { user: any }) {
-  const initialValues = {
-    id: user?.id || '',
-    firstName: user?.firstName || '',
-    lastName: user?.lastName || '',
-    username: user?.username || '',
-    email: user?.email || '',
-    emailVerified: user?.emailVerified || false,
-    dialCode: user?.dialCode || '',
-    phone: user?.phone || '',
-    address: user?.address || [],
-    termsAccepted: user?.termsAccepted || false,
-    profilePicture: user?.profilePicture || [],
-    memberships: user?.memberships || [],
-    createdAt: user?.createdAt || new Date(),
-    updatedAt: user?.updatedAt || new Date(),
-  };
+	const initialValues = {
+		id: user?.id || '',
+		firstName: user?.firstName || '',
+		lastName: user?.lastName || '',
+		username: user?.username || '',
+		email: user?.email || '',
+		emailVerified: user?.emailVerified || false,
+		dialCode: user?.dialCode || '',
+		phone: user?.phone || '',
+		address: user?.address || [],
+		termsAccepted: user?.termsAccepted || false,
+		profilePicture: user?.profilePicture || [],
+		memberships: user?.memberships || [],
+		createdAt: user?.createdAt || new Date(),
+		updatedAt: user?.updatedAt || new Date(),
+	};
 
-  const validationSchema = yup.object().shape({
-    firstName: yup.string().required('required'),
-    lastName: yup.string().required('required'),
-    username: yup.string().required('required'),
-    email: yup.string().required('required'),
-    dialCode: yup.number().required('required'),
-    phone: yup.number().required('required'),
-    address: yup.array().min(1).required('required'),
-  });
-  const {
-    values,
-    errors,
-    touched,
-    handleChange,
-    handleBlur,
-    handleSubmit,
-    setFieldValue,
-  } = useFormik({
-    initialValues,
-    validationSchema,
-    onSubmit: handleFormSubmit,
-  });
-  const [files, setFiles] = useState<unknown[]>([]);
-  const [loadingButton, setLoadingButton] = useState(false);
-  const [, setExistingImage] = useState<any | null>(user?.profilePicture);
-  const [deletedImage, setDeletedImage] = useState<any[]>([]);
+	const validationSchema = yup.object().shape({
+		firstName: yup.string().required('required'),
+		lastName: yup.string().required('required'),
+		username: yup.string().required('required'),
+		email: yup.string().required('required'),
+		dialCode: yup.number().required('required'),
+		phone: yup.number().required('required'),
+		address: yup.array().min(1).required('required'),
+	});
+	const {
+		values,
+		errors,
+		touched,
+		handleChange,
+		handleBlur,
+		handleSubmit,
+		setFieldValue,
+	} = useFormik({
+		initialValues,
+		validationSchema,
+		onSubmit: handleFormSubmit,
+	});
+	const [files, setFiles] = useState<unknown[]>([]);
+	const [loadingButton, setLoadingButton] = useState(false);
+	const [, setExistingImage] = useState<any | null>(user?.profilePicture);
+	const [deletedImage, setDeletedImage] = useState<any[]>([]);
 
-  const [address, setAddress] = useState<Address[]>(values.address || []);
-  const [addressAddModal, setAddressAddModal] = useState(false);
+	const [address, setAddress] = useState<Address[]>(values.address || []);
+	const [addressAddModal, setAddressAddModal] = useState(false);
 
-  const [addressUpdate, setAddressUpdate] = useState<Address>();
-  const handleAddressUpdate = (event: any, fieldName: any) =>
-    setAddressUpdate((prev: any) => ({
-      ...prev,
-      [fieldName]: event.target.value,
-    }));
-  const [addressUpdateIndex, setAddressUpdateIndex] = useState<number>();
-  const [addressUpdateModal, setAddressUpdateModal] = useState(false);
-  const [addressDeleteIndex, setAddressDeleteIndex] = useState<number>();
-  const [addressDeleteModal, setAddressDeleteModal] = useState(false);
+	const [addressUpdate, setAddressUpdate] = useState<Address>();
+	const handleAddressUpdate = (event: any, fieldName: any) =>
+		setAddressUpdate((prev: any) => ({
+			...prev,
+			[fieldName]: event.target.value,
+		}));
+	const [addressUpdateIndex, setAddressUpdateIndex] = useState<number>();
+	const [addressUpdateModal, setAddressUpdateModal] = useState(false);
+	const [addressDeleteIndex, setAddressDeleteIndex] = useState<number>();
+	const [addressDeleteModal, setAddressDeleteModal] = useState(false);
 
-  useEffect(() => {
-    setAddress(values.address);
-  }, [values.address]);
+	useEffect(() => {
+		setAddress(values.address);
+	}, [values.address]);
 
-  async function handleFormSubmit(values: any) {
-    try {
-      if (user) {
-        setLoadingButton(true);
-        const formData = new FormData();
-        formData.append('firstName', values.firstName);
-        formData.append('lastName', values.lastName);
-        formData.append('username', values.username);
-        formData.append('email', JSON.stringify(values.email));
-        formData.append('emailVerified', JSON.stringify(values.emailVerified));
-        formData.append('dialCode', values.dialCode);
-        formData.append('phone', values.phone);
-        formData.append('address', values.address);
-        formData.append('termsAccepted', values.termsAccepted);
-        formData.append('imageUser', values.imageUser);
-        formData.append('memberships', values.memberships);
-        formData.append('deleteImages', JSON.stringify(deletedImage));
-        files.forEach((file: any) => formData.append('files', file));
-        const { data } = await axios.put(
-          urlBuilder.dashboard + `/api/product-upload/${user?.id}`,
-          formData
-        );
-        setLoadingButton(false);
-        toast.success(data);
-        location.reload();
-      }
-    } catch (error: any) {
-      setLoadingButton(false);
-      console.error(error);
-      toast.error(error.response.statusText);
-      location.reload();
-    }
-  }
+	async function handleFormSubmit(values: any) {
+		try {
+			if (user) {
+				setLoadingButton(true);
+				const formData = new FormData();
+				formData.append('firstName', values.firstName);
+				formData.append('lastName', values.lastName);
+				formData.append('username', values.username);
+				formData.append('email', JSON.stringify(values.email));
+				formData.append('emailVerified', JSON.stringify(values.emailVerified));
+				formData.append('dialCode', values.dialCode);
+				formData.append('phone', values.phone);
+				formData.append('address', values.address);
+				formData.append('termsAccepted', values.termsAccepted);
+				formData.append('imageUser', values.imageUser);
+				formData.append('memberships', values.memberships);
+				formData.append('deleteImages', JSON.stringify(deletedImage));
+				files.forEach((file: any) => formData.append('files', file));
+				const { data } = await axios.put(
+					urlBuilder.dashboard + `/api/product-upload/${user?.id}`,
+					formData
+				);
+				setLoadingButton(false);
+				toast.success(data);
+				location.reload();
+			}
+		} catch (error: any) {
+			setLoadingButton(false);
+			console.error(error);
+			toast.error(error.response.statusText);
+			location.reload();
+		}
+	}
 
-  async function handleAddressDelete({
-    addressId,
-    userId,
-  }: {
-    addressId: Address['id'];
-    userId: User['id'];
-  }) {
-    try {
-      const { data } = await axios.delete(
-        urlBuilder.dashboard + `/api/users/${userId}/address/${addressId}`
-      );
-      setAddress(address.filter((address) => address.id !== addressId));
-      toast.success(data);
-    } catch (error: any) {
-      console.error(error);
-      toast.error(error.response.statusText);
-    }
-  }
+	async function handleAddressDelete({
+		addressId,
+		userId,
+	}: {
+		addressId: Address['id'];
+		userId: User['id'];
+	}) {
+		try {
+			const { data } = await axios.delete(
+				urlBuilder.dashboard + `/api/users/${userId}/address/${addressId}`
+			);
+			setAddress(address.filter((address) => address.id !== addressId));
+			toast.success(data);
+		} catch (error: any) {
+			console.error(error);
+			toast.error(error.response.statusText);
+		}
+	}
 
-  const handleDeleteExistingImage = (image: any) => {
-    setExistingImage(null);
-    setDeletedImage((state) => [...state, image]);
-  };
+	const handleDeleteExistingImage = (image: any) => {
+		setExistingImage(null);
+		setDeletedImage((state) => [...state, image]);
+	};
 
-  /* eslint-disable */
+	/* eslint-disable */
   const handleFileDelete = (deleteFile: any) => {
     setFiles((files: any[]) =>
       files.filter((file: { id: string }) => file.id !== deleteFile.id)
@@ -179,7 +180,7 @@ export default function UserDetails({ user }: { user: any }) {
     <Page className="bg-light lg:min-h-[710px]">
       <PageHeader
         title={`User: ${user?.firstName}`}
-        Icon={Icons.ShoppingBagOutlined}
+        Icon={ShoppingBagIcon}
         Button={
           <Link href="/users">
             <Button>Back to Users</Button>

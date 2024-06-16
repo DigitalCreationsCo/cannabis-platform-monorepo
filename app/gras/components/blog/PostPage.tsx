@@ -57,17 +57,3 @@ export default function PostPage(props: PostPageProps) {
 		</Page>
 	);
 }
-
-// function BackButton({ className }: { className?: string }) {
-// 	return (
-// 		<Button
-// 			size="sm"
-// 			bg="transparent"
-// 			className={twMerge('text-dark self-start sm:py-0', className)}
-// 			onClick={() => Router.back()}
-// 		>
-// 			<IconWrapper Icon={icons.ArrowLeft} className="pr-1" />
-// 			back
-// 		</Button>
-// 	);
-// }

@@ -5,6 +5,7 @@ import {
 	type ConsumeCodeResponse,
 } from '@cd/core-lib';
 import { type User } from '@cd/data-access';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
@@ -213,7 +214,7 @@ export default function EnterOTPForm({
 						hover={'transparent'}
 						onClick={prevFormStep}
 					>
-						<IconWrapper Icon={Icons.ArrowLeft} className="text-dark pr-2" />
+						<IconWrapper Icon={ArrowLeftIcon} className="text-dark pr-2" />
 						Change email
 					</Button>
 				</FlexBox>

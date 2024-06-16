@@ -18,7 +18,6 @@
 // 	type Schedule,
 // 	type SubDomain,
 // 	type Vendor,
-// } from '@prisma/client';
 // import axios from 'axios';
 // import { type Dispensary } from '../dispensary/organization.types.js';
 // import { type DriverCreateType } from '../driver/driver.types.js';

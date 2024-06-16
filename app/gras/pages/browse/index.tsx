@@ -61,8 +61,6 @@ import {
 import mapboxgl from 'mapbox-gl';
 import { type GetServerSidePropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { NextSeo } from 'next-seo';
-import Head from 'next/head';
 import { type ReactElement, useEffect, useRef, useState } from 'react';
 import { InfoCard } from '@/components/blog';
 import EventCard from '@/components/shared/EventCard';

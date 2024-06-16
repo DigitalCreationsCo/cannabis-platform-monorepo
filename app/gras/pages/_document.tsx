@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default-member */
 import newrelic from 'newrelic';
 import Document, {
 	type DocumentContext,
@@ -17,15 +18,15 @@ class RootDocument extends Document {
 	): Promise<DocumentInitialProps & { browserTimingHeader: any }> {
 		const initialProps = await Document.getInitialProps(context);
 
-		if (newrelic.agent.collector.isConnected() === false) {
+		if ((newrelic as any).agent.collector.isConnected() === false) {
 			await new Promise((resolve) => {
-				newrelic.agent.on('connected', resolve);
+				(newrelic as any).agent.on('connected', resolve);
 			});
 		}
 
 		const browserTimingHeader = newrelic.getBrowserTimingHeader({
 			hasToRemoveScriptWrapper: true,
-			allowTransactionlessInjection: true,
+			// allowTransactionlessInjection: true,
 		});
 
 		return {

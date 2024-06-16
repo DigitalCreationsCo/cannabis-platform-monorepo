@@ -1,4 +1,4 @@
-# Contributing
+<!-- # Contributing
 
 Contributions make the open-source community a fantastic place to learn, inspire, and create. Any contributions you make are greatly appreciated.
 
@@ -68,4 +68,4 @@ In a development environment:
 
 ```bash
 npm run dev
-```
+``` -->

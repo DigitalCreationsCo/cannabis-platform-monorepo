@@ -1,6 +1,6 @@
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { useState, type ReactEventHandler } from 'react';
 import { twMerge } from 'tailwind-merge';
-import Icons from '../icons';
 import { IconButton } from './button';
 import FlexBox from './FlexBox';
 
@@ -34,7 +34,7 @@ function SearchBar({ placeholder = 'Search', onChange }: SearchBarProps) {
 				onChange={onChange}
 			/>
 			<IconButton
-				Icon={Icons.Search}
+				Icon={MagnifyingGlassIcon}
 				iconSize={28}
 				className="rounded-none rounded-r-sm"
 			/>

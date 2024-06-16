@@ -1,4 +1,3 @@
-// import { type ProductVariant, type DailyDeal } from '@prisma/client';
 // import { type OrganizationWithOrderDetails } from '../dispensary/organization.types';
 // import prisma from './db/prisma';
 
