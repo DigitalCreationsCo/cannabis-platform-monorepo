@@ -163,8 +163,15 @@ export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
 			if (!response.data.success || response.data.success === 'false')
 				throw new Error(response.data.error);
 
+			const dataLayer = window.dataLayer || [];
+			// push event to GTM with form values
+			dataLayer.push({
+				event: 'formSubmission',
+				formId: 'contact-us-form',
+				formValues: values,
+			});
 			toast.success(
-				'Your request is submitted. Our team will reach out within 1 business day.',
+				'We received your message. Our team will reach out in the next business day.',
 				{
 					duration: 5000,
 				}

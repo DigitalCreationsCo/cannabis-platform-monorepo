@@ -3,7 +3,6 @@ import {
 	Center,
 	FlexBox,
 	H1,
-	H3,
 	Page,
 	SignInButton,
 	Footer,
