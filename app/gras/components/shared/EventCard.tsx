@@ -72,7 +72,6 @@ function EventCard({
 			<div className="h-[180px] p-2">
 				<Image
 					priority={priority}
-					loading="lazy"
 					src={event.image?.url || require('public/hemp.png')}
 					alt={event.name}
 					width={300}

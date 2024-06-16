@@ -75,7 +75,9 @@ function TopBar({ showSearch = true, SearchComponent }: TopBarProps) {
 				<Paragraph>Location: 10011</Paragraph>
 			)} */}
 
-			<div className="flex grow">{(showSearch && SearchComponent) || null}</div>
+			<div className="flex grow justify-end">
+				{(showSearch && SearchComponent) || null}
+			</div>
 
 			<FlexBox className="flex flex-row items-center md:space-x-4 md:pr-2">
 				{/* SHOW ACCOUNT DROPDOWN BUTTON OR SIGNIN */}

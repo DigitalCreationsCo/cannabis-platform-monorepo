@@ -27,7 +27,7 @@ export default function PostPageHead({ settings, post }: PostPageHeadProps) {
 				article: {
 					publishedTime: post._createdAt,
 					modifiedTime: post._updatedAt,
-					authors: [post.author.name],
+					authors: [post.author?.name || ''],
 					tags: post.categories,
 				},
 				images: [
