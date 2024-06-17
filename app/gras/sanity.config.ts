@@ -7,13 +7,21 @@ import { defineConfig } from 'sanity';
 import { unsplashImageAsset } from 'sanity-plugin-asset-source-unsplash';
 import { deskTool } from 'sanity/desk';
 import { presentationTool } from 'sanity/presentation';
-import { apiVersion, dataset, DRAFT_MODE_ROUTE, projectId } from '@/lib/sanity';
-import { createAsyncPublishAction } from 'plugins/action/asyncPublish';
-import settings from 'schemas/settings';
-import { locate } from './plugins/locate';
-import { previewDocumentNode } from './plugins/previewPane';
-import { settingsStructure, settingsPlugin } from './plugins/settings';
-import { schema } from './schemas';
+import {
+  apiVersion,
+  dataset,
+  DRAFT_MODE_ROUTE,
+  projectId,
+  schema,
+} from '@/lib/sanity';
+import { createAsyncPublishAction } from '@/lib/sanity/plugins/action/asyncPublish';
+import { locate } from '@/lib/sanity/plugins/locate';
+import {
+  settingsStructure,
+  settingsPlugin,
+} from '@/lib/sanity/plugins/settings';
+import settings from '@/lib/sanity/schemas/settings';
+import { previewDocumentNode } from './lib/sanity/plugins/previewPane';
 
 export function resolveUrl(href = '/') {
   return process.env.NODE_ENV === 'production'

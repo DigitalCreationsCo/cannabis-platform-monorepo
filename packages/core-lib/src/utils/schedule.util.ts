@@ -21,17 +21,19 @@ export function checkIsDispensaryOpen(schedule: Schedule[]): boolean | null {
 		const numDay = now.getDay();
 		const day = schedule.find(({ day }) => day === daysOfWeek[numDay]);
 		if (!day) throw new Error('No day found');
-		const openTime = new Date(day.openAt);
-		const closeTime = new Date(day.closeAt);
 
-		// const openTime = new Date();
-		// openTime.setHours(openAt);
+		// Parse openAt and closeAt as hours and minutes
+		const openHour = Math.floor(day.openAt / 100);
+		const openMinute = day.openAt % 100;
+		const closeHour = Math.floor(day.closeAt / 100);
+		const closeMinute = day.closeAt % 100;
 
-		// const closeTime = new Date();
-		// closeTime.setHours(closeAt);
+		const openTime = new Date(now);
+		openTime.setHours(openHour, openMinute, 0, 0);
+		const closeTime = new Date(now);
+		closeTime.setHours(closeHour, closeMinute, 0, 0);
 
-		// const days = parseDaysFromSchedule(schedule.days);
-		return now > openTime && now < closeTime;
+		return now >= openTime && now <= closeTime;
 	} catch (error) {
 		return null;
 	}

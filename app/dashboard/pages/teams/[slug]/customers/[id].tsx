@@ -23,6 +23,7 @@ import {
   TextField,
   UploadImageBox,
 } from '@cd/ui-lib';
+import { ShoppingBagIcon } from '@heroicons/react/24/outline';
 import axios from 'axios';
 import { formatInTimeZone } from 'date-fns-tz';
 import { useFormik } from 'formik';
@@ -179,7 +180,7 @@ export default function UserDetails({ user }: { user: any }) {
     <Page className="bg-light lg:min-h-[710px]">
       <PageHeader
         title={`User: ${user?.firstName}`}
-        Icon={Icons.ShoppingBagOutlined}
+        Icon={ShoppingBagIcon}
         Button={
           <Link href="/users">
             <Button>Back to Users</Button>
@@ -440,7 +441,12 @@ export default function UserDetails({ user }: { user: any }) {
                     onClick={() => handleDeleteExistingImage(user?.image)}
                     // onKeyUp={() => {}}
                   >
-                    <Image src={user?.image as string} alt="" fill={true} />
+                    <Image
+                      src={user?.image as string}
+                      alt=""
+                      fill={true}
+                      quality={25}
+                    />
                   </UploadImageBox>
                   {files.map(
                     (
@@ -462,6 +468,7 @@ export default function UserDetails({ user }: { user: any }) {
                             alt=""
                             height={100}
                             width={100}
+                            quality={25}
                           />
                         </UploadImageBox>
                       );

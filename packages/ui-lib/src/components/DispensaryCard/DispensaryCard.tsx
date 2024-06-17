@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import {
 	checkIsDispensaryOpen,
 	// formatDispensaryUrl,
@@ -6,7 +8,14 @@ import {
 	// showTime,
 } from '@cd/core-lib';
 import { type Dispensary } from '@cd/data-access';
+import {
+	ArrowRightStartOnRectangleIcon,
+	BuildingLibraryIcon,
+	BuildingOfficeIcon,
+	BuildingStorefrontIcon,
+} from '@heroicons/react/24/outline';
 import Image from 'next/image';
+import Link from 'next/link';
 import {
 	useCallback,
 	type PropsWithChildren,
@@ -25,6 +34,7 @@ export type DispensaryCardProps = {
 	loading?: boolean;
 	className?: string | string[];
 	current?: boolean;
+	priority?: boolean;
 };
 
 function DispensaryCard({
@@ -32,6 +42,7 @@ function DispensaryCard({
 	loading,
 	className,
 	current,
+	priority = false,
 }: DispensaryCardProps) {
 	const [isHovered, setIsHovered] = useState(false);
 	// Event handlers for mouse enter and leave
@@ -47,6 +58,7 @@ function DispensaryCard({
 			return (
 				<div className="absolute left-0 top-0 bg-transparent h-full w-full flex -z-5">
 					<Image
+						priority={priority}
 						placeholder={blurData ? 'blur' : 'empty'}
 						blurDataURL={blurData}
 						className={`${
@@ -61,7 +73,6 @@ function DispensaryCard({
 						style={{
 							maxHeight: '220px',
 						}}
-						priority
 					/>
 					{children}
 				</div>
@@ -133,12 +144,15 @@ function DispensaryCard({
 
 	return (
 		<div
-			// href={formatDispensaryUrl(dispensary?.slug, dispensary?.id)}
-			// href={`/browse/${dispensary?.id}`}
 			style={{
 				borderColor: applyDispensaryStyles['background-color'],
 				backgroundColor:
 					(hasLogo && applyDispensaryStyles['background-color']) || '#fff2da',
+			}}
+			onClick={() => {
+				if (document.activeElement) {
+					(document.activeElement as HTMLElement).blur();
+				}
 			}}
 			onMouseEnter={handleMouseEnter}
 			onMouseLeave={handleMouseLeave}
@@ -149,22 +163,28 @@ function DispensaryCard({
 				blurData={dispensary?.images?.[0]?.blurhash || ''}
 			>
 				<FlexBox
-					className="z-5 left-0 flex-col transition"
-					// className={`z-5 left-0 flex-col transition transition-transform transition-opacity duration-300 ${
-					// 	isHovered
-					// 		? 'opacity-100 transform translate-y-0'
-					// 		: 'opacity-0 transform translate-y-5'
+					className="z-5 left-0 flex-col"
+					// className={`z-5 left-0 flex-col transition transition-opacity duration-300 ${
+					// 	isHovered ? 'opacity-100' : 'opacity-0'
 					// }`}
 				>
 					{isHovered ? (
 						<div style={{ ...hoverStyles }} className="w-full px-2">
+							<Link
+								href={`/browse/${dispensary.slug}`}
+								className="absolute bg-dark transition-50 w-30 h-30 bottom-1 right-1 p-2.5 rounded-full hover:text-[#f4d03f]"
+							>
+								<BuildingStorefrontIcon height={28} width={28} />
+							</Link>
 							<H3 className="z-5 font-semibold left-0 top-0 max-w-[248px] whitespace-normal tracking-wide drop-shadow text-[22px]">
 								{dispensary?.name}
 							</H3>
-							<Paragraph className="drop-shadow tracking-wider text-sm">
-								{dispensary?.address?.street1}
+							<FlexBox className="flex-wrap flex-row gap-x-1">
+								<Paragraph className="drop-shadow tracking-wider text-sm">
+									{dispensary?.address?.street1}{' '}
+								</Paragraph>
 								<OpenBadge schedule={dispensary?.schedule || []} />
-							</Paragraph>
+							</FlexBox>
 							<FlexBox className="z-5 absolute bottom-0 left-0 flex-col p-2 px-4">
 								<Paragraph className="text-inverse text-xl font-semibold drop-shadow">
 									{(dispensary?.isSubscribedForDelivery &&

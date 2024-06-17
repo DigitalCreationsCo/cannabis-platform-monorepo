@@ -17,6 +17,7 @@ import {
   Row,
   type LayoutContextProps,
 } from '@cd/ui-lib';
+import { DocumentIcon } from '@heroicons/react/20/solid';
 import { useTranslation } from 'next-i18next';
 import { twMerge } from 'tailwind-merge';
 import { wrapper } from '@/lib/store';
@@ -28,7 +29,7 @@ export default function Orders({ orders }: { orders: Order[] }) {
 
   return (
     <div className={twMerge('bg-light lg:min-h-[710px] sm:px-4 md:pr-16')}>
-      <PageHeader title="Orders" Icon={Icons.WatsonHealthDicomOverlay} />
+      <PageHeader title="Orders" Icon={DocumentIcon} />
 
       <Grid className="gap-2">
         <Row className="grid h-[44px] grid-cols-12">

@@ -18,6 +18,7 @@ export default function AuthorAvatar(props: Author) {
           height={96}
           width={96}
           alt={picture?.alt ?? name}
+          quality={25}
         />
       </div>
       <Paragraph className="text-xl">{name}</Paragraph>

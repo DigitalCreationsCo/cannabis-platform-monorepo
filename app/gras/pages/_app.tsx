@@ -20,9 +20,9 @@ import '../styles/globals.css';
 import '../styles/shop.css';
 // eslint-disable-next-line import/no-unresolved, @typescript-eslint/no-unused-vars
 import '../styles/tailwind.css';
+import { AccountLayout } from '@/components/layouts';
 import env from '@/lib/env';
 import { Themer } from '@boxyhq/react-ui/shared';
-import { AccountLayout } from '@/components/layouts';
 import { type AppPropsWithLayout } from '@/lib/next.types';
 import SEOMetaTags from '@/lib/SEOMetaTags';
 import { wrapper } from '@/lib/store';

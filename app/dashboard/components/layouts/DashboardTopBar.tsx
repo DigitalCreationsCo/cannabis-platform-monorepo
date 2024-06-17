@@ -32,7 +32,12 @@ function DashboardTopBar() {
             </GrasSignature>
           </Link>
           <Link href={user ? '/' : getShopSite('/')} className="shrink-0">
-            <Image alt="Gras" className="w-[36px] md:w-[48px]" src={logo} />
+            <Image
+              alt="Gras"
+              className="w-[36px] md:w-[48px]"
+              src={logo}
+              quality={25}
+            />
           </Link>
         </FlexBox>
         <Link href={user ? '/' : getShopSite('/')}>

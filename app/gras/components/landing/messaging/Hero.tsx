@@ -52,6 +52,7 @@ function Hero() {
           src={messageImg}
           alt={`consumer-messaging`}
           className="rounded bg-inverse shadow-lg object-cover max-w-sm lg:max-w-md flex-1 md:mt-8"
+          priority
         />
       </FlexBox>
     </section>

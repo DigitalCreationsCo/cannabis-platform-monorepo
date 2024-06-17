@@ -1,6 +1,6 @@
 import { useCanAccess, type TeamFeature } from '@cd/core-lib';
 import { type Dispensary } from '@cd/data-access';
-import { H2, Paragraph } from '@cd/ui-lib';
+import { H2 } from '@cd/ui-lib';
 import {
   Cog6ToothIcon,
   DocumentMagnifyingGlassIcon,
@@ -10,8 +10,8 @@ import {
   UserPlusIcon,
   BanknotesIcon,
 } from '@heroicons/react/24/outline';
-import classNames from 'classnames';
 import Link from 'next/link';
+import { twMerge } from 'tailwind-merge';
 
 interface TeamTabProps {
   activeTab: string;
@@ -127,12 +127,12 @@ const TeamTab = ({ activeTab, team, heading, teamFeatures }: TeamTabProps) => {
             <Link
               href={menu.href}
               key={menu.href}
-              className={classNames(
+              className={twMerge([
                 'inline-flex items-center border-b-2 py-4 text-sm font-medium',
                 menu.active
                   ? 'border-gray-900 text-gray-700 dark:text-gray-100'
-                  : 'border-transparent text-gray-500 hover:border-gray-300  hover:text-gray-700 hover:dark:text-gray-100'
-              )}
+                  : 'border-transparent text-gray-500 hover:border-gray-300  hover:text-gray-700 hover:dark:text-gray-100',
+              ])}
             >
               {menu.name}
             </Link>

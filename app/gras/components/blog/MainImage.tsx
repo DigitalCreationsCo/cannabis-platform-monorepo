@@ -41,6 +41,7 @@ export default function MainImage(props: CoverImageProps) {
             src={urlForImage(source)!.url()}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             priority={priority}
+            quality={25}
           />
         </Link>
       ) : (
@@ -50,9 +51,10 @@ export default function MainImage(props: CoverImageProps) {
           width={2000}
           height={1000}
           alt=""
-          src={urlForImage(source)!.height(1000).width(2000).url()}
+          src={urlForImage(source)!.height(500).width(1000).url()}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           priority={priority}
+          quality={25}
         />
       )}
       <div className="pt-4 mx-auto">

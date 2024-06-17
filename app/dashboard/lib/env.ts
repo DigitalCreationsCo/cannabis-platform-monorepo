@@ -54,11 +54,11 @@ const env = {
   jackson: {
     url: process.env.JACKSON_URL,
     apiKey: process.env.JACKSON_API_KEY,
-    productId: process.env.JACKSON_PRODUCT_ID || 'boxyhq',
+    productId: process.env.JACKSON_PRODUCT_ID || 'dashboard',
     selfHosted: process.env.JACKSON_URL !== undefined,
     sso: {
       callback: `${process.env.NEXT_PUBLIC_DASHBOARD_APP_URL}`,
-      issuer: 'https://saml.boxyhq.com',
+      issuer: 'https://app.grascannabis.org',
       path: '/api/oauth/saml',
       oidcPath: '/api/oauth/oidc',
       idpLoginPath: '/auth/idp-login',
@@ -83,7 +83,7 @@ const env = {
   authProviders: process.env.AUTH_PROVIDERS || 'credentials',
 
   otel: {
-    prefix: process.env.OTEL_PREFIX || 'boxyhq.saas',
+    prefix: process.env.OTEL_PREFIX || 'dashboard',
   },
 
   hideLandingPage: process.env.HIDE_LANDING_PAGE === 'true',

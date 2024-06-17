@@ -14,12 +14,14 @@ type InfoCardProps = {
   loading?: boolean;
   className?: string | string[];
   showDescription?: boolean;
+  priority?: boolean;
 };
 
 function InfoCard({
   data: info,
   className,
   showDescription = true,
+  priority = false,
 }: InfoCardProps) {
   return (
     <Link
@@ -40,12 +42,14 @@ function InfoCard({
     >
       <FlexBox className="grow relative">
         <Image
+          priority={priority}
           blurDataURL={urlForImage(info.mainImage)?.blur(100).url()}
           src={urlForImage(info.mainImage)?.url() || logo.src}
           alt={info.title as string}
           fill
           className="object-cover object-top"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          sizes="330px"
+          quality={25}
         />
       </FlexBox>
       <div className={twMerge('max-h-36', 'px-2')}>

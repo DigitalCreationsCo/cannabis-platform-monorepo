@@ -79,6 +79,8 @@ export default function Letter({
                   )}
                   src={photo}
                   alt={`${title}-photo-${index}`}
+                  quality={25}
+                  unoptimized
                 />
               )) || <></>}
             </div>

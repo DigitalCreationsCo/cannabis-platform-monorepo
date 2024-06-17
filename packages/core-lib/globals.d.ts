@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-declare module 'telnyx';
 
 interface Window {
 	// mapbox

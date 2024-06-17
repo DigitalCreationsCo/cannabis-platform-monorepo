@@ -8,6 +8,7 @@ import {
   Row,
   TextField,
 } from '@cd/ui-lib';
+import { UserPlusIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 
 export default function AddUser() {
@@ -15,7 +16,7 @@ export default function AddUser() {
     <Page className="bg-light lg:min-h-[710px]">
       <PageHeader
         title="Add Dispensary Staff"
-        Icon={Icons.User2}
+        Icon={UserPlusIcon}
         Button={
           <Link href="/users">
             <Button>{`Back to Users`}</Button>

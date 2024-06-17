@@ -26,6 +26,7 @@ export default function AuthLayout({
             alt={app.name}
             width={48}
             height={48}
+            quality={25}
           />
           {heading && (
             <H2 className="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">

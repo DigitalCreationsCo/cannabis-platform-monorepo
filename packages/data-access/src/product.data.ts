@@ -4,7 +4,6 @@
 // 	type Prisma,
 // 	type Product,
 // 	type Review,
-// } from '@prisma/client';
 // import { type UserWithProfilePictureBlob } from '../user/user.data';
 // import prisma from './db/prisma';
 // import { type ProductVariantWithDetails } from './variant.data';

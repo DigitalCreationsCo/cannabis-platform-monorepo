@@ -10,8 +10,8 @@ import {
   UserPlusIcon,
   BanknotesIcon,
 } from '@heroicons/react/24/outline';
-import classNames from 'classnames';
 import Link from 'next/link';
+import { twMerge } from 'tailwind-merge';
 
 interface TeamTabProps {
   activeTab: string;
@@ -127,7 +127,7 @@ const TeamTab = ({ activeTab, team, heading, teamFeatures }: TeamTabProps) => {
             <Link
               href={menu.href}
               key={menu.href}
-              className={classNames(
+              className={twMerge(
                 'inline-flex items-center border-b-2 py-4 text-sm font-medium',
                 menu.active
                   ? 'border-gray-900 text-gray-700 dark:text-gray-100'

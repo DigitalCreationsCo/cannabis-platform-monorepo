@@ -42,6 +42,8 @@ function Partners({
             loader={({ src }) => src}
             width={150}
             height={100}
+            unoptimized
+            quality={25}
           />
         ))}
       </Grid>

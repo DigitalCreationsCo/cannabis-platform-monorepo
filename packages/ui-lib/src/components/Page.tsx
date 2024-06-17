@@ -20,7 +20,6 @@ function Page({
 			'p-2',
 			'bg-inverse-soft',
 			'flex flex-col grow',
-			// 'min-w-screen',
 			'lg:pt-8 pb-24',
 			'lg:px-16',
 			'min-h-[440px]',
@@ -35,7 +34,7 @@ function Page({
 	});
 
 	return (
-		<AnimationWrapper className="flex flex-col w-full grow">
+		<AnimationWrapper className="flex flex-col w-full min-h-screen">
 			<div className={twMerge(styles, className)}>
 				{children}
 				{/* <div className="fixed flex items-center bottom-0 right-0 cursor-default text-accent-soft space-x-1 pr-1">

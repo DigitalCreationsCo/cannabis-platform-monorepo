@@ -11,7 +11,6 @@
 // 	type SiteSetting,
 // 	type SubDomain,
 // 	type Vendor,
-// } from '@prisma/client';
 // import {
 // 	type AddressPayload,
 // 	type AddressWithCoordinates,

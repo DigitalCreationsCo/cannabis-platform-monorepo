@@ -1,19 +1,19 @@
-import {
-  Help,
-  HelpDesk,
-  HelpFilled,
-  Time,
-  UserActivity,
-  UserAdmin,
-  UserCertification,
-  UserFavoriteAltFilled,
-} from '@carbon/icons-react';
-import { Icons } from '@cd/ui-lib';
-import CustomerService from '@cd/ui-lib/src/icons/CustomerService';
-import OnlineSupport from '@cd/ui-lib/src/icons/OnlineSupport';
+import DeliveryBox from '@cd/ui-lib/src/icons/DeliveryBox';
+import { StopIcon } from '@heroicons/react/20/solid';
 import {
   ChatBubbleLeftEllipsisIcon,
-  SpeakerWaveIcon,
+  UserCircleIcon,
+  PresentationChartLineIcon,
+  ArrowDownOnSquareStackIcon,
+  ClipboardDocumentCheckIcon,
+  CalendarIcon,
+  CheckIcon,
+  TruckIcon,
+  ClockIcon,
+  HeartIcon,
+  ShareIcon,
+  UserGroupIcon,
+  QuestionMarkCircleIcon,
 } from '@heroicons/react/24/outline';
 import { type StaticImageData } from 'next/image';
 import FleetTrackingImage from '../../../public/fleet-tracking-and-app-view.png';
@@ -26,15 +26,15 @@ export const unlockYourGrowth = {
     {
       description:
         'Our service is designed help you target and reach higher goals.',
-      icon: Icons.IncreaseLevel,
+      icon: PresentationChartLineIcon,
     },
     {
       description: `We invest in the growth of your company for long-term success.`,
-      icon: Icons.Calendar,
+      icon: CalendarIcon,
     },
     {
       description: 'Our support team is a phone call or a click away.',
-      icon: Icons.ServiceDesk,
+      icon: ArrowDownOnSquareStackIcon,
     },
   ],
   cta: `I'm ready to 2X My Business`,
@@ -47,16 +47,16 @@ export const automateDeliveryCompliance: BenefitData = {
   bullets: [
     {
       description: `No more paper manifests. Automate your records.`,
-      icon: Icons.CheckboxChecked,
+      icon: CheckIcon,
     },
     {
       description: `Electronic records eliminate mistakes and keep your drivers on the road.`,
-      icon: Icons.Delivery,
+      icon: DeliveryBox,
     },
     {
       description:
         'State audit? No sweat. Your records are backed up and always available.',
-      icon: Icons.UserAdmin,
+      icon: ClipboardDocumentCheckIcon,
     },
   ],
   cta: `Fix my delivery compliance`,
@@ -77,16 +77,16 @@ export const deliveryManagementService: BenefitData = {
   bullets: [
     {
       description: `No more paper manifests. Automate your records.`,
-      icon: Icons.CheckboxChecked,
+      icon: CheckIcon,
     },
     {
       description: `Your drivers keep driving. We handle the rest.`,
-      icon: Icons.Delivery,
+      icon: TruckIcon,
     },
     {
       description:
         'State audit? No sweat. Your records are backed up and always available.',
-      icon: Icons.UserAdmin,
+      icon: ClipboardDocumentCheckIcon,
     },
   ],
   cta: `Automate my delivery service`,
@@ -104,7 +104,7 @@ export const fullServiceDelivery: BenefitData = {
     {
       title: `Improved Delivery Times`,
       description: `Drivers stay out of traffic with navigation, delighting your customers with short wait times.`,
-      icon: Time,
+      icon: ClockIcon,
     },
     // {
     // 	description:
@@ -114,18 +114,18 @@ export const fullServiceDelivery: BenefitData = {
     {
       title: `Compliance, Guaranteed`,
       description: `We follow compliant regulations without fail, giving you the ultimate peace of mind.`,
-      icon: Icons.TaskComplete,
+      icon: CheckIcon,
     },
     {
       title: 'Say Goodbye To Order Mix-Ups',
       description:
         'Technology makes sure every order is accurate. Our delivery process makes sure drivers pick up the correct order every time, for happier customers and fewer returns.',
-      icon: Icons.Error,
+      icon: StopIcon,
     },
     {
       title: `Boost Customer Satisfaction`,
       description: `We prioritize exceptional service that gets you rave reviews and repeat business.`,
-      icon: Icons.Favorite,
+      icon: HeartIcon,
     },
   ],
   cta: `Outsource my delivery`,
@@ -138,15 +138,15 @@ export const consumerTextMessaging: BenefitData = {
   bullets: [
     {
       description: 'Share events, promotions, new products, and order updates.',
-      icon: Icons.CheckboxChecked,
+      icon: ShareIcon,
     },
     {
       description: 'Keep your customers coming back with deals and events.',
-      icon: Icons.Delivery,
+      icon: HeartIcon,
     },
     {
       description: 'Build a community and build trust.',
-      icon: Icons.UserAdmin,
+      icon: UserGroupIcon,
     },
   ],
   cta: `Starting messaging my customers`,
@@ -159,7 +159,7 @@ export const messageSupport: BenefitData = {
   bullets: [
     {
       description: 'Deliver trusted customer experiences with compliance.',
-      icon: UserAdmin,
+      icon: UserCircleIcon,
     },
     {
       description:
@@ -168,7 +168,7 @@ export const messageSupport: BenefitData = {
     },
     {
       description: 'Technical support is available online and via email.',
-      icon: Help,
+      icon: QuestionMarkCircleIcon,
     },
   ],
   cta: `Starting messaging my customers`,
@@ -200,23 +200,23 @@ export const dealValue: BenefitData = {
   bullets: [
     {
       title: `Delivery Compliance Service`,
-      icon: Icons.Checkmark,
+      icon: CheckIcon,
     },
     {
       title: `Delivery Management Service`,
-      icon: Icons.Checkmark,
+      icon: CheckIcon,
     },
     {
       title: `Full Service Delivery`,
-      icon: Icons.Checkmark,
+      icon: CheckIcon,
     },
     {
       title: `Consumer Messaging`,
-      icon: Icons.Checkmark,
+      icon: CheckIcon,
     },
     {
       title: `Events Promotion`,
-      icon: Icons.Checkmark,
+      icon: CheckIcon,
     },
   ],
 };

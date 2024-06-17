@@ -1,28 +1,15 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable sonarjs/cognitive-complexity */
 /* eslint-disable sonarjs/no-duplicated-branches */
-import { SendAltFilled } from '@carbon/icons-react';
-import {
-  // showDay,
-  // showTime,
-  fetcher,
-  // truncateWordsAndLeaveN,
-  type ApiResponse,
-  useCanAccess,
-} from '@cd/core-lib';
+import { fetcher, type ApiResponse, useCanAccess } from '@cd/core-lib';
 import { type DailyDeal, type Dispensary } from '@cd/data-access';
-import {
-  // Button,
-  // Grid,
-  Paragraph,
-  // Small
-} from '@cd/ui-lib';
-// import { ChatBubbleBottomCenterTextIcon } from '@heroicons/react/24/outline';
+import { Paragraph } from '@cd/ui-lib';
 import {
   PencilSquareIcon,
   XCircleIcon,
   ClockIcon,
 } from '@heroicons/react/20/solid';
+import { PaperAirplaneIcon } from '@heroicons/react/24/outline';
 import cronToHuman from 'cron-to-human';
 import { useTranslation } from 'next-i18next';
 import { useState } from 'react';
@@ -228,7 +215,7 @@ const DailyDeals = ({
                 actions: canSendMessage()
                   ? [
                       {
-                        icon: <SendAltFilled height={24} width={24} />,
+                        icon: <PaperAirplaneIcon height={24} width={24} />,
                         text: t('send'),
                         onClick: () => {
                           setSelectedTextMessage(deal);

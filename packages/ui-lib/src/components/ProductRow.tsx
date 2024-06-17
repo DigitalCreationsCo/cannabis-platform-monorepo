@@ -1,4 +1,5 @@
 import { type ProductWithDashboardDetails } from '@cd/data-access';
+import { StarIcon } from '@heroicons/react/24/solid';
 import Image from 'next/image';
 import Link from 'next/link';
 import logo from '../../public/assets/images/logo.png';
@@ -28,7 +29,7 @@ export default function ProductVariantRow({ product }: ProductVariantRowProps) {
 				<Small className="min-w-[144px]">{product.name}</Small>
 
 				<FlexBox className="flex-row items-center space-x-0 md:space-x-2 sm:grow">
-					<IconWrapper iconColor="yellow" Icon={Icons.StarFilled} />
+					<IconWrapper iconColor="yellow" Icon={StarIcon} />
 					<Small>{product.rating}</Small>
 				</FlexBox>
 

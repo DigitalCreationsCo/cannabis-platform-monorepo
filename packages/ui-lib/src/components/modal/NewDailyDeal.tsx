@@ -4,10 +4,10 @@ import { axios, urlBuilder, type ApiResponse, fetcher } from '@cd/core-lib';
 import { type Dispensary, type DailyDeal } from '@cd/data-access';
 // import { time} from 'date-fns-tz';
 // import cronToHuman from 'cron-to-human';
+import { Crontab } from 'crontab-react';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
-import { Cron } from 'react-js-cron';
 import useSWR from 'swr';
 import * as yup from 'yup';
 import { Button } from '../button';
@@ -15,7 +15,6 @@ import CheckBox from '../CheckBox';
 import TextArea from '../TextArea';
 import TextField from '../TextField';
 import Modal from './Modal2';
-import 'react-js-cron/dist/styles.css';
 
 interface NewDailyDealModalProps {
 	dispatchCloseModal?: () => void;
@@ -176,15 +175,23 @@ function NewDailyDeal({
 					checked={values.doesRepeat}
 					label={values.doesRepeat ? 'Does Repeat' : 'Does Not Repeat'}
 				/>
+
 				{(values.doesRepeat && (
 					<>
-						<Cron
+						<Crontab
+							value={values.schedule || ''}
+							onChange={(e: any) => {
+								setFieldValue('schedule', e.target.value);
+							}}
+							shortSelectedOptions={false}
+						/>
+						{/* <Cron
 							value={values.schedule || ''}
 							setValue={(value: string) => {
 								setFieldValue('schedule', value);
 							}}
 							mode="single"
-						/>
+						/> */}
 						<TextField
 							className="border"
 							autoComplete="off"

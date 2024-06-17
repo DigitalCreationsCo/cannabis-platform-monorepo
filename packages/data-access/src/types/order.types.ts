@@ -6,7 +6,6 @@
 // 	type Prisma,
 // 	type Purchase,
 // 	type User,
-// } from '@prisma/client';
 // import { type AddressWithCoordinates } from '../address.types';
 // import {
 // 	type OrganizationWithOrderDetails,

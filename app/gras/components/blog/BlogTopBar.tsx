@@ -16,10 +16,14 @@ import {
   FlexBox,
   GrasSignature,
   IconButton,
-  Icons,
   Paragraph,
   styles,
 } from '@cd/ui-lib';
+import {
+  ShoppingCartIcon,
+  EllipsisHorizontalIcon,
+  QuestionMarkCircleIcon,
+} from '@heroicons/react/24/outline';
 import { useTranslation } from 'next-i18next';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -63,7 +67,7 @@ function TopBar({ signOut }: TopBarProps) {
           </GrasSignature>
         </Link>
         <Link href={'/'} className="shrink-0">
-          <Image alt="Gras" width={40} height={40} src={logo} />
+          <Image alt="Gras" width={40} height={40} src={logo} quality={25} />
         </Link>
         <Link href={'/'}>
           <Paragraph className={twMerge(styles.TOPBAR.tagline)}>
@@ -81,7 +85,7 @@ function TopBar({ signOut }: TopBarProps) {
             size="sm"
             hover="transparent"
             bg="transparent"
-            Icon={Icons.ShoppingBag}
+            Icon={ShoppingCartIcon}
             iconColor={'dark'}
           >
             {(isCartEmpty && <></>) || (
@@ -108,6 +112,7 @@ function TopBar({ signOut }: TopBarProps) {
               height={40}
               className="rounded-full border"
               loader={({ src }) => src}
+              quality={25}
               unoptimized
             />
           </label>
@@ -130,7 +135,7 @@ function TopBar({ signOut }: TopBarProps) {
                 size="sm"
                 bg="transparent"
                 hover="transparent"
-                Icon={Icons.OverflowMenuHorizontal}
+                Icon={EllipsisHorizontalIcon}
                 iconSize={28}
               />
             </label>
@@ -167,7 +172,7 @@ function TopBar({ signOut }: TopBarProps) {
                     iconSize={28}
                     hover="transparent"
                     bg="transparent"
-                    Icon={Icons.Help}
+                    Icon={QuestionMarkCircleIcon}
                     iconColor={'dark'}
                   ></IconButton>
                 </Link>

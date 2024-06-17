@@ -6,17 +6,6 @@ export default defineConfig((options) => ({
 	treeshake: false,
 	dts: false,
 	format: ['cjs'],
-	// external: [
-	//   '@paralleldrive/cuid2',
-	//   'path',
-	//   'react',
-	//   'react-dom',
-	//   'usehooks-ts',
-	//   'next/link',
-	//   'next/image',
-	//   'next/router',
-	//   'formik'
-	// ],
 	platform: 'node',
 	target: ['es2015', 'node16'],
 	tsconfig: path.resolve('./tsconfig.build.json'),

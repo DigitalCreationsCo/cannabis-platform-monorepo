@@ -1,3 +1,4 @@
+import AccountLocked from '@/components/emailTemplates/AccountLocked';
 import { generateToken } from '@cd/core-lib';
 import {
   type User,
@@ -5,7 +6,6 @@ import {
   createVerificationToken,
 } from '@cd/data-access';
 import { render } from '@react-email/components';
-import AccountLocked from '@/components/emailTemplates/AccountLocked';
 
 import app from './app';
 import { clientPromise } from './db';

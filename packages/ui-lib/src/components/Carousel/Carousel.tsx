@@ -27,7 +27,6 @@ export default function Carousel<D>({
 		<>
 			<BaseCarousel
 				partialVisible
-				transitionDuration={50}
 				removeArrowOnDeviceType={['tablet', 'mobile']}
 				renderArrowsWhenDisabled
 				responsive={{

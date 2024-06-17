@@ -1,11 +1,11 @@
-import { type CarbonIconType } from '@carbon/icons-react';
+import { XCircleIcon } from '@heroicons/react/24/outline';
 import { type SVGAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
 import Icons from '../../icons';
 import IconButton from './IconButton';
 
 interface CloseButtonProps {
-	Icon?: ((props: SVGAttributes<SVGElement>) => JSX.Element) | CarbonIconType;
+	Icon?: ((props: SVGAttributes<SVGElement>) => JSX.Element) | any;
 	onClick?: (e: any) => void;
 	theme?: 'light' | 'dark';
 	iconSize?: number;
@@ -13,7 +13,7 @@ interface CloseButtonProps {
 }
 
 function CloseButton({
-	Icon = Icons.Close,
+	Icon = XCircleIcon,
 	iconSize = 20,
 	className,
 	...props

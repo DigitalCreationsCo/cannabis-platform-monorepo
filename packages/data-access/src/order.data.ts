@@ -1,4 +1,3 @@
-// import { type Prisma, type ProductVariant } from '@prisma/client';
 // import { dispensaries } from '../dispensary/dispensaries.data';
 // import prisma from './db/prisma';
 // import {

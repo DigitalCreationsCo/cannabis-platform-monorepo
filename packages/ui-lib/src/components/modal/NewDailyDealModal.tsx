@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { axios, selectDispensaryState, urlBuilder } from '@cd/core-lib';
+import { Crontab } from 'crontab-react';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
-import { Cron } from 'react-js-cron';
 import { useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
@@ -15,7 +15,6 @@ import TextArea from '../TextArea';
 import TextField from '../TextField';
 import { H2, Paragraph } from '../Typography';
 import Modal from './Modal';
-import 'react-js-cron/dist/styles.css';
 
 interface NewDailyDealModalProps {
 	dispatchCloseModal: () => void;
@@ -337,6 +336,16 @@ function NewDailyDealModal({
 							label={values.doesRepeat ? 'Does Repeat' : 'Does Not Repeat'}
 						/>
 						{(values.doesRepeat && (
+							<Crontab
+								value={values.schedule || ''}
+								onChange={(e: any) => {
+									setFieldValue('schedule', e.target.value);
+								}}
+								shortSelectedOptions={false}
+							/>
+						)) || <></>}
+
+						{/* {(values.doesRepeat && (
 							<Cron
 								value={values.schedule || ''}
 								setValue={(value: string) => {
@@ -344,7 +353,8 @@ function NewDailyDealModal({
 								}}
 								mode="single"
 							/>
-						)) || <></>}
+						)) || <></>} */}
+
 						{/* <TextField
 							containerClassName="m-auto lg:flex-col lg:items-start"
 							className="my-2 border text-center"
