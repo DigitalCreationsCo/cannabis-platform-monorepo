@@ -112,3 +112,6 @@ Session.vim
 
 # Version file for dockerized build
 .dockerized-kube-version-defs
+
+# newrelic
+**/newrelic_agent.log
