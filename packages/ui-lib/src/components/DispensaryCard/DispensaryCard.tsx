@@ -69,6 +69,7 @@ function DispensaryCard({
 						sizes="(max-width: 180px)"
 						fill
 						quality={25}
+						unoptimized
 						loader={({ src }) => src}
 						style={{
 							maxHeight: '220px',
