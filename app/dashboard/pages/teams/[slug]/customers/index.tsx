@@ -11,6 +11,7 @@ import {
   Button,
   CheckBox,
 } from '@cd/ui-lib';
+import { UserPlusIcon } from '@heroicons/react/24/outline';
 import axios from 'axios';
 import { type GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
@@ -62,7 +63,7 @@ function CustomersPage({ customers }: CustomerDashboardProps) {
 
   return (
     <div className="bg-light lg:min-h-[710px]">
-      <PageHeader title="Customer List" Icon={Icons.UserFavorite}>
+      <PageHeader title="Customer List" Icon={UserPlusIcon}>
         <div className="flex flex-row gap-x-5 my-4">
           <Link href="/customer/create">
             <Button className="bg-amber-100 hover:bg-amber-200 active:bg-amber-200 place-self-start px-4 mt-2">

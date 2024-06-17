@@ -1,8 +1,11 @@
+import {
+	ChevronDownIcon,
+	ChevronLeftIcon,
+	ChevronRightIcon,
+	ChevronUpIcon,
+} from '@heroicons/react/24/outline';
 import { twMerge } from 'tailwind-merge';
-import Icons from '../../icons';
-import Button from '../button/Button';
 import IconButton from '../button/IconButton';
-import IconWrapper from '../IconWrapper';
 
 type CarouselButtonProps = {
 	direction: 'left' | 'right' | 'up' | 'down';
@@ -20,13 +23,13 @@ export default function CarouselButton({
 	const arrowIcon = () => {
 		switch (direction) {
 			case 'left':
-				return Icons.ChevronLeft;
+				return ChevronLeftIcon;
 			case 'right':
-				return Icons.ChevronRight;
+				return ChevronRightIcon;
 			case 'up':
-				return Icons.ChevronUp;
+				return ChevronUpIcon;
 			case 'down':
-				return Icons.ChevronDown;
+				return ChevronDownIcon;
 		}
 	};
 

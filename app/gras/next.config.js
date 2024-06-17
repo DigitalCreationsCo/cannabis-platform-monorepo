@@ -34,7 +34,7 @@ const nextConfig = {
     '@cd/data-access',
     '@cd/core-lib',
     '@cd/ui-lib',
-    'mongodb',
+    // 'mongodb',
   ],
   webpack: (config, { isServer }) => {
     if (isServer) {
@@ -72,13 +72,13 @@ const nextConfig = {
       dns: false,
       fs: false,
       tls: false,
-      // 'mongodb-client-encryption': false,
-      // 'aws4': false,
-      // "snappy": false,
-      // '@mongodb-js/zstd': false,
-      // '@mongodb-js/zstd-darwin-arm64': false,
-      // '@napi-rs': false,
-      // 'kerberos': false
+      'mongodb-client-encryption': false,
+      aws4: false,
+      snappy: false,
+      '@mongodb-js/zstd': false,
+      '@mongodb-js/zstd-darwin-arm64': false,
+      '@napi-rs': false,
+      kerberos: false,
     };
     return config;
   },
@@ -110,14 +110,6 @@ const nextConfig = {
   i18n,
   rewrites: async () => {
     return [
-      {
-        source: '/.well-known/saml.cer',
-        destination: '/api/well-known/saml.cer',
-      },
-      {
-        source: '/.well-known/saml-configuration',
-        destination: '/well-known/saml-configuration',
-      },
       {
         source: '/robots.txt',
         destination: '/api/robots',

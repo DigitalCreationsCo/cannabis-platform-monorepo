@@ -5,7 +5,7 @@ import { type GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import toast from 'react-hot-toast';
-import { Error, Loading } from '@/components/shared';
+import { Error } from '@/components/shared';
 import { BOXYHQ_UI_CSS } from '@/components/styles';
 import { TeamTab } from '@/components/team';
 import env from '@/lib/env';

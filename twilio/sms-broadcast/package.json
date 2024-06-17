@@ -1,9 +1,5 @@
 {
     "name": "sms-broadcast",
-    "devDependencies": {
-        "eslint-plugin-prettier": "4.2.1",
-        "prettier": "3.2.5"
-    },
     "private": true,
     "version": "0.1.0",
     "scripts": {

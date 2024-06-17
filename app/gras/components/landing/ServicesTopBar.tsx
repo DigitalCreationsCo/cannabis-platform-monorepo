@@ -30,7 +30,7 @@ export default function ServicesTopBar({
             </GrasSignature>
           </Link>
           <Link href={'/'} className="shrink-0">
-            <Image alt="Gras" width={40} height={40} src={logo} />
+            <Image alt="Gras" width={40} height={40} src={logo} quality={25} />
           </Link>
         </FlexBox>
         <Link href={'/'}>

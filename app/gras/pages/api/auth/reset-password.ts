@@ -1,3 +1,4 @@
+import { ApiError } from '@cd/core-lib';
 import {
   updateUser,
   deleteManySessions,
@@ -5,7 +6,6 @@ import {
   getPasswordReset,
 } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { ApiError } from 'next/dist/server/api-utils';
 import { unlockAccount } from '@/lib/accountLock';
 import { hashPassword } from '@/lib/auth';
 import { clientPromise } from '@/lib/db';

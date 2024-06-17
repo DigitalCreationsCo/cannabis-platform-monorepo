@@ -21,12 +21,6 @@ const env = {
       'jwt') as SessionStrategy,
   },
 
-  // Svix
-  svix: {
-    url: `${process.env.SVIX_URL}`,
-    apiKey: `${process.env.SVIX_API_KEY}`,
-  },
-
   // Social login: Github
   github: {
     clientId: `${process.env.GITHUB_CLIENT_ID}`,
@@ -54,11 +48,11 @@ const env = {
   jackson: {
     url: process.env.JACKSON_URL,
     apiKey: process.env.JACKSON_API_KEY,
-    productId: process.env.JACKSON_PRODUCT_ID || 'boxyhq',
+    productId: process.env.JACKSON_PRODUCT_ID || 'gras',
     selfHosted: process.env.JACKSON_URL !== undefined,
     sso: {
       callback: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}`,
-      issuer: 'https://saml.boxyhq.com',
+      issuer: 'https://grascannabis.org',
       path: '/api/oauth/saml',
       oidcPath: '/api/oauth/oidc',
       idpLoginPath: '/auth/idp-login',
@@ -83,7 +77,7 @@ const env = {
   authProviders: process.env.AUTH_PROVIDERS || 'github,credentials',
 
   otel: {
-    prefix: process.env.OTEL_PREFIX || 'boxyhq.saas',
+    prefix: process.env.OTEL_PREFIX || 'gras',
   },
 
   hideLandingPage: process.env.HIDE_LANDING_PAGE === 'true',
@@ -112,8 +106,6 @@ const env = {
   },
 
   maxLoginAttempts: Number(process.env.MAX_LOGIN_ATTEMPTS) || 5,
-
-  slackWebhookUrl: process.env.SLACK_WEBHOOK_URL,
 
   stripe: {
     secretKey: process.env.STRIPE_SECRET_KEY,

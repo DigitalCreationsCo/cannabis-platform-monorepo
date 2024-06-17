@@ -7,7 +7,7 @@ import {
   IconWrapper,
   Paragraph,
 } from '@cd/ui-lib';
-import icons from '@cd/ui-lib/src/icons';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { PortableText } from '@portabletext/react';
 import { useTranslation } from 'next-i18next';
 import Image from 'next/image';
@@ -45,9 +45,10 @@ export default function Post({ post }: { post: Post }) {
             className="rounded shadow"
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             src={urlForImage(post.mainImage)!.url()}
-            height={400}
-            width={800}
+            height={300}
+            width={600}
             alt=""
+            quality={25}
           />
         </div>
       ) : (
@@ -82,7 +83,7 @@ function BackButton({ className }: { className?: string }) {
       className={twMerge('text-dark self-start sm:py-0', className)}
       onClick={() => Router.back()}
     >
-      <IconWrapper Icon={icons.ArrowLeft} className="pr-1" />
+      <IconWrapper Icon={ArrowLeftIcon} className="pr-1" />
       {t('go-back')}
     </Button>
   );

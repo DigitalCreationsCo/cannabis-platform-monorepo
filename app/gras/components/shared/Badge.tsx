@@ -1,5 +1,5 @@
-import classNames from 'classnames';
 import { type BadgeProps, Badge as BaseBadge } from 'react-daisyui';
+import { twMerge } from 'tailwind-merge';
 
 const Badge = (props: BadgeProps) => {
   const { children, className } = props;
@@ -8,7 +8,7 @@ const Badge = (props: BadgeProps) => {
     <>
       <BaseBadge
         {...props}
-        className={classNames('rounded text-xs py-2 text-white', className)}
+        className={twMerge('rounded text-xs py-2 text-white', className)}
       >
         {children}
       </BaseBadge>

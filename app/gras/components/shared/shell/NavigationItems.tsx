@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-redundant-roles */
-import classNames from 'classnames';
 import Link from 'next/link';
+import { twMerge } from 'tailwind-merge';
 
 export interface MenuItem {
   name: string;
@@ -55,11 +55,10 @@ const NavigationItem = ({ menu, className }: NavigationItemProps) => {
     >
       {menu.icon && (
         <menu.icon
-          className={classNames({
-            'h-5 w-5 shrink-0 group-hover:text-gray-900 dark:group-hover:text-gray-100':
-              true,
-            'text-gray-100': menu.active,
-          })}
+          className={twMerge([
+            'h-5 w-5 shrink-0 group-hover:text-gray-900 dark:group-hover:text-gray-100',
+            menu.active ? 'text-gray-100' : '',
+          ])}
           aria-hidden="true"
         />
       )}

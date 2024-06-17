@@ -55,7 +55,12 @@ function TopBar({ showSearch = true, SearchComponent }: TopBarProps) {
             </GrasSignature>
           </Link>
           <Link href={'/'} className="p-0.25 w-fit rounded-full">
-            <Image alt="Gras" className="w-[36px] md:w-[48px]" src={logo} />
+            <Image
+              alt="Gras"
+              className="w-[36px] md:w-[48px]"
+              src={logo}
+              quality={25}
+            />
           </Link>
         </FlexBox>
         <Link href={'/'}>
@@ -70,7 +75,9 @@ function TopBar({ showSearch = true, SearchComponent }: TopBarProps) {
 				<Paragraph>Location: 10011</Paragraph>
 			)} */}
 
-      <div className="flex grow">{(showSearch && SearchComponent) || null}</div>
+      <div className="flex grow justify-end">
+        {(showSearch && SearchComponent) || null}
+      </div>
 
       <FlexBox className="flex flex-row items-center md:space-x-4 md:pr-2">
         {/* SHOW ACCOUNT DROPDOWN BUTTON OR SIGNIN */}
@@ -92,27 +99,6 @@ function TopBar({ showSearch = true, SearchComponent }: TopBarProps) {
             </Link>
           </FlexBox>
         )}
-
-        {/* SHOW CART BUTTON WITH BADGE OR PLAIN CART BUTTON */}
-        {/* <Link href={replaceRelativePath(TextContent.href.bag)}>
-					<IconButton
-						className={twMerge(styles.BUTTON.highlight, 
-							'hover:border-light text-light',
-							'indicator')}
-						iconSize={28}
-						size="sm"
-						hover="transparent"
-						bg="transparent"
-						Icon={Icons.ShoppingBag}
-						iconColor={'dark'}
-					>
-						{(isCartEmpty && <></>) || (
-							<div className={twMerge(styles.TOPBAR.badge)}>
-								{cart.totalItems}
-							</div>
-						)}
-					</IconButton>
-				</Link> */}
       </FlexBox>
     </div>
   );
@@ -128,6 +114,7 @@ function TopBar({ showSearch = true, SearchComponent }: TopBarProps) {
             width={40}
             height={40}
             className="rounded-full border"
+            quality={25}
             loader={({ src }) => src}
             unoptimized
           />

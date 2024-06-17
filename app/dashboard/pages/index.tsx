@@ -3,7 +3,6 @@ import {
   Center,
   FlexBox,
   H1,
-  H3,
   Page,
   SignInButton,
   Footer,
@@ -93,6 +92,7 @@ const ImageBackDrop = ({
           objectPosition: '80% 40%',
         }}
         priority
+        quality={25}
       />
       <div
         className="flex h-full grow"

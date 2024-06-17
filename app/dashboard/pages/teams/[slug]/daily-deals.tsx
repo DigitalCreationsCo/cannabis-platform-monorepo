@@ -177,6 +177,7 @@ export default function DailyDealsPage({
             src={require('public/message.png')}
             alt={t('upgrade-to-messaging')}
             className="w-full rounded"
+            quality={25}
           />
         </>
       </UpgradeAccountDialog>

@@ -69,6 +69,7 @@ function Avatar(props) {
 					height="40"
 					alt="Avatar"
 					placeholder="blur"
+					quality={25}
 				/>
 			</div>
 			<div>

@@ -29,6 +29,7 @@ export default async function handler(
   }
 }
 
+// get dispensaries by zipcode
 const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
   const { zipcode, radius, limit } = req.query as {
     zipcode: string;

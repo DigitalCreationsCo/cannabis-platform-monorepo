@@ -92,6 +92,8 @@ export default function Benefits({
                 alt="Benefits"
                 placeholder="blur"
                 blurDataURL={data.image.toString()}
+                unoptimized
+                quality={25}
               />
             </div>
           )}

@@ -1,5 +1,6 @@
 import { getDashboardSite } from '@cd/core-lib';
 import { type ProductVariantWithDetails } from '@cd/data-access';
+import { StarIcon } from '@heroicons/react/24/solid';
 import Image from 'next/image';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
@@ -27,12 +28,13 @@ export default function ProductVariantRow({ variant }: ProductVariantRowProps) {
 					alt={variant.name}
 					width={40}
 					height={40}
+					quality={25}
 				/>
 
 				<Small className="col-span-3">{variant.name}</Small>
 
 				<FlexBox className="flex-row items-center space-x-0 md:space-x-2 sm:grow col-span-2 sm:col-span-1">
-					<IconWrapper iconColor="yellow" Icon={Icons.StarFilled} />
+					<IconWrapper iconColor="yellow" Icon={StarIcon} />
 					<Small>{variant.rating}</Small>
 				</FlexBox>
 

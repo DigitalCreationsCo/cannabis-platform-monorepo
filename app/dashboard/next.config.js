@@ -128,6 +128,13 @@ const nextConfig = {
       dns: false,
       fs: false,
       tls: false,
+      'mongodb-client-encryption': false,
+      aws4: false,
+      snappy: false,
+      '@mongodb-js/zstd': false,
+      '@mongodb-js/zstd-darwin-arm64': false,
+      '@napi-rs': false,
+      kerberos: false,
     };
     return config;
   },

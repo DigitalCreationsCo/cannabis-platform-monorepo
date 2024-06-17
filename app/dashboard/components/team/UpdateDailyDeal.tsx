@@ -9,11 +9,11 @@ import {
   CheckBox,
   TextArea,
 } from '@cd/ui-lib';
+import { Crontab } from 'crontab-react';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { Cron } from 'react-js-cron';
 import useSWR from 'swr';
 import * as yup from 'yup';
 
@@ -160,12 +160,12 @@ const UpdateDailyDeal = ({
         />
         {(values.doesRepeat && (
           <>
-            <Cron
+            <Crontab
               value={values.schedule || ''}
-              setValue={(value: string) => {
-                setFieldValue('schedule', value);
+              onChange={(e: any) => {
+                setFieldValue('schedule', e.target.value);
               }}
-              mode="single"
+              shortSelectedOptions={false}
             />
             <TextField
               className="border"

@@ -12,6 +12,7 @@ const Brand = () => {
         alt={app.name}
         width={30}
         height={30}
+        quality={25}
       />
       {app.name}
     </div>

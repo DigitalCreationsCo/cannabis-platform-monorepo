@@ -1,4 +1,3 @@
-import { type CarbonIconType } from '@carbon/icons-react';
 import React, {
 	useState,
 	type ReactEventHandler,
@@ -24,9 +23,7 @@ type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
 	onBlur?: ReactEventHandler;
 	error?: boolean;
 	helperText?: string | false | string[] | any;
-	insertIcon?:
-		| ((props: SVGAttributes<SVGElement>) => JSX.Element)
-		| CarbonIconType;
+	insertIcon?: ((props: SVGAttributes<SVGElement>) => JSX.Element) | any;
 	onClickIcon?: any;
 	inputRef?: any;
 };

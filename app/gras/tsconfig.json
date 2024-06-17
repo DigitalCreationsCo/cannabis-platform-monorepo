@@ -25,7 +25,7 @@
     "jsx": "preserve",
     "noImplicitAny": false,
     "incremental": true,
-    "baseUrl": ".",
+    "baseUrl": ".", // Base directory for resolving non-relative module names
     "paths": {
       "@cd/ui-lib": [
         "../../packages/ui-lib/src/index"
@@ -49,10 +49,10 @@
         "../../packages/eslint-config/src/index"
       ],
       "@/lib/*": [
-        "lib/*"
+        "./lib/*"
       ],
       "@/components/*": [
-        "components/*"
+        "./components/*"
       ]
     },
     "plugins": [

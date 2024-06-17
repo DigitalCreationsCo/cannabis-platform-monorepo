@@ -44,8 +44,6 @@ import env from '@/lib/env';
 import { validateRecaptcha } from '@/lib/recaptcha';
 import { clientPromise } from './db';
 
-import { slackNotify } from './slack';
-
 const adapter = MongoDBAdapter(clientPromise);
 const providers: Provider[] = [];
 const sessionMaxAge = 30 * 24 * 60 * 60; // 30 days
@@ -362,14 +360,6 @@ export const getAuthOptions = (
           if (isCredentialsProviderCallbackWithDbSession) {
             await createDatabaseSession(newUser, req, res);
           }
-
-          slackNotify()?.alert({
-            text: 'New user signed up',
-            fields: {
-              Name: user.name || '',
-              Email: user.email,
-            },
-          });
 
           return true;
         }

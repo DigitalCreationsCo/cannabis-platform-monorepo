@@ -14,12 +14,12 @@ class FreshSales {
 
 	async createContact(contact: Partial<FreshSalesContactParameters>) {
 		try {
+			console.info('create contact');
 			const response = await axios.post<any>(
 				urlBuilder.freshSales.createContact(),
 				{
 					contact: {
 						lead_source_id: null,
-						owner_id: this.FRESHSALES_ADMIN_USERID,
 						medium: 'new-visitor',
 						keyword: 'visitor',
 						...contact,
@@ -33,14 +33,15 @@ class FreshSales {
 				}
 			);
 
-			if (response.status > 299)
-				throw new Error('Failed to create the contact.');
-			return response.data.Response;
+			console.info('freshsales create contact: ', response.data);
+			// if (response.status > 299)
+			// 	throw new Error('Failed to create the contact.');
+			// return response.data.Response;
 		} catch (error: any) {
 			console.error('freshsales create contact: ', error.message);
-			throw new Error(
-				error.response?.data?.errors?.message[0] || error.message
-			);
+			// throw new Error(
+			// 	error.response?.data?.errors?.message[0] || error.message
+			// );
 		}
 	}
 
@@ -49,6 +50,8 @@ class FreshSales {
 		attribution: FreshSalesAttribution
 	) {
 		try {
+			console.info('upsert contact: ', contact, attribution);
+
 			const response = await axios.post<
 				any,
 				any,
@@ -62,7 +65,7 @@ class FreshSales {
 					unique_identifier: { emails: contact.email },
 					contact: {
 						...contact,
-						emails: [{ email: contact.email }],
+						email: contact.email,
 						first_name: contact.first_name || '',
 						last_name: contact.last_name || '',
 						lead_source_id: null,
@@ -80,6 +83,7 @@ class FreshSales {
 				}
 			);
 
+			console.info('response: ', response.data);
 			if (response.status > 299)
 				throw new Error('Failed to upsert the contact.');
 			return response.data.Response;
@@ -165,7 +169,7 @@ export type FreshSalesContactParameters = {
 	first_name: string;
 	last_name: string;
 	job_title: string;
-	// email: string;
+	email: string;
 	emails: Array<{ email: string }>; // Assuming each email is an object with an email string property
 	work_number: string;
 	external_id: string;
@@ -207,20 +211,22 @@ export type FreshSalesContactParameters = {
 };
 
 export type FreshSalesAttribution = {
-	sales_accounts?: Array<{ account: string }>; // Assuming each account is an object with an account string property
+	sales_accounts?: Array<any>; // Assuming each account is an object with an account string property
 	territory_id?: number;
 	lead_source_id?: number;
 	owner_id?: number;
-	subscription_status: Array<{ status: string }>; // Assuming each status is an object with a status string property
-	subscription_types: Array<{
-		id: number;
-		type:
-			| 'Newsletter'
-			| 'Promotional'
-			| 'Product updates'
-			| 'Conferences & Events'
-			| 'Non-marketing emails';
-	}>;
+	subscription_status?: Array<{ status: string }> | any; // Assuming each status is an object with a status string property
+	subscription_types?:
+		| Array<{
+				id: number;
+				type:
+					| 'Newsletter'
+					| 'Promotional'
+					| 'Product updates'
+					| 'Conferences & Events'
+					| 'Non-marketing emails';
+		  }>
+		| string;
 	medium?: string;
 	campaign_id?: number;
 	keyword: string;

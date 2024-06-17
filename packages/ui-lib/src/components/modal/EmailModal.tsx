@@ -1,4 +1,5 @@
 import { type ModalStateProps } from '@cd/core-lib';
+import { PaperAirplaneIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import icons from '../../icons';
@@ -60,7 +61,7 @@ function EmailModal({
 					containerClassName="w-[320px]"
 				/>
 				<IconButton
-					Icon={icons.SendAltFilled}
+					Icon={PaperAirplaneIcon}
 					iconColor="primary"
 					iconSize={28}
 					transparent

@@ -47,12 +47,12 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 
 			if (!response.ok) {
 				throw new Error(
-					json.error.message || 'An error occurred while fetching the data',
+					json.error.message || 'An error occurred while fetching the data'
 				);
 			}
 
 			return json.payload;
-		},
+		}
 	);
 
 	console.info('data', data);
@@ -132,7 +132,7 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 		>
 			{organization.isSubscribedForDelivery ? (
 				<FlexBox className="flex-row">
-					<IconWrapper Icon={icons.Truck} iconSize={28} />
+					<IconWrapper Icon={truckicon} iconSize={28} />
 					<Paragraph
 						style={{ color: applyDispensaryStyles['text-color'] }}
 						className="whitespace-pre text-lg font-semibold tracking-wider"
@@ -147,7 +147,7 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 						style={{ color: applyDispensaryStyles['text-color'] }}
 						className="flex-row"
 					>
-						<IconWrapper Icon={icons.CurrencyDollar} iconSize={28} />
+						<IconWrapper Icon={} iconSize={28} />
 						<Paragraph className="whitespace-pre text-lg font-semibold tracking-wider">
 							{'Order for Pickup'}
 						</Paragraph>
@@ -296,7 +296,7 @@ function Storefront({ dispensaryId }: { dispensaryId: string }) {
 			<Card
 				style={{ backgroundColor: applyDispensaryStyles['background-color'] }}
 				className={twMerge(
-					`flex grow m-auto items-center h-full !w-full !py-12 !pb-24`,
+					`flex grow m-auto items-center h-full !w-full !py-12 !pb-24`
 				)}
 			>
 				<BackButton />
@@ -344,7 +344,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
 					notFound: true,
 				};
 			}
-		},
+		}
 );
 
 type ProductItemProps = {

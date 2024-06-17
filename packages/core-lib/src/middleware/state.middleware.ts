@@ -1,5 +1,4 @@
 /* eslint-disable sonarjs/no-duplicate-string */
-import { isEqual } from 'lodash';
 import { type Dispatch, type MiddlewareAPI } from 'redux';
 
 /**
@@ -25,7 +24,7 @@ function logStateDifferences(prevState: any, nextState: any) {
 				};
 			}
 			// Check if the values are different
-			else if (!isEqual(prev[key], next[key])) {
+			else if (prev[key] !== next[key]) {
 				// If the values are objects, recursively compare them
 				if (typeof prev[key] === 'object' && typeof next[key] === 'object') {
 					compareObjects(prev[key], next[key], currentPath);
@@ -72,7 +71,7 @@ const stateChangeLogger: any =
 		console.log('%cAction:', 'color: yellow', action);
 		console.log('%cState After Dispatch:', 'color: orange', afterState);
 
-		if (isEqual(previousState, afterState)) {
+		if (previousState !== afterState) {
 			console.log('%cStates are identical', 'color: cyan');
 		} else {
 			console.groupCollapsed('%cState Differences:', 'color: cyan');

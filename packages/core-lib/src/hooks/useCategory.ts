@@ -18,8 +18,6 @@ export default function useCategory() {
 
 	useEffect(() => {
 		const getCategories = async () => {
-			const toast = (await import('react-hot-toast')).toast;
-
 			try {
 				const { data } = await axios('/api/category');
 				if (data.categories?.length !== undefined) {
@@ -29,7 +27,6 @@ export default function useCategory() {
 			} catch (error: any) {
 				setCategoryList([]);
 				setNotFound(true);
-				toast.error(error.response.data);
 			}
 		};
 
@@ -51,7 +48,6 @@ export default function useCategory() {
 		//         }
 		//     } catch (error) {
 		//         setNotFound(true);
-		//         toast.error(error.response.data);
 		//     }
 		// }
 		const value = event?.target?.value.toLowerCase() || null;

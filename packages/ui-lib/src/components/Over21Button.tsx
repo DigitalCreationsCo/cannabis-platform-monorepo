@@ -46,13 +46,17 @@ const Over21Button = ({
 				validateForm(values);
 
 				setLoading(true);
-				axios.post<
+				const response = await axios.post<
 					ResponseDataEnvelope<any>,
 					AxiosResponse<ResponseDataEnvelope<any>>,
 					{ email: string }
 				>('/api/save-visitor', values, {
 					headers: { ...applicationHeaders },
 				});
+
+				console.info('response, ', response);
+				// if (!response.data.success || response.data.success === 'false')
+				// 	throw new Error(response.data.error);
 
 				setCookie('yesOver21', 'true');
 				setCookie('email', values.email);

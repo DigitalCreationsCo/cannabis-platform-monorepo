@@ -1,6 +1,6 @@
 import { truncateWordsAndLeaveN } from '@cd/core-lib';
 import { type Event } from '@cd/data-access';
-import { FlexBox, H4, H5, Paragraph } from '@cd/ui-lib';
+import { H5, Paragraph } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
@@ -10,6 +10,7 @@ type EventCardProps = {
   loading?: boolean;
   className?: string | string[];
   showDescription?: boolean;
+  priority?: boolean;
 };
 
 function EventCard({
@@ -17,6 +18,7 @@ function EventCard({
   event,
   className,
   showDescription = false,
+  priority = false,
 }: EventCardProps) {
   if (loading) {
     return (
@@ -44,8 +46,8 @@ function EventCard({
 
   return (
     <Link
-      // href={`/events/${event.id}`}
-      href={event.url}
+      href={`/events/${event.id}`}
+      // href={event.url}
       className={twMerge([
         'flex flex-col',
         'h-[240px] sm:max-w-[320px]',
@@ -69,12 +71,14 @@ function EventCard({
       )) || <></>}
       <div className="h-[180px] p-2">
         <Image
+          priority={priority}
           src={event.image?.url || require('public/hemp.png')}
           alt={event.name}
           width={300}
           height={200}
           className="w-full h-auto aspect-auto object-bottom drop-shadow-[-6px_4px_1px_#555]"
-          sizes="600px"
+          sizes="300px"
+          quality={25}
         />
       </div>
     </Link>

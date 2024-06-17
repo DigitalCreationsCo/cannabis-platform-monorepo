@@ -18,7 +18,6 @@ import { isEmailAllowed } from '@/lib/email/utils';
 import env from '@/lib/env';
 import { recordMetric } from '@/lib/metrics';
 import { validateRecaptcha } from '@/lib/recaptcha';
-import { slackNotify } from '@/lib/slack';
 import { userJoinSchema, validateWithSchema } from '@/lib/zod';
 
 // TODO:
@@ -156,17 +155,6 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     recordMetric('user.signup');
-
-    slackNotify()?.alert({
-      text: invitation
-        ? 'New user signed up via invitation'
-        : 'New user signed up',
-      fields: {
-        Name: user.name,
-        Email: user.email,
-        Dispensary: userDispensary.name,
-      },
-    });
 
     res.status(201).json({
       data: {
