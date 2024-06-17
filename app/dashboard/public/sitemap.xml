@@ -2,25 +2,25 @@
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
     <loc>http://localhost:3001/404.tsx</loc>
-    <lastmod>2024-06-16T23:57:23.468Z</lastmod>
+    <lastmod>2024-06-17T12:58:10.529Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:3001/500.tsx</loc>
-    <lastmod>2024-06-16T23:57:23.469Z</lastmod>
+    <lastmod>2024-06-17T12:58:10.529Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:3001/dashboard.tsx</loc>
-    <lastmod>2024-06-16T23:57:23.469Z</lastmod>
+    <lastmod>2024-06-17T12:58:10.529Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:3001/index.tsx</loc>
-    <lastmod>2024-06-16T23:57:23.469Z</lastmod>
+    <lastmod>2024-06-17T12:58:10.529Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
