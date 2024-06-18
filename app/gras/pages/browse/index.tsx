@@ -85,6 +85,8 @@ import markerImage from 'public/map-marker.png';
 // 	);
 // }
 
+const defaultZipcode = '10001';
+
 export default function Browse({
   token,
   posts,
@@ -95,11 +97,12 @@ export default function Browse({
   events: Event[];
   settings: Settings;
 }) {
-  const saveZipcodeToLocalStorage = (zipcode: string): void => {
+  const saveZipcodeToLocalStorage = (zipcode: string): string => {
     if (isValidZipcode(zipcode)) {
       localStorage.setItem('zipcode', zipcode.toString());
     }
     setZipcode(zipcode);
+    return zipcode
   };
 
   const getZipcodeLocalStorage = (): string => {
@@ -113,7 +116,7 @@ export default function Browse({
   const [zipcodeError, setZipcodeError] = useState('');
 
   const { isLoading, isError, dispensaries } = useLocalDispensaries({
-    zipcode: isValidZipcode(zipcode) ? zipcode : getZipcodeLocalStorage(),
+    zipcode: isValidZipcode(zipcode) ? zipcode : getZipcodeLocalStorage() || saveZipcodeToLocalStorage(defaultZipcode),
     radius,
     token,
   });

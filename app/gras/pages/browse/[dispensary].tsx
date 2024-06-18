@@ -335,45 +335,6 @@ function DispensaryPage({
   );
 }
 
-DispensaryPage.getLayout = function getLayout(page: ReactElement) {
-  return <>{page}</>;
-};
-
-export const getServerSideProps = async ({ query, locale }: any) => {
-  try {
-    if (!query['dispensary']) throw new Error("Couldn't find the dispensary.");
-
-    const token = env.nextAuth.secret;
-    // const response = await fetch(
-    // 	`${urlBuilder.shop}/api/dispensaries/${query['dispensary']}`,
-    // 	{ headers: { authorization: 'Bearer ' + token } }
-    // );
-
-    // if (!response.ok) {
-    // 	throw new Error(
-    // 		(await response.json()).error.message ||
-    // 			'An error occurred while fetching the data'
-    // 	);
-    // }
-    // const dispensary = await response.json();
-
-    const dispensary = dispensaries.find((d) => d.slug === query['dispensary']);
-    console.info('fetched dummy data: dispensary: ', dispensary);
-    return {
-      props: {
-        ...(locale ? await serverSideTranslations(locale, ['common']) : {}),
-        dispensary: JSON.parse(JSON.stringify(dispensary)),
-      },
-    };
-  } catch (error) {
-    return {
-      notFound: true,
-    };
-  }
-};
-
-export default DispensaryPage;
-
 type ProductItemProps = {
   className?: string;
   data: ProductVariantWithDetails;
@@ -427,3 +388,42 @@ function ProductItem({
     </div>
   );
 }
+
+DispensaryPage.getLayout = function getLayout(page: ReactElement) {
+  return <>{page}</>;
+};
+
+export const getServerSideProps = async ({ query, locale }: any) => {
+  try {
+    if (!query['dispensary']) throw new Error("Couldn't find the dispensary.");
+
+    const token = env.nextAuth.secret;
+    // const response = await fetch(
+    // 	`${urlBuilder.shop}/api/dispensaries/${query['dispensary']}`,
+    // 	{ headers: { authorization: 'Bearer ' + token } }
+    // );
+
+    // if (!response.ok) {
+    // 	throw new Error(
+    // 		(await response.json()).error.message ||
+    // 			'An error occurred while fetching the data'
+    // 	);
+    // }
+    // const dispensary = await response.json();
+
+    const dispensary = dispensaries.find((d) => d.slug === query['dispensary']);
+    console.info('fetched dummy data: dispensary: ', dispensary);
+    return {
+      props: {
+        ...(locale ? await serverSideTranslations(locale, ['common']) : {}),
+        dispensary: JSON.parse(JSON.stringify(dispensary)),
+      },
+    };
+  } catch (error) {
+    return {
+      notFound: true,
+    };
+  }
+};
+
+export default DispensaryPage;
