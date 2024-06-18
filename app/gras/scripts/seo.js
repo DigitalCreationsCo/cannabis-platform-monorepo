@@ -16,7 +16,6 @@ const noIndexPages = [
 { path: '/invitations'},
 { path: '/settings'},
 { path: '/teams'},
-{ path: '/well-known'}
 ]
 
 module.exports = {

@@ -116,6 +116,9 @@ const Home: NextPageWithLayout = () => {
               autoPlay
               loop
               muted
+              preload="auto"
+              playsInline
+              poster={'/public/Gras-community.png'}
             />
             <div className="m-auto items-center max-w-sm">
               <EnterEmail />

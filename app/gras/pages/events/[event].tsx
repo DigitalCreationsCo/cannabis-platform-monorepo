@@ -16,20 +16,23 @@ import { type ReactElement } from 'react';
 import { clientPromise } from '@/lib/db';
 import env from '@/lib/env';
 import SEOMetaTags from '@/lib/SEOMetaTags';
+import { getSession } from '@/lib/session';
 
 interface EventPageProps {
   event: Event;
   token: string;
 }
 
-function EventPage({ event }: EventPageProps) {
-  const Router = useRouter();
+function EventPage({ event, session}: EventPageProps & any) {
 
+  console.info('session ', session)
+  const Router = useRouter();
+  const showOrFilterPageBySession = {filter: !session? 'blur(2px)' : 'none'}
   console.info('event ', event);
   return (
     <>
       <SEOMetaTags title={event.name} description={event.summary} />
-      <Page gradient="green">
+      <Page gradient="green" style={{ ...showOrFilterPageBySession}}>
         <BackButton />
         <FlexBox className="gap-y-2 max-w-screen">
           <H1 className="text-white drop-shadow-[0px_2px_0px_#666]">
@@ -146,32 +149,40 @@ EventPage.getLayout = function getLayout(page: ReactElement) {
   return <>{page}</>;
 };
 
-export const getStaticPaths = async () => {
-  const client = await clientPromise;
-  const events = await getEvents({ client });
-  return {
-    paths: events.map(({ id }) => `/events/${id}`) || [],
-    fallback: 'blocking',
-  };
-};
+// export const getStaticPaths = async () => {
+//   const client = await clientPromise;
+//   const events = await getEvents({ client });
+//   return {
+//     paths: events.map(({ id }) => `/events/${id}`) || [],
+//     fallback: 'blocking',
+//   };
+// };
 
-export const getStaticProps = async ({
+export const getServerSideProps = async ({
+  req, res,
   params,
   locale,
 }: GetServerSidePropsContext) => {
+
+  const session = await getSession(req, res)
+
   const client = await clientPromise;
   const token = env.nextAuth.secret as string;
+
   const { event: id } = params as { event: string };
   const event = await getEvent({ client, where: { id } });
+
   if (!event) {
     return {
       notFound: true,
     };
   }
+  
   return {
     props: {
       ...(locale ? await serverSideTranslations(locale, ['common']) : {}),
       event: JSON.parse(JSON.stringify(event)),
+      session,
       token,
     },
   };
