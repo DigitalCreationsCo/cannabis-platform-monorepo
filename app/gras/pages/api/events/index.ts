@@ -36,13 +36,14 @@ export default async function handler(
 // Get cannabis events
 const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
   const client = await clientPromise;
-  const { location = 'ny--new-york', query = 'cannabis' } = req.query;
+  const { zipcode, radius } = req.query as { zipcode: string; radius: string }
+  // const { location = 'ny--new-york', query = 'cannabis' } = req.query;
   const clientToken = req.headers.authorization?.split(' ')[1];
   const token = env.nextAuth.secret;
   if (clientToken !== token) {
     throw new Error('Unauthorized');
   }
-  const events = await getEvents({ client });
+  const events = await getEvents({ client, zipcode, radius: Number(radius) });
   console.trace('events[0] ', events[0]);
   recordMetric('event.fetched');
   res.status(200).json({ data: events });

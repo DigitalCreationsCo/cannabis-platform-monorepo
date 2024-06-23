@@ -5,13 +5,18 @@
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable react/no-unknown-property */
 import { TopBar } from '@/components/layouts';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Error } from '@/components/shared';
 import { clientPromise } from '@/lib/db';
 import env from '@/lib/env';
 import {
+  ResponseDataEnvelope,
+  applicationHeaders,
+  axios,
   debounce,
   getCoordinatePairFromCoordinates,
   isValidZipcode,
+  useEvents,
   useLocalDispensaries,
 } from '@cd/core-lib';
 // import {
@@ -34,6 +39,11 @@ import {
   H2,
   DispensaryCard,
   TextField,
+  H3,
+  Paragraph,
+  Button,
+  FlexBox,
+  AutoCompleteTextField,
 } from '@cd/ui-lib';
 import mapboxgl from 'mapbox-gl';
 import { type GetServerSidePropsContext } from 'next';
@@ -51,6 +61,10 @@ import {
 } from '@/lib/sanity';
 import SEOMetaTags from '@/lib/SEOMetaTags';
 import markerImage from 'public/map-marker.png';
+import * as yup from 'yup';
+import { useFormik } from 'formik';
+import { AxiosResponse } from 'axios';
+import toast from 'react-hot-toast';
 
 // function FBInit() {
 // 	useEffect(() => {
@@ -90,11 +104,9 @@ const defaultZipcode = '10001';
 export default function Browse({
   token,
   posts,
-  events,
 }: {
   token: string;
   posts: Post[];
-  events: Event[];
   settings: Settings;
 }) {
   const saveZipcodeToLocalStorage = (zipcode: string): string => {
@@ -121,10 +133,55 @@ export default function Browse({
     token,
   });
 
+  const { isLoading: isEventLoading, events } = useEvents({ token, zipcode, radius })
+
+  useEffect(() => {
+    if (isValidZipcode(zipcode)) {
+      setEventRequestSent(false);
+    }
+  }, [zipcode])
+ 
   const eventsToday =
     events.filter(
       (event) => event.start_date < new Date().toISOString().substring(0, 10)
     ) || [];
+
+    const [eventRequestSent, setEventRequestSent] = useState(false);
+    const [loading, setLoading] = useState(false);
+
+    const {
+      values,
+      errors,
+      touched,
+      handleBlur,
+      handleChange,
+      handleSubmit,
+      validateForm,
+    } = useFormik({
+      initialValues: { city: '' },
+      validateOnChange: false,
+      validationSchema: yup.object().shape({
+        city: yup.string().required(''),
+      }),
+      async onSubmit() {
+        try {
+          validateForm(values);
+          setLoading(true);
+          const response = await axios.put<
+            ResponseDataEnvelope<any>,
+            AxiosResponse<ResponseDataEnvelope<any>>,
+            { city: string }
+          >(`/api/events?location=${values.city}`, values, { headers: { ...applicationHeaders, 'Authorization': `Bearer ${token}` } });
+          // if (!response.data.success || response.data.success === 'false')
+          // 	throw new Error(response.data.error);
+          setLoading(false);
+          setEventRequestSent(true);
+        } catch (error: any) {
+          setLoading(false);
+          toast.error('Something went wrong. Try again.');
+        }
+      },
+    });
 
   // function startShopTour() {
   // 	shopTour.start();
@@ -186,29 +243,7 @@ export default function Browse({
       >
         <div>
           <TopBar
-            SearchComponent={
-              <div>
-                <TextField
-                  className="text-dark"
-                  name="zipcode"
-                  maxLength={5}
-                  // label="search your zipcode"
-                  defaultValue={'Enter your zipcode'}
-                  value={zipcode}
-                  placeholder="Enter your zipcode"
-                  onBlur={undefined}
-                  onChange={(e: any) =>
-                    // eslint-disable-next-line sonarjs/no-use-of-empty-return-value
-                    debounce(
-                      saveZipcodeToLocalStorage(e.target.value || ''),
-                      2000
-                    )
-                  }
-                  error={!!zipcodeError}
-                  helperText={zipcodeError}
-                />
-              </div>
-            }
+            
           />
           {/* <Header/> */}
         </div>
@@ -257,6 +292,27 @@ export default function Browse({
               {`Find flower, edibles, dispensaries`}
               <span className="hidden lg:!inline">{` near you`}</span>
             </H1>
+              <div>
+                <TextField
+                  className="text-dark"
+                  name="zipcode"
+                  maxLength={5}
+                  // label="search your zipcode"
+                  defaultValue={'Enter your zipcode'}
+                  value={zipcode}
+                  placeholder="Enter your zipcode"
+                  onBlur={undefined}
+                  onChange={(e: any) =>
+                    // eslint-disable-next-line sonarjs/no-use-of-empty-return-value
+                    debounce(
+                      saveZipcodeToLocalStorage(e.target.value || ''),
+                      2000
+                    )
+                  }
+                  error={!!zipcodeError}
+                  helperText={zipcodeError}
+                />
+              </div>
             <Carousel
               responsive={{
                 xl: {
@@ -360,67 +416,57 @@ export default function Browse({
             ))}
           />
         </div> */}
+        
+        {!isEventLoading && events.length === 0 ? 
+		<AnimatePresence>
+       <div
+          className=" h-44 place-self-center col-span-full sm:max-w-md bg-white shadow-xl rounded mx-4 flex flex-col gap-1">
+            {eventRequestSent &&
+            <motion.div className='flex h-full p-5 hover:bg-gray-100 transition'
+              initial={{ y: 50, opacity: 0 }}
+							animate={{ y: 0, opacity: 1 }}
+							exit={{ y: 50, opacity: 0 }}>
+            <Paragraph className='place-self-center'>{`We're finding events in your city... 
+            Come back later to see them 🎉`}</Paragraph>
+            </motion.div>}
 
-          <div className="col-span-full">
-            <H2 className="col-span-full text-lg sm:pt-2 px-3 md:px-4 text-light leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left">
-              🎉 Events Today
-            </H2>
-            <Carousel
-              responsive={{
-                xl: {
-                  breakpoint: { max: 4000, min: 1400 },
-                  items: 4,
-                  slidesToSlide: 3,
-                  partialVisibilityGutter: 40,
-                },
-                lg: {
-                  // the naming can be any, depends on you.
-                  breakpoint: { max: 1400, min: 1100 },
-                  items: 3,
-                  slidesToSlide: 2,
-                  partialVisibilityGutter: 40,
-                },
-                md: {
-                  breakpoint: { max: 1100, min: 700 },
-                  items: 3,
-                  slidesToSlide: 2,
-                  partialVisibilityGutter: 40,
-                },
-                sm: {
-                  breakpoint: { max: 700, min: 464 },
-                  items: 2,
-                },
-                xs: {
-                  breakpoint: { max: 464, min: 0 },
-                  items: 2,
-                  slidesToSlide: 1,
-                },
-              }}
-              items={
-                // !events.isLoading && events.events.length
-                //   ? events.
-                eventsToday.map((event, index) => (
-                  <EventCard
-                    priority={index < 4}
-                    key={`event-card-${index}`}
-                    loading={false}
-                    event={event}
-                  />
-                ))
-                // : [1, 2, 3, 4, 5, 6].map((d, index) => (
-                //     <EventCard
-                //       key={`event-card-${index}`}
-                //       loading={events.isLoading}
-                //       event={d as any}
-                //     />
-                //   ))
-              }
-            />
+            {!eventRequestSent && 
+            <motion.div
+            className='p-4'
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ y: 50, opacity: 0 }}>
+            <H3>{`Want to see events in your city?`}</H3>
+            <Paragraph>{`Let us know. We'll find events in your city and display them when you come back.`}</Paragraph>
+            <FlexBox className='flex-row items-stretch gap-2'>
+                <TextField
+                placeholder='Enter your city...'
+                type="text"
+                containerClassName="w-full"
+                name="city"
+                value={values.city}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                className="text-dark"
+                error={!!errors.city || !!touched.city}
+                />
+              <Button className='text-dark bg-amber-100 hover:bg-amber-200'
+                loading={loading}
+                disabled={loading}
+                onClick={(e: any) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleSubmit();
+                }}>{`Find Events`}
+              </Button>
+            </FlexBox>
+          </motion.div>
+            }
           </div>
-
+		</AnimatePresence>
+           : 
           <div className="col-span-full">
             <H2 className="col-span-full text-lg sm:pt-2 px-3 md:px-4 text-light leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left">
-              Events Near You
+            🎉 Events Near You
             </H2>
             <Carousel
               responsive={{
@@ -472,7 +518,66 @@ export default function Browse({
                 //   ))
               }
             />
-          </div>
+          </div>}
+
+
+          {!isEventLoading && events.length === 0 ? <></> : <div className="col-span-full">
+            <H2 className="col-span-full text-lg sm:pt-2 px-3 md:px-4 text-light leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left">
+              🎉 Happening Today
+            </H2>
+            <Carousel
+              responsive={{
+                xl: {
+                  breakpoint: { max: 4000, min: 1400 },
+                  items: 4,
+                  slidesToSlide: 3,
+                  partialVisibilityGutter: 40,
+                },
+                lg: {
+                  // the naming can be any, depends on you.
+                  breakpoint: { max: 1400, min: 1100 },
+                  items: 3,
+                  slidesToSlide: 2,
+                  partialVisibilityGutter: 40,
+                },
+                md: {
+                  breakpoint: { max: 1100, min: 700 },
+                  items: 3,
+                  slidesToSlide: 2,
+                  partialVisibilityGutter: 40,
+                },
+                sm: {
+                  breakpoint: { max: 700, min: 464 },
+                  items: 2,
+                },
+                xs: {
+                  breakpoint: { max: 464, min: 0 },
+                  items: 2,
+                  slidesToSlide: 1,
+                },
+              }}
+              items={
+                isEventLoading && events.length
+                  ? 
+                eventsToday.map((event, index) => (
+                  <EventCard
+                    priority={index < 4}
+                    key={`event-card-${index}`}
+                    loading={false}
+                    event={event}
+                  />
+                ))
+                : [1, 2, 3, 4, 5, 6].map((d, index) => (
+                    <EventCard
+                      key={`event-card-${index}`}
+                      loading={isEventLoading}
+                      event={d as any}
+                    />
+                  ))
+              }
+            />
+          </div>}
+
 
           <div className="col-span-full">
             <H2 className="col-span-full text-lg sm:pt-2 px-2 md:px-4 text-light leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left">
@@ -888,7 +993,7 @@ const RenderMapBox = ({
 };
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
-  const client = await clientPromise;
+  // const client = await clientPromise;
   const authToken = env.nextAuth.secret;
 
   const { draftMode = false, locale } = ctx;
@@ -904,7 +1009,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
       ...(locale ? await serverSideTranslations(locale, ['common']) : {}),
       posts,
       settings,
-      events: JSON.parse(JSON.stringify(await getEvents({ client }))),
+      // events: JSON.parse(JSON.stringify(await getEvents({ client }))),
       draftMode,
       token: authToken,
     },

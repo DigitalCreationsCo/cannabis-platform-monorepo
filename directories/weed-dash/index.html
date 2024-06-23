@@ -3,18 +3,47 @@ layout: default
 ---
 
 <div class="home">
-  <h1 class="page-heading">Posts</h1>
+  <h1 class="page-heading">Weed Dash</h1>
 
-  <ul class="post-list">
-    {% for post in site.posts %}
-      <li>
-        <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
-
+  <ul>
+  {% for site in site.data.directory %}
+    <li>
+      <div class="border rounded">
         <h2>
-          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-        </h2>
-      </li>
-    {% endfor %}
+        <a class="post-link" href="{{ site.url }}">{{ site.title }}</a>
+        <a class="post-link" href="{{ site.url }}">{{ site.url }}</a>
+        <p>text: {{ site.text }}</p>
+        <p>category: {{ site.Category }}</p>
+        <p>rank: {{ site.Rank }}</p>
+        <p>hide: {{ site.Hide }}</p>
+        <p>isFree: {{ site.isFree }}</p>
+        <p>isTopRated: {{ site.isTopRated }}</p>
+        <p>verified: {{ site.verified }}</p>
+        <p>premium: {{ site.premium }}</p>
+        <p>imgUrl: {{ site.imgUrl }}</p>
+        <p>logoUrl: {{ site.logoUrl }}</p>
+        <p>webaddress: {{ site.webaddress }}</p>
+        <p>social: {{ site.social }}</p>
+        <p>city: {{ site.city }}</p>
+        <p>state: {{ site.state }}</p>
+        <p>salary: {{ site.salary }}</p>
+        <p>type: {{ site.type }}</p>
+        <p>messages: {{ site.messages }}</p>
+        <p>position: {{ site.position }}</p>
+        <p>about: {{ site.about }}</p>
+        <p>jobDescription: {{ site.jobDescription }}</p>
+        <p>qualifications: {{ site.qualifications }}</p>
+        <p>img1: {{ site.img1 }}</p>
+        <p>img2: {{ site.img2 }}</p>
+        <p>img3: {{ site.img3 }}</p>
+        <p>img4: {{ site.img4 }}</p>
+        <p>avatar: {{ site.avatar }}</p>
+        <p>name: {{ site.name }}</p>
+        <p>date: {{ site.date }}</p>
+      </h2>
+    </div>
+  </li>
+  {% endfor %}
   </ul>
 
   <!-- <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p> -->

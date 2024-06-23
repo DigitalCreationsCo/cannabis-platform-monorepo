@@ -75,7 +75,7 @@ function TopBar({ showSearch = true, SearchComponent }: TopBarProps) {
 				<Paragraph>Location: 10011</Paragraph>
 			)} */}
 
-      <div className="flex grow justify-end">
+      <div className="flex grow justify-center">
         {(showSearch && SearchComponent) || null}
       </div>
 

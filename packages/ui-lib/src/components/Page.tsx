@@ -1,21 +1,23 @@
-import { type PropsWithChildren } from 'react';
+import { CSSProperties, type PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 import AnimationWrapper from './AnimationWrapper';
 
 type PageProps = {
 	gradient?: 'pink' | 'green';
 	className?: string | string[];
+	style?: CSSProperties;
 };
 
 function Page({
 	gradient,
 	children,
 	className = '',
+	style = {},
 }: PropsWithChildren<PageProps>) {
 	// const appVersion = '0.1.0';
 
 	type Styles = (string | string[])[];
-	const styles: Styles = Object.values({
+	const classes: Styles = Object.values({
 		page: [
 			'p-2',
 			'bg-inverse-soft',
@@ -35,7 +37,7 @@ function Page({
 
 	return (
 		<AnimationWrapper className="flex flex-col w-full min-h-screen">
-			<div className={twMerge(styles, className)}>
+			<div className={twMerge(classes, className)} style={style}>
 				{children}
 				{/* <div className="fixed flex items-center bottom-0 right-0 cursor-default text-accent-soft space-x-1 pr-1">
 					<div

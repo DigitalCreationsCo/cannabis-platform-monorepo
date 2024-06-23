@@ -9,7 +9,7 @@ import { styles } from '../../styleClassNames';
 import IconButton from '../button/IconButton';
 import FlexBox from '../FlexBox';
 
-type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
+export type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
 	className?: string;
 	containerClassName?: string;
 	name?: string;

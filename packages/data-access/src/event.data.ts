@@ -2,6 +2,7 @@
 import { type MongoClient } from 'mongodb';
 import { db_namespace } from './db';
 import { type Event } from './types';
+import { getZipcodeLocation } from './zipcode.data';
 
 export const createManyEvents = async ({
 	client,
@@ -104,17 +105,36 @@ export const getEvent = async ({
 export const getEvents = async ({
 	client,
 	limit = 12,
+	zipcode,
+	radius = 10000,
 }: {
 	client: MongoClient;
 	limit?: number;
+	zipcode: string;
+	radius: number;
 }): Promise<Event[]> => {
 	const { db, collections } = db_namespace;
+	console.info('zipcode, ', zipcode)
+	const zip = await getZipcodeLocation({ client, where: { zipcode: '10011' } });
+	if (!zip?.loc) {
+		console.info('zip, ', zip)
+		return [];
+	}
+	console.info('zip, ', zip)
 	return await client
 		.db(db)
 		.collection<Event>(collections.events)
 		.aggregate<Event>([
 			{
-				$limit: limit,
+				$geoNear: {
+					near: zip.loc,
+					distanceField: 'distance',
+					maxDistance: Number(radius),
+					spherical: true,
+				},
+			},
+			{
+				$limit: Number(limit),
 			},
 			{
 				$addFields: {
@@ -122,7 +142,9 @@ export const getEvents = async ({
 					date: { $dateFromString: { dateString: '$start_date' } },
 				},
 			},
-			{ $sort: { date: 1 } },
+			// { $sort: { date: 1,
+			// 	distance: 1,
+			// } },
 		])
 		.toArray();
 };

@@ -3,16 +3,16 @@ import { useRouter } from 'next/router';
 import useSWR, { mutate } from 'swr';
 import { fetcher } from '../lib';
 import type { ApiResponse } from '../types';
+import { isValidZipcode } from '../utils/geo.util';
 
-const useEvents = ({ zipcode, token }: { zipcode?: string; token: string }) => {
+const useEvents = ({ zipcode, token, radius = 10000 }: { zipcode?: string; token: string; radius:any }) => {
 	const { query, isReady } = useRouter();
 
-	const localZip = zipcode || (isReady ? query.zipcode : null);
+	const localZip = zipcode || (isReady ? query.zipcode : null) as string;
 
 	const { data, error, isLoading } = useSWR<ApiResponse<Event[]>>(
 		[
-			// localZip ? `/api/events?zipcode=${localZip}` : null,
-			`/api/events`,
+			isValidZipcode(localZip) ? `/api/events?zipcode=${localZip}&radius=${radius}` : null,
 			token,
 		],
 		fetcher
@@ -48,7 +48,7 @@ const useEvents = ({ zipcode, token }: { zipcode?: string; token: string }) => {
 	return {
 		isLoading,
 		isError: error,
-		events: data?.data as unknown as Event[],
+		events: data?.data as unknown as Event[] || [],
 		mutate,
 	};
 };

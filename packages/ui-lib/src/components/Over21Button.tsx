@@ -54,7 +54,6 @@ const Over21Button = ({
 					headers: { ...applicationHeaders },
 				});
 
-				console.info('response, ', response);
 				// if (!response.data.success || response.data.success === 'false')
 				// 	throw new Error(response.data.error);
 

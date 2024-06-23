@@ -53,6 +53,7 @@ export { default as Table } from './Table';
 export { default as Tag } from './Tag';
 export { default as TermsAgreement } from './TermsAgreement';
 export { default as TextField } from './TextField/TextField';
+export { default as AutoCompleteTextField } from './AutoCompleteTextField';
 export { default as TextArea } from './TextArea';
 export { default as Ticker } from './Ticker';
 export { ToastProvider } from './ToastProvider';

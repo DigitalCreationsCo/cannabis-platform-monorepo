@@ -44,6 +44,10 @@ function EventCard({
     );
   }
 
+  if (!event.name) {
+    return <></>;
+  }
+
   return (
     <Link
       href={`/events/${event.id}`}
