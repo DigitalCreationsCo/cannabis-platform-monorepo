@@ -13,13 +13,6 @@ import { useEffect } from 'react';
 import { Provider as ReduxProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { SWRConfig } from 'swr';
-import colors from 'tailwindcss/colors';
-import '@boxyhq/react-ui/dist/style.css';
-import '../styles/anim8-gradient.css';
-import '../styles/globals.css';
-import '../styles/shop.css';
-// eslint-disable-next-line import/no-unresolved, @typescript-eslint/no-unused-vars
-import '../styles/tailwind.css';
 import { AccountLayout } from '@/components/layouts';
 import env from '@/lib/env';
 import { Themer } from '@boxyhq/react-ui/shared';
@@ -27,7 +20,6 @@ import { type AppPropsWithLayout } from '@/lib/next.types';
 import SEOMetaTags from '@/lib/SEOMetaTags';
 import { wrapper } from '@/lib/store';
 import { loadHotJar } from '@cd/core-lib/src/lib/hotjar';
-import { loadBrevoChat } from '@cd/core-lib/src/lib/brevoChat';
 import {
   GTMTag,
   loadGoogleTagManager,
@@ -36,8 +28,11 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import CacheProvider from '@cd/core-lib/src/lib/cache';
 import { AnimatePresence } from 'framer-motion';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { loadSegment } from '@cd/core-lib/src/lib/segment';
+
+import colors from 'tailwindcss/colors';
+import '../styles/shop.css';
+import '../styles/globals.css';
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_API_KEY as string
@@ -109,20 +104,20 @@ function MyApp({
                   }}
                 >
                   <Themer
-                    overrideTheme={{
-                      '--primary-color': colors.blue['500'],
-                      '--primary-hover': colors.blue['600'],
-                      '--primary-color-50': colors.blue['50'],
-                      '--primary-color-100': colors.blue['100'],
-                      '--primary-color-200': colors.blue['200'],
-                      '--primary-color-300': colors.blue['300'],
-                      '--primary-color-500': colors.blue['500'],
-                      '--primary-color-600': colors.blue['600'],
-                      '--primary-color-700': colors.blue['700'],
-                      '--primary-color-800': colors.blue['800'],
-                      '--primary-color-900': colors.blue['900'],
-                      '--primary-color-950': colors.blue['950'],
-                    }}
+                    // overrideTheme={{
+                    //   '--primary-color': colors.blue['500'],
+                    //   '--primary-hover': colors.blue['600'],
+                    //   '--primary-color-50': colors.blue['50'],
+                    //   '--primary-color-100': colors.blue['100'],
+                    //   '--primary-color-200': colors.blue['200'],
+                    //   '--primary-color-300': colors.blue['300'],
+                    //   '--primary-color-500': colors.blue['500'],
+                    //   '--primary-color-600': colors.blue['600'],
+                    //   '--primary-color-700': colors.blue['700'],
+                    //   '--primary-color-800': colors.blue['800'],
+                    //   '--primary-color-900': colors.blue['900'],
+                    //   '--primary-color-950': colors.blue['950'],
+                    // }}
                   >
                     <AnimatePresence
                       mode="wait"

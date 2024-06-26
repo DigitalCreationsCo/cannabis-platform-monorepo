@@ -14,10 +14,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { LayoutContainer } from '../components';
 import { wrapper } from '../store';
-import '../styles/anim8-gradient.css';
 import '../styles/pricing-tool.css';
-// eslint-disable-next-line import/no-unresolved, @typescript-eslint/no-unused-vars
-import '../styles/tailwind.css';
 
 type CustomAppProps = AppProps & {
 	Component: ExtendedPageComponent;

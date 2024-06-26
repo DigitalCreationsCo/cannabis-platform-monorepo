@@ -2,16 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+	font-family: Encode Sans;
+	src: url('../../public/fonts/EncodeSans-VariableFont_wdth,wght.ttf');
+}
+@font-face {
+	font-family: Onest;
+	src: url('../../public/fonts/Onest-VariableFont_wght.ttf');
+}
+@font-face {
+	font-family: Gras;
+	src: url('../../public/fonts/RustyHooks-Regular.ttf');
+}
+
 @layer base {
 	html {
 		@apply text-dark;
 	}
 
 	body {
-		@apply text-dark;
+		@apply font-onest;
 		-ms-overflow-style: none;
 	}
-
 	/* body::-webkit-scrollbar {
 		display: none;
 	} */
@@ -61,18 +73,38 @@
 }
 
 @layer utilities {
+	.page-height {
+		height: calc(100% - 64px);
+	}
+
+	.image-cropper {
+		width: 100px;
+		height: 100px;
+		position: relative;
+		overflow: hidden;
+		border-radius: 50%;
+	}
+
+	.profile-pic {
+	  display: inline;
+	  margin: 0 auto;
+	  margin-left: -25%;
+	  height: 100%;
+	  width: auto;
+	}
+
 	.cursor-inherit {
 		cursor: inherit;
 	}
 
 	/* Hide scrollbar for Chrome, Safari and Opera */
-	/* .hide-scroll::-webkit-scrollbar {
-		display: none;
-	} */
+	/* .hide-scroll::-webkit-scrollbar { */
+	/* display: none; */
+	/* } */
 
 	/* Hide scrollbar for IE, Edge and Firefox */
 	/* .hide-scroll {
 		-ms-overflow-style: none; /* IE and Edge */
-	/* scrollbar-width: none; /* Firefox */
+	/* scrollbar-width: none; Firefox */
 	/* } */
 }

@@ -1,11 +1,5 @@
 import { SessionProvider } from 'next-auth/react';
 import { appWithTranslation } from 'next-i18next';
-import '@boxyhq/react-ui/dist/style.css';
-import '../styles/globals.css';
-import '../styles/anim8-gradient.css';
-import '../styles/dashboard.css';
-// eslint-disable-next-line import/no-unresolved, @typescript-eslint/no-unused-vars
-import '../styles/tailwind.css';
 import { Themer } from '@boxyhq/react-ui/shared';
 import { loadBrevoChat } from '@cd/core-lib/src/lib/brevoChat';
 import {
@@ -29,14 +23,15 @@ import { NextSeo } from 'next-seo';
 import { useEffect } from 'react';
 import { Provider as ReduxProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import colors from 'tailwindcss/colors';
 import { AccountLayout } from '@/components/layouts';
 import app from '@/lib/app';
 import env from '@/lib/env';
 import { type AppPropsWithLayout } from '@/lib/next.types';
 import { wrapper } from '@/lib/store';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { loadSegment } from '@cd/core-lib/src/lib/segment';
+
+import colors from 'tailwindcss/colors';
+import '../styles/dashboard.css';
 
 const stripePromise = loadStripe(
 	process.env.NEXT_PUBLIC_STRIPE_API_KEY as string
@@ -115,20 +110,20 @@ function MyApp({ Component, ...appProps }: AppPropsWithLayout) {
 							}}
 						>
 							<Themer
-								overrideTheme={{
-									'--primary-color': colors.blue['500'],
-									'--primary-hover': colors.blue['600'],
-									'--primary-color-50': colors.blue['50'],
-									'--primary-color-100': colors.blue['100'],
-									'--primary-color-200': colors.blue['200'],
-									'--primary-color-300': colors.blue['300'],
-									'--primary-color-500': colors.blue['500'],
-									'--primary-color-600': colors.blue['600'],
-									'--primary-color-700': colors.blue['700'],
-									'--primary-color-800': colors.blue['800'],
-									'--primary-color-900': colors.blue['900'],
-									'--primary-color-950': colors.blue['950'],
-								}}
+								// overrideTheme={{
+								// 	'--primary-color': colors.blue['500'],
+								// 	'--primary-hover': colors.blue['600'],
+								// 	'--primary-color-50': colors.blue['50'],
+								// 	'--primary-color-100': colors.blue['100'],
+								// 	'--primary-color-200': colors.blue['200'],
+								// 	'--primary-color-300': colors.blue['300'],
+								// 	'--primary-color-500': colors.blue['500'],
+								// 	'--primary-color-600': colors.blue['600'],
+								// 	'--primary-color-700': colors.blue['700'],
+								// 	'--primary-color-800': colors.blue['800'],
+								// 	'--primary-color-900': colors.blue['900'],
+								// 	'--primary-color-950': colors.blue['950'],
+								// }}
 							>
 								<AnimatePresence
 									mode="wait"

@@ -1,10 +1,35 @@
 const colors = require('tailwindcss/colors');
 
 module.exports = {
-	plugins: [require('daisyui')],
-	content: ['./src/**/*.{js,jsx,ts,tsx}'],
+	plugins: [require('@tailwindcss/typography'), require('daisyui')],
+	content: [
+		'./src/**/*.{js,jsx,ts,tsx}',
+		'../../node_modules/daisyui/dist/**/*.js',
+		'../../node_modules/react-daisyui/dist/**/*.js',
+	],
 	theme: {
+		fontFamily: {
+			encode: ['Encode Sans', 'sans-serif'],
+			onest: ['Onest', 'sans-serif'],
+			gras: ['Gras', 'sans-serif'],
+		},
 		extend: {
+			keyframes: {
+				gradient: {
+				  '0%': {
+					'background-position': '0% 50%',
+				  },
+				  '50%': {
+					'background-position': '100% 50%',
+				  },
+				  '100%': {
+					'background-position': '0% 50%',
+				  },
+				},
+			},
+			animation: {
+				gradient: 'gradient 32s ease-in-out infinite',
+			},
 			colors: {
 				inherit: colors.inherit,
 				current: colors.current,

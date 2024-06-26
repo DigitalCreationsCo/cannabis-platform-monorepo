@@ -49,7 +49,7 @@ const Home: NextPageWithLayout = () => {
           <div>
             <FlexBox className="flex-row items-center">
               <Link href={'/'} className="z-50">
-                <GrasSignature className="text-inverse text-4xl pt-1 pb-0 mb-0 leading-3">
+                <GrasSignature className="text-inverse pt-1 pb-0 mb-0 leading-3">
                   {t('gras')}
                 </GrasSignature>
               </Link>
@@ -59,7 +59,7 @@ const Home: NextPageWithLayout = () => {
               >
                 <Image
                   alt="Gras"
-                  className="w-[36px] md:w-[48px]"
+                  className="w-[36px]"
                   src={logo}
                   quality={25}
                 />

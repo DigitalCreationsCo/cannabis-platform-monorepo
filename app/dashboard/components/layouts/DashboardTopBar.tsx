@@ -24,29 +24,30 @@ function DashboardTopBar() {
 
   return (
     <div className={twMerge(styles.TOPBAR.topbar, 'bg-transparent pb-0')}>
-      <FlexBox>
+      <div>
         <FlexBox className="flex-row items-center gap-x-2">
           <Link href={user ? '/' : getShopSite('/')} className="z-50">
-            <GrasSignature className="text-inverse lg:text-4xl pt-1 pb-0 mb-0 leading-3">
+            <GrasSignature className="text-inverse pt-1 pb-0 mb-0 leading-3">
               {t('gras')}
             </GrasSignature>
           </Link>
-          <Link href={user ? '/' : getShopSite('/')} className="shrink-0">
+          <Link href={user ? '/' : getShopSite('/')} className="shrink-0 bg-inverse w-fit rounded-full">
             <Image
               alt="Gras"
-              className="w-[36px] md:w-[48px]"
+              className="w-[36px]"
               src={logo}
               quality={25}
             />
           </Link>
         </FlexBox>
         <Link href={user ? '/' : getShopSite('/')}>
-          <Paragraph className={twMerge(styles.TOPBAR.tagline, 'text-light')}>
+          <Paragraph
+            className={twMerge(styles.TOPBAR.tagline, 'text-inverse-soft')}
+            >
             {TextContent.info.CANNABIS_DELIVERED_TEXT}
           </Paragraph>
         </Link>
-      </FlexBox>
-      <div className="flex-1"></div>
+      </div>
 
       <FlexBox className="flex flex-row items-center md:space-x-4 md:pr-2">
         {/* SHOW ACCOUNT DROPDOWN BUTTON OR SIGNIN */}

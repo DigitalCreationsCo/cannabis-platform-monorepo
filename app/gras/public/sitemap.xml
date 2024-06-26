@@ -2,79 +2,79 @@
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
     <loc>http://localhost:3000/404.tsx</loc>
-    <lastmod>2024-06-24T15:26:35.691Z</lastmod>
+    <lastmod>2024-06-26T03:33:30.805Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:3000/500.tsx</loc>
-    <lastmod>2024-06-24T15:26:35.691Z</lastmod>
+    <lastmod>2024-06-26T03:33:30.805Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:3000/dashboard.tsx</loc>
-    <lastmod>2024-06-24T15:26:35.691Z</lastmod>
+    <lastmod>2024-06-26T03:33:30.805Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:3000/index.tsx</loc>
-    <lastmod>2024-06-24T15:26:35.691Z</lastmod>
+    <lastmod>2024-06-26T03:33:30.805Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:3000/messaging.tsx</loc>
-    <lastmod>2024-06-24T15:26:35.691Z</lastmod>
+    <lastmod>2024-06-26T03:33:30.805Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:3000/services.tsx</loc>
-    <lastmod>2024-06-24T15:26:35.691Z</lastmod>
+    <lastmod>2024-06-26T03:33:30.805Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:3000/work-with-us.tsx</loc>
-    <lastmod>2024-06-24T15:26:35.691Z</lastmod>
+    <lastmod>2024-06-26T03:33:30.805Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:3000/blog/index.tsx</loc>
-    <lastmod>2024-06-24T15:26:35.691Z</lastmod>
+    <lastmod>2024-06-26T03:33:30.805Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:3000/browse/[dispensary].tsx</loc>
-    <lastmod>2024-06-24T15:26:35.691Z</lastmod>
+    <lastmod>2024-06-26T03:33:30.805Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:3000/browse/index.tsx</loc>
-    <lastmod>2024-06-24T15:26:35.691Z</lastmod>
+    <lastmod>2024-06-26T03:33:30.805Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:3000/events/[event].tsx</loc>
-    <lastmod>2024-06-24T15:26:35.691Z</lastmod>
+    <lastmod>2024-06-26T03:33:30.805Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:3000/blog/posts/[slug].tsx</loc>
-    <lastmod>2024-06-24T15:26:35.691Z</lastmod>
+    <lastmod>2024-06-26T03:33:30.805Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://localhost:3000/blog/studio/[[...studio]].tsx</loc>
-    <lastmod>2024-06-24T15:26:35.691Z</lastmod>
+    <lastmod>2024-06-26T03:33:30.805Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>

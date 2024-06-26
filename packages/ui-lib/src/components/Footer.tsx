@@ -56,8 +56,8 @@ export default function Footer({
 				className
 			)}
 		>
-			<Grid className="overflow-x-hidden mx-auto md:mt-5 grid w-3/4 md:w-full max-w-screen-xl pb-16 lg:pb-0 grid-rows-auto gap-10 lg:gap-4 md:grid-cols-8 overflow-visible">
-				<div className="row-start-2 md:row-span-5 md:col-span-2 md:col-start-2 md:row-start-auto">
+			<Grid className="overflow-x-hidden mx-auto md:mt-5 grid md:w-3/4 max-w-screen-xl pb-16 lg:pb-0 grid-rows-auto gap-6 md:gap-10 lg:gap-4 md:grid-cols-4 lg:grid-cols-6 overflow-visible">
+				<div className="col-span-2">
 					<div className="flex w-full flex-col flex-wrap md:ml-0 space-y-3 md:pt-4">
 						{navigation.map((item, index) => (
 							<Link
@@ -70,7 +70,7 @@ export default function Footer({
 						))}
 					</div>
 				</div>
-				<div className="row-start-3 md:row-span-3 md:col-span-2 md:row-start-auto">
+				<div className="col-span-2">
 					<div className="flex-col space-y-3 flex w-full flex-wrap lg:ml-0 md:pt-4">
 						{legal.map((item, index) => (
 							<Link
@@ -84,8 +84,7 @@ export default function Footer({
 						))}
 					</div>
 				</div>
-				<div className="md:col-span-3 flex flex-col-reverse md:flex-col md:space-y-4">
-					<div className="md:col-span-3 md:row-span-5 row-start-5 md:row-start-auto">
+				<div className="col-span-2 md:!col-span-4 lg:!col-span-2 md:!row-start-2 lg:!row-start-1 md:!col-start-1 lg:!col-start-5 row-span-3">
 						<FlexBox className="pb-4 flex-row items-center">
 							<Link href={getShopSite('/')} className="z-50">
 								<GrasSignature className="text-inverse">Gras</GrasSignature>
@@ -104,7 +103,7 @@ export default function Footer({
 							</Link>
 						</FlexBox>
 
-						<FlexBox className="mt-4 flex-row gap-x-8 text-inverse">
+						<FlexBox className="mt-2 flex-row gap-x-8 text-inverse">
 							<a
 								href="https://twitter.com/gras_cannabis"
 								target="_blank"
@@ -143,13 +142,12 @@ export default function Footer({
 							</a>
 						</FlexBox>
 
-						<Paragraph className="mt-8 md:max-w-sm font-medium">
+						<Paragraph className="mt-6 max-w-sm font-medium">
 							{TextContent.info.ABOUT_GRAS_AND_MISSION}
 						</Paragraph>
 						<CopyRight className="font-medium" />
-					</div>
 				</div>
-				<div className="row-start-1 row-span-1 md:col-start-6 md:col-span-3 md:row-start-auto pt-4 md:pt-0">
+				<div className="row-start-1 md:!row-start-5 md:!col-start-1 lg:!row-start-4 lg:!col-start-5 col-span-2 md:col-span-2">
 					<H6 color="light">{TextContent.info.CANNABIS_DELIVERED}</H6>
 				</div>
 			</Grid>
