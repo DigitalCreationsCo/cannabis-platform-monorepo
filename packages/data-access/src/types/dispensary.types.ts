@@ -27,12 +27,12 @@ export type POS = 'dutchie' | 'blaze' | 'weedmaps';
 export type Inventory = 'metrc' | 'biotrack';
 export type SiteSetting = {
 	// theme: string;
+	// accentFont: string;
 	primaryColor: string;
 	secondaryColor: string;
 	tertiaryColor: string;
 	textColor: string;
 	backgroundColor: string;
-	// accentFont: string;
 	showTitle: boolean;
 	showBanner: boolean;
 	showDescription: boolean;

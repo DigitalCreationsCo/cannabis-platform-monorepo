@@ -3,6 +3,25 @@
 import { type DailyDeal } from '@cd/data-access';
 import { axios } from '../axiosInstance';
 import Twilio from '../sms/twilio';
+import { urlBuilder } from '../utils';
+
+const folders = {
+	"daily-deals": 36202,
+	events: 36049,
+}
+
+const METHODS = {
+	GET: 0,
+	POST: 1,
+	OPTIONS: 2,
+	HEAD: 3,
+	PUT: 4,
+	DELETE: 5,
+	TRACE: 6,
+	CONNECT: 7,
+	PATCH: 8,
+};	
+
 
 class CronJobApi {
 	constructor() {
@@ -139,6 +158,43 @@ class CronJobApi {
 			}
 		);
 	}
+
+	// EVENTS
+
+	async createGetEventsByLocationJob(location: string): Promise<string> {
+		const response = await axios.put<{ jobId: string }>(
+			`https://api.cron-job.org/jobs`,
+			{
+				job: {
+					title: `update-events-${location}`,
+					enabled: true,
+					folderId: folders.events,
+					schedule: '0 0 1 * *',
+					url: urlBuilder.shop + `/api/events?location=${location}`,
+					notification: {
+						onFailure: true,
+						onSuccess: true,
+						onDisable: true,
+					},
+					requestMethod: METHODS.POST,
+					extendedData: {
+						headers: {
+							'Authorization': `Bearer ${process.env.NEXTAUTH_SECRET}`,
+						}
+					},
+				},
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${process.env.CRON_API_KEY}`,
+					'Content-Type': 'application/json',
+				},
+			}
+		);
+		const { jobId } = response.data;
+		return jobId;
+	}
+
 }
 
 export default new CronJobApi();

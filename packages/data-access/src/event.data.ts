@@ -15,7 +15,19 @@ export const createManyEvents = async ({
 	return await client
 		.db(db)
 		.collection<Event>(collections.events)
-		.insertMany(data);
+		.insertMany(
+			data.map((event) => {
+				// Ensure longitude and latitude are numbers
+				const longitude = parseFloat(event.primary_venue.address.longitude);
+				const latitude = parseFloat(event.primary_venue.address.latitude);
+		
+				// Set the location field
+				event.primary_venue.address.location = [longitude, latitude];
+		
+				return event;
+		  		}
+			)
+		);
 };
 
 export const updateManyEvents = async ({
@@ -33,7 +45,15 @@ export const updateManyEvents = async ({
 			data.map((event) => ({
 				updateOne: {
 					filter: { id: event.id },
-					update: { $set: { ...event } },
+					update: { $set: 
+						{ 
+							...event,
+							"primary_venue.address.location": [
+								{ $toDouble: "$primary_venue.address.longitude" },
+								{ $toDouble: "$primary_venue.address.latitude" }
+						  	] 
+						} 
+					},
 					upsert: true,
 				},
 			}))
@@ -51,7 +71,15 @@ export const createEvent = async ({
 	const event = await (
 		await client.db(db).collection<Event>(collections.events).findOneAndUpdate(
 			{ id: data.id },
-			{ $set: data },
+			{ $set: 
+				{
+					...data,
+					"primary_venue.address.location": [
+					parseFloat(data.primary_venue.address.longitude),
+					parseFloat(data.primary_venue.address.latitude)
+					]
+				} 
+			},
 			{
 				upsert: true,
 				returnDocument: 'after',
@@ -76,7 +104,14 @@ export const updateEvent = async ({
 	const event = await (
 		await client.db(db).collection<Event>(collections.events).findOneAndUpdate(
 			where,
-			{ $set: data },
+			{ $set: {
+				...data,
+				"primary_venue.address.location": [
+					parseFloat(data.primary_venue.address.longitude),
+					parseFloat(data.primary_venue.address.latitude)
+					]
+				}  
+			},
 			{
 				upsert: true,
 				returnDocument: 'after',
