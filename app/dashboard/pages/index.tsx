@@ -92,7 +92,7 @@ const ImageBackDrop = ({
           objectPosition: '80% 40%',
         }}
         priority
-        quality={25}
+        quality={75}
       />
       <div
         className="flex h-full grow"
