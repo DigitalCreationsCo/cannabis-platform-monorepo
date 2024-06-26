@@ -143,7 +143,7 @@ export default function Browse({
  
   const eventsToday =
     events.filter(
-      (event) => event.start_date < new Date().toISOString().substring(0, 10)
+      (event) => event.start_date < new Date().toISOString().substring(0, 10) && event.end_date >= new Date().toISOString().substring(0, 10)
     ) || [];
 
     const [eventRequestSent, setEventRequestSent] = useState(false);
@@ -171,7 +171,7 @@ export default function Browse({
             ResponseDataEnvelope<any>,
             AxiosResponse<ResponseDataEnvelope<any>>,
             { city: string }
-          >(`/api/events?location=${values.city}`, values, { headers: { ...applicationHeaders, 'Authorization': `Bearer ${token}` } });
+          >(`/api/events?location=${values.city}&create_cron=true`, values, { headers: { ...applicationHeaders, 'Authorization': `Bearer ${token}` } });
           // if (!response.data.success || response.data.success === 'false')
           // 	throw new Error(response.data.error);
           setLoading(false);
@@ -242,9 +242,33 @@ export default function Browse({
         className="!pt-0 md:pt-0 px-0 lg:px-0 pb-0 min-h-[440px]"
       >
         <div>
-          <TopBar
-            
-          />
+          <TopBar SearchComponent={
+          <div className='hidden lg:block'>
+            <H1 className="text-light text-lg pt-2 px-2 leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left">
+              {`Find flower, edibles, dispensaries`}
+              <span className="hidden xl:!inline">{` near you`}</span>
+            </H1>
+            <TextField
+              className="text-dark"
+              name="zipcode"
+              maxLength={5}
+              // label="search your zipcode"
+              defaultValue={'Enter your zipcode'}
+              value={zipcode}
+              placeholder="Enter your zipcode"
+              onBlur={undefined}
+              onChange={(e: any) =>
+                // eslint-disable-next-line sonarjs/no-use-of-empty-return-value
+                debounce(
+                  saveZipcodeToLocalStorage(e.target.value || ''),
+                  2000
+                )
+              }
+              error={!!zipcodeError}
+              helperText={zipcodeError}
+            />
+          </div>
+          } />
           {/* <Header/> */}
         </div>
 
@@ -288,11 +312,11 @@ export default function Browse({
           <FBInit /> */}
           {/* </div> */}
           <div className="col-span-full">
-            <H1 className="text-light text-lg pt-2 px-4 leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left">
-              {`Find flower, edibles, dispensaries`}
-              <span className="hidden lg:!inline">{` near you`}</span>
-            </H1>
-              <div>
+            <div className='lg:hidden px-4 sm:w-fit'>
+              <H1 className="lg:hidden text-xl md:text-3xl text-light md:pt-2 leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left">
+                {`Find flower, edibles, dispensaries`}
+                <span className="hidden lg:!inline">{` near you`}</span>
+              </H1>
                 <TextField
                   className="text-dark"
                   name="zipcode"
@@ -418,9 +442,9 @@ export default function Browse({
         </div> */}
         
         {!isEventLoading && events.length === 0 ? 
-		<AnimatePresence>
+            <AnimatePresence>
        <div
-          className=" h-44 place-self-center col-span-full sm:max-w-md bg-white shadow-xl rounded mx-4 flex flex-col gap-1">
+       className="h-44 place-self-center col-span-full max-w-xl bg-white shadow-xl rounded mx-4 gap-1">
             {eventRequestSent &&
             <motion.div className='flex h-full p-5 hover:bg-gray-100 transition'
               initial={{ y: 50, opacity: 0 }}
@@ -521,7 +545,7 @@ export default function Browse({
           </div>}
 
 
-          {!isEventLoading && events.length === 0 ? <></> : <div className="col-span-full">
+          {!isEventLoading && eventsToday.length === 0 ? <></> : <div className="col-span-full">
             <H2 className="col-span-full text-lg sm:pt-2 px-3 md:px-4 text-light leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left">
               🎉 Happening Today
             </H2>
@@ -557,7 +581,7 @@ export default function Browse({
                 },
               }}
               items={
-                isEventLoading && events.length
+                !isEventLoading && eventsToday.length
                   ? 
                 eventsToday.map((event, index) => (
                   <EventCard
@@ -580,7 +604,7 @@ export default function Browse({
 
 
           <div className="col-span-full">
-            <H2 className="col-span-full text-lg sm:pt-2 px-2 md:px-4 text-light leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left">
+            <H2 className="col-span-full text-lg px-2 md:px-4 text-light leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left">
               🍍 Fresh from our blog
             </H2>
             <Carousel

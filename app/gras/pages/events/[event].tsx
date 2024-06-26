@@ -23,16 +23,18 @@ interface EventPageProps {
   token: string;
 }
 
-function EventPage({ event, session}: EventPageProps & any) {
+function EventPage({ event, session}: EventPageProps & { session: any; }) {
 
   console.info('session ', session)
   const Router = useRouter();
-  const showOrFilterPageBySession = {filter: !session? 'blur(2px)' : 'none'}
+  // const showOrFilterPageBySession = {filter: !session? 'blur(2px)' : 'none'}
   console.info('event ', event);
   return (
     <>
       <SEOMetaTags title={event.name} description={event.summary} />
-      <Page gradient="green" style={{ ...showOrFilterPageBySession}}>
+      <Page gradient="green" 
+      // style={{ ...showOrFilterPageBySession}}
+      >
         <BackButton />
         <FlexBox className="gap-y-2 max-w-screen">
           <H1 className="text-white drop-shadow-[0px_2px_0px_#666]">
@@ -40,7 +42,7 @@ function EventPage({ event, session}: EventPageProps & any) {
           </H1>
           <div className="min-w-full">
             <Image
-              src={event.image.url}
+              src={event.image?.url || require('public/hemp.png')}
               alt={event.name}
               width={150}
               height={150}
@@ -83,6 +85,9 @@ function EventPage({ event, session}: EventPageProps & any) {
           <ClockIcon height={20} width={20} className="text-white" />
           <Paragraph className="text-white font-medium">
             {new Date(event.start_date).toLocaleString()}
+          </Paragraph>
+          <Paragraph className="text-white font-medium">
+            {new Date(event.end_date).toLocaleString()}
           </Paragraph>
         </FlexBox>
       </FlexBox>

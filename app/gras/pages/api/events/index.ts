@@ -1,4 +1,4 @@
-import { axios } from '@cd/core-lib';
+import { CronJobApi, axios } from '@cd/core-lib';
 import { type Event, getEvents, updateManyEvents } from '@cd/data-access';
 import * as cheerio from 'cheerio';
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -52,7 +52,11 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
 // save events from eventbrite search
 const handlePUT = async (req: NextApiRequest, res: NextApiResponse) => {
   const client = await clientPromise;
-  const { location = 'ny--new-york', query = 'cannabis' } = req.query;
+  const { location = 'ny--new-york', query = 'cannabis', create_cron = false } = req.query as {
+    location: string;
+    query: string;
+    'create_cron': string;
+  };
   const clientToken = req.headers.authorization?.split(' ')[1];
   const token = env.nextAuth.secret;
   if (clientToken !== token) {
@@ -80,6 +84,13 @@ const handlePUT = async (req: NextApiRequest, res: NextApiResponse) => {
   });
   const { ok, matchedCount, modifiedCount, hasWriteErrors, upsertedCount } =
     await updateManyEvents({ client, data: [...events] });
+
+  if (create_cron) 
+    {
+      console.info('Creating cron job for location: ', location);
+      await CronJobApi.createGetEventsByLocationJob(location);
+    }
+
   res.status(200).json({
     ok,
     matchedCount,

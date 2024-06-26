@@ -16,7 +16,7 @@ export default async function handler(
         await handleGET(req, res);
         break;
       default:
-        res.setHeader('Allow', 'GET');
+        res.setHeader('Allow', 'GET, POST');
         res.status(405).json({
           error: { message: `Method ${method} Not Allowed` },
         });
@@ -54,3 +54,40 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
 
   res.status(200).json({ data: dispensaries });
 };
+
+
+// insert many dispensaries
+// const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
+// 	const client = await clientPromise;
+// 	const create = validateWithSchema(createTeamSchema, req.body);
+
+// 	const user = await getCurrentUser(req, res);
+// 	const slug = slugify(create.name);
+
+// 	if (await isTeamExists({ client, where: { slug } })) {
+// 		throw new ApiError(400, 'A team with the slug already exists.');
+// 	}
+
+// 	let weedTextPhoneNumber: string;
+// 	let weedTextSegmentId: string;
+// 	if (create.isSubscribedForMessaging) {
+// 		// weedTextPhoneNumber = await Twilio.provisionSMSPhoneNumber(slug);
+// 		weedTextSegmentId = await FreshSales.createSegment(slug);
+// 	}
+
+// 	const team = await createDispensary({
+// 		client,
+// 		userId: user.id,
+// 		data: {
+// 			...create,
+// 			name: create.name,
+// 			slug,
+// 			weedTextSegmentId,
+// 			weedTextPhoneNumber,
+// 		},
+// 	});
+
+// 	recordMetric('team.created');
+
+// 	res.status(200).json({ data: team });
+// };

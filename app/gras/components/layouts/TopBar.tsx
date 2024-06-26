@@ -84,7 +84,7 @@ function TopBar({ showSearch = true, SearchComponent }: TopBarProps) {
         {user && <_AccountDropDown />}
         {!user && (
           <FlexBox>
-            <Link href="/auth/login">
+            {/* <Link href="/auth/login"> */}
               <Button
                 className={twMerge(
                   styles.BUTTON.highlight,
@@ -93,10 +93,11 @@ function TopBar({ showSearch = true, SearchComponent }: TopBarProps) {
                 size="sm"
                 bg="transparent"
                 hover="transparent"
+                onClick={openLoginModal}
               >
                 {t('sign-in')}
               </Button>
-            </Link>
+            {/* </Link> */}
           </FlexBox>
         )}
       </FlexBox>
