@@ -1,6 +1,10 @@
 const reactPatterns = {
 	files: ['*.{jsx,tsx}'],
-};
+  };
+  
+  const stylesPatterns = {
+	files: ['*.styles.{js,ts}', 'styles.{js,ts}'],
+  };
 
 module.exports = {
 	env: {
@@ -34,25 +38,26 @@ module.exports = {
 				'react/react-in-jsx-scope': 'off',
 				// Fine-tune naming convention react typescript jsx (function components)
 				// https://github.com/typescript-eslint/typescript-eslint/blob/main/packages/eslint-plugin/docs/rules/naming-convention.md
-				'@typescript-eslint/naming-convention': [
-					'warn',
-					{
-						selector: 'variable',
-						format: ['camelCase', 'PascalCase', 'UPPER_CASE'],
-						leadingUnderscore: 'allow',
-					},
-					{
-						selector: ['function'],
-						format: ['camelCase', 'PascalCase'],
-						leadingUnderscore: 'allow',
-					},
-					{
-						selector: 'parameter',
-						format: ['camelCase', 'PascalCase'],
-						leadingUnderscore: 'allow',
-					},
-				],
-				'jsx-a11y/no-noninteractive-tabindex': 'off',
+				
+				// '@typescript-eslint/naming-convention': [
+				// 	'warn',
+				// 	{
+				// 		selector: 'variable',
+				// 		format: ['camelCase', 'PascalCase', 'UPPER_CASE'],
+				// 		leadingUnderscore: 'allow',
+				// 	},
+				// 	{
+				// 		selector: ['function'],
+				// 		format: ['camelCase', 'PascalCase'],
+				// 		leadingUnderscore: 'allow',
+				// 	},
+				// 	{
+				// 		selector: 'parameter',
+				// 		format: ['camelCase', 'PascalCase'],
+				// 		leadingUnderscore: 'allow',
+				// 	},
+				// ],
+				// 'jsx-a11y/no-noninteractive-tabindex': 'off',
 			},
 		},
 	],

@@ -91,6 +91,7 @@
     "@playwright/test": "1.43.1",
     "@types/bcryptjs": "2.4.6",
     "@types/jest": "^29.5.12",
+    "eslint": "8.57.0",
     "@types/micromatch": "4.0.7",
     "@types/mixpanel-browser": "2.49.0",
     "@types/newrelic": "9.14.4",

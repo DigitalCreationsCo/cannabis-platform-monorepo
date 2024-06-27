@@ -20,7 +20,7 @@ module.exports = {
 		// Add specific rules for nextjs
 		'plugin:@next/next/core-web-vitals',
 		// Apply prettier and disable incompatible rules
-		'@cd/eslint-config/src/bases/prettier',
+		'@cd/eslint-config/src/bases/prettier-plugin',
 	],
 	rules: {
 		// https://github.com/vercel/next.js/discussions/16832

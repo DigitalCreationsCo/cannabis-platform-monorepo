@@ -1,6 +1,7 @@
 module.exports = {
 	env: {
 		es6: true,
+		browser: true,
 		node: true,
 	},
 	parser: '@typescript-eslint/parser',
@@ -10,24 +11,24 @@ module.exports = {
 			globalReturn: false,
 		},
 		ecmaVersion: 2015,
-		project: ['tsconfig.base.json'],
+		project: ['tsconfig.json'],
 		sourceType: 'module',
 	},
 	settings: {
 		'import/resolver': {
 			typescript: {
-				project: [
-					// 'tsconfig.json',
-					'packages/*/tsconfig.json',
-					'app/*/tsconfig.json',
-					'server/*/tsconfig.json',
-					'tools/*/tsconfig.json',
-					'mobile/*/tsconfig.json',
-				],
+				// project: [
+				// 	// 'tsconfig.json',
+				// 	'packages/*/tsconfig.json',
+				// 	'app/*/tsconfig.json',
+				// 	'server/*/tsconfig.json',
+				// 	'tools/*/tsconfig.json',
+				// 	'mobile/*/tsconfig.json',
+				// ],
 			},
-			node: {
-				extensions: ['.js', '.jsx', '.ts', '.tsx'],
-			},
+			// node: {
+			// 	extensions: ['.js', '.jsx', '.ts', '.tsx'],
+			// },
 		},
 	},
 	extends: [
@@ -35,14 +36,17 @@ module.exports = {
 		'plugin:import/recommended',
 		'plugin:import/typescript',
 		'plugin:@typescript-eslint/recommended',
-		'plugin:prettier/recommended',
 	],
 	rules: {
 		indent: ['error', 'tab', { SwitchCase: 1 }],
 		'import/no-cycle': 1,
 		'import/default': ['error'],
-		'import/namespace': 'off', // ['error'] If you want the extra check (typechecks will spot most issues already)
+		// Caution this rule is slow https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/namespace.md
+		'import/namespace': 'off', // ['error'] If you want the extra check (typechecking will spot most issues already)
+		// https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-duplicates.md
 		'no-duplicate-imports': 'off',
+		'import/no-named-as-default': ['warn'],
+		'import/no-named-as-default-member': ['warn'],
 		'import/no-duplicates': ['error'],
 		'import/order': [
 			'warn',
@@ -59,10 +63,6 @@ module.exports = {
 				alphabetize: { order: 'asc', caseInsensitive: true },
 			},
 		],
-
-		'import/no-named-as-default-member': ['warn'],
-		'import/no-named-as-default': ['off'],
-
 		'no-empty-function': 'off',
 		'@typescript-eslint/no-empty-function': [
 			'error',
