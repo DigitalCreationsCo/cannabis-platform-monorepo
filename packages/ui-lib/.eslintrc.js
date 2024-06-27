@@ -4,6 +4,7 @@ const { getDefaultIgnorePatterns } = require('@cd/eslint-config/src/helpers');
 
 module.exports = {
 	root: true,
+	parser: '@typescript-eslint/parser',
 	parserOptions: {
 		tsconfigRootDir: __dirname,
 		project: 'tsconfig.json',
@@ -15,12 +16,12 @@ module.exports = {
 		'@cd/eslint-config/src/bases/sonar',
 		'@cd/eslint-config/src/bases/jest',
 		'@cd/eslint-config/src/bases/rtl',
+		'@cd/eslint-config/storybook',
 		'@cd/eslint-config/src/bases/react',
 		'@cd/eslint-config/src/bases/prettier',
-		'plugin:storybook/recommended',
 	],
 	rules: {
-		'import/no-unresolved': 'off',
+		// 'import/no-unresolved': 'off',
 	},
 	overrides: [
 		// optional overrides per project file match

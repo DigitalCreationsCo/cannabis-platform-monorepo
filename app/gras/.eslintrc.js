@@ -1,71 +1,74 @@
+/**
+ * Specific eslint rules for this app/package, extends the base rules
+ * @see https://github.com/belgattitude/nextjs-monorepo-example/blob/main/docs/about-linters.md
+ */
+
+// Workaround for https://github.com/eslint/eslint/issues/3458 (re-export of @rushstack/eslint-patch)
 require('@cd/eslint-config/src/patch/modern-module-resolution');
-const { getDefaultIgnorePatterns } = require('@cd/eslint-config/src/helpers');
+
+const { getDefaultIgnorePatterns } = require('@cd/eslint-config/helpers');
 
 module.exports = {
-  env: {
-    browser: true,
-    es2021: true,
-    node: true,
-  },
   root: true,
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     tsconfigRootDir: __dirname,
     project: 'tsconfig.json',
-    ecmaFeatures: {
-      jsx: true,
-    },
-    ecmaVersion: 'latest',
-    sourceType: 'module',
   },
   ignorePatterns: [...getDefaultIgnorePatterns(), '.next', '.out'],
   extends: [
-    // 'eslint:recommended',
-    // 'plugin:@typescript-eslint/recommended',
-    // 'prettier',
-    // 'next/core-web-vitals',
-    // 'plugin:i18next/recommended',
-    '@cd/eslint-config/src/bases/typescript',
-    '@cd/eslint-config/src/bases/sonar',
-    '@cd/eslint-config/src/bases/regexp',
-    '@cd/eslint-config/src/bases/jest',
-    '@cd/eslint-config/src/bases/react',
-    '@cd/eslint-config/src/bases/tailwind',
-    '@cd/eslint-config/src/bases/rtl',
+    '@cd/eslint-config/typescript',
+    '@cd/eslint-config/sonar',
+    '@cd/eslint-config/regexp',
+    '@cd/eslint-config/jest',
+    '@cd/eslint-config/react',
+    '@cd/eslint-config/tailwind',
+    '@cd/eslint-config/rtl',
     // Add specific rules for nextjs
     'plugin:@next/next/core-web-vitals',
     // Apply prettier and disable incompatible rules
-    '@cd/eslint-config/src/bases/prettier',
+    '@cd/eslint-config/src/bases/prettier-plugin',
   ],
-  plugins: ['react', '@typescript-eslint', 'i18next'],
   rules: {
-    '@typescript-eslint/no-explicit-any': 'off',
-  },
-  settings: {
-    react: {
-      version: 'detect',
-    },
+    '@typescript-eslint/naming-convention': 'off',
+    // https://github.com/vercel/next.js/discussions/16832
+    '@next/next/no-img-element': 'off',
+    // For the sake of example
+    // https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md
+    'jsx-a11y/anchor-is-valid': 'off',
+    'jsx-a11y/label-has-associated-control': 'off',
   },
   overrides: [
     {
-      files: ['*.js'],
+      files: ['next.config.mjs', 'src/lib/env/*.mjs'],
       rules: {
-        '@typescript-eslint/no-var-requires': 'off', // Disable the rule for JavaScript files
+        'import/order': 'off',
+        '@typescript-eslint/ban-ts-comment': 'off',
       },
     },
     {
-      files: ['seed.ts'],
+      files: ['tailwind.config.ts'],
       rules: {
-        '@typescript-eslint/no-var-requires': 'off',
+        '@typescript-eslint/naming-convention': 'off',
       },
     },
     {
-      files: [
-        'components/defaultLanding/**/*.tsx',
-        'components/emailTemplates/**/*.tsx',
-        'pages/index.tsx',
-      ],
+      files: ['src/pages/\\_*.{ts,tsx}'],
       rules: {
-        'i18next/no-literal-string': 'off',
+        'react/display-name': 'off',
+      },
+    },
+    {
+      files: ['src/backend/**/*graphql*schema*.ts'],
+      rules: {
+        '@typescript-eslint/naming-convention': [
+          'error',
+          {
+            // Fine-tune naming convention for graphql resolvers and allow PascalCase
+            selector: ['objectLiteralProperty'],
+            format: ['camelCase', 'PascalCase'],
+          },
+        ],
       },
     },
   ],

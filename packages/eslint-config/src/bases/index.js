@@ -8,4 +8,7 @@ module.exports = {
 	storybook: require('./storybook'),
 	tailwind: require('./tailwind'),
 	typescript: require('./typescript'),
+
+	'prettier-plugin': require('./prettier-plugin'),
+	'prettier-config': require('./prettier-config'),
 };

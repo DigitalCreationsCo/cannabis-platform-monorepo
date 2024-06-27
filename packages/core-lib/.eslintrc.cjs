@@ -4,6 +4,7 @@ const { getDefaultIgnorePatterns } = require('@cd/eslint-config/src/helpers');
 
 module.exports = {
 	root: true,
+	parser: '@typescript-eslint/parser',
 	parserOptions: {
 		tsconfigRootDir: __dirname,
 		project: 'tsconfig.json',
@@ -17,7 +18,7 @@ module.exports = {
 		'@cd/eslint-config/src/bases/rtl',
 		'@cd/eslint-config/src/bases/react',
 		// Apply prettier and disable incompatible rules
-		'@cd/eslint-config/src/bases/prettier',
+   		'@cd/eslint-config/prettier-plugin',
 	],
 	rules: {
 		// optional overrides per project

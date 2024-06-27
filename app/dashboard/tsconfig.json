@@ -11,7 +11,7 @@
     ],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": false,
+    "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -56,10 +56,14 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "strictNullChecks": false
   },
   "include": [
     "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "next-auth.d.ts",
     "**/*.ts",
     "**/*.tsx",
     "**/*.mts",
@@ -68,7 +72,7 @@
     "**/*.mjs",
     "**/*.jsx",
     "**/*.json",
-    "next-auth.d.ts"
+    ".next/types/**/*.ts"
   ],
   "exclude": [
     "**/node_modules",

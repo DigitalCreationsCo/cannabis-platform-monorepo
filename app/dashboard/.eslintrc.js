@@ -3,6 +3,7 @@ const { getDefaultIgnorePatterns } = require('@cd/eslint-config/src/helpers');
 
 module.exports = {
   root: true,
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     tsconfigRootDir: __dirname,
     project: 'tsconfig.json',
@@ -20,7 +21,9 @@ module.exports = {
     // Add specific rules for nextjs
     'plugin:@next/next/core-web-vitals',
     // Apply prettier and disable incompatible rules
-    '@cd/eslint-config/src/bases/prettier',
+    '@cd/eslint-config/prettier-plugin',
+    '@cd/eslint-config/src/bases/prettier-plugin',
+    // '@cd/eslint-config/src/bases/prettier',
   ],
   rules: {
     // https://github.com/vercel/next.js/discussions/16832
@@ -35,6 +38,12 @@ module.exports = {
       rules: {
         'import/order': 'off',
         '@typescript-eslint/ban-ts-comment': 'off',
+      },
+    },
+    {
+      files: ['src/pages/\\_*.{ts,tsx}'],
+      rules: {
+        'react/display-name': 'off',
       },
     },
     {

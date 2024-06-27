@@ -25,7 +25,7 @@ async function init(): Promise<SatoriOptions['fonts']> {
 
   const fontData = await fetch(
     new URL(
-      'public/fonts/EncodeSans-VariableFont_wdth,wght.ttf',
+      '@cd/ui-lib/public/fonts/EncodeSans-VariableFont_wdth,wght.ttf',
       import.meta.url
     )
   ).then((res) => res.arrayBuffer());
