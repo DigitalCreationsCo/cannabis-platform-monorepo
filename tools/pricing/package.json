@@ -3,17 +3,15 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "build": "yarn build:css && rm -rf ./.next && NODE_ENV=production next build",
-    "build:ci": "yarn build:css && rm -rf ./.next && NODE_ENV=production next build",
-    "build:css": "tailwindcss -i ./src/styles/pricing-tool.css -o ./src/styles/tailwind.css",
-    "clean": "rm -rf ./src/styles/tailwind.css ./.next ./out ./dist ./build ./node_modules ./coverage ./tsconfig.tsbuildinfo",
+    "build": "rm -rf ./.next && npx tailwindcss -o ./src/styles/build.css --minify && next build",
+    "build:ci": "rm -rf ./.next && npx tailwindcss -o ./src/styles/build.css --minify && next build",
+    "clean": "rm -rf ./.next ./out ./dist ./build ./node_modules ./coverage ./tsconfig.tsbuildinfo",
     "debug": "NODE_OPTIONS='--inspect' next dev -p 3008",
-    "dev": "npm-run-all --parallel --print-label watch-tailwind next-dev",
+    "dev": "next-dev",
     "lint": "next lint",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "next-dev": "next dev -p 3008",
-    "start": "PORT=3008 node server.js",
-    "watch-tailwind": "tailwindcss -i ./src/styles/pricing-tool.css -o ./src/styles/tailwind.css --watch"
+    "start": "PORT=3008 node server.js"
   },
   "packageManager": "yarn@3.3.1",
   "browserslist": {

@@ -3,18 +3,16 @@
   "version": "0.1.2",
   "private": true,
   "scripts": {
-    "dev": "npm-run-all --parallel --print-label watch-tailwind next-dev",
-    "next-dev": "NEW_RELIC_APP_NAME=dashboard NEW_RELIC_LICENSE_KEY=6cf1545341d719f71ea4a2af51be9661FFFFNRAL NODE_OPTIONS='-r @newrelic/next' next dev -p 3001",
+    "dev": "next dev -p 3001",
     "debug": "NODE_OPTIONS='--inspect' next dev -p 3001",
-    "build": "yarn build:css && rm -rf ./.next && NODE_ENV=production next build",
-    "build:ci": "yarn build:css && rm -rf ./.next && NODE_ENV=production next build",
-    "build:css": "tailwindcss -i ./styles/dashboard.css -o ./styles/tailwind.css",
+    "build": "rm -rf ./.next && npx tailwindcss -o ./styles/build.css --minify && NODE_ENV=production next build",
+    "build:ci": "rm -rf ./.next && npx tailwindcss -o ./styles/build.css --minify && NODE_ENV=production next build",
     "start": "PORT=3001 NEW_RELIC_APP_NAME=dashboard NEW_RELIC_LICENSE_KEY=6cf1545341d719f71ea4a2af51be9661FFFFNRAL node -r @newrelic/next server.js",
     "check-types": "tsc --pretty --noEmit",
     "check-format": "prettier --check .",
     "check-lint": "eslint . --ext ts --ext tsx --ext js",
     "check-unused": "npx knip",
-    "clean": "rm -rf ./styles/tailwind.css ./.next ./out ./dist ./build ./node_modules ./coverage ./tsconfig.tsbuildinfo",
+    "clean": "rm -rf ./.next ./out ./dist ./build ./node_modules ./coverage ./tsconfig.tsbuildinfo",
     "format": "prettier --write .",
     "lint": "next lint",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
@@ -27,8 +25,7 @@
     "test:coverage": "jest --coverage --env=jsdom",
     "sync-stripe": "node --env-file .env sync-stripe.js",
     "check-locale": "node check-locale.js",
-    "delete-team": "node --env-file .env delete-team.js",
-    "watch-tailwind": "tailwindcss -i ./styles/dashboard.css -o ./styles/tailwind.css --watch"
+    "delete-team": "node --env-file .env delete-team.js"
   },
   "packageManager": "yarn@3.3.1",
   "dependencies": {

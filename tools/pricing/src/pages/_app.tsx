@@ -14,7 +14,9 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { LayoutContainer } from '../components';
 import { wrapper } from '../store';
+
 import '../styles/pricing-tool.css';
+import '../styles/build.css';
 
 type CustomAppProps = AppProps & {
 	Component: ExtendedPageComponent;

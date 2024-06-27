@@ -30,9 +30,8 @@ import CacheProvider from '@cd/core-lib/src/lib/cache';
 import { AnimatePresence } from 'framer-motion';
 import { loadSegment } from '@cd/core-lib/src/lib/segment';
 
-import colors from 'tailwindcss/colors';
 import '../styles/shop.css';
-import '../styles/globals.css';
+import '../styles/build.css';
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_API_KEY as string

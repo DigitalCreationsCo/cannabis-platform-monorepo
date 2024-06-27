@@ -30,8 +30,8 @@ import { type AppPropsWithLayout } from '@/lib/next.types';
 import { wrapper } from '@/lib/store';
 import { loadSegment } from '@cd/core-lib/src/lib/segment';
 
-import colors from 'tailwindcss/colors';
 import '../styles/dashboard.css';
+import '../styles/build.css';
 
 const stripePromise = loadStripe(
 	process.env.NEXT_PUBLIC_STRIPE_API_KEY as string

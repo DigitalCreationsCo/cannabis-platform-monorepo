@@ -1,5 +1,4 @@
 import './styles/ui-lib.css';
-import './styles/gradient.css'
 import './styles/tailwind.css'
 
 export * from './components';

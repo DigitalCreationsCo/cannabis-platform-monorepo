@@ -1,12 +1,16 @@
+/** @type {import('tailwindcss').Config} */
+
 const colors = require('tailwindcss/colors');
 
 module.exports = {
 	plugins: [require('@tailwindcss/typography'), require('daisyui')],
-	content: [
+	content: {
+		relative: true,
+		files: [
 		'./src/**/*.{js,jsx,ts,tsx}',
 		'../../node_modules/daisyui/dist/**/*.js',
 		'../../node_modules/react-daisyui/dist/**/*.js',
-	],
+	]},
 	theme: {
 		fontFamily: {
 			encode: ['Encode Sans', 'sans-serif'],

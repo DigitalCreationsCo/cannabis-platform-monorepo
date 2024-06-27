@@ -6,7 +6,7 @@
 // Workaround for https://github.com/eslint/eslint/issues/3458 (re-export of @rushstack/eslint-patch)
 require('@cd/eslint-config/src/patch/modern-module-resolution');
 
-const { getDefaultIgnorePatterns } = require('@cd/eslint-config/helpers');
+const { getDefaultIgnorePatterns } = require('@cd/eslint-config/src/helpers');
 
 module.exports = {
   root: true,
@@ -17,13 +17,14 @@ module.exports = {
   },
   ignorePatterns: [...getDefaultIgnorePatterns(), '.next', '.out'],
   extends: [
-    '@cd/eslint-config/typescript',
-    '@cd/eslint-config/sonar',
-    '@cd/eslint-config/regexp',
-    '@cd/eslint-config/jest',
-    '@cd/eslint-config/react',
-    '@cd/eslint-config/tailwind',
-    '@cd/eslint-config/rtl',
+    '@cd/eslint-config/src/bases/typescript',
+    '@cd/eslint-config/src/bases/sonar',
+    '@cd/eslint-config/src/bases/regexp',
+    '@cd/eslint-config/src/bases/jest',
+    '@cd/eslint-config/src/bases/react',
+    '@cd/eslint-config/src/bases/tailwind',
+    '@cd/eslint-config/src/bases/rtl',
+    '@cd/eslint-config/src/bases/i18n',
     // Add specific rules for nextjs
     'plugin:@next/next/core-web-vitals',
     // Apply prettier and disable incompatible rules
@@ -56,19 +57,6 @@ module.exports = {
       files: ['src/pages/\\_*.{ts,tsx}'],
       rules: {
         'react/display-name': 'off',
-      },
-    },
-    {
-      files: ['src/backend/**/*graphql*schema*.ts'],
-      rules: {
-        '@typescript-eslint/naming-convention': [
-          'error',
-          {
-            // Fine-tune naming convention for graphql resolvers and allow PascalCase
-            selector: ['objectLiteralProperty'],
-            format: ['camelCase', 'PascalCase'],
-          },
-        ],
       },
     },
   ],

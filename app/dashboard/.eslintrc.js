@@ -1,4 +1,5 @@
 require('@cd/eslint-config/src/patch/modern-module-resolution');
+
 const { getDefaultIgnorePatterns } = require('@cd/eslint-config/src/helpers');
 
 module.exports = {
@@ -21,9 +22,7 @@ module.exports = {
     // Add specific rules for nextjs
     'plugin:@next/next/core-web-vitals',
     // Apply prettier and disable incompatible rules
-    '@cd/eslint-config/prettier-plugin',
     '@cd/eslint-config/src/bases/prettier-plugin',
-    // '@cd/eslint-config/src/bases/prettier',
   ],
   rules: {
     // https://github.com/vercel/next.js/discussions/16832

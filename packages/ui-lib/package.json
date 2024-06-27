@@ -47,7 +47,7 @@
   "scripts": {
     "build": "yarn build:css && rm -rf ./dist && tsup src/index.ts",
     "build:ci": "tsup src/index.ts",
-    "build:css": "npx tailwindcss -i ./src/styles/ui-lib.css -o ./src/styles/tailwind.css",
+    "build:css": "npx tailwindcss -i ./src/styles/ui-lib.css -o ./src/styles/tailwind.css --minify",
     "build:watch": "rm -rf ./dist && tsup --watch",
     "clean": "rm -rf ./.next ./out ./dist ./build ./node_modules ./coverage ./tsconfig.tsbuildinfo",
     "watch": "npm-run-all --parallel --print-label watch:css build:watch",
