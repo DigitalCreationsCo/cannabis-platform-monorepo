@@ -1,11 +1,11 @@
 import { type Dispensary } from '@cd/data-access';
 
 /* eslint-disable @typescript-eslint/naming-convention */
-type ApiError = {
+interface ApiError {
 	code: number;
 	message: string;
-	values: { [key: string]: string };
-};
+	values: Record<string, string>;
+}
 
 export type ApiResponse<T = unknown> =
 	| {
@@ -23,11 +23,11 @@ export type TeamWithMemberCount = Dispensary & {
 	};
 };
 
-export type WebookFormSchema = {
+export interface WebookFormSchema {
 	name: string;
 	url: string;
 	eventTypes: string[];
-};
+}
 
 export type AppEvent =
 	| 'invitation.created'

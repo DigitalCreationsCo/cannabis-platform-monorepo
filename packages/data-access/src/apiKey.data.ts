@@ -85,11 +85,11 @@ export const getApiKey = async ({
 		.findOne({ hashedKey: hashApiKey(where.apiKey) });
 };
 
-export type ApiKey = {
+export interface ApiKey {
 	id: string;
 	teamId: ObjectId;
 	name: string;
 	hashedKey: string;
 	createdAt: Date;
 	updatedAt: Date;
-};
+}

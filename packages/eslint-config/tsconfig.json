@@ -7,11 +7,10 @@
 		"incremental": true,
 		"allowJs": true,
 		"checkJs": true
-
 	},
-	"exclude": ["**/node_modules", "**/.*/", "dist", "build"],
+	"exclude": ["node_modules", "dist", "build"],
 	"include": [
-		".eslintrc.*",
+		"**/*.eslintrc.*",
 		"**/*.ts",
 		"**/*.js",
 		"**/*.cjs",

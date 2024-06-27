@@ -25,7 +25,7 @@ export const signOutUserAsync = createAsyncThunk<
 	}
 });
 
-export type UserStateProps = {
+export interface UserStateProps {
 	token: string;
 	user: UserWithDetails;
 	isSignedIn: boolean;
@@ -33,7 +33,7 @@ export type UserStateProps = {
 	isSuccess: boolean;
 	isError: boolean;
 	errorMessage: string;
-};
+}
 
 const initialState: UserStateProps = {
 	token: '',

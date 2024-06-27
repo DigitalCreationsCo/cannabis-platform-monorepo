@@ -12,6 +12,7 @@
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
+    "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -46,10 +47,10 @@
         "../../packages/eslint-config/src/index"
       ],
       "@/lib/*": [
-        "lib/*"
+        "./lib/*"
       ],
       "@/components/*": [
-        "components/*"
+        "./components/*"
       ]
     },
     "plugins": [
@@ -57,15 +58,13 @@
         "name": "next"
       }
     ],
-    "strictNullChecks": false
   },
   "include": [
+    ".eslintrc.*",
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     "next-auth.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
     "**/*.mts",
     "**/*.js",
     "**/*.cjs",
@@ -77,6 +76,5 @@
   "exclude": [
     "**/node_modules",
     "**/.*/**",
-    "./.next/**"
   ]
 }

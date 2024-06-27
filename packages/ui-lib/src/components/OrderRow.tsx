@@ -6,11 +6,11 @@ import { twMerge } from 'tailwind-merge';
 import Price from './Price';
 import Row from './Row';
 import { H6, Paragraph, Small } from './Typography';
-type OrderRowProps = {
+interface OrderRowProps {
 	order: Order;
 	orderDetailsRoute: string;
 	className?: string | string[];
-};
+}
 
 function OrderRow({ order, orderDetailsRoute, className }: OrderRowProps) {
 	return (

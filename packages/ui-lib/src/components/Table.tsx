@@ -1,7 +1,7 @@
-type TableProps = {
+interface TableProps {
 	head?: string[];
 	body: string[];
-};
+}
 function Table({ head, body }: TableProps) {
 	return (
 		<table className="table-auto">

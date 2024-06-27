@@ -32,7 +32,7 @@ export type AppState = Readonly<{
 	dispensary: DispensaryStateProps;
 }>;
 
-export type ThunkArgumentsType = {
+export interface ThunkArgumentsType {
 	store: Store;
 	supertokens: {
 		signUp?: any;
@@ -43,9 +43,9 @@ export type ThunkArgumentsType = {
 		navigate: (routename: any, params: any) => void;
 		goBack: () => void;
 	};
-};
+}
 
-export type SimpleCart = {
+export interface SimpleCart {
 	subtotal?: number;
 	tax?: number;
 	discount?: number;
@@ -53,7 +53,7 @@ export type SimpleCart = {
 	cartItems: ProductVariantWithDetails[];
 	organizationId?: string;
 	organizationName?: string;
-};
+}
 
 export type AppStore = Store<AppState>;
 export type AppDispatch = Dispatch<any>;

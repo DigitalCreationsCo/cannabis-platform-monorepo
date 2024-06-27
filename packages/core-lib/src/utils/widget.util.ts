@@ -30,5 +30,5 @@ export function generateWidgetScriptTag({
 			inventory: ${inventory},
 			parentElement: ${parentElement},
 		});</script>`
-	).textContent as string;
+	).textContent!;
 }

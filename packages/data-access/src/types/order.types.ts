@@ -192,10 +192,10 @@ export type OrderStatus =
 	| 'Delivered'
 	| 'Cancelled';
 
-export type Order = {
+export interface Order {
 	id: string;
 	orderStatus: OrderStatus;
 	total: number;
 	createdAt: Date;
 	updatedAt: Date;
-};
+}

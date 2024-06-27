@@ -8,112 +8,112 @@ import env from './lib/env';
 
 // Add routes that don't require authentication
 const unAuthenticatedRoutes = [
-  '/',
-  '/404',
-  '/500',
-  '/api/hello',
-  '/api/health',
-  '/api/robots',
-  '/api/dispensaries/**',
-  '/api/events/**',
-  '/api/auth/**',
-  '/api/oauth/**',
-  '/api/scim/v2.0/**',
-  '/api/invitations/*',
-  '/api/webhooks/stripe',
-  '/api/webhooks/dsync',
-  '/api/contact-us',
-  '/api/save-visitor',
-  '/auth/**',
-  '/invitations/*',
-  '/terms-condition',
-  '/unlock-account',
-  '/login/saml',
-  '/browse/**',
-  '/events/**',
-  // '/weed-text',
-  '/blog/**',
-  // '/help',
-  '/work-with-us',
-  '/workwithus',
-  '/services',
-  '/messaging',
+	'/',
+	'/404',
+	'/500',
+	'/api/hello',
+	'/api/health',
+	'/api/robots',
+	'/api/dispensaries/**',
+	'/api/events/**',
+	'/api/auth/**',
+	'/api/oauth/**',
+	'/api/scim/v2.0/**',
+	'/api/invitations/*',
+	'/api/webhooks/stripe',
+	'/api/webhooks/dsync',
+	'/api/contact-us',
+	'/api/save-visitor',
+	'/auth/**',
+	'/invitations/*',
+	'/terms-condition',
+	'/unlock-account',
+	'/login/saml',
+	'/browse/**',
+	'/events/**',
+	// '/weed-text',
+	'/blog/**',
+	// '/help',
+	'/work-with-us',
+	'/workwithus',
+	'/services',
+	'/messaging',
 ];
 
 const allowAllUsers = [
-  '/',
-  '/work-with-us',
-  '/workwithus',
-  '/services',
-  '/messaging',
+	'/',
+	'/work-with-us',
+	'/workwithus',
+	'/services',
+	'/messaging',
 ];
 
 export default async function middleware(req: NextRequest) {
-  const { pathname } = req.nextUrl;
+	const { pathname } = req.nextUrl;
 
-  if (pathname === '/workwithus') {
-    const url = new URL('/work-with-us', req.url);
-    return NextResponse.redirect(url);
-  }
+	if (pathname === '/workwithus') {
+		const url = new URL('/work-with-us', req.url);
+		return NextResponse.redirect(url);
+	}
 
-  const over21 = await getCookie('yesOver21', { req });
-  // Redirect to browse page if user is over 21
-  if (pathname === '/' && over21 == 'true') {
-    const url = new URL('/browse', req.url);
-    return NextResponse.redirect(url);
-  }
+	const over21 = await getCookie('yesOver21', { req });
+	// Redirect to browse page if user is over 21
+	if (pathname === '/' && over21 == 'true') {
+		const url = new URL('/browse', req.url);
+		return NextResponse.redirect(url);
+	}
 
-  // Redirect to home page if user is under 21
-  if (!micromatch.isMatch(pathname, allowAllUsers) && over21 !== 'true') {
-    return NextResponse.redirect(new URL('/', req.url));
-  }
+	// Redirect to home page if user is under 21
+	if (!micromatch.isMatch(pathname, allowAllUsers) && over21 !== 'true') {
+		return NextResponse.redirect(new URL('/', req.url));
+	}
 
-  // Bypass routes that don't require authentication
-  if (micromatch.isMatch(pathname, unAuthenticatedRoutes)) {
-    console.info('Bypassing auth middleware for', pathname);
-    return NextResponse.next();
-  }
+	// Bypass routes that don't require authentication
+	if (micromatch.isMatch(pathname, unAuthenticatedRoutes)) {
+		console.info('Bypassing auth middleware for', pathname);
+		return NextResponse.next();
+	}
 
-  console.info('Checking auth middleware for', pathname);
-  const redirectUrl = new URL('/auth/login', req.url);
-  redirectUrl.searchParams.set('callbackUrl', encodeURI(req.url));
+	console.info('Checking auth middleware for', pathname);
+	const redirectUrl = new URL('/auth/login', req.url);
+	redirectUrl.searchParams.set('callbackUrl', encodeURI(req.url));
 
-  // JWT strategy
-  if (env.nextAuth.sessionStrategy === 'jwt') {
-    const token = await getToken({
-      req,
-    });
+	// JWT strategy
+	if (env.nextAuth.sessionStrategy === 'jwt') {
+		const token = await getToken({
+			req,
+		});
 
-    if (!token) {
-      return NextResponse.redirect(redirectUrl);
-    }
-  }
+		if (!token) {
+			return NextResponse.redirect(redirectUrl);
+		}
+	}
 
-  // Database strategy
-  else if (env.nextAuth.sessionStrategy === 'database') {
-    const url = new URL('/api/auth/session', req.url);
+	// Database strategy
+	else if (env.nextAuth.sessionStrategy === 'database') {
+		const url = new URL('/api/auth/session', req.url);
 
-    const response = await fetch(url, {
-      headers: {
-        'Content-Type': 'application/json',
-        cookie: req.headers.get('cookie') || '',
-      },
-    });
+		const response = await fetch(url, {
+			headers: {
+				'Content-Type': 'application/json',
+				cookie: req.headers.get('cookie') || '',
+			},
+		});
 
-    const session = await response.json();
+		const session = await response.json();
 
-    if (!session.user) {
-      return NextResponse.redirect(redirectUrl);
-    }
-  }
+		if (!session.user) {
+			return NextResponse.redirect(redirectUrl);
+		}
+	}
 
-  // All good, let the request through
-  return NextResponse.next();
+	// All good, let the request through
+	return NextResponse.next();
 }
 
 export const config = {
-  matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|api/auth/session).*)',
-    // '/',
-  ],
+	matcher: [
+		'/((?!_next/static|_next/image|favicon.ico|api/auth/session).*)',
+		// '/',
+	],
 };

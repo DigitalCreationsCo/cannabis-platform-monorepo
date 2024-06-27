@@ -7,10 +7,11 @@ module.exports = {
 	content: {
 		relative: true,
 		files: [
-		'./src/**/*.{js,jsx,ts,tsx}',
-		'../../node_modules/daisyui/dist/**/*.js',
-		'../../node_modules/react-daisyui/dist/**/*.js',
-	]},
+			'./src/**/*.{js,jsx,ts,tsx}',
+			'../../node_modules/daisyui/dist/**/*.js',
+			'../../node_modules/react-daisyui/dist/**/*.js',
+		],
+	},
 	theme: {
 		fontFamily: {
 			encode: ['Encode Sans', 'sans-serif'],
@@ -20,15 +21,15 @@ module.exports = {
 		extend: {
 			keyframes: {
 				gradient: {
-				  '0%': {
-					'background-position': '0% 50%',
-				  },
-				  '50%': {
-					'background-position': '100% 50%',
-				  },
-				  '100%': {
-					'background-position': '0% 50%',
-				  },
+					'0%': {
+						'background-position': '0% 50%',
+					},
+					'50%': {
+						'background-position': '100% 50%',
+					},
+					'100%': {
+						'background-position': '0% 50%',
+					},
 				},
 			},
 			animation: {

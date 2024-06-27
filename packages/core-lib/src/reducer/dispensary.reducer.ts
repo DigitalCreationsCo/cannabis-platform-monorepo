@@ -39,7 +39,7 @@ export const getDispensaryById = createAsyncThunk(
 	}
 );
 
-export type DispensaryStateProps = {
+export interface DispensaryStateProps {
 	dispensary: OrganizationWithDashboardDetails;
 	products: ProductWithDetails[];
 	orders: OrderWithFullDetails[];
@@ -48,7 +48,7 @@ export type DispensaryStateProps = {
 	isSuccess: boolean;
 	isError: boolean;
 	errorMessage: string;
-};
+}
 
 const initialState: DispensaryStateProps = {
 	dispensary: {},

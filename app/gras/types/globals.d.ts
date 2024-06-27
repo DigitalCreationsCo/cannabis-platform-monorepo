@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 declare const FB: any;
 
 interface Window {

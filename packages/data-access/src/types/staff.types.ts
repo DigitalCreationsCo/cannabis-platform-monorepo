@@ -2,7 +2,7 @@ import { type Dispensary } from './dispensary.types';
 import { type Role } from './role.types';
 import { type User } from './user.types';
 
-export type StaffMember = {
+export interface StaffMember {
 	id: string;
 	email: string;
 	userId: string;
@@ -11,9 +11,9 @@ export type StaffMember = {
 	updatedAt: Date;
 	team: Dispensary;
 	teamId: string;
-};
+}
 
-export type StaffMemberWithUser = {
+export interface StaffMemberWithUser {
 	id: string;
 	email: string;
 	userId: string;
@@ -23,7 +23,7 @@ export type StaffMemberWithUser = {
 	teamId: string;
 	createdAt: Date;
 	updatedAt: Date;
-};
+}
 
 // export type UserDispensaryStaff = User & {
 // 	profilePicture: ImageUser | null;

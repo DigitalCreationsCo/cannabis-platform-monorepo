@@ -5,14 +5,24 @@ import { fetcher } from '../lib';
 import type { ApiResponse } from '../types';
 import { isValidZipcode } from '../utils/geo.util';
 
-const useEvents = ({ zipcode, token, radius = 10000 }: { zipcode?: string; token: string; radius:any }) => {
+const useEvents = ({
+	zipcode,
+	token,
+	radius = 10000,
+}: {
+	zipcode?: string;
+	token: string;
+	radius: any;
+}) => {
 	const { query, isReady } = useRouter();
 
-	const localZip = zipcode || (isReady ? query.zipcode : null) as string;
+	const localZip = zipcode || ((isReady ? query.zipcode : null) as string);
 
 	const { data, error, isLoading } = useSWR<ApiResponse<Event[]>>(
 		[
-			isValidZipcode(localZip) ? `/api/events?zipcode=${localZip}&radius=${radius}` : null,
+			isValidZipcode(localZip)
+				? `/api/events?zipcode=${localZip}&radius=${radius}`
+				: null,
 			token,
 		],
 		fetcher
@@ -48,7 +58,7 @@ const useEvents = ({ zipcode, token, radius = 10000 }: { zipcode?: string; token
 	return {
 		isLoading,
 		isError: error,
-		events: data?.data as unknown as Event[] || [],
+		events: (data?.data as unknown as Event[]) || [],
 		mutate,
 	};
 };

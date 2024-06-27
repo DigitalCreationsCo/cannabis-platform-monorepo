@@ -12,9 +12,9 @@ import Price from './Price';
 import Row from './Row';
 import { Small, Span } from './Typography';
 
-type ProductVariantRowProps = {
+interface ProductVariantRowProps {
 	variant: ProductVariantWithDetails;
-};
+}
 export default function ProductVariantRow({ variant }: ProductVariantRowProps) {
 	const imageSrc = variant.images?.[0]?.location || logo;
 

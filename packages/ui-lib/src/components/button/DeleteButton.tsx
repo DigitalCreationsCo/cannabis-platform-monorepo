@@ -3,12 +3,12 @@ import { twMerge } from 'tailwind-merge';
 import Icons from '../../icons';
 import IconButton from './IconButton';
 
-type DeleteButtonProps = {
+interface DeleteButtonProps {
 	className?: string;
 	iconSize?: number;
 	onClick: ReactEventHandler;
 	label?: boolean;
-};
+}
 export default function DeleteButton({
 	className,
 	onClick,

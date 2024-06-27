@@ -15,7 +15,7 @@ export type DiscountAmount = null;
 export type SubTotal = null;
 export type SalesTax = null;
 
-export type Package = {
+export interface Package {
 	PackageLabel: string;
 	Quantity: number;
 	UnitOfMeasure: UnitOfMeasure;
@@ -34,4 +34,4 @@ export type Package = {
 	DiscountAmount: DiscountAmount;
 	SubTotal: SubTotal;
 	SalesTax: SalesTax;
-};
+}

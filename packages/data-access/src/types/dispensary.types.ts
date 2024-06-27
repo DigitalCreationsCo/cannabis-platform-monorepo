@@ -25,7 +25,7 @@ import { type Address } from './address.types';
 
 export type POS = 'dutchie' | 'blaze' | 'weedmaps';
 export type Inventory = 'metrc' | 'biotrack';
-export type SiteSetting = {
+export interface SiteSetting {
 	// theme: string;
 	// accentFont: string;
 	primaryColor: string;
@@ -39,8 +39,8 @@ export type SiteSetting = {
 	title: string;
 	description: string;
 	bannerText: string;
-};
-export type Dispensary = {
+}
+export interface Dispensary {
 	id: string;
 	name: string;
 	slug: string;
@@ -72,7 +72,7 @@ export type Dispensary = {
 	createdAt?: Date;
 	updatedAt?: Date;
 	showInMarketPlace?: boolean;
-};
+}
 
 //  export type Dispensary = Prisma.OrganizationUncheckedCreateInput & {
 // 	address: AddressPayload;
@@ -131,10 +131,10 @@ export type Dispensary = {
 // 	proximityRadius: number;
 //  };
 
-export type Schedule = {
+export interface Schedule {
 	day: string;
 	openAt: number | string | any;
 	closeAt: number | string | any;
-};
+}
 
 export type Invitation = any;

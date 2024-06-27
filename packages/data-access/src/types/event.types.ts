@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
-type ImageObject = {
+interface ImageObject {
 	edge_color_set: boolean;
 	edge_color: string;
 	url: string;
@@ -8,28 +8,28 @@ type ImageObject = {
 	crop_mask: Record<string, any>;
 	aspect_ratio: number;
 	id: string;
-};
+}
 
-type UrgencySignals = {
+interface UrgencySignals {
 	messages: any[];
 	categories: any[];
-};
+}
 
-type Dedup = {
+interface Dedup {
 	count: number;
 	hash: string;
-};
+}
 
-type PrimaryVenue = {
+interface PrimaryVenue {
 	_type: string;
 	name: string;
 	venue_profile_id: string | null;
 	address: Record<string, any>;
 	venue_profile_url: string;
 	id: string;
-};
+}
 
-export type Event = {
+export interface Event {
 	image: ImageObject;
 	timezone: string;
 	location?: string;
@@ -47,7 +47,7 @@ export type Event = {
 	end_time: string;
 	_type: string;
 	end_date: string;
-	tags: Array<Record<string, any>>;
+	tags: Record<string, any>[];
 	eventbrite_event_id: string;
 	start_time: string;
 	primary_venue: PrimaryVenue;
@@ -66,4 +66,4 @@ export type Event = {
 	is_online_event: boolean;
 	eid: string;
 	published: string;
-};
+}

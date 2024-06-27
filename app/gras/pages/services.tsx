@@ -64,7 +64,7 @@ export default function DispensaryLandingPage() {
 				)}
 			>
 				<Hero />
-				<Letter id="grow" {...letters['growth']} />
+				<Letter id="grow" {...letters.growth} />
 				<Benefits data={unlockYourGrowth} className="bg-inverse-soft" />
 
 				<Letter {...letters['delivery-painpoints']} />
@@ -112,7 +112,7 @@ export default function DispensaryLandingPage() {
 					imagePosition="left"
 					data={consumerTextMessaging}
 				/>
-				<Letter className="bg-inverse-soft" {...letters['events']} />
+				<Letter className="bg-inverse-soft" {...letters.events} />
 
 				<Letter className="bg-inverse" {...letters['take-urgent-action']} />
 				<Letter className="bg-inverse-soft" {...letters['limited-offer']} />

@@ -90,7 +90,7 @@ export type ModalType =
 	| 'NEW_DAILY_DEAL_MODAL'
 	| 'STOREFRONT_MODAL';
 
-export type ModalStateProps = {
+export interface ModalStateProps {
 	organization?: Dispensary;
 	modalType: ModalType;
 	modalVisible: boolean;
@@ -101,7 +101,7 @@ export type ModalStateProps = {
 	isSelected?: boolean;
 	errorMessage?: string;
 	onSubmit?: () => any;
-};
+}
 
 const initialState: ModalStateProps = {
 	organization: undefined,

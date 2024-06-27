@@ -16,7 +16,7 @@ module.exports = {
 		'@cd/eslint-config/src/bases/jest',
 		'@cd/eslint-config/src/bases/rtl',
 		// Apply prettier and disable incompatible rules
-		'@cd/eslint-config/src/bases/prettier',
+		'@cd/eslint-config/src/bases/prettier-plugin',
 	],
 	rules: {
 		// optional overrides per project

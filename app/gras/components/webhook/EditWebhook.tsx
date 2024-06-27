@@ -1,9 +1,9 @@
 import {
-  useWebhooks,
-  useWebhook,
-  defaultHeaders,
-  type ApiResponse,
-  type WebookFormSchema,
+	useWebhooks,
+	useWebhook,
+	defaultHeaders,
+	type ApiResponse,
+	type WebookFormSchema,
 } from '@cd/core-lib';
 import { type Dispensary } from '@cd/data-access';
 import { LoadingDots } from '@cd/ui-lib';
@@ -17,68 +17,68 @@ import { Error } from '@/components/shared';
 import ModalForm from './Form';
 
 const EditWebhook = ({
-  visible,
-  setVisible,
-  team,
-  endpoint,
+	visible,
+	setVisible,
+	team,
+	endpoint,
 }: {
-  visible: boolean;
-  setVisible: (visible: boolean) => void;
-  team: Dispensary;
-  endpoint: EndpointOut;
+	visible: boolean;
+	setVisible: (visible: boolean) => void;
+	team: Dispensary;
+	endpoint: EndpointOut;
 }) => {
-  const { isLoading, isError, webhook } = useWebhook(team.slug, endpoint.id);
-  const { t } = useTranslation('common');
-  const { mutateWebhooks } = useWebhooks(team.slug);
+	const { isLoading, isError, webhook } = useWebhook(team.slug, endpoint.id);
+	const { t } = useTranslation('common');
+	const { mutateWebhooks } = useWebhooks(team.slug);
 
-  if (isLoading || !webhook) {
-    return <LoadingDots />;
-  }
+	if (isLoading || !webhook) {
+		return <LoadingDots />;
+	}
 
-  if (isError) {
-    return <Error message={isError.message} />;
-  }
+	if (isError) {
+		return <Error message={isError.message} />;
+	}
 
-  const onSubmit = async (
-    values: WebookFormSchema,
-    formikHelpers: FormikHelpers<WebookFormSchema>
-  ) => {
-    const response = await fetch(
-      `/api/dispensaries/${team.slug}/webhooks/${endpoint.id}`,
-      {
-        method: 'PUT',
-        headers: defaultHeaders,
-        body: JSON.stringify(values),
-      }
-    );
+	const onSubmit = async (
+		values: WebookFormSchema,
+		formikHelpers: FormikHelpers<WebookFormSchema>
+	) => {
+		const response = await fetch(
+			`/api/dispensaries/${team.slug}/webhooks/${endpoint.id}`,
+			{
+				method: 'PUT',
+				headers: defaultHeaders,
+				body: JSON.stringify(values),
+			}
+		);
 
-    const json = (await response.json()) as ApiResponse;
+		const json = (await response.json()) as ApiResponse;
 
-    if (!response.ok) {
-      toast.error(json.error.message);
-      return;
-    }
+		if (!response.ok) {
+			toast.error(json.error.message);
+			return;
+		}
 
-    toast.success(t('webhook-updated'));
-    mutateWebhooks();
-    setVisible(false);
-    formikHelpers.resetForm();
-  };
+		toast.success(t('webhook-updated'));
+		mutateWebhooks();
+		setVisible(false);
+		formikHelpers.resetForm();
+	};
 
-  return (
-    <ModalForm
-      visible={visible}
-      setVisible={setVisible}
-      initialValues={{
-        name: webhook.description as string,
-        url: webhook.url,
-        eventTypes: webhook.filterTypes as string[],
-      }}
-      onSubmit={onSubmit}
-      title={t('edit-webhook-endpoint')}
-      editMode={true}
-    />
-  );
+	return (
+		<ModalForm
+			visible={visible}
+			setVisible={setVisible}
+			initialValues={{
+				name: webhook.description as string,
+				url: webhook.url,
+				eventTypes: webhook.filterTypes!,
+			}}
+			onSubmit={onSubmit}
+			title={t('edit-webhook-endpoint')}
+			editMode={true}
+		/>
+	);
 };
 
 export default EditWebhook;

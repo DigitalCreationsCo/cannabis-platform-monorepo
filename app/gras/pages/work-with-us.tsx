@@ -68,7 +68,7 @@ export default function DispensaryLandingPage() {
 				<Letter
 					id="grow"
 					className="bg-inverse-soft pt-8"
-					{...letters['growth']}
+					{...letters.growth}
 					title={letters['free-consultation'].title}
 				/>
 				<ContactUs id="get-started" />

@@ -1,6 +1,6 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 export type Theme = 'system' | 'dark' | 'light';
-export type ThemesProps = {
+export interface ThemesProps {
 	id: Theme;
 	name: string;
 	icon: React.ForwardRefExoticComponent<
@@ -9,7 +9,7 @@ export type ThemesProps = {
 			titleId?: string | undefined;
 		} & React.RefAttributes<SVGSVGElement>
 	>;
-};
+}
 
 export const applyTheme = (theme: Theme) => {
 	switch (theme) {

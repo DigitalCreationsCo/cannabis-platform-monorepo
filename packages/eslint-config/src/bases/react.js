@@ -1,10 +1,10 @@
 const reactPatterns = {
 	files: ['*.{jsx,tsx}'],
-  };
-  
-  const stylesPatterns = {
+};
+
+const stylesPatterns = {
 	files: ['*.styles.{js,ts}', 'styles.{js,ts}'],
-  };
+};
 
 module.exports = {
 	env: {
@@ -38,7 +38,7 @@ module.exports = {
 				'react/react-in-jsx-scope': 'off',
 				// Fine-tune naming convention react typescript jsx (function components)
 				// https://github.com/typescript-eslint/typescript-eslint/blob/main/packages/eslint-plugin/docs/rules/naming-convention.md
-				
+
 				// '@typescript-eslint/naming-convention': [
 				// 	'warn',
 				// 	{
@@ -57,7 +57,7 @@ module.exports = {
 				// 		leadingUnderscore: 'allow',
 				// 	},
 				// ],
-				// 'jsx-a11y/no-noninteractive-tabindex': 'off',
+				'jsx-a11y/no-noninteractive-tabindex': 'off',
 			},
 		},
 	],

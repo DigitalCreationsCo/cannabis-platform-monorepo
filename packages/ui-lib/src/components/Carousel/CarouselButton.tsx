@@ -7,12 +7,12 @@ import {
 import { twMerge } from 'tailwind-merge';
 import IconButton from '../button/IconButton';
 
-type CarouselButtonProps = {
+interface CarouselButtonProps {
 	direction: 'left' | 'right' | 'up' | 'down';
 	onClick: (() => void) | any;
 	className?: string | string[];
 	disabled?: boolean;
-};
+}
 
 export default function CarouselButton({
 	direction,

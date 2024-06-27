@@ -106,7 +106,7 @@ return both of them, concat to routeList
 //   }
 // );
 
-export type SocketStateType = {
+export interface SocketStateType {
 	connectionOpenInit: boolean;
 	connectionCloseInit: boolean;
 	isConnectedToDispatch: boolean;
@@ -117,7 +117,7 @@ export type SocketStateType = {
 	remainingRoute: OrderWithDispatchDetails['order'][];
 	destinationType: 'vendor' | 'customer';
 	incomingOrder: IncomingOrder;
-};
+}
 
 const initialState: SocketStateType = {
 	connectionOpenInit: false,

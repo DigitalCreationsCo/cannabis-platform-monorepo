@@ -65,6 +65,6 @@ class Crypto {
 	}
 }
 
-const crypto = new Crypto(process.env.NEXT_PUBLIC_CRYPTO_SK as string);
+const crypto = new Crypto(process.env.NEXT_PUBLIC_CRYPTO_SK!);
 
 export { crypto };

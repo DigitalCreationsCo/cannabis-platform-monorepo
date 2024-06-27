@@ -9,43 +9,43 @@ import { RemoveTeam, TeamSettings, TeamTab } from '@/components/team';
 import env from '@/lib/env';
 
 const Settings = ({ teamFeatures }: { teamFeatures: TeamFeature }) => {
-  const { t } = useTranslation('common');
-  const { isLoading, isError, team } = useDispensary();
+	const { t } = useTranslation('common');
+	const { isLoading, isError, team } = useDispensary();
 
-  if (isLoading) {
-    return <LoadingPage />;
-  }
+	if (isLoading) {
+		return <LoadingPage />;
+	}
 
-  if (isError) {
-    return <Error message={isError.message} />;
-  }
+	if (isError) {
+		return <Error message={isError.message} />;
+	}
 
-  if (!team) {
-    return <Error message={t('team-not-found')} />;
-  }
+	if (!team) {
+		return <Error message={t('team-not-found')} />;
+	}
 
-  return (
-    <>
-      <TeamTab activeTab="settings" team={team} teamFeatures={teamFeatures} />
-      <div className="space-y-6">
-        <TeamSettings team={team} />
-        <AccessControl resource="team" actions={['delete']}>
-          <RemoveTeam team={team} allowDelete={teamFeatures.deleteTeam} />
-        </AccessControl>
-      </div>
-    </>
-  );
+	return (
+		<>
+			<TeamTab activeTab="settings" team={team} teamFeatures={teamFeatures} />
+			<div className="space-y-6">
+				<TeamSettings team={team} />
+				<AccessControl resource="team" actions={['delete']}>
+					<RemoveTeam team={team} allowDelete={teamFeatures.deleteTeam} />
+				</AccessControl>
+			</div>
+		</>
+	);
 };
 
 export async function getServerSideProps({
-  locale,
+	locale,
 }: GetServerSidePropsContext) {
-  return {
-    props: {
-      ...(locale ? await serverSideTranslations(locale, ['common']) : {}),
-      teamFeatures: env.teamFeatures,
-    },
-  };
+	return {
+		props: {
+			...(locale ? await serverSideTranslations(locale, ['common']) : {}),
+			teamFeatures: env.teamFeatures,
+		},
+	};
 }
 
 export default Settings;

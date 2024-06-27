@@ -3,13 +3,13 @@ import { type AnchorHTMLAttributes, type PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 import IconWrapper from './IconWrapper';
 
-export type NavLinkType = {
+export interface NavLinkType {
 	href: string;
 	title: string;
 	icon?: any;
 	enabled: boolean;
 	subLinks?: NavLinkType[];
-};
+}
 
 export interface NavLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
 	link: NavLinkType;

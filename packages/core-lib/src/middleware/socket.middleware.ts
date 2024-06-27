@@ -42,7 +42,7 @@ const socketMiddleware = (store: MiddlewareAPI<any, AppState>) => {
 		 * @returns orderId
 		 */
 		function getOrderIdFromSocketKey(socketKey: string) {
-			return socketKey && socketKey.split(':')[1];
+			return socketKey?.split(':')[1];
 		}
 
 		async function connectSocketOrTimeoutError(): Promise<string> {
@@ -58,7 +58,7 @@ const socketMiddleware = (store: MiddlewareAPI<any, AppState>) => {
 
 				console.debug(' connected new dispatch_socket');
 			} else {
-				socketMap['dispatch_socket'].connect();
+				socketMap.dispatch_socket.connect();
 				console.debug(' reconnected dispatch_socket');
 			}
 
@@ -412,9 +412,9 @@ const socketMiddleware = (store: MiddlewareAPI<any, AppState>) => {
 			console.info('socket-middleware: closing connection ');
 			try {
 				store.dispatch(driverActions.updateOnlineStatus(false));
-				if (socketMap['dispatch_socket']) {
-					socketMap['dispatch_socket'].close();
-					delete socketMap['dispatch_socket'];
+				if (socketMap.dispatch_socket) {
+					socketMap.dispatch_socket.close();
+					delete socketMap.dispatch_socket;
 				}
 				store.dispatch(socketActions.connectionClosed());
 			} catch (error) {

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
-export type User = {
+export interface User {
 	id: string;
 	name: string;
 	username: string;
@@ -19,7 +19,7 @@ export type User = {
 	termsAccepted: boolean;
 	createdAt: Date;
 	updatedAt: Date;
-};
+}
 
 // export type UserWithDetails = User &
 // 	Omit<User, 'createdAt' | 'updatedAt'> & {

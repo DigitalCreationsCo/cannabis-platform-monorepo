@@ -3,14 +3,14 @@ import { axios } from '../axiosInstance';
 import { type ConsumeCodeResponse, type AppUser } from '../types';
 import { urlBuilder } from '../utils/urlBuilder';
 
-type CreateCodeResponse = {
+interface CreateCodeResponse {
 	status: 'OK';
 	deviceId: string;
 	preAuthSessionId: string;
 	flowType: 'USER_INPUT_CODE' | 'MAGIC_LINK' | 'USER_INPUT_CODE_AND_MAGIC_LINK';
 	fetchResponse: Response;
 	message?: string;
-};
+}
 
 async function getOTPCodeEmailAPI(email: string): Promise<CreateCodeResponse> {
 	try {

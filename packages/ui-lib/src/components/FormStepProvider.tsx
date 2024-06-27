@@ -6,10 +6,10 @@ import { twMerge } from 'tailwind-merge';
 import ErrorMessage from './ErrorMessage';
 import FlexBox from './FlexBox';
 
-type FormValuesType = {
+interface FormValuesType {
 	organization?: Partial<Dispensary>;
 	newUser?: Partial<User & any>;
-};
+}
 
 interface FormContextProps {
 	formValues: FormValuesType;
@@ -172,7 +172,7 @@ const styles = {
 export { useFormContext, FormStepProvider };
 export type { FormContextProps, FormValuesType };
 
-export type FormComponentProps = {
+export interface FormComponentProps {
 	loading?: boolean;
 	setLoading?: (loading: boolean) => void;
-};
+}

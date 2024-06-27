@@ -10,77 +10,77 @@ import { Card } from '@/components/shared';
 import { updateAccountSchema } from '@/lib/zod';
 
 const UpdateName = ({ user }: { user: Partial<User> }) => {
-  const { t } = useTranslation('common');
-  const { update } = useSession();
-  const router = useRouter();
+	const { t } = useTranslation('common');
+	const { update } = useSession();
+	const router = useRouter();
 
-  const formik = useFormik({
-    initialValues: {
-      name: user.name,
-    },
-    validateOnBlur: false,
-    enableReinitialize: true,
-    validate: (values) => {
-      try {
-        updateAccountSchema.parse(values);
-      } catch (error: any) {
-        return error.formErrors.fieldErrors;
-      }
-    },
-    onSubmit: async (values) => {
-      const response = await fetch('/api/users', {
-        method: 'PUT',
-        headers: defaultHeaders,
-        body: JSON.stringify(values),
-      });
+	const formik = useFormik({
+		initialValues: {
+			name: user.name,
+		},
+		validateOnBlur: false,
+		enableReinitialize: true,
+		validate: (values) => {
+			try {
+				updateAccountSchema.parse(values);
+			} catch (error: any) {
+				return error.formErrors.fieldErrors;
+			}
+		},
+		onSubmit: async (values) => {
+			const response = await fetch('/api/users', {
+				method: 'PUT',
+				headers: defaultHeaders,
+				body: JSON.stringify(values),
+			});
 
-      if (!response.ok) {
-        const json = (await response.json()) as ApiResponse;
-        toast.error(json.error.message);
-        return;
-      }
+			if (!response.ok) {
+				const json = (await response.json()) as ApiResponse;
+				toast.error(json.error.message);
+				return;
+			}
 
-      await update({
-        name: values.name,
-      });
+			await update({
+				name: values.name,
+			});
 
-      router.replace('/settings/account');
-      toast.success(t('successfully-updated'));
-    },
-  });
+			router.replace('/settings/account');
+			toast.success(t('successfully-updated'));
+		},
+	});
 
-  return (
-    <form onSubmit={formik.handleSubmit}>
-      <Card>
-        <Card.Body>
-          <Card.Header>
-            <Card.Title>{t('name')}</Card.Title>
-            <Card.Description>{t('name-appearance')}</Card.Description>
-          </Card.Header>
-          <TextField
-            type="text"
-            name="name"
-            placeholder={t('your-name')}
-            value={formik.values.name}
-            onChange={formik.handleChange}
-            className="w-full text-sm max-w-md"
-            required
-          />
-        </Card.Body>
-        <Card.Footer>
-          <Button
-            type="submit"
-            color="primary"
-            loading={formik.isSubmitting}
-            disabled={!formik.dirty || !formik.isValid}
-            size="md"
-          >
-            {t('save-changes')}
-          </Button>
-        </Card.Footer>
-      </Card>
-    </form>
-  );
+	return (
+		<form onSubmit={formik.handleSubmit}>
+			<Card>
+				<Card.Body>
+					<Card.Header>
+						<Card.Title>{t('name')}</Card.Title>
+						<Card.Description>{t('name-appearance')}</Card.Description>
+					</Card.Header>
+					<TextField
+						type="text"
+						name="name"
+						placeholder={t('your-name')}
+						value={formik.values.name}
+						onChange={formik.handleChange}
+						className="w-full text-sm max-w-md"
+						required
+					/>
+				</Card.Body>
+				<Card.Footer>
+					<Button
+						type="submit"
+						color="primary"
+						loading={formik.isSubmitting}
+						disabled={!formik.dirty || !formik.isValid}
+						size="md"
+					>
+						{t('save-changes')}
+					</Button>
+				</Card.Footer>
+			</Card>
+		</form>
+	);
 };
 
 export default UpdateName;

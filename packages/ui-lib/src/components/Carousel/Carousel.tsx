@@ -26,7 +26,7 @@ export default function Carousel<D>({
 	return (
 		<>
 			<BaseCarousel
-				className='z-0'
+				className="z-0"
 				partialVisible
 				removeArrowOnDeviceType={['tablet', 'mobile']}
 				renderArrowsWhenDisabled

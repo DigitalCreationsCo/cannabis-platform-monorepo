@@ -34,7 +34,7 @@ const useDispensaries = ({
 	return {
 		isLoading,
 		isError: error,
-		dispensaries: data?.data as Required<Dispensary>[] || [],
+		dispensaries: (data?.data as Required<Dispensary>[]) || [],
 		mutateDispensaries,
 	};
 };

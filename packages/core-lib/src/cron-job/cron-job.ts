@@ -6,9 +6,9 @@ import Twilio from '../sms/twilio';
 import { urlBuilder } from '../utils';
 
 const folders = {
-	"daily-deals": 36202,
+	'daily-deals': 36202,
 	events: 36049,
-}
+};
 
 const METHODS = {
 	GET: 0,
@@ -20,8 +20,7 @@ const METHODS = {
 	TRACE: 6,
 	CONNECT: 7,
 	PATCH: 8,
-};	
-
+};
 
 class CronJobApi {
 	constructor() {
@@ -179,8 +178,8 @@ class CronJobApi {
 					requestMethod: METHODS.POST,
 					extendedData: {
 						headers: {
-							'Authorization': `Bearer ${process.env.NEXTAUTH_SECRET}`,
-						}
+							Authorization: `Bearer ${process.env.NEXTAUTH_SECRET}`,
+						},
 					},
 				},
 			},
@@ -194,7 +193,6 @@ class CronJobApi {
 		const { jobId } = response.data;
 		return jobId;
 	}
-
 }
 
 export default new CronJobApi();

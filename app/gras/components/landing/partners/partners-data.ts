@@ -1,8 +1,8 @@
-export type Partner = {
+export interface Partner {
 	name: string;
 	title: string;
 	imgSrc: string;
-};
+}
 
 export const partners: Partner[] = [
 	{

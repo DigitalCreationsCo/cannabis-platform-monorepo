@@ -2,10 +2,10 @@
 import { TextContent } from '../constants';
 import { type dispatchEvents } from '../types/socket.types';
 
-export type SMSAPI = {
+export interface SMSAPI {
 	send: (event: any, phoneTo: string, data: string) => Promise<any>;
 	optInCustomer: (event: any, phoneTo: string, data: any) => Promise<any>;
-};
+}
 
 class SMSModule {
 	apiName: SMSApiProvider;

@@ -5,7 +5,7 @@ import { useOnClickOutside } from '../../hooks';
 import CloseButton from '../button/CloseButton';
 import { H6 } from '../Typography';
 
-export type ModalProps = {
+export interface ModalProps {
 	children?: React.ReactNode;
 	isModalOverlay?: boolean;
 	modalVisible: boolean;
@@ -14,7 +14,7 @@ export type ModalProps = {
 	description?: string;
 	disableClickOutside?: boolean;
 	showCloseButton?: boolean;
-};
+}
 
 const Modal = ({
 	children,

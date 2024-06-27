@@ -22,7 +22,7 @@ const signOutUserAsync = createAsyncThunk<
 	}
 });
 
-export type DriverSessionState = {
+export interface DriverSessionState {
 	token: string;
 	driver: DriverWithSessionJoin;
 	isSignedIn: boolean;
@@ -30,7 +30,7 @@ export type DriverSessionState = {
 	isSuccess: boolean;
 	isError: boolean;
 	errorMessage: string;
-};
+}
 
 const initialState: DriverSessionState = {
 	token: '',
@@ -90,7 +90,7 @@ export const driverSlice = createSlice({
 			console.info('signinDriverSync payload:', payload);
 			const { token, user: driver } = payload;
 
-			if (!driver || !driver.user || !token) {
+			if (!driver?.user || !token) {
 				state.isLoading = false;
 				state.isSuccess = false;
 				state.isSignedIn = false;
@@ -129,7 +129,7 @@ export const driverSlice = createSlice({
 				throw new Error('Driver session is not defined.');
 			// return;
 
-			state.driver.driverSession['isActiveDelivery'] = payload;
+			state.driver.driverSession.isActiveDelivery = payload;
 		},
 
 		clearState: (state) => {
@@ -157,7 +157,7 @@ export const driverSlice = createSlice({
 		// }),
 		builder.addCase(updateOnlineStatus.fulfilled, (state, { payload }) => {
 			const { isOnline } = payload;
-			state.driver.driverSession['isOnline'] = isOnline;
+			state.driver.driverSession.isOnline = isOnline;
 			state.isSuccess = true;
 			state.isLoading = false;
 			state.isError = false;
@@ -169,7 +169,7 @@ export const driverSlice = createSlice({
 				updateOnlineStatus.rejected,
 				(state, { payload }: any) => {
 					const { error } = payload;
-					state.driver.driverSession['isOnline'] = false;
+					state.driver.driverSession.isOnline = false;
 					state.isLoading = false;
 					state.isError = true;
 					state.errorMessage = error;

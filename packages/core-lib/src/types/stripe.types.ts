@@ -1,41 +1,41 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 type Dispensary = any;
 
-export type DispensaryCreateStripeAccountPayload = {
+export interface DispensaryCreateStripeAccountPayload {
 	organization: Dispensary;
 	email: string;
-};
+}
 
-export type DispensaryConnectStripeAccountPayload = {
+export interface DispensaryConnectStripeAccountPayload {
 	organization: Dispensary;
 	stripeAccountId: string;
-};
+}
 
-export type CheckoutSessionMetaData = {
+export interface CheckoutSessionMetaData {
 	organizationId: string;
 	addressId: string;
 	id: string;
 	customerId: string;
-};
+}
 
-export type OrganizationStripeDetail = {
+export interface OrganizationStripeDetail {
 	id: string;
 	stripeAccountId: string;
-};
+}
 
-export type CustomerCreateStripeAccountPayload = {
+export interface CustomerCreateStripeAccountPayload {
 	id: string;
 	email: string;
 	firstName: string;
 	lastName: string;
 	phone: string;
-};
+}
 
-export type CustomerCreateStripeAccountResponse = {
+export interface CustomerCreateStripeAccountResponse {
 	success: 'true' | 'false';
 	message: string;
 	payload: { client_secret: string };
-};
+}
 // | {
 // 		success: 'false';
 // 		message: string;

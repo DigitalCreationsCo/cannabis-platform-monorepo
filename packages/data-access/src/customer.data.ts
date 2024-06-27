@@ -176,9 +176,9 @@ export type Customer = Partial<{
 	zipcode: string | null;
 	country: string | null;
 	email: string;
-	emails: Array<{
+	emails: {
 		email: string;
-	}>;
+	}[];
 	time_zone: string | null;
 	work_number: string | null;
 	mobile_number: string | null;

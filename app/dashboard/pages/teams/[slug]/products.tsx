@@ -5,23 +5,23 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import type { NextPageWithLayout } from '@/lib/next.types';
 
 const Products: NextPageWithLayout = () => {
-  const { t } = useTranslation('common');
+	const { t } = useTranslation('common');
 
-  return (
-    <div className="p-3">
-      <Paragraph className="text-sm">{t('product-placeholder')}</Paragraph>
-    </div>
-  );
+	return (
+		<div className="p-3">
+			<Paragraph className="text-sm">{t('product-placeholder')}</Paragraph>
+		</div>
+	);
 };
 
 export async function getServerSideProps({
-  locale,
+	locale,
 }: GetServerSidePropsContext) {
-  return {
-    props: {
-      ...(locale ? await serverSideTranslations(locale, ['common']) : {}),
-    },
-  };
+	return {
+		props: {
+			...(locale ? await serverSideTranslations(locale, ['common']) : {}),
+		},
+	};
 }
 
 export default Products;

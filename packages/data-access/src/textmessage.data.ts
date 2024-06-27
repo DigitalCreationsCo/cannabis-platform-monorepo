@@ -2,7 +2,7 @@
 import { type MongoClient, ObjectId } from 'mongodb';
 import { db_namespace } from './db';
 
-export type DailyDeal = {
+export interface DailyDeal {
 	id: string;
 	title: string;
 	message: string;
@@ -16,7 +16,7 @@ export type DailyDeal = {
 	isActive: boolean;
 	weedTextSegmentId?: string;
 	jobId?: string;
-};
+}
 
 export const getDailyDeal = async ({
 	client,

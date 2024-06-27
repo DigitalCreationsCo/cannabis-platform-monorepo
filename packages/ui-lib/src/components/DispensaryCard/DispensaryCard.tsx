@@ -29,13 +29,13 @@ import FlexBox from '../FlexBox';
 import { H3, Paragraph } from '../Typography';
 import { default as css } from './DispensaryCard.module.css';
 
-export type DispensaryCardProps = {
+export interface DispensaryCardProps {
 	data: Required<Dispensary>;
 	loading?: boolean;
 	className?: string | string[];
 	current?: boolean;
 	priority?: boolean;
-};
+}
 
 function DispensaryCard({
 	data: dispensary,
@@ -136,7 +136,7 @@ function DispensaryCard({
 			/>
 		);
 
-	if (!dispensary || !dispensary.name)
+	if (!dispensary?.name)
 		return (
 			<div className={twMerge([styles.dispensaryCard, 'bg-light', className])}>
 				<Paragraph>!</Paragraph>

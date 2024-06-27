@@ -9,9 +9,9 @@ import IconWrapper from './IconWrapper';
 import Row from './Row';
 import { Small } from './Typography';
 
-type ProductVariantRowProps = {
+interface ProductVariantRowProps {
 	product: ProductWithDashboardDetails;
-};
+}
 export default function ProductVariantRow({ product }: ProductVariantRowProps) {
 	const imageSrc = product?.variants?.[0]?.images?.[0]?.location || logo;
 

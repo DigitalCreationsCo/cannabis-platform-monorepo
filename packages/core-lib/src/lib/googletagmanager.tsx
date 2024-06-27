@@ -3,6 +3,7 @@ export const loadGoogleTagManager = () => {
 		typeof window !== 'undefined' &&
 		(function (w, d, s: 'script', l: 'dataLayer', i: string) {
 			w[l] = w[l] || [];
+			// eslint-disable-next-line @typescript-eslint/naming-convention
 			w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
 			const f = d.getElementsByTagName(s)[0],
 				j = d.createElement(s),

@@ -86,7 +86,7 @@ const CheckAge = ({
 								<H3>
 									{TextContent.prompt["DO_YOU_KNOW_WHAT_YOU'RE_LOOKING_FOR"]}
 								</H3>
-								<H3>{TextContent.prompt['SEND_YOU_OFFERS']}</H3>
+								<H3>{TextContent.prompt.SEND_YOU_OFFERS}</H3>
 
 								<Button
 									className="w-[300px]"

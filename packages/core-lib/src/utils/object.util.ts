@@ -8,7 +8,7 @@ type UserCreateType = any;
  */
 export function getProperty(obj: any, propName: any) {
 	// eslint-disable-next-line no-prototype-builtins
-	if (obj && obj.hasOwnProperty(propName)) {
+	if (obj?.hasOwnProperty(propName)) {
 		return obj[propName];
 	} else {
 		return null;

@@ -279,7 +279,7 @@ export const createOrderForCheckout = createAsyncThunk<OrderCreateType, void>(
 //   }
 // );
 
-export type CartStateProps = {
+export interface CartStateProps {
 	order: OrderCreateType;
 	dispensaryName: string | undefined;
 	organizationId: string | undefined;
@@ -293,7 +293,7 @@ export type CartStateProps = {
 	isSuccess: boolean;
 	isError: boolean;
 	errorMessage: string;
-};
+}
 
 const initialState: CartStateProps = {
 	order: {

@@ -281,7 +281,7 @@ export const getStaffMember = async ({
 				},
 			])
 			.toArray()
-	)[0] as StaffMemberWithUser;
+	)[0]!;
 };
 
 /**

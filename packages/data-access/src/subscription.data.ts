@@ -86,11 +86,11 @@ export const getBySubscriptionId = async ({
 		.findOne({ _id: new ObjectId(where.subscriptionId) });
 };
 
-export type Subscription = {
+export interface Subscription {
 	id?: string;
 	customerId: string;
 	active: boolean;
 	startDate: Date;
 	endDate: Date;
 	priceId: string;
-};
+}

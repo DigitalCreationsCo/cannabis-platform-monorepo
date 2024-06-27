@@ -1,11 +1,22 @@
+import { Themer } from '@boxyhq/react-ui/shared';
+import CacheProvider from '@cd/core-lib/src/lib/cache';
 import {
-  ErrorBoundary,
-  LoadingPage,
-  ModalProvider,
-  ToastProvider,
-  type Theme,
-  applyTheme,
+	GTMTag,
+	loadGoogleTagManager,
+} from '@cd/core-lib/src/lib/googletagmanager';
+import { loadHotJar } from '@cd/core-lib/src/lib/hotjar';
+import { loadSegment } from '@cd/core-lib/src/lib/segment';
+import {
+	ErrorBoundary,
+	LoadingPage,
+	ModalProvider,
+	ToastProvider,
+	type Theme,
+	applyTheme,
 } from '@cd/ui-lib';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import { AnimatePresence } from 'framer-motion';
 import mixpanel from 'mixpanel-browser';
 import { SessionProvider } from 'next-auth/react';
 import { appWithTranslation } from 'next-i18next';
@@ -15,125 +26,112 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { SWRConfig } from 'swr';
 import { AccountLayout } from '@/components/layouts';
 import env from '@/lib/env';
-import { Themer } from '@boxyhq/react-ui/shared';
 import { type AppPropsWithLayout } from '@/lib/next.types';
 import SEOMetaTags from '@/lib/SEOMetaTags';
 import { wrapper } from '@/lib/store';
-import { loadHotJar } from '@cd/core-lib/src/lib/hotjar';
-import {
-  GTMTag,
-  loadGoogleTagManager,
-} from '@cd/core-lib/src/lib/googletagmanager';
-import { Elements } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
-import CacheProvider from '@cd/core-lib/src/lib/cache';
-import { AnimatePresence } from 'framer-motion';
-import { loadSegment } from '@cd/core-lib/src/lib/segment';
 
 import '../styles/shop.css';
 import '../styles/build.css';
 
-const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_API_KEY as string
-);
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_API_KEY!);
 
 export interface SharedPageProps {
-  draftMode: boolean;
-  token: string;
+	draftMode: boolean;
+	token: string;
 }
 
 function MyApp({
-  Component,
-  ...appProps
+	Component,
+	...appProps
 }: AppPropsWithLayout & { pageProps: SharedPageProps }) {
-  const { store } = wrapper.useWrappedStore(appProps);
-  // @ts-expect-error - persistor is not a property of store
-  const persistor = store._persistor;
+	const { store } = wrapper.useWrappedStore(appProps);
+	// @ts-expect-error - persistor is not a property of store
+	const persistor = store._persistor;
 
-  const { pageProps } = appProps;
-  const { session, ...props } = pageProps;
+	const { pageProps } = appProps;
+	const { session, ...props } = pageProps;
 
-  // Add mixpanel
-  useEffect(() => {
-    if (env.mixpanel.token) {
-      mixpanel.init(env.mixpanel.token, {
-        debug: true,
-        ignore_dnt: true,
-        track_pageview: true,
-        persistence: 'localStorage',
-      });
-    }
+	// Add mixpanel
+	useEffect(() => {
+		if (env.mixpanel.token) {
+			mixpanel.init(env.mixpanel.token, {
+				debug: true,
+				ignore_dnt: true,
+				track_pageview: true,
+				persistence: 'localStorage',
+			});
+		}
 
-    if (env.darkModeEnabled) {
-      applyTheme(localStorage.getItem('theme') as Theme);
-    }
-  }, []);
+		if (env.darkModeEnabled) {
+			applyTheme(localStorage.getItem('theme') as Theme);
+		}
+	}, []);
 
-  const getLayout =
-    Component.getLayout || ((page) => <AccountLayout>{page}</AccountLayout>);
+	const getLayout =
+		Component.getLayout || ((page) => <AccountLayout>{page}</AccountLayout>);
 
-  return (
-    <>
-      <>
-        {/* {loadBrevoChat()} */}
-        {loadSegment()}
-        {loadGoogleTagManager()}
-        {loadHotJar()}
-        <GTMTag />
-        <SEOMetaTags />
-      </>
-      <SWRConfig
-        value={{
-          revalidateOnFocus: false,
-          provider: CacheProvider,
-        }}
-      >
-        <ErrorBoundary>
-          <SessionProvider session={session}>
-            <ReduxProvider store={store}>
-              <PersistGate persistor={persistor} loading={<LoadingPage />}>
-                <ModalProvider />
-                <ToastProvider />
-                <Elements
-                  stripe={stripePromise}
-                  options={{
-                    mode: 'setup',
-                    currency: 'usd',
-                    setup_future_usage: 'off_session',
-                  }}
-                >
-                  <Themer
-                    // overrideTheme={{
-                    //   '--primary-color': colors.blue['500'],
-                    //   '--primary-hover': colors.blue['600'],
-                    //   '--primary-color-50': colors.blue['50'],
-                    //   '--primary-color-100': colors.blue['100'],
-                    //   '--primary-color-200': colors.blue['200'],
-                    //   '--primary-color-300': colors.blue['300'],
-                    //   '--primary-color-500': colors.blue['500'],
-                    //   '--primary-color-600': colors.blue['600'],
-                    //   '--primary-color-700': colors.blue['700'],
-                    //   '--primary-color-800': colors.blue['800'],
-                    //   '--primary-color-900': colors.blue['900'],
-                    //   '--primary-color-950': colors.blue['950'],
-                    // }}
-                  >
-                    <AnimatePresence
-                      mode="wait"
-                      initial={false}
-                      onExitComplete={() => window.scrollTo(0, 0)}
-                    >
-                      {getLayout(<Component {...props} />)}
-                    </AnimatePresence>
-                  </Themer>
-                </Elements>
-              </PersistGate>
-            </ReduxProvider>
-          </SessionProvider>
-        </ErrorBoundary>
-      </SWRConfig>
-    </>
-  );
+	return (
+		<>
+			<>
+				{/* {loadBrevoChat()} */}
+				{loadSegment()}
+				{loadGoogleTagManager()}
+				{loadHotJar()}
+				<GTMTag />
+				<SEOMetaTags />
+			</>
+			<SWRConfig
+				value={{
+					revalidateOnFocus: false,
+					provider: CacheProvider,
+				}}
+			>
+				<ErrorBoundary>
+					<SessionProvider session={session}>
+						<ReduxProvider store={store}>
+							<PersistGate persistor={persistor} loading={<LoadingPage />}>
+								<ModalProvider />
+								<ToastProvider />
+								<Elements
+									stripe={stripePromise}
+									options={{
+										mode: 'setup',
+										currency: 'usd',
+										setup_future_usage: 'off_session',
+									}}
+								>
+									<Themer
+									// overrideTheme={{
+									//   '--primary-color': colors.blue['500'],
+									//   '--primary-hover': colors.blue['600'],
+									//   '--primary-color-50': colors.blue['50'],
+									//   '--primary-color-100': colors.blue['100'],
+									//   '--primary-color-200': colors.blue['200'],
+									//   '--primary-color-300': colors.blue['300'],
+									//   '--primary-color-500': colors.blue['500'],
+									//   '--primary-color-600': colors.blue['600'],
+									//   '--primary-color-700': colors.blue['700'],
+									//   '--primary-color-800': colors.blue['800'],
+									//   '--primary-color-900': colors.blue['900'],
+									//   '--primary-color-950': colors.blue['950'],
+									// }}
+									>
+										<AnimatePresence
+											mode="wait"
+											initial={false}
+											onExitComplete={() => window.scrollTo(0, 0)}
+										>
+											{getLayout(<Component {...props} />)}
+										</AnimatePresence>
+									</Themer>
+								</Elements>
+							</PersistGate>
+						</ReduxProvider>
+					</SessionProvider>
+				</ErrorBoundary>
+			</SWRConfig>
+		</>
+	);
 }
 
 export default wrapper.withRedux(appWithTranslation<never>(MyApp));

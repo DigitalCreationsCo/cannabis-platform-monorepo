@@ -9,14 +9,14 @@ import section from './section';
 import settings from './settings';
 
 export const schemaTypes = [
-  post,
-  blockContent,
-  newsletter,
-  section,
-  category,
-  author,
-  settings,
+	post,
+	blockContent,
+	newsletter,
+	section,
+	category,
+	author,
+	settings,
 ];
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: schemaTypes,
+	types: schemaTypes,
 };

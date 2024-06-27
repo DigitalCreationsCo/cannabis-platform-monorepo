@@ -42,7 +42,7 @@ export interface SocketEventPayload<T> {
 	data?: T;
 }
 
-export type IncomingOrder = {
+export interface IncomingOrder {
 	newOrder: OrderWithDispatchDetails['order'] | null;
 	message: string | null;
-};
+}

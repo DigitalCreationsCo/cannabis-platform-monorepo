@@ -7,8 +7,9 @@
 		"lib": ["dom", "dom.iterable", "esnext"],
 		"jsx": "react-jsx",
 		"module": "esnext",
+		"incremental": true,
 		"noEmit": false,
-		"strict": false,
+		"strict": true,
 		"paths": {
 			"@cd/data-access": ["../../../packages/data-access/src/index"],
 			"@cd/data-access/*": ["../../../packages/data-access/src/*"],
@@ -18,10 +19,10 @@
 		}
 	},
 	"exclude": ["**/node_modules", "**/.*/", "dist", "build", 
-	// "**/test/*"
-],
+		// "**/test/*"
+	],
 	"include": [
-		".eslintrc.*",
+    	"**/*.eslintrc.*",
 		"**/*.ts",
 		"**/*.tsx",
 		"**/*.mts",

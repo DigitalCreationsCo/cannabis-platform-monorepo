@@ -15,7 +15,7 @@
     "incremental": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "strict": false,
+    "strict": true,
     "paths": {
       "@cd/ui-lib": [
         "../../../packages/ui-lib/src/index"

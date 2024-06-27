@@ -24,7 +24,7 @@ function AddAddressUserModal({
 }: AddAddressModalProps) {
 	const [loadingButton, setLoadingButton] = useState(false);
 
-	const initialValues: AddressUserCreateType = {
+	const initialValues = {
 		street1: '',
 		street2: '',
 		city: '',
@@ -34,7 +34,7 @@ function AddAddressUserModal({
 		countryCode: 'US',
 		coordinateId: '',
 		userId,
-	};
+	} as AddressUserCreateType;
 
 	const validationSchema = Yup.object().shape({
 		street1: Yup.string().required('Street Line 1 is required'),
@@ -79,13 +79,13 @@ function AddAddressUserModal({
 				setLoadingButton(true);
 				const formData = new FormData();
 				formData.append('street1', values.street1);
-				formData.append('street2', values.street2 as string);
+				formData.append('street2', values.street2 ?? '');
 				formData.append('city', values.city);
 				formData.append('state', values.state);
 				formData.append('zipcode', values.zipcode as unknown as string);
 				formData.append('country', values.country);
 				formData.append('countryCode', values.countryCode as string);
-				formData.append('userId', values.userId as string);
+				formData.append('userId', values.userId ?? '');
 
 				const { data } = await axios.post(
 					urlBuilder.dashboard + `/api/users/${userId}/address`,
@@ -135,7 +135,7 @@ function AddAddressUserModal({
 							name={`street2`}
 							label="Street Line 2"
 							placeholder="Street Line 2"
-							value={values?.street2 as string}
+							value={values.street2 ?? ''}
 							onBlur={handleBlur}
 							onChange={handleChange}
 							error={!!touched.street2 && !!errors.street2}

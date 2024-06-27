@@ -7,23 +7,24 @@ module.exports = {
 	parser: '@typescript-eslint/parser',
 	parserOptions: {
 		tsconfigRootDir: __dirname,
-		project: 'tsconfig.json',
+		project: 'tsconfig.json'
 	},
-	ignorePatterns: [...getDefaultIgnorePatterns()],
+	ignorePatterns: [...getDefaultIgnorePatterns(), '.eslintrc.cjs'],
 	extends: [
 		'@cd/eslint-config/src/bases/typescript',
 		'@cd/eslint-config/src/bases/regexp',
 		'@cd/eslint-config/src/bases/sonar',
 		'@cd/eslint-config/src/bases/jest',
+		'@cd/eslint-config/src/bases/i18n',
 		'@cd/eslint-config/src/bases/rtl',
-		'@cd/eslint-config/storybook',
+		'@cd/eslint-config/src/bases/storybook',
 		'@cd/eslint-config/src/bases/react',
-		'@cd/eslint-config/src/bases/prettier',
+		'@cd/eslint-config/src/bases/prettier-plugin',
 	],
 	rules: {
-		// 'import/no-unresolved': 'off',
+		'@typescript-eslint/naming-convention': ['off'],
 	},
 	overrides: [
 		// optional overrides per project file match
-	],
+	]
 };

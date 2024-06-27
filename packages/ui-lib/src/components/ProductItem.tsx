@@ -8,11 +8,11 @@ import Price from './Price';
 import TextField from './TextField/TextField';
 import { H6, Paragraph } from './Typography';
 
-type ProductItemProps = {
+interface ProductItemProps {
 	className?: string;
 	data: ProductVariantWithDetails;
 	handleConfirm?: any;
-};
+}
 function ProductItem({
 	data: product,
 	className,

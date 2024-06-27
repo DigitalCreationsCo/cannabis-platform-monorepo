@@ -1,14 +1,14 @@
 import { type SVGAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-export type IconProps = {
+export interface IconProps {
 	Icon: ((props: SVGAttributes<SVGElement>) => JSX.Element) | any;
 	className?: string;
 	iconSize?: number;
 	iconClass?: string | string[];
 	iconColor?: string;
 	theme?: 'light' | 'dark';
-};
+}
 export default function IconWrapper({
 	theme,
 	Icon,

@@ -14,3 +14,5 @@ export type AppPropsWithLayout = AppProps & {
 export type NextPageWithLayout<P = Record<string, unknown>> = NextPage<P> & {
 	getLayout?: (page: ReactElement) => ReactNode;
 };
+
+export {};

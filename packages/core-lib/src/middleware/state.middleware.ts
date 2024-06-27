@@ -9,7 +9,7 @@ import { type Dispatch, type MiddlewareAPI } from 'redux';
  * @param nextState - The next state
  */
 function logStateDifferences(prevState: any, nextState: any) {
-	const differences: { [key: string]: any } = {};
+	const differences: Record<string, any> = {};
 
 	// Recursively compare objects for differences
 	const compareObjects = (prev: any, next: any, path: string) => {

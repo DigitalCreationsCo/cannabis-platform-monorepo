@@ -21,7 +21,12 @@ const UpdateTheme = () => {
 						className="border border-gray-300 dark:border-gray-600 flex h-10 items-center px-4 justify-between cursor-pointer rounded text-sm font-bold"
 					>
 						<div className="flex items-center gap-2">
-							<selectedTheme.icon className="w-5 h-5" /> {selectedTheme.name}
+							{selectedTheme && (
+								<>
+									<selectedTheme.icon className="w-5 h-5" />{' '}
+									{selectedTheme.name}
+								</>
+							)}
 						</div>
 						<ChevronUpDownIcon className="w-5 h-5" />
 					</div>

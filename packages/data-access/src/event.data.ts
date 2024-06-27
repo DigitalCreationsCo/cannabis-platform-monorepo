@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { type MongoClient } from 'mongodb';
 import { db_namespace } from './db';
@@ -20,13 +21,12 @@ export const createManyEvents = async ({
 				// Ensure longitude and latitude are numbers
 				const longitude = parseFloat(event.primary_venue.address.longitude);
 				const latitude = parseFloat(event.primary_venue.address.latitude);
-		
+
 				// Set the location field
 				event.primary_venue.address.location = [longitude, latitude];
-		
+
 				return event;
-		  		}
-			)
+			})
 		);
 };
 
@@ -45,14 +45,14 @@ export const updateManyEvents = async ({
 			data.map((event) => ({
 				updateOne: {
 					filter: { id: event.id },
-					update: { $set: 
-						{ 
+					update: {
+						$set: {
 							...event,
-							"primary_venue.address.location": [
-								{ $toDouble: "$primary_venue.address.longitude" },
-								{ $toDouble: "$primary_venue.address.latitude" }
-						  	] 
-						} 
+							'primary_venue.address.location': [
+								{ $toDouble: '$primary_venue.address.longitude' },
+								{ $toDouble: '$primary_venue.address.latitude' },
+							],
+						},
 					},
 					upsert: true,
 				},
@@ -69,22 +69,25 @@ export const createEvent = async ({
 }): Promise<Event> => {
 	const { db, collections } = db_namespace;
 	const event = await (
-		await client.db(db).collection<Event>(collections.events).findOneAndUpdate(
-			{ id: data.id },
-			{ $set: 
+		await client
+			.db(db)
+			.collection<Event>(collections.events)
+			.findOneAndUpdate(
+				{ id: data.id },
 				{
-					...data,
-					"primary_venue.address.location": [
-					parseFloat(data.primary_venue.address.longitude),
-					parseFloat(data.primary_venue.address.latitude)
-					]
-				} 
-			},
-			{
-				upsert: true,
-				returnDocument: 'after',
-			}
-		)
+					$set: {
+						...data,
+						'primary_venue.address.location': [
+							parseFloat(data.primary_venue.address.longitude),
+							parseFloat(data.primary_venue.address.latitude),
+						],
+					},
+				},
+				{
+					upsert: true,
+					returnDocument: 'after',
+				}
+			)
 	).value;
 	return {
 		...event!,
@@ -102,21 +105,25 @@ export const updateEvent = async ({
 }): Promise<Event> => {
 	const { db, collections } = db_namespace;
 	const event = await (
-		await client.db(db).collection<Event>(collections.events).findOneAndUpdate(
-			where,
-			{ $set: {
-				...data,
-				"primary_venue.address.location": [
-					parseFloat(data.primary_venue.address.longitude),
-					parseFloat(data.primary_venue.address.latitude)
-					]
-				}  
-			},
-			{
-				upsert: true,
-				returnDocument: 'after',
-			}
-		)
+		await client
+			.db(db)
+			.collection<Event>(collections.events)
+			.findOneAndUpdate(
+				where,
+				{
+					$set: {
+						...data,
+						'primary_venue.address.location': [
+							parseFloat(data.primary_venue.address.longitude),
+							parseFloat(data.primary_venue.address.latitude),
+						],
+					},
+				},
+				{
+					upsert: true,
+					returnDocument: 'after',
+				}
+			)
 	).value;
 	return {
 		...event!,
@@ -149,13 +156,13 @@ export const getEvents = async ({
 	radius: number;
 }): Promise<Event[]> => {
 	const { db, collections } = db_namespace;
-	console.info('zipcode, ', zipcode)
+	console.info('zipcode, ', zipcode);
 	const zip = await getZipcodeLocation({ client, where: { zipcode: '10011' } });
 	if (!zip?.loc) {
-		console.info('zip, ', zip)
+		console.info('zip, ', zip);
 		return [];
 	}
-	console.info('zip, ', zip)
+	console.info('zip, ', zip);
 	return await client
 		.db(db)
 		.collection<Event>(collections.events)

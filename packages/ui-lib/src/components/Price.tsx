@@ -2,7 +2,7 @@ import { calculateSalePrice, convertCentsToDollars } from '@cd/core-lib';
 import { twMerge } from 'tailwind-merge';
 import { Paragraph } from './Typography';
 
-type PriceProps = {
+interface PriceProps {
 	basePrice: number;
 	salePrice?: number;
 	discount?: number;
@@ -14,7 +14,7 @@ type PriceProps = {
 	showOriginalPrice?: boolean;
 	color?: 'light' | 'dark' | 'inherit';
 	useStaticQuantity?: boolean;
-};
+}
 
 function Price({
 	basePrice,

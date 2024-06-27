@@ -15,7 +15,7 @@
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
-    "strictNullChecks": false,
+    "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -63,12 +63,11 @@
     ]
   },
   "include": [
+    ".eslintrc.*",
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     "next-auth.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
     "**/*.mts",
     "**/*.js",
     "**/*.cjs",
@@ -80,6 +79,5 @@
   "exclude": [
     "**/node_modules",
     "**/.*/**",
-    "./.next/**"
   ]
 }

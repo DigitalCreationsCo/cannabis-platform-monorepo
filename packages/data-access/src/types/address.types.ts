@@ -76,7 +76,7 @@ export type USStateAbbreviated =
 	| 'WI'
 	| 'WY';
 
-export type Address = {
+export interface Address {
 	id?: string;
 	street1: string;
 	street2: string | null;
@@ -89,9 +89,9 @@ export type Address = {
 	coordinates?: CoordinatesCreateType;
 	userId?: string | undefined;
 	organizationId?: string | undefined;
-};
+}
 
-export type AddressCreateType = {
+export interface AddressCreateType {
 	id?: string;
 	street1: string;
 	street2: string | null;
@@ -104,9 +104,9 @@ export type AddressCreateType = {
 	coordinates?: CoordinatesCreateType;
 	userId?: string | undefined;
 	organizationId?: string | undefined;
-};
+}
 
-export type AddressUserCreateType = {
+export interface AddressUserCreateType {
 	id?: string;
 	street1: string;
 	street2: string | null;
@@ -119,9 +119,9 @@ export type AddressUserCreateType = {
 	coordinates?: CoordinatesCreateType;
 	userId?: string | undefined;
 	// ^ userId used to connect with user
-};
+}
 
-export type CoordinatesCreateType = {
+export interface CoordinatesCreateType {
 	id?: string;
 	latitude: number;
 	longitude: number;
@@ -129,13 +129,13 @@ export type CoordinatesCreateType = {
 	driverId?: string | null;
 	createdAt?: Date;
 	updatedAt?: Date;
-};
+}
 
 export type AddressWithCoordinates = Address & {
 	coordinates: CoordinatesCreateType | null;
 };
 
-export type AddressPayload = {
+export interface AddressPayload {
 	street1: string;
 	street2: string | null;
 	city: string;
@@ -144,6 +144,6 @@ export type AddressPayload = {
 	country: Country;
 	countryCode: CountryCode;
 	coordinates?: { radius?: number; latitude: number; longitude: number };
-};
+}
 
 export type Coordinates = [number, number];

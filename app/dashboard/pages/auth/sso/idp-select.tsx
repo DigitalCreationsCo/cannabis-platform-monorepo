@@ -58,7 +58,7 @@ export const getServerSideProps = async ({
 }: GetServerSidePropsContext) => {
 	const { apiController } = await jackson();
 
-	const paramsToRelay = { ...query } as { [key: string]: string };
+	const paramsToRelay = { ...query } as Record<string, string>;
 
 	const { authFlow, tenant, product, idp_hint } = query as {
 		authFlow: 'sp-initiated';

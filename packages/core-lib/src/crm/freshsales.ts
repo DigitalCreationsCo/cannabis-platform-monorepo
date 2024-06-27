@@ -164,13 +164,13 @@ class FreshSales {
 
 export default new FreshSales();
 
-export type FreshSalesContactParameters = {
+export interface FreshSalesContactParameters {
 	id: number | string;
 	first_name: string;
 	last_name: string;
 	job_title: string;
 	email: string;
-	emails: Array<{ email: string }>; // Assuming each email is an object with an email string property
+	emails: { email: string }[]; // Assuming each email is an object with an email string property
 	work_number: string;
 	external_id: string;
 	mobile_number: string;
@@ -179,7 +179,7 @@ export type FreshSalesContactParameters = {
 	state: string;
 	zipcode: string;
 	country: string;
-	sales_accounts: Array<any>; // Assuming each account is an object with an account string property
+	sales_accounts: any[]; // Assuming each account is an object with an account string property
 	territory_id: number;
 	lead_source_id: number;
 	owner_id: number;
@@ -208,16 +208,16 @@ export type FreshSalesContactParameters = {
 	sales_account_id: number; // Deprecated
 	lifecycle_stage_id: number;
 	custom_field: any;
-};
+}
 
-export type FreshSalesAttribution = {
-	sales_accounts?: Array<any>; // Assuming each account is an object with an account string property
+export interface FreshSalesAttribution {
+	sales_accounts?: any[]; // Assuming each account is an object with an account string property
 	territory_id?: number;
 	lead_source_id?: number;
 	owner_id?: number;
-	subscription_status?: Array<{ status: string }> | any; // Assuming each status is an object with a status string property
+	subscription_status?: { status: string }[] | any; // Assuming each status is an object with a status string property
 	subscription_types?:
-		| Array<{
+		| {
 				id: number;
 				type:
 					| 'Newsletter'
@@ -225,10 +225,10 @@ export type FreshSalesAttribution = {
 					| 'Product updates'
 					| 'Conferences & Events'
 					| 'Non-marketing emails';
-		  }>
+		  }[]
 		| string;
 	medium?: string;
 	campaign_id?: number;
 	keyword: string;
 	time_zone?: string;
-};
+}

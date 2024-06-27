@@ -9,7 +9,7 @@ module.exports = {
 		tsconfigRootDir: __dirname,
 		project: 'tsconfig.json',
 	},
-	ignorePatterns: [...getDefaultIgnorePatterns(), 'test'],
+	ignorePatterns: [...getDefaultIgnorePatterns(), '.eslintrc.cjs', 'test'],
 	extends: [
 		'@cd/eslint-config/src/bases/typescript',
 		'@cd/eslint-config/src/bases/sonar',
@@ -18,7 +18,7 @@ module.exports = {
 		'@cd/eslint-config/src/bases/rtl',
 		'@cd/eslint-config/src/bases/react',
 		// Apply prettier and disable incompatible rules
-   		'@cd/eslint-config/prettier-plugin',
+		'@cd/eslint-config/src/bases/prettier-plugin',
 	],
 	rules: {
 		// optional overrides per project

@@ -35,14 +35,14 @@ export const getLatestArticles = createAsyncThunk(
 	}
 );
 
-export type BlogStateProps = {
+export interface BlogStateProps {
 	articles: Record<ArticleTag, ArticleWithDetails[]>;
 	dispensaryGuides: ArticleWithDetails[];
 	isLoading: boolean;
 	isSuccess: boolean;
 	isError: boolean;
 	errorMessage: string;
-};
+}
 
 const initialState: BlogStateProps = {
 	articles: {},

@@ -19,10 +19,10 @@ type RolePermissions = {
 	[role in RoleType]: Permission[];
 };
 
-export type Permission = {
+export interface Permission {
 	resource: Resource;
 	actions: Action[] | '*';
-};
+}
 
 export const availableRoles = [
 	{

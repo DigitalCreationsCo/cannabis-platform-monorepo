@@ -159,14 +159,14 @@ export const getProductsFromLocal = createAsyncThunk<
 	}
 });
 
-export type ShopStateProps = {
+export interface ShopStateProps {
 	dispensaries: (OrganizationWithShopDetails & OrganizationMetadata)[];
 	products: ProductWithDetails[];
 	isLoading: boolean;
 	isSuccess: boolean;
 	isError: boolean;
 	errorMessage: string;
-};
+}
 
 const initialState: ShopStateProps = {
 	dispensaries: [],

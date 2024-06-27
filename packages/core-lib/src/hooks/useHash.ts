@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 
-type HashNavigateProps = {
+interface HashNavigateProps {
 	formstep: number;
 	nextFormStep: () => void;
 	prevFormStep: () => void;
 	canProceed: boolean;
 	setCanProceed: (canProceed: boolean) => void;
-};
+}
 
 function useHashNavigate(formId: string): HashNavigateProps {
 	// formstep is defined with no upper limit, so control the exit flow in your forms, so they dont' break.

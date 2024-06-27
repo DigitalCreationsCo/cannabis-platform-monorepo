@@ -16,6 +16,7 @@ import { LayoutContainer } from '../components';
 import { wrapper } from '../store';
 
 import '../styles/pricing-tool.css';
+// eslint-disable-next-line import/no-unresolved
 import '../styles/build.css';
 
 type CustomAppProps = AppProps & {
@@ -37,7 +38,7 @@ function App({ Component, ...rest }: CustomAppProps) {
 
 	const getLayoutContext = (): LayoutContextProps => ({
 		TopBarComponent: TopBar,
-		...(Component.getLayoutContext && Component.getLayoutContext()),
+		...Component.getLayoutContext?.(),
 	});
 
 	return (
@@ -71,6 +72,6 @@ function App({ Component, ...rest }: CustomAppProps) {
 
 export default wrapper.withRedux(App);
 
-export type ExtendedPageComponent = {
+export interface ExtendedPageComponent {
 	getLayoutContext?: () => LayoutContextProps;
-};
+}

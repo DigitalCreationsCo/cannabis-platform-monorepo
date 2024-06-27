@@ -176,7 +176,7 @@ export async function getOptimizedRouting() {
 	}
 }
 
-export type RoutingDetailsResponse = {
+export interface RoutingDetailsResponse {
 	code: 'Ok';
 	waypoints: {
 		waypoint_index: number;
@@ -200,7 +200,7 @@ export type RoutingDetailsResponse = {
 		distance: number;
 		duration: number;
 	}[];
-};
+}
 
 export const isValidZipcode = (input: string) => {
 	// match 5 digit zip code

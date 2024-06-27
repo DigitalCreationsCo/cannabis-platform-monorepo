@@ -7,11 +7,11 @@ export const productCategories: Category[] = [
 	{ name: 'vapes', title: 'Vapes', icon: null },
 ];
 
-export type Category = {
+export interface Category {
 	name: string;
 	title: string;
 	icon: string | null;
-};
+}
 
 // export async function findCategoryListByOrg(organizationId: string) {
 // 	try {

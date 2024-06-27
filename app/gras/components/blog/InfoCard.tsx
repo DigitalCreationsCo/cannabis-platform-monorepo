@@ -9,59 +9,59 @@ import { resolveHref } from '@/lib/sanity/sanity.links';
 import { type Post } from '@/lib/sanity/sanity.queries';
 import logo from '../../public/logo.png';
 
-type InfoCardProps = {
-  data: Post;
-  loading?: boolean;
-  className?: string | string[];
-  showDescription?: boolean;
-  priority?: boolean;
-};
+interface InfoCardProps {
+	data: Post;
+	loading?: boolean;
+	className?: string | string[];
+	showDescription?: boolean;
+	priority?: boolean;
+}
 
 function InfoCard({
-  data: info,
-  className,
-  showDescription = true,
-  priority = false,
+	data: info,
+	className,
+	showDescription = true,
+	priority = false,
 }: InfoCardProps) {
-  return (
-    <Link
-      href={resolveHref('post', info.slug) as string}
-      className={twMerge([
-        'flex flex-col',
-        'h-[240px]',
-        'm-3',
-        'bg-cyan-950',
-        'rounded',
-        'overflow-hidden',
-        'border border-transparent',
-        'hover:border-inverse-soft',
-        'text-inverse-soft',
-        'drop-shadow-[-6px_4px_1px_#555]',
-        className,
-      ])}
-    >
-      <FlexBox className="grow relative">
-        <Image
-          priority={priority}
-          blurDataURL={urlForImage(info.mainImage)?.blur(100).url()}
-          src={urlForImage(info.mainImage)?.url() || logo.src}
-          alt={info.title as string}
-          fill
-          className="object-cover object-top"
-          sizes="330px"
-          quality={25}
-        />
-      </FlexBox>
-      <div className={twMerge('max-h-36', 'px-2')}>
-        <H5>{info.title}</H5>
-        {(showDescription && (
-          <Paragraph className="text-inverse">
-            {truncateWordsAndLeaveN(info.excerpt as string, 12)}
-          </Paragraph>
-        )) || <></>}
-      </div>
-    </Link>
-  );
+	return (
+		<Link
+			href={resolveHref('post', info.slug)!}
+			className={twMerge([
+				'flex flex-col',
+				'h-[240px]',
+				'm-3',
+				'bg-cyan-950',
+				'rounded',
+				'overflow-hidden',
+				'border border-transparent',
+				'hover:border-inverse-soft',
+				'text-inverse-soft',
+				'drop-shadow-[-6px_4px_1px_#555]',
+				className,
+			])}
+		>
+			<FlexBox className="grow relative">
+				<Image
+					priority={priority}
+					blurDataURL={urlForImage(info.mainImage)?.blur(100).url()}
+					src={urlForImage(info.mainImage)?.url() || logo.src}
+					alt={info.title!}
+					fill
+					className="object-cover object-top"
+					sizes="330px"
+					quality={25}
+				/>
+			</FlexBox>
+			<div className={twMerge('max-h-36', 'px-2')}>
+				<H5>{info.title}</H5>
+				{(showDescription && (
+					<Paragraph className="text-inverse">
+						{truncateWordsAndLeaveN(info.excerpt!, 12)}
+					</Paragraph>
+				)) || <></>}
+			</div>
+		</Link>
+	);
 }
 
 export default InfoCard;

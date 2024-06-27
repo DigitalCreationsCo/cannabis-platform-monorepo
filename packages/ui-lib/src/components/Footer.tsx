@@ -85,67 +85,67 @@ export default function Footer({
 					</div>
 				</div>
 				<div className="col-span-2 md:!col-span-4 lg:!col-span-2 md:!row-start-2 lg:!row-start-1 md:!col-start-1 lg:!col-start-5 row-span-3">
-						<FlexBox className="pb-4 flex-row items-center">
-							<Link href={getShopSite('/')} className="z-50">
-								<GrasSignature className="text-inverse">Gras</GrasSignature>
-							</Link>
-							<Link
-								href={getShopSite('/')}
-								className="p-0.25 ml-4 bg-inverse w-fit rounded-full"
-							>
-								<Image
-									alt="Gras"
-									width={40}
-									height={40}
-									src={logo}
-									quality={25}
-								/>
-							</Link>
-						</FlexBox>
+					<FlexBox className="pb-4 flex-row items-center">
+						<Link href={getShopSite('/')} className="z-50">
+							<GrasSignature className="text-inverse">Gras</GrasSignature>
+						</Link>
+						<Link
+							href={getShopSite('/')}
+							className="p-0.25 ml-4 bg-inverse w-fit rounded-full"
+						>
+							<Image
+								alt="Gras"
+								width={40}
+								height={40}
+								src={logo}
+								quality={25}
+							/>
+						</Link>
+					</FlexBox>
 
-						<FlexBox className="mt-2 flex-row gap-x-8 text-inverse">
-							<a
-								href="https://twitter.com/gras_cannabis"
-								target="_blank"
-								rel="noopener noreferrer"
-								className="hover:text-light"
-							>
-								<span className="sr-only">Twitter</span>
-								<Twitter />
-							</a>
-							<a
-								href="https://www.facebook.com/profile.php?viewas=100000686899395&id=61553103098585"
-								target="_blank"
-								rel="noopener noreferrer"
-								className="hover:text-light"
-							>
-								<span className="sr-only">Facebook</span>
-								<Facebook />
-							</a>
-							<a
-								href="https://www.instagram.com/grascannabis/"
-								target="_blank"
-								rel="noopener noreferrer"
-								className="hover:text-light"
-							>
-								<span className="sr-only">Instagram</span>
-								<Instagram />
-							</a>
-							<a
-								href="https://www.linkedin.com/company/gras-delivery/"
-								target="_blank"
-								rel="noopener noreferrer"
-								className="hover:text-light"
-							>
-								<span className="sr-only">Linkedin</span>
-								<Linkedin />
-							</a>
-						</FlexBox>
+					<FlexBox className="mt-2 flex-row gap-x-8 text-inverse">
+						<a
+							href="https://twitter.com/gras_cannabis"
+							target="_blank"
+							rel="noopener noreferrer"
+							className="hover:text-light"
+						>
+							<span className="sr-only">Twitter</span>
+							<Twitter />
+						</a>
+						<a
+							href="https://www.facebook.com/profile.php?viewas=100000686899395&id=61553103098585"
+							target="_blank"
+							rel="noopener noreferrer"
+							className="hover:text-light"
+						>
+							<span className="sr-only">Facebook</span>
+							<Facebook />
+						</a>
+						<a
+							href="https://www.instagram.com/grascannabis/"
+							target="_blank"
+							rel="noopener noreferrer"
+							className="hover:text-light"
+						>
+							<span className="sr-only">Instagram</span>
+							<Instagram />
+						</a>
+						<a
+							href="https://www.linkedin.com/company/gras-delivery/"
+							target="_blank"
+							rel="noopener noreferrer"
+							className="hover:text-light"
+						>
+							<span className="sr-only">Linkedin</span>
+							<Linkedin />
+						</a>
+					</FlexBox>
 
-						<Paragraph className="mt-6 max-w-sm font-medium">
-							{TextContent.info.ABOUT_GRAS_AND_MISSION}
-						</Paragraph>
-						<CopyRight className="font-medium" />
+					<Paragraph className="mt-6 max-w-sm font-medium">
+						{TextContent.info.ABOUT_GRAS_AND_MISSION}
+					</Paragraph>
+					<CopyRight className="font-medium" />
 				</div>
 				<div className="row-start-1 md:!row-start-5 md:!col-start-1 lg:!row-start-4 lg:!col-start-5 col-span-2 md:col-span-2">
 					<H6 color="light">{TextContent.info.CANNABIS_DELIVERED}</H6>

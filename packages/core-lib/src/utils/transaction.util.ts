@@ -88,7 +88,7 @@ function getCurrencySymbol(currency: any) {
 	})
 		.formatToParts(0)
 		.find((part) => part.type === 'currency');
-	return currencySymbol && currencySymbol.value;
+	return currencySymbol?.value;
 }
 
 /**

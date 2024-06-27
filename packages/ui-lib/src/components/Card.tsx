@@ -2,12 +2,12 @@ import { type HTMLAttributes, type PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { H4, H5 } from './Typography';
 
-type CardProps = {
+interface CardProps {
 	className?: string;
 	amountClassName?: string;
 	title?: string;
 	amount?: string | number;
-};
+}
 
 function Card({
 	className,

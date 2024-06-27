@@ -26,7 +26,7 @@ export const locationTypes = {
 	GIFT_LOCATION: 'giftLocation',
 };
 
-export type LocationType = {
+export interface LocationType {
 	locationType: string;
 	address: {
 		id: string;
@@ -39,9 +39,9 @@ export type LocationType = {
 		countryCode: string | null;
 		coordinates: { latitude: number; longitude: number };
 	};
-};
+}
 
-export type LocationStateProps = {
+export interface LocationStateProps {
 	radius: number;
 	selectLocationType:
 		| typeof locationTypes.HOME_LOCATION
@@ -55,7 +55,7 @@ export type LocationStateProps = {
 	isSuccess: boolean;
 	isError: boolean;
 	errorMessage: string;
-};
+}
 
 const initialState: LocationStateProps = {
 	radius: 10000,

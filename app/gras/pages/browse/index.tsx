@@ -4,67 +4,67 @@
 /* eslint-disable i18next/no-literal-string */
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable react/no-unknown-property */
-import { TopBar } from '@/components/layouts';
+import {
+	type ResponseDataEnvelope,
+	applicationHeaders,
+	axios,
+	debounce,
+	getCoordinatePairFromCoordinates,
+	isValidZipcode,
+	useEvents,
+	useLocalDispensaries,
+} from '@cd/core-lib';
+import {
+	type Coordinates,
+	type Dispensary,
+	type Event,
+	getEvents,
+} from '@cd/data-access';
+import {
+	Grid,
+	H1,
+	Page,
+	Footer,
+	Carousel,
+	H2,
+	DispensaryCard,
+	TextField,
+	H3,
+	Paragraph,
+	Button,
+	FlexBox,
+	AutoCompleteTextField,
+} from '@cd/ui-lib';
+import { type AxiosResponse } from 'axios';
+import { useFormik } from 'formik';
 import { AnimatePresence, motion } from 'framer-motion';
+import mapboxgl from 'mapbox-gl';
+import { type GetServerSidePropsContext } from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { type ReactElement, useEffect, useRef, useState } from 'react';
+import toast from 'react-hot-toast';
+import * as yup from 'yup';
+import { InfoCard } from '@/components/blog';
+import { TopBar } from '@/components/layouts';
 import { Error } from '@/components/shared';
+import EventCard from '@/components/shared/EventCard';
 import { clientPromise } from '@/lib/db';
 import env from '@/lib/env';
-import {
-  ResponseDataEnvelope,
-  applicationHeaders,
-  axios,
-  debounce,
-  getCoordinatePairFromCoordinates,
-  isValidZipcode,
-  useEvents,
-  useLocalDispensaries,
-} from '@cd/core-lib';
 // import {
 // 	getFacebookLoginStatus,
 // 	initFacebookSdk,
 // 	fbLogin,
 // } from '@cd/core-lib/src/lib/facebookIG';
 import {
-  type Coordinates,
-  type Dispensary,
-  type Event,
-  getEvents,
-} from '@cd/data-access';
-import {
-  Grid,
-  H1,
-  Page,
-  Footer,
-  Carousel,
-  H2,
-  DispensaryCard,
-  TextField,
-  H3,
-  Paragraph,
-  Button,
-  FlexBox,
-  AutoCompleteTextField,
-} from '@cd/ui-lib';
-import mapboxgl from 'mapbox-gl';
-import { type GetServerSidePropsContext } from 'next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { type ReactElement, useEffect, useRef, useState } from 'react';
-import { InfoCard } from '@/components/blog';
-import EventCard from '@/components/shared/EventCard';
-import {
-  type Post,
-  type Settings,
-  getClient,
-  getPosts,
-  getSettings,
-  readToken,
+	type Post,
+	type Settings,
+	getClient,
+	getPosts,
+	getSettings,
+	readToken,
 } from '@/lib/sanity';
 import SEOMetaTags from '@/lib/SEOMetaTags';
 import markerImage from 'public/map-marker.png';
-import * as yup from 'yup';
-import { useFormik } from 'formik';
-import { AxiosResponse } from 'axios';
-import toast from 'react-hot-toast';
 
 // function FBInit() {
 // 	useEffect(() => {
@@ -102,131 +102,141 @@ import toast from 'react-hot-toast';
 const defaultZipcode = '10001';
 
 export default function Browse({
-  token,
-  posts,
+	token,
+	posts,
 }: {
-  token: string;
-  posts: Post[];
-  settings: Settings;
+	token: string;
+	posts: Post[];
+	settings: Settings;
 }) {
-  const saveZipcodeToLocalStorage = (zipcode: string): string => {
-    if (isValidZipcode(zipcode)) {
-      localStorage.setItem('zipcode', zipcode.toString());
-    }
-    setZipcode(zipcode);
-    return zipcode
-  };
+	const saveZipcodeToLocalStorage = (zipcode: string): string => {
+		if (isValidZipcode(zipcode)) {
+			localStorage.setItem('zipcode', zipcode.toString());
+		}
+		setZipcode(zipcode);
+		return zipcode;
+	};
 
-  const getZipcodeLocalStorage = (): string => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('zipcode') || '';
-    }
-    return '';
-  };
-  const radius = 11000;
-  const [zipcode, setZipcode] = useState(getZipcodeLocalStorage());
-  const [zipcodeError, setZipcodeError] = useState('');
+	const getZipcodeLocalStorage = (): string => {
+		if (typeof window !== 'undefined') {
+			return localStorage.getItem('zipcode') || '';
+		}
+		return '';
+	};
+	const radius = 11000;
+	const [zipcode, setZipcode] = useState(getZipcodeLocalStorage());
+	const [zipcodeError, setZipcodeError] = useState('');
 
-  const { isLoading, isError, dispensaries } = useLocalDispensaries({
-    zipcode: isValidZipcode(zipcode) ? zipcode : getZipcodeLocalStorage() || saveZipcodeToLocalStorage(defaultZipcode),
-    radius,
-    token,
-  });
+	const { isLoading, isError, dispensaries } = useLocalDispensaries({
+		zipcode: isValidZipcode(zipcode)
+			? zipcode
+			: getZipcodeLocalStorage() || saveZipcodeToLocalStorage(defaultZipcode),
+		radius,
+		token,
+	});
 
-  const { isLoading: isEventLoading, events } = useEvents({ token, zipcode, radius })
+	const { isLoading: isEventLoading, events } = useEvents({
+		token,
+		zipcode,
+		radius,
+	});
 
-  useEffect(() => {
-    if (isValidZipcode(zipcode)) {
-      setEventRequestSent(false);
-    }
-  }, [zipcode])
- 
-  const eventsToday =
-    events.filter(
-      (event) => event.start_date < new Date().toISOString().substring(0, 10) && event.end_date >= new Date().toISOString().substring(0, 10)
-    ) || [];
+	useEffect(() => {
+		if (isValidZipcode(zipcode)) {
+			setEventRequestSent(false);
+		}
+	}, [zipcode]);
 
-    const [eventRequestSent, setEventRequestSent] = useState(false);
-    const [loading, setLoading] = useState(false);
+	const eventsToday =
+		events.filter(
+			(event) =>
+				event.start_date < new Date().toISOString().substring(0, 10) &&
+				event.end_date >= new Date().toISOString().substring(0, 10)
+		) || [];
 
-    const {
-      values,
-      errors,
-      touched,
-      handleBlur,
-      handleChange,
-      handleSubmit,
-      validateForm,
-    } = useFormik({
-      initialValues: { city: '' },
-      validateOnChange: false,
-      validationSchema: yup.object().shape({
-        city: yup.string().required(''),
-      }),
-      async onSubmit() {
-        try {
-          validateForm(values);
-          setLoading(true);
-          const response = await axios.put<
-            ResponseDataEnvelope<any>,
-            AxiosResponse<ResponseDataEnvelope<any>>,
-            { city: string }
-          >(`/api/events?location=${values.city}&create_cron=true`, values, { headers: { ...applicationHeaders, 'Authorization': `Bearer ${token}` } });
-          // if (!response.data.success || response.data.success === 'false')
-          // 	throw new Error(response.data.error);
-          setLoading(false);
-          setEventRequestSent(true);
-        } catch (error: any) {
-          setLoading(false);
-          toast.error('Something went wrong. Try again.');
-        }
-      },
-    });
+	const [eventRequestSent, setEventRequestSent] = useState(false);
+	const [loading, setLoading] = useState(false);
 
-  // function startShopTour() {
-  // 	shopTour.start();
-  // }
+	const {
+		values,
+		errors,
+		touched,
+		handleBlur,
+		handleChange,
+		handleSubmit,
+		validateForm,
+	} = useFormik({
+		initialValues: { city: '' },
+		validateOnChange: false,
+		validationSchema: yup.object().shape({
+			city: yup.string().required(''),
+		}),
+		async onSubmit() {
+			try {
+				validateForm(values);
+				setLoading(true);
+				const response = await axios.put<
+					ResponseDataEnvelope<any>,
+					AxiosResponse<ResponseDataEnvelope<any>>,
+					{ city: string }
+				>(`/api/events?location=${values.city}&create_cron=true`, values, {
+					headers: { ...applicationHeaders, Authorization: `Bearer ${token}` },
+				});
+				// if (!response.data.success || response.data.success === 'false')
+				// 	throw new Error(response.data.error);
+				setLoading(false);
+				setEventRequestSent(true);
+			} catch (error: any) {
+				setLoading(false);
+				toast.error('Something went wrong. Try again.');
+			}
+		},
+	});
 
-  // useEffect(() => {
-  // 	if (!user.isSignUpComplete) startShopTour();
-  // }, [user.isSignUpComplete]);
+	// function startShopTour() {
+	// 	shopTour.start();
+	// }
 
-  // const styles = {
-  // 	responsiveHeading: [
-  // 		'text-2xl pb-0 lg:px-5 whitespace-normal font-semibold',
-  // 	],
-  // };
-  // const [current, setCurrent] = useState(0);
+	// useEffect(() => {
+	// 	if (!user.isSignUpComplete) startShopTour();
+	// }, [user.isSignUpComplete]);
 
-  // function openStoreFrontModal() {
-  // dispatch(
-  //   modalActions.openModal({
-  //     modalType: modalTypes.StoreFrontModal,
-  //     organization: dispensaries[current],
-  //   })
-  // );
-  // }
+	// const styles = {
+	// 	responsiveHeading: [
+	// 		'text-2xl pb-0 lg:px-5 whitespace-normal font-semibold',
+	// 	],
+	// };
+	// const [current, setCurrent] = useState(0);
 
-  if (isError) {
-    return <Error message={isError.message} />;
-  }
-  return (
-    <>
-      <SEOMetaTags
-        additionalKeywords={[
-          'drake leaked text messages',
-          'current events new york',
-          'msg new york events',
-          'new york events today',
-          'new york city events today',
-          'cannabis events',
-          'cannabis events near me',
-          'discovery green events',
-          'events new york',
-          'weed show',
-        ]}
-      />
-      {/* <link
+	// function openStoreFrontModal() {
+	// dispatch(
+	//   modalActions.openModal({
+	//     modalType: modalTypes.StoreFrontModal,
+	//     organization: dispensaries[current],
+	//   })
+	// );
+	// }
+
+	if (isError) {
+		return <Error message={isError.message} />;
+	}
+	return (
+		<>
+			<SEOMetaTags
+				additionalKeywords={[
+					'drake leaked text messages',
+					'current events new york',
+					'msg new york events',
+					'new york events today',
+					'new york city events today',
+					'cannabis events',
+					'cannabis events near me',
+					'discovery green events',
+					'events new york',
+					'weed show',
+				]}
+			/>
+			{/* <link
           href="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css"
           rel="stylesheet"
         />
@@ -237,42 +247,44 @@ export default function Browse({
           src="https://connect.facebook.net/en_US/sdk.js"
         ></script> */}
 
-      <Page
-        gradient="green"
-        className="!pt-0 md:pt-0 px-0 lg:px-0 pb-0 min-h-[440px]"
-      >
-        <div>
-          <TopBar SearchComponent={
-          <div className='hidden lg:block'>
-            <H1 className="text-light text-lg pt-2 px-2 leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left">
-              {`Find flower, edibles, dispensaries`}
-              <span className="hidden xl:!inline">{` near you`}</span>
-            </H1>
-            <TextField
-              className="text-dark"
-              name="zipcode"
-              maxLength={5}
-              // label="search your zipcode"
-              defaultValue={'Enter your zipcode'}
-              value={zipcode}
-              placeholder="Enter your zipcode"
-              onBlur={undefined}
-              onChange={(e: any) =>
-                // eslint-disable-next-line sonarjs/no-use-of-empty-return-value
-                debounce(
-                  saveZipcodeToLocalStorage(e.target.value || ''),
-                  2000
-                )
-              }
-              error={!!zipcodeError}
-              helperText={zipcodeError}
-            />
-          </div>
-          } />
-          {/* <Header/> */}
-        </div>
+			<Page
+				gradient="green"
+				className="!pt-0 md:pt-0 px-0 lg:px-0 pb-0 min-h-[440px]"
+			>
+				<div>
+					<TopBar
+						SearchComponent={
+							<div className="hidden lg:block">
+								<H1 className="text-light text-lg pt-2 px-2 leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left">
+									{`Find flower, edibles, dispensaries`}
+									<span className="hidden xl:!inline">{` near you`}</span>
+								</H1>
+								<TextField
+									className="text-dark"
+									name="zipcode"
+									maxLength={5}
+									// label="search your zipcode"
+									defaultValue={'Enter your zipcode'}
+									value={zipcode}
+									placeholder="Enter your zipcode"
+									onBlur={undefined}
+									onChange={(e: any) =>
+										// eslint-disable-next-line sonarjs/no-use-of-empty-return-value
+										debounce(
+											saveZipcodeToLocalStorage(e.target.value || ''),
+											2000
+										)
+									}
+									error={!!zipcodeError}
+									helperText={zipcodeError}
+								/>
+							</div>
+						}
+					/>
+					{/* <Header/> */}
+				</div>
 
-        {/* <Script async defer crossOrigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></Script>
+				{/* <Script async defer crossOrigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></Script>
             
   <>
   {( typeof window !== 'undefined' && (window.fbAsyncInit = function() {
@@ -296,12 +308,12 @@ export default function Browse({
   )}
   </> */}
 
-        <Grid className="relative grid-cols-3 xs:pb-16 gap-y-2">
-          {/* <div
+				<Grid className="relative grid-cols-3 xs:pb-16 gap-y-2">
+					{/* <div
             id={'shop-tour-step1'}
             className="row-start-1 cursor-default pt-5 px-5 col-start-1 col-span-full lg:col-span-2"
           > */}
-          {/* <H2
+					{/* <H2
             className={twMerge(
               styles.responsiveHeading,
               'text-inverse-soft drop-shadow'
@@ -310,81 +322,81 @@ export default function Browse({
             {TextContent.info.CANNABIS_DELIVERED}
           </H2>
           <FBInit /> */}
-          {/* </div> */}
-          <div className="col-span-full">
-            <div className='lg:hidden px-4 sm:w-fit'>
-              <H1 className="lg:hidden text-xl md:text-3xl text-light md:pt-2 leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left">
-                {`Find flower, edibles, dispensaries`}
-                <span className="hidden lg:!inline">{` near you`}</span>
-              </H1>
-                <TextField
-                  className="text-dark"
-                  name="zipcode"
-                  maxLength={5}
-                  // label="search your zipcode"
-                  defaultValue={'Enter your zipcode'}
-                  value={zipcode}
-                  placeholder="Enter your zipcode"
-                  onBlur={undefined}
-                  onChange={(e: any) =>
-                    // eslint-disable-next-line sonarjs/no-use-of-empty-return-value
-                    debounce(
-                      saveZipcodeToLocalStorage(e.target.value || ''),
-                      2000
-                    )
-                  }
-                  error={!!zipcodeError}
-                  helperText={zipcodeError}
-                />
-              </div>
-            <Carousel
-              responsive={{
-                xl: {
-                  breakpoint: { max: 4000, min: 1400 },
-                  items: 5,
-                  slidesToSlide: 4,
-                  partialVisibilityGutter: 20,
-                },
-                lg: {
-                  breakpoint: { max: 1400, min: 1100 },
-                  items: 4,
-                  slidesToSlide: 3,
-                  partialVisibilityGutter: 20,
-                },
-                md: {
-                  breakpoint: { max: 1100, min: 800 },
-                  items: 3,
-                  slidesToSlide: 2,
-                  partialVisibilityGutter: 10,
-                },
-                sm: {
-                  breakpoint: { max: 800, min: 464 },
-                  items: 2,
-                  partialVisibilityGutter: 10,
-                },
-              }}
-              items={
-                !isLoading && dispensaries.length
-                  ? dispensaries?.map((d, index) => (
-                      <DispensaryCard
-                        priority={index < 4}
-                        loading={isLoading}
-                        key={`dispensary-card-${index}`}
-                        data={d}
-                      />
-                    ))
-                  : [1, 2, 3, 4, 5, 6].map((d, index) => (
-                      <DispensaryCard
-                        loading={isLoading}
-                        key={`dispensary-card-${index}`}
-                        data={d as unknown as Required<Dispensary>}
-                      />
-                    ))
-              }
-            />
-          </div>
+					{/* </div> */}
+					<div className="col-span-full">
+						<div className="lg:hidden px-4 sm:w-fit">
+							<H1 className="lg:hidden text-xl md:text-3xl text-light md:pt-2 leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left">
+								{`Find flower, edibles, dispensaries`}
+								<span className="hidden lg:!inline">{` near you`}</span>
+							</H1>
+							<TextField
+								className="text-dark"
+								name="zipcode"
+								maxLength={5}
+								// label="search your zipcode"
+								defaultValue={'Enter your zipcode'}
+								value={zipcode}
+								placeholder="Enter your zipcode"
+								onBlur={undefined}
+								onChange={(e: any) =>
+									// eslint-disable-next-line sonarjs/no-use-of-empty-return-value
+									debounce(
+										saveZipcodeToLocalStorage(e.target.value || ''),
+										2000
+									)
+								}
+								error={!!zipcodeError}
+								helperText={zipcodeError}
+							/>
+						</div>
+						<Carousel
+							responsive={{
+								xl: {
+									breakpoint: { max: 4000, min: 1400 },
+									items: 5,
+									slidesToSlide: 4,
+									partialVisibilityGutter: 20,
+								},
+								lg: {
+									breakpoint: { max: 1400, min: 1100 },
+									items: 4,
+									slidesToSlide: 3,
+									partialVisibilityGutter: 20,
+								},
+								md: {
+									breakpoint: { max: 1100, min: 800 },
+									items: 3,
+									slidesToSlide: 2,
+									partialVisibilityGutter: 10,
+								},
+								sm: {
+									breakpoint: { max: 800, min: 464 },
+									items: 2,
+									partialVisibilityGutter: 10,
+								},
+							}}
+							items={
+								!isLoading && dispensaries.length
+									? dispensaries?.map((d, index) => (
+											<DispensaryCard
+												priority={index < 4}
+												loading={isLoading}
+												key={`dispensary-card-${index}`}
+												data={d}
+											/>
+										))
+									: [1, 2, 3, 4, 5, 6].map((d, index) => (
+											<DispensaryCard
+												loading={isLoading}
+												key={`dispensary-card-${index}`}
+												data={d as unknown as Required<Dispensary>}
+											/>
+										))
+							}
+						/>
+					</div>
 
-          {/* <div className='col-span-full flex flex-col gap-1'>
+					{/* <div className='col-span-full flex flex-col gap-1'>
           <H3 className="px-4 pt-2 text-inverse-soft leading-2 drop-shadow text-left">
             🎁 Get What You Want
           </H3>
@@ -400,7 +412,7 @@ export default function Browse({
             </div>
         </div> */}
 
-          {/* <div className="col-span-full">
+					{/* <div className="col-span-full">
           <H3 className="col-span-full px-7 pt-2 lg:!px-11 text-inverse-soft leading-2 drop-shadow text-left">
             Recent Dispensaries
           </H3>
@@ -425,7 +437,7 @@ export default function Browse({
           />
         </div> */}
 
-          {/* <div className="col-span-full">
+					{/* <div className="col-span-full">
           <H3 className="col-span-full px-7 pt-2 lg:!px-11 text-inverse-soft leading-2 drop-shadow text-left">
             New Arrivals
           </H3>
@@ -440,198 +452,206 @@ export default function Browse({
             ))}
           />
         </div> */}
-        
-        {!isEventLoading && events.length === 0 ? 
-            <AnimatePresence>
-       <div
-       className="h-44 place-self-center col-span-full max-w-xl bg-white shadow-xl rounded mx-4 gap-1">
-            {eventRequestSent &&
-            <motion.div className='flex h-full p-5 hover:bg-gray-100 transition'
-              initial={{ y: 50, opacity: 0 }}
-							animate={{ y: 0, opacity: 1 }}
-							exit={{ y: 50, opacity: 0 }}>
-            <Paragraph className='place-self-center'>{`We're finding events in your city... 
+
+					{!isEventLoading && events.length === 0 ? (
+						<AnimatePresence>
+							<div className="h-44 place-self-center col-span-full max-w-xl bg-white shadow-xl rounded mx-4 gap-1">
+								{eventRequestSent && (
+									<motion.div
+										className="flex h-full p-5 hover:bg-gray-100 transition"
+										initial={{ y: 50, opacity: 0 }}
+										animate={{ y: 0, opacity: 1 }}
+										exit={{ y: 50, opacity: 0 }}
+									>
+										<Paragraph className="place-self-center">{`We're finding events in your city... 
             Come back later to see them 🎉`}</Paragraph>
-            </motion.div>}
+									</motion.div>
+								)}
 
-            {!eventRequestSent && 
-            <motion.div
-            className='p-4'
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ y: 50, opacity: 0 }}>
-            <H3>{`Want to see events in your city?`}</H3>
-            <Paragraph>{`Let us know. We'll find events in your city and display them when you come back.`}</Paragraph>
-            <FlexBox className='flex-row items-stretch gap-2'>
-                <TextField
-                placeholder='Enter your city...'
-                type="text"
-                containerClassName="w-full"
-                name="city"
-                value={values.city}
-                onBlur={handleBlur}
-                onChange={handleChange}
-                className="text-dark"
-                error={!!errors.city || !!touched.city}
-                />
-              <Button className='text-dark bg-amber-100 hover:bg-amber-200'
-                loading={loading}
-                disabled={loading}
-                onClick={(e: any) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  handleSubmit();
-                }}>{`Find Events`}
-              </Button>
-            </FlexBox>
-          </motion.div>
-            }
-          </div>
-		</AnimatePresence>
-           : 
-          <div className="col-span-full">
-            <H2 className="col-span-full text-lg sm:pt-2 px-3 md:px-4 text-light leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left">
-            🎉 Events Near You
-            </H2>
-            <Carousel
-              responsive={{
-                xl: {
-                  breakpoint: { max: 4000, min: 1400 },
-                  items: 4,
-                  slidesToSlide: 3,
-                  partialVisibilityGutter: 40,
-                },
-                lg: {
-                  // the naming can be any, depends on you.
-                  breakpoint: { max: 1400, min: 1100 },
-                  items: 3,
-                  slidesToSlide: 2,
-                  partialVisibilityGutter: 40,
-                },
-                md: {
-                  breakpoint: { max: 1100, min: 700 },
-                  items: 3,
-                  slidesToSlide: 2,
-                  partialVisibilityGutter: 40,
-                },
-                sm: {
-                  breakpoint: { max: 700, min: 464 },
-                  items: 2,
-                },
-                xs: {
-                  breakpoint: { max: 464, min: 0 },
-                  items: 2,
-                  slidesToSlide: 1,
-                },
-              }}
-              items={
-                // !events.isLoading && events.events.length
-                //   ? events.
-                events.map((event, index) => (
-                  <EventCard
-                    key={`event-card-${index}`}
-                    loading={false}
-                    event={event}
-                  />
-                ))
-                // : [1, 2, 3, 4, 5, 6].map((d, index) => (
-                //     <EventCard
-                //       key={`event-card-${index}`}
-                //       loading={events.isLoading}
-                //       event={d as any}
-                //     />
-                //   ))
-              }
-            />
-          </div>}
+								{!eventRequestSent && (
+									<motion.div
+										className="p-4"
+										animate={{ x: 0, opacity: 1 }}
+										exit={{ y: 50, opacity: 0 }}
+									>
+										<H3>{`Want to see events in your city?`}</H3>
+										<Paragraph>{`Let us know. We'll find events in your city and display them when you come back.`}</Paragraph>
+										<FlexBox className="flex-row items-stretch gap-2">
+											<TextField
+												placeholder="Enter your city..."
+												type="text"
+												containerClassName="w-full"
+												name="city"
+												value={values.city}
+												onBlur={handleBlur}
+												onChange={handleChange}
+												className="text-dark"
+												error={!!errors.city || !!touched.city}
+											/>
+											<Button
+												className="text-dark bg-amber-100 hover:bg-amber-200"
+												loading={loading}
+												disabled={loading}
+												onClick={(e: any) => {
+													e.preventDefault();
+													e.stopPropagation();
+													handleSubmit();
+												}}
+											>
+												{`Find Events`}
+											</Button>
+										</FlexBox>
+									</motion.div>
+								)}
+							</div>
+						</AnimatePresence>
+					) : (
+						<div className="col-span-full">
+							<H2 className="col-span-full text-lg sm:pt-2 px-3 md:px-4 text-light leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left">
+								🎉 Events Near You
+							</H2>
+							<Carousel
+								responsive={{
+									xl: {
+										breakpoint: { max: 4000, min: 1400 },
+										items: 4,
+										slidesToSlide: 3,
+										partialVisibilityGutter: 40,
+									},
+									lg: {
+										// the naming can be any, depends on you.
+										breakpoint: { max: 1400, min: 1100 },
+										items: 3,
+										slidesToSlide: 2,
+										partialVisibilityGutter: 40,
+									},
+									md: {
+										breakpoint: { max: 1100, min: 700 },
+										items: 3,
+										slidesToSlide: 2,
+										partialVisibilityGutter: 40,
+									},
+									sm: {
+										breakpoint: { max: 700, min: 464 },
+										items: 2,
+									},
+									xs: {
+										breakpoint: { max: 464, min: 0 },
+										items: 2,
+										slidesToSlide: 1,
+									},
+								}}
+								items={
+									// !events.isLoading && events.events.length
+									//   ? events.
+									events.map((event, index) => (
+										<EventCard
+											key={`event-card-${index}`}
+											loading={false}
+											event={event}
+										/>
+									))
+									// : [1, 2, 3, 4, 5, 6].map((d, index) => (
+									//     <EventCard
+									//       key={`event-card-${index}`}
+									//       loading={events.isLoading}
+									//       event={d as any}
+									//     />
+									//   ))
+								}
+							/>
+						</div>
+					)}
 
+					{!isEventLoading && eventsToday.length === 0 ? (
+						<></>
+					) : (
+						<div className="col-span-full">
+							<H2 className="col-span-full text-lg sm:pt-2 px-3 md:px-4 text-light leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left">
+								🎉 Happening Today
+							</H2>
+							<Carousel
+								responsive={{
+									xl: {
+										breakpoint: { max: 4000, min: 1400 },
+										items: 4,
+										slidesToSlide: 3,
+										partialVisibilityGutter: 40,
+									},
+									lg: {
+										// the naming can be any, depends on you.
+										breakpoint: { max: 1400, min: 1100 },
+										items: 3,
+										slidesToSlide: 2,
+										partialVisibilityGutter: 40,
+									},
+									md: {
+										breakpoint: { max: 1100, min: 700 },
+										items: 3,
+										slidesToSlide: 2,
+										partialVisibilityGutter: 40,
+									},
+									sm: {
+										breakpoint: { max: 700, min: 464 },
+										items: 2,
+									},
+									xs: {
+										breakpoint: { max: 464, min: 0 },
+										items: 2,
+										slidesToSlide: 1,
+									},
+								}}
+								items={
+									!isEventLoading && eventsToday.length
+										? eventsToday.map((event, index) => (
+												<EventCard
+													priority={index < 4}
+													key={`event-card-${index}`}
+													loading={false}
+													event={event}
+												/>
+											))
+										: [1, 2, 3, 4, 5, 6].map((d, index) => (
+												<EventCard
+													key={`event-card-${index}`}
+													loading={isEventLoading}
+													event={d as any}
+												/>
+											))
+								}
+							/>
+						</div>
+					)}
 
-          {!isEventLoading && eventsToday.length === 0 ? <></> : <div className="col-span-full">
-            <H2 className="col-span-full text-lg sm:pt-2 px-3 md:px-4 text-light leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left">
-              🎉 Happening Today
-            </H2>
-            <Carousel
-              responsive={{
-                xl: {
-                  breakpoint: { max: 4000, min: 1400 },
-                  items: 4,
-                  slidesToSlide: 3,
-                  partialVisibilityGutter: 40,
-                },
-                lg: {
-                  // the naming can be any, depends on you.
-                  breakpoint: { max: 1400, min: 1100 },
-                  items: 3,
-                  slidesToSlide: 2,
-                  partialVisibilityGutter: 40,
-                },
-                md: {
-                  breakpoint: { max: 1100, min: 700 },
-                  items: 3,
-                  slidesToSlide: 2,
-                  partialVisibilityGutter: 40,
-                },
-                sm: {
-                  breakpoint: { max: 700, min: 464 },
-                  items: 2,
-                },
-                xs: {
-                  breakpoint: { max: 464, min: 0 },
-                  items: 2,
-                  slidesToSlide: 1,
-                },
-              }}
-              items={
-                !isEventLoading && eventsToday.length
-                  ? 
-                eventsToday.map((event, index) => (
-                  <EventCard
-                    priority={index < 4}
-                    key={`event-card-${index}`}
-                    loading={false}
-                    event={event}
-                  />
-                ))
-                : [1, 2, 3, 4, 5, 6].map((d, index) => (
-                    <EventCard
-                      key={`event-card-${index}`}
-                      loading={isEventLoading}
-                      event={d as any}
-                    />
-                  ))
-              }
-            />
-          </div>}
+					<div className="col-span-full">
+						<H2 className="col-span-full text-lg px-2 md:px-4 text-light leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left">
+							🍍 Fresh from our blog
+						</H2>
+						<Carousel
+							title="Fresh from the Blog"
+							responsive={{
+								sm: {
+									breakpoint: { max: 700, min: 464 },
+									items: 2,
+								},
+								xs: {
+									breakpoint: { max: 464, min: 0 },
+									items: 2,
+									slidesToSlide: 1,
+								},
+							}}
+							items={posts.map((post, index) => (
+								<InfoCard
+									loading={isLoading}
+									key={`blog-card-${index}`}
+									data={post}
+									showDescription={false}
+								/>
+							))}
+						/>
+					</div>
 
-
-          <div className="col-span-full">
-            <H2 className="col-span-full text-lg px-2 md:px-4 text-light leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left">
-              🍍 Fresh from our blog
-            </H2>
-            <Carousel
-              title="Fresh from the Blog"
-              responsive={{
-                sm: {
-                  breakpoint: { max: 700, min: 464 },
-                  items: 2,
-                },
-                xs: {
-                  breakpoint: { max: 464, min: 0 },
-                  items: 2,
-                  slidesToSlide: 1,
-                },
-              }}
-              items={posts.map((post, index) => (
-                <InfoCard
-                  loading={isLoading}
-                  key={`blog-card-${index}`}
-                  data={post}
-                  showDescription={false}
-                />
-              ))}
-            />
-          </div>
-
-          {/* <div className="col-span-full px-24">
+					{/* <div className="col-span-full px-24">
           <H3 className="col-span-full px-7 pt-2 lg:!px-11 text-inverse-soft leading-2 drop-shadow text-left">
             🎨 Celebrate Artists
           </H3>
@@ -647,7 +667,7 @@ export default function Browse({
           />
         </div> */}
 
-          {/* <div className="col-span-full px-24">
+					{/* <div className="col-span-full px-24">
           <H3 className="col-span-full px-7 pt-2 lg:!px-11 text-inverse-soft leading-2 drop-shadow text-left">
             Read Reviews
           </H3>
@@ -663,16 +683,16 @@ export default function Browse({
           />
         </div> */}
 
-          {/* <div className="p-4 row-start-3 lg:row-start-2 col-span-3 lg:col-span-1 space-y-4">
+					{/* <div className="p-4 row-start-3 lg:row-start-2 col-span-3 lg:col-span-1 space-y-4">
 					<RenderMapBox
 						data={dispensaries}
 						current={current}
 						setCurrent={setCurrent}
 					/>
 				</div> */}
-        </Grid>
+				</Grid>
 
-        {/* || <Center>
+				{/* || <Center>
                     <H6 color='light' className='whitespace-pre-line'>
                         Want to see your favorite Dispensary?{'\n'}
                         Ask them to start a Gras account!</H6>
@@ -684,18 +704,18 @@ export default function Browse({
                 </Center>
                 } */}
 
-        {/* <FlexBox className="cursor-default bg-inverse shadow shadow-md shadow-lg hover:shadow-xl hover:scale-101 duration-500 p-12 rounded max-w-[559px] margin-auto place-self-center space-y-2">
+				{/* <FlexBox className="cursor-default bg-inverse shadow shadow-md shadow-lg hover:shadow-xl hover:scale-101 duration-500 p-12 rounded max-w-[559px] margin-auto place-self-center space-y-2">
                 <H2 className='font-black text-gray'>
                     What is Gras?</H2>
                 <H5>{`Gras is a home-grown service provider for cannabis lovers.
                     We serve the people of our communities, that enjoy cannabis, by offering a bridge of communication, clarity and support.`}</H5>
                     </FlexBox> */}
-        {/* </Grid> */}
+				{/* </Grid> */}
 
-        <Footer className="bg-transparent bg-gradient-to-b from-transparent to-secondary" />
-      </Page>
-    </>
-  );
+				<Footer className="bg-transparent bg-gradient-to-b from-transparent to-secondary" />
+			</Page>
+		</>
+	);
 }
 
 // const RenderGoogleMap = () => {
@@ -715,331 +735,331 @@ export default function Browse({
 // };
 
 const RenderMapBox = ({
-  data,
-  current,
-  setCurrent,
+	data,
+	current,
+	setCurrent,
 }: {
-  data: any[];
-  current: number;
-  setCurrent: React.Dispatch<React.SetStateAction<number>>;
+	data: any[];
+	current: number;
+	setCurrent: React.Dispatch<React.SetStateAction<number>>;
 }) => {
-  mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_API_KEY as string;
-  const mapContainer = useRef(null);
-  const map = useRef<mapboxgl.Map | null>(null);
+	mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_API_KEY!;
+	const mapContainer = useRef(null);
+	const map = useRef<mapboxgl.Map | null>(null);
 
-  useEffect(() => {
-    if (map.current) return; // initialize map only once
-    // eslint-disable-next-line import/no-named-as-default-member
-    map.current = new mapboxgl.Map({
-      container: 'map',
-      style: 'mapbox://styles/mapbox/streets-v12',
-      zoom: 11.5,
-      center: [-74.006, 40.72],
-      attributionControl: false,
-      // center: [lng, lat],
-      // zoom: zoom,
-    });
-  }, []);
+	useEffect(() => {
+		if (map.current) return; // initialize map only once
+		// eslint-disable-next-line import/no-named-as-default-member
+		map.current = new mapboxgl.Map({
+			container: 'map',
+			style: 'mapbox://styles/mapbox/streets-v12',
+			zoom: 11.5,
+			center: [-74.006, 40.72],
+			attributionControl: false,
+			// center: [lng, lat],
+			// zoom: zoom,
+		});
+	}, []);
 
-  useEffect(() => {
-    function addMarkersToMapBox(geojson: any) {
-      // add markers to map
-      if (!map.current || !geojson) return;
-      for (const feature of geojson.features) {
-        const index = geojson.features.indexOf(feature);
-        // create a HTML element for each feature
-        const el = document.createElement('div');
-        el.className = 'marker';
-        // el.textContent = feature.properties.title;
-        el.style.backgroundImage = `url(${feature.properties.image})`;
-        el.style.width = `15px`;
-        el.style.height = `19px`;
-        el.style.padding = '2px';
-        el.style.backgroundSize = '100%';
-        el.style.cursor = 'pointer';
-        // rotate the image 20 degrees
-        el.style.transform = 'rotate(20deg)';
+	useEffect(() => {
+		function addMarkersToMapBox(geojson: any) {
+			// add markers to map
+			if (!map.current || !geojson) return;
+			for (const feature of geojson.features) {
+				const index = geojson.features.indexOf(feature);
+				// create a HTML element for each feature
+				const el = document.createElement('div');
+				el.className = 'marker';
+				// el.textContent = feature.properties.title;
+				el.style.backgroundImage = `url(${feature.properties.image})`;
+				el.style.width = `15px`;
+				el.style.height = `19px`;
+				el.style.padding = '2px';
+				el.style.backgroundSize = '100%';
+				el.style.cursor = 'pointer';
+				// rotate the image 20 degrees
+				el.style.transform = 'rotate(20deg)';
 
-        // create a box that points to the location
-        // const pointer = document.createElement('div');
-        // pointer.className = 'pointer';
-        // el.appendChild(pointer);
-        // pointer.style.width = '20px';
-        // pointer.style.height = '20px';
-        // pointer.style.borderLeft = '10px solid transparent';
-        // pointer.style.borderRight = '10px solid transparent';
-        // pointer.style.borderTop = '10px solid #13622a';
-        // pointer.style.position = 'absolute';
-        // pointer.style.bottom = '-2px';
+				// create a box that points to the location
+				// const pointer = document.createElement('div');
+				// pointer.className = 'pointer';
+				// el.appendChild(pointer);
+				// pointer.style.width = '20px';
+				// pointer.style.height = '20px';
+				// pointer.style.borderLeft = '10px solid transparent';
+				// pointer.style.borderRight = '10px solid transparent';
+				// pointer.style.borderTop = '10px solid #13622a';
+				// pointer.style.position = 'absolute';
+				// pointer.style.bottom = '-2px';
 
-        // el.className = 'marker';
-        // el.style.backgroundImage = `url(${feature.properties.image})`; // Set background image
-        // el.style.backgroundColor = '#fff'; // Set background color (change #fff to any color you desire)
-        // el.style.display = 'inline-block';
-        // el.style.width = `30px`;
-        // el.style.height = `30px`;
-        // el.style.border = '1px solid #13622a';
-        // el.style.borderWidth = '2px';
-        // el.style.borderRadius = '50%';
-        // // el.textContent = feature.properties.message;
-        // el.style.backgroundSize = 'cover'; // Set background size to cover
-        el.style.backgroundPosition = 'bottom'; // Set background position to center
-        // el.style.cursor = 'pointer';
+				// el.className = 'marker';
+				// el.style.backgroundImage = `url(${feature.properties.image})`; // Set background image
+				// el.style.backgroundColor = '#fff'; // Set background color (change #fff to any color you desire)
+				// el.style.display = 'inline-block';
+				// el.style.width = `30px`;
+				// el.style.height = `30px`;
+				// el.style.border = '1px solid #13622a';
+				// el.style.borderWidth = '2px';
+				// el.style.borderRadius = '50%';
+				// // el.textContent = feature.properties.message;
+				// el.style.backgroundSize = 'cover'; // Set background size to cover
+				el.style.backgroundPosition = 'bottom'; // Set background position to center
+				// el.style.cursor = 'pointer';
 
-        // Create a container for SVG
-        // const svgContainer = document.createElement('div');
-        // svgContainer.style.cursor = 'pointer';
-        // svgContainer.className = 'marker';
-        // svgContainer.style.width = '50px';
-        // svgContainer.style.height = '50px';
-        // svgContainer.style.position = 'relative';
+				// Create a container for SVG
+				// const svgContainer = document.createElement('div');
+				// svgContainer.style.cursor = 'pointer';
+				// svgContainer.className = 'marker';
+				// svgContainer.style.width = '50px';
+				// svgContainer.style.height = '50px';
+				// svgContainer.style.position = 'relative';
 
-        // // Create SVG element
-        // const svg = document.createElementNS(
-        // 	'http://www.w3.org/2000/svg',
-        // 	'svg',
-        // );
-        // svg.style.overflow = 'hidden';
-        // svg.setAttribute('viewBox', '4.8878 5.6099 130 130');
-        // svg.setAttribute('width', '62.092');
-        // svg.setAttribute('height', '73.517');
+				// // Create SVG element
+				// const svg = document.createElementNS(
+				// 	'http://www.w3.org/2000/svg',
+				// 	'svg',
+				// );
+				// svg.style.overflow = 'hidden';
+				// svg.setAttribute('viewBox', '4.8878 5.6099 130 130');
+				// svg.setAttribute('width', '62.092');
+				// svg.setAttribute('height', '73.517');
 
-        // // Create ellipse element
-        // const ellipse = document.createElementNS(
-        // 	'http://www.w3.org/2000/svg',
-        // 	'ellipse',
-        // );
-        // ellipse.setAttribute('cx', '93.602');
-        // ellipse.setAttribute('cy', '66.515');
-        // ellipse.setAttribute('rx', '30.351');
-        // ellipse.setAttribute('ry', '30.351');
-        // ellipse.setAttribute(
-        // 	'style',
-        // 	'stroke: #13622a; stroke-width: 6px; fill: #fff;',
-        // );
+				// // Create ellipse element
+				// const ellipse = document.createElementNS(
+				// 	'http://www.w3.org/2000/svg',
+				// 	'ellipse',
+				// );
+				// ellipse.setAttribute('cx', '93.602');
+				// ellipse.setAttribute('cy', '66.515');
+				// ellipse.setAttribute('rx', '30.351');
+				// ellipse.setAttribute('ry', '30.351');
+				// ellipse.setAttribute(
+				// 	'style',
+				// 	'stroke: #13622a; stroke-width: 6px; fill: #fff;',
+				// );
 
-        // // Create path elements
-        // const path1 = document.createElementNS(
-        // 	'http://www.w3.org/2000/svg',
-        // 	'path',
-        // );
-        // path1.setAttribute(
-        // 	'd',
-        // 	'M 93.228 108.65 C 94.776 110.522 67.77 96.027 62.825 74.35',
-        // );
-        // path1.setAttribute('style', 'stroke: #13622a; fill: #13622a');
+				// // Create path elements
+				// const path1 = document.createElementNS(
+				// 	'http://www.w3.org/2000/svg',
+				// 	'path',
+				// );
+				// path1.setAttribute(
+				// 	'd',
+				// 	'M 93.228 108.65 C 94.776 110.522 67.77 96.027 62.825 74.35',
+				// );
+				// path1.setAttribute('style', 'stroke: #13622a; fill: #13622a');
 
-        // const path2 = document.createElementNS(
-        // 	'http://www.w3.org/2000/svg',
-        // 	'path',
-        // );
-        // path2.setAttribute(
-        // 	'd',
-        // 	'M 63.209 72.998 C 74.003 110.29 122.582 104.207 124.91 70.755 C 125.06 72.201 123.067 92.899 92.689 109.681',
-        // );
-        // path2.setAttribute('style', 'stroke: #13622a; fill: #13622a');
+				// const path2 = document.createElementNS(
+				// 	'http://www.w3.org/2000/svg',
+				// 	'path',
+				// );
+				// path2.setAttribute(
+				// 	'd',
+				// 	'M 63.209 72.998 C 74.003 110.29 122.582 104.207 124.91 70.755 C 125.06 72.201 123.067 92.899 92.689 109.681',
+				// );
+				// path2.setAttribute('style', 'stroke: #13622a; fill: #13622a');
 
-        // // Create image element
-        // const image = document.createElementNS(
-        // 	'http://www.w3.org/2000/svg',
-        // 	'image',
-        // );
-        // image.setAttributeNS(
-        // 	'http://www.w3.org/1999/xlink',
-        // 	'href',
-        // 	feature.properties.image,
-        // ); // Set image source
-        // image.setAttribute('width', '60'); // Adjust image size as needed
-        // image.setAttribute('height', '60'); // Adjust image size as needed
-        // image.setAttribute('x', '64'); // Adjust x and y position to center the image within the white section of the path
-        // image.setAttribute('y', '36'); // Adjust x and y position to center the image within the white section of the path
+				// // Create image element
+				// const image = document.createElementNS(
+				// 	'http://www.w3.org/2000/svg',
+				// 	'image',
+				// );
+				// image.setAttributeNS(
+				// 	'http://www.w3.org/1999/xlink',
+				// 	'href',
+				// 	feature.properties.image,
+				// ); // Set image source
+				// image.setAttribute('width', '60'); // Adjust image size as needed
+				// image.setAttribute('height', '60'); // Adjust image size as needed
+				// image.setAttribute('x', '64'); // Adjust x and y position to center the image within the white section of the path
+				// image.setAttribute('y', '36'); // Adjust x and y position to center the image within the white section of the path
 
-        // // Append ellipse and paths to SVG
-        // svg.appendChild(ellipse);
-        // svg.appendChild(path1);
-        // svg.appendChild(path2);
-        // // Append image to SVG
-        // svg.appendChild(image);
+				// // Append ellipse and paths to SVG
+				// svg.appendChild(ellipse);
+				// svg.appendChild(path1);
+				// svg.appendChild(path2);
+				// // Append image to SVG
+				// svg.appendChild(image);
 
-        // // // Append SVG to container div
-        // svgContainer.appendChild(svg);
+				// // // Append SVG to container div
+				// svgContainer.appendChild(svg);
 
-        // 				const svgContainer = document.createElement('div');
-        // 				svgContainer.className = 'marker';
-        // svgContainer.style.width = '50px';
-        // svgContainer.style.height = '50px';
-        // svgContainer.style.position = 'relative';
+				// 				const svgContainer = document.createElement('div');
+				// 				svgContainer.className = 'marker';
+				// svgContainer.style.width = '50px';
+				// svgContainer.style.height = '50px';
+				// svgContainer.style.position = 'relative';
 
-        // // Create SVG element
-        // const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        // svg.setAttribute('width', '100%');
-        // svg.setAttribute('height', '100%');
-        // svg.setAttribute('viewBox', '0 0 50 50'); // Adjust viewBox based on marker dimensions
+				// // Create SVG element
+				// const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+				// svg.setAttribute('width', '100%');
+				// svg.setAttribute('height', '100%');
+				// svg.setAttribute('viewBox', '0 0 50 50'); // Adjust viewBox based on marker dimensions
 
-        // // Create path for the marker shape
-        // const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        // path.setAttribute('d', 'M25 0C34 0 41.3 2.7 46.9 8.1 51.8 13.9 54.8 21.9 54.8 31.2c0 6.5-2.7 12.3-7.1 17.1-3.7 4.2-8.7 7.7-14.2 10.6-5.5-2.9-10.5-6.4-14.2-10.6-4.4-4.8-7.1-10.6-7.1-17.1 0-9.3 3-17.3 8.1-23.1C8.7 2.7 16 0 25 0zM25 7.8c-6.7 0-12.1 5.4-12.1 12.1 0 5.4 7.7 12.9 12.1 17 4.4-4.1 12.1-11.6 12.1-17C37.1 13.2 31.7 7.8 25 7.8z'); // Define the path for the marker shape
-        // path.setAttribute('fill', '#fff'); // Set background color (change #fff to desired color)
-        // path.setAttribute('stroke', '#000'); // Set border color
-        // path.setAttribute('stroke-width', '1px'); // Set border width
+				// // Create path for the marker shape
+				// const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+				// path.setAttribute('d', 'M25 0C34 0 41.3 2.7 46.9 8.1 51.8 13.9 54.8 21.9 54.8 31.2c0 6.5-2.7 12.3-7.1 17.1-3.7 4.2-8.7 7.7-14.2 10.6-5.5-2.9-10.5-6.4-14.2-10.6-4.4-4.8-7.1-10.6-7.1-17.1 0-9.3 3-17.3 8.1-23.1C8.7 2.7 16 0 25 0zM25 7.8c-6.7 0-12.1 5.4-12.1 12.1 0 5.4 7.7 12.9 12.1 17 4.4-4.1 12.1-11.6 12.1-17C37.1 13.2 31.7 7.8 25 7.8z'); // Define the path for the marker shape
+				// path.setAttribute('fill', '#fff'); // Set background color (change #fff to desired color)
+				// path.setAttribute('stroke', '#000'); // Set border color
+				// path.setAttribute('stroke-width', '1px'); // Set border width
 
-        // // Append path to SVG
-        // svg.appendChild(path);
+				// // Append path to SVG
+				// svg.appendChild(path);
 
-        // // Create image element
-        // const image = document.createElementNS('http://www.w3.org/2000/svg', 'image');
-        // image.setAttributeNS('http://www.w3.org/1999/xlink', 'href', feature.properties.image); // Set image source
-        // image.setAttribute('width', '30'); // Adjust image size as needed
-        // image.setAttribute('height', '30'); // Adjust image size as needed
-        // image.setAttribute('x', '10'); // Adjust x and y position to center the image within the white section of the path
-        // image.setAttribute('y', '10'); // Adjust x and y position to center the image within the white section of the path
+				// // Create image element
+				// const image = document.createElementNS('http://www.w3.org/2000/svg', 'image');
+				// image.setAttributeNS('http://www.w3.org/1999/xlink', 'href', feature.properties.image); // Set image source
+				// image.setAttribute('width', '30'); // Adjust image size as needed
+				// image.setAttribute('height', '30'); // Adjust image size as needed
+				// image.setAttribute('x', '10'); // Adjust x and y position to center the image within the white section of the path
+				// image.setAttribute('y', '10'); // Adjust x and y position to center the image within the white section of the path
 
-        // // Append image to SVG
-        // svg.appendChild(image);
+				// // Append image to SVG
+				// svg.appendChild(image);
 
-        // // Append SVG to container
-        // svgContainer.appendChild(svg);
+				// // Append SVG to container
+				// svgContainer.appendChild(svg);
 
-        el.addEventListener('click', () => {
-          setCurrent(index);
-        });
+				el.addEventListener('click', () => {
+					setCurrent(index);
+				});
 
-        // make a marker for each feature and add to the map
-        new mapboxgl.Marker(el)
-          .setLngLat(feature.geometry.coordinates)
-          .addTo(map.current);
+				// make a marker for each feature and add to the map
+				new mapboxgl.Marker(el)
+					.setLngLat(feature.geometry.coordinates)
+					.addTo(map.current);
 
-        // add marker to a layer
-        // map.current?.addLayer({
-        // 	id: `marker-${index}`,
-        // 	type: 'symbol',
-        // 	source: {
-        // 		type: 'geojson',
-        // 		data: {
-        // 			type: 'FeatureCollection',
-        // 			features: [feature],
-        // 		},
-        // 	},
-        // 	maxzoom: 15,
-        // 	minzoom: 10,
-        // 	layout: {
-        // 		'icon-image': 'marker',
-        // 		'icon-size': 0.25,
-        // 	},
-        // });
-      }
-    }
-    if (data.length > 0 && map.current?.isStyleLoaded) {
-      addMarkersToMapBox(generateGEOJSONDataFromDispensaries(data));
-    }
-  }, [data]);
+				// add marker to a layer
+				// map.current?.addLayer({
+				// 	id: `marker-${index}`,
+				// 	type: 'symbol',
+				// 	source: {
+				// 		type: 'geojson',
+				// 		data: {
+				// 			type: 'FeatureCollection',
+				// 			features: [feature],
+				// 		},
+				// 	},
+				// 	maxzoom: 15,
+				// 	minzoom: 10,
+				// 	layout: {
+				// 		'icon-image': 'marker',
+				// 		'icon-size': 0.25,
+				// 	},
+				// });
+			}
+		}
+		if (data.length > 0 && map.current?.isStyleLoaded) {
+			addMarkersToMapBox(generateGEOJSONDataFromDispensaries(data));
+		}
+	}, [data]);
 
-  useEffect(() => {
-    // fly to current on map load
-    if (data.length > 0 && map.current?.isStyleLoaded) {
-      const { address } = data[current];
-      const [lng, lat] = getCoordinatePairFromCoordinates(
-        address.coordinates as Coordinates
-      );
-      map.current?.flyTo({
-        center: [lng, lat],
-        zoom: 11,
-        speed: 2,
-        animate: true,
-      });
-    }
-  }, [map.current]);
+	useEffect(() => {
+		// fly to current on map load
+		if (data.length > 0 && map.current?.isStyleLoaded) {
+			const { address } = data[current];
+			const [lng, lat] = getCoordinatePairFromCoordinates(
+				address.coordinates as Coordinates
+			);
+			map.current?.flyTo({
+				center: [lng, lat],
+				zoom: 11,
+				speed: 2,
+				animate: true,
+			});
+		}
+	}, [map.current]);
 
-  useEffect(() => {
-    // fly to the selected location
-    if (data.length > 0 && map.current?.isStyleLoaded) {
-      const { address } = data[current];
-      const [lng, lat] = getCoordinatePairFromCoordinates(
-        address.coordinates as Coordinates
-      );
-      map.current?.flyTo({
-        center: [lng, lat],
-        speed: 2,
-        animate: true,
-      });
-    }
-  }, [current]);
+	useEffect(() => {
+		// fly to the selected location
+		if (data.length > 0 && map.current?.isStyleLoaded) {
+			const { address } = data[current];
+			const [lng, lat] = getCoordinatePairFromCoordinates(
+				address.coordinates as Coordinates
+			);
+			map.current?.flyTo({
+				center: [lng, lat],
+				speed: 2,
+				animate: true,
+			});
+		}
+	}, [current]);
 
-  function generateGEOJSONDataFromDispensaries(data: any[]) {
-    return {
-      type: 'FeatureCollection',
-      features: data.map((dispensary) => {
-        const { address, name } = dispensary;
-        const [lng, lat] = getCoordinatePairFromCoordinates(
-          address.coordinates as Coordinates
-        );
-        return {
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: [lng, lat],
-          },
-          properties: {
-            title: name,
-            message: name,
-            // image: dispensary.images[0].location || Logo.src,
-            image: markerImage.src,
-          },
-        };
-      }),
-    };
-  }
-  return (
-    <>
-      <div
-        id="map"
-        ref={mapContainer}
-        className="rounded overflow-hidden shadow"
-        style={{ width: '100%', height: '220px', float: 'right' }}
-      >
-        <style global jsx>{`
-          .mapbox-logo {
-            display: none;
-          }
-          .mapboxgl-ctrl-logo {
-            display: none !important;
-          }
-          .mapbox-improve-map {
-            display: none;
-          }
-          .mapboxgl-ctrl-compass {
-            display: none;
-          }
-        `}</style>
-      </div>
-    </>
-  );
+	function generateGEOJSONDataFromDispensaries(data: any[]) {
+		return {
+			type: 'FeatureCollection',
+			features: data.map((dispensary) => {
+				const { address, name } = dispensary;
+				const [lng, lat] = getCoordinatePairFromCoordinates(
+					address.coordinates as Coordinates
+				);
+				return {
+					type: 'Feature',
+					geometry: {
+						type: 'Point',
+						coordinates: [lng, lat],
+					},
+					properties: {
+						title: name,
+						message: name,
+						// image: dispensary.images[0].location || Logo.src,
+						image: markerImage.src,
+					},
+				};
+			}),
+		};
+	}
+	return (
+		<>
+			<div
+				id="map"
+				ref={mapContainer}
+				className="rounded overflow-hidden shadow"
+				style={{ width: '100%', height: '220px', float: 'right' }}
+			>
+				<style global jsx>{`
+					.mapbox-logo {
+						display: none;
+					}
+					.mapboxgl-ctrl-logo {
+						display: none !important;
+					}
+					.mapbox-improve-map {
+						display: none;
+					}
+					.mapboxgl-ctrl-compass {
+						display: none;
+					}
+				`}</style>
+			</div>
+		</>
+	);
 };
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
-  // const client = await clientPromise;
-  const authToken = env.nextAuth.secret;
+	// const client = await clientPromise;
+	const authToken = env.nextAuth.secret;
 
-  const { draftMode = false, locale } = ctx;
-  const sanityClient = getClient(draftMode ? { token: readToken } : undefined);
+	const { draftMode = false, locale } = ctx;
+	const sanityClient = getClient(draftMode ? { token: readToken } : undefined);
 
-  const [settings, posts = []] = await Promise.all([
-    getSettings(sanityClient),
-    getPosts(sanityClient),
-  ]);
+	const [settings, posts = []] = await Promise.all([
+		getSettings(sanityClient),
+		getPosts(sanityClient),
+	]);
 
-  return {
-    props: {
-      ...(locale ? await serverSideTranslations(locale, ['common']) : {}),
-      posts,
-      settings,
-      // events: JSON.parse(JSON.stringify(await getEvents({ client }))),
-      draftMode,
-      token: authToken,
-    },
-  };
+	return {
+		props: {
+			...(locale ? await serverSideTranslations(locale, ['common']) : {}),
+			posts,
+			settings,
+			// events: JSON.parse(JSON.stringify(await getEvents({ client }))),
+			draftMode,
+			token: authToken,
+		},
+	};
 };
 
 Browse.getLayout = function getLayout(page: ReactElement) {
-  return <>{page}</>;
+	return <>{page}</>;
 };

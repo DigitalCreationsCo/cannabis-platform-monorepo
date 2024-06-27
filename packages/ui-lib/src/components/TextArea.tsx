@@ -81,7 +81,7 @@ export default function TextArea({
 						onClick={(e) => {
 							e.stopPropagation();
 							e.preventDefault();
-							onClickIcon && onClickIcon(e);
+							onClickIcon?.(e);
 						}}
 						className={twMerge(
 							'bg-transparent hover:bg-transparent md:hover:bg-transparent focus:bg-transparent shadow-none px-0 pl-2 m-0 w-min h-min place-self-center'

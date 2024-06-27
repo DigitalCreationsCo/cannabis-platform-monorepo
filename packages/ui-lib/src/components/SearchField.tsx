@@ -4,10 +4,10 @@ import { twMerge } from 'tailwind-merge';
 import { IconButton } from './button';
 import FlexBox from './FlexBox';
 
-export type SearchBarProps = {
+export interface SearchBarProps {
 	onChange?: ReactEventHandler;
 	placeholder?: string;
-};
+}
 function SearchBar({ placeholder = 'Search', onChange }: SearchBarProps) {
 	const [isFocused, setFocused] = useState(false);
 	const focused = 'border-primary-light';

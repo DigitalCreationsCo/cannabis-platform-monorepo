@@ -1,5 +1,5 @@
 import './styles/ui-lib.css';
-import './styles/tailwind.css'
+import './styles/tailwind.css';
 
 export * from './components';
 export * from './hooks';

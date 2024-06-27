@@ -2,11 +2,17 @@
 	"$schema": "https://json.schemastore.org/tsconfig",
 	"extends": "../../tsconfig.base.json",
 	"compilerOptions": {
-	  "strict": false,
+		"types": [
+			"node",
+			"jest",
+			"vitest/globals"
+		],
+	  "strict": true,
 	  "baseUrl": "./src",
 	  "target": "ESNext",
 	  "lib": ["dom", "dom.iterable", "esnext"],
 	  "module": "ESNext",
+	  "moduleResolution": "node",
 	  "jsx": "react-jsx",
 	  "noEmit": false,
 	  "incremental": true,
@@ -14,7 +20,6 @@
 		"@cd/data-access": ["../../../packages/data-access/src/index"],
 		"@cd/eslint-config": ["../../../packages/eslint-config/src/index"]
 	},
-	  "types": ["vitest/globals"]
 	},
 	"exclude": ["**/node_modules", "**/.*/*", "dist"],
 	"include": [

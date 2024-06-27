@@ -1,5 +1,3 @@
-import { SessionProvider } from 'next-auth/react';
-import { appWithTranslation } from 'next-i18next';
 import { Themer } from '@boxyhq/react-ui/shared';
 import { loadBrevoChat } from '@cd/core-lib/src/lib/brevoChat';
 import {
@@ -7,6 +5,7 @@ import {
 	loadGoogleTagManager,
 } from '@cd/core-lib/src/lib/googletagmanager';
 import { loadHotJar } from '@cd/core-lib/src/lib/hotjar';
+import { loadSegment } from '@cd/core-lib/src/lib/segment';
 import {
 	LoadingPage,
 	ModalProvider,
@@ -19,6 +18,8 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { AnimatePresence } from 'framer-motion';
 import mixpanel from 'mixpanel-browser';
+import { SessionProvider } from 'next-auth/react';
+import { appWithTranslation } from 'next-i18next';
 import { NextSeo } from 'next-seo';
 import { useEffect } from 'react';
 import { Provider as ReduxProvider } from 'react-redux';
@@ -28,14 +29,11 @@ import app from '@/lib/app';
 import env from '@/lib/env';
 import { type AppPropsWithLayout } from '@/lib/next.types';
 import { wrapper } from '@/lib/store';
-import { loadSegment } from '@cd/core-lib/src/lib/segment';
 
 import '../styles/dashboard.css';
 import '../styles/build.css';
 
-const stripePromise = loadStripe(
-	process.env.NEXT_PUBLIC_STRIPE_API_KEY as string
-);
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_API_KEY!);
 
 function MyApp({ Component, ...appProps }: AppPropsWithLayout) {
 	const { store } = wrapper.useWrappedStore(appProps);
@@ -110,20 +108,20 @@ function MyApp({ Component, ...appProps }: AppPropsWithLayout) {
 							}}
 						>
 							<Themer
-								// overrideTheme={{
-								// 	'--primary-color': colors.blue['500'],
-								// 	'--primary-hover': colors.blue['600'],
-								// 	'--primary-color-50': colors.blue['50'],
-								// 	'--primary-color-100': colors.blue['100'],
-								// 	'--primary-color-200': colors.blue['200'],
-								// 	'--primary-color-300': colors.blue['300'],
-								// 	'--primary-color-500': colors.blue['500'],
-								// 	'--primary-color-600': colors.blue['600'],
-								// 	'--primary-color-700': colors.blue['700'],
-								// 	'--primary-color-800': colors.blue['800'],
-								// 	'--primary-color-900': colors.blue['900'],
-								// 	'--primary-color-950': colors.blue['950'],
-								// }}
+							// overrideTheme={{
+							// 	'--primary-color': colors.blue['500'],
+							// 	'--primary-hover': colors.blue['600'],
+							// 	'--primary-color-50': colors.blue['50'],
+							// 	'--primary-color-100': colors.blue['100'],
+							// 	'--primary-color-200': colors.blue['200'],
+							// 	'--primary-color-300': colors.blue['300'],
+							// 	'--primary-color-500': colors.blue['500'],
+							// 	'--primary-color-600': colors.blue['600'],
+							// 	'--primary-color-700': colors.blue['700'],
+							// 	'--primary-color-800': colors.blue['800'],
+							// 	'--primary-color-900': colors.blue['900'],
+							// 	'--primary-color-950': colors.blue['950'],
+							// }}
 							>
 								<AnimatePresence
 									mode="wait"

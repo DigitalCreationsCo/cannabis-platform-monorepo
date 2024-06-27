@@ -11,30 +11,30 @@ tent'
  *  }
  */
 export default defineType({
-  title: 'Newsletter',
-  name: 'newsletter',
-  type: 'document',
-  fields: [
-    defineField({
-      title: 'Greeting',
-      name: 'greeting',
-      type: 'string',
-    }),
-    defineField({
-      title: 'Content',
-      name: 'content',
-      type: 'array',
-      of: [
-        defineArrayMember({
-          title: 'Section',
-          type: 'section',
-        }),
-      ],
-    }),
-    defineField({
-      title: 'Outro',
-      name: 'outro',
-      type: 'string',
-    }),
-  ],
+	title: 'Newsletter',
+	name: 'newsletter',
+	type: 'document',
+	fields: [
+		defineField({
+			title: 'Greeting',
+			name: 'greeting',
+			type: 'string',
+		}),
+		defineField({
+			title: 'Content',
+			name: 'content',
+			type: 'array',
+			of: [
+				defineArrayMember({
+					title: 'Section',
+					type: 'section',
+				}),
+			],
+		}),
+		defineField({
+			title: 'Outro',
+			name: 'outro',
+			type: 'string',
+		}),
+	],
 });

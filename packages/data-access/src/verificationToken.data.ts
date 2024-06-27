@@ -60,8 +60,8 @@ export const isVerificationTokenExpired = (
 	return verificationToken.expires < new Date();
 };
 
-export type VerificationToken = {
+export interface VerificationToken {
 	identifier: string;
 	token: string;
 	expires: Date;
-};
+}

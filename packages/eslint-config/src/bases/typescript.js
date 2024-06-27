@@ -11,24 +11,29 @@ module.exports = {
 			globalReturn: false,
 		},
 		ecmaVersion: 2015,
-		project: ['tsconfig.json'],
+		project: [
+			'tsconfig.json',
+			'packages/*/tsconfig.json',
+			'app/*/tsconfig.json',
+			'server/*/tsconfig.json',
+			'tools/*/tsconfig.json',
+			'mobile/*/tsconfig.json',
+		],
 		sourceType: 'module',
 	},
 	settings: {
+		'import/parsers': {
+			'@typescript-eslint/parser': ['.ts', '.tsx', '.mts'],
+		},
 		'import/resolver': {
 			typescript: {
-				// project: [
-				// 	// 'tsconfig.json',
-				// 	'packages/*/tsconfig.json',
-				// 	'app/*/tsconfig.json',
-				// 	'server/*/tsconfig.json',
-				// 	'tools/*/tsconfig.json',
-				// 	'mobile/*/tsconfig.json',
-				// ],
+				alwaysTryTypes: true, // Always try to resolve types under `@types` package
+				project: [
+					'tsconfig.json',
+					'packages/*/tsconfig.json',
+					'app/*/tsconfig.json',
+				],
 			},
-			// node: {
-			// 	extensions: ['.js', '.jsx', '.ts', '.tsx'],
-			// },
 		},
 	},
 	extends: [
@@ -36,11 +41,12 @@ module.exports = {
 		'plugin:import/recommended',
 		'plugin:import/typescript',
 		'plugin:@typescript-eslint/recommended',
+		'plugin:@typescript-eslint/stylistic-type-checked', // allows for flexible project level configuration
 	],
 	rules: {
 		indent: ['error', 'tab', { SwitchCase: 1 }],
 		'import/no-cycle': 1,
-		'import/default': ['error'],
+		'import/default': ['off'],
 		// Caution this rule is slow https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/namespace.md
 		'import/namespace': 'off', // ['error'] If you want the extra check (typechecking will spot most issues already)
 		// https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-duplicates.md
@@ -73,7 +79,10 @@ module.exports = {
 			'warn',
 			{ argsIgnorePattern: '^_', ignoreRestSiblings: true },
 		],
-
+		'@typescript-eslint/no-non-null-asserted-optional-chain': 'warn',
+		'@typescript-eslint/prefer-nullish-coalescing': 'warn',
+		'@typescript-eslint/prefer-optional-chain': 'warn',
+		'@typescript-eslint/prefer-for-of': 'warn',
 		'@typescript-eslint/no-explicit-any': 'off',
 		'@typescript-eslint/consistent-type-exports': 'error',
 		'@typescript-eslint/consistent-type-imports': [
@@ -191,7 +200,7 @@ module.exports = {
 		{
 			files: ['*.mjs'],
 			parserOptions: {
-				ecmaVersion: 'latest',
+				ecmaVersion: 2015,
 				sourceType: 'module',
 			},
 			rules: {
@@ -205,7 +214,7 @@ module.exports = {
 			// commonjs or assumed
 			files: ['*.js', '*.cjs'],
 			parserOptions: {
-				ecmaVersion: 2020,
+				ecmaVersion: 2015,
 			},
 			rules: {
 				'@typescript-eslint/naming-convention': 'off',

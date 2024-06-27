@@ -9,41 +9,41 @@ import { Members, TeamTab } from '@/components/team';
 import env from '@/lib/env';
 
 const TeamMembers = ({ teamFeatures }: { teamFeatures: TeamFeature }) => {
-  const { t } = useTranslation('common');
-  const { isLoading, isError, team } = useDispensary();
+	const { t } = useTranslation('common');
+	const { isLoading, isError, team } = useDispensary();
 
-  if (isLoading) {
-    return <LoadingPage />;
-  }
+	if (isLoading) {
+		return <LoadingPage />;
+	}
 
-  if (isError) {
-    return <Error message={isError.message} />;
-  }
+	if (isError) {
+		return <Error message={isError.message} />;
+	}
 
-  if (!team) {
-    return <Error message={t('team-not-found')} />;
-  }
+	if (!team) {
+		return <Error message={t('team-not-found')} />;
+	}
 
-  return (
-    <>
-      <TeamTab activeTab="members" team={team} teamFeatures={teamFeatures} />
-      <div className="space-y-6">
-        <Members team={team} />
-        <PendingInvitations team={team} />
-      </div>
-    </>
-  );
+	return (
+		<>
+			<TeamTab activeTab="members" team={team} teamFeatures={teamFeatures} />
+			<div className="space-y-6">
+				<Members team={team} />
+				<PendingInvitations team={team} />
+			</div>
+		</>
+	);
 };
 
 export async function getServerSideProps({
-  locale,
+	locale,
 }: GetServerSidePropsContext) {
-  return {
-    props: {
-      ...(locale ? await serverSideTranslations(locale, ['common']) : {}),
-      teamFeatures: env.teamFeatures,
-    },
-  };
+	return {
+		props: {
+			...(locale ? await serverSideTranslations(locale, ['common']) : {}),
+			teamFeatures: env.teamFeatures,
+		},
+	};
 }
 
 export default TeamMembers;

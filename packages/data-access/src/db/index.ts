@@ -1,5 +1,5 @@
 export const db_namespace = {
-	db: process.env.NEXT_PUBLIC_GRAS_DB_NS as string,
+	db: process.env.NEXT_PUBLIC_GRAS_DB_NS!,
 	collections: {
 		customers: 'customers',
 		daily_deals: 'daily_deals',

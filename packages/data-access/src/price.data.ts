@@ -30,7 +30,7 @@ export const getServiceByPriceId = async ({
 		);
 };
 
-export type Price = {
+export interface Price {
 	id: string;
 	amount: number;
 	currency: string;
@@ -40,10 +40,10 @@ export type Price = {
 	};
 	billingScheme: 'per_unit' | 'tiered' | 'metered';
 	serviceId: string;
-};
+}
 
-export type Service = {
+export interface Service {
 	id: string;
 	name: string;
 	description: string;
-};
+}

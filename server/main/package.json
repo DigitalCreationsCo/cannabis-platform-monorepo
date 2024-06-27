@@ -27,7 +27,6 @@
     "@types/jest": "^29.5.12",
     "@types/node": "20.12.7",
     "@types/node-cron": "^3.0.11",
-    "@typescript-eslint/parser": "5.45.0",
     "awesome-typescript-loader": "^5.2.1",
     "babel-core": "6.26.3",
     "babel-loader": "9.1.2",

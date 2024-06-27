@@ -1,12 +1,12 @@
-import { CSSProperties, type PropsWithChildren } from 'react';
+import { type CSSProperties, type PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 import AnimationWrapper from './AnimationWrapper';
 
-type PageProps = {
+interface PageProps {
 	gradient?: 'pink' | 'green';
 	className?: string | string[];
 	style?: CSSProperties;
-};
+}
 
 function Page({
 	gradient,

@@ -9,7 +9,7 @@ module.exports = {
     tsconfigRootDir: __dirname,
     project: 'tsconfig.json',
   },
-  ignorePatterns: [...getDefaultIgnorePatterns(), '.next', '.out'],
+  ignorePatterns: [...getDefaultIgnorePatterns(), '.next', '.out', '.eslintrc.js'],
   extends: [
     '@cd/eslint-config/src/bases/typescript',
     '@cd/eslint-config/src/bases/sonar',
@@ -25,11 +25,13 @@ module.exports = {
     '@cd/eslint-config/src/bases/prettier-plugin',
   ],
   rules: {
+    '@typescript-eslint/naming-convention': 'off',
     // https://github.com/vercel/next.js/discussions/16832
     '@next/next/no-img-element': 'off',
     // For the sake of example
     // https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md
     'jsx-a11y/anchor-is-valid': 'off',
+    'jsx-a11y/label-has-associated-control': 'off',
   },
   overrides: [
     {
