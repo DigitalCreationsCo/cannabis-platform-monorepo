@@ -49,7 +49,7 @@ const handlePOST = async (req: any, res: any) => {
 		serviceAreaRange,
 		weeklyDeliveries,
 		message,
-	}: ContactUsFormResponse = req.body;
+	} = req.body as Required<ContactUsFormResponse>;
 
 	// upsert account
 	const account = await axios.post<{ sales_account: { id: number } }>(
@@ -106,7 +106,7 @@ const handlePOST = async (req: any, res: any) => {
 		{
 			sales_accounts: [{ id: account.data.sales_account.id, is_primary: true }],
 			owner_id: FRESHSALES_ADMIN_USERID,
-			lead_source_id: null,
+			lead_source_id: undefined,
 			subscription_types: `${subscribeCannabisInsiderNewsletter ? 4 : 0};1;2;3;`,
 			keyword: 'dispensary lead',
 		}

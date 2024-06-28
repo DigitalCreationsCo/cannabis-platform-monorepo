@@ -88,3 +88,8 @@ export const slugify = (text: string) => {
 		.replace(/^-+/, '') // Trim - from start of text
 		.replace(/-+$/, ''); // Trim - from end of text
 };
+
+export function getFirstErrorOrNull(errors: Record<string, any>) {
+	const listErrors = Object.values(errors);
+	return listErrors.length > 0 ? listErrors[0].toString() : null;
+}

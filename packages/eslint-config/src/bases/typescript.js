@@ -41,7 +41,7 @@ module.exports = {
 		'plugin:import/recommended',
 		'plugin:import/typescript',
 		'plugin:@typescript-eslint/recommended',
-		'plugin:@typescript-eslint/stylistic-type-checked', // allows for flexible project level configuration
+		// 'plugin:@typescript-eslint/stylistic-type-checked', // allows for flexible project level configuration
 	],
 	rules: {
 		indent: ['error', 'tab', { SwitchCase: 1 }],

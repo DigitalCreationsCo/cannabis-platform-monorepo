@@ -54,7 +54,7 @@ const InviteViaLink = ({ team }: InviteViaLinkProps) => {
 	const formik = useFormik({
 		initialValues: {
 			domains: '',
-			role: availableRoles[0].id,
+			role: availableRoles[0]!.id,
 			sentViaEmail: false,
 		},
 		validationSchema: FormValidationSchema,

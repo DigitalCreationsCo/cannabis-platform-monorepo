@@ -46,7 +46,23 @@ class FreshSales {
 	}
 
 	async upsertContact(
-		contact: Partial<Customer>,
+		contact: Pick<
+			Customer,
+			| 'email'
+			| 'first_name'
+			| 'last_name'
+			| 'job_title'
+			| 'mobile_number'
+			| 'work_number'
+			| 'address'
+			| 'city'
+			| 'state'
+			| 'zipcode'
+			| 'country'
+			| 'medium'
+			| 'keyword'
+			| 'custom_field'
+		>,
 		attribution: FreshSalesAttribution
 	) {
 		try {
@@ -65,15 +81,15 @@ class FreshSales {
 					unique_identifier: { emails: contact.email },
 					contact: {
 						...contact,
+						job_title: contact.job_title ?? '',
 						email: contact.email,
 						first_name: contact.first_name || '',
 						last_name: contact.last_name || '',
-						lead_source_id: null,
+						lead_source_id: undefined,
 						owner_id: this.FRESHSALES_ADMIN_USERID,
 						medium: 'new-visitor',
-						keyword: 'visitor',
 						...attribution,
-					},
+					} as any,
 				},
 				{
 					headers: {

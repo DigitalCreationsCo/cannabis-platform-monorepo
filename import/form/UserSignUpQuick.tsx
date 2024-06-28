@@ -1,5 +1,6 @@
 import {
 	axios,
+	getFirstErrorOrNull,
 	selectUserState,
 	shuffle,
 	TextContent,
@@ -144,12 +145,8 @@ function UserSignUpQuickForm() {
 
 	function notifyValidation() {
 		validateForm().then((errors) => {
-			if (Object.values(errors).length > 0) {
-				console.info('validation errors: ', errors);
-				if (Object.keys(errors)[0] === 'profilePicture')
-					// @ts-ignore
-					toast.error(errors.profilePicture?.location);
-				else toast.error(Object.values(errors)[0].toString());
+			if (getFirstErrorOrNull(errors)) {
+				toast.error(getFirstErrorOrNull(errors));
 			}
 		});
 	}

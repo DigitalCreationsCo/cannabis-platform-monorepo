@@ -70,7 +70,7 @@ handler.post(async (req: any, res: NextApiResponse) => {
 			body: any;
 			categories: string;
 		} = JSON.parse(
-			JSON.parse(JSON.stringify(response.choices[0].message.content))
+			JSON.parse(JSON.stringify(response.choices[0]!.message.content))
 		);
 		if (!content) throw new Error('No content was generated.');
 

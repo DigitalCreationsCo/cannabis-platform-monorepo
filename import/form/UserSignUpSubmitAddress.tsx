@@ -1,5 +1,6 @@
 import {
 	TextContent,
+	getFirstErrorOrNull,
 	urlBuilder,
 	usStatesAbbreviationList,
 } from '@cd/core-lib';
@@ -115,9 +116,8 @@ function SubmitAddressForm() {
 
 	function notifyValidation() {
 		validateForm().then((errors) => {
-			if (Object.values(errors).length > 0) {
-				console.info('validation errors: ', errors);
-				toast.error(Object.values(errors)[0].toString());
+			if (getFirstErrorOrNull(errors)) {
+				toast.error(getFirstErrorOrNull(errors));
 			}
 		});
 	}

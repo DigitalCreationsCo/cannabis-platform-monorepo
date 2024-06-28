@@ -267,7 +267,7 @@ const DailyDeals = ({
 					setSelectedTextMessage(null);
 				}}
 				team={team}
-				deal={selectedTextMessage}
+				deal={selectedTextMessage!}
 			/>
 
 			<ConfirmationDialog

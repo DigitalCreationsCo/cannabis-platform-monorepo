@@ -65,8 +65,8 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 		throw new ApiError(400, 'A team with the slug already exists.');
 	}
 
-	let weedTextPhoneNumber: string;
-	let weedTextSegmentId: string;
+	const weedTextPhoneNumber = '';
+	let weedTextSegmentId = '';
 	if (create.isSubscribedForMessaging) {
 		// weedTextPhoneNumber = await Twilio.provisionSMSPhoneNumber(slug);
 		weedTextSegmentId = await FreshSales.createSegment(slug);

@@ -164,7 +164,7 @@ export async function upsertCustomerByDispensary({
 // };
 
 // from FreshSales
-export type Customer = Partial<{
+export interface Customer {
 	id: number;
 	first_name: string;
 	last_name: string;
@@ -224,4 +224,4 @@ export type Customer = Partial<{
 	locale: string | null;
 	total_sessions: string | null;
 	phone_numbers: string[];
-}>;
+}

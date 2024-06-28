@@ -34,7 +34,7 @@ const InviteViaEmail = ({ setVisible, team }: InviteViaEmailProps) => {
 	const formik = useFormik({
 		initialValues: {
 			email: '',
-			role: availableRoles[0].id,
+			role: availableRoles[0]!.id,
 			sentViaEmail: true,
 		},
 		validationSchema: FormValidationSchema,

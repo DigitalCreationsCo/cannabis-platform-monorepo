@@ -1,6 +1,12 @@
 /* eslint-disable sonarjs/cognitive-complexity */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { axios, urlBuilder, type ApiResponse, fetcher } from '@cd/core-lib';
+import {
+	axios,
+	urlBuilder,
+	type ApiResponse,
+	fetcher,
+	getFirstErrorOrNull,
+} from '@cd/core-lib';
 import { type Dispensary, type DailyDeal } from '@cd/data-access';
 // import { time} from 'date-fns-tz';
 // import cronToHuman from 'cron-to-human';
@@ -127,8 +133,8 @@ function NewDailyDeal({
 
 	function notifyValidation() {
 		validateForm().then((errors) => {
-			if (errors && Object.values(errors).length > 0) {
-				toast.error(errors.message! || errors.title!);
+			if (getFirstErrorOrNull(errors)) {
+				toast.error(getFirstErrorOrNull(errors));
 			}
 		});
 	}

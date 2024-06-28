@@ -34,9 +34,9 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
 
 	if (!token) {
 		let arr: string[] = [];
-		arr = arr.concat(req.query.access_token || '');
+		arr = arr.concat(req.query.access_token ?? []);
 
-		if (arr[0].length > 0) {
+		if (arr[0] && arr[0].length > 0) {
 			token = arr[0];
 		}
 	}

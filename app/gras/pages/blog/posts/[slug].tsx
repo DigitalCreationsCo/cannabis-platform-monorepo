@@ -37,7 +37,7 @@ export const getStaticProps: GetStaticProps<PageProps, Query> = async (ctx) => {
 	const client = getClient(draftMode ? { token: readToken } : undefined);
 	const [settings, { post, morePosts }] = await Promise.all([
 		getSettings(client),
-		getPostAndMoreStories(client, params.slug),
+		getPostAndMoreStories(client, params.slug!),
 	]);
 
 	if (!post) {

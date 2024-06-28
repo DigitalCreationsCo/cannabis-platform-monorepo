@@ -67,7 +67,7 @@ function useHashNavigate(formId: string): HashNavigateProps {
 	// Function to extract the formStep from the hash
 	const extractFormStepFromHash = () => {
 		const match = window.location.hash.match(/#step=(\d+)/);
-		return match ? parseInt(match[1], 10) : 0;
+		return match ? parseInt(match[1]!, 10) : 0;
 	};
 
 	const nextFormStep = () => setFormstep(formstep + 1);

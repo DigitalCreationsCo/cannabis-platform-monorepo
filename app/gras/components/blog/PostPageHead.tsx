@@ -27,12 +27,12 @@ export default function PostPageHead({ settings, post }: PostPageHeadProps) {
 				article: {
 					publishedTime: post._createdAt,
 					modifiedTime: post._updatedAt,
-					authors: [post.author?.name || ''],
+					authors: [post.author?.name ?? ''],
 					tags: post.categories,
 				},
 				images: [
 					{
-						url: urlForImage(post.shareImage)
+						url: urlForImage(post.shareImage)!
 							.width(1200)
 							.height(627)
 							.fit('crop')

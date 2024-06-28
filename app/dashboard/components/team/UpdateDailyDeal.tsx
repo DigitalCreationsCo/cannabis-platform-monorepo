@@ -26,7 +26,7 @@ const UpdateDailyDeal = ({
 	team: Dispensary;
 	deal: Partial<DailyDeal>;
 	modalVisible: boolean;
-	onCancel?: () => void;
+	onCancel: () => void;
 }) => {
 	const { t } = useTranslation('common');
 	const [loadingButton, setLoadingButton] = useState(false);

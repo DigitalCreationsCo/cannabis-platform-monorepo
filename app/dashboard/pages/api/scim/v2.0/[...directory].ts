@@ -24,7 +24,7 @@ export default async function handler(
 	const request: DirectorySyncRequest = {
 		method: method!,
 		body: body ? JSON.parse(body) : undefined,
-		directoryId,
+		directoryId: directoryId!,
 		resourceId,
 		resourceType: path === 'Users' ? 'users' : 'groups',
 		apiSecret: extractAuthToken(req),

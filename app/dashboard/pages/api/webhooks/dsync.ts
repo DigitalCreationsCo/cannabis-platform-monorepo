@@ -36,8 +36,8 @@ const verifyWebhookSignature = (req: NextApiRequest) => {
 	}
 
 	const [t, s] = signatureHeader.split(',');
-	const timestamp = parseInt(t.split('=')[1]);
-	const signature = s.split('=')[1];
+	const timestamp = parseInt(t!.split('=')[1]!);
+	const signature = s!.split('=')[1];
 
 	const expectedSignature = crypto
 		.createHmac('sha256', env.jackson.dsync.webhook_secret!)

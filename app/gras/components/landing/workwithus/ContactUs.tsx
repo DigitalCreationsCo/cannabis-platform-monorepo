@@ -4,6 +4,7 @@ import {
 	TextContent,
 	usStatesAbbreviationList,
 	applicationHeaders,
+	getFirstErrorOrNull,
 } from '@cd/core-lib';
 // import { type USStateAbbreviated } from '@cd/data-access';
 import {
@@ -33,8 +34,8 @@ export interface ContactUsFormResponse {
 	email: string;
 	street: string;
 	city: string;
-	state: string | undefined;
-	zipcode: string | undefined;
+	state: string;
+	zipcode: string;
 	whichServiceInterestedIn: (typeof serviceOptions)[number] | '';
 	howDidYouHearAboutUs:
 		| ''
@@ -78,8 +79,8 @@ export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
 		email: '',
 		street: '',
 		city: '',
-		state: undefined,
-		zipcode: undefined,
+		state: '',
+		zipcode: '',
 		message: '',
 		howDidYouHearAboutUs: '',
 		whichServiceInterestedIn: '',
@@ -142,10 +143,8 @@ export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
 	});
 	function notifyValidation() {
 		validateForm().then((errors) => {
-			if (errors && Object.values(errors).length > 0) {
-				toast.error(
-					Object.values(errors)[0].toString() || 'Error sending invite link'
-				);
+			if (getFirstErrorOrNull(errors)) {
+				toast.error(getFirstErrorOrNull(errors) || 'Error sending invite link');
 			}
 		});
 	}

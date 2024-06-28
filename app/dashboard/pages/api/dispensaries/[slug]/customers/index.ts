@@ -42,7 +42,7 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
 	throwIfNotAllowed(teamMember, 'team_customers', 'read');
 
 	const customers = await FreshSales.getSegmentCustomers(
-		teamMember.team.weedTextSegmentId
+		teamMember.team.weedTextSegmentId!
 	);
 
 	recordMetric('dispensary.customers.fetched');

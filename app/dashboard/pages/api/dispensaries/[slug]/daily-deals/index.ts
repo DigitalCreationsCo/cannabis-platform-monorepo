@@ -107,10 +107,10 @@ const handlePATCH = async (req: NextApiRequest, res: NextApiResponse) => {
 		data: update,
 	});
 
-	if (doesRepeat && update.jobId) {
-		await CronJobApi.updateDailyDealJob(update.jobId, update);
+	if (doesRepeat) {
+		update.jobId && (await CronJobApi.updateDailyDealJob(update.jobId, update));
 	} else {
-		await CronJobApi.deleteDailyDealJob(update.jobId);
+		update.jobId && (await CronJobApi.deleteDailyDealJob(update.jobId));
 	}
 
 	sendAudit({

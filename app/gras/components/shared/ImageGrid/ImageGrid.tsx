@@ -91,8 +91,8 @@ export default function ImageGrid({ children }: { children: ReactElement[] }) {
 						}}
 					>
 						<Image
-							src={randomImages?.[i + imagePadStart]?.src}
-							alt={randomImages?.[i + imagePadStart]?.alt}
+							src={randomImages![i + imagePadStart]!.src}
+							alt={randomImages![i + imagePadStart]!.alt}
 							className={gridItem}
 							quality={25}
 							// placeholder="blur"
@@ -123,8 +123,8 @@ export default function ImageGrid({ children }: { children: ReactElement[] }) {
 						}}
 					>
 						<Image
-							src={randomImages?.[i + imagePadStart]?.src}
-							alt={randomImages?.[i + imagePadStart]?.alt}
+							src={randomImages[i + imagePadStart]!.src}
+							alt={randomImages[i + imagePadStart]!.alt}
 							className={gridItem}
 							quality={25}
 							// placeholder="blur"

@@ -35,7 +35,7 @@ const constructMultilineSVGText = (
 ): string => {
 	const numCharactersPerLine = (containerWidth / fontSize) * 1;
 
-	const rows: string[][] = [[]];
+	const rows: [string][] = [['']];
 	let currentRow = 0;
 	let currentCharacterCount = 0;
 
@@ -45,7 +45,7 @@ const constructMultilineSVGText = (
 			currentCharacterCount + word.length <= numCharactersPerLine;
 
 		if (canAddWordToRow) {
-			rows[currentRow].push(word);
+			rows[currentRow]!.push(word);
 			currentCharacterCount += word.length;
 		} else {
 			currentRow++;

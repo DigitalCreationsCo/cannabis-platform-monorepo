@@ -1,3 +1,4 @@
+import env from '@/lib/env';
 import {
 	type ApiResponse,
 	fetcher,
@@ -39,17 +40,16 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import logo from 'public/logo.png';
 import { type PropsWithChildren, useState, type ReactElement } from 'react';
 import useSWR from 'swr';
 import { twMerge } from 'tailwind-merge';
-import env from '@/lib/env';
 import SEOMetaTags from '@/lib/SEOMetaTags';
-import logo from 'public/logo.png';
 
 function DispensaryPage({
 	dispensary: organization,
 }: {
-	dispensary: Dispensary;
+	dispensary: Required<Dispensary>;
 }) {
 	const Router = useRouter();
 
@@ -93,11 +93,11 @@ function DispensaryPage({
 	}
 
 	const applyDispensaryStyles: Record<string, string> = {
-		'primary-color': organization.siteSetting?.primaryColor!,
-		'secondary-color': organization.siteSetting?.secondaryColor!,
-		'tertiary-color': organization.siteSetting?.tertiaryColor!,
-		'text-color': organization.siteSetting?.textColor!,
-		'background-color': organization.siteSetting?.backgroundColor!,
+		'primary-color': organization.siteSetting.primaryColor,
+		'secondary-color': organization.siteSetting.secondaryColor,
+		'tertiary-color': organization.siteSetting.tertiaryColor,
+		'text-color': organization.siteSetting.textColor,
+		'background-color': organization.siteSetting?.backgroundColor,
 	};
 
 	const Heading = () => (
@@ -115,14 +115,18 @@ function DispensaryPage({
 							maxWidth: '220px',
 							height: 'auto',
 						}}
-						src={organization.images[0].location}
+						src={
+							organization.images[0]
+								? organization.images[0].location
+								: logo.src
+						}
 						alt={organization.name}
 						width={300}
 						height={150}
 						priority
 						loader={({ src }) => src}
-						blurDataURL={organization.images[0].blurhash || ''}
-						placeholder={organization.images[0].blurhash ? 'blur' : 'empty'}
+						blurDataURL={organization.images[0]!.blurhash || ''}
+						placeholder={organization.images[0]!.blurhash ? 'blur' : 'empty'}
 						quality={25}
 					/>
 				</div>

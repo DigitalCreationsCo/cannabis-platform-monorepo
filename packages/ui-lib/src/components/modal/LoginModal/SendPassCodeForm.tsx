@@ -1,4 +1,4 @@
-import { TextContent } from '@cd/core-lib';
+import { TextContent, getFirstErrorOrNull } from '@cd/core-lib';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
@@ -52,9 +52,8 @@ export default function SendOTPForm({
 
 	function notifyValidation() {
 		validateForm().then((errors) => {
-			if (Object.values(errors).length > 0) {
-				console.info('validation errors: ', errors);
-				toast.error(Object.values(errors)[0].toString());
+			if (getFirstErrorOrNull(errors)) {
+				toast.error(getFirstErrorOrNull(errors));
 			}
 		});
 	}

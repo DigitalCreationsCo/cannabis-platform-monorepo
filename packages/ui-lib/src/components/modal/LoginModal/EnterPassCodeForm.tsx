@@ -1,4 +1,5 @@
 import {
+	getFirstErrorOrNull,
 	isLegalAgeAndVerified,
 	TextContent,
 	userActions,
@@ -55,9 +56,8 @@ export default function EnterOTPForm({
 	// eslint-disable-next-line sonarjs/no-identical-functions
 	function notifyValidation() {
 		validateForm().then((errors) => {
-			if (Object.values(errors).length > 0) {
-				console.info('validation errors: ', errors);
-				toast.error(Object.values(errors)[0].toString());
+			if (getFirstErrorOrNull(errors)) {
+				toast.error(getFirstErrorOrNull(errors));
 			}
 		});
 	}

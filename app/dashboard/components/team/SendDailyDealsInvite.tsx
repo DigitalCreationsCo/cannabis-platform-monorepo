@@ -5,6 +5,7 @@ import {
 	usStatesAbbreviationList,
 	formatToTimeZone,
 	TimeZoneMap,
+	getFirstErrorOrNull,
 } from '@cd/core-lib';
 import { type CustomerSMSInvite } from '@cd/core-lib/src/sms/slicktext';
 import { type Dispensary } from '@cd/data-access';
@@ -121,10 +122,8 @@ function SendDailyDealsInviteForm({
 	});
 	function notifyValidation() {
 		validateForm().then((errors) => {
-			if (errors && Object.values(errors).length > 0) {
-				toast.error(
-					Object.values(errors)[0].toString() || 'Error sending invite link'
-				);
+			if (getFirstErrorOrNull(errors)) {
+				toast.error(getFirstErrorOrNull(errors) || 'Error sending invite link');
 			}
 		});
 	}

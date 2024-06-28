@@ -1,5 +1,10 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { axios, selectDispensaryState, urlBuilder } from '@cd/core-lib';
+import {
+	axios,
+	getFirstErrorOrNull,
+	selectDispensaryState,
+	urlBuilder,
+} from '@cd/core-lib';
 import { Crontab } from 'crontab-react';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
@@ -120,8 +125,8 @@ function NewDailyDealModal({
 
 	function notifyValidation() {
 		validateForm().then((errors) => {
-			if (errors && Object.values(errors).length > 0) {
-				toast.error(errors.message! || errors.title!);
+			if (getFirstErrorOrNull(errors)) {
+				toast.error(getFirstErrorOrNull(errors));
 			}
 		});
 	}
