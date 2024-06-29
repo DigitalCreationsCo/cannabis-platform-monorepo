@@ -8,6 +8,8 @@ interface PageProps {
 	style?: CSSProperties;
 }
 
+// TRACK PAGE VIEWS ON PAGE LOAD, AND TRACK EXITS ON PAGE UNLOAD
+
 function Page({
 	gradient,
 	children,

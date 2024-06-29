@@ -89,7 +89,7 @@ const Over21Button = ({
 					type="submit"
 					bg={'secondary-light'}
 					hover={'primary-light'}
-					className="p-8 text-2xl place-self-center w-full"
+					className="p-8 text-2xl place-self-center w-full !rounded"
 					loading={loading}
 					disabled={loading}
 					onClick={(e: any) => {

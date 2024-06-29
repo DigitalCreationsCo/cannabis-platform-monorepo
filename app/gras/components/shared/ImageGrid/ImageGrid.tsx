@@ -1,9 +1,10 @@
 import { useRandomImage } from '@cd/ui-lib';
 import Image from 'next/image';
 import { useRef, type ReactElement, useState, useEffect } from 'react';
+import { twMerge } from 'tailwind-merge';
 import gridImages from './images';
 
-export default function ImageGrid({ children }: { children: ReactElement[] }) {
+export default function ImageGrid({ children }: { children: ReactElement }) {
 	const parentRef = useRef<any>(null);
 	const gridRef = useRef<any>(null);
 	const [gridHeight, setGridHeight] = useState(0);
@@ -16,34 +17,25 @@ export default function ImageGrid({ children }: { children: ReactElement[] }) {
 				centerGrid();
 			}
 		};
-
 		const centerGrid = () => {
 			if (gridRef.current && parentRef.current) {
 				const parentWidth = parentRef.current.offsetWidth;
 				const gridWidth = gridRef.current.scrollWidth;
-
-				console.info('parentWidth: ', parentWidth);
-				console.info('gridWidth: ', gridWidth);
-
 				const marginHorizontal = (parentWidth - gridWidth) / 2;
 				gridRef.current.style.marginLeft = `${marginHorizontal}px`;
 				gridRef.current.style.marginRight = `${marginHorizontal}px`;
 			}
 		};
-
 		const handleResize = () => {
 			window.requestAnimationFrame(updateGridHeight);
 		};
-
 		const resizeObserver = new ResizeObserver(handleResize);
 
 		if (parentRef.current) {
 			resizeObserver.observe(parentRef.current);
 		}
-
 		// Update the height initially
 		updateGridHeight();
-
 		// Clean up the observer and event listener on component unmount
 		return () => {
 			if (parentRef.current) {
@@ -53,10 +45,10 @@ export default function ImageGrid({ children }: { children: ReactElement[] }) {
 			resizeObserver.disconnect();
 		};
 	}, []);
-
-	const gridItem =
-		'object-cover rounded-lg max-w-xs aspect-square shrink-0 min-h-full bg-green-500/75';
-
+	const [gridItem, gridImage] = [
+		'rounded max-w-xs aspect-square',
+		'rounded object-cover shrink-0 min-h-full bg-green-500/75 h-1',
+	];
 	const imagePadStart = 1;
 	const imagePadEnd = 6;
 	return (
@@ -91,11 +83,10 @@ export default function ImageGrid({ children }: { children: ReactElement[] }) {
 						}}
 					>
 						<Image
-							src={randomImages![i + imagePadStart]!.src}
-							alt={randomImages![i + imagePadStart]!.alt}
-							className={gridItem}
+							src={randomImages[i + imagePadStart]?.src ?? ''}
+							alt={randomImages[i + imagePadStart]?.alt ?? ''}
+							className={twMerge(gridImage, gridItem)}
 							quality={25}
-							// placeholder="blur"
 							loading="lazy"
 						/>
 						<div
@@ -111,9 +102,7 @@ export default function ImageGrid({ children }: { children: ReactElement[] }) {
 						/>
 					</div>
 				))}
-				<div className="flex flex-row w-full min-h-full grow col-span-3 justify-between">
-					{children}
-				</div>
+				{children}
 				{Array.from(Array(imagePadEnd)).map((_, i) => (
 					<div
 						key={`grid-image-${i + imagePadStart}`}
@@ -121,13 +110,13 @@ export default function ImageGrid({ children }: { children: ReactElement[] }) {
 							position: 'relative',
 							display: 'inline-block',
 						}}
+						// className={twMerge(gridItem, 'border')}
 					>
 						<Image
-							src={randomImages[i + imagePadStart]!.src}
-							alt={randomImages[i + imagePadStart]!.alt}
-							className={gridItem}
+							src={randomImages[i + imagePadEnd]?.src ?? ''}
+							alt={randomImages[i + imagePadEnd]?.alt ?? ''}
+							className={twMerge(gridImage, gridItem)}
 							quality={25}
-							// placeholder="blur"
 							loading="lazy"
 						/>
 						<div

@@ -116,7 +116,7 @@ function TextField({
 						'tracking-wide',
 						'bg-light',
 						'items-center',
-						'p-4 rounded-btn',
+						'p-4 rounded',
 						'wh-10',
 						// 'outline-none focus:outline-none',
 						'w-full',

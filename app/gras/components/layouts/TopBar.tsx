@@ -110,7 +110,7 @@ function TopBar({ showSearch = true, SearchComponent }: TopBarProps) {
 				<label className="btn btn-ghost h-[54px] w-[54px] rounded-full p-0">
 					<Image
 						tabIndex={0}
-						src={user?.image! || logo}
+						src={user?.image ?? logo}
 						alt={'my account'}
 						width={40}
 						height={40}

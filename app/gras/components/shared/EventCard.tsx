@@ -26,7 +26,7 @@ function EventCard({
 				className={twMerge([
 					// 'flex flex-col',
 					'h-[240px] sm:max-w-[320px]',
-					'm-3',
+					'mx-3',
 					'rounded',
 					// 'bg-dark',
 					// 'overflow-hidden',
@@ -55,7 +55,7 @@ function EventCard({
 			className={twMerge([
 				'flex flex-col',
 				'h-[240px] sm:max-w-[320px]',
-				'm-3',
+				'mx-3',
 				// 'bg-amber-200',
 				'rounded',
 				'overflow-hidden',

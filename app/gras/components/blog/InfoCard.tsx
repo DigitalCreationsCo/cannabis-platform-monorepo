@@ -29,7 +29,7 @@ function InfoCard({
 			className={twMerge([
 				'flex flex-col',
 				'h-[240px]',
-				'm-3',
+				'mx-3 my-2',
 				'bg-cyan-950',
 				'rounded',
 				'overflow-hidden',

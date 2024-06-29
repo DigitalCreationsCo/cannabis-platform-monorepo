@@ -251,38 +251,36 @@ export default function Browse({
 				gradient="green"
 				className="!pt-0 md:pt-0 px-0 lg:px-0 pb-0 min-h-[440px]"
 			>
-				<div>
-					<TopBar
-						SearchComponent={
-							<div className="hidden lg:block">
-								<H1 className="text-light text-lg pt-2 px-2 leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left">
-									{`Find flower, edibles, dispensaries`}
-									<span className="hidden xl:!inline">{` near you`}</span>
-								</H1>
-								<TextField
-									className="text-dark"
-									name="zipcode"
-									maxLength={5}
-									// label="search your zipcode"
-									defaultValue={'Enter your zipcode'}
-									value={zipcode}
-									placeholder="Enter your zipcode"
-									onBlur={undefined}
-									onChange={(e: any) =>
-										// eslint-disable-next-line sonarjs/no-use-of-empty-return-value
-										debounce(
-											saveZipcodeToLocalStorage(e.target.value || ''),
-											2000
-										)
-									}
-									error={!!zipcodeError}
-									helperText={zipcodeError}
-								/>
-							</div>
-						}
-					/>
-					{/* <Header/> */}
-				</div>
+				<TopBar
+					SearchComponent={
+						<div className="hidden lg:block">
+							<H1 className="text-light text-lg pt-2 px-2 leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left">
+								{`Find flower, edibles, dispensaries`}
+								<span className="hidden xl:!inline">{` near you`}</span>
+							</H1>
+							<TextField
+								className="text-dark"
+								name="zipcode"
+								maxLength={5}
+								// label="search your zipcode"
+								defaultValue={'Enter your zipcode'}
+								value={zipcode}
+								placeholder="Enter your zipcode"
+								onBlur={undefined}
+								onChange={(e: any) =>
+									// eslint-disable-next-line sonarjs/no-use-of-empty-return-value
+									debounce(
+										saveZipcodeToLocalStorage(e.target.value || ''),
+										2000
+									)
+								}
+								error={!!zipcodeError}
+								helperText={zipcodeError}
+							/>
+						</div>
+					}
+				/>
+				{/* <Header/> */}
 
 				{/* <Script async defer crossOrigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></Script>
             
@@ -308,7 +306,7 @@ export default function Browse({
   )}
   </> */}
 
-				<Grid className="relative grid-cols-3 xs:pb-16 gap-y-2">
+				<Grid className="relative grid-cols-3 xs:pb-16">
 					{/* <div
             id={'shop-tour-step1'}
             className="row-start-1 cursor-default pt-5 px-5 col-start-1 col-span-full lg:col-span-2"
@@ -455,7 +453,7 @@ export default function Browse({
 
 					{!isEventLoading && events.length === 0 ? (
 						<AnimatePresence>
-							<div className="h-44 place-self-center col-span-full max-w-xl bg-white shadow-xl rounded mx-4 gap-1">
+							<div className="border h-44 place-self-center col-span-full max-w-xl bg-white shadow-xl rounded mx-4 gap-1">
 								{eventRequestSent && (
 									<motion.div
 										className="flex h-full p-5 hover:bg-gray-100 transition"
@@ -507,7 +505,7 @@ export default function Browse({
 						</AnimatePresence>
 					) : (
 						<div className="col-span-full">
-							<H2 className="col-span-full text-lg sm:pt-2 px-3 md:px-4 text-light leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left">
+							<H2 className="col-span-full text-xl sm:pt-2 px-3 md:px-4 text-light leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left">
 								🎉 Events Near You
 							</H2>
 							<Carousel
@@ -567,7 +565,7 @@ export default function Browse({
 						<></>
 					) : (
 						<div className="col-span-full">
-							<H2 className="col-span-full text-lg sm:pt-2 px-3 md:px-4 text-light leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left">
+							<H2 className="col-span-full text-xl sm:pt-2 px-3 md:px-4 text-light leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left">
 								🎉 Happening Today
 							</H2>
 							<Carousel
@@ -624,7 +622,7 @@ export default function Browse({
 					)}
 
 					<div className="col-span-full">
-						<H2 className="col-span-full text-lg px-2 md:px-4 text-light leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left">
+						<H2 className="col-span-full text-xl px-2 md:px-4 text-light leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left">
 							🍍 Fresh from our blog
 						</H2>
 						<Carousel

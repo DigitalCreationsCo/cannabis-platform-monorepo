@@ -56,7 +56,7 @@ export default function Footer({
 				className
 			)}
 		>
-			<Grid className="overflow-x-hidden mx-auto md:mt-5 grid md:w-3/4 max-w-screen-xl pb-16 lg:pb-0 grid-rows-auto gap-6 md:gap-10 lg:gap-4 md:grid-cols-4 lg:grid-cols-6 overflow-visible">
+			<Grid className="overflow-x-hidden mx-auto mt-20 md:mt-5 grid md:w-3/4 max-w-screen-xl pb-16 lg:pb-0 grid-rows-auto gap-6 md:gap-10 lg:gap-4 md:grid-cols-4 lg:grid-cols-6 overflow-visible">
 				<div className="col-span-2">
 					<div className="flex w-full flex-col flex-wrap md:ml-0 space-y-3 md:pt-4">
 						{navigation.map((item, index) => (

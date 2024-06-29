@@ -80,7 +80,7 @@ module.exports = {
 			{ argsIgnorePattern: '^_', ignoreRestSiblings: true },
 		],
 		'@typescript-eslint/no-non-null-asserted-optional-chain': 'warn',
-		'@typescript-eslint/prefer-nullish-coalescing': 'warn',
+		'@typescript-eslint/prefer-nullish-coalescing': 'off',
 		'@typescript-eslint/prefer-optional-chain': 'warn',
 		'@typescript-eslint/prefer-for-of': 'warn',
 		'@typescript-eslint/no-explicit-any': 'off',
