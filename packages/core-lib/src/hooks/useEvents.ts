@@ -25,7 +25,8 @@ const useEvents = ({
 				: null,
 			token,
 		],
-		fetcher
+		fetcher,
+		{ keepPreviousData: true }
 	);
 
 	// async function fetchEvents(eventIds) {

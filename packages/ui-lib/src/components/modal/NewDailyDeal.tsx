@@ -34,11 +34,11 @@ interface NewDailyDealModalProps {
 	cancelText?: string;
 	children?: React.ReactNode;
 	modalType?: any;
-	team?: Dispensary;
+	organization?: Dispensary;
 }
 
 function NewDailyDeal({
-	team,
+	organization: team,
 	dispatchCloseModal,
 	modalVisible,
 	...props
@@ -98,8 +98,8 @@ function NewDailyDeal({
 			doesRepeat: false,
 			schedule: '',
 			timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-			teamSlug: team.slug,
-			weedTextSegmentId: team.weedTextSegmentId,
+			teamSlug: team!.slug,
+			weedTextSegmentId: team!.weedTextSegmentId,
 		} as Partial<DailyDeal>,
 		async onSubmit() {
 			try {
@@ -109,7 +109,7 @@ function NewDailyDeal({
 				);
 				setLoadingButton(true);
 				const response = await axios.post(
-					urlBuilder.dashboard + `/api/dispensaries/${team.slug}/daily-deals`,
+					urlBuilder.dashboard + `/api/dispensaries/${team!.slug}/daily-deals`,
 					values
 				);
 

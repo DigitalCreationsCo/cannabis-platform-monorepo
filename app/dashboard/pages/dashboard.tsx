@@ -12,13 +12,11 @@ const Dashboard: NextPageWithLayout = () => {
 
 	useEffect(() => {
 		if (isLoading || !dispensaries) {
-			console.info('Loading dispensaries');
-			console.info('dispensaries', dispensaries);
 			return;
 		}
 
 		if (dispensaries.length > 0) {
-			router.push(`/teams/${dispensaries[0].slug}/home`);
+			router.push(`/teams/${dispensaries[0]!.slug}/home`);
 		} else {
 			router.push('teams?newTeam=true');
 		}

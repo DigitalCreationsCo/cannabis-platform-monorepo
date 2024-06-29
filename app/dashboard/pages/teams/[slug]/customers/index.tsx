@@ -186,7 +186,7 @@ export async function getServerSideProps({
 	const teamMember = await throwIfNoDispensaryAccess(req, res);
 
 	const customers = await FreshSales.getSegmentCustomers(
-		teamMember.team.weedTextSegmentId
+		teamMember.team.weedTextSegmentId ?? ''
 	);
 
 	// const customers = await getCustomersByDispensary({

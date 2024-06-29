@@ -156,7 +156,7 @@ export default function DailyDealsPage({
 			</FlexBox>
 
 			<NewDailyDeal
-				team={team}
+				organization={team}
 				modalVisible={showNewMessageModal}
 				onCancel={() => {
 					setShowNewMessageModal(false);

@@ -47,7 +47,7 @@ const Home: NextPageWithLayout = () => {
 			>
 				<div className={twMerge(styles.TOPBAR.topbar, 'bg-transparent')}>
 					<div>
-						<FlexBox className="flex-row items-center">
+						<FlexBox className="flex-row items-center pt-2">
 							<Link href={'/'} className="z-50">
 								<GrasSignature className="text-inverse pt-1 pb-0 mb-0 leading-3">
 									{t('gras')}

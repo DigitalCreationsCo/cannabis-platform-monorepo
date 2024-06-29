@@ -47,9 +47,10 @@
   "private": true,
   "scripts": {
     "build": "yarn build:css && rm -rf ./dist && tsup src/index.ts",
-    "build:ci": "tsup src/index.ts",
-    "build:css": "npx tailwindcss -i ./src/styles/ui-lib.css -o ./src/styles/tailwind.css --minify",
+    "build:ci": "yarn build:css && tsup src/index.ts",
+    "build:css": "npm run copy-shared-assets && npx tailwindcss -i ./styles/globals.css -o ./styles/tailwind.css --minify",
     "build:watch": "rm -rf ./dist && tsup --watch",
+    "copy-shared-assets": "sh ../../scripts/copysharedCSSandAssets.sh",
     "clean": "rm -rf ./.next ./out ./dist ./build ./node_modules ./coverage ./tsconfig.tsbuildinfo",
     "watch": "npm-run-all --parallel --print-label watch:css build:watch",
     "lint:fix": "eslint . --ext .ts,.tsx,.js,.jsx,.cjs,.mjs --fix",

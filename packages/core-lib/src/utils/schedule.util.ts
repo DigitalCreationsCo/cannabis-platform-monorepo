@@ -51,7 +51,9 @@ export function getNextScheduleDay(schedules: Schedule[]): Schedule | null {
 			...schedule,
 			dayIndex: daysOfWeek.indexOf(schedule.day),
 		}))
-		.sort((a, b) => a.dayIndex - b.dayIndex);
+		.sort((a, b) => a.dayIndex - b.dayIndex) as (Schedule & {
+		dayIndex: number;
+	})[];
 
 	// Find the next schedule day
 	for (const schedule of sortedSchedules) {
@@ -78,5 +80,5 @@ export function getNextScheduleDay(schedules: Schedule[]): Schedule | null {
 	}
 
 	// If no future schedule found in the current week, return the first schedule of the next week
-	return sortedSchedules.length > 0 ? sortedSchedules[0] : null;
+	return sortedSchedules[0] ?? null;
 }

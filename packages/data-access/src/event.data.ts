@@ -156,13 +156,10 @@ export const getEvents = async ({
 	radius: number;
 }): Promise<Event[]> => {
 	const { db, collections } = db_namespace;
-	console.info('zipcode, ', zipcode);
 	const zip = await getZipcodeLocation({ client, where: { zipcode: '10011' } });
 	if (!zip?.loc) {
-		console.info('zip, ', zip);
 		return [];
 	}
-	console.info('zip, ', zip);
 	return await client
 		.db(db)
 		.collection<Event>(collections.events)
@@ -184,9 +181,6 @@ export const getEvents = async ({
 					date: { $dateFromString: { dateString: '$start_date' } },
 				},
 			},
-			// { $sort: { date: 1,
-			// 	distance: 1,
-			// } },
 		])
 		.toArray();
 };

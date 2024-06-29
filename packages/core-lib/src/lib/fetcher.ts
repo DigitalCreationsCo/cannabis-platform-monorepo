@@ -1,7 +1,9 @@
 const fetcher = async (params: string | string[]) => {
-	const [url, token] = typeof params === 'string' ? [params] : params;
-	const response = await fetch(url, {
-		headers: { Authorization: `Bearer ${token}` },
+	const [url, token] = (
+		typeof params === 'string' ? [params] : params
+	) as string[];
+	const response = await fetch(url as string, {
+		headers: { Authorization: `Bearer ${token as string}` },
 	});
 	const json = await response.json();
 

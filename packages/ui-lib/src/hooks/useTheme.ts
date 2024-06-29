@@ -35,7 +35,7 @@ const useTheme = () => {
 		},
 	];
 
-	const selectedTheme = themes.find((t) => t.id === theme) || themes[0];
+	const selectedTheme = themes.find((t) => t.id === theme) || themes[0]!;
 
 	const toggleTheme = () => {
 		selectedTheme.id === 'light' ? applyTheme('dark') : applyTheme('light');

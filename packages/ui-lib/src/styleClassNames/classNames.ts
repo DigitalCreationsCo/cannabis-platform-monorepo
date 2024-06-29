@@ -46,8 +46,8 @@ const styles = Object.freeze({
 	},
 	TOPBAR: {
 		topbar: [
-			'z-50 sticky flex flex-row bg-inverse-soft items-center h-[40px] shrink-0 justify-between space-x-5',
-			'py-2 px-2',
+			'z-50 sticky flex flex-row bg-inverse-soft items-center min-h-20 shrink-0 justify-between space-x-5',
+			'px-2',
 		],
 		tagline: [
 			'p-0 m-0',

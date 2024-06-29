@@ -254,7 +254,7 @@ export default function Browse({
 				<TopBar
 					SearchComponent={
 						<div className="hidden lg:block">
-							<H1 className="text-light text-lg pt-2 px-2 leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left">
+							<H1 className="text-light text-lg px-2 leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left">
 								{`Find flower, edibles, dispensaries`}
 								<span className="hidden xl:!inline">{` near you`}</span>
 							</H1>
@@ -453,7 +453,7 @@ export default function Browse({
 
 					{!isEventLoading && events.length === 0 ? (
 						<AnimatePresence>
-							<div className="border h-44 place-self-center col-span-full max-w-xl bg-white shadow-xl rounded mx-4 gap-1">
+							<div className="h-44 place-self-center col-span-full max-w-xl bg-white shadow-xl rounded mx-4 gap-1">
 								{eventRequestSent && (
 									<motion.div
 										className="flex h-full p-5 hover:bg-gray-100 transition"

@@ -68,9 +68,7 @@ export function generateToken(length = 64) {
 
 // Fetch the auth token from the request headers
 export const extractAuthToken = (req: NextApiRequest): string | null => {
-	const authHeader = req.headers.authorization || null;
-
-	return authHeader ? authHeader.split(' ')[1] : null;
+	return req.headers.authorization?.split(' ')[1] ?? null;
 };
 
 export const validateEmail = (email: string): boolean => {

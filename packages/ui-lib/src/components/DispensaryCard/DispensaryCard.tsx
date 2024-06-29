@@ -7,7 +7,7 @@ import {
 	integerToTime,
 	// showTime,
 } from '@cd/core-lib';
-import { type Dispensary } from '@cd/data-access';
+import { type Schedule, type Dispensary } from '@cd/data-access';
 import {
 	ArrowRightStartOnRectangleIcon,
 	BuildingLibraryIcon,
@@ -83,7 +83,7 @@ function DispensaryCard({
 		[dispensary]
 	);
 
-	const OpenBadge = ({ schedule }: { schedule: Dispensary['schedule'] }) => {
+	const OpenBadge = ({ schedule }: { schedule: Schedule[] }) => {
 		const nextScheduleDay = getNextScheduleDay(schedule);
 		return (
 			<Paragraph
@@ -94,11 +94,17 @@ function DispensaryCard({
 				// }}
 				className={twMerge(styles.isOpenBadge, 'text-white font-medium')}
 			>
-				{checkIsDispensaryOpen(schedule)
-					? `closes at ${integerToTime(Number(nextScheduleDay.closeAt))}`
-					: `opens ${
+				{nextScheduleDay ? (
+					checkIsDispensaryOpen(schedule) ? (
+						`closes at ${integerToTime(Number(nextScheduleDay.closeAt))}`
+					) : (
+						`opens ${
 							nextScheduleDay.day === 'today' ? '' : nextScheduleDay.day
-						} at ${integerToTime(Number(nextScheduleDay.openAt))}`}
+						} at ${integerToTime(Number(nextScheduleDay.openAt))}`
+					)
+				) : (
+					<></>
+				)}
 			</Paragraph>
 		);
 	};

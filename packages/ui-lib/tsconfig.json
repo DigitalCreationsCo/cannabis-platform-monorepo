@@ -3,11 +3,16 @@
 	"extends": "../../tsconfig.base.json",
 	"compilerOptions": {
 		"baseUrl": "./src",
-		"target": "esnext",
-		"lib": ["dom", "dom.iterable", "esnext"],
+		"target": "ES2015",
+		"lib": [
+		"dom",
+		"dom.iterable",
+		"ES2015"
+		],
 		"jsx": "react-jsx",
-		"module": "esnext",
+    	"module": "es2020",
 		"incremental": true,
+    	"noImplicitAny": false,
 		"noEmit": false,
 		"strict": true,
 		"paths": {

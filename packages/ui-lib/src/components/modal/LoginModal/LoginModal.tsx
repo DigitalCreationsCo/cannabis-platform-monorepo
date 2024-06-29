@@ -29,7 +29,7 @@ export default function LoginModal({
 		nextFormStep,
 	}: LoginFormComponentProps) => JSX.Element)[] = [SendPasscode, EnterPasscode];
 
-	const FormStepComponent = useMemo(
+	const FormStepComponent = useMemo<any>(
 		() => FormStepComponents[formStep],
 		[formStep]
 	);

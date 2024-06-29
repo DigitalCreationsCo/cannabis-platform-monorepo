@@ -121,13 +121,20 @@ export function getHaversineDistanceFromCoordinates(
 	return haversine(source, dest);
 }
 
+/**
+ * DUMMY FUNC
+ * @param source
+ * @param dest
+ * @returns 50000
+ */
 export async function getTravelDistanceFromCoordinates(
 	source: Coordinates,
 	dest: Coordinates
 ) {
-	return await (
-		await getRoutingDetails(source, dest)
-	).trips[0].distance;
+	return 50000;
+	// return await (
+	// 	await getRoutingDetails(source, dest)
+	// ).trips[0].distance;
 }
 
 /**

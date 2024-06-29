@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const useRandomImage = (images, count, shuffleImages = true) => {
+const useRandomImage = (images: any[], count: number, shuffleImages = true) => {
 	const [randomImages, setRandomImages] = useState<
 		{
 			src: string;
@@ -11,7 +11,7 @@ const useRandomImage = (images, count, shuffleImages = true) => {
 		const shuffled = shuffleImages
 			? [...images].sort(() => Math.random() - 0.5)
 			: images;
-		const result = [];
+		const result: any[] = [];
 		for (let i = 0; i < count; i++) {
 			result.push(shuffled[i % shuffled.length]);
 		}

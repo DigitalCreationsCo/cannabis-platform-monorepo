@@ -17,7 +17,7 @@ const useDispensary = (slug?: string) => {
 	return {
 		isLoading,
 		isError: error,
-		team: data?.data,
+		team: data?.data as Dispensary,
 	};
 };
 

@@ -20,7 +20,7 @@ const Dashboard: NextPageWithLayout = () => {
 		} else {
 			router.push('teams?newTeam=true');
 		}
-	}, [isLoading, router, dispensaries]);
+	}, [isLoading, dispensaries]);
 
 	return <LoadingDots />;
 };

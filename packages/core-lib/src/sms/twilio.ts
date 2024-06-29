@@ -1,7 +1,7 @@
 import { Twilio as TwilioClient, getExpectedTwilioSignature } from 'twilio';
 class Twilio {
 	private t: TwilioClient;
-	constructor(account, token) {
+	constructor(account: string, token: string) {
 		if (!account || !token) {
 			throw new Error('Could not initialize Twilio.');
 		}
@@ -30,7 +30,7 @@ class Twilio {
 		const numbers = await this.t
 			.availablePhoneNumbers('US')
 			.tollFree.list({ smsEnabled: true, voiceEnabled: false, limit: 1 });
-		if (!numbers || numbers.length === 0) {
+		if (numbers[0]?.phoneNumber === undefined) {
 			throw new Error('No phone numbers available');
 		}
 		await this.t.incomingPhoneNumbers.create({
@@ -44,18 +44,22 @@ class Twilio {
 		const numbers = await this.t.incomingPhoneNumbers.list({
 			friendlyName: slug,
 		});
-		if (!numbers || numbers.length === 0) {
+		if (numbers[0]?.phoneNumber === undefined) {
 			throw new Error('No phone numbers available');
 		}
 		return numbers[0].phoneNumber;
 	}
 
 	generateTwilioSignature(url: string) {
-		return getExpectedTwilioSignature(process.env.TWILIO_AUTH_TOKEN, url, {});
+		return getExpectedTwilioSignature(
+			process.env.TWILIO_AUTH_TOKEN as string,
+			url,
+			{}
+		);
 	}
 }
 
-export default new Twilio(
-	process.env.TWILIO_ACCOUNT_SID,
-	process.env.TWILIO_AUTH_TOKEN
-);
+const accountSid = process.env.TWILIO_ACCOUNT_SID ?? '';
+const authToken = process.env.TWILIO_AUTH_TOKEN ?? '';
+
+export default new Twilio(accountSid, authToken);

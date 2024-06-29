@@ -30,8 +30,7 @@ import { type AppPropsWithLayout } from '@/lib/next.types';
 import SEOMetaTags from '@/lib/SEOMetaTags';
 import { wrapper } from '@/lib/store';
 
-import '../styles/shop.css';
-import '../styles/build.css';
+import '../styles/tailwind.css';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_API_KEY!);
 

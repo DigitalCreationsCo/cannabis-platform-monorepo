@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 /* eslint-disable prefer-spread */
 /* eslint-disable prefer-rest-params */
 /* eslint-disable sonarjs/cognitive-complexity */
@@ -50,7 +52,7 @@ export const loadSegment = () =>
 							const c = document.querySelector("link[rel='canonical']");
 							n.push({
 								__t: 'bpc',
-								c: (c && c.getAttribute('href')) || void 0,
+								c: c?.getAttribute('href') ?? void 0,
 								p: location.pathname,
 								u: location.href,
 								s: location.search,
@@ -63,6 +65,7 @@ export const loadSegment = () =>
 						return analytics;
 					};
 				};
+				// eslint-disable-next-line @typescript-eslint/prefer-for-of
 				for (let n = 0; n < analytics.methods.length; n++) {
 					const key = analytics.methods[n];
 					analytics[key] = analytics.factory(key);

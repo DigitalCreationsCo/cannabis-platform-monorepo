@@ -44,7 +44,6 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
 		throw new Error('Unauthorized');
 	}
 	const events = await getEvents({ client, zipcode, radius: Number(radius) });
-	console.trace('events[0] ', events[0]);
 	recordMetric('event.fetched');
 	res.status(200).json({ data: events });
 };

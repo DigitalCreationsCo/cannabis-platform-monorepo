@@ -118,7 +118,7 @@ export default function Button({
 
 	return (
 		<button
-			name={children.toString()}
+			name={children?.toString() || ''}
 			type={type}
 			disabled={loading || disabled}
 			onClick={(e) => {

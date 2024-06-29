@@ -76,7 +76,7 @@ export function getDispensaryDomain(url: string) {
 }
 
 export function parseUrlFriendlyStringToObject(url: string) {
-	if (url.split('?').length > 1) url = url.split('?')[1];
+	url = url.split('?')[1] ?? url;
 	// Split the string into key-value pairs
 	const keyValuePairs = url.split('&');
 	// Create an object to store the parsed values
@@ -85,6 +85,7 @@ export function parseUrlFriendlyStringToObject(url: string) {
 	for (const pair of keyValuePairs) {
 		// Split each pair into key and value
 		const [key, value] = pair.split('=');
+		if (!key || !value) continue;
 		// URL decode the value and store it in the object
 		parsedValues[key] = decodeURIComponent(value);
 	}

@@ -1,3 +1,8 @@
+import { AccountLayout } from '@/components/layouts';
+import app from '@/lib/app';
+import env from '@/lib/env';
+import { type AppPropsWithLayout } from '@/lib/next.types';
+import { wrapper } from '@/lib/store';
 import { Themer } from '@boxyhq/react-ui/shared';
 import { loadBrevoChat } from '@cd/core-lib/src/lib/brevoChat';
 import {
@@ -24,14 +29,8 @@ import { NextSeo } from 'next-seo';
 import { useEffect } from 'react';
 import { Provider as ReduxProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import { AccountLayout } from '@/components/layouts';
-import app from '@/lib/app';
-import env from '@/lib/env';
-import { type AppPropsWithLayout } from '@/lib/next.types';
-import { wrapper } from '@/lib/store';
 
-import '../styles/dashboard.css';
-import '../styles/build.css';
+import '../styles/tailwind.css';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_API_KEY!);
 
