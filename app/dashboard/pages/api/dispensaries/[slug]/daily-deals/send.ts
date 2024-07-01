@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { throwIfNotAllowed } from '@cd/core-lib';
+import freshsales from '@cd/core-lib/src/crm/freshsales';
+import twilio from '@cd/core-lib/src/sms/twilio';
 import { updateDispensaryDailyDeal, type DailyDeal } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { clientPromise } from '@/lib/db';
@@ -38,10 +40,31 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 		throwIfNotAllowed(teamMember, 'team_daily_deals', 'read');
 		const client = await clientPromise;
 
-		const message = req.body as DailyDeal;
+		const {
+			id,
+			title,
+			message,
+			startTime,
+			endTime,
+			doesRepeat,
+			schedule,
+			timezone,
+			teamSlug,
+			weedTextSegmentId,
+		} = JSON.parse(req.body) as DailyDeal;
 
-		// TODO:
-		// TWILIO.SEND()
+		if (!weedTextSegmentId) {
+			throw new Error('WeedText segment ID is required');
+		}
+
+		const customers = await freshsales.getSegmentCustomers(weedTextSegmentId);
+
+		const customerPhoneNumbers = customers
+			.map((customer) => customer.mobile_number ?? customer.work_number ?? '')
+			.filter(Boolean);
+		// check the number format to suit twilio
+
+		twilio.sendAll(customerPhoneNumbers, message);
 
 		// const response = await Slicktext.sendToList({
 		// 	textword: teamMember.team.slickTextTextwordId!,
@@ -54,7 +77,16 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 		await updateDispensaryDailyDeal({
 			client,
 			data: {
-				...message,
+				id,
+				title,
+				message,
+				startTime,
+				endTime,
+				doesRepeat,
+				schedule,
+				timezone,
+				teamSlug,
+				isActive: false,
 				lastSentAt: Date.now().toString(),
 			},
 		});
@@ -63,6 +95,7 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 
 		return res.status(200).json({ success: true });
 	} catch (error: any) {
+		console.error('Error sending daily deal', error);
 		return res
 			.status(error.response.status)
 			.json({ error: { message: 'An error occurred. Try again later.' } });

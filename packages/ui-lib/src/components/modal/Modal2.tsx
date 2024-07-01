@@ -1,6 +1,7 @@
 import { useTranslation } from 'next-i18next';
-import { Button, Modal as DModal } from 'react-daisyui';
+import { Modal as DModal } from 'react-daisyui';
 import { twMerge } from 'tailwind-merge';
+import CloseButton from '../button/CloseButton';
 import { H3, Paragraph } from '../Typography';
 
 interface ModalProps {
@@ -19,16 +20,7 @@ const Modal = ({ open, close, children }: ModalProps) => {
 
 	return (
 		<DModal open={open} className="dark:border dark:border-gray-100">
-			<Button
-				type="button"
-				size="sm"
-				shape="circle"
-				className="btn absolute right-2 top-2 btn-ghost rounded-full"
-				onClick={close}
-				aria-label="close"
-			>
-				{t('x')}
-			</Button>
+			<CloseButton onClick={close} aria-label="close" />
 			<div>{children}</div>
 		</DModal>
 	);

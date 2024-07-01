@@ -137,6 +137,7 @@ async function handleSubscriptionUpdated(event: Stripe.Event) {
 async function handleSubscriptionCreated(event: Stripe.Event) {
 	const client = await clientPromise;
 
+	console.info('event: ', event.data.object);
 	const { customer, id, current_period_start, current_period_end, items } =
 		event.data.object as Stripe.Subscription;
 
@@ -152,4 +153,5 @@ async function handleSubscriptionCreated(event: Stripe.Event) {
 			priceId: items.data.length > 0 ? items.data?.[0]?.plan?.id || '' : '',
 		},
 	});
+	console.info('subscription created');
 }

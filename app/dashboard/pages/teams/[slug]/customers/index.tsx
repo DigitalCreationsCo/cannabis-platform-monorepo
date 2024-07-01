@@ -16,6 +16,7 @@ import axios from 'axios';
 import { type GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { requestAsyncStorage } from 'next/dist/client/components/request-async-storage.external';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -183,6 +184,7 @@ export async function getServerSideProps({
 	req,
 	res,
 }: GetServerSidePropsContext) {
+	(req as any).query = query;
 	const teamMember = await throwIfNoDispensaryAccess(req, res);
 
 	const customers = await FreshSales.getSegmentCustomers(

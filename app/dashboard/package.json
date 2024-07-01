@@ -25,9 +25,12 @@
     "test:unit-ci": "jest --config ./jest.config.js --ci --runInBand --reporters=default --reporters=jest-junit",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage --env=jsdom",
-    "sync-stripe": "node --env-file .env sync-stripe.js",
+    "sync-stripe": "node --env-file ../../.env.production sync-stripe.js",
+    "sync-stripe-dev": "node --env-file ../../.env.development sync-stripe.js",
+    "stripe:webhook": "stripe listen --forward-to localhost:3001/api/webhooks/stripe",
+    "stripe:webhook-trigger": "stripe trigger customer.subscription.created",
     "check-locale": "node check-locale.js",
-    "delete-team": "node --env-file .env delete-team.js"
+    "delete-team": "node --env-file ../../.env.production delete-team.js"
   },
   "packageManager": "yarn@3.3.1",
   "dependencies": {

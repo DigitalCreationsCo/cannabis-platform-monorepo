@@ -197,7 +197,7 @@ const DailyDeals = ({
 										<ClockIcon height={24} width={24} />
 									</div>
 								) : (
-									<></>
+									<>One time</>
 								),
 							},
 							{

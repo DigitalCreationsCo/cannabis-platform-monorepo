@@ -10,9 +10,16 @@ import { getCsrfToken, signIn, useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
+import Image, { type StaticImageData } from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { type ReactElement, useEffect, useState, useRef } from 'react';
+import React, {
+	type ReactElement,
+	useEffect,
+	useState,
+	useRef,
+	type PropsWithChildren,
+} from 'react';
 import type { ComponentStatus } from 'react-daisyui/dist/types';
 import type ReCAPTCHA from 'react-google-recaptcha';
 import * as Yup from 'yup';
@@ -26,6 +33,7 @@ import TogglePasswordVisibility from '@/components/shared/TogglePasswordVisibili
 import { authProviderEnabled } from '@/lib/auth';
 import env from '@/lib/env';
 import type { NextPageWithLayout } from '@/lib/next.types';
+import backdrop from 'public/marijuana-backdrop.png';
 
 interface Message {
 	text: string | null;
@@ -110,122 +118,132 @@ const Login: NextPageWithLayout<
 	const params = token ? `?token=${token}` : '';
 
 	return (
-		<AuthLayout heading="welcome-back" description="log-in-to-account">
-			<Head>
-				<title>{t('login-title')}</title>
-			</Head>
-			{message.text && message.status && (
-				<Alert status={message.status} className="mb-5">
-					{t(message.text)}
-				</Alert>
-			)}
-			<div className="rounded p-6 bg-inverse drop-shadow">
-				<div className="flex gap-2 flex-wrap">
-					{authProviders.github && <GithubButton />}
-					{authProviders.google && <GoogleButton />}
-				</div>
+		<ImageBackDrop src={backdrop}>
+			<div className="text-inverse">
+				<AuthLayout heading="welcome-back" description="log-in-to-account">
+					<Head>
+						<title>{t('login-title')}</title>
+					</Head>
+					{message.text && message.status && (
+						<Alert status={message.status} className="mb-5">
+							{t(message.text)}
+						</Alert>
+					)}
+					<div className="rounded p-6 bg-inverse drop-shadow">
+						<div className="flex gap-2 flex-wrap">
+							{authProviders.github && <GithubButton />}
+							{authProviders.google && <GoogleButton />}
+						</div>
 
-				{(authProviders.github || authProviders.google) &&
-					authProviders.credentials && <div className="divider">{t('or')}</div>}
+						{(authProviders.github || authProviders.google) &&
+							authProviders.credentials && (
+								<div className="divider">{t('or')}</div>
+							)}
 
-				{authProviders.credentials && (
-					<form onSubmit={formik.handleSubmit}>
+						{authProviders.credentials && (
+							<form onSubmit={formik.handleSubmit}>
+								<div className="space-y-3">
+									<TextField
+										type="email"
+										label="Email"
+										name="email"
+										placeholder={t('email')}
+										value={formik.values.email}
+										error={
+											formik.touched.email ? !!formik.errors.email : undefined
+										}
+										helperText={formik.touched.email && formik.errors.email}
+										onChange={formik.handleChange}
+									/>
+									<div className="relative flex items-center content-center justify-center">
+										<TextField
+											type={isPasswordVisible ? 'text' : 'password'}
+											name="password"
+											placeholder={t('password')}
+											value={formik.values.password}
+											label={
+												<label className="label">
+													<span className="label-text">{t('password')}</span>
+													<span className="label-text-alt">
+														<Link
+															href="/auth/forgot-password"
+															className="text-sm text-primary hover:text-[color-mix(in_oklab,oklch(var(--p)),black_7%)]"
+														>
+															{t('forgot-password')}
+														</Link>
+													</span>
+												</label>
+											}
+											error={
+												formik.touched.password
+													? !!formik.errors.password
+													: undefined
+											}
+											helperText={
+												formik.touched.password && formik.errors.password
+											}
+											onChange={formik.handleChange}
+										/>
+										<TogglePasswordVisibility
+											isPasswordVisible={isPasswordVisible}
+											handlePasswordVisibility={handlePasswordVisibility}
+										/>
+									</div>
+									<div className="w-fit m-auto">
+										<GoogleReCAPTCHA
+											recaptchaRef={recaptchaRef}
+											onChange={setRecaptchaToken}
+											siteKey={recaptchaSiteKey}
+										/>
+									</div>
+								</div>
+								<div className="mt-3 space-y-3">
+									<Button
+										className="w-full font-bold bg-secondary-light hover:bg-primary-light"
+										type="submit"
+										color="primary"
+										loading={formik.isSubmitting}
+									>
+										{t('sign-in')}
+									</Button>
+									<AgreeMessage text={t('sign-in')} />
+								</div>
+							</form>
+						)}
+
+						{(authProviders.email || authProviders.saml) && (
+							<div className="divider"></div>
+						)}
+
 						<div className="space-y-3">
-							<TextField
-								type="email"
-								label="Email"
-								name="email"
-								placeholder={t('email')}
-								value={formik.values.email}
-								error={formik.touched.email ? !!formik.errors.email : undefined}
-								helperText={formik.touched.email && formik.errors.email}
-								onChange={formik.handleChange}
-							/>
-							<div className="relative flex">
-								<TextField
-									type={isPasswordVisible ? 'text' : 'password'}
-									name="password"
-									placeholder={t('password')}
-									value={formik.values.password}
-									label={
-										<label className="label">
-											<span className="label-text">{t('password')}</span>
-											<span className="label-text-alt">
-												<Link
-													href="/auth/forgot-password"
-													className="text-sm text-primary hover:text-[color-mix(in_oklab,oklch(var(--p)),black_7%)]"
-												>
-													{t('forgot-password')}
-												</Link>
-											</span>
-										</label>
-									}
-									error={
-										formik.touched.password
-											? !!formik.errors.password
-											: undefined
-									}
-									helperText={formik.touched.password && formik.errors.password}
-									onChange={formik.handleChange}
-								/>
-								<TogglePasswordVisibility
-									isPasswordVisible={isPasswordVisible}
-									handlePasswordVisibility={handlePasswordVisibility}
-								/>
-							</div>
-							<div className="w-fit m-auto">
-								<GoogleReCAPTCHA
-									recaptchaRef={recaptchaRef}
-									onChange={setRecaptchaToken}
-									siteKey={recaptchaSiteKey}
-								/>
-							</div>
+							{authProviders.email && (
+								<Link
+									href={`/auth/magic-link${params}`}
+									className="btn btn-outline w-full"
+								>
+									&nbsp;{t('sign-in-with-email')}
+								</Link>
+							)}
+
+							{authProviders.saml && (
+								<Link href="/auth/sso" className="btn btn-outline w-full">
+									&nbsp;{t('continue-with-saml-sso')}
+								</Link>
+							)}
 						</div>
-						<div className="mt-3 space-y-3">
-							<Button
-								className="w-full font-bold bg-secondary-light hover:bg-primary-light"
-								type="submit"
-								color="primary"
-								loading={formik.isSubmitting}
+						<Paragraph className="text-center text-sm text-gray-600 mt-3">
+							{t('dont-have-an-account')}
+							<Link
+								href={`/auth/join${params}`}
+								className="font-medium text-primary hover:text-[color-mix(in_oklab,oklch(var(--p)),black_7%)]"
 							>
-								{t('sign-in')}
-							</Button>
-							<AgreeMessage text={t('sign-in')} />
-						</div>
-					</form>
-				)}
-
-				{(authProviders.email || authProviders.saml) && (
-					<div className="divider"></div>
-				)}
-
-				<div className="space-y-3">
-					{authProviders.email && (
-						<Link
-							href={`/auth/magic-link${params}`}
-							className="btn btn-outline w-full"
-						>
-							&nbsp;{t('sign-in-with-email')}
-						</Link>
-					)}
-
-					{authProviders.saml && (
-						<Link href="/auth/sso" className="btn btn-outline w-full">
-							&nbsp;{t('continue-with-saml-sso')}
-						</Link>
-					)}
-				</div>
+								&nbsp;{t('create-a-new-account')}
+							</Link>
+						</Paragraph>
+					</div>
+				</AuthLayout>
 			</div>
-			<Paragraph className="text-center text-sm text-gray-600 mt-3">
-				{t('dont-have-an-account')}
-				<Link
-					href={`/auth/join${params}`}
-					className="font-medium text-primary hover:text-[color-mix(in_oklab,oklch(var(--p)),black_7%)]"
-				>
-					&nbsp;{t('create-a-free-account')}
-				</Link>
-			</Paragraph>
-		</AuthLayout>
+		</ImageBackDrop>
 	);
 };
 
@@ -248,3 +266,40 @@ export const getServerSideProps = async (
 };
 
 export default Login;
+
+const ImageBackDrop = ({
+	src,
+	children,
+}: { src: string | StaticImageData } & PropsWithChildren) => {
+	return (
+		<div className="relative flex flex-col w-full h-full grow">
+			<Image
+				src={src}
+				alt=""
+				style={{
+					position: 'absolute',
+					width: '100%',
+					height: '100%',
+					zIndex: -1,
+					objectFit: 'cover',
+					objectPosition: '80% 40%',
+				}}
+				priority
+				quality={75}
+			/>
+			<div
+				className="flex h-full grow"
+				style={{
+					zIndex: -1,
+					backgroundColor: 'rgba(155,155,125,.25)',
+					position: 'absolute',
+					height: '100%',
+					width: '100%',
+					left: '0',
+					top: '0',
+				}}
+			></div>
+			{children}
+		</div>
+	);
+};

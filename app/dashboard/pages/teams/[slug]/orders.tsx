@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
 	type AppState,
 	axios,
@@ -17,10 +16,13 @@ import {
 	Row,
 	type LayoutContextProps,
 } from '@cd/ui-lib';
-import { DocumentIcon } from '@heroicons/react/20/solid';
+import { DocumentIcon } from '@heroicons/react/24/outline';
+import { type GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { twMerge } from 'tailwind-merge';
-import { wrapper } from '@/lib/store';
+import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
+import env from '@/lib/env';
 
 export default function Orders({ orders }: { orders: Order[] }) {
 	const { t } = useTranslation();
@@ -57,25 +59,34 @@ export default function Orders({ orders }: { orders: Order[] }) {
 	);
 }
 
-export const getServerSideProps = wrapper.getServerSideProps(
-	(store) =>
-		async ({ query, req, res }: any) => {
-			// const response = await axios(urlBuilder.dashboard + '/api/orders', {
-			// 	headers: {
-			// 		'organization-id': query.dashboard,
-			// 		Authorization: `Bearer ${session.getAccessToken()}`,
-			// 	},
-			// });
+export async function getServerSideProps({
+	query,
+	req,
+	locale,
+	res,
+}: GetServerSidePropsContext) {
+	(req as any).query = query;
+	const teamMember = await throwIfNoDispensaryAccess(req, res);
 
-			// if (response.data.success === 'false')
-			// 	throw new Error(response.data.error);
+	// const response = await axios(urlBuilder.dashboard + '/api/orders', {
+	// 	headers: {
+	// 		'organization-id': query.dashboard,
+	// 		Authorization: `Bearer ${session.getAccessToken()}`,
+	// 	},
+	// });
 
-			// store.dispatch(
-			// 	dispensaryActions.updateDispensaryOrders(response.data.payload),
-			// );
+	// if (response.data.success === 'false')
+	// 	throw new Error(response.data.error);
 
-			return {
-				props: { orders: [] },
-			};
-		}
-);
+	// store.dispatch(
+	// 	dispensaryActions.updateDispensaryOrders(response.data.payload),
+	// );
+
+	return {
+		props: {
+			...(locale ? await serverSideTranslations(locale, ['common']) : {}),
+			teamFeatures: env.teamFeatures,
+			orders: [],
+		},
+	};
+}

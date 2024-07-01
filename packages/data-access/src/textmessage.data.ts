@@ -90,8 +90,8 @@ export const updateDispensaryDailyDeal = async ({
 			.db(db)
 			.collection<DailyDeal>(collections.daily_deals)
 			.findOneAndUpdate(
-				{ _id: new ObjectId(data.id), teamSlug: data.teamSlug },
-				data,
+				{ _id: new ObjectId(data.id) },
+				{ $set: data },
 				{
 					returnDocument: 'after',
 				}

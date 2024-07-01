@@ -108,7 +108,7 @@ const env = {
 	maxLoginAttempts: Number(process.env.MAX_LOGIN_ATTEMPTS) || 5,
 
 	stripe: {
-		secretKey: process.env.STRIPE_SECRET_KEY,
+		secretKey: process.env.STRIPE_API_KEY_SECRET,
 		webhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
 	},
 };

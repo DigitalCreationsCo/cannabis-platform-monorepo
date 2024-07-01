@@ -96,7 +96,7 @@ function NewDailyDeal({
 			startTime: null,
 			endTime: null,
 			doesRepeat: false,
-			schedule: '',
+			schedule: '* * * * * *',
 			timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
 			teamSlug: team!.slug,
 			weedTextSegmentId: team!.weedTextSegmentId,
@@ -146,7 +146,7 @@ function NewDailyDeal({
 
 	return modalVisible ? (
 		<Modal open={openModal} close={props.onCancel || closeModalAndReset}>
-			<Modal.Header>{`New Text Message`}</Modal.Header>
+			<Modal.Header>{`New Daily Deal`}</Modal.Header>
 			<Modal.Body className="h-[540px] text-sm leading-6 flex flex-col text-center gap-y-2">
 				<TextField
 					className="border"
@@ -174,13 +174,13 @@ function NewDailyDeal({
 					error={!!touched.message && !!errors.message}
 					helperText={touched.message && errors.message}
 				/>
-				<CheckBox
+				{/* <CheckBox
 					className="w-full bg-light accent-light px-2"
 					name="doesRepeat"
 					onChange={handleChange}
 					checked={values.doesRepeat}
 					label={values.doesRepeat ? 'Does Repeat' : 'Does Not Repeat'}
-				/>
+				/> */}
 
 				{(values.doesRepeat && (
 					<>
@@ -189,8 +189,9 @@ function NewDailyDeal({
 							onChange={(e: any) => {
 								setFieldValue('schedule', e.target.value);
 							}}
-							shortSelectedOptions={false}
+							// shortSelectedOptions={false}
 						/>
+
 						{/* <Cron
 							value={values.schedule || ''}
 							setValue={(value: string) => {

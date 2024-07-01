@@ -13,8 +13,12 @@ export async function getStripeCustomerId(
 	session?: any
 ) {
 	const client = await clientPromise;
+
 	let customerId = '';
+
+	console.info('teamMember.team.billingId? ', teamMember.team.billingId);
 	if (!teamMember.team.billingId) {
+		// if the team doesn't have a billingId, create a new customer
 		const customerData: {
 			metadata: { teamId: string };
 			email?: string;
@@ -23,13 +27,18 @@ export async function getStripeCustomerId(
 				teamId: teamMember.teamId,
 			},
 		};
+
 		if (session?.user?.email) {
 			customerData.email = session?.user?.email;
 		}
+
+		// create a new customer
 		const customer = await stripe.customers.create({
 			...customerData,
 			name: session?.user?.name as string,
 		});
+
+		// update the dispensary with the new billingId
 		await updateDispensary({
 			client,
 			data: {
@@ -38,9 +47,13 @@ export async function getStripeCustomerId(
 				billingProvider: 'stripe',
 			},
 		});
+
 		customerId = customer.id;
+		console.debug('created new customer', customerId);
 	} else {
+		// if the team already has a billingId, use it
 		customerId = teamMember.team.billingId;
+		console.debug('team already has a billingId', customerId);
 	}
 	return customerId;
 }

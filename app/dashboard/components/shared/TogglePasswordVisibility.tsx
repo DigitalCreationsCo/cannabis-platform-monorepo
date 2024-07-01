@@ -10,7 +10,7 @@ const TogglePasswordVisibility = ({
 	return (
 		<button
 			onClick={handlePasswordVisibility}
-			className="flex pointer items-center text-white absolute right-3 top-[50px]"
+			className="flex pointer my-auto self-center items-center text-white absolute right-3 top-[50px]"
 			type="button"
 		>
 			{!isPasswordVisible ? (

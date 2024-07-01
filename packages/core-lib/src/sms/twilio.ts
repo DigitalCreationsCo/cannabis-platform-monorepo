@@ -1,9 +1,15 @@
 import { Twilio as TwilioClient, getExpectedTwilioSignature } from 'twilio';
 class Twilio {
 	private t: TwilioClient;
+	private broadcastServiceSid: string =
+		process.env.TWILIO_DAILY_DEALS_SERVICE_SID ?? '';
+
 	constructor(account: string, token: string) {
 		if (!account || !token) {
 			throw new Error('Could not initialize Twilio.');
+		}
+		if (!process.env.TWILIO_DAILY_DEALS_SERVICE_SID) {
+			throw new Error('Twilio Daily Deals Service SID is missing!');
 		}
 		this.t = new TwilioClient(account, token, {
 			maxRetries: 2,
@@ -11,14 +17,32 @@ class Twilio {
 		});
 	}
 
-	async send() {
-		// this.t.messages.create({
-		// })
+	async send(to: string, message: string) {
+		try {
+			await this.t.messages.create({
+				body: message,
+				messagingServiceSid: this.broadcastServiceSid,
+				to,
+			});
+		} catch (error) {
+			console.error('Error sending message', error);
+		}
 	}
 
-	async sendAll() {
+	async sendAll(numbers: string[], message: string) {
 		// USE FRESHSALES DATA FOR NOW, WHEN SCALING TO 1000+ CONTACTS, USE SEGMENT AUDIENCE
-		// this.t.notify.v1.services().
+		// or customer.io
+		numbers.forEach((number) => {
+			this.t.messages
+				.create({
+					body: message,
+					messagingServiceSid: this.broadcastServiceSid,
+					to: number,
+				})
+				.then((message) => console.log(message.status))
+				.catch((error) => console.error(error))
+				.finally(() => console.log('Message sent to: ', number));
+		});
 	}
 
 	async inviteCustomer() {

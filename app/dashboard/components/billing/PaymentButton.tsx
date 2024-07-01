@@ -42,7 +42,7 @@ const PaymentButton = ({
 						: undefined
 				);
 			}}
-			className="rounded-full"
+			className="rounded-full p-2 bg-primary-light hover:bg-amber-200"
 		>
 			{buttonText}
 		</Button>

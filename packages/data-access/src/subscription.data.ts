@@ -29,7 +29,7 @@ export const deleteStripeSubscription = async ({
 	return await client
 		.db(db)
 		.collection<Subscription>(collections.subscriptions)
-		.deleteOne({ _id: new ObjectId(where.id) });
+		.deleteOne({ id: where.id });
 };
 
 export const updateStripeSubscription = async ({
@@ -45,7 +45,7 @@ export const updateStripeSubscription = async ({
 		.collection<Subscription>(collections.subscriptions)
 		.updateOne(
 			{
-				_id: new ObjectId(data.id),
+				id: data.id,
 			},
 			data
 		);
@@ -83,7 +83,7 @@ export const getBySubscriptionId = async ({
 	return await client
 		.db(db)
 		.collection<Subscription>(collections.subscriptions)
-		.findOne({ _id: new ObjectId(where.subscriptionId) });
+		.findOne({ id: where.subscriptionId });
 };
 
 export interface Subscription {

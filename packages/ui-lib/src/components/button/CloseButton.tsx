@@ -1,7 +1,6 @@
-import { XCircleIcon } from '@heroicons/react/24/outline';
+import { XMarkIcon } from '@heroicons/react/24/outline';
 import { type SVGAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
-import Icons from '../../icons';
 import IconButton from './IconButton';
 
 interface CloseButtonProps {
@@ -13,7 +12,7 @@ interface CloseButtonProps {
 }
 
 function CloseButton({
-	Icon = XCircleIcon,
+	Icon = XMarkIcon,
 	iconSize = 20,
 	className,
 	...props

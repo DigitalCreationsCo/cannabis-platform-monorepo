@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { type MongoClient, ObjectId } from 'mongodb';
 import { db_namespace } from './db';
@@ -8,7 +9,6 @@ import {
 	type StaffMemberWithUser,
 	type StaffMember,
 } from './types/staff.types';
-import { getUser } from './user.data';
 
 export const addStaffMember = async ({
 	client,
@@ -22,6 +22,9 @@ export const addStaffMember = async ({
 	role: Role;
 }): Promise<StaffMember> => {
 	const { db, collections } = db_namespace;
+
+	let staffMember: StaffMember;
+
 	if (typeof dispensary === 'string') {
 		dispensary = (
 			await client
@@ -41,8 +44,9 @@ export const addStaffMember = async ({
 				{ $push: { members: userId } }
 			);
 	}
-	console.info('dispensary here: ', dispensary);
-	const staffMember = (
+
+	// eslint-disable-next-line prefer-const
+	staffMember = (
 		await client
 			.db(db)
 			.collection<StaffMember>(collections.staff)
@@ -51,15 +55,18 @@ export const addStaffMember = async ({
 				{
 					$set: {
 						role,
-						team: dispensary,
+						teamId: dispensary.id,
+						teamSlug: dispensary.slug,
+						id: userId,
 					},
 				},
 				{ upsert: true, returnDocument: 'after' }
 			)
-	).value;
+	).value as StaffMember;
+
 	return {
 		...staffMember!,
-		id: staffMember!._id.toString(),
+		id: staffMember!.id,
 		team: dispensary,
 	};
 };
@@ -76,7 +83,7 @@ export const updateStaffMember = async ({
 	return await client
 		.db(db)
 		.collection(collections.staff)
-		.updateOne({ _id: new Object(data.id) }, normalizeUser(data));
+		.updateOne({ id: data.id }, normalizeUser(data));
 };
 
 export const upsertStaffMember = async ({
@@ -84,17 +91,66 @@ export const upsertStaffMember = async ({
 	data,
 }: {
 	client: MongoClient;
-	data: any;
+	data: Partial<StaffMemberWithUser>;
 }) => {
 	data = normalizeUser(data);
 	const { db, collections } = db_namespace;
 	return await client.db(db).collection(collections.staff).updateOne(
 		{
-			_id: data.id,
+			id: data.id,
 		},
 		{ $set: data },
 		{ upsert: true }
 	);
+};
+
+export const getStaffMember = async ({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where: {
+		userId: string;
+		slug?: string;
+	};
+}): Promise<StaffMemberWithUser> => {
+	const { db, collections } = db_namespace;
+
+	return (
+		await client
+			.db(db)
+			.collection(collections.staff)
+			.aggregate<StaffMemberWithUser>([
+				{
+					$match: { userId: where.userId, teamSlug: where.slug },
+				},
+				{ $addFields: { _userId: { $toObjectId: '$userId' } } },
+				{
+					$lookup: {
+						from: collections.users,
+						localField: '_userId',
+						foreignField: '_id',
+						as: 'user',
+					},
+				},
+				{
+					$unwind: '$user',
+				},
+				{
+					$lookup: {
+						from: collections.dispensaries,
+						localField: 'teamSlug',
+						foreignField: 'slug',
+						as: 'team',
+					},
+				},
+				{
+					$unwind: '$team',
+				},
+				{ $addFields: { 'team.id': { $toString: '$team._id' } } },
+			])
+			.toArray()
+	)[0]!;
 };
 
 export const getStaffMemberBySession = async ({
@@ -114,7 +170,8 @@ export const getStaffMemberBySession = async ({
 		return null;
 	}
 
-	return await getUser({ client, where: { id } });
+	// get staff with team document
+	return await getStaffMember({ client, where: { userId: id } });
 };
 
 export const deleteStaffMember = async ({
@@ -136,16 +193,16 @@ export const findFirstStaffMemberOrThrow = async ({
 	where: { id: string };
 }) => {
 	const { db, collections } = db_namespace;
-	const user = await client
+	const staffMember = await client
 		.db(db)
 		.collection(collections.staff)
-		.findOne({ _id: new ObjectId(where.id) });
+		.findOne({ id: where.id });
 
-	if (!user) {
+	if (!staffMember) {
 		throw new Error('Staff Member not found');
 	}
 
-	return normalizeUser(user);
+	return normalizeUser(staffMember);
 };
 
 export const countStaffMembers = async ({
@@ -157,4 +214,49 @@ export const countStaffMembers = async ({
 }) => {
 	const { db, collections } = db_namespace;
 	return client.db(db).collection(collections.staff).countDocuments(where);
+};
+
+export const getStaffMembers = async ({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where: { slug: string };
+}) => {
+	const { db, collections } = db_namespace;
+	const staffMembers = await client
+		.db(db)
+		.collection<StaffMemberWithUser>(collections.staff)
+		.aggregate<StaffMemberWithUser>([
+			{
+				$match: { teamSlug: where.slug },
+			},
+			{
+				$lookup: {
+					from: collections.users,
+					localField: 'userId',
+					foreignField: 'id',
+					as: 'user',
+				},
+			},
+			{
+				$unwind: '$user',
+			},
+			{
+				$lookup: {
+					from: collections.dispensaries,
+					localField: 'teamSlug',
+					foreignField: 'slug',
+					as: 'team',
+				},
+			},
+			{
+				$unwind: '$team',
+			},
+		])
+		.toArray();
+	return staffMembers?.map((member) => {
+		member = normalizeUser(member);
+		return member;
+	});
 };

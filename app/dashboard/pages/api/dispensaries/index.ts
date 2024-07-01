@@ -67,10 +67,8 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 
 	const weedTextPhoneNumber = '';
 	let weedTextSegmentId = '';
-	if (create.isSubscribedForMessaging) {
-		// weedTextPhoneNumber = await Twilio.provisionSMSPhoneNumber(slug);
-		weedTextSegmentId = await FreshSales.createSegment(slug);
-	}
+	// weedTextPhoneNumber = await Twilio.provisionSMSPhoneNumber(slug);
+	weedTextSegmentId = await FreshSales.createSegment(slug);
 
 	const team = await createDispensary({
 		client,

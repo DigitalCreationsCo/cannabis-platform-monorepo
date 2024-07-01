@@ -42,31 +42,44 @@ const Home: NextPageWithLayout<{
 	const latestOrders: any[] = [];
 	const lowStockVariants: any[] = [];
 	const totalVariants: any[] = [];
+	const messagesSent: any[] = [];
 
 	const keyIndicators = [
 		{
 			name: 'todays-orders',
-			title: "Today's Orders",
+			title: 'Today Sales',
 			amount: latestOrders.length,
 			href: `/teams/${slug}/orders`,
 		},
+		// {
+		// 	name: 'low-stock-variants',
+		// 	title: 'Low Stock Variants',
+		// 	amount: totalVariants.length,
+		// 	href: `/teams/${slug}/products`,
+		// },
+		// {
+		// 	name: 'total-skus',
+		// 	title: 'Products',
+		// 	href: `/teams/${slug}/products`,
+		// 	amount: lowStockVariants.length,
+		// },
 		{
-			name: 'low-stock-variants',
-			title: 'Low Stock Variants',
-			amount: totalVariants.length,
-			href: `/teams/${slug}/products`,
-		},
-		{
-			name: 'total-skus',
-			title: 'Products',
-			href: `/teams/${slug}/products`,
-			amount: lowStockVariants.length,
+			name: 'total-orders',
+			title: 'Weekly Sales',
+			amount: orders.length,
+			href: `/teams/${slug}/orders`,
 		},
 		{
 			name: 'total-orders',
-			title: 'Orders',
+			title: 'Monthly Sales',
 			amount: orders.length,
 			href: `/teams/${slug}/orders`,
+		},
+		{
+			name: 'messages-sent',
+			title: 'Messages Sent',
+			amount: messagesSent.length,
+			href: `/teams/${slug}/daily-deals`,
 		},
 	];
 
@@ -96,7 +109,7 @@ const Home: NextPageWithLayout<{
 				{keyIndicators.map((item) => (
 					<Link href={item.href} key={`key-indicator-${item.title}`}>
 						<Card
-							className="col-span-auto md:!w-full lg:!w-full"
+							className="col-span-auto md:!w-full lg:!w-full md:px-0"
 							amountClassName="text-primary"
 							title={item.title}
 							amount={item.amount}
@@ -115,11 +128,11 @@ const Home: NextPageWithLayout<{
 						/>
 					))
 				) : (
-					<Card>{`There are no orders today.`}</Card>
+					<Card className="col-span-auto md:!w-full lg:!w-full md:px-0">{`There are no orders today.`}</Card>
 				)}
 			</Grid>
 
-			<Grid title="Low Stock Products" className="gap-2">
+			{/* <Grid title="Low Stock Products" className="gap-2">
 				{lowStockVariants.length > 0 ? (
 					lowStockVariants.map((variant) => (
 						<VariantRow key={variant.id} variant={variant} />
@@ -127,7 +140,7 @@ const Home: NextPageWithLayout<{
 				) : (
 					<Card>{`There are no low stock products`}</Card>
 				)}
-			</Grid>
+			</Grid> */}
 		</div>
 	);
 };

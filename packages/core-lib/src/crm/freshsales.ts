@@ -132,9 +132,13 @@ class FreshSales {
 				}
 			);
 
-			if (response.status > 299) throw new Error('Failed to create segment.');
+			if (response.status > 299)
+				throw new Error(
+					response.data.errors?.message?.[0] ?? 'Failed to create segment.'
+				);
+			console.info('response	', response.data);
 			return (
-				response.data.Response as {
+				response.data as {
 					list: {
 						id: string;
 						list_name: string;
@@ -149,8 +153,15 @@ class FreshSales {
 		}
 	}
 
-	async getSegmentCustomers(id: string): Promise<any[]> {
+	async getSegmentCustomers(
+		id: string
+	): Promise<Partial<FreshSalesContactParameters>[]> {
 		try {
+			if (!id) {
+				console.error('No segment id provided.');
+				return [];
+			}
+
 			const response = await axios(
 				urlBuilder.freshSales.getContactsFromList(id),
 				{
@@ -164,7 +175,7 @@ class FreshSales {
 			if (response.status > 299) throw new Error('Failed to create segment.');
 			return (
 				(
-					response.data.Response as {
+					response.data as {
 						contacts: any[];
 					}
 				).contacts || []

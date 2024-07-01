@@ -65,7 +65,7 @@ function SendDailyDealsInviteForm({
 			state: undefined,
 			zipcode: undefined,
 			birthdate: '',
-			doubleOptInMessage: `Reply YES to join ${team.name}.`,
+			doubleOptInMessage: `Send “join” to join ${team.name}.`,
 		} as any,
 		onSubmit: async () => {
 			try {
@@ -135,8 +135,9 @@ function SendDailyDealsInviteForm({
 				<H2 className="text-xl">{`Invite a Customer`}</H2>
 				<FlexBox className="">
 					<Grid className="grid-cols-2 max-w-lg gap-2">
-						<Paragraph className="font-medium col-span-2 row-span-1">
-							{`Invite a customer to receive text messages. The customer will receive a text invite to join. * required`}
+						<Paragraph className="col-span-2 row-span-1 text-md">
+							{`Invite a customer to receive text messages. 
+							The customer will receive a text invite to join.`}
 						</Paragraph>
 						<TextField
 							containerClassName="col-span-1"
@@ -187,8 +188,8 @@ function SendDailyDealsInviteForm({
 							containerClassName={'flex-1'}
 							className="text-lg"
 							name="city"
-							label="city"
-							placeholder="City"
+							label="* city"
+							placeholder="city"
 							value={values?.city}
 							onBlur={handleBlur}
 							onChange={handleChange}
@@ -197,8 +198,8 @@ function SendDailyDealsInviteForm({
 						<Select
 							name="state"
 							containerClassName={'flex-1'}
-							label="state"
-							placeholder="State"
+							label="* state"
+							placeholder="state"
 							defaultValue={values?.state || 'NY'}
 							values={usStatesAbbreviationList}
 							setOption={handleChange}
@@ -206,8 +207,8 @@ function SendDailyDealsInviteForm({
 						<TextField
 							className="text-lg"
 							name="zipcode"
-							label="zipcode"
-							placeholder="Zipcode"
+							label="* zipcode"
+							placeholder="zipcode"
 							maxLength={5}
 							type={'number'}
 							value={values?.zipcode || ''}
@@ -228,15 +229,12 @@ function SendDailyDealsInviteForm({
 								setFieldValue('birthdate', date);
 							}}
 						/>
-						<Paragraph className="font-medium col-span-2 pt-4">
-							{`Invited customers will receive this message. 
-                        The customer must reply YES to join.`}
-						</Paragraph>
 						<TextArea
 							containerClassName={'flex-1 col-span-2'}
 							className="text-lg"
 							name="doubleOptInMessage"
-							label="Customize Your Message"
+							label={`You can customize your message. 
+                        The customer must reply “join” to opt in.`}
 							placeholder={values.doubleOptInMessage}
 							value={values?.doubleOptInMessage}
 							onBlur={handleBlur}

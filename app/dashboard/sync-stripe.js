@@ -1,114 +1,121 @@
-// const Stripe = require('stripe');
+const Stripe = require('stripe');
+const { MongoClient } = require('mongodb');
 
-// /**
-//  * Synchronizes data between a database and the Stripe API.
-//  * Retrieves active products and prices from Stripe, deletes existing data in the database,
-//  * and inserts the new data. Prints the number of synced products and prices.
-//  *
-//  * @returns {Promise<void>} - A promise that resolves once the synchronization is complete.
-//  */
-// const sync = async () => {
-//   const prisma = new PrismaClient();
-//   try {
-//     console.log('Starting sync with Stripe');
-//     const stripe = getStripeInstance();
+/**
+ * Synchronizes data between a database and the Stripe API.
+ * Retrieves active products and prices from Stripe, deletes existing data in the database,
+ * and inserts the new data. Prints the number of synced products and prices.
+ *
+ * @returns {Promise<void>} - A promise that resolves once the synchronization is complete.
+ */
 
-//     // Get all active products and prices
-//     const [products, prices] = await Promise.all([
-//       stripe.products.list({ active: true }),
-//       stripe.prices.list({ active: true }),
-//     ]);
+const sync = async () => {
+	const mongoUri = process.env.NEXT_PUBLIC_MONGODB_CONNECTION_URL;
+	if (mongoUri === undefined) {
+		throw new Error(
+			'NEXT_PUBLIC_MONGODB_CONNECTION_URL environment variable not set'
+		);
+	}
 
-//     if (prices.data.length > 0 && products.data.length > 0) {
-//       const operations = [
-//         ...cleanup(prisma),
-//         ...seedServices(products.data, prisma),
-//         ...seedPrices(prices.data, prisma),
-//       ];
-//       await prisma.$transaction(operations);
-//       await printStats(prisma);
+	if (process.env.NEXT_PUBLIC_GRAS_DB_NS === undefined) {
+		throw new Error('NEXT_PUBLIC_GRAS_DB_NS environment variable not set');
+	}
 
-//       console.log('Sync completed successfully');
-//       process.exit(0);
-//     } else {
-//       if (prices.data.length === 0) {
-//         throw new Error('No prices found on Stripe');
-//       } else {
-//         throw new Error('No products found on Stripe');
-//       }
-//     }
-//   } catch (error) {
-//     console.error('Error syncing with Stripe:', error);
-//     process.exit(1);
-//   }
-// };
+	const client = new MongoClient(mongoUri, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+	});
 
-// sync();
+	try {
+		await client.connect();
+		console.info('Connected to MongoDB');
+		const db = client.db(process.env.NEXT_PUBLIC_GRAS_DB_NS);
+		const serviceCollection = db.collection('services');
+		const priceCollection = db.collection('prices');
 
-// // handle uncaught errors
-// process.on('uncaughtException', (error) => {
-//   console.error('Uncaught Exception:', error);
-//   process.exit(1);
-// });
+		console.log('Starting sync with Stripe');
+		const stripe = getStripeInstance();
 
-// async function printStats(prisma) {
-//   const [productCount, priceCount] = await Promise.all([
-//     prisma.service.count(),
-//     prisma.price.count(),
-//   ]);
+		// Get all active products and prices
+		const [products, prices] = await Promise.all([
+			stripe.products.list({ active: true }),
+			stripe.prices.list({ active: true }),
+		]);
 
-//   console.log('Products synced:', productCount);
-//   console.log('Prices synced:', priceCount);
-// }
+		if (prices.data.length > 0 && products.data.length > 0) {
+			await serviceCollection.deleteMany({});
+			await priceCollection.deleteMany({});
+			console.info('Deleted services and prices data in the database');
 
-// function cleanup(prisma) {
-//   return [
-//     // delete all prices from the database
-//     prisma.price.deleteMany({}),
-//     // Delete all products and prices from the database
-//     prisma.service.deleteMany({}),
-//   ];
-// }
+			await seedServices(products.data, serviceCollection);
+			console.log(`Inserting ${products.data.length} services`);
 
-// function getStripeInstance() {
-//   if (process.env.STRIPE_SECRET_KEY) {
-//     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
-//       apiVersion: '2022-11-15',
-//     });
-//     return stripe;
-//   } else {
-//     throw new Error('STRIPE_SECRET_KEY environment variable not set');
-//   }
-// }
+			await seedPrices(prices.data, priceCollection);
+			console.log(`Inserting ${prices.data.length} prices`);
 
-// function seedPrices(prices, prisma) {
-//   return prices.map((data) =>
-//     prisma.price.create({
-//       data: {
-//         id: data.id,
-//         billingScheme: data.billing_scheme,
-//         currency: data.currency,
-//         serviceId: data.product,
-//         amount: data.unit_amount ? data.unit_amount / 100 : undefined,
-//         metadata: data.recurring,
-//         type: data.type,
-//         created: new Date(data.created * 1000),
-//       },
-//     })
-//   );
-// }
+			console.log('Sync completed successfully');
+		} else {
+			if (prices.data.length === 0) {
+				throw new Error('No prices found on Stripe');
+			} else {
+				throw new Error('No products found on Stripe');
+			}
+		}
+	} catch (error) {
+		console.error('Error syncing with Stripe:', error);
+		process.exit(1);
+	} finally {
+		console.info('DONE');
+		await client.close();
+		console.log('Disconnected from MongoDB');
+		process.exit(0);
+	}
+};
 
-// function seedServices(products, prisma) {
-//   return products.map((data) =>
-//     prisma.service.create({
-//       data: {
-//         id: data.id,
-//         description: data.description || '',
-//         features: (data.features || []).map((a) => a.name),
-//         image: data.images.length > 0 ? data.images[0] : '',
-//         name: data.name,
-//         created: new Date(data.created * 1000),
-//       },
-//     })
-//   );
-// }
+sync();
+
+// handle uncaught errors
+process.on('uncaughtException', (error) => {
+	console.error('Uncaught Exception:', error);
+	process.exit(1);
+});
+
+function getStripeInstance() {
+	if (process.env.STRIPE_API_KEY_SECRET) {
+		return new Stripe(process.env.STRIPE_API_KEY_SECRET || '', {
+			apiVersion: '2022-11-15',
+		});
+	} else {
+		throw new Error('STRIPE_API_KEY_SECRET environment variable not set');
+	}
+}
+
+async function seedServices(products, collection) {
+	for (const data of products) {
+		const insert = await collection.insertOne({
+			id: data.id,
+			description: data.description || '',
+			features: (data.features || []).map((a) => a.name),
+			image: data.images.length > 0 ? data.images[0] : '',
+			name: data.name,
+			created: new Date(data.created * 1000),
+		});
+		console.info('Inserted service, ', insert);
+	}
+}
+
+async function seedPrices(prices, collection) {
+	for (const data of prices) {
+		const insert = await collection.insertOne({
+			id: data.id,
+			billingScheme: data.billing_scheme,
+			currency: data.currency,
+			serviceId: data.product,
+			amount: data.unit_amount ? data.unit_amount / 100 : undefined,
+			metadata: data.recurring,
+			type: data.type,
+			created: new Date(data.created * 1000),
+		});
+		console.info('Inserted price, ', insert);
+	}
+}

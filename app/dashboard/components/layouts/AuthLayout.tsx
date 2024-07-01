@@ -20,13 +20,12 @@ export default function AuthLayout({
 		<>
 			<div className="flex min-h-full flex-1 flex-col justify-center px-6 py-20 lg:px-8">
 				<div className="sm:mx-auto sm:w-full sm:max-w-sm">
-					<FlexBox className="flex-row justify-center content-center items-center">
+					<FlexBox className="flex-row justify-center content-center items-center drop-shadow">
 						<GrasSignature>{t('gras')}</GrasSignature>
 						<Image
+							className="ml-1 w-[36px] md:w-[48px] bg-inverse rounded-full p-0.25"
 							src={app.logoUrl}
 							alt={app.name}
-							width={53}
-							height={53}
 							quality={25}
 						/>
 					</FlexBox>
@@ -36,7 +35,7 @@ export default function AuthLayout({
 						</H2>
 					)}
 					{description && (
-						<Paragraph className="text-lg text-center text-gray-600 dark:text-white">
+						<Paragraph className="text-lg text-center">
 							{t(description)}
 						</Paragraph>
 					)}

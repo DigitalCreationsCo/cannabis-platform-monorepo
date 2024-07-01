@@ -16,3 +16,22 @@ export const getAllServices = async ({
 			.toArray()) || []
 	);
 };
+
+export const createService = async ({
+	client,
+	data,
+}: {
+	client: MongoClient;
+	data: Service;
+}): Promise<Service> => {
+	const { db, collections } = db_namespace;
+	const { insertedId } = await client
+		.db(db)
+		.collection<Service>(collections.services)
+		.insertOne(data);
+
+	return {
+		...data,
+		id: insertedId.toString(),
+	};
+};

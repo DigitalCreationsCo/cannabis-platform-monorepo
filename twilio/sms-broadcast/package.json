@@ -3,7 +3,7 @@
     "private": true,
     "version": "0.1.0",
     "scripts": {
-        "deploy": "twilio serverless:deploy --ui-editable",
-        "update": "twilio serverless:deploy --override-existing-project --ui-editable"
+        "deploy": "twilio serverless:deploy",
+        "update": "twilio serverless:update --ui-editable"
     }
 }

@@ -15,7 +15,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { LayoutContainer } from '../components';
 import { wrapper } from '../store';
 
-import '../styles/tailwind.css';
+import '../../styles/tailwind.css';
 
 type CustomAppProps = AppProps & {
 	Component: ExtendedPageComponent;

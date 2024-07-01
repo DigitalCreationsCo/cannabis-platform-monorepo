@@ -5,7 +5,7 @@
   "scripts": {
     "build": "rm -rf ./.next && yarn build:css && next build",
     "build:ci": "rm -rf ./.next && yarn build:css && next build",
-    "build:css": "npm run copy-shared-assets && npx tailwindcss -i ./styles/globals.css -o ./styles/build.css --minify",
+    "build:css": "npm run copy-shared-assets && npx tailwindcss -i ./styles/globals.css -o ./styles/tailwind.css --minify",
     "copy-shared-assets": "sh ../../scripts/copysharedCSSandAssets.sh",
     "clean": "rm -rf ./.next ./out ./dist ./build ./node_modules ./coverage ./tsconfig.tsbuildinfo",
     "debug": "NODE_OPTIONS='--inspect' next dev -p 3008",

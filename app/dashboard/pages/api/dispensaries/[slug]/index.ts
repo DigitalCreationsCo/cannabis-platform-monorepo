@@ -51,7 +51,9 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
 	const client = await clientPromise;
 	throwIfNotAllowed(user, 'team', 'read');
 
-	console.trace('user', user);
+	console.info('user', user);
+	console.info('user.team.id', user.team.id);
+
 	const team = await getDispensary({ client, where: { id: user.team.id } });
 
 	recordMetric('team.fetched');

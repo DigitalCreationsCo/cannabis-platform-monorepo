@@ -4,7 +4,7 @@
  */
 
 const reactPatterns = {
-	files: ['*.{jsx,tsx}'],
+	files: ['**/*.{jsx,tsx}'],
 };
 
 /**

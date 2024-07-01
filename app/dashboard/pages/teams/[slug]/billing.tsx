@@ -41,6 +41,9 @@ const Payments = ({ teamFeatures }: { teamFeatures: TeamFeature }) => {
 	const plans = data?.data?.products || [];
 	const subscriptions = data?.data?.subscriptions || [];
 
+	console.info('plans: ', plans);
+	console.info('subscriptions: ', subscriptions);
+
 	return (
 		<>
 			{canAccess('team_payments', ['read']) && (

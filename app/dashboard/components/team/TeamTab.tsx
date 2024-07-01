@@ -1,6 +1,6 @@
 import { useCanAccess, type TeamFeature } from '@cd/core-lib';
 import { type Dispensary } from '@cd/data-access';
-import { H2 } from '@cd/ui-lib';
+import { H2, Paragraph } from '@cd/ui-lib';
 import {
 	Cog6ToothIcon,
 	DocumentMagnifyingGlassIcon,
@@ -134,7 +134,7 @@ const TeamTab = ({ activeTab, team, heading, teamFeatures }: TeamTabProps) => {
 									: 'border-transparent text-gray-500 hover:border-gray-300  hover:text-gray-700 hover:dark:text-gray-100',
 							])}
 						>
-							{menu.name}
+							<Paragraph className="font-medium">{menu.name}</Paragraph>
 						</Link>
 					);
 				})}

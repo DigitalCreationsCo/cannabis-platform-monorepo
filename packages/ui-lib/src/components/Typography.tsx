@@ -28,7 +28,7 @@ export const GrasSignature = ({
 				'text-3xl font-bold whitespace-normal',
 				(color === 'light' && 'text-inverse-soft') ||
 					(color === 'dark' && 'text-secondary') ||
-					'text-secondary',
+					'text-inherit',
 				className
 			)}
 			{...props}

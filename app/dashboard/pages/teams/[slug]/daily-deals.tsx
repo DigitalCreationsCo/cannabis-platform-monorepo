@@ -1,4 +1,5 @@
 import {
+	fetcher,
 	modalActions,
 	modalTypes,
 	useAppDispatch,
@@ -22,6 +23,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import useSWR from 'swr';
 import { twMerge } from 'tailwind-merge';
 import {
 	Error as ErrorComponent,
@@ -55,6 +57,12 @@ export default function DailyDealsPage({
 
 	const { isLoading, isError, team } = useDispensary();
 
+	const { data } = useSWR(
+		team?.slug ? `/api/dispensaries/${team?.slug}/payments/products` : null,
+		fetcher
+	);
+	const subscriptions = data?.data?.subscriptions || [];
+
 	if (isLoading) {
 		return <LoadingPage />;
 	}
@@ -77,8 +85,11 @@ export default function DailyDealsPage({
 		);
 	}
 
+	const hasActiveSubscription = (product: string) =>
+		subscriptions.some((s) => s.product.name === product);
+
 	const isSubscribedForMessagingOrThrow = (team: Dispensary) => {
-		if (!team.isSubscribedForMessaging) {
+		if (!hasActiveSubscription('Messaging by Gras')) {
 			throw new Error(t('not-subscribed-for-messaging'));
 		}
 	};
@@ -177,7 +188,7 @@ export default function DailyDealsPage({
 						src={require('public/message.png')}
 						alt={t('upgrade-to-messaging')}
 						className="w-full rounded"
-						quality={25}
+						quality={100}
 					/>
 				</>
 			</UpgradeAccountDialog>
@@ -188,6 +199,12 @@ export default function DailyDealsPage({
 export async function getServerSideProps({
 	locale,
 }: GetServerSidePropsContext) {
+	if (!env.teamFeatures.payments) {
+		return {
+			notFound: true,
+		};
+	}
+
 	return {
 		props: {
 			...(locale ? await serverSideTranslations(locale, ['common']) : {}),

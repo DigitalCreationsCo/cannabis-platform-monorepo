@@ -49,7 +49,7 @@ class CronJobApi {
 				return arr;
 			}, [] as string[][]);
 
-		const serviceUrl = `process.env.TWILIO_DAILY_DEALS_SERVICE_URL?segment=${deal.weedTextSegmentId}`;
+		const serviceUrl = `${process.env.TWILIO_DAILY_DEALS_SERVICE_URL}?segment=${deal.weedTextSegmentId}`;
 		const response = await axios.put<{ jobId: string }>(
 			`https://api.cron-job.org/jobs`,
 			{
@@ -103,7 +103,7 @@ class CronJobApi {
 				return arr;
 			}, [] as string[][]);
 
-		const serviceUrl = `process.env.TWILIO_DAILY_DEALS_SERVICE_URL?segment=${deal.weedTextSegmentId}`;
+		const serviceUrl = `${process.env.TWILIO_DAILY_DEALS_SERVICE_URL}?segment=${deal.weedTextSegmentId}`;
 
 		await axios.patch<{ jobId: string }>(
 			`https://api.cron-job.org/jobs/${jobId}`,

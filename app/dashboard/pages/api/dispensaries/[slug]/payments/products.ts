@@ -54,6 +54,9 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
 		getAllPrices({ client }),
 	]);
 
+	console.info('subscriptions: ', subscriptions);
+	console.info('products: ', products);
+	console.info('prices: ', prices);
 	// create a unified object with prices associated with the product
 	const productsWithPrices = products.map((product: any) => {
 		product.prices = prices.filter((price) => price.serviceId === product.id);
@@ -66,6 +69,7 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
 		if (!_price) {
 			return undefined;
 		}
+
 		const subscriptionProduct = products.find((p) => p.id === _price.serviceId);
 
 		return {

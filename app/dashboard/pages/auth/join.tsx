@@ -49,42 +49,46 @@ const Signup: NextPageWithLayout<
 	const params = token ? `?token=${token}` : '';
 
 	return (
-		<AuthLayout heading="get-started" description="create-a-new-account">
-			<Head>
-				<title>{t('sign-up-title')}</title>
-			</Head>
-			<div className="rounded p-6 bg-inverse drop-shadow">
-				<div className="flex gap-2 flex-wrap">
-					{authProviders.github && <GithubButton />}
-					{authProviders.google && <GoogleButton />}
-				</div>
+		<div className="bg-secondary text-inverse">
+			<AuthLayout heading="get-started" description="create-a-new-account">
+				<Head>
+					<title>{t('sign-up-title')}</title>
+				</Head>
+				<div className="rounded p-6 bg-inverse drop-shadow">
+					<div className="flex gap-2 flex-wrap">
+						{authProviders.github && <GithubButton />}
+						{authProviders.google && <GoogleButton />}
+					</div>
 
-				{(authProviders.github || authProviders.google) &&
-					authProviders.credentials && <div className="divider">{t('or')}</div>}
-
-				{authProviders.credentials && (
-					<>
-						{token ? (
-							<JoinWithInvitation
-								inviteToken={token}
-								recaptchaSiteKey={recaptchaSiteKey}
-							/>
-						) : (
-							<Join recaptchaSiteKey={recaptchaSiteKey} />
+					{(authProviders.github || authProviders.google) &&
+						authProviders.credentials && (
+							<div className="divider">{t('or')}</div>
 						)}
-					</>
-				)}
-			</div>
-			<Paragraph className="text-center text-sm text-gray-600 mt-3">
-				{t('already-have-an-account')}
-				<Link
-					href={`/auth/login/${params}`}
-					className="font-medium text-primary hover:text-[color-mix(in_oklab,oklch(var(--p)),black_7%)]"
-				>
-					&nbsp;{t('sign-in')}
-				</Link>
-			</Paragraph>
-		</AuthLayout>
+
+					{authProviders.credentials && (
+						<>
+							{token ? (
+								<JoinWithInvitation
+									inviteToken={token}
+									recaptchaSiteKey={recaptchaSiteKey}
+								/>
+							) : (
+								<Join recaptchaSiteKey={recaptchaSiteKey} />
+							)}
+						</>
+					)}
+					<Paragraph className="text-center text-sm text-gray-600 mt-3">
+						{t('already-have-an-account')}
+						<Link
+							href={`/auth/login/${params}`}
+							className="font-medium text-primary hover:text-[color-mix(in_oklab,oklch(var(--p)),black_7%)]"
+						>
+							&nbsp;{t('sign-in')}
+						</Link>
+					</Paragraph>
+				</div>
+			</AuthLayout>
+		</div>
 	);
 };
 

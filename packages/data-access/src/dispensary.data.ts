@@ -2,11 +2,9 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { type MongoClient, ObjectId } from 'mongodb';
 import { db_namespace } from './db';
-import { normalizeUser } from './helpers';
 import { addStaffMember } from './staff.data';
 import { type Dispensary } from './types/dispensary.types';
 import { Role } from './types/role.types';
-import { type StaffMemberWithUser } from './types/staff.types';
 import { getZipcodeLocation } from './zipcode.data';
 
 export const createDispensary = async ({
@@ -31,8 +29,6 @@ export const createDispensary = async ({
 					.insertOne({ ...data, createdAt, updatedAt })
 			).insertedId.toString(),
 		};
-
-		// console.info('dispensary: ', dispensary);
 
 		await addStaffMember({ client, dispensary, userId, role: Role.OWNER });
 
@@ -71,10 +67,13 @@ export const getDispensary = async ({
 	Object.hasOwnProperty.call(where, 'id') &&
 		(where = { _id: new ObjectId(where.id) });
 	const { db, collections } = db_namespace;
+
+	console.info('where', where);
 	const dispensary = await client
 		.db(db)
 		.collection<Dispensary>(collections.dispensaries)
 		.findOne(where);
+	console.info('dispensary: ', dispensary);
 	return { ...dispensary, id: dispensary!._id.toString() };
 };
 
@@ -178,40 +177,6 @@ export async function isDispensaryAdmin({
 	return staffMember?.role === Role.ADMIN || staffMember?.role === Role.OWNER;
 }
 
-export const getStaffMembers = async ({
-	client,
-	where,
-}: {
-	client: MongoClient;
-	where: { slug: string };
-}) => {
-	const { db, collections } = db_namespace;
-	const staffMembers = await client
-		.db(db)
-		.collection<StaffMemberWithUser>(collections.staff)
-		.aggregate<StaffMemberWithUser>([
-			{
-				$match: { 'team.slug': where.slug },
-			},
-			{
-				$lookup: {
-					from: collections.users,
-					localField: '_id',
-					foreignField: '_id',
-					as: 'user',
-				},
-			},
-			{
-				$unwind: '$user',
-			},
-		])
-		.toArray();
-	return staffMembers?.map((member) => {
-		member = normalizeUser(member);
-		return member;
-	});
-};
-
 export const updateDispensary = async ({
 	client,
 	data,
@@ -246,42 +211,6 @@ export const isTeamExists = async ({
 		.db(db)
 		.collection(collections.dispensaries)
 		.countDocuments({ slug: where.slug });
-};
-
-export const getStaffMember = async ({
-	client,
-	where,
-}: {
-	client: MongoClient;
-	where: {
-		userId: string;
-		slug: string;
-	};
-}): Promise<StaffMemberWithUser> => {
-	const { db, collections } = db_namespace;
-	return (
-		await client
-			.db(db)
-			.collection(collections.staff)
-			.aggregate<StaffMemberWithUser>([
-				{
-					$match: { 'team.slug': where.slug, userId: where.userId },
-				},
-				{ $addFields: { _userId: { $toObjectId: '$userId' } } },
-				{
-					$lookup: {
-						from: collections.users,
-						localField: '_userId',
-						foreignField: '_id',
-						as: 'user',
-					},
-				},
-				{
-					$unwind: '$user',
-				},
-			])
-			.toArray()
-	)[0]!;
 };
 
 /**

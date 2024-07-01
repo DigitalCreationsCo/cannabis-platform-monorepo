@@ -30,6 +30,17 @@ export const getServiceByPriceId = async ({
 		);
 };
 
+export const createPrice = async ({
+	client,
+	data,
+}: {
+	client: MongoClient;
+	data: Price;
+}) => {
+	const { db, collections } = db_namespace;
+	return await client.db(db).collection(collections.prices).insertOne(data);
+};
+
 export interface Price {
 	id: string;
 	amount: number;
