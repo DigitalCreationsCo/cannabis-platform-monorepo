@@ -21,6 +21,7 @@ export interface StaffMemberWithUser {
 	role: Role;
 	team: Dispensary;
 	teamId: string;
+	teamSlug: string;
 	createdAt: Date;
 	updatedAt: Date;
 }

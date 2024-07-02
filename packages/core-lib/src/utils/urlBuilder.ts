@@ -168,6 +168,8 @@ const urlBuilder = {
 		marketingList: () => `${urlBuilder.freshSales.baseUrl}/api/lists`,
 		getContactsFromList: (id: string) =>
 			`${urlBuilder.freshSales.baseUrl}/api/contacts/lists/${id}`,
+		addContactToList: (id: string) =>
+			`${urlBuilder.freshSales.baseUrl}/api/lists/${id}/add_contacts`,
 	},
 };
 

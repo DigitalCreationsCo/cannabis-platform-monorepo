@@ -51,23 +51,22 @@ class FreshSales {
 			| 'email'
 			| 'first_name'
 			| 'last_name'
-			| 'job_title'
 			| 'mobile_number'
-			| 'work_number'
-			| 'address'
 			| 'city'
 			| 'state'
 			| 'zipcode'
-			| 'country'
-			| 'medium'
-			| 'keyword'
 			| 'custom_field'
-		>,
+		> & {
+			work_number?: string;
+			job_title?: string;
+			address?: string;
+			country?: string;
+			medium?: string;
+			keyword?: string;
+		},
 		attribution: FreshSalesAttribution
-	) {
+	): Promise<string> {
 		try {
-			console.info('upsert contact: ', contact, attribution);
-
 			const response = await axios.post<
 				any,
 				any,
@@ -99,10 +98,10 @@ class FreshSales {
 				}
 			);
 
-			console.info('response: ', response.data);
 			if (response.status > 299)
 				throw new Error('Failed to upsert the contact.');
-			return response.data.Response;
+			console.info('response	', response.data);
+			return (response.data as { contact: { id: string } }).contact.id;
 		} catch (error: any) {
 			console.error('freshsales upsert contact: ', error.message);
 			throw new Error(
@@ -182,6 +181,45 @@ class FreshSales {
 			);
 		} catch (error: any) {
 			console.error('freshsales get segment customers: ', error.message);
+			throw new Error(
+				error.response?.data?.errors?.message[0] || error.message
+			);
+		}
+	}
+
+	async addCustomersToSegment(id: string, customerIds: string[] = []) {
+		try {
+			if (!id) {
+				console.error('No segment id provided.');
+				return [];
+			}
+
+			const response = await axios.put(
+				urlBuilder.freshSales.addContactToList(id),
+				{ ids: customerIds.map((id) => parseInt(id)) },
+				{
+					headers: {
+						...applicationHeaders,
+						authorization: `Token token=${process.env.FRESHSALES_API_KEY}`,
+					},
+				}
+			);
+
+			console.info('add customers to segment: ', response.data);
+			if (response.status > 299)
+				throw new Error(
+					response.data.errors?.message?.[0] ??
+						'Failed to add customers to list.'
+				);
+			return (
+				(
+					response.data as {
+						contacts: any[];
+					}
+				).contacts || []
+			);
+		} catch (error: any) {
+			console.error('freshsales addCustomersToSegment: ', error.message);
 			throw new Error(
 				error.response?.data?.errors?.message[0] || error.message
 			);

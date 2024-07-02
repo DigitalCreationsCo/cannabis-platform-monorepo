@@ -1,10 +1,9 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { FreshSales, throwIfNotAllowed } from '@cd/core-lib';
-import Slicktext from '@cd/core-lib/src/sms/slicktext';
-import { type Customer, createCustomer } from '@cd/data-access';
+import { throwIfNotAllowed } from '@cd/core-lib';
+import freshsales from '@cd/core-lib/src/crm/freshsales';
+import twilio from '@cd/core-lib/src/sms/twilio';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { clientPromise } from '@/lib/db';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
 import { recordMetric } from '@/lib/metrics';
 
@@ -41,21 +40,54 @@ export default async function handler(
 const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 	const teamMember = await throwIfNoDispensaryAccess(req, res);
 	throwIfNotAllowed(teamMember, 'team_customers', 'send');
-	// const client = await clientPromise;
 
-	// const customer = req.body as Customer;
-	// const slickTextTextwordId = '4084547';
+	const {
+		firstName: first_name,
+		lastName: last_name,
+		phone: mobile_number,
+		email,
+		city,
+		state,
+		zipcode,
+		birthdate,
+		doubleOptInMessage,
+	} = req.body as {
+		firstName: string;
+		lastName: string;
+		phone: string;
+		email: string;
+		city: string;
+		state: string;
+		zipcode: string;
+		birthdate: string;
+		doubleOptInMessage: string;
+	};
 
-	// await createCustomer({
-	// 	client,
-	// 	data: { ...customer, slickTextTextwordId },
-	// });
+	console.info('req body', req.body);
 
-	// create or upsert crm contact?
-	// if create, must be unique,
-	// recordMetric('dispensary.customer.created');
+	const insertedCustomer = await freshsales.upsertContact(
+		{
+			first_name,
+			last_name,
+			mobile_number,
+			email,
+			city,
+			state,
+			zipcode,
+			custom_field: { birthdate },
+		},
+		{
+			keyword: teamMember.teamSlug,
+		}
+	);
 
-	// await Slicktext.optInCustomer(customer);
+	await freshsales.addCustomersToSegment(teamMember.team.weedTextSegmentId!, [
+		insertedCustomer,
+	]);
 
-	res.status(200).json('nothing happened');
+	recordMetric('dispensary.customer.created');
+
+	await twilio.inviteCustomer(mobile_number, doubleOptInMessage);
+
+	res.status(200).json({ success: true });
 };

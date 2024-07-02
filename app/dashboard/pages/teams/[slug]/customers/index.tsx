@@ -143,7 +143,7 @@ function CustomersPage({ customers }: CustomerDashboardProps) {
 									</div>
 								),
 							},
-							{ wrap: true, text: customer.phone_numbers[0] },
+							{ wrap: true, text: customer.mobile_number },
 							{
 								wrap: true,
 								element: <CheckBox checked={!!customer.subscription_status} />, // SUBSCRIPTION STATUS??

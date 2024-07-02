@@ -181,7 +181,7 @@ export interface Customer {
 	}[];
 	time_zone: string | null;
 	work_number: string | null;
-	mobile_number: string | null;
+	mobile_number: string;
 	address: string | null;
 	last_seen: string | null;
 	lead_score: number;

@@ -1,15 +1,12 @@
 import { Twilio as TwilioClient, getExpectedTwilioSignature } from 'twilio';
 class Twilio {
 	private t: TwilioClient;
-	private broadcastServiceSid: string =
-		process.env.TWILIO_DAILY_DEALS_SERVICE_SID ?? '';
+	private broadcastServiceSid: string = 'MGf231455c8497f2af927c66d46e062c7c';
+	private inviteServiceSide = 'MGf231455c8497f2af927c66d46e062c7c';
 
 	constructor(account: string, token: string) {
 		if (!account || !token) {
 			throw new Error('Could not initialize Twilio.');
-		}
-		if (!process.env.TWILIO_DAILY_DEALS_SERVICE_SID) {
-			throw new Error('Twilio Daily Deals Service SID is missing!');
 		}
 		this.t = new TwilioClient(account, token, {
 			maxRetries: 2,
@@ -27,6 +24,7 @@ class Twilio {
 		} catch (error) {
 			console.error('Error sending message', error);
 		}
+		console.info('Message sent to: ', to);
 	}
 
 	async sendAll(numbers: string[], message: string) {
@@ -39,14 +37,24 @@ class Twilio {
 					messagingServiceSid: this.broadcastServiceSid,
 					to: number,
 				})
-				.then((message) => console.log(message.status))
-				.catch((error) => console.error(error))
-				.finally(() => console.log('Message sent to: ', number));
+				.then((message) => {
+					console.log('Message sent to: ', number);
+					console.log(message.status);
+				})
+				.catch((error) => console.error(error));
+			// .finally(() => console.log('Message sent to: ', number));
 		});
 	}
 
-	async inviteCustomer() {
-		return;
+	async inviteCustomer(to: string, message: string) {
+		this.t.messages
+			.create({
+				body: message,
+				messagingServiceSid: this.inviteServiceSide,
+				to,
+			})
+			.catch((error) => console.error(error));
+		console.info('Invitation sent to: ', to);
 	}
 
 	async provisionSMSPhoneNumber(slug: string): Promise<string> {
@@ -85,5 +93,4 @@ class Twilio {
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID ?? '';
 const authToken = process.env.TWILIO_AUTH_TOKEN ?? '';
-
 export default new Twilio(accountSid, authToken);
