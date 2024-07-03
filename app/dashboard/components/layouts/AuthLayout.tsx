@@ -1,7 +1,7 @@
+import app from '@/lib/app';
 import { FlexBox, GrasSignature, H2, Paragraph } from '@cd/ui-lib';
 import { useTranslation } from 'next-i18next';
 import Image from 'next/image';
-import app from '@/lib/app';
 
 interface AuthLayoutProps {
 	children: React.ReactNode;
@@ -23,7 +23,7 @@ export default function AuthLayout({
 					<FlexBox className="flex-row justify-center content-center items-center drop-shadow">
 						<GrasSignature>{t('gras')}</GrasSignature>
 						<Image
-							className="ml-1 w-[36px] md:w-[48px] bg-inverse rounded-full p-0.25"
+							className="ml-2 w-[36px] md:w-[48px] bg-inverse rounded-full p-0.25"
 							src={app.logoUrl}
 							alt={app.name}
 							quality={25}

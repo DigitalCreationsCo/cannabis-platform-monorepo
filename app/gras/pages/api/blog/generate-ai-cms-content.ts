@@ -74,9 +74,6 @@ handler.post(async (req: any, res: NextApiResponse) => {
 		);
 		if (!content) throw new Error('No content was generated.');
 
-		console.info('content created: ', content);
-		console.info('typeof content: ', typeof content);
-
 		const unsplashImage = await generateUnsplashImageFromPostTitle(
 			content.title
 		);
@@ -112,10 +109,8 @@ handler.post(async (req: any, res: NextApiResponse) => {
 			categories: content.categories,
 			// contentUrl: `https://grascannabis.org/blog/posts/${content.slug}`,
 		};
-		console.info('newPost: ', newPost);
 
 		const createdPost = await client.create(newPost);
-		console.info(' The post was successfully created!');
 		return res
 			.status(201)
 			.json({ success: 'true', payload: { ...newPost, ...createdPost } });
@@ -131,7 +126,6 @@ async function generateUnsplashImageFromPostTitle(
 	keyword: string
 ): Promise<UnsplashPhoto> {
 	try {
-		console.info('searching Unsplash for a main image for: ', keyword);
 		const image = await (await searchUnsplashPhotoByKeyword(keyword))[0];
 		await triggerUnsplashDownload(image.links.download_location);
 		return image;

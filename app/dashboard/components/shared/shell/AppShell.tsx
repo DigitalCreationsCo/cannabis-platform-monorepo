@@ -21,7 +21,7 @@ export default function AppShell({ children }: PropsWithChildren) {
 	}
 
 	return (
-		<div className="bg-inverse min-h-screen lg:pb-24">
+		<div className="bg-inverse h-screen lg:pb-24">
 			<Drawer sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 			<div className="lg:pl-64 lg:pr-8">
 				<Header setSidebarOpen={setSidebarOpen} />

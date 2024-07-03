@@ -96,7 +96,6 @@ function AddAddressUserModal({
 						},
 					}
 				);
-				console.info('address created: ', data);
 				setLoadingButton(false);
 				if (setState) setState((prev: any) => [...prev, data]);
 				toast.success('Address is created.');

@@ -41,9 +41,9 @@ export interface ButtonProps
 // eslint-disable-next-line sonarjs/cognitive-complexity
 export default function Button({
 	size = 'md',
-	bg = 'accent-soft',
+	bg = 'accent',
 	border = false,
-	hover = 'accent',
+	hover = 'accent-soft',
 	transparent = false,
 	type,
 	borderColor,
@@ -90,7 +90,8 @@ export default function Button({
 				? [
 						(bg === 'transparent' && 'text-dark shadow-none') ||
 							(bg === 'accent-soft' && 'text-dark') ||
-							'text-light',
+							(bg === 'accent' && 'text-dark') ||
+							'text-dark',
 					]
 				: 'text-secondary',
 		],

@@ -24,10 +24,8 @@ interface EventPageProps {
 }
 
 function EventPage({ event, session }: EventPageProps & { session: any }) {
-	console.info('session ', session);
 	const Router = useRouter();
 	// const showOrFilterPageBySession = {filter: !session? 'blur(2px)' : 'none'}
-	console.info('event ', event);
 	return (
 		<>
 			<SEOMetaTags title={event.name} description={event.summary} />

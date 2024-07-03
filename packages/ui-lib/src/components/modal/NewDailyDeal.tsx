@@ -103,10 +103,6 @@ function NewDailyDeal({
 		} as Partial<DailyDeal>,
 		async onSubmit() {
 			try {
-				console.info(
-					'time zone?? ',
-					Intl.DateTimeFormat().resolvedOptions().timeZone
-				);
 				setLoadingButton(true);
 				const response = await axios.post(
 					urlBuilder.dashboard + `/api/dispensaries/${team!.slug}/daily-deals`,

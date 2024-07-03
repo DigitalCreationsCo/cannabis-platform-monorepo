@@ -52,9 +52,6 @@ function TextField({
 	};
 	const [focus, setFocus] = useState(false);
 	function checkMaxValue(event: any) {
-		// limit value length to props.maxLength
-		// console.info('props.maxLength ', props.maxLength);
-		// console.info('event.target.value.length ', event.target.value.length);
 		if (props.maxLength && event.target.value.length > props.maxLength) {
 			event.target.value = event.target.value.slice(0, props.maxLength);
 		}
@@ -124,7 +121,7 @@ function TextField({
 						'input-md',
 						focus && 'shadow-md',
 						error && 'input-error border-2',
-						'border',
+						'border border-gray-300',
 						'transition',
 						className
 					)}

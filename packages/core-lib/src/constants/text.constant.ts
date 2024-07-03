@@ -215,7 +215,7 @@ const TextContent = Object.freeze({
 		LOADING: 'Loading...',
 		SAVE_CHANGES: 'Save Changes',
 		CONTINUE: 'Next',
-		BACK: 'Previous',
+		BACK: 'Back',
 
 		HOME_LOCATION_IS_SET: "We'll send your next delivery to Home.",
 		CURRENT_LOCATION_IS_SET:

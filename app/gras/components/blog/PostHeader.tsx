@@ -29,9 +29,6 @@ export default function PostHeader(
 		categories,
 	} = props;
 
-	console.info('PostHeader');
-	console.info('mainImage', mainImage);
-	console.info('mainImageAsset', mainImageAsset);
 	return (
 		<>
 			<PostTitle>{title}</PostTitle>

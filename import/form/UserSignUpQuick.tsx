@@ -113,7 +113,6 @@ function UserSignUpQuickForm() {
 			if (!response.data.success || response.data.success === 'false')
 				throw new Error(response.data.message || response.data.error);
 
-			console.info('user sign up response.data.payload', response.data.payload);
 			setFormValues({
 				newUser: {
 					...response.data.payload,

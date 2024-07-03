@@ -136,7 +136,6 @@ function NewDailyDealModal({
 		setOpenModal(modalVisible);
 	}, [modalVisible]);
 
-	console.info('values: ', values);
 	return modalVisible ? (
 		<Modal
 			className={twMerge(styles.responsive, 'flex flex-col')}

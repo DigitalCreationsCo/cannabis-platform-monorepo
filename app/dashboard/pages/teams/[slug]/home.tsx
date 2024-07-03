@@ -1,3 +1,8 @@
+import { Error } from '@/components/shared';
+import { AccessControl } from '@/components/shared/AccessControl';
+import { RemoveTeam, TeamSettings, TeamTab } from '@/components/team';
+import env from '@/lib/env';
+import { type NextPageWithLayout } from '@/lib/next.types';
 import { type TeamFeature, useDispensary } from '@cd/core-lib';
 import {
 	Card,
@@ -20,11 +25,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { Error } from '@/components/shared';
-import { AccessControl } from '@/components/shared/AccessControl';
-import { RemoveTeam, TeamSettings, TeamTab } from '@/components/team';
-import env from '@/lib/env';
-import { type NextPageWithLayout } from '@/lib/next.types';
 
 const Home: NextPageWithLayout<{
 	teamFeatures: TeamFeature;
@@ -109,7 +109,7 @@ const Home: NextPageWithLayout<{
 				{keyIndicators.map((item) => (
 					<Link href={item.href} key={`key-indicator-${item.title}`}>
 						<Card
-							className="col-span-auto md:!w-full lg:!w-full md:px-0"
+							className="col-span-auto md:!w-full lg:!w-full !pt-4 !px-4"
 							amountClassName="text-primary"
 							title={item.title}
 							amount={item.amount}
@@ -128,7 +128,7 @@ const Home: NextPageWithLayout<{
 						/>
 					))
 				) : (
-					<Card className="col-span-auto md:!w-full lg:!w-full md:px-0">{`There are no orders today.`}</Card>
+					<Card className="col-span-auto md:!w-full lg:!w-full !pt-4 !px-4">{`There are no orders today.`}</Card>
 				)}
 			</Grid>
 

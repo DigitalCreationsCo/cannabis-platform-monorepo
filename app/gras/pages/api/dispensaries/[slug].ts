@@ -23,18 +23,14 @@ export default async function handler(
 	} catch (error: any) {
 		const message = error.message || 'Something went wrong';
 		const status = error.status || 500;
-		console.info('GET api/dispensaries/[slug]', error.message);
+		console.error('GET api/dispensaries/[slug]', error.message);
 		res.status(status).json({ error: { message } });
 	}
 }
 
 // Get a dispensary by slug
 const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
-	console.info('req.query', req.query);
 	const { slug } = req.query as { slug: string };
-
-	console.info('clientToken', req.headers.authorization?.split(' ')[1]);
-	console.info('token', env.nextAuth.secret);
 
 	const clientToken = req.headers.authorization?.split(' ')[1];
 	const token = env.nextAuth.secret;

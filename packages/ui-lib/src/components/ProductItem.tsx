@@ -22,8 +22,6 @@ function ProductItem({
 	const [quantity, setQuantity] = useState(1);
 	const toggleConfirm = () => setOpenConfirm((state) => !state);
 
-	// console.info('product image source: ', product?.images?.[0]?.location)
-
 	return (
 		<>
 			<div

@@ -6,8 +6,6 @@ import tailwindConfig from '../../tailwind.config'; // Fix the path
 const fullConfig = resolveConfig(tailwindConfig);
 
 export const getBreakpointValue = (value: string): number => {
-	// console.info('value', value)
-	// console.info(fullConfig?.theme?.screens?.[value]?.slice(0, fullConfig.theme.screens[value].indexOf('px')));
 	return +fullConfig?.theme?.screens?.[value]?.slice(
 		0,
 		fullConfig.theme.screens[value].indexOf('px')

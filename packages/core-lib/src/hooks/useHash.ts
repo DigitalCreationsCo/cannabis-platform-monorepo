@@ -28,41 +28,41 @@ function useHashNavigate(formId: string): HashNavigateProps {
 
 	const [formstep, setFormstep] = useState(0);
 
-	useEffect(() => {
-		window.location.hash = `#step=${formstep + 1}`;
-	}, [formstep]);
+	// useEffect(() => {
+	// 	if (!window.location.hash) window.location.hash = `#step=${formstep + 1}`;
+	// }, [formstep]);
 
-	useEffect(() => {
-		function handleBeforeUnload(e: any) {
-			if (formstep > 0) {
-				e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
-				e.returnValue = '';
-			}
-			setFormstep(0);
-		}
+	// useEffect(() => {
+	// 	function handleBeforeUnload(e: any) {
+	// 		if (formstep > 0) {
+	// 			e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
+	// 			e.returnValue = '';
+	// 		}
+	// 		setFormstep(0);
+	// 	}
 
-		window.addEventListener('beforeunload', handleBeforeUnload);
-		return () => {
-			window.removeEventListener('beforeunload', handleBeforeUnload);
-		};
-	}, []);
+	// 	window.addEventListener('beforeunload', handleBeforeUnload);
+	// 	return () => {
+	// 		window.removeEventListener('beforeunload', handleBeforeUnload);
+	// 	};
+	// }, []);
 
-	useEffect(() => {
-		const handleHashChange = () => {
-			if (canProceed === true) {
-				const newFormStep = extractFormStepFromHash();
-				setFormstep(newFormStep);
-			}
-		};
+	// useEffect(() => {
+	// 	const handleHashChange = () => {
+	// 		if (canProceed === true) {
+	// 			const newFormStep = extractFormStepFromHash();
+	// 			setFormstep(newFormStep);
+	// 		}
+	// 	};
 
-		// Add the hash change event listener
-		window.addEventListener('hashchange', handleHashChange);
+	// 	// Add the hash change event listener
+	// 	window.addEventListener('hashchange', handleHashChange);
 
-		// Cleanup the event listener when the component unmounts
-		return () => {
-			window.removeEventListener('hashchange', handleHashChange);
-		};
-	}, []); // Empty dependency array to ensure the effect runs only once on mount
+	// 	// Cleanup the event listener when the component unmounts
+	// 	return () => {
+	// 		window.removeEventListener('hashchange', handleHashChange);
+	// 	};
+	// }, []); // Empty dependency array to ensure the effect runs only once on mount
 
 	// Function to extract the formStep from the hash
 	const extractFormStepFromHash = () => {

@@ -89,7 +89,6 @@ const handlePUT = async (req: NextApiRequest, res: NextApiResponse) => {
 		await updateManyEvents({ client, data: [...events] });
 
 	if (create_cron) {
-		console.info('Creating cron job for location: ', location);
 		await CronJobApi.createGetEventsByLocationJob(location);
 	}
 

@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { LetterAvatar, WithLoadingAndError } from '@/components/shared';
+import { Table } from '@/components/shared/table/Table';
 import {
 	defaultHeaders,
 	type ApiResponse,
@@ -9,12 +11,9 @@ import { Button, H2, Paragraph } from '@cd/ui-lib';
 import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { LetterAvatar, WithLoadingAndError } from '@/components/shared';
-import { Table } from '@/components/shared/table/Table';
 import ConfirmationDialog from '../shared/ConfirmationDialog';
-import CreateTeam from './CreateTeam';
 
 const Teams = () => {
 	const router = useRouter();
@@ -22,15 +21,6 @@ const Teams = () => {
 	const [team, setTeam] = useState<Dispensary | null>(null);
 	const { isLoading, isError, dispensaries, mutateTeams } = useDispensaries();
 	const [askConfirmation, setAskConfirmation] = useState(false);
-	const [createTeamVisible, setCreateTeamVisible] = useState(false);
-
-	const { newTeam } = router.query as { newTeam: string };
-
-	useEffect(() => {
-		if (newTeam) {
-			setCreateTeamVisible(true);
-		}
-	}, [newTeam]);
 
 	const leaveTeam = async (team: Dispensary) => {
 		const response = await fetch(`/api/dispensaries/${team.slug}/members`, {
@@ -64,7 +54,7 @@ const Teams = () => {
 					<Button
 						color="primary"
 						size="md"
-						onClick={() => setCreateTeamVisible(!createTeamVisible)}
+						onClick={() => router.push('/teams/create-dispensary')}
 					>
 						{t('create-team')}
 					</Button>
@@ -126,10 +116,10 @@ const Teams = () => {
 				>
 					{t('leave-team-confirmation')}
 				</ConfirmationDialog>
-				<CreateTeam
+				{/* <CreateTeam
 					visible={createTeamVisible}
 					setVisible={setCreateTeamVisible}
-				/>
+				/> */}
 			</div>
 		</WithLoadingAndError>
 	);

@@ -1,3 +1,9 @@
+import { clientPromise } from '@/lib/db';
+import env from '@/lib/env';
+import { recordMetric } from '@/lib/metrics';
+import { sendAudit } from '@/lib/retraced';
+import { getCurrentUserWithDispensary } from '@/lib/user';
+import { updateTeamSchema, validateWithSchema } from '@/lib/zod';
 import { throwIfNotAllowed, ApiError } from '@cd/core-lib';
 import {
 	deleteDispensary,
@@ -6,13 +12,7 @@ import {
 	type Dispensary,
 } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { clientPromise } from '@/lib/db';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
-import env from '@/lib/env';
-import { recordMetric } from '@/lib/metrics';
-import { sendAudit } from '@/lib/retraced';
-import { getCurrentUserWithDispensary } from '@/lib/user';
-import { updateTeamSchema, validateWithSchema } from '@/lib/zod';
 
 export default async function handler(
 	req: NextApiRequest,
@@ -50,9 +50,6 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
 	const user = await getCurrentUserWithDispensary(req, res);
 	const client = await clientPromise;
 	throwIfNotAllowed(user, 'team', 'read');
-
-	console.info('user', user);
-	console.info('user.team.id', user.team.id);
 
 	const team = await getDispensary({ client, where: { id: user.team.id } });
 

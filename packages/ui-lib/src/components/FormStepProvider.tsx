@@ -7,8 +7,8 @@ import ErrorMessage from './ErrorMessage';
 import FlexBox from './FlexBox';
 
 interface FormValuesType {
-	organization?: Partial<Dispensary>;
-	newUser?: Partial<User & any>;
+	dispensary?: Partial<Dispensary>;
+	user?: Partial<User & any>;
 }
 
 interface FormContextProps {
@@ -139,7 +139,10 @@ function FormStepProvider({
 					'relative bottom-0 flex justify-end p-5',
 				])}
 			>
-				<FlexBox className={styles.stepNumber}>{showStepNumber}</FlexBox>
+				<FlexBox className={styles.stepNumber}>
+					{/* {showStepNumber} */}
+					{`${currentStep + 1} of ${totalSteps}`}
+				</FlexBox>
 			</div>
 		</FormContext.Provider>
 	);

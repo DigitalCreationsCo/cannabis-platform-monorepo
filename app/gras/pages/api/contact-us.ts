@@ -72,7 +72,6 @@ const handlePOST = async (req: any, res: any) => {
 			},
 		}
 	);
-	console.info('account', account.data);
 
 	// TO DO: Mar 30 2024
 	// create a contact with tag 'contact us', 'dispensary lead'

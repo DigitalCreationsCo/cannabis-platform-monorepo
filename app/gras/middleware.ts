@@ -33,7 +33,7 @@ const unAuthenticatedRoutes = [
 	'/events/**',
 	// '/weed-text',
 	'/blog/**',
-	// '/help',
+	'/help/**',
 	'/work-with-us',
 	'/workwithus',
 	'/services',

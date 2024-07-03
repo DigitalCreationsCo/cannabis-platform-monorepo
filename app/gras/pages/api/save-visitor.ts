@@ -29,7 +29,6 @@ export default async function handler(
 
 const handlePOST = async (req: any, res: any) => {
 	const { email } = req.body as { email: string };
-	console.info('contact will be created: ', email);
 	const payload = await Freshsales.createContact({ email });
 	res.json({ success: 'true', payload });
 };

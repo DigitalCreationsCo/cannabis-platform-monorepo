@@ -103,7 +103,6 @@ export async function setPostPublishedInNewsletter(
 	client: SanityClient,
 	postId: string
 ): Promise<Post> {
-	console.info(`setting post: ${postId}:{ isPublishedInNewsLetter: true } `);
 	return await client
 		.patch(postId)
 		.set({ isPublishedInNewsLetter: true })
@@ -114,7 +113,6 @@ export async function setPostPublishedToSocialMedia(
 	client: SanityClient,
 	postId: string
 ): Promise<Post> {
-	console.info(`setting post: ${postId}:{ isPublishedToSocialMedia: true } `);
 	return await client
 		.patch(postId)
 		.set({ isPublishedToSocialMedia: true })
@@ -130,6 +128,5 @@ export async function setContentUrl(
 		.patch(document._id)
 		.set({ contentUrl })
 		.commit<Post>();
-	console.info(`set contentUrl to ${contentUrl} for ${document.slug.current}.`);
 	return patched;
 }
