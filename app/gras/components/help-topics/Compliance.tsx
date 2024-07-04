@@ -36,9 +36,9 @@ export default function Compliance() {
 	const selectedState = useMemo<string>(
 		() =>
 			Object.keys(stateMap).find(
-				(state) => stateMap[state].abbreviation === stateAbbrev && stateAbbrev,
+				(state) => stateMap[state].abbreviation === stateAbbrev && stateAbbrev
 			) as string,
-		[stateAbbrev],
+		[stateAbbrev]
 	);
 
 	function ComplianceSheet() {
@@ -49,7 +49,7 @@ export default function Compliance() {
 				axios
 					.get<{ success: 'true' | 'false'; payload: ComplianceDataSheet }>(url)
 					.then((res) => res.data),
-			{ suspense: true },
+			{ suspense: true }
 		);
 		const renderDataComplianceSheet = () =>
 			(data?.success === 'true' && (

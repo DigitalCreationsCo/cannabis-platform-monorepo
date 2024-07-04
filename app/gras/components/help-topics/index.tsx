@@ -1,12 +1,10 @@
 import { FAQ } from '@cd/ui-lib';
 import AboutGras from './AboutGras';
 import Compliance from './Compliance';
-import HowToOrder from './HowToOrder';
 import DispensaryTermsAndConditions from './legal/DispensaryTermsAndConditions';
 import DriverTermsAndConditions from './legal/DriverTermsAndConditions';
 import PrivacyPolicy from './legal/PrivacyPolicy';
 import UserTermsAndConditions from './legal/UserTermsAndConditions';
-import WidgetInstallGuide from './WidgetInstallGuide';
 
 export const helpTopics = {
 	'about-gras': { title: 'About Gras', component: AboutGras },

@@ -1,8 +1,5 @@
 import { AuthLayout } from '@/components/layouts';
-import {
-	DispensaryName,
-	DispensaryAddress,
-} from '@/components/team/createTeam';
+import { DispensaryName, DispensaryAddress } from '@/components/team/create';
 import { type NextPageWithLayout } from '@/lib/next.types';
 import { Page, FormStepProvider } from '@cd/ui-lib';
 import type {
@@ -14,7 +11,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { NextSeo } from 'next-seo';
 import Head from 'next/head';
 import React, { type ReactElement } from 'react';
-import DispensaryServices from '@/components/team/createTeam/DispensaryServices';
+import DispensaryServices from '@/components/team/create/DispensaryServices';
 
 const CreateDispensary: NextPageWithLayout<
 	InferGetServerSidePropsType<typeof getServerSideProps>

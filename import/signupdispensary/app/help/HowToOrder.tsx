@@ -1,5 +1,4 @@
 import { CopyRight, FlexBox, H2, Paragraph, Video } from '@cd/ui-lib';
-import Iframe from 'react-iframe';
 
 function HowToOrder() {
 	return (
@@ -22,14 +21,13 @@ const EmbedVideo = () => {
 		<FlexBox className="p-8 m-auto flex-col gap-8">
 			<Video
 				Embed={() => (
-					<Iframe
+					<iframe
 						className="m-auto rounded h-full aspect-video max-h-[240px] w-full max-w[620px]"
-						url="https://www.youtube.com/embed/jnjA4hPyKoc?si=3C4G8KUgah9EakQ9"
+						src="https://www.youtube.com/embed/jnjA4hPyKoc?si=3C4G8KUgah9EakQ9"
 						title="YouTube video player"
-						frameBorder={0}
 						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
 						allowFullScreen
-					></Iframe>
+					></iframe>
 				)}
 			/>
 		</FlexBox>

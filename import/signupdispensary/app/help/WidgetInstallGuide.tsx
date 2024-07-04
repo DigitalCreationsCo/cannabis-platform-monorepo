@@ -42,7 +42,7 @@ function WidgetInstallGuide() {
 				})}
 			</div>
 		),
-		[position, shape, pos],
+		[position, shape, pos]
 	);
 
 	return (

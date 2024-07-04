@@ -70,6 +70,7 @@ function DashboardTopBar() {
 			</FlexBox>
 		</div>
 	);
+
 	function DispensaryAccountDropDown() {
 		return (
 			<div className="dropdown dropdown-end m-0 p-0">

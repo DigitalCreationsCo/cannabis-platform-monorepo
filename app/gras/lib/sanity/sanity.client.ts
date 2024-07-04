@@ -124,9 +124,5 @@ export async function setContentUrl(
 	document: SanityDocument
 ): Promise<Post> {
 	const contentUrl = `https://grascannabis.org/blog/posts/${document.slug.current}`;
-	const patched = await client
-		.patch(document._id)
-		.set({ contentUrl })
-		.commit<Post>();
-	return patched;
+	return await client.patch(document._id).set({ contentUrl }).commit<Post>();
 }

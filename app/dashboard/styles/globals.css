@@ -21,7 +21,7 @@
 	html,
 	body {
 		@apply text-dark;
-		@apply font-onest;
+		@apply font-encode;
 		-ms-overflow-style: none;
 		padding: 0;
 		margin: 0;

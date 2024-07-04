@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/naming-convention */
+import { clientPromise } from '@/lib/db';
+import { recordMetric } from '@/lib/metrics';
 import { throwIfNotAllowed } from '@cd/core-lib';
 import freshsales from '@cd/core-lib/src/crm/freshsales';
 import twilio from '@cd/core-lib/src/sms/twilio';
 import { updateDispensaryDailyDeal, type DailyDeal } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { clientPromise } from '@/lib/db';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
-import { recordMetric } from '@/lib/metrics';
 
 export default async function handler(
 	req: NextApiRequest,
@@ -50,7 +50,10 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 			schedule,
 			timezone,
 			teamSlug,
+			campaign,
 			weedTextSegmentId,
+			sendCount,
+			conversions,
 		} = JSON.parse(req.body) as DailyDeal;
 
 		if (!weedTextSegmentId) {
@@ -86,6 +89,9 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 				schedule,
 				timezone,
 				teamSlug,
+				sendCount,
+				conversions,
+				campaign,
 				isActive: false,
 				lastSentAt: Date.now().toString(),
 			},

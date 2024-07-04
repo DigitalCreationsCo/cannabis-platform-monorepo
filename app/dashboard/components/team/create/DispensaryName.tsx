@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/cognitive-complexity */
 import { TextContent } from '@cd/core-lib';
 import { useFormContext, Button, TextField, Modal2 as Modal } from '@cd/ui-lib';
 import { useFormik } from 'formik';

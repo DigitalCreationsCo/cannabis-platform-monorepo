@@ -1,80 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-    <loc>http://localhost:3000/404.tsx</loc>
-    <lastmod>2024-07-03T15:39:57.544Z</lastmod>
+    <loc>https://grascannabis.org/404.tsx</loc>
+    <lastmod>2024-07-04T10:41:19.763Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>http://localhost:3000/500.tsx</loc>
-    <lastmod>2024-07-03T15:39:57.546Z</lastmod>
+    <loc>https://grascannabis.org/500.tsx</loc>
+    <lastmod>2024-07-04T10:41:19.765Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>http://localhost:3000/dashboard.tsx</loc>
-    <lastmod>2024-07-03T15:39:57.546Z</lastmod>
+    <loc>https://grascannabis.org/dashboard.tsx</loc>
+    <lastmod>2024-07-04T10:41:19.765Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>http://localhost:3000/index.tsx</loc>
-    <lastmod>2024-07-03T15:39:57.546Z</lastmod>
+    <loc>https://grascannabis.org/help.tsx</loc>
+    <lastmod>2024-07-04T10:41:19.765Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>http://localhost:3000/messaging.tsx</loc>
-    <lastmod>2024-07-03T15:39:57.546Z</lastmod>
+    <loc>https://grascannabis.org/index.tsx</loc>
+    <lastmod>2024-07-04T10:41:19.765Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>http://localhost:3000/services.tsx</loc>
-    <lastmod>2024-07-03T15:39:57.546Z</lastmod>
+    <loc>https://grascannabis.org/messaging.tsx</loc>
+    <lastmod>2024-07-04T10:41:19.765Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>http://localhost:3000/work-with-us.tsx</loc>
-    <lastmod>2024-07-03T15:39:57.546Z</lastmod>
+    <loc>https://grascannabis.org/services.tsx</loc>
+    <lastmod>2024-07-04T10:41:19.765Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>http://localhost:3000/blog/index.tsx</loc>
-    <lastmod>2024-07-03T15:39:57.546Z</lastmod>
+    <loc>https://grascannabis.org/work-with-us.tsx</loc>
+    <lastmod>2024-07-04T10:41:19.765Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>http://localhost:3000/browse/[dispensary].tsx</loc>
-    <lastmod>2024-07-03T15:39:57.546Z</lastmod>
+    <loc>https://grascannabis.org/blog/index.tsx</loc>
+    <lastmod>2024-07-04T10:41:19.765Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>http://localhost:3000/browse/index.tsx</loc>
-    <lastmod>2024-07-03T15:39:57.546Z</lastmod>
+    <loc>https://grascannabis.org/browse/[dispensary].tsx</loc>
+    <lastmod>2024-07-04T10:41:19.765Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>http://localhost:3000/events/[event].tsx</loc>
-    <lastmod>2024-07-03T15:39:57.546Z</lastmod>
+    <loc>https://grascannabis.org/browse/index.tsx</loc>
+    <lastmod>2024-07-04T10:41:19.765Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>http://localhost:3000/blog/posts/[slug].tsx</loc>
-    <lastmod>2024-07-03T15:39:57.546Z</lastmod>
+    <loc>https://grascannabis.org/events/[event].tsx</loc>
+    <lastmod>2024-07-04T10:41:19.765Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>http://localhost:3000/blog/studio/[[...studio]].tsx</loc>
-    <lastmod>2024-07-03T15:39:57.546Z</lastmod>
+    <loc>https://grascannabis.org/blog/posts/[slug].tsx</loc>
+    <lastmod>2024-07-04T10:41:19.765Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://grascannabis.org/blog/studio/[[...studio]].tsx</loc>
+    <lastmod>2024-07-04T10:41:19.765Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
