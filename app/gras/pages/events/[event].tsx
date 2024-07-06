@@ -2,7 +2,7 @@ import { clientPromise } from '@/lib/db';
 import env from '@/lib/env';
 import SEOMetaTags from '@/lib/SEOMetaTags';
 import { getSession } from '@/lib/session';
-import { renderAddress } from '@cd/core-lib';
+import { renderAddress, showDate, showTime } from '@cd/core-lib';
 import { type Event, getEvent, getUserBySession } from '@cd/data-access';
 import { Button, FlexBox, H1, IconWrapper, Page, Paragraph } from '@cd/ui-lib';
 import {
@@ -26,6 +26,7 @@ interface EventPageProps {
 function EventPage({ event, user }: EventPageProps & { user: any }) {
 	const Router = useRouter();
 	// const showOrFilterPageBySession = {filter: !session? 'blur(2px)' : 'none'}
+	console.info('event ', event);
 	return (
 		<>
 			<SEOMetaTags title={event.name} description={event.summary} />
@@ -82,10 +83,10 @@ function EventPage({ event, user }: EventPageProps & { user: any }) {
 				<FlexBox className="flex-row gap-2 items-center sm:items-center flex-wrap">
 					<ClockIcon height={20} width={20} className="text-inverse" />
 					<Paragraph className="text-white font-medium">
-						{new Date(event.start_date).toLocaleString()}
-					</Paragraph>
-					<Paragraph className="text-white font-medium">
-						{new Date(event.end_date).toLocaleString()}
+						{showDate(event.start_date)}{' '}
+						{showTime(event.start_time, event.timezone)} -{' '}
+						{showDate(event.end_date)}{' '}
+						{showTime(event.end_time, event.timezone)}
 					</Paragraph>
 				</FlexBox>
 			</FlexBox>

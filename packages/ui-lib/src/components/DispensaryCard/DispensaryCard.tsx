@@ -45,7 +45,6 @@ function DispensaryCard({
 	priority = false,
 }: DispensaryCardProps) {
 	const [isHovered, setIsHovered] = useState(false);
-	// Event handlers for mouse enter and leave
 	const handleMouseEnter = () => setIsHovered(true);
 	const handleMouseLeave = () => setIsHovered(false);
 
@@ -163,18 +162,21 @@ function DispensaryCard({
 			}}
 			onMouseEnter={handleMouseEnter}
 			onMouseLeave={handleMouseLeave}
-			className={twMerge(styles.dispensaryCard, css.dispensaryCard)}
+			className={twMerge(
+				styles.dispensaryCard,
+				css.dispensaryCard,
+				'transition duration-500',
+				isHovered ? 'scale-102' : '',
+				isHovered
+					? 'drop-shadow-[-4px_5px_2px_#455555]'
+					: 'drop-shadow-[-5px_4px_1px_#455555]'
+			)}
 		>
 			<ImageBackDrop
 				src={dispensary?.images?.[0]?.location || logo.src}
 				blurData={dispensary?.images?.[0]?.blurhash || ''}
 			>
-				<FlexBox
-					className="z-5 left-0 flex-col"
-					// className={`z-5 left-0 flex-col transition transition-opacity duration-300 ${
-					// 	isHovered ? 'opacity-100' : 'opacity-0'
-					// }`}
-				>
+				<FlexBox className="z-5 left-0 flex-col">
 					{isHovered ? (
 						<div style={{ ...hoverStyles }} className="w-full px-2">
 							<Link

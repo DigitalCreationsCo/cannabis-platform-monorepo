@@ -21,7 +21,6 @@ const styles = Object.freeze({
 		'rounded',
 		'overflow-hidden',
 		'shadow min-h-[220px] min-w-[240px]',
-		'drop-shadow-[-6px_4px_1px_#455555]',
 		'border border-transparent hover:border-primary',
 	],
 	infoCard: [

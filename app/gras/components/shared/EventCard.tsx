@@ -53,7 +53,7 @@ function EventCard({
 			onMouseLeave={() => setIsHovered(false)}
 			className={twMerge([
 				'flex flex-col',
-				'h-[240px] sm:max-w-[320px]',
+				// 'h-[240px] sm:max-w-[320px]',
 				'mx-1',
 				'rounded',
 				'overflow-hidden',
@@ -62,22 +62,25 @@ function EventCard({
 				className,
 			])}
 		>
-			<H5 className="px-2 content-end text-center flex-1 tracking-wide bottom-0 text-xl text-white font-medium drop-shadow-[1px_2px_1px_#555555]">
-				{truncateWordsAndLeaveN(event.name, 8)}
-			</H5>
-			{(showDescription && (
-				<Paragraph className="flex-1 px-1">
-					{event.full_description || ''}
-				</Paragraph>
-			)) || <></>}
 			<div
 				className={twMerge(
-					'h-[180px] p-4',
+					'h-[180px] p-3',
 					isHovered && 'scale-105 -translate-y-1',
-					'transition duration-500'
+					'transition duration-700',
+					'relative'
 				)}
 			>
-				<div className="relative">
+				{/* {(showDescription && (
+						<Paragraph className="flex-1 px-1">
+						{event.full_description || ''}
+						</Paragraph>
+						)) || <></>} */}
+				<div className="relative max-w-[300px] h-full mx-auto">
+					{(!event.image?.url && (
+						<H5 className="w-full pt-2 absolute z-10 text-center tracking-wide text-xl text-white font-medium drop-shadow-[1px_2px_1px_#555555]">
+							{truncateWordsAndLeaveN(event.name, 8)}
+						</H5>
+					)) || <></>}
 					{(organizerImage && (
 						<Image
 							className="absolute z-10 bottom-0 object-cover"
@@ -91,10 +94,13 @@ function EventCard({
 						priority={priority}
 						src={event.image?.url || require('public/hemp.png')}
 						alt={event.name}
-						width={300}
-						height={200}
+						fill
 						className={twMerge(
-							'relative w-full h-auto aspect-auto drop-shadow-[-6px_4px_1px_#555] rounded'
+							'mx-auto object-cover w-full h-full rounded',
+							isHovered
+								? 'drop-shadow-[-3px_5px_3px_#555]'
+								: 'drop-shadow-[-4px_4px_1px_#555]',
+							'transition duration-200'
 						)}
 						sizes="300px"
 						quality={25}

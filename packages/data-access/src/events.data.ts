@@ -199,6 +199,12 @@ export const getEvents = async ({
 					date: { $dateFromString: { dateString: '$start_date' } },
 				},
 			},
+			{
+				$sort: {
+					end_date: 1,
+					start_date: 1,
+				},
+			},
 		])
 		.toArray();
 };
@@ -219,6 +225,7 @@ export const getActiveEvents = async ({
 	if (!zip?.loc) {
 		return [];
 	}
+
 	return await client
 		.db(db)
 		.collection<Event>(collections.events)
@@ -233,7 +240,7 @@ export const getActiveEvents = async ({
 			},
 			{
 				$match: {
-					end_date: { $gte: new Date() },
+					end_date: { $gte: new Date().toISOString().split('T')[0] },
 				},
 			},
 			{
@@ -243,6 +250,12 @@ export const getActiveEvents = async ({
 				$addFields: {
 					// id: { $toString: '$_id' },
 					date: { $dateFromString: { dateString: '$start_date' } },
+				},
+			},
+			{
+				$sort: {
+					end_date: 1,
+					start_date: 1,
 				},
 			},
 		])
@@ -275,6 +288,12 @@ export const getEventsByTeamSlug = async ({
 					date: { $dateFromString: { dateString: '$start_date' } },
 				},
 			},
+			{
+				$sort: {
+					end_date: 1,
+					start_date: 1,
+				},
+			},
 		])
 		.toArray();
 };
@@ -302,7 +321,7 @@ export const getEventJobLocations = async ({
 	return await client
 		.db(db)
 		.collection<EventJobLocation>(collections.eventJobLocations)
-		.find()
+		.find({}, { projection: { _id: 0 } })
 		.toArray();
 };
 

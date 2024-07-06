@@ -3,6 +3,7 @@ import { truncateWordsAndLeaveN } from '@cd/core-lib';
 import { FlexBox, H5, Paragraph } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { urlForImage } from '@/lib/sanity/sanity.image';
 import { resolveHref } from '@/lib/sanity/sanity.links';
@@ -23,20 +24,29 @@ function InfoCard({
 	showDescription = true,
 	priority = false,
 }: InfoCardProps) {
+	const [isHovered, setIsHovered] = useState(false);
+	const handleMouseEnter = () => setIsHovered(true);
+	const handleMouseLeave = () => setIsHovered(false);
+
 	return (
 		<Link
 			href={resolveHref('post', info.slug)!}
+			onMouseEnter={handleMouseEnter}
+			onMouseLeave={handleMouseLeave}
 			className={twMerge([
 				'flex flex-col',
 				'h-[240px]',
-				'mx-3 my-2',
+				'mx-3 my-3',
 				'bg-cyan-950',
 				'rounded',
 				'overflow-hidden',
 				'border border-transparent',
 				'hover:border-inverse-soft',
 				'text-inverse-soft',
-				'drop-shadow-[-6px_4px_1px_#555]',
+				'transition duration-500 hover:scale-105 hover:-translate-y-1',
+				isHovered
+					? 'drop-shadow-[-3px_4px_3px_#555]'
+					: 'drop-shadow-[-5px_4px_1px_#555]',
 				className,
 			])}
 		>

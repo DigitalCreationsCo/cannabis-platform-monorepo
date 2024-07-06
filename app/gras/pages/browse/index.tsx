@@ -104,6 +104,11 @@ export default function Browse({
 		radius,
 		token,
 	});
+	useEffect(() => {
+		if (isValidZipcode(zipcode)) {
+			setEventRequestSent(false);
+		}
+	}, [zipcode]);
 
 	const { isLoading: isEventLoading, events } = useEvents({
 		token,
@@ -111,11 +116,7 @@ export default function Browse({
 		radius,
 	});
 
-	useEffect(() => {
-		if (isValidZipcode(zipcode)) {
-			setEventRequestSent(false);
-		}
-	}, [zipcode]);
+	console.info('events: ', events);
 
 	const eventsToday =
 		events.filter(
@@ -359,7 +360,7 @@ export default function Browse({
 											>
 												<H3>{`Want to see more events in your city?`}</H3>
 												<Paragraph>{`Let us know. We'll find events in your city and display them when you come back.`}</Paragraph>
-												<FlexBox className="flex-row items-stretch gap-2">
+												<FlexBox className="pt-2 flex-row items-stretch gap-2">
 													<TextField
 														autoComplete="off"
 														placeholder="Enter your city..."

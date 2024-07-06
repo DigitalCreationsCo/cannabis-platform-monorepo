@@ -83,7 +83,7 @@ function NewEvent() {
 			image: {
 				url: '',
 			} as any,
-			timezone: '',
+			timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
 			location: '',
 			tickets_url: '',
 			tickets_by: '',

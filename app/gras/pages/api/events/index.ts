@@ -88,10 +88,12 @@ const handlePUT = async (req: NextApiRequest, res: NextApiResponse) => {
 	const response = await axios(
 		`https://www.eventbrite.com/d/${location}/${query}/`
 	);
-	if (response.status !== 200)
+	console.info('response: ', response);
+	if (response.status !== 200) {
 		return res
 			.status(500)
 			.json({ error: { message: 'Failed to fetch events' } });
+	}
 	const $ = cheerio.load(response.data);
 	let events: Event[] = [];
 	$('script').each((index, element) => {
@@ -111,7 +113,11 @@ const handlePUT = async (req: NextApiRequest, res: NextApiResponse) => {
 		const eventJobLocations = await getEventJobLocations({
 			client,
 		});
-		if (!eventJobLocations.includes({ location })) {
+		if (
+			!eventJobLocations.find(
+				(eventJobLocation) => eventJobLocation.location === location
+			)
+		) {
 			process.env.NODE_ENV === 'production' &&
 				(await CronJobApi.createGetEventsByLocationJob(location, timezone));
 			await addToEventJobLocations({ client, location });
