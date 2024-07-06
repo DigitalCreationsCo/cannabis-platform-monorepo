@@ -119,6 +119,8 @@ const SEOMetaTags = ({
 						'marijuana delivery near me',
 						'dispensary that deliver near me',
 						'dispensary that delivery',
+						'closest dispensary',
+						'closest dispensary to me',
 						'deliver that dispensary',
 						'deliver dope',
 						'deliver weed',

@@ -170,7 +170,6 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 			},
 		});
 	} catch (error) {
-		console.log(error);
-		throw new ApiError(500, 'Something went wrong');
+		throw new ApiError(500, error.message || 'Something went wrong');
 	}
 };

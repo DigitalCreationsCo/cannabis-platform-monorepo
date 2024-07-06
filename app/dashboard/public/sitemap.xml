@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-    <loc>https://app.grascannabis.org/404.tsx</loc>
-    <lastmod>2024-07-06T12:24:37.947Z</lastmod>
+    <loc>http://localhost:3001/404.tsx</loc>
+    <lastmod>2024-07-06T13:13:19.811Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://app.grascannabis.org/500.tsx</loc>
-    <lastmod>2024-07-06T12:24:37.950Z</lastmod>
+    <loc>http://localhost:3001/500.tsx</loc>
+    <lastmod>2024-07-06T13:13:19.817Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://app.grascannabis.org/dashboard.tsx</loc>
-    <lastmod>2024-07-06T12:24:37.950Z</lastmod>
+    <loc>http://localhost:3001/dashboard.tsx</loc>
+    <lastmod>2024-07-06T13:13:19.817Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://app.grascannabis.org/index.tsx</loc>
-    <lastmod>2024-07-06T12:24:37.950Z</lastmod>
+    <loc>http://localhost:3001/index.tsx</loc>
+    <lastmod>2024-07-06T13:13:19.817Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
