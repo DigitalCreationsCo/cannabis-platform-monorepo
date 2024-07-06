@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import SEOMetaTags from '@/lib/SEOMetaTags';
 import * as demo from '@/lib/sanity/demo.data';
 import { urlForImage } from '@/lib/sanity/sanity.image';
 import { type Post, type Settings } from '@/lib/sanity/sanity.queries';
-import SEOMetaTags from '@/lib/SEOMetaTags';
 
 export interface PostPageHeadProps {
 	settings: Settings;
@@ -16,7 +16,7 @@ export default function PostPageHead({ settings, post }: PostPageHeadProps) {
 			additionalLinkTags={[
 				{
 					rel: 'canonical',
-					href: `${process.env.NEXT_PUBLIC_BLOG_APP_URL}/posts/${post.slug}`,
+					href: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/blog/posts/${post.slug}`,
 				},
 			]}
 			additionalKeywords={[...post.categories]}

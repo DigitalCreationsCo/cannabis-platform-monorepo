@@ -24,9 +24,7 @@ import settings from '@/lib/sanity/schemas/settings';
 import { previewDocumentNode } from './lib/sanity/plugins/previewPane';
 
 export function resolveUrl(href = '/') {
-	return process.env.NODE_ENV === 'production'
-		? `${process.env.NEXT_PUBLIC_BLOG_APP_URL}${href}`
-		: `${process.env.NEXT_PUBLIC_BLOG_APP_URL}/blog${href}`;
+	return `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/blog${href}`;
 }
 
 export default defineConfig({

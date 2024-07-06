@@ -118,7 +118,7 @@ const env = {
 	stripe: {
 		secretKey: process.env.STRIPE_API_KEY_SECRET,
 		webhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
-		apiVersion: process.env.STRIPE_API_VERSION || '2022-11-15',
+		apiVersion: process.env.STRIPE_API_VERSION || '2024-06-20',
 	},
 };
 

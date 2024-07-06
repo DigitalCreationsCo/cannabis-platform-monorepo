@@ -29,12 +29,12 @@ export const locate: DocumentLocationResolver = (params, context) => {
 				return {
 					locations: [
 						{
-							title: doc!.title || 'Untitled',
-							href: `/blog/posts/${doc!.slug.current}`,
+							title: doc.title ?? 'Untitled',
+							href: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/blog/posts/${doc.slug.current}`,
 						},
 						{
 							title: 'Home',
-							href: `/blog/`,
+							href: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/blog/`,
 						},
 					],
 				};
@@ -60,7 +60,7 @@ export const locate: DocumentLocationResolver = (params, context) => {
 				return {
 					locations: docs?.map((doc) => ({
 						title: doc.title || 'Untitled',
-						href: `/blog/posts/${doc.slug.current}`,
+						href: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/blog/posts/${doc.slug.current}`,
 					})),
 				};
 			})

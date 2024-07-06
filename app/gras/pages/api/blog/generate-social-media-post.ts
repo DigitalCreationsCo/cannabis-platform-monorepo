@@ -69,7 +69,7 @@ export default async function generateSocialMediaPost(req: any, res: any) {
 				fontName: 'Arial Black',
 
 				logoWidth: 600,
-				logo: new URL(logo.src, process.env.NEXT_PUBLIC_BLOG_APP_URL!).href,
+				logo: new URL(logo.src, process.env.NEXT_PUBLIC_SHOP_APP_URL!).href,
 				logoPosition: 'bottomRight',
 			});
 
