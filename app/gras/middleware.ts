@@ -11,6 +11,7 @@ const unAuthenticatedRoutes = [
 	'/',
 	'/404',
 	'/500',
+
 	'/api/hello',
 	'/api/health',
 	'/api/robots',
@@ -24,10 +25,16 @@ const unAuthenticatedRoutes = [
 	'/api/webhooks/dsync',
 	'/api/contact-us',
 	'/api/save-visitor',
+
+	'/sitemap.xml',
+	'/robots.txt',
+
 	'/auth/**',
+
 	'/invitations/*',
 	'/terms-condition',
 	'/unlock-account',
+
 	'/login/saml',
 	'/browse/**',
 	'/events/**',
@@ -37,6 +44,7 @@ const unAuthenticatedRoutes = [
 	'/work-with-us',
 	'/workwithus',
 	'/services',
+	'/messaging',
 	'/messaging',
 ];
 
