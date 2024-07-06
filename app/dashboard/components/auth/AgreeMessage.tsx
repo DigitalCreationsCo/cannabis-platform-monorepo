@@ -1,3 +1,4 @@
+import { getShopSite, TextContent } from '@cd/core-lib';
 import { Paragraph } from '@cd/ui-lib';
 import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
@@ -11,7 +12,7 @@ const AgreeMessage = ({ text }: { text: string }) => {
 			<Link
 				rel="noopener noreferrer"
 				target="_blank"
-				href={process.env.NEXT_PUBLIC_TERMS_URL || '/terms'}
+				href={getShopSite(TextContent.href.dispensary_tos)}
 				className="font-medium text-primary hover:text-[color-mix(in_oklab,oklch(var(--p)),black_7%)]"
 			>
 				{'\n'}
@@ -21,7 +22,7 @@ const AgreeMessage = ({ text }: { text: string }) => {
 			<Link
 				rel="noopener noreferrer"
 				target="_blank"
-				href={process.env.NEXT_PUBLIC_PRIVACY_URL || '/privacy'}
+				href={getShopSite(TextContent.href.privacy)}
 				className="font-medium text-primary hover:text-[color-mix(in_oklab,oklch(var(--p)),black_7%)]"
 			>
 				{t('privacy')}

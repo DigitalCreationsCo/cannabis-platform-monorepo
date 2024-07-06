@@ -352,6 +352,8 @@ const TextContent = Object.freeze({
 		blog: `/blog`,
 		weedText: '/weed-text',
 		work_with_us: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/work-with-us`,
+		services: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/services`,
+
 		storefront_f: (subdomain: string) =>
 			`${process.env.NEXT_PUBLIC_SHOP_APP_URL}/browse/${subdomain}`,
 

@@ -22,29 +22,32 @@ export default function Footer({
 	const navigation = [
 		{
 			name: TextContent.account.CREATE_DISPENSARY_ACCOUNT,
-			href: getDashboardSite('/signup/create-dispensary-account'),
+			href: getDashboardSite('/auth/join'),
 		},
-		{ name: 'Get Support', href: TextContent.href.support },
-		{ name: 'About Gras', href: TextContent.href.about },
-		{ name: 'Work With Us', href: TextContent.href.work_with_us },
+		{ name: 'Support', href: getShopSite(TextContent.href.support) },
+		{ name: 'Services', href: TextContent.href.services },
+		{ name: 'About Gras', href: getShopSite(TextContent.href.about) },
 	];
 	const legal = [
 		{ name: 'Blog', href: getShopSite(TextContent.href.blog) },
-		{ name: 'Frequently Asked Questions', href: TextContent.href.faq },
-		{ name: 'Help Center', href: TextContent.href.help },
-		{ name: 'Privacy Policy', href: TextContent.href.privacy },
+		{
+			name: 'Frequently Asked Questions',
+			href: getShopSite(TextContent.href.faq),
+		},
+		{ name: 'Help Center', href: getShopSite(TextContent.href.help) },
+		{ name: 'Privacy Policy', href: getShopSite(TextContent.href.privacy) },
 		{
 			name: 'Terms and Conditions',
-			href: TextContent.href.dispensary_tos,
+			href: getShopSite(TextContent.href.dispensary_tos),
 		},
-		// { name: 'Compliance', href: TextContent.href.compliance },
+		// { name: 'Compliance', href: getShopSite(TextContent.href.compliance) },
 		// {
 		// 	name: 'User Terms and Conditions',
-		// 	href: TextContent.href.user_tos,
+		// 	href: getShopSite(TextContent.href.user_tos),
 		// },
 		// {
 		// 	name: 'Delivery Terms and Conditions',
-		// 	href: TextContent.href.driver_tos,
+		// 	href: getShopSite(TextContent.href.driver_tos),
 		// },
 	];
 

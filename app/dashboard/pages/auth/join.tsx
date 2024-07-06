@@ -1,4 +1,4 @@
-import { LoadingPage, Button, Paragraph } from '@cd/ui-lib';
+import { LoadingPage, Paragraph } from '@cd/ui-lib';
 import {
 	type GetServerSidePropsContext,
 	type InferGetServerSidePropsType,

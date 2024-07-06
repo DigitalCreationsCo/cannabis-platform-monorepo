@@ -7,6 +7,10 @@ import env from './lib/env';
 
 // Add routes that don't require authentication
 const unAuthenticatedRoutes = [
+	'/',
+	'/404',
+	'/500',
+
 	'/api/hello',
 	'/api/health',
 	'/api/robots',

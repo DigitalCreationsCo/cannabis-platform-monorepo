@@ -26,19 +26,16 @@ function DashboardTopBar() {
 		<div className={twMerge(styles.TOPBAR.topbar, 'bg-transparent pb-0')}>
 			<div>
 				<FlexBox className="flex-row items-center gap-x-2">
-					<Link href={user ? '/' : getShopSite('/')} className="z-50">
+					<Link href={'/'} className="z-50">
 						<GrasSignature className="text-inverse pt-1 pb-0 mb-0 leading-3">
 							{t('gras')}
 						</GrasSignature>
 					</Link>
-					<Link
-						href={user ? '/' : getShopSite('/')}
-						className="shrink-0 bg-inverse w-fit rounded-full"
-					>
+					<Link href={'/'} className="shrink-0 bg-inverse w-fit rounded-full">
 						<Image alt="Gras" className="w-[36px]" src={logo} quality={25} />
 					</Link>
 				</FlexBox>
-				<Link href={user ? '/' : getShopSite('/')}>
+				<Link href={'/'}>
 					<Paragraph
 						className={twMerge(styles.TOPBAR.tagline, 'text-inverse-soft')}
 					>
