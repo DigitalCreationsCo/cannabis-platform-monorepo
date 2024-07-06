@@ -1,10 +1,15 @@
-import { CronJobApi, axios } from '@cd/core-lib';
-import { type Event, getEvents, updateManyEvents } from '@cd/data-access';
-import * as cheerio from 'cheerio';
-import type { NextApiRequest, NextApiResponse } from 'next';
 import { clientPromise } from '@/lib/db';
 import env from '@/lib/env';
 import { recordMetric } from '@/lib/metrics';
+import { CronJobApi, axios } from '@cd/core-lib';
+import {
+	type Event,
+	getActiveEvents,
+	getEvents,
+	updateManyEvents,
+} from '@cd/data-access';
+import * as cheerio from 'cheerio';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
 	req: NextApiRequest,
@@ -43,11 +48,19 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { zipcode, radius } = req.query as { zipcode: string; radius: string };
 	// const { location = 'ny--new-york', query = 'cannabis' } = req.query;
 	const clientToken = req.headers.authorization?.split(' ')[1];
+
 	const token = env.nextAuth.secret;
+
 	if (clientToken !== token) {
 		throw new Error('Unauthorized');
 	}
-	const events = await getEvents({ client, zipcode, radius: Number(radius) });
+
+	const events = await getActiveEvents({
+		client,
+		zipcode,
+		radius: Number(radius),
+	});
+
 	recordMetric('event.fetched');
 	res.status(200).json({ data: events });
 };

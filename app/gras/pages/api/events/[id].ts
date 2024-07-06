@@ -1,8 +1,8 @@
-import { deleteEvent, getEvent } from '@cd/data-access';
-import type { NextApiRequest, NextApiResponse } from 'next';
 import { clientPromise } from '@/lib/db';
 import env from '@/lib/env';
 import { recordMetric } from '@/lib/metrics';
+import { deleteEvent, getEvent } from '@cd/data-access';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
 	req: NextApiRequest,
@@ -38,7 +38,6 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
 	if (clientToken !== token) {
 		throw new Error('Unauthorized');
 	}
-	const { location = 'ny--new-york', query = 'cannabis' } = req.query;
 	const { id } = req.query as { id: string };
 	const event = await getEvent({ client, where: { id } });
 	recordMetric('event.fetched');

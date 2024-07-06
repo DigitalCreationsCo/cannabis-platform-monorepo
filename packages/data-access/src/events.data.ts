@@ -191,6 +191,52 @@ export const getEvents = async ({
 		.toArray();
 };
 
+export const getActiveEvents = async ({
+	client,
+	limit = 12,
+	zipcode,
+	radius = 10000,
+}: {
+	client: MongoClient;
+	limit?: number;
+	zipcode: string;
+	radius: number;
+}): Promise<Event[]> => {
+	const { db, collections } = db_namespace;
+	const zip = await getZipcodeLocation({ client, where: { zipcode } });
+	if (!zip?.loc) {
+		return [];
+	}
+	return await client
+		.db(db)
+		.collection<Event>(collections.events)
+		.aggregate<Event>([
+			{
+				$geoNear: {
+					near: zip.loc,
+					distanceField: 'distance',
+					maxDistance: Number(radius),
+					spherical: true,
+				},
+			},
+			{
+				$match: {
+					end_date: { $gte: new Date() },
+				},
+			},
+			{
+				$limit: Number(limit),
+			},
+			{
+				$addFields: {
+					// id: { $toString: '$_id' },
+					date: { $dateFromString: { dateString: '$start_date' } },
+				},
+			},
+		])
+		.toArray();
+};
+
 export const getEventsByTeamSlug = async ({
 	client,
 	slug,
