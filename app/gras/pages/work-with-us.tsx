@@ -1,36 +1,11 @@
-/* eslint-disable i18next/no-literal-string */
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-import {
-	Page,
-	type LayoutContextProps,
-	H2,
-	Paragraph,
-	Footer,
-} from '@cd/ui-lib';
+import SEOMetaTags from '@/lib/SEOMetaTags';
+import { Page, type LayoutContextProps, H2, Footer } from '@cd/ui-lib';
 import { type GetServerSidePropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { type ReactElement, useEffect } from 'react';
 import { twMerge } from 'tailwind-merge';
-import {
-	Benefits,
-	Letter,
-	ContactUs,
-	Hero,
-	ServicesTopBar,
-} from '@/components/landing';
-import {
-	automateDeliveryCompliance,
-	consumerTextMessaging,
-	dealValue,
-	deliveryManagementService,
-	fullServiceDelivery,
-	trackDeliveries,
-	unlockYourGrowth,
-} from '@/components/landing/benefits/benefit-data';
+import { Letter, ContactUs, Hero, ServicesTopBar } from '@/components/landing';
 import { letters } from '@/components/landing/letter/letter-data';
-import Partners from '@/components/landing/partners/Partners';
-import { partners } from '@/components/landing/partners/partners-data';
-import SEOMetaTags from '@/lib/SEOMetaTags';
 
 export default function DispensaryLandingPage() {
 	useEffect(() => {
@@ -42,19 +17,40 @@ export default function DispensaryLandingPage() {
 		<>
 			<SEOMetaTags
 				additionalKeywords={[
-					'grow my cannabis business',
-					'new york dispensary',
-					'marketing dispensary',
-					'marketing cannabis',
+					'cannabis business help',
+					'cannabis business growth',
+					'cannabis business success',
+					'cannabis dispensary help',
+					'cannabis dispensary sales',
+					'cannabis dispensary growth',
 					'cannabis delivery software',
-					'cannabis business software',
 					'cannabis business',
 					'cannabis business services',
-					'cannabis delivery',
+					'cannabis delivery service',
 					'weed delivery software',
+					'weed delivery business',
 					'weed business',
 					'dispensary software',
 					'weed delivery service',
+					'bud delivery service',
+					'weed delivery help',
+					'cannabis delivery help',
+					'bud delivery help',
+					'help my dispensary',
+					'help my cannabis business',
+					'dispensary success',
+					'merchant services for cannabis businesses',
+					'business services for cannabis',
+					'cannabis business compliance services',
+					'cannabis businesses and services',
+					'cannabis business solutions',
+					'cannabis delivery business plan',
+					'cannabis consulting',
+					'cannabis business consulting',
+					'cannabis business marketing',
+					'cannabis messaging',
+					'cannabis business messag',
+					'cannabis industry business services',
 				]}
 			/>
 			<Page

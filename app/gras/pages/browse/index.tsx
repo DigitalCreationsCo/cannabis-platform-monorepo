@@ -238,8 +238,6 @@ export default function Browse({
 					'msg new york events',
 					'new york events today',
 					'new york city events today',
-					'cannabis events',
-					'cannabis events near me',
 					'discovery green events',
 					'events new york',
 					'weed show',

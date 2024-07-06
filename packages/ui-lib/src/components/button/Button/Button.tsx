@@ -91,6 +91,12 @@ export default function Button({
 						(bg === 'transparent' && 'text-dark shadow-none') ||
 							(bg === 'accent-soft' && 'text-dark') ||
 							(bg === 'accent' && 'text-dark') ||
+							(bg === 'inverse' && 'text-dark') ||
+							(bg === 'inverse-soft' && 'text-dark') ||
+							(bg === 'primary' && 'text-light') ||
+							(bg === 'primary-light' && 'text-light') ||
+							(bg === 'secondary' && 'text-light') ||
+							(bg === 'secondary-light' && 'text-light') ||
 							'text-dark',
 					]
 				: 'text-secondary',

@@ -1,5 +1,6 @@
 /* eslint-disable i18next/no-literal-string */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import SEOMetaTags from '@/lib/SEOMetaTags';
 import {
 	Page,
 	type LayoutContextProps,
@@ -30,7 +31,6 @@ import {
 import { letters } from '@/components/landing/letter/letter-data';
 import Partners from '@/components/landing/partners/Partners';
 import { partners } from '@/components/landing/partners/partners-data';
-import SEOMetaTags from '@/lib/SEOMetaTags';
 
 export default function DispensaryLandingPage() {
 	useEffect(() => {
@@ -43,17 +43,49 @@ export default function DispensaryLandingPage() {
 			<SEOMetaTags
 				additionalKeywords={[
 					'cannabis business help',
+					'cannabis business growth',
+					'cannabis business success',
+					'cannabis retail success',
+					'retail success',
+					'retail services',
 					'cannabis dispensary help',
 					'cannabis dispensary sales',
 					'cannabis dispensary growth',
+					'dispensary growth',
+					'delivery growth',
 					'cannabis delivery software',
+					'cannabis delivery',
+					'cannabis home delivery',
+					'weed home delivery',
+					'bud home delivery',
+					'bud delivery to home',
+					'home delivery',
 					'cannabis business',
 					'cannabis business services',
 					'cannabis delivery service',
 					'weed delivery software',
+					'weed delivery business',
 					'weed business',
 					'dispensary software',
 					'weed delivery service',
+					'weed delivery help',
+					'cannabis delivery help',
+					'bud delivery help',
+					'help my dispensary',
+					'help my cannabis business',
+					'dispensary success',
+					'merchant services for cannabis businesses',
+					'business services for cannabis',
+					'cannabis business compliance services',
+					'cannabis businesses and services',
+					'cannabis business solutions',
+					'cannabis delivery business plan',
+					'cannabis consulting',
+					'cannabis business consulting',
+					'cannabis business marketing',
+					'cannabis messaging',
+					'cannabis business messag',
+					'cannabis industry business services',
 				]}
 			/>
 			<Page
@@ -64,6 +96,7 @@ export default function DispensaryLandingPage() {
 				)}
 			>
 				<Hero />
+
 				<Letter id="grow" {...letters.growth} />
 				<Benefits data={unlockYourGrowth} className="bg-inverse-soft" />
 
@@ -136,15 +169,21 @@ export default function DispensaryLandingPage() {
 					<Paragraph className="font-semibold text-4xl">
 						{`You don't pay this price today!`}
 					</Paragraph>
-					<Paragraph className="font-semibold text-3xl">
-						{`Find out your price today below 👇`}
+					<Paragraph className="font-semibold text-3xl ml-6">
+						{`See today's price below 👇`}
 					</Paragraph>
 				</Benefits>
 
 				<Letter className="bg-inverse" {...letters['free-consultation']}>
 					<div className="py-6">
-						<Paragraph className="font-semibold text-3xl">
-							Fill Out The Form Below To Get Your Free Consultation 👇
+						<Paragraph className="font-semibold text-center text-3xl">
+							Your price today:{' '}
+							<span className="text-primary line-through">{`$980.88`}</span>
+							<span className="block text-primary pt-4 underline underline-offset-8">{`${price}`}</span>
+						</Paragraph>
+						<br />
+						<Paragraph className="font-semibold text-3xl text-center">
+							{`Fill Out The Form Below 👇`}
 						</Paragraph>
 					</div>
 				</Letter>
@@ -156,6 +195,7 @@ export default function DispensaryLandingPage() {
 }
 
 const dealValues = [779, 1179, 4779, 979, 1479];
+const price = '$489.99';
 
 DispensaryLandingPage.getLayoutContext = (): LayoutContextProps => ({
 	TopBarComponent: () => (

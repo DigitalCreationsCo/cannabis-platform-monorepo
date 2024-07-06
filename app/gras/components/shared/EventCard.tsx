@@ -74,14 +74,13 @@ function EventCard({
 				className={twMerge(
 					'h-[180px] p-4',
 					isHovered && 'scale-105 -translate-y-1',
-					'transition duration-500',
-					'border'
+					'transition duration-500'
 				)}
 			>
 				<div className="relative">
 					{(organizerImage && (
 						<Image
-							className="absolute z-10 bottom-0"
+							className="absolute z-10 bottom-0 object-cover"
 							src={organizerImage}
 							alt={event.primary_organizer_slug ?? ''}
 							height={100}
@@ -95,7 +94,7 @@ function EventCard({
 						width={300}
 						height={200}
 						className={twMerge(
-							'relative w-full h-auto aspect-auto object-bottom drop-shadow-[-6px_4px_1px_#555] rounded'
+							'relative w-full h-auto aspect-auto drop-shadow-[-6px_4px_1px_#555] rounded'
 						)}
 						sizes="300px"
 						quality={25}

@@ -29,7 +29,7 @@ const Home: NextPageWithLayout = () => {
 
 	const EnterEmail = () => (
 		<div className="flex flex-col">
-			<H1 className="text-center !text-5xl">{`Find cannabis experiences in your city`}</H1>
+			<H1 className="text-center !text-5xl">{`Find cannabis events in your city`}</H1>
 			<Over21Button />
 		</div>
 	);

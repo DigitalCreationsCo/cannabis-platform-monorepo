@@ -28,7 +28,7 @@ function Hero() {
 					>
 						<H1
 							className={twMerge(heading, 'text-left max-w-fit mx-auto')}
-						>{`Personalized Text Messaging Service Made For Cannabis Businesses`}</H1>
+						>{`Personalized Text Messaging Service For Cannabis Businesses`}</H1>
 					</div>
 					<div className="sm:my-0 mx-auto grid py-6 place-self-center text-left gap-y-8 mt-0">
 						<Paragraph className="text-light font-encode mx-auto tracking-loose text-xl lg:text-2xl whitespace-pre-line">

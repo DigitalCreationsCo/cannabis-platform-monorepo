@@ -1,20 +1,18 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 const letters = {
 	growth: {
-		title: `The Only Dispensary Growth Partner You Need To 2X Your Business 🔥`,
+		title: `The Only Dispensary Growth Partner You Need To 2X Your Cannabis Business 🔥`,
 		subtitle: `How Do We Do It?`,
-		text: `Grow your revenue by creating raving customer appeal in your city with
+		text: `We help you grow revenue by creating raving customer appeal in your city with
 
-		🚛 fast home delivery
+		🚛 home delivery service
 		
-🗣️ events that have folks shouting about your dispensary 
+🗣️ events that get folks talking about your business
 		
 		🛍️ marketing that works by reaching loyal and new customers
 
-		We turn your dispensary into a destination for memorable experiences for cannabis customers at home and on a night out. 
-		
-		Our services will turn your dispensary into a fan favorite with high convenience, high fun, and high value, and set you apart from the competition.`,
-		footer: `The result? 20% growth in 100 days, and 2X sales in 1 year.`,
+		Our services set you apart from the competition to become a favorite destination in your city with events and promotions for customers at home and on a night out. `,
+		footer: `The result? 10% growth in 100 days, and 2X sales in 1 year.`,
 		cta: `I'm ready to 2X my business`,
 	},
 
@@ -77,8 +75,8 @@ Full Service Delivery relieves you of these issues, and integrates with your sto
 
 			We help you plan and produce fire events and promotions that keep your customers talking, and keep them coming back.`,
 		footer:
-			'Become the destination for memorable cannabis experiences in your city. 🎉',
-		cta: `I want to create memorable experiences for my customers`,
+			'Become the destination for memorable cannabis events in your city. 🎉',
+		cta: `I want to create memorable events for my customers`,
 		photos: [
 			require('../../../public/events-2.png'),
 			require('../../../public/events-1.png'),
@@ -109,13 +107,14 @@ Full Service Delivery relieves you of these issues, and integrates with your sto
 		But you're different. You want to take control of your business and grow a loyal following of customers. That's why you're on this page, right? You're looking for help to make your dispensary the best it can be, by solving the challenges of compliant, efficient delivery, getting and retaining loyal customers and creating memorable experiences that keep them coming back.
 		
 		So, if you want to finally resolve issues with running compliant, efficient delivery service, and you want to grow your dispensary with loyal customers and memorable experiences, then it's time to take urgent action.`,
-		footer: `Our team at Gras is here to support you every step of the way. 
+		footer: `
+		We'll support you every step of the way
 		
-		With our flexible services and dispensary growth plan, we're giving you the tools and support to have your best year in business yet, by boosting your sales 20% in 100 days, and 2X sales in 1 year. 
+		by giving you the tools and support to have your best year in business yet, boost your sales 10% in 100 days and 2X sales in 1 year. 
 
 		Because when you take action, amazing things happen.
 		
-		Click below to contact our team of dispensary growth experts and start boosting your sales today.`,
+		Click below to contact our team of dispensary growth experts and boost your sales today.`,
 		cta: `I'm ready to 2X my business`,
 	},
 
@@ -139,34 +138,32 @@ Full Service Delivery relieves you of these issues, and integrates with your sto
 		Don't let your closest competitors leverage this opportunity before you do. 👀
 		
 		This is an exclusive offer. We're only looking for five dispensaries in your city to partner for sustainable growth. That's it. 
-		Once these slots are filled, this offer disappears, so seize the moment.
-		
-		Partner with Gras today to stay ahead of the curve.`,
+		Once these slots are filled, this offer disappears, so seize the moment.`,
 		footer: `
-		Grab this offer with both hands before it disappears. Trust me, you won't want to miss out on this one.`,
+		Grab this offer with both hands before it disappears.`,
 		cta: `I'm ready to 2X my business`,
 	},
 
 	'partner-relationship': {
-		title: `"A business owner gets a customer to make a sale. A business builder makes a sale to start a relationship."`,
-		subtitle: `Let that sink in....`,
-		text: `Our business lives by these values. We're not just another vendor. We're your partner for sustainable long-term growth.
+		title: `"A business owner gets a customer to make a sale. 
+		A business builder makes a sale to start a relationship."`,
+		text: `We live by these values. When you work with Gras, we become your partner in sustainable long-term growth.
 
-		That means your goals are our goals. Your success is our success. We're here to support you every step of the way in the besy way possible, and help you grow your dispensary to new heights.`,
+		That means your growth is our goal. We're here to support you every step of the way and help your dispensary grow to new heights.`,
 		footer: `
-		When you're ready to have your best year in business yet, tap the button to contact our team.`,
+		If you're ready to have your best year in business yet, click the button below to contact us.`,
 		cta: `I'm ready to 2X my business`,
 	},
 
 	'free-consultation': {
-		title: `Gras Is Your Dispensary's Sustainable Growth Partner`,
+		title: `We Are Your Dispensary's Sustainable Growth Partner`,
 		subtitle: ``,
-		text: `We believe in sustainable, long-term growth for cannabis businesses. 
+		text: `We believe in supporting the long-term growth of your cannabis business. 
 		
-		That's why our partnerships start with a free consultation to understand the needs of your business. 
+		That's why our partnership starts with a free success call to determine the unique needs of your business. 
 		
-		We help you create a growth plan by assembling the services that support your business, and your customers.`,
-		footer: `Reach out to our team. We'll get back to you within 24 hours to schedule your free consultation.`,
+		We'll create a growth plan using the right services to support your business, delight your customers, and boost your sales 10% in 100 days.`,
+		footer: `We'll contact you today to schedule your free success call.`,
 		cta: `I'm ready to 2X my business`,
 	},
 };

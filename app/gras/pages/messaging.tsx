@@ -1,6 +1,7 @@
 /* eslint-disable i18next/no-literal-string */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { Page, H2, Paragraph, Footer } from '@cd/ui-lib';
+import SEOMetaTags from '@/lib/SEOMetaTags';
+import { Page, Footer } from '@cd/ui-lib';
 import { type GetServerSidePropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Link from 'next/link';
@@ -10,25 +11,16 @@ import { twMerge } from 'tailwind-merge';
 import {
 	Benefits,
 	Letter,
-	ContactUs,
 	MessagingHero,
 	ServicesTopBar,
 } from '@/components/landing';
 import {
-	automateDeliveryCompliance,
 	consumerTextMessaging,
-	dealValue,
-	deliveryManagementService,
-	fullServiceDelivery,
 	messageSupport,
-	trackDeliveries,
-	unlockYourGrowth,
 } from '@/components/landing/benefits/benefit-data';
 import { letters } from '@/components/landing/letter/letter-data';
-import Partners from '@/components/landing/partners/Partners';
 import messagingPrices from '@/components/landing/Pricing/messagingPrices';
 import PricingCard from '@/components/landing/Pricing/Pricing';
-import SEOMetaTags from '@/lib/SEOMetaTags';
 
 export default function MessagingLandingPage() {
 	useEffect(() => {
@@ -42,12 +34,16 @@ export default function MessagingLandingPage() {
 				additionalKeywords={[
 					'cannabis text message marketing',
 					'cannabis text message',
-					'cannabis text message marketing',
 					'cannabis sms',
 					'dispensary text message',
 					'send messages from dispensary',
 					'message dispensary customers',
 					'weed text',
+					'cannabis messaging',
+					'cannabis business messag',
+					'cannabis business marketing',
+					'cannabis business consulting',
+					'cannabis marketing solution',
 				]}
 			/>
 			<Page
@@ -92,22 +88,6 @@ export default function MessagingLandingPage() {
 		</>
 	);
 }
-
-const dealValues = [779, 1179, 4779, 979, 1479];
-
-const Bonus = ({ title }: { title: string }) => {
-	return (
-		<div>
-			<H2
-				className={twMerge(
-					'text-center text-5xl font-bold leading-snug max-w-lg md:max-w-6xl lg:text-6xl lg:leading-tight whitespace-pre-line'
-				)}
-			>
-				{title}
-			</H2>
-		</div>
-	);
-};
 
 const SectionsNav = () => {
 	const { asPath } = useRouter();

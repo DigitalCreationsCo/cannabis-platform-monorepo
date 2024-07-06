@@ -17,6 +17,7 @@ import {
 	TextArea,
 	Select,
 	CheckBox,
+	styles,
 } from '@cd/ui-lib';
 import axios, { type AxiosResponse } from 'axios';
 import { useFormik } from 'formik';
@@ -202,14 +203,20 @@ export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
 				<div className="pb-12 text-2xl text-dark max-w-full col-span-full mx-auto">
 					<Paragraph
 						className={twMerge(
-							'leading-loose mb-2 max-w-md md:max-w-full text-2xl mx-auto md:mx-0 md:my-6'
+							'leading-loose mb-2 max-w-md md:max-w-full text-2xl mx-auto md:mx-0 md:my-6 text-center'
 						)}
 					>
-						We deliver your business to more people, online and outside.
+						We help your cannabis business grow by delivering memorable
+						experiences, online and offline.
 					</Paragraph>
-					<H2 className="text-5xl md:text-6xl max-w-2xl lg:max-w-full lg:col-span-2">
+					<H2
+						className={twMerge(
+							'drop-shadow-[0px_3px_1px_#a6a6a6]',
+							'md:text-6xl max-w-2xl lg:max-w-full lg:col-span-2 whitespace-pre-line mt-3 font-bold leading-snug tracking-tight lg:leading-tight text-5xl lg:text-6xl'
+						)}
+					>
 						<span className={twMerge(heading)}>Partner with Gras</span> for home
-						delivery and retail services.
+						delivery and cannabis business growth services
 					</H2>
 				</div>
 
@@ -251,7 +258,7 @@ export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
 				>
 					<Grid className="grid-cols-2">
 						<Paragraph className="col-span-2 px-2 mb-2 md:max-w-full text-2xl md:my-12">
-							{`Contact us using the form below. Our team will reach out within 24 hours.`}
+							{`Fill out the contact form. Our team will contact you today.`}
 						</Paragraph>
 						<TextField
 							containerClassName="px-2 col-span-1"
@@ -412,7 +419,10 @@ export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
 							rows={4}
 							containerClassName="px-2 col-span-2"
 							name="message"
-							label="Tell us anything else you'd like us to know."
+							label="Is there anything you'd like us to know?"
+							placeholder={
+								'Please share any goals, interests or comments to prepare for your success call.'
+							}
 							value={values?.message}
 							onBlur={handleBlur}
 							onChange={handleChange}
@@ -424,14 +434,14 @@ export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
 							onChange={handleChange}
 							checked={values.allowProcessResponse}
 							label={`You allow us to store your contact information. 
-							Gras will only use your info to message your business`}
+							Gras will only use your information to contact your business.`}
 						/>
 						<CheckBox
 							className="px-2 pt-4 w-full col-span-full"
 							name={'subscribeCannabisInsiderNewsletter'}
 							onChange={handleChange}
 							checked={values.subscribeCannabisInsiderNewsletter}
-							label="Subscribe to our business email newsletter for industry trends"
+							label="Subscribe for industry news and trends via our newsletter."
 						/>
 						<div className="mt-16 col-span-2 place-self-center mx-2">
 							<Button

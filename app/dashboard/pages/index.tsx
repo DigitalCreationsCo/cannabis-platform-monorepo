@@ -41,12 +41,6 @@ export default function DashboardHome() {
 							<H1 color="light" className="tracking-normal !text-5xl">
 								{t('dispensary-success-services')}
 							</H1>
-							{/* <H2
-                className="whitespace-pre md:text-4xl w-full text-center tracking-normal"
-                color="light"
-                >
-                {t('welcome-to-gras')}
-              </H2> */}
 						</FlexBox>
 						<FlexBox className="items-center space-y-2">
 							{/* <H5 color="light">Sign in to use this app</H5> */}

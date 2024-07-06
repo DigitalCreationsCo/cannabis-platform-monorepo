@@ -40,9 +40,9 @@ const styles = Object.freeze({
 		],
 		responsiveHeading: ['text-3xl sm:text-4xl whitespace-normal'],
 		heading:
-			'tracking-tight inline-block whitespace-pre-line font-bold text-secondary-light text-5xl md:text-6xl xl:text-6xl drop-shadow-[1px_2px_1px_#444444] md:drop-shadow-[0px_-2px_1px_#666666]',
+			'tracking-tight inline-block whitespace-pre-line font-bold text-secondary-light text-5xl md:text-6xl xl:text-6xl drop-shadow-[1px_2px_1px_#444444] md:drop-shadow-[0px_2px_1px_#666666]',
 		largeHeading:
-			'tracking-normal bg-clip-text text-transparent bg-gradient-to-b from-secondary-light to-primary-light inline whitespace-pre-line text-6xl font-bold md:text-7xl drop-shadow-[0px_3px_1px_#444444] lg:text-8xl xl:text-8xl md:drop-shadow-[1px_-5px_1px_#666666]',
+			'tracking-normal bg-clip-text text-transparent bg-gradient-to-b from-secondary-light to-primary-light inline whitespace-pre-line text-6xl font-bold md:text-7xl drop-shadow-[0px_3px_2px_#444444] lg:text-8xl xl:text-8xl md:drop-shadow-[1px_3px_2px_#666666]',
 	},
 	TOPBAR: {
 		topbar: [

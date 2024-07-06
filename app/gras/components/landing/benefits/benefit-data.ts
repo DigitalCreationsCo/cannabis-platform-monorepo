@@ -20,20 +20,20 @@ import FleetTrackingImage from '../../../public/fleet-tracking-and-app-view.png'
 
 export const unlockYourGrowth = {
 	title: 'We Unlock Hyper Growth For Your Dispensary',
-	description: `Your Vision & Our Support = Your Success`,
+	description: `Your Vision & Our Support = Hyper Growth`,
 	image: require('../../../public/dispensary.png'),
 	bullets: [
 		{
 			description:
-				'Our service is designed help you target and reach higher goals.',
+				'Service designed to increase your revenue and customer base.',
 			icon: PresentationChartLineIcon,
 		},
 		{
-			description: `We invest in the growth of your company for long-term success.`,
+			description: `Your growth is our goal.`,
 			icon: CalendarIcon,
 		},
 		{
-			description: 'Our support team is a phone call or a click away.',
+			description: 'Personalized support ensures your success.',
 			icon: ArrowDownOnSquareStackIcon,
 		},
 	],
@@ -196,7 +196,7 @@ export const takeUrgentAction: BenefitData = {
 
 export const dealValue: BenefitData = {
 	title: `We Offer More Than Value`,
-	description: `We provide experiences that create loyal customers who keep coming back for more.`,
+	description: `We help you deliver experiences that earn you returning customers.`,
 	bullets: [
 		{
 			title: `Delivery Compliance Service`,
