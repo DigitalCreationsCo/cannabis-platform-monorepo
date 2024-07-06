@@ -16,7 +16,6 @@ export async function getStripeCustomerId(
 
 	let customerId = '';
 
-	console.info('teamMember.team.billingId? ', teamMember.team.billingId);
 	if (!teamMember.team.billingId) {
 		// if the team doesn't have a billingId, create a new customer
 		const customerData: {
@@ -49,11 +48,9 @@ export async function getStripeCustomerId(
 		});
 
 		customerId = customer.id;
-		console.debug('created new customer', customerId);
 	} else {
 		// if the team already has a billingId, use it
 		customerId = teamMember.team.billingId;
-		console.debug('team already has a billingId', customerId);
 	}
 	return customerId;
 }

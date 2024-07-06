@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { LetterAvatar, WithLoadingAndError } from '@/components/shared';
-import { Table } from '@/components/shared/table/Table';
 import {
 	defaultHeaders,
 	type ApiResponse,
@@ -13,6 +11,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import { LetterAvatar, WithLoadingAndError } from '@/components/shared';
+import { Table } from '@/components/shared/table/Table';
 import ConfirmationDialog from '../shared/ConfirmationDialog';
 
 const Teams = () => {

@@ -308,9 +308,9 @@ export const getAuthOptions = (
 					return false;
 				}
 
-				console.trace('user? ', user);
-				console.trace('account ', account);
-				console.trace('profile ', profile);
+				// console.trace('user? ', user);
+				// console.trace('account ', account);
+				// console.trace('profile ', profile);
 
 				if (!isEmailAllowed(user.email)) {
 					return '/auth/login?error=allow-only-work-email';

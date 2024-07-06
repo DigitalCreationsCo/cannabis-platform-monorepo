@@ -1,14 +1,11 @@
-import { slugify, ApiError, generateToken } from '@cd/core-lib';
+import { ApiError, generateToken } from '@cd/core-lib';
 import {
-	type Dispensary,
 	// getInvitation,
 	// isInvitationExpired,
 	createUser,
 	getUser,
-	createDispensary,
 	createVerificationToken,
 	// getDispensary,
-	isTeamExists,
 } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { hashPassword } from '@/lib/auth';
@@ -55,13 +52,12 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 		const {
 			name,
 			password,
-			dispensary,
+			// dispensary,
 			// inviteToken,
 			recaptchaToken,
 		} = req.body as {
 			name: string;
 			password: string;
-			dispensary: string;
 			recaptchaToken: string;
 		};
 		const client = await clientPromise;
@@ -105,19 +101,15 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 
 		// Check if team name is available
 		if (!invitation) {
-			if (!dispensary) {
-				throw new ApiError(400, 'A team name is required.');
-			}
-
-			const slug = slugify(dispensary);
-
-			validateWithSchema(userJoinSchema, { dispensary, slug });
-
-			const slugCollisions = await isTeamExists({ client, where: { slug } });
-
-			if (slugCollisions > 0) {
-				throw new ApiError(400, 'A team with this slug already exists.');
-			}
+			// if (!dispensary) {
+			// 	throw new ApiError(400, 'A team name is required.');
+			// }
+			// const slug = slugify(dispensary);
+			// validateWithSchema(userJoinSchema, { dispensary, slug });
+			// const slugCollisions = await isTeamExists({ client, where: { slug } });
+			// if (slugCollisions > 0) {
+			// 	throw new ApiError(400, 'A team with this slug already exists.');
+			// }
 		}
 
 		const user = await createUser({
@@ -130,14 +122,14 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 			},
 		});
 
-		const userDispensary = await createDispensary({
-			client,
-			data: {
-				name: dispensary,
-				slug: slugify(dispensary),
-			},
-			userId: user.id,
-		});
+		// const userDispensary = await createDispensary({
+		// 	client,
+		// 	data: {
+		// 		name: dispensary,
+		// 		slug: slugify(dispensary),
+		// 	},
+		// 	userId: user.id,
+		// });
 
 		// Send account verification email
 		if (env.confirmEmail && !user.emailVerified) {
@@ -160,7 +152,7 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 			fields: {
 				Name: user.name,
 				Email: user.email,
-				Dispensary: userDispensary.name,
+				// Dispensary: userDispensary.name,
 			},
 		});
 
