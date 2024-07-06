@@ -72,9 +72,9 @@ function cleanup(prisma) {
 }
 
 function getStripeInstance() {
-	if (process.env.STRIPE_API_KEY_SECRET) {
+	if (process.env.STRIPE_API_KEY_SECRET && process.env.STRIPE_API_VERSION) {
 		return new Stripe(process.env.STRIPE_API_KEY_SECRET || '', {
-			apiVersion: '2022-11-15',
+			apiVersion: process.env.STRIPE_API_VERSION,
 		});
 	} else {
 		throw new Error('STRIPE_API_KEY_SECRET environment variable not set');

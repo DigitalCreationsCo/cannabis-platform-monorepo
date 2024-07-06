@@ -89,7 +89,7 @@ export default function DailyDealsPage({
 		subscriptions.some((s) => s.product.name === product);
 
 	const isSubscribedForMessagingOrThrow = (team: Dispensary) => {
-		if (!hasActiveSubscription('Messaging by Gras')) {
+		if (!hasActiveSubscription('Messaging by Gras Monthly Subscription')) {
 			throw new Error(t('not-subscribed-for-messaging'));
 		}
 	};

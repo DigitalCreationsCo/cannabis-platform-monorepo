@@ -1,11 +1,12 @@
+import env from '@/lib/env';
 import { updateDispensary, type StaffMember } from '@cd/data-access';
 import Stripe from 'stripe';
-import env from '@/lib/env';
 import { clientPromise } from './db';
 
 export const stripe = new Stripe(env.stripe.secretKey ?? '', {
 	// https://github.com/stripe/stripe-node#configuration
-	apiVersion: '2024-04-10',
+	// @ts-ignore
+	apiVersion: env.stripe.apiVersion,
 });
 
 export async function getStripeCustomerId(
