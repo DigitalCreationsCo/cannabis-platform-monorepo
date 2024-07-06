@@ -1,5 +1,9 @@
+import { clientPromise } from '@/lib/db';
+import env from '@/lib/env';
+import SEOMetaTags from '@/lib/SEOMetaTags';
+import { getSession } from '@/lib/session';
 import { renderAddress } from '@cd/core-lib';
-import { type Event, getEvent, getEvents } from '@cd/data-access';
+import { type Event, getEvent, getUserBySession } from '@cd/data-access';
 import { Button, FlexBox, H1, IconWrapper, Page, Paragraph } from '@cd/ui-lib';
 import {
 	UsersIcon as ShareIcon,
@@ -13,17 +17,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { type ReactElement } from 'react';
-import { clientPromise } from '@/lib/db';
-import env from '@/lib/env';
-import SEOMetaTags from '@/lib/SEOMetaTags';
-import { getSession } from '@/lib/session';
 
 interface EventPageProps {
 	event: Event;
 	token: string;
 }
 
-function EventPage({ event, session }: EventPageProps & { session: any }) {
+function EventPage({ event, user }: EventPageProps & { user: any }) {
 	const Router = useRouter();
 	// const showOrFilterPageBySession = {filter: !session? 'blur(2px)' : 'none'}
 	return (
@@ -35,7 +35,7 @@ function EventPage({ event, session }: EventPageProps & { session: any }) {
 			>
 				<BackButton />
 				<FlexBox className="gap-y-2 max-w-screen">
-					<H1 className="text-white drop-shadow-[0px_2px_0px_#666]">
+					<H1 className="text-white drop-shadow-[0px_2px_2px_#666]">
 						{event.name}
 					</H1>
 					<div className="min-w-full">
@@ -53,7 +53,7 @@ function EventPage({ event, session }: EventPageProps & { session: any }) {
 					<Summary />
 
 					<FlexBox className="flex-row flex-wrap gap-x-8">
-						<RSVP />
+						{(event.tickets_url && <RSVP />) || <></>}
 						{/* <Share /> */}
 					</FlexBox>
 				</FlexBox>
@@ -63,9 +63,9 @@ function EventPage({ event, session }: EventPageProps & { session: any }) {
 
 	function EventDetails() {
 		return (
-			<FlexBox className="flex-row gap-x-2 flex-wrap">
-				<FlexBox className="flex-row gap-2 items-center sm:items-start flex-wrap">
-					<MapPinIcon height={20} width={20} className="text-white" />
+			<FlexBox className="flex-col gap-x-2 flex-wrap">
+				<FlexBox className="flex-row gap-2 items-center sm:items-center flex-wrap">
+					<MapPinIcon height={20} width={20} className="text-inverse" />
 					<Paragraph className="text-white font-medium whitespace-wrap">
 						{renderAddress({
 							address: {
@@ -75,12 +75,12 @@ function EventPage({ event, session }: EventPageProps & { session: any }) {
 								state: event.primary_venue.address.region || '',
 								zipcode: event.primary_venue.address.postal_code || '',
 							} as any,
-							lineBreak: true,
+							lineBreak: false,
 						})}
 					</Paragraph>
 				</FlexBox>
-				<FlexBox className="flex-row gap-2 items-center sm:items-start flex-wrap">
-					<ClockIcon height={20} width={20} className="text-white" />
+				<FlexBox className="flex-row gap-2 items-center sm:items-center flex-wrap">
+					<ClockIcon height={20} width={20} className="text-inverse" />
 					<Paragraph className="text-white font-medium">
 						{new Date(event.start_date).toLocaleString()}
 					</Paragraph>
@@ -94,7 +94,7 @@ function EventPage({ event, session }: EventPageProps & { session: any }) {
 
 	function Summary() {
 		return (
-			<Paragraph className="text-white font-medium drop-shadow-[0px_1px_0px_#666]">
+			<Paragraph className="text-white font-medium drop-shadow">
 				{event.summary}
 			</Paragraph>
 		);
@@ -106,7 +106,7 @@ function EventPage({ event, session }: EventPageProps & { session: any }) {
 				size="sm"
 				bg="transparent"
 				hover="transparent"
-				className="text-light self-start sm:py-0 hover:underline"
+				className="w-fit p-0 text-light self-start hover:underline"
 				onClick={() => Router.back()}
 			>
 				<IconWrapper Icon={ArrowLeftIcon} className="pr-1" />
@@ -125,7 +125,7 @@ function EventPage({ event, session }: EventPageProps & { session: any }) {
 					size="sm"
 					className="border-white border bg-transparent rounded-full gap-x-2 p-4"
 				>
-					<Paragraph className="text-white">{`Get tickets`}</Paragraph>
+					<Paragraph className="text-white font-medium">{`Get tickets`}</Paragraph>
 				</Button>
 			</Link>
 		);
@@ -172,6 +172,8 @@ export const getServerSideProps = async ({
 	const client = await clientPromise;
 	const token = env.nextAuth.secret!;
 
+	const user = await getUserBySession({ client, session });
+
 	const { event: id } = params as { event: string };
 	const event = await getEvent({ client, where: { id } });
 
@@ -185,7 +187,12 @@ export const getServerSideProps = async ({
 		props: {
 			...(locale ? await serverSideTranslations(locale, ['common']) : {}),
 			event: JSON.parse(JSON.stringify(event)),
-			session,
+			user: {
+				id: user.id,
+				email: user.email,
+				name: user.name,
+				image: user.image || null,
+			},
 			token,
 		},
 	};

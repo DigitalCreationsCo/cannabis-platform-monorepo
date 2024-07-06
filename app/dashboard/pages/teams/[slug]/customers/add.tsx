@@ -1,68 +1,54 @@
+import { useDispensary } from '@cd/core-lib';
 import {
 	Button,
 	FlexBox,
 	Grid,
-	Icons,
+	LoadingPage,
 	Page,
 	PageHeader,
-	Row,
 	TextField,
 } from '@cd/ui-lib';
 import { UserPlusIcon } from '@heroicons/react/24/outline';
+import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
+import { Error as ErrorComponent } from '@/components/shared';
 
-export default function AddUser() {
+export default function AddCustomer() {
+	const { t } = useTranslation('common');
+	const { isLoading, isError, team } = useDispensary();
+
+	if (isLoading) {
+		return <LoadingPage />;
+	}
+
+	if (isError) {
+		return <ErrorComponent message={isError.message} />;
+	}
+
+	if (!team) {
+		return <ErrorComponent message={t('team-not-found')} />;
+	}
+
 	return (
 		<Page className="bg-light lg:min-h-[710px]">
 			<PageHeader
-				title="Add Dispensary Staff"
+				title={`Add Customer`}
 				Icon={UserPlusIcon}
 				Button={
-					<Link href="/users">
+					<Link href={`/teams/${team.slug}/customers`}>
 						<Button>{`Back to Users`}</Button>
 					</Link>
 				}
 			/>
 			<Grid>
-				<Row>
-					<TextField
-						label="Name"
-						name={`Name`}
-						placeholder="Stock"
-						value={''}
-						// onBlur={handleBlur}
-						onChange={() => null}
-					/>
-					{/* <TextField
-                                                                containerClassName="w-fit px-0 mx-0"
-                                                                className="px-0 mx-0 w-[80px]"
-                                                                name={`variants[${index}].size`}
-                                                                placeholder="Size"
-                                                                value={values?.variants?.[index].size}
-                                                                onBlur={handleBlur}
-                                                                onChange={handleChange}
-                                                            />
-                                                            <TextField
-                                                                containerClassName="w-fit px-0 mx-0"
-                                                                className="px-0 mx-0 w-[80px]"
-                                                                name={`variants[${index}].basePrice`}
-                                                                placeholder="Price"
-                                                                value={values?.variants?.[index].basePrice}
-                                                                onBlur={handleBlur}
-                                                                onChange={handleChange}
-                                                            />
-                                                            <TextField
-                                                                containerClassName="w-fit px-0 mx-0"
-                                                                className="px-0 mx-0 w-[80px]"
-                                                                name={`variants[${index}].discount`}
-                                                                placeholder="Discount"
-                                                                value={values?.variants?.[index].discount}
-                                                                onBlur={handleBlur}
-                                                                onChange={handleChange}
-                                                            /> */}
-				</Row>
+				<TextField
+					label="Name"
+					name={`Name`}
+					value={''}
+					onChange={() => null}
+				/>
 				<FlexBox className="items-stretch justify-center py-2">
-					<Button className="flex grow">{`Save User`}</Button>
+					<Button className="flex grow">{`Save Customer`}</Button>
 				</FlexBox>
 			</Grid>
 		</Page>

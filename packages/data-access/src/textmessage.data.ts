@@ -14,7 +14,8 @@ export interface DailyDeal {
 	timezone: string;
 	teamSlug: string;
 	isActive: boolean;
-	sendCount: number;
+	numSent: number;
+	numDelivered: number;
 	conversions: number;
 	campaign: string;
 	weedTextSegmentId?: string;

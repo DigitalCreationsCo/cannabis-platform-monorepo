@@ -4,6 +4,10 @@
 /* eslint-disable i18next/no-literal-string */
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable react/no-unknown-property */
+import { TopBar } from '@/components/layouts';
+import { Error } from '@/components/shared';
+import env from '@/lib/env';
+import SEOMetaTags from '@/lib/SEOMetaTags';
 import {
 	type ResponseDataEnvelope,
 	applicationHeaders,
@@ -14,12 +18,7 @@ import {
 	useEvents,
 	useLocalDispensaries,
 } from '@cd/core-lib';
-import {
-	type Coordinates,
-	type Dispensary,
-	type Event,
-	getEvents,
-} from '@cd/data-access';
+import { type Event, type Coordinates, type Dispensary } from '@cd/data-access';
 import {
 	Grid,
 	H1,
@@ -33,7 +32,6 @@ import {
 	Paragraph,
 	Button,
 	FlexBox,
-	AutoCompleteTextField,
 } from '@cd/ui-lib';
 import { type AxiosResponse } from 'axios';
 import { useFormik } from 'formik';
@@ -41,15 +39,17 @@ import { AnimatePresence, motion } from 'framer-motion';
 import mapboxgl from 'mapbox-gl';
 import { type GetServerSidePropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { type ReactElement, useEffect, useRef, useState } from 'react';
+import {
+	type ReactElement,
+	useCallback,
+	useEffect,
+	useRef,
+	useState,
+} from 'react';
 import toast from 'react-hot-toast';
 import * as yup from 'yup';
 import { InfoCard } from '@/components/blog';
-import { TopBar } from '@/components/layouts';
-import { Error } from '@/components/shared';
 import EventCard from '@/components/shared/EventCard';
-import { clientPromise } from '@/lib/db';
-import env from '@/lib/env';
 // import {
 // 	getFacebookLoginStatus,
 // 	initFacebookSdk,
@@ -63,7 +63,6 @@ import {
 	getSettings,
 	readToken,
 } from '@/lib/sanity';
-import SEOMetaTags from '@/lib/SEOMetaTags';
 import markerImage from 'public/map-marker.png';
 
 // function FBInit() {
@@ -216,6 +215,16 @@ export default function Browse({
 	//   })
 	// );
 	// }
+
+	const getOrganizerImage = useCallback(
+		(event: Event) => {
+			return event.primary_organizer_slug
+				? dispensaries.find((d) => d.slug === event.primary_organizer_slug)
+						?.images[0].location
+				: '';
+		},
+		[dispensaries]
+	);
 
 	if (isError) {
 		return <Error message={isError.message} />;
@@ -452,8 +461,8 @@ export default function Browse({
         </div> */}
 
 					{!isEventLoading && events.length === 0 ? (
-						<AnimatePresence>
-							<div className="h-44 place-self-center col-span-full max-w-xl bg-white shadow-xl rounded mx-4 gap-1">
+						<div className="h-44 place-self-center col-span-full max-w-xl bg-white shadow-xl rounded mx-4 gap-1">
+							<AnimatePresence>
 								{eventRequestSent && (
 									<motion.div
 										className="flex h-full p-5 hover:bg-gray-100 transition"
@@ -501,12 +510,12 @@ export default function Browse({
 										</FlexBox>
 									</motion.div>
 								)}
-							</div>
-						</AnimatePresence>
+							</AnimatePresence>
+						</div>
 					) : (
 						<div className="col-span-full">
 							<H2 className="col-span-full text-xl sm:pt-2 px-3 md:px-4 text-light leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left">
-								🎉 Events Near You
+								🎉 Nearby Events
 							</H2>
 							<Carousel
 								responsive={{
@@ -547,6 +556,7 @@ export default function Browse({
 											key={`event-card-${index}`}
 											loading={false}
 											event={event}
+											organizerImage={getOrganizerImage(event)}
 										/>
 									))
 									// : [1, 2, 3, 4, 5, 6].map((d, index) => (
@@ -607,6 +617,7 @@ export default function Browse({
 													key={`event-card-${index}`}
 													loading={false}
 													event={event}
+													organizerImage={getOrganizerImage(event)}
 												/>
 											))
 										: [1, 2, 3, 4, 5, 6].map((d, index) => (

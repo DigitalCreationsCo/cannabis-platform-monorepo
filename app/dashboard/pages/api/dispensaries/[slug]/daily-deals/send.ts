@@ -52,8 +52,10 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 			teamSlug,
 			campaign,
 			weedTextSegmentId,
-			sendCount,
 			conversions,
+			numSent,
+			numDelivered,
+			...rest
 		} = JSON.parse(req.body) as DailyDeal;
 
 		if (!weedTextSegmentId) {
@@ -89,10 +91,12 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 				schedule,
 				timezone,
 				teamSlug,
-				sendCount,
 				conversions,
 				campaign,
-				isActive: false,
+				numSent,
+				numDelivered,
+				...rest,
+				isActive: true,
 				lastSentAt: Date.now().toString(),
 			},
 		});

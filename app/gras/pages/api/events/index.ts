@@ -19,7 +19,11 @@ export default async function handler(
 			case 'PUT':
 				await handlePUT(req, res);
 				break;
+			// case 'PATCH':
+			// 	await handlePATCH(req, res);
+			// 	break;
 			default:
+				// res.setHeader('Allow', 'GET, PUT, PATCH');
 				res.setHeader('Allow', 'GET, PUT');
 				res.status(405).json({
 					error: { message: `Method ${method} Not Allowed` },

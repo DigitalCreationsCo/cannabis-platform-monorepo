@@ -7,3 +7,4 @@ export { default as RemoveTeam } from './RemoveTeam';
 export { default as DailyDeals } from './DailyDeals';
 export { default as UpdateDailyDeal } from './UpdateDailyDeal';
 export { default as TeamSettings } from './TeamSettings';
+export { default as Events } from './Events';

@@ -1,7 +1,3 @@
-import { AccountLayout } from '@/components/layouts';
-import app from '@/lib/app';
-import env from '@/lib/env';
-import { type AppPropsWithLayout } from '@/lib/next.types';
 import { wrapper } from '@/lib/store';
 import { Themer } from '@boxyhq/react-ui/shared';
 import { loadBrevoChat } from '@cd/core-lib/src/lib/brevoChat';
@@ -29,8 +25,13 @@ import { NextSeo } from 'next-seo';
 import { useEffect } from 'react';
 import { Provider as ReduxProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
+import { AccountLayout } from '@/components/layouts';
+import app from '@/lib/app';
+import env from '@/lib/env';
+import { type AppPropsWithLayout } from '@/lib/next.types';
 
 import '../styles/tailwind.css';
+import SEOMetaTags from '@/lib/SEOMetaTags';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_API_KEY!);
 
@@ -75,23 +76,7 @@ function MyApp({ Component, ...appProps }: AppPropsWithLayout) {
 			{loadGoogleTagManager()}
 			{loadHotJar()}
 			<GTMTag />
-			<NextSeo
-				title={app.name}
-				description={app.description}
-				openGraph={{
-					url: app.url,
-					title: app.opengraph.title,
-					type: 'website',
-					description: app.description,
-					images: [{ url: app.opengraph.image, alt: app.name, width: 300 }],
-					site_name: app.name,
-				}}
-				twitter={{
-					cardType: 'summary_large_image',
-					site: app.url,
-					handle: '@grascannabis',
-				}}
-			/>
+			<SEOMetaTags />
 
 			<SessionProvider session={session}>
 				<ReduxProvider store={store}>

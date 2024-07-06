@@ -60,6 +60,7 @@ export const getServerSideProps = async (
 
 	const teams = await getStaffMemberDispensaries({
 		client,
+		// eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
 		where: { userId: session?.user.id! },
 	});
 

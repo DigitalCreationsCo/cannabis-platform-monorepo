@@ -23,14 +23,17 @@ type EventType =
 	| 'team.delete'
 	| 'team.daily_deals.create'
 	| 'team.daily_deals.delete'
-	| 'team.daily_deals.update';
+	| 'team.daily_deals.update'
+	| 'team.events.create'
+	| 'team.events.read'
+	| 'team.events.delete'
+	| 'team.events.update';
 
 interface Request {
 	action: EventType;
 	user: User;
 	team: Dispensary;
 	crud: CRUD;
-	// target: Target;
 }
 
 let retracedClient: Client;

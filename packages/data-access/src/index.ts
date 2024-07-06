@@ -7,7 +7,7 @@ export * from './customer.data';
 // export * from './compliance.data';
 export * from './dispensaries.data';
 export * from './dispensary.data';
-export * from './event.data';
+export * from './events.data';
 // export * from './invitation.data';
 // export * from './driver/driver.data';
 // export * from './order/order.data';

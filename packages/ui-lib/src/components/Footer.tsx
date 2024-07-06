@@ -86,7 +86,7 @@ export default function Footer({
 				</div>
 				<div className="col-span-2 md:!col-span-4 lg:!col-span-2 md:!row-start-2 lg:!row-start-1 md:!col-start-1 lg:!col-start-5 row-span-3">
 					<FlexBox className="pb-4 flex-row items-center">
-						<Link href={getShopSite('/')} className="z-50">
+						<Link href={getShopSite('/')} className="z-10">
 							<GrasSignature className="text-inverse">Gras</GrasSignature>
 						</Link>
 						<Link

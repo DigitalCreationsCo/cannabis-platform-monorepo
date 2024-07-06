@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import type { Readable } from 'node:stream';
+import { clientPromise } from '@/lib/db';
+import env from '@/lib/env';
+import { stripe } from '@/lib/stripe';
 import {
 	createStripeSubscription,
 	deleteStripeSubscription,
@@ -10,9 +13,6 @@ import {
 } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import type Stripe from 'stripe';
-import { clientPromise } from '@/lib/db';
-import env from '@/lib/env';
-import { stripe } from '@/lib/stripe';
 
 export const config = {
 	api: {
@@ -30,6 +30,7 @@ async function getRawBody(readable: Readable): Promise<Buffer> {
 }
 
 const relevantEvents: Stripe.Event.Type[] = [
+	'invoice.payment_succeeded',
 	'customer.subscription.created',
 	'customer.subscription.updated',
 	'customer.subscription.deleted',
@@ -55,6 +56,11 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
 	if (relevantEvents.includes(event.type)) {
 		try {
 			switch (event.type) {
+				case 'invoice.payment_succeeded':
+					console.log('Invoice Payment succeeded');
+					console.log('Creating subscription...');
+					await handleSubscriptionCreated(event);
+					break;
 				case 'customer.subscription.created':
 					await handleSubscriptionCreated(event);
 					break;
@@ -141,6 +147,13 @@ async function handleSubscriptionCreated(event: Stripe.Event) {
 	const { customer, id, current_period_start, current_period_end, items } =
 		event.data.object as Stripe.Subscription;
 
+	console.info('subscription data: ', {
+		customer,
+		id,
+		current_period_start,
+		current_period_end,
+		items,
+	});
 	await createStripeSubscription({
 		client,
 		data: {

@@ -57,9 +57,14 @@ export default async function middleware(req: NextRequest) {
 	}
 
 	const over21 = await getCookie('yesOver21', { req });
+
+	console.info('over21:', over21);
+	console.info('path name:', pathname);
 	// Redirect to browse page if user is over 21
 	if (pathname === '/' && over21 == 'true') {
-		const url = new URL('/browse', req.url);
+		const url = req.nextUrl.clone();
+		url.pathname = '/browse';
+		console.info('Redirecting to browse page ', url);
 		return NextResponse.redirect(url);
 	}
 
@@ -113,7 +118,8 @@ export default async function middleware(req: NextRequest) {
 
 export const config = {
 	matcher: [
-		'/((?!_next/static|_next/image|favicon.ico|api/auth/session).*)',
+		// '/((?!_next/static|_next/image|favicon.ico|api/auth/session).*)',
 		// '/',
+		'/((?!_next/static|_next/image|favicon.ico|api/auth/session).*)|^/$',
 	],
 };

@@ -67,7 +67,12 @@ export type AppEvent =
 	| 'dispensary.customer.fetched'
 	| 'dispensary.customer.created'
 	| 'dispensary.customer.updated'
-	| 'dispensary.customer.removed';
+	| 'dispensary.customer.removed'
+	| 'dispensary.customer.invited'
+	| 'dispensary.event.fetched'
+	| 'dispensary.event.created'
+	| 'dispensary.event.updated'
+	| 'dispensary.event.removed';
 
 export type AUTH_PROVIDER =
 	| 'github'

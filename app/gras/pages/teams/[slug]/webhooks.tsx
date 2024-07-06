@@ -1,12 +1,12 @@
+import { Error, Loading } from '@/components/shared';
+import { TeamTab } from '@/components/team';
+import { Webhooks } from '@/components/webhook';
+import env from '@/lib/env';
 import { type TeamFeature, useDispensary } from '@cd/core-lib';
 import { LoadingPage } from '@cd/ui-lib';
 import { type GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { Error, Loading } from '@/components/shared';
-import { TeamTab } from '@/components/team';
-import { Webhooks } from '@/components/webhook';
-import env from '@/lib/env';
 
 const WebhookList = ({ teamFeatures }: { teamFeatures: TeamFeature }) => {
 	const { t } = useTranslation('common');

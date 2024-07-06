@@ -13,6 +13,7 @@ export type Resource =
 	| 'team_payments'
 	| 'team_api_key'
 	| 'team_daily_deals'
+	| 'team_event'
 	| 'team_customers';
 
 type RolePermissions = {
@@ -79,6 +80,7 @@ export const permissions: RolePermissions = {
 		},
 		{ resource: 'team_daily_deals', actions: '*' },
 		{ resource: 'team_customers', actions: '*' },
+		{ resource: 'team_event', actions: '*' },
 	],
 	ADMIN: [
 		{
@@ -115,6 +117,7 @@ export const permissions: RolePermissions = {
 		},
 		{ resource: 'team_daily_deals', actions: '*' },
 		{ resource: 'team_customers', actions: '*' },
+		{ resource: 'team_event', actions: '*' },
 	],
 	MEMBER: [
 		{
@@ -151,5 +154,6 @@ export const permissions: RolePermissions = {
 		},
 		{ resource: 'team_daily_deals', actions: ['read'] },
 		{ resource: 'team_customers', actions: ['read'] },
+		{ resource: 'team_event', actions: ['read'] },
 	],
 };

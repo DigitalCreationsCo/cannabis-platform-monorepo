@@ -23,7 +23,7 @@ export const GrasSignature = ({
 				'pt-1 pb-0 mb-0',
 				'font-gras',
 				'tracking-wide leading-3',
-				'overflow-visible z-50',
+				'overflow-visible z-10',
 				styles['cursor-inherit'],
 				'text-3xl font-bold whitespace-normal',
 				(color === 'light' && 'text-inverse-soft') ||

@@ -1,3 +1,6 @@
+import env from '@/lib/env';
+import { type NextPageWithLayout } from '@/lib/next.types';
+import SEOMetaTags from '@/lib/SEOMetaTags';
 import { TextContent } from '@cd/core-lib';
 import {
 	FlexBox,
@@ -18,9 +21,6 @@ import Link from 'next/link';
 import { type ReactElement } from 'react';
 import { twMerge } from 'tailwind-merge';
 import ImageGrid from '@/components/shared/ImageGrid/ImageGrid';
-import env from '@/lib/env';
-import { type NextPageWithLayout } from '@/lib/next.types';
-import SEOMetaTags from '@/lib/SEOMetaTags';
 import friendsVideo from '../public/Gras-community-clip.mp4';
 import logo from '../public/logo.png';
 
@@ -28,10 +28,10 @@ const Home: NextPageWithLayout = () => {
 	const { t } = useTranslation('common');
 
 	const EnterEmail = () => (
-		<>
+		<div className="flex flex-col">
 			<H1 className="text-center !text-5xl">{`Find cannabis experiences in your city`}</H1>
 			<Over21Button />
-		</>
+		</div>
 	);
 	return (
 		<>
@@ -99,10 +99,10 @@ const Home: NextPageWithLayout = () => {
 						<>
 							<video
 								className={twMerge(
-									'flex-1 w-full h-full opacity-25',
-									'lg:max-w-xs lg:rounded lg:opacity-100',
-									'shadow',
-									'aspect-square'
+									'col-span-2',
+									'w-full h-full opacity-25',
+									'lg:rounded lg:opacity-100',
+									'shadow'
 								)}
 								style={{
 									objectFit: 'cover',
@@ -118,7 +118,7 @@ const Home: NextPageWithLayout = () => {
 								playsInline
 								poster={'/public/Gras-community.png'}
 							/>
-							<div className="mx-auto col-span-2 items-center max-w-md">
+							<div>
 								<EnterEmail />
 							</div>
 						</>

@@ -63,8 +63,6 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 		doubleOptInMessage: string;
 	};
 
-	console.info('req body', req.body);
-
 	const insertedCustomer = await freshsales.upsertContact(
 		{
 			first_name,

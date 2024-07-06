@@ -77,10 +77,16 @@ export const createEvent = async ({
 				{
 					$set: {
 						...data,
-						'primary_venue.address.location': [
-							parseFloat(data.primary_venue.address.longitude),
-							parseFloat(data.primary_venue.address.latitude),
-						],
+						primary_venue: {
+							...data.primary_venue,
+							address: {
+								...data.primary_venue.address,
+								location: [
+									parseFloat(data.primary_venue.address.longitude),
+									parseFloat(data.primary_venue.address.latitude),
+								],
+							},
+						},
 					},
 				},
 				{
@@ -156,7 +162,7 @@ export const getEvents = async ({
 	radius: number;
 }): Promise<Event[]> => {
 	const { db, collections } = db_namespace;
-	const zip = await getZipcodeLocation({ client, where: { zipcode: '10011' } });
+	const zip = await getZipcodeLocation({ client, where: { zipcode } });
 	if (!zip?.loc) {
 		return [];
 	}
@@ -178,6 +184,36 @@ export const getEvents = async ({
 			{
 				$addFields: {
 					// id: { $toString: '$_id' },
+					date: { $dateFromString: { dateString: '$start_date' } },
+				},
+			},
+		])
+		.toArray();
+};
+
+export const getEventsByTeamSlug = async ({
+	client,
+	slug,
+	limit = 12,
+}: {
+	client: MongoClient;
+	slug: string;
+	limit?: number;
+}): Promise<Event[]> => {
+	const { db, collections } = db_namespace;
+	return await client
+		.db(db)
+		.collection<Event>(collections.events)
+		.aggregate<Event>([
+			{
+				$match: { primary_organizer_slug: slug },
+			},
+			{
+				$limit: Number(limit),
+			},
+			{
+				$addFields: {
+					id: { $toString: '$_id' },
 					date: { $dateFromString: { dateString: '$start_date' } },
 				},
 			},

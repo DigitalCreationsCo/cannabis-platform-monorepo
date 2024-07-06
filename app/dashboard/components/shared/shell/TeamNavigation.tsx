@@ -4,6 +4,7 @@ import {
 	DocumentTextIcon,
 	ChatBubbleBottomCenterTextIcon,
 	UserGroupIcon,
+	TicketIcon,
 } from '@heroicons/react/24/outline';
 import { useTranslation } from 'next-i18next';
 import NavigationItems, {
@@ -34,19 +35,27 @@ const TeamNavigation = ({ slug, activePathname }: NavigationItemsProps) => {
 			active: activePathname === `/teams/${slug}/customers`,
 		},
 		{
+			href: `/teams/${slug}/events`,
+			name: 'Events',
+			icon: TicketIcon,
+			// enabled: FeatureConfig.events.enabled,
+			active: activePathname === `/teams/${slug}/events`,
+		},
+		{
 			href: `/teams/${slug}/daily-deals`,
 			name: 'Daily Deals',
 			icon: ChatBubbleBottomCenterTextIcon,
 			// enabled: FeatureConfig.weed_text.enabled,
 			active: activePathname === `/teams/${slug}/daily-deals`,
 		},
-		{
-			href: `/teams/${slug}/orders`,
-			name: 'Orders',
-			icon: DocumentTextIcon,
-			// enabled: FeatureConfig.orders.enabled,
-			active: activePathname === `/teams/${slug}/orders`,
-		},
+		// {
+		// 	href: `/teams/${slug}/orders`,
+		// 	name: 'Orders',
+		// 	icon: DocumentTextIcon,
+		// 	// enabled: FeatureConfig.orders.enabled,
+		// 	active: activePathname === `/teams/${slug}/orders`,
+		// },
+
 		// {
 		// 	href: `/teams/${slug}/home`,
 		// 	title: 'Tracking',

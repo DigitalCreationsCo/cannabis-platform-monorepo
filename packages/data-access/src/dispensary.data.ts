@@ -68,12 +68,10 @@ export const getDispensary = async ({
 		(where = { _id: new ObjectId(where.id) });
 	const { db, collections } = db_namespace;
 
-	console.info('where', where);
 	const dispensary = await client
 		.db(db)
 		.collection<Dispensary>(collections.dispensaries)
 		.findOne(where);
-	console.info('dispensary: ', dispensary);
 	return { ...dispensary, id: dispensary!._id.toString() };
 };
 

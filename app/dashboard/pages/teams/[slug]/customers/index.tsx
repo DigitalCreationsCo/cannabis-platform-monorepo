@@ -2,8 +2,6 @@
 import { FreshSales, useDispensary } from '@cd/core-lib';
 import { type Customer } from '@cd/data-access';
 import {
-	Icons,
-	Page,
 	PageHeader,
 	Paragraph,
 	usePagination,
@@ -11,7 +9,7 @@ import {
 	Button,
 	CheckBox,
 } from '@cd/ui-lib';
-import { UserPlusIcon } from '@heroicons/react/24/outline';
+import { PlusIcon, UserGroupIcon } from '@heroicons/react/24/outline';
 import axios from 'axios';
 import { type GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
@@ -22,10 +20,8 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { Table } from '@/components/shared/table/Table';
-import { clientPromise } from '@/lib/db';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
 import env from '@/lib/env';
-import { wrapper } from '@/lib/store';
 
 interface CustomerDashboardProps {
 	customers: Customer[];
@@ -64,14 +60,15 @@ function CustomersPage({ customers }: CustomerDashboardProps) {
 
 	return (
 		<div className="bg-light lg:min-h-[710px]">
-			<PageHeader title="Customer List" Icon={UserPlusIcon}>
+			<PageHeader title="Customers" Icon={UserGroupIcon}>
 				<div className="flex flex-row gap-x-5 my-4">
-					<Link href="/customer/create">
+					{/* <Link href="/customers/add">
 						<Button className="bg-amber-100 hover:bg-amber-200 active:bg-amber-200 place-self-start px-4 mt-2">
-							{t('add-customer')}
+							{t('add-customer')}{' '}
+							<PlusIcon height={20} width={20} className="ml-1" />
 						</Button>
-					</Link>
-					<Link href="/customer/import">
+					</Link> */}
+					<Link href="/customers/import">
 						<Button className="bg-amber-100 hover:bg-amber-200 active:bg-amber-200 place-self-start px-4 mt-2">
 							{t('import-customers')}
 						</Button>

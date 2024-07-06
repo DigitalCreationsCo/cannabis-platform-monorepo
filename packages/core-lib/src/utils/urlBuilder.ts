@@ -171,6 +171,11 @@ const urlBuilder = {
 		addContactToList: (id: string) =>
 			`${urlBuilder.freshSales.baseUrl}/api/lists/${id}/add_contacts`,
 	},
+
+	locationIq: {
+		autocomplete: (q: string, limit = 10) =>
+			`https://api.locationiq.com/v1/autocomplete?key=${process.env.NEXT_PUBLIC_LOCATION_IQ_API_KEY}&q=${q}&limit=${limit}`,
+	},
 };
 
 export { urlBuilder };

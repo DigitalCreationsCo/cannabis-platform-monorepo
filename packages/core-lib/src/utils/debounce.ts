@@ -2,15 +2,17 @@
 // @ts-nocheck
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-function debounce(func: any, timeout = 300) {
-	let timer: NodeJS.Timeout;
-	return (...args: any) => {
+// Debounce function
+function debounce(func, timeout = 300) {
+	let timer;
+	return (...args) => {
 		clearTimeout(timer);
 		timer = setTimeout(() => {
-			func.apply(this, args);
+			func(...args);
 		}, timeout);
 	};
 }
+
 function saveInput() {
 	console.info('Saving data');
 }

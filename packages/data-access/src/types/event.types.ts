@@ -24,9 +24,22 @@ interface PrimaryVenue {
 	_type: string;
 	name: string;
 	venue_profile_id: string | null;
-	address: Record<string, any>;
+	address: {
+		address_1: string;
+		address_2?: string;
+		city: string;
+		region: string;
+		postal_code: string;
+		longitude: string;
+		latitude: string;
+		location?: [number, number];
+	};
 	venue_profile_url: string;
 	id: string;
+}
+
+interface TicketInfo {
+	price: string;
 }
 
 export interface Event {
@@ -35,9 +48,11 @@ export interface Event {
 	location?: string;
 	id: string;
 	tickets_url: string;
+	ticket: TicketInfo;
 	urgency_signals: UrgencySignals;
 	tickets_by: string;
 	primary_organizer_id: string;
+	primary_organizer_slug?: string;
 	dedup: Dedup;
 	num_children: number;
 	debug_info: Record<string, any>;
