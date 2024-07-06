@@ -48,10 +48,16 @@ export const updateManyEvents = async ({
 					update: {
 						$set: {
 							...event,
-							'primary_venue.address.location': [
-								{ $toDouble: '$primary_venue.address.longitude' },
-								{ $toDouble: '$primary_venue.address.latitude' },
-							],
+							primary_venue: {
+								...event.primary_venue,
+								address: {
+									...event.primary_venue.address,
+									location: [
+										parseFloat(event.primary_venue.address.longitude),
+										parseFloat(event.primary_venue.address.latitude),
+									],
+								},
+							},
 						},
 					},
 					upsert: true,
@@ -119,10 +125,16 @@ export const updateEvent = async ({
 				{
 					$set: {
 						...data,
-						'primary_venue.address.location': [
-							parseFloat(data.primary_venue.address.longitude),
-							parseFloat(data.primary_venue.address.latitude),
-						],
+						primary_venue: {
+							...data.primary_venue,
+							address: {
+								...data.primary_venue.address,
+								location: [
+									parseFloat(data.primary_venue.address.longitude),
+									parseFloat(data.primary_venue.address.latitude),
+								],
+							},
+						},
 					},
 				},
 				{

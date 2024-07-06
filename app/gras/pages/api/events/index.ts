@@ -2,12 +2,7 @@ import { clientPromise } from '@/lib/db';
 import env from '@/lib/env';
 import { recordMetric } from '@/lib/metrics';
 import { CronJobApi, axios } from '@cd/core-lib';
-import {
-	type Event,
-	getActiveEvents,
-	getEvents,
-	updateManyEvents,
-} from '@cd/data-access';
+import { type Event, getActiveEvents, updateManyEvents } from '@cd/data-access';
 import * as cheerio from 'cheerio';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
