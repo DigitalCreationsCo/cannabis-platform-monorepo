@@ -82,3 +82,7 @@ export interface Event {
 	eid: string;
 	published: string;
 }
+
+export type EventJobLocation = {
+	location: string;
+};

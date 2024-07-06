@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { type MongoClient } from 'mongodb';
 import { db_namespace } from './db';
-import { type Event } from './types';
+import { type EventJobLocation, type Event } from './types';
 import { getZipcodeLocation } from './zipcode.data';
 
 export const createManyEvents = async ({
@@ -293,7 +293,34 @@ export const deleteEvent = async ({
 		.deleteOne(where);
 };
 
-// Currently using Mongo TTL index to expire events
+export const getEventJobLocations = async ({
+	client,
+}: {
+	client: MongoClient;
+}): Promise<EventJobLocation[]> => {
+	const { db, collections } = db_namespace;
+	return await client
+		.db(db)
+		.collection<EventJobLocation>(collections.eventJobLocations)
+		.find()
+		.toArray();
+};
+
+export const addToEventJobLocations = async ({
+	client,
+	location,
+}: {
+	client: MongoClient;
+	location: string;
+}) => {
+	const { db, collections } = db_namespace;
+	return await client
+		.db(db)
+		.collection<EventJobLocation>(collections.eventJobLocations)
+		.insertOne({ location });
+};
+
+// NOT deleting expired events, just hiding them
 // export const deleteExpiredEvents = async () => {
 // 	const client = await clientPromise;
 // 	const { db, collections } = db_namespace;

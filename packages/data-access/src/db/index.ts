@@ -6,6 +6,7 @@ export const db_namespace = {
 		dispensaries: 'dispensaries',
 		drivers: 'drivers',
 		events: 'events',
+		eventJobLocations: 'eventJobLocations',
 		orders: 'orders',
 		staff: 'staff',
 		users: 'users',

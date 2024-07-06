@@ -160,7 +160,32 @@ class CronJobApi {
 
 	// EVENTS
 
-	async createGetEventsByLocationJob(location: string): Promise<string> {
+	async createGetEventsByLocationJob(
+		location: string,
+		timezone: string
+	): Promise<string> {
+		function getCronStringFourMinutesAhead() {
+			const now = new Date();
+			now.setMinutes(now.getMinutes() + 4);
+
+			const minutes = now.getMinutes();
+			const hours = now.getHours();
+
+			return {
+				timezone,
+				expiresAt: 0,
+				hours: [hours],
+				mdays: [-1],
+				minutes: [minutes],
+				months: [-1],
+				wdays: [-1],
+			};
+		}
+		console.info(
+			'getCronStringFourMinutesAhead',
+			getCronStringFourMinutesAhead()
+		);
+
 		const response = await axios.put<{ jobId: string }>(
 			`https://api.cron-job.org/jobs`,
 			{
@@ -168,7 +193,7 @@ class CronJobApi {
 					title: `update-events-${location}`,
 					enabled: true,
 					folderId: folders.events,
-					schedule: '0 0 1 * *',
+					schedule: getCronStringFourMinutesAhead(),
 					url: urlBuilder.shop + `/api/events?location=${location}`,
 					notification: {
 						onFailure: true,

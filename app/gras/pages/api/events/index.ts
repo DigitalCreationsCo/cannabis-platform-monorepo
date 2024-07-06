@@ -2,7 +2,13 @@ import { clientPromise } from '@/lib/db';
 import env from '@/lib/env';
 import { recordMetric } from '@/lib/metrics';
 import { CronJobApi, axios } from '@cd/core-lib';
-import { type Event, getActiveEvents, updateManyEvents } from '@cd/data-access';
+import {
+	addToEventJobLocations,
+	type Event,
+	getActiveEvents,
+	getEventJobLocations,
+	updateManyEvents,
+} from '@cd/data-access';
 import * as cheerio from 'cheerio';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
@@ -41,7 +47,6 @@ export default async function handler(
 const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
 	const client = await clientPromise;
 	const { zipcode, radius } = req.query as { zipcode: string; radius: string };
-	// const { location = 'ny--new-york', query = 'cannabis' } = req.query;
 	const clientToken = req.headers.authorization?.split(' ')[1];
 
 	const token = env.nextAuth.secret;
@@ -65,10 +70,12 @@ const handlePUT = async (req: NextApiRequest, res: NextApiResponse) => {
 	const client = await clientPromise;
 	const {
 		location = 'ny--new-york',
+		timezone = 'America/New_York',
 		query = 'cannabis',
 		create_cron = false,
 	} = req.query as {
 		location: string;
+		timezone: string;
 		query: string;
 		create_cron: string;
 	};
@@ -101,10 +108,17 @@ const handlePUT = async (req: NextApiRequest, res: NextApiResponse) => {
 		await updateManyEvents({ client, data: [...events] });
 
 	if (create_cron) {
-		await CronJobApi.createGetEventsByLocationJob(location);
+		const eventJobLocations = await getEventJobLocations({
+			client,
+		});
+		if (!eventJobLocations.includes({ location })) {
+			process.env.NODE_ENV === 'production' &&
+				(await CronJobApi.createGetEventsByLocationJob(location, timezone));
+			await addToEventJobLocations({ client, location });
+		}
 	}
 
-	res.status(200).json({
+	res.status(201).json({
 		ok,
 		matchedCount,
 		modifiedCount,
