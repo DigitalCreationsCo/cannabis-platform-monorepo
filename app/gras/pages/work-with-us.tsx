@@ -1,13 +1,29 @@
-import SEOMetaTags from '@/lib/SEOMetaTags';
-import { Page, type LayoutContextProps, H2, Footer } from '@cd/ui-lib';
+import { getDashboardSite } from '@cd/core-lib';
+import {
+	Page,
+	H2,
+	type LayoutContextProps,
+	Footer,
+	Benefits,
+	Letter,
+	ContactUs,
+	Hero,
+} from '@cd/ui-lib';
+import {
+	consumerTextMessaging,
+	fullServiceDelivery,
+} from '@cd/ui-lib/src/components/landing/benefits/benefit-data';
+import { letters } from '@cd/ui-lib/src/components/landing/letter/letter-data';
 import { type GetServerSidePropsContext } from 'next';
+import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { type ReactElement, useEffect } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { Letter, ContactUs, Hero, ServicesTopBar } from '@/components/landing';
-import { letters } from '@/components/landing/letter/letter-data';
+import { ServicesTopBar } from '@/components/layouts';
+import SEOMetaTags from '@/lib/SEOMetaTags';
 
 export default function DispensaryLandingPage() {
+	const { t } = useTranslation('common');
 	useEffect(() => {
 		window.BrevoConversationsSetup = {
 			startHidden: true,
@@ -67,6 +83,26 @@ export default function DispensaryLandingPage() {
 					{...letters.growth}
 					title={letters['free-consultation'].title}
 				/>
+
+				<Benefits
+					className="bg-inverse"
+					href={getDashboardSite('/')}
+					data={fullServiceDelivery}
+				/>
+
+				<Letter
+					className="bg-inverse"
+					href={getDashboardSite('/')}
+					{...letters.events}
+				/>
+
+				<Benefits
+					className="bg-inverse-soft"
+					imagePosition="left"
+					data={consumerTextMessaging}
+					href={getDashboardSite('/')}
+				/>
+
 				<ContactUs id="get-started" />
 			</Page>
 		</>

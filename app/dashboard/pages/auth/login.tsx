@@ -1,3 +1,13 @@
+import AgreeMessage from '@/components/auth/AgreeMessage';
+import GithubButton from '@/components/auth/GithubButton';
+import GoogleButton from '@/components/auth/GoogleButton';
+import { AuthLayout } from '@/components/layouts';
+import { Alert } from '@/components/shared';
+import GoogleReCAPTCHA from '@/components/shared/GoogleReCAPTCHA';
+import TogglePasswordVisibility from '@/components/shared/TogglePasswordVisibility';
+import { authProviderEnabled } from '@/lib/auth';
+import env from '@/lib/env';
+import type { NextPageWithLayout } from '@/lib/next.types';
 import { maxLengthPolicies } from '@cd/core-lib';
 import { Button, LoadingPage, Paragraph, TextField } from '@cd/ui-lib';
 import { useFormik } from 'formik';
@@ -23,16 +33,6 @@ import React, {
 import type { ComponentStatus } from 'react-daisyui/dist/types';
 import type ReCAPTCHA from 'react-google-recaptcha';
 import * as Yup from 'yup';
-import AgreeMessage from '@/components/auth/AgreeMessage';
-import GithubButton from '@/components/auth/GithubButton';
-import GoogleButton from '@/components/auth/GoogleButton';
-import { AuthLayout } from '@/components/layouts';
-import { Alert } from '@/components/shared';
-import GoogleReCAPTCHA from '@/components/shared/GoogleReCAPTCHA';
-import TogglePasswordVisibility from '@/components/shared/TogglePasswordVisibility';
-import { authProviderEnabled } from '@/lib/auth';
-import env from '@/lib/env';
-import type { NextPageWithLayout } from '@/lib/next.types';
 import backdrop from 'public/marijuana-backdrop.png';
 
 interface Message {
@@ -237,7 +237,7 @@ const Login: NextPageWithLayout<
 								href={`/auth/join${params}`}
 								className="font-medium text-primary hover:text-[color-mix(in_oklab,oklch(var(--p)),black_7%)]"
 							>
-								&nbsp;{t('create-a-new-account')}
+								&nbsp;{t('create-a-business-account')}
 							</Link>
 						</Paragraph>
 					</div>

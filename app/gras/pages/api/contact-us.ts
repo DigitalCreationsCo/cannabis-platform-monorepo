@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { FreshSales, applicationHeaders, urlBuilder } from '@cd/core-lib';
+import { type ContactUsFormResponse } from '@cd/ui-lib';
 import axios from 'axios';
 import { type NextApiRequest, type NextApiResponse } from 'next';
-import { type ContactUsFormResponse } from '@/components/landing/workwithus/ContactUs';
 
 const FRESHSALES_ADMIN_USERID = 26004178205;
 

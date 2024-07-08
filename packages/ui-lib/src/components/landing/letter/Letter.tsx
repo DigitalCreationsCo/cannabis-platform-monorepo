@@ -1,8 +1,10 @@
-import { FlexBox, H2, Paragraph, styles } from '@cd/ui-lib';
 import Image from 'next/image';
 import { type HTMLAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { CTA } from '../';
+import { styles } from '../../../styleClassNames';
+import { CTA } from '../../button';
+import FlexBox from '../../FlexBox';
+import { H2, Paragraph } from '../../Typography';
 
 interface LetterProps extends HTMLAttributes<HTMLDivElement> {
 	title: string;

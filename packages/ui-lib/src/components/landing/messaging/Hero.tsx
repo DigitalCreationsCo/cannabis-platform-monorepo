@@ -1,12 +1,14 @@
 /* eslint-disable i18next/no-literal-string */
-import { Button, FlexBox, H1, Paragraph, styles } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
-import { CTA } from '..';
-import messageImg from '../../../public/message-1.png';
+import messageImg from '../../../../public/message-1.png';
+import { styles } from '../../../styleClassNames';
+import { CTA } from '../../button';
+import FlexBox from '../../FlexBox';
+import { H1, Paragraph } from '../../Typography';
 
-function Hero() {
+function Hero({ href = '#get-started' }: { href?: string }) {
 	const [heading, largeHeading] = [
 		'tracking-normal !leading-tight font-bold text-inverse-soft text-5xl lg:text-6xl xl:text-6xl drop-shadow-[0px_3px_1px_#444]',
 		'tracking-normal bg-clip-text text-transparent bg-gradient-to-b from-secondary-light to-primary-light inline whitespace-pre-line text-6xl font-bold md:text-7xl drop-shadow-[0px_3px_1px_#444444] lg:text-8xl xl:text-8xl md:drop-shadow-[1px_-5px_1px_#666666]',
@@ -35,9 +37,9 @@ function Hero() {
 							{`Build deeper customer relationships with a messaging service based on choice, quality and trust.`}
 						</Paragraph>
 						<FlexBox className="w-full py-8 sm:flex-row gap-8 items-center">
-							<CTA cta={'Get Started'} href={'/auth/join'} />
+							<CTA cta={'Get Started'} href={href} />
 							<Link
-								className="w-[240px px-8 underline text-light pb-2 uppercase"
+								className="w-[240px px-8 underline text-light pb-2 uppercase hover:text-secondary"
 								href={'#info'}
 								scroll={false}
 							>

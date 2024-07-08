@@ -1,28 +1,35 @@
-import { convertCentsToDollars } from '@cd/core-lib';
-import { H2, H3, Paragraph, Price, styles } from '@cd/ui-lib';
 import { type HTMLAttributes } from 'react';
 import { Card } from 'react-daisyui';
 import { twMerge } from 'tailwind-merge';
-import { CTA } from '..';
+import { styles } from '../../../styleClassNames';
+import { CTA } from '../../button';
+import { H2, H3 } from '../../Typography';
 
 export interface PricingProps extends HTMLAttributes<HTMLDivElement> {
 	title: string;
+	dealValues?: number[];
 	prices: {
-		price: number;
+		price: number | string;
 		description: string;
-		rate: 'per month' | 'per year' | 'pre unit';
+		rate: 'monthly' | 'per year' | 'pre unit';
 		text?: string;
 	}[];
+	href?: string;
 	cta?: string;
 }
 
-const PricingCard = ({ title, prices, ...props }: PricingProps) => {
+const PricingCard = ({
+	title,
+	prices,
+	href = '#get-started',
+	...props
+}: PricingProps) => {
 	return (
 		<div
 			id={props.id}
 			className={twMerge(
 				'relative bg-inverse',
-				'md:py-28 md:pb-28',
+				'md:!py-28 md:pb-28',
 				'gap-12',
 				'flex flex-col items-center',
 				props.className
@@ -41,23 +48,23 @@ const PricingCard = ({ title, prices, ...props }: PricingProps) => {
 					{prices.map((price) => (
 						<div
 							key={`price-${price.description}`}
-							className="mx-auto flex flex-col items-center"
+							className="mx-auto flex flex-col items-center gap-y-2"
 						>
 							<H3 className="items-center">{price.description}</H3>
 							<H3 className="items-center">
-								<span className="text-3xl font-bold text-primary">
-									{`$${convertCentsToDollars(price.price).split('.')[0]}`}
+								<span className="text-5xl font-bold text-primary">
+									{price.price}
 								</span>{' '}
 								{`${price.rate}`}
 							</H3>
-							{price.text && (
+							{/* {price.text && (
 								<Paragraph className="text-2xl">{price.text}</Paragraph>
-							)}
+							)} */}
 						</div>
 					))}
 				</div>
 			</Card>
-			{(props.cta && <CTA cta={props.cta} />) || <></>}
+			{(props.cta && <CTA cta={props.cta} href={href} />) || <></>}
 		</div>
 	);
 };

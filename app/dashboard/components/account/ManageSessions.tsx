@@ -1,3 +1,6 @@
+import { WithLoadingAndError } from '@/components/shared';
+import ConfirmationDialog from '@/components/shared/ConfirmationDialog';
+import { Table } from '@/components/shared/table/Table';
 import { fetcher } from '@cd/core-lib';
 import { type Session } from '@cd/data-access';
 import { H2, Paragraph } from '@cd/ui-lib';
@@ -7,9 +10,6 @@ import { useState } from 'react';
 import toast from 'react-hot-toast';
 
 import useSWR from 'swr';
-import { WithLoadingAndError } from '@/components/shared';
-import ConfirmationDialog from '@/components/shared/ConfirmationDialog';
-import { Table } from '@/components/shared/table/Table';
 
 type NextAuthSession = Session & { isCurrent: boolean };
 

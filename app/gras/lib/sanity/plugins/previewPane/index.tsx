@@ -14,15 +14,15 @@ import AuthorAvatarPreviewPane from './AuthorAvatarPreviewPane';
 
 const iframeOptions = {
 	url: {
-		origin: 'same-origin',
+		origin: process.env.NEXT_PUBLIC_SHOP_APP_URL,
 		preview: (document) => {
 			if (!document) {
 				return new Error('Missing document');
 			}
 			switch (document._type) {
 				case 'post':
-					return (document.slug as any).current
-						? `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/blog/posts/${(document as any).slug.current}`
+					return (document.slug as any)?.current
+						? `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/blog/posts/${(document as any)?.slug.current}`
 						: new Error('Missing slug');
 				default:
 					return new Error(`Unknown document type: ${document?._type}`);

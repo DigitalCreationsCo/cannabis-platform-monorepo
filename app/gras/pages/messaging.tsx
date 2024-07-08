@@ -1,26 +1,27 @@
-/* eslint-disable i18next/no-literal-string */
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-import SEOMetaTags from '@/lib/SEOMetaTags';
-import { Page, Footer } from '@cd/ui-lib';
+import { getDashboardSite } from '@cd/core-lib';
+import {
+	Page,
+	Footer,
+	Benefits,
+	ContactUs,
+	Letter,
+	MessagingHero,
+} from '@cd/ui-lib';
+import {
+	consumerTextMessaging,
+	messageSupport,
+} from '@cd/ui-lib/src/components/landing/benefits/benefit-data';
+import { letters } from '@cd/ui-lib/src/components/landing/letter/letter-data';
+import messagingPrices from '@cd/ui-lib/src/components/landing/Pricing/messagingPrices';
+import PricingCard from '@cd/ui-lib/src/components/landing/Pricing/Pricing';
 import { type GetServerSidePropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { type ReactElement, useEffect } from 'react';
 import { twMerge } from 'tailwind-merge';
-import {
-	Benefits,
-	Letter,
-	MessagingHero,
-	ServicesTopBar,
-} from '@/components/landing';
-import {
-	consumerTextMessaging,
-	messageSupport,
-} from '@/components/landing/benefits/benefit-data';
-import { letters } from '@/components/landing/letter/letter-data';
-import messagingPrices from '@/components/landing/Pricing/messagingPrices';
-import PricingCard from '@/components/landing/Pricing/Pricing';
+import { ServicesTopBar } from '@/components/layouts';
+import SEOMetaTags from '@/lib/SEOMetaTags';
 
 export default function MessagingLandingPage() {
 	useEffect(() => {
@@ -53,37 +54,53 @@ export default function MessagingLandingPage() {
 					'p-0 m-0 md:p-0 lg:p-0'
 				)}
 			>
-				<MessagingHero />
+				<MessagingHero href={getDashboardSite('/')} />
 
-				<Letter
-					id="info"
-					className="bg-inverse-soft"
-					{...letters['consumer-messaging']}
-				/>
 				<Benefits
+					id="info"
 					className="bg-inverse"
-					id="engagement"
 					imagePosition="left"
+					href={getDashboardSite('/')}
 					data={consumerTextMessaging}
 				/>
 
-				<PricingCard id="pricing" className="md:pt-8" {...messagingPrices} />
+				<Letter
+					id="events"
+					className="bg-inverse-soft"
+					{...letters.events}
+					href={getDashboardSite('/')}
+				/>
+				<Letter
+					id="engagement"
+					className="bg-inverse"
+					href={getDashboardSite('/')}
+					{...letters['consumer-messaging']}
+				/>
 
 				<Benefits
-					className="bg-inverse"
+					className="bg-inverse-soft"
 					id="support"
 					imagePosition="left"
+					href={getDashboardSite('/')}
 					data={messageSupport}
+				/>
+				<PricingCard
+					id="pricing"
+					href={getDashboardSite('/')}
+					className="md:pt-8 bg-inverse"
+					{...messagingPrices}
 				/>
 
 				<Letter
-					id="get-started"
+					className="bg-inverse-soft"
 					title={`Create Memorable Customer Experiences Today`}
 					text={`Start building customer engagement with compliant cannabis text messaging from Gras.`}
 					cta={`Get Started`}
-					href={`/auth/join`}
+					href={getDashboardSite('/')}
 					divider={false}
 				/>
+
+				<ContactUs id="get-started" />
 			</Page>
 		</>
 	);
@@ -94,10 +111,13 @@ const SectionsNav = () => {
 	const hash = asPath.split('#')[1];
 
 	const sections = [
-		{ title: 'Messaging', id: 'messaging' },
+		// { title: 'Messaging', id: 'messaging' },
 		{ title: 'Info', id: 'info' },
+		{ title: 'Events', id: 'events' },
 		{ title: 'Engagement', id: 'engagement' },
+		{ title: 'Support', id: 'support' },
 		{ title: 'Pricing', id: 'pricing' },
+		{ title: 'Get Started', id: 'get-started' },
 	];
 	return (
 		<div className="bg-[#444444] mx-auto flex flex-row content-center items-center justify-center gap-x-4 py-2">

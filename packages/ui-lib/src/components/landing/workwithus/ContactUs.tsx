@@ -1,4 +1,3 @@
-/* eslint-disable i18next/no-literal-string */
 import {
 	type ResponseDataEnvelope,
 	TextContent,
@@ -6,19 +5,6 @@ import {
 	applicationHeaders,
 	getFirstErrorOrNull,
 } from '@cd/core-lib';
-// import { type USStateAbbreviated } from '@cd/data-access';
-import {
-	TextField,
-	Button,
-	Grid,
-	Paragraph,
-	H2,
-	FlexBox,
-	TextArea,
-	Select,
-	CheckBox,
-	styles,
-} from '@cd/ui-lib';
 import axios, { type AxiosResponse } from 'axios';
 import { useFormik } from 'formik';
 import Image from 'next/image';
@@ -26,7 +12,15 @@ import { type HTMLAttributes, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
-import founder from '../../../public/founder.jpg';
+import founder from '../../../../public/founder.png';
+import Button from '../../button/Button';
+import CheckBox from '../../CheckBox';
+import FlexBox from '../../FlexBox';
+import Grid from '../../Grid';
+import Select from '../../Select';
+import TextArea from '../../TextArea';
+import TextField from '../../TextField';
+import { Paragraph, H2 } from '../../Typography';
 
 export interface ContactUsFormResponse {
 	firstName: string;
@@ -80,12 +74,12 @@ export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
 		email: '',
 		street: '',
 		city: '',
-		state: '',
+		state: 'NY',
 		zipcode: '',
 		message: '',
 		howDidYouHearAboutUs: '',
 		whichServiceInterestedIn: '',
-		allowProcessResponse: false,
+		allowProcessResponse: true,
 		subscribeCannabisInsiderNewsletter: false,
 		title: '',
 		company: '',
@@ -199,7 +193,7 @@ export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
 
 	return (
 		<div id={props.id} className={twMerge('bg-slate-100')}>
-			<Grid className="py-12 lg:py-24 px-4 md:px-32 grid-cols-1 xl:grid-cols-2 xl:gap-x-24 auto-cols-max">
+			<Grid className="py-12 lg:!py-24 px-4 md:px-32 grid-cols-1 xl:grid-cols-2 xl:gap-x-24 auto-cols-max">
 				<div className="pb-12 text-2xl text-dark max-w-full col-span-full mx-auto">
 					<Paragraph
 						className={twMerge(
@@ -345,6 +339,7 @@ export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
 							name="state"
 							label=" state"
 							className="rounded border"
+							defaultValue={values.state}
 							values={usStatesAbbreviationList}
 							setOption={handleChange}
 						/>
@@ -449,8 +444,8 @@ export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
 								loading={loadingButton}
 								size="lg"
 								bg="secondary-light"
-								hover="primary-light"
-								className="p-8 text-2xl place-self-center"
+								hover="primary"
+								className="p-8 text-2xl place-self-center uppercase hover:scale-105 transition duration-200"
 								onClick={(e: any) => {
 									e.preventDefault();
 									e.stopPropagation();

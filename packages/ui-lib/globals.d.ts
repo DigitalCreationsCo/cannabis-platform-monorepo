@@ -2,6 +2,9 @@
 declare module '*.png';
 
 interface Window {
+	// GTM
+	dataLayer: any;
+
 	BrevoConversationsID?: string;
 	BrevoConversations?: any;
 }

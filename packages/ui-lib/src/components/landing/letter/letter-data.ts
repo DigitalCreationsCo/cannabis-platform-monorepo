@@ -32,6 +32,7 @@ const letters = {
 		We understand these challenges of running a delivery service. That's why we specialize in automating your delivery manifests and keeping your delivery service running smoothly and legally.`,
 
 		footer: `Take the pain out of delivery with our Delivery Compliance service. Give yourself the time back to focus on what you do best: Building your business.`,
+		cta: `I'm ready to simplify my delivery service`,
 	},
 
 	'delivery-tracking': {
@@ -50,9 +51,9 @@ const letters = {
 		footer: `Make your delivery service work for you. Upgrade to Delivery Management.`,
 		cta: `Upgrade my delivery service`,
 		photos: [
-			require('../../../public/delivery-2.png'),
-			require('../../../public/delivery-3.png'),
-			require('../../../public/delivery.png'),
+			require('../../../../public/delivery-2.png'),
+			require('../../../../public/delivery-3.png'),
+			require('../../../../public/delivery.png'),
 		],
 	},
 
@@ -78,9 +79,9 @@ Full Service Delivery relieves you of these issues, and integrates with your sto
 			'Become the destination for memorable cannabis events in your city. 🎉',
 		cta: `I want to create memorable events for my customers`,
 		photos: [
-			require('../../../public/events-2.png'),
-			require('../../../public/events-1.png'),
-			require('../../../public/events-3.png'),
+			require('../../../../public/events-2.png'),
+			require('../../../../public/events-1.png'),
+			require('../../../../public/events-3.png'),
 		],
 	},
 
@@ -96,7 +97,7 @@ Full Service Delivery relieves you of these issues, and integrates with your sto
 		Show your customers love by letting them know you appreciate them, build a community and build trust.`,
 		footer: `Keep your customers happy with deals, events and good news. They'll love you for it.`,
 		cta: `Starting messaging my customers`,
-		photos: [require('../../../public/message-2.png')],
+		photos: [require('../../../../public/message-2.png')],
 	},
 
 	'take-urgent-action': {
@@ -163,7 +164,7 @@ Full Service Delivery relieves you of these issues, and integrates with your sto
 		That's why our partnership starts with a free success call to determine the unique needs of your business. 
 		
 		We'll create a growth plan using the right services to support your business, delight your customers, and boost your sales 10% in 100 days.`,
-		footer: `We'll contact you today to schedule your free success call.`,
+		footer: `We'll reach out today to schedule your free success call.`,
 		cta: `I'm ready to 2X my business`,
 	},
 };

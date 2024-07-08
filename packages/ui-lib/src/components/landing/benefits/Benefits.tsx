@@ -1,9 +1,23 @@
-import { FlexBox, Paragraph, IconWrapper, H5, styles, H2 } from '@cd/ui-lib';
-import Image from 'next/image';
+import Image, { type StaticImageData } from 'next/image';
 import { type HTMLAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { CTA } from '../index';
-import { type BenefitData } from './benefit-data';
+import { styles } from '../../../styleClassNames';
+import { CTA } from '../../button';
+import FlexBox from '../../FlexBox';
+import IconWrapper from '../../IconWrapper';
+import { H5, Paragraph, H2 } from '../../Typography';
+
+export interface BenefitData {
+	title?: string;
+	description?: string;
+	image?: StaticImageData | string;
+	bullets: {
+		title?: string;
+		description?: string;
+		icon: any;
+	}[];
+	cta?: string;
+}
 
 interface BenefitsProps extends HTMLAttributes<HTMLDivElement> {
 	data: BenefitData;
@@ -11,6 +25,7 @@ interface BenefitsProps extends HTMLAttributes<HTMLDivElement> {
 	orientation?: 'row' | 'col';
 	values?: number[];
 	valueColor?: string;
+	href?: string;
 }
 
 export default function Benefits({
@@ -19,6 +34,7 @@ export default function Benefits({
 	orientation: ornt = 'col',
 	values,
 	valueColor = 'text-dark',
+	href = '#get-started',
 	...props
 }: BenefitsProps) {
 	const orientation = ornt === 'row' ? 'flex-row' : 'flex-col';
@@ -99,7 +115,7 @@ export default function Benefits({
 					)}
 				</FlexBox>
 				<>{props.children}</>
-				{(data.cta && <CTA cta={data.cta} />) || <></>}
+				{(data.cta && <CTA cta={data.cta} href={href} />) || <></>}
 			</FlexBox>
 		</div>
 	);
@@ -117,7 +133,7 @@ export function Benefit(
 				<div className="flex h-11 w-11 shadow-lg shrink-0 items-center justify-center rounded-md bg-orange-300">
 					<IconWrapper iconSize={32} Icon={props.icon} />
 				</div>
-				<div>
+				<div className={twMerge('w-full', props.valueColor)}>
 					<H5 className="text-2xl whitespace-nowrap font-semibold">
 						{props.title}
 						<span className={props.valueColor}>
@@ -125,7 +141,7 @@ export function Benefit(
 						</span>
 					</H5>
 					{props.description && (
-						<Paragraph className="text-dark mt-1 text-2xl">
+						<Paragraph className={twMerge('mt-1 text-2xl font-medium')}>
 							{props.description}
 						</Paragraph>
 					)}

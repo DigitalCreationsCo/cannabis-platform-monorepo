@@ -7,6 +7,7 @@ import newsletter from './newsletter';
 import post from './post';
 import section from './section';
 import settings from './settings';
+import strainOfTheWeek from './strain-of-the-week';
 
 export const schemaTypes = [
 	post,
@@ -16,6 +17,7 @@ export const schemaTypes = [
 	category,
 	author,
 	settings,
+	strainOfTheWeek,
 ];
 export const schema: { types: SchemaTypeDefinition[] } = {
 	types: schemaTypes,

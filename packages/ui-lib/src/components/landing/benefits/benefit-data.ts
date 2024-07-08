@@ -1,12 +1,11 @@
-import DeliveryBox from '@cd/ui-lib/src/icons/DeliveryBox';
-import { StopIcon } from '@heroicons/react/20/solid';
 import {
 	ChatBubbleLeftEllipsisIcon,
 	UserCircleIcon,
 	PresentationChartLineIcon,
-	ArrowDownOnSquareStackIcon,
 	ClipboardDocumentCheckIcon,
-	CalendarIcon,
+	UsersIcon,
+	MegaphoneIcon,
+	MagnifyingGlassPlusIcon,
 	CheckIcon,
 	TruckIcon,
 	ClockIcon,
@@ -14,27 +13,27 @@ import {
 	ShareIcon,
 	UserGroupIcon,
 	QuestionMarkCircleIcon,
+	ArchiveBoxIcon,
 } from '@heroicons/react/24/outline';
-import { type StaticImageData } from 'next/image';
-import FleetTrackingImage from '../../../public/fleet-tracking-and-app-view.png';
+import FleetTrackingImage from '../../../../public/fleet-tracking-and-app-view.png';
+import { type BenefitData } from './Benefits';
 
-export const unlockYourGrowth = {
+export const unlockYourGrowth: BenefitData = {
 	title: 'We Unlock Hyper Growth For Your Dispensary',
 	description: `Your Vision & Our Support = Hyper Growth`,
-	image: require('../../../public/dispensary.png'),
+	image: require('../../../../public/dispensary.png'),
 	bullets: [
 		{
-			description:
-				'Service designed to increase your revenue and customer base.',
+			description: 'Increase revenue by growing your local customer base',
 			icon: PresentationChartLineIcon,
 		},
 		{
-			description: `Your growth is our goal.`,
-			icon: CalendarIcon,
+			description: `Personalized campaigns that sell more product`,
+			icon: MegaphoneIcon,
 		},
 		{
-			description: 'Personalized support ensures your success.',
-			icon: ArrowDownOnSquareStackIcon,
+			description: 'Create customer loyalty with memorable brand experience',
+			icon: UsersIcon,
 		},
 	],
 	cta: `I'm ready to 2X My Business`,
@@ -43,7 +42,7 @@ export const unlockYourGrowth = {
 export const automateDeliveryCompliance: BenefitData = {
 	title: `Relax, We Keep Your Delivery Compliant`,
 	description: `With Automation That Suits Your Business`,
-	image: require('../../../public/compliance.png'),
+	image: require('../../../../public/compliance.png'),
 	bullets: [
 		{
 			description: `No more paper manifests. Automate your records.`,
@@ -51,7 +50,7 @@ export const automateDeliveryCompliance: BenefitData = {
 		},
 		{
 			description: `Electronic records eliminate mistakes and keep your drivers on the road.`,
-			icon: DeliveryBox,
+			icon: ArchiveBoxIcon,
 		},
 		{
 			description:
@@ -73,7 +72,7 @@ export const trackDeliveries: BenefitData = {
 export const deliveryManagementService: BenefitData = {
 	title: 'Make Cannabis Delivery A Breeze',
 	description: `Delivery Management Service`,
-	image: require('../../../public/sun.png'),
+	image: require('../../../../public/sun.png'),
 	bullets: [
 		{
 			description: `No more paper manifests. Automate your records.`,
@@ -95,7 +94,7 @@ export const deliveryManagementService: BenefitData = {
 export const fullServiceDelivery: BenefitData = {
 	title: 'Outsource Your Delivery',
 	description: `Our Full Service Delivery has you covered from your doorstep to your customers. Here's what you can expect:`,
-	// image: require('../../../public/delivery-4.png'),
+	// image: require('../../../../public/delivery-4.png'),
 	bullets: [
 		// {
 		// 	description: `Same-day delivery by our Delivery Team.`,
@@ -120,7 +119,7 @@ export const fullServiceDelivery: BenefitData = {
 			title: 'Say Goodbye To Order Mix-Ups',
 			description:
 				'Technology makes sure every order is accurate. Our delivery process makes sure drivers pick up the correct order every time, for happier customers and fewer returns.',
-			icon: StopIcon,
+			icon: MagnifyingGlassPlusIcon,
 		},
 		{
 			title: `Boost Customer Satisfaction`,
@@ -134,7 +133,7 @@ export const fullServiceDelivery: BenefitData = {
 export const consumerTextMessaging: BenefitData = {
 	title: 'Stay In Touch With Your Customers',
 	description: `With engaging and trusted experiences that make their day better, and keep them coming back`,
-	image: require('../../../public/message.png'),
+	image: require('../../../../public/message.png'),
 	bullets: [
 		{
 			description: 'Share events, promotions, new products, and order updates.',
@@ -155,7 +154,7 @@ export const consumerTextMessaging: BenefitData = {
 export const messageSupport: BenefitData = {
 	title: 'Support That Keeps You Going',
 	description: `You always have access to our customer support and success teams.`,
-	// image: require('../../../public/message.png'),
+	// image: require('../../../../public/message.png'),
 	bullets: [
 		{
 			description: 'Deliver trusted customer experiences with compliance.',
@@ -220,15 +219,3 @@ export const dealValue: BenefitData = {
 		},
 	],
 };
-
-export interface BenefitData {
-	title?: string;
-	description?: string;
-	image?: StaticImageData | string;
-	bullets: {
-		title?: string;
-		description?: string;
-		icon: any;
-	}[];
-	cta?: string;
-}

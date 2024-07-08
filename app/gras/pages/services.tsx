@@ -1,24 +1,18 @@
 /* eslint-disable i18next/no-literal-string */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import SEOMetaTags from '@/lib/SEOMetaTags';
+import { getDashboardSite } from '@cd/core-lib';
 import {
 	Page,
 	type LayoutContextProps,
 	H2,
+	H3,
 	Paragraph,
 	Footer,
-} from '@cd/ui-lib';
-import { type GetServerSidePropsContext } from 'next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { type ReactElement, useEffect } from 'react';
-import { twMerge } from 'tailwind-merge';
-import {
 	Benefits,
 	Letter,
 	ContactUs,
 	Hero,
-	ServicesTopBar,
-} from '@/components/landing';
+} from '@cd/ui-lib';
 import {
 	automateDeliveryCompliance,
 	consumerTextMessaging,
@@ -27,12 +21,21 @@ import {
 	fullServiceDelivery,
 	trackDeliveries,
 	unlockYourGrowth,
-} from '@/components/landing/benefits/benefit-data';
-import { letters } from '@/components/landing/letter/letter-data';
-import Partners from '@/components/landing/partners/Partners';
-import { partners } from '@/components/landing/partners/partners-data';
+} from '@cd/ui-lib/src/components/landing/benefits/benefit-data';
+import { letters } from '@cd/ui-lib/src/components/landing/letter/letter-data';
+import Partners from '@cd/ui-lib/src/components/landing/partners/Partners';
+import { partners } from '@cd/ui-lib/src/components/landing/partners/partners-data';
+import price from '@cd/ui-lib/src/components/landing/Pricing/messagingPrices';
+import { type GetServerSidePropsContext } from 'next';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { type ReactElement, useEffect } from 'react';
+import { twMerge } from 'tailwind-merge';
+import { ServicesTopBar } from '@/components/layouts';
+import SEOMetaTags from '@/lib/SEOMetaTags';
 
 export default function DispensaryLandingPage() {
+	const { t } = useTranslation('common');
 	useEffect(() => {
 		window.BrevoConversationsSetup = {
 			startHidden: true,
@@ -95,26 +98,39 @@ export default function DispensaryLandingPage() {
 					'p-0 m-0 md:p-0 lg:p-0'
 				)}
 			>
-				<Hero />
+				<Hero href={getDashboardSite('/')} />
 
-				<Letter id="grow" {...letters.growth} />
-				<Benefits data={unlockYourGrowth} className="bg-inverse-soft" />
+				<Letter id="info" {...letters.growth} href={getDashboardSite('/')} />
+				<Benefits
+					data={unlockYourGrowth}
+					className="bg-inverse-soft"
+					href={getDashboardSite('/')}
+				/>
 
-				<Letter {...letters['delivery-painpoints']} />
+				<Letter
+					{...letters['delivery-painpoints']}
+					href={getDashboardSite('/')}
+				/>
 				<Benefits
 					className="bg-gradient-to-b from-10% from-inverse to-inverse-soft"
 					data={deliveryManagementService}
+					href={getDashboardSite('/')}
 				/>
 				<Benefits
 					imagePosition="left"
 					data={automateDeliveryCompliance}
+					href={getDashboardSite('/')}
 					className="bg-inverse-soft"
 				/>
 
-				<Letter {...letters['delivery-tracking']} />
+				<Letter
+					{...letters['delivery-tracking']}
+					href={getDashboardSite('/')}
+				/>
 				<Benefits
 					imagePosition="left"
 					data={trackDeliveries}
+					href={getDashboardSite('/')}
 					className="bg-inverse-soft"
 				/>
 
@@ -133,35 +149,55 @@ export default function DispensaryLandingPage() {
 				<Letter
 					className="bg-inverse-soft"
 					{...letters['full-service-delivery']}
+					href={getDashboardSite('/')}
 				/>
-				<Benefits className="bg-inverse" data={fullServiceDelivery} />
+				<Benefits
+					className="bg-inverse"
+					href={getDashboardSite('/')}
+					data={fullServiceDelivery}
+				/>
 
 				<Letter
 					className="bg-inverse-soft"
 					{...letters['consumer-messaging']}
+					href={getDashboardSite('/')}
 				/>
-				<Benefits
+
+				<Letter
 					className="bg-inverse"
-					imagePosition="left"
-					data={consumerTextMessaging}
+					href={getDashboardSite('/')}
+					{...letters.events}
 				/>
-				<Letter className="bg-inverse-soft" {...letters.events} />
-
-				<Letter className="bg-inverse" {...letters['take-urgent-action']} />
-				<Letter className="bg-inverse-soft" {...letters['limited-offer']} />
-
-				<Letter className="bg-inverse" {...letters['partner-relationship']} />
-
 				<Benefits
 					className="bg-inverse-soft"
 					imagePosition="left"
+					data={consumerTextMessaging}
+					href={getDashboardSite('/')}
+				/>
+
+				<Letter
+					className="bg-inverse"
+					href={getDashboardSite('/')}
+					{...letters['partner-relationship']}
+				/>
+
+				<Letter
+					className="bg-inverse-soft"
+					href={getDashboardSite('/')}
+					{...letters['limited-offer']}
+				/>
+
+				<Benefits
+					className="bg-inverse"
+					imagePosition="left"
 					data={dealValue}
-					values={dealValues}
+					values={price.dealValues}
 					valueColor="text-primary"
+					href={getDashboardSite('/')}
 				>
 					<Paragraph className="font-semibold text-3xl text-primary">
 						Total Value{' '}
-						<span className="line-through">{`$${dealValues.reduce(
+						<span className="line-through">{`$${price.dealValues.reduce(
 							(a, b) => a + b,
 							0
 						)}`}</span>
@@ -174,12 +210,26 @@ export default function DispensaryLandingPage() {
 					</Paragraph>
 				</Benefits>
 
-				<Letter className="bg-inverse" {...letters['free-consultation']}>
+				<Letter
+					className="bg-inverse-soft"
+					href={getDashboardSite('/')}
+					{...letters['take-urgent-action']}
+				/>
+
+				<Letter
+					className="bg-inverse"
+					{...letters['free-consultation']}
+					cta={t('contact-us')}
+				>
 					<div className="py-6">
 						<Paragraph className="font-semibold text-center text-3xl">
-							Your price today:{' '}
+							Your price today is{' '}
 							<span className="text-primary line-through">{`$980.88`}</span>
-							<span className="block text-primary pt-4 underline underline-offset-8">{`${price}`}</span>
+							<H3 className="items-center pt-4">
+								<span className="text-5xl font-bold text-primary">
+									{price.prices[0].price}
+								</span>{' '}
+							</H3>
 						</Paragraph>
 						<br />
 						<Paragraph className="font-semibold text-3xl text-center">
@@ -193,9 +243,6 @@ export default function DispensaryLandingPage() {
 		</>
 	);
 }
-
-const dealValues = [779, 1179, 4779, 979, 1479];
-const price = '$489.99';
 
 DispensaryLandingPage.getLayoutContext = (): LayoutContextProps => ({
 	TopBarComponent: () => (

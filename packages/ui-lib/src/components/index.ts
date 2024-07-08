@@ -13,6 +13,7 @@ export { default as FAQ } from './FAQ';
 export * from './CheckBox';
 export { default as CheckBox } from './CheckBox';
 export { default as ClickableTags } from './ClickableTags';
+export * from './landing';
 export { default as CopyRight } from './CopyRight';
 export { default as EmbedVideo } from './EmbedVideo';
 export { default as DeliveryGuarantee } from './DeliveryGuarantee';

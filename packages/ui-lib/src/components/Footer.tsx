@@ -24,8 +24,8 @@ export default function Footer({
 			name: TextContent.account.CREATE_DISPENSARY_ACCOUNT,
 			href: getDashboardSite('/auth/join'),
 		},
-		{ name: 'Support', href: getShopSite(TextContent.href.support) },
 		{ name: 'Services', href: TextContent.href.services },
+		{ name: 'Support', href: getShopSite(TextContent.href.support) },
 		{ name: 'About Gras', href: getShopSite(TextContent.href.about) },
 	];
 	const legal = [

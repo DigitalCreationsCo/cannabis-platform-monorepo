@@ -1,13 +1,14 @@
+import { convertCentsToDollars } from '@cd/core-lib';
 import { type PricingProps } from './Pricing';
 
 const messagingPrices: PricingProps = {
 	title: 'Pricing',
-
+	dealValues: [779, 1179, 4779, 979, 1479],
 	prices: [
 		{
-			price: 37900,
+			price: `$${convertCentsToDollars(48999)}`,
 			description: 'Send compliant messages to your customers.',
-			rate: 'per month',
+			rate: 'monthly',
 			text: 'Unlimited Messages',
 		},
 	],

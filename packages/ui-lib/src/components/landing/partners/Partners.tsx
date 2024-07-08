@@ -1,7 +1,8 @@
-import { Grid, Paragraph } from '@cd/ui-lib';
 import Image from 'next/image';
 import { type HTMLAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
+import Grid from '../../Grid';
+import { Paragraph } from '../../Typography';
 import { type Partner } from './partners-data';
 
 function Partners({

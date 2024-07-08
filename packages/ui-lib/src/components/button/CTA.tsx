@@ -1,16 +1,8 @@
-/* eslint-disable import/no-cycle */
-import { Button } from '@cd/ui-lib';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
+import Button from './Button';
 
-export { default as ServicesTopBar } from './ServicesTopBar';
-export { default as Hero } from './workwithus/Hero';
-export { default as MessagingHero } from './messaging/Hero';
-export { default as ContactUs } from './workwithus/ContactUs';
-export { default as Benefits } from './benefits/Benefits';
-export { default as Letter } from './letter/Letter';
-
-export const CTA = ({
+const CTA = ({
 	className,
 	cta,
 	href = '#get-started',
@@ -39,3 +31,5 @@ export const CTA = ({
 		</Link>
 	);
 };
+
+export default CTA;

@@ -1,13 +1,21 @@
 /* eslint-disable i18next/no-literal-string */
 import { TextContent } from '@cd/core-lib';
-import { Button, FlexBox, H1, H2, Paragraph, styles } from '@cd/ui-lib';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
-import { CTA } from '../';
+import { styles } from '../../../styleClassNames';
+import { CTA, Button } from '../../button';
+import FlexBox from '../../FlexBox';
+import { H1, H2 } from '../../Typography';
 import Partners from '../partners/Partners';
 import { recognizedBy } from '../partners/partners-data';
 
-function Hero({ showPretext = true }) {
+function Hero({
+	showPretext = true,
+	href = '#get-started',
+}: {
+	showPretext?: boolean;
+	href?: string;
+}) {
 	const { heading, largeHeading } = styles.HERO;
 	return (
 		<section className={twMerge('bg-inverse-soft', 'pt-8 md:pt-16')}>
@@ -42,7 +50,7 @@ function Hero({ showPretext = true }) {
 				</H2>
 				<FlexBox className="items-center gap-4 sm:flex-row justify-center lg:gap-8">
 					<Link
-						href={'#grow'}
+						href={'#info'}
 						scroll={false}
 						className="w-[240px] hover:scale-105 transition duration-200 pb-2"
 					>
@@ -55,7 +63,7 @@ function Hero({ showPretext = true }) {
 							{TextContent.info.LEARN_MORE}
 						</Button>
 					</Link>
-					<CTA />
+					<CTA href={href} />
 				</FlexBox>
 			</div>
 			<Partners
