@@ -374,7 +374,7 @@ const TextContent = Object.freeze({
 		preview_fullscreen_widget_f: (id: string) =>
 			`/${id}/settings/preview-fullscreen`,
 		daily_deals_weed_text_f: (id: string) => `/${id}/daily-deals`,
-		support: '/help/support',
+		support: '/support',
 
 		help: `/help`,
 		about: '/help?topic=about-gras',

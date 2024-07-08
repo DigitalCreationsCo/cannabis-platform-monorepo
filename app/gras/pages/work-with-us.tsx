@@ -1,3 +1,5 @@
+import { ServicesTopBar } from '@/components/layouts';
+import SEOMetaTags from '@/lib/SEOMetaTags';
 import { getDashboardSite } from '@cd/core-lib';
 import {
 	Page,
@@ -19,8 +21,6 @@ import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { type ReactElement, useEffect } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { ServicesTopBar } from '@/components/layouts';
-import SEOMetaTags from '@/lib/SEOMetaTags';
 
 export default function DispensaryLandingPage() {
 	const { t } = useTranslation('common');
@@ -76,11 +76,12 @@ export default function DispensaryLandingPage() {
 					'p-0 m-0 md:p-0 lg:p-0'
 				)}
 			>
-				<Hero showPretext={false} />
+				<Hero showPretext={false} href={getDashboardSite('/')} />
 				<Letter
-					id="grow"
+					id="info"
 					className="bg-inverse-soft pt-8"
 					{...letters.growth}
+					href={getDashboardSite('/')}
 					title={letters['free-consultation'].title}
 				/>
 

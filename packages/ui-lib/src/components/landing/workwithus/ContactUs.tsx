@@ -216,12 +216,12 @@ export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
 
 				<div
 					id="founder-quote"
-					className="p-12 border rounded-xl shadow-xl drop-shadow-2xl hidden xl:block xl:max-w-xl ml-auto row-start-2"
+					className="p-12 border rounded-xl shadow-xl drop-shadow-2xl hidden xl:block xl:max-w-xl mx-auto row-start-2"
 				>
 					<FlexBox className="flex-row">
 						<Image
-							width={170}
-							height={170}
+							width={140}
+							height={140}
 							className="rounded-full"
 							src={founder}
 							alt={'founder'}
