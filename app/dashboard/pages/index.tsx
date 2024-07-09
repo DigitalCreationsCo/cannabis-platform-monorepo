@@ -38,7 +38,10 @@ export default function DashboardHome() {
 				<ImageBackDrop src={backdrop}>
 					<DashboardTopBar />
 					<Center className="gap-8">
-						<H1 color="light" className="tracking-normal !text-5xl">
+						<H1
+							color="light"
+							className="tracking-normal text-5xl md:text-5xl lg:text-6xl"
+						>
 							{t('dispensary-success-services')}
 						</H1>
 						<FlexBox className="lg:flex-row gap-x-24 gap-y-8">
@@ -53,7 +56,7 @@ export default function DashboardHome() {
 									/>
 								))}
 							</div>
-							<FlexBox className="items-center space-y-2 mx-auto md:pt-8">
+							<FlexBox className="items-center space-y-6 mx-auto md:pt-8">
 								<SignInButton size="lg" bg="primary" hover="primary-light" />
 
 								<Link href="/auth/join">
@@ -94,7 +97,7 @@ const ImageBackDrop = ({
 					objectPosition: '80% 40%',
 				}}
 				priority
-				quality={75}
+				quality={100}
 			/>
 			<div
 				className="flex h-full grow"

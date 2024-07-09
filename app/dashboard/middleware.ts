@@ -2,7 +2,6 @@ import micromatch from 'micromatch';
 import { getToken } from 'next-auth/jwt';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-
 import env from './lib/env';
 
 // Add routes that don't require authentication
@@ -35,8 +34,15 @@ const unAuthenticatedRoutes = [
 export default async function middleware(req: NextRequest) {
 	const { pathname } = req.nextUrl;
 
+	// redirect to login
+	if (pathname === '/') {
+		const redirectUrl = new URL('/auth/login', req.url);
+		return NextResponse.redirect(redirectUrl);
+	}
+
 	// Bypass routes that don't require authentication
 	if (micromatch.isMatch(pathname, unAuthenticatedRoutes)) {
+		console.info('Bypassing auth middleware for', pathname);
 		return NextResponse.next();
 	}
 
@@ -77,5 +83,9 @@ export default async function middleware(req: NextRequest) {
 }
 
 export const config = {
-	matcher: ['/((?!_next/static|_next/image|favicon.ico|api/auth/session).*)'],
+	matcher: [
+		'/((?!_next/static|_next/image|favicon.ico|api/auth/session).*)',
+		'/',
+		// '/((?!_next/static|_next/image|favicon.ico|api/auth/session).*)|^/$',
+	],
 };

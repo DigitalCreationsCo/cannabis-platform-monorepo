@@ -17,7 +17,7 @@ const Login: NextPageWithLayout<LoginProps> = ({ csrfToken }) => {
 
 Login.getLayout = function getLayout(page: ReactElement) {
 	return (
-		<AuthLayout heading="welcome-back" description="log-in-to-account">
+		<AuthLayout heading="welcome-back" description="log-in-to-business-account">
 			{page}
 		</AuthLayout>
 	);

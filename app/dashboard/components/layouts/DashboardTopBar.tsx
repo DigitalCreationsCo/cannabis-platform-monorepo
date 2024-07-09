@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { getShopSite, TextContent } from '@cd/core-lib';
+import { TextContent } from '@cd/core-lib';
 import { Button, FlexBox, GrasSignature, Paragraph, styles } from '@cd/ui-lib';
 import { useSession, signOut } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
