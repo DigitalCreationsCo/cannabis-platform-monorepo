@@ -1,13 +1,6 @@
 import env from '@/lib/env';
-import {
-	type ApiResponse,
-	fetcher,
-	isArray,
-	renderAddress,
-	renderSchedule,
-	TextContent,
-	urlBuilder,
-} from '@cd/core-lib';
+import SEOMetaTags from '@/lib/SEOMetaTags';
+import { renderAddress, renderSchedule, TextContent } from '@cd/core-lib';
 import {
 	type ProductVariantWithDetails,
 	type Dispensary,
@@ -18,33 +11,26 @@ import {
 	Card,
 	ErrorMessage,
 	FlexBox,
-	Grid,
-	H2,
 	H4,
 	H6,
 	IconWrapper,
 	Page,
 	Paragraph,
 	Price,
-	type LayoutContextProps,
-	LoadingPage,
-	H1,
 } from '@cd/ui-lib';
-import icons from '@cd/ui-lib/src/icons';
 import {
 	ArrowLeftIcon,
 	CurrencyDollarIcon,
 	TruckIcon,
 } from '@heroicons/react/24/outline';
+import { MapPinIcon } from '@heroicons/react/24/solid';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import logo from 'public/logo.png';
 import { type PropsWithChildren, useState, type ReactElement } from 'react';
-import useSWR from 'swr';
 import { twMerge } from 'tailwind-merge';
-import SEOMetaTags from '@/lib/SEOMetaTags';
 
 function DispensaryPage({
 	dispensary: organization,
@@ -52,32 +38,6 @@ function DispensaryPage({
 	dispensary: Required<Dispensary>;
 }) {
 	const Router = useRouter();
-
-	// const { error, isLoading, data } = useSWR<Dispensary>(
-	// 	() => `/api/dispensaries/${dispensaryId}`,
-	// 	async (url: string) => {
-	// 		const response = await fetch(url);
-	// 		const json = await response.json();
-
-	// 		if (!response.ok) {
-	// 			throw new Error(
-	// 				json.error.message || 'An error occurred while fetching the data'
-	// 			);
-	// 		}
-
-	// 		return json.payload;
-	// 	}
-	// );
-
-	// console.info('token: ', token);
-	// const { data, error, isLoading } = useSWR<ApiResponse<Dispensary>>(
-	// 	[`/api/dispensaries/${slug}`, token],
-	// 	fetcher
-	// );
-
-	// if (isLoading) {
-	// 	return <LoadingPage />;
-	// }
 
 	if (!organization.name) {
 		return (
@@ -132,12 +92,22 @@ function DispensaryPage({
 				</div>
 			)) || <></>}
 			<DispensaryStatus />
-			<Paragraph style={{ color: applyDispensaryStyles['text-color'] }}>
-				{renderAddress({
-					address: organization.address,
-					lineBreak: false,
-				})}
-			</Paragraph>
+			<FlexBox className="-ml-1 flex-row gap-2 items-center sm:items-center flex-wrap">
+				<MapPinIcon
+					height={20}
+					width={20}
+					style={{ color: applyDispensaryStyles['text-color'] }}
+				/>
+				<Paragraph
+					style={{ color: applyDispensaryStyles['text-color'] }}
+					className="font-medium whitespace-wrap"
+				>
+					{renderAddress({
+						address: organization.address,
+						lineBreak: false,
+					})}
+				</Paragraph>
+			</FlexBox>
 			<Description />
 		</div>
 	);
@@ -279,7 +249,7 @@ function DispensaryPage({
 				size="sm"
 				bg="transparent"
 				hover="transparent"
-				className="text-dark self-start sm:py-0 hover:underline"
+				className="w-fit px-0 !pb-4 text-dark self-start sm:py-0 hover:underline"
 				onClick={() => Router.back()}
 			>
 				<IconWrapper Icon={ArrowLeftIcon} className="pr-1" />

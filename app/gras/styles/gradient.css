@@ -4,24 +4,28 @@
 		hsla(335, 91%, 70%, 1) 0%,
 		hsla(49, 89%, 61%, 1) 100%
 	);
-	background-size: '400% 400%';
-	animation: 'gradient 25s ease infinite';
+	background-size: 400% 400%;
+	animation: gradient 44s ease infinite;
 }
 
 .anim8-green-gradient {
 	background: linear-gradient(132deg, #f4d03f 0%, #16a085 100%);
-	background-size: '400% 400%';
-	animation: 'gradient 25s ease infinite';
+	background-size: 400% 400%;
+	animation: gradient 44 ease infinite;
 }
 
-@keyframes gradient {
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
+.anim8-neon-gradient {
+	background: linear-gradient(
+		90deg,
+		rgb(242, 44, 126) 0%,
+		#f4ae44 12%,  /* Orange */
+		#ffff72 24%,  /* Yellow */
+		#42f842be 35%,  /* Green */
+		#498bd2 65%,  /* Blue */
+		#b611f3 78%,  /* Purple */
+		#c108c1 90%,  /* Magenta */
+		hsla(335, 91%, 70%, 1) 100%
+	);
+	background-size: 400% 400%;
+	animation: gradient 202s ease infinite;
 }

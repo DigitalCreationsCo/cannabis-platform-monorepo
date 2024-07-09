@@ -32,5 +32,9 @@ export const normalizeUser = (user: any) => {
 		user.name = user.name.substring(0, maxLengthPolicies.name);
 	}
 
+	if (!user.image) {
+		user.image = '';
+	}
+
 	return user;
 };

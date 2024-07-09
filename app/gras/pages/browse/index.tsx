@@ -116,8 +116,6 @@ export default function Browse({
 		radius,
 	});
 
-	console.info('events: ', events);
-
 	const eventsToday =
 		events.filter(
 			(event) =>
@@ -226,7 +224,7 @@ export default function Browse({
 			/>
 
 			<Page
-				gradient="green"
+				gradient="pink"
 				className="!pt-0 md:pt-0 px-0 lg:px-0 pb-0 min-h-[440px]"
 			>
 				<TopBar

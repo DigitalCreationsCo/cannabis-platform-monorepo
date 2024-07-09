@@ -3,7 +3,7 @@ import { twMerge } from 'tailwind-merge';
 import AnimationWrapper from './AnimationWrapper';
 
 interface PageProps {
-	gradient?: 'pink' | 'green';
+	gradient?: 'pink' | 'green' | 'neon';
 	className?: string | string[];
 	style?: CSSProperties;
 }

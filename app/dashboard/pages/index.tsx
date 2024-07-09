@@ -1,4 +1,3 @@
-import env from '@/lib/env';
 import {
 	Button,
 	Center,
@@ -19,6 +18,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { type ReactElement, type PropsWithChildren } from 'react';
 import DashboardTopBar from '@/components/layouts/DashboardTopBar';
+import env from '@/lib/env';
 import backdrop from '../public/marijuana-backdrop.png';
 
 export default function DashboardHome() {

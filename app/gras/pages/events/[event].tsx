@@ -34,20 +34,19 @@ function EventPage({ event, user }: EventPageProps & { user: any }) {
 				gradient="green"
 				// style={{ ...showOrFilterPageBySession}}
 			>
-				<BackButton />
-				<FlexBox className="gap-y-2 max-w-screen">
+				<FlexBox className="gap-y-2 w-[640px] mx-auto">
+					<BackButton />
 					<H1 className="text-white drop-shadow-[0px_2px_2px_#666]">
 						{event.name}
 					</H1>
-					<div className="min-w-full">
+					<div className="w-full">
 						<Image
 							src={event.image?.url || require('public/hemp.png')}
 							alt={event.name}
-							width={150}
-							height={150}
-							className="w-full max-w-[440px] rounded shadow"
+							width={300}
+							height={300}
+							className="w-full max-w-[640px] mx-auto rounded shadow"
 							priority
-							quality={25}
 						/>
 					</div>
 					<EventDetails />
@@ -188,12 +187,7 @@ export const getServerSideProps = async ({
 		props: {
 			...(locale ? await serverSideTranslations(locale, ['common']) : {}),
 			event: JSON.parse(JSON.stringify(event)),
-			user: {
-				id: user.id,
-				email: user.email,
-				name: user.name,
-				image: user.image || null,
-			},
+			user: (user && JSON.parse(JSON.stringify(user))) || null,
 			token,
 		},
 	};
