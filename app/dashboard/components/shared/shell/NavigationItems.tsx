@@ -34,7 +34,7 @@ const NavigationItems = ({ menus }: NavigationItemsProps) => {
 						<ul className="flex flex-col gap-1 mt-1">
 							{menu.items.map((subitem) => (
 								<li key={subitem.name}>
-									<NavigationItem menu={subitem} className="pl-9" />
+									<NavigationItem menu={subitem} className="" />
 								</li>
 							))}
 						</ul>
@@ -50,7 +50,7 @@ const NavigationItem = ({ menu, className }: NavigationItemProps) => {
 		<Link
 			href={menu.href}
 			className={`group transition flex items-center rounded text-sm text-gray-900 hover:bg-gray-200 hover:text-gray-900 dark:text-gray-100 dark:hover:text-gray-100 dark:hover:bg-gray-800 p-2 gap-2 font-medium ${
-				menu.active ? ' bg-gray-200 font-semibold' : ''
+				menu.active ? ' bg-gray-200 font-semibold pl-9' : ''
 			}${className}`}
 		>
 			{menu.icon && (

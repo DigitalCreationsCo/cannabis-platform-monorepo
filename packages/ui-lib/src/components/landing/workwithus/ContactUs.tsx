@@ -209,8 +209,8 @@ export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
 							'md:text-6xl max-w-2xl lg:max-w-full lg:col-span-2 whitespace-pre-line mt-3 font-bold leading-snug tracking-tight lg:leading-tight text-5xl lg:text-6xl'
 						)}
 					>
-						<span className={twMerge(heading)}>Partner with Gras</span> for home
-						delivery and cannabis business growth services
+						<span className={twMerge(heading)}>Partner with Gras</span> for
+						cannabis delivery and promotional services
 					</H2>
 				</div>
 

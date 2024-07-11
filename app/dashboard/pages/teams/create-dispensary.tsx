@@ -1,7 +1,4 @@
-import { AuthLayout } from '@/components/layouts';
-import { DispensaryName, DispensaryAddress } from '@/components/team/create';
-import { type NextPageWithLayout } from '@/lib/next.types';
-import { Page, FormStepProvider } from '@cd/ui-lib';
+import { Page, FormStepProvider, CloseButton } from '@cd/ui-lib';
 import type {
 	GetServerSidePropsContext,
 	InferGetServerSidePropsType,
@@ -10,14 +7,19 @@ import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { NextSeo } from 'next-seo';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import React, { type ReactElement } from 'react';
+import { AuthLayout } from '@/components/layouts';
+import { DispensaryName, DispensaryAddress } from '@/components/team/create';
 import DispensaryServices from '@/components/team/create/DispensaryServices';
+import { type NextPageWithLayout } from '@/lib/next.types';
 
 const CreateDispensary: NextPageWithLayout<
 	InferGetServerSidePropsType<typeof getServerSideProps>
 > = () => {
 	const { t } = useTranslation('common');
 
+	const router = useRouter();
 	const FormStepComponents = [
 		// CreateTeam.ProvideDispensaryCode,
 		DispensaryName,
@@ -33,6 +35,7 @@ const CreateDispensary: NextPageWithLayout<
 	return (
 		// <Page className={twMerge(styles.gradient, 'pb-0', 'md:py-16')}>
 		<>
+			<CloseButton onClick={() => router.back()} />
 			<Head>
 				<NextSeo
 					title={t('create-team')}
