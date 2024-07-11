@@ -14,9 +14,9 @@ function TopBar({ className = '' }: { className?: string | string[] }) {
 	return (
 		<div className={twMerge(styles.TOPBAR.topbar, className)}>
 			<div>
-				<FlexBox className="flex-row items-center gap-x-2">
+				<FlexBox className="flex-row items-center gap-x-2 pt-2">
 					<Link href={'/'} className="z-50">
-						<GrasSignature className="text-inverse pt-1 pb-0 mb-0 leading-3">
+						<GrasSignature className="pt-1 pb-0 mb-0 leading-3">
 							{t('gras')}
 						</GrasSignature>
 					</Link>
@@ -25,9 +25,7 @@ function TopBar({ className = '' }: { className?: string | string[] }) {
 					</Link>
 				</FlexBox>
 				<Link href={'/'}>
-					<Paragraph
-						className={twMerge(styles.TOPBAR.tagline, 'text-inverse-soft')}
-					>
+					<Paragraph className={twMerge(styles.TOPBAR.tagline, '')}>
 						{TextContent.info.CANNABIS_DELIVERED_TEXT}
 					</Paragraph>
 				</Link>

@@ -54,7 +54,6 @@ const styles = Object.freeze({
 			'hidden',
 			'md:block',
 			'place-self-center',
-			'text-primary',
 			'font-semibold',
 		],
 		badge: [

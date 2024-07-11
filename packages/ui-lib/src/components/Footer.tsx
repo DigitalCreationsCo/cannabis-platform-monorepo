@@ -25,7 +25,7 @@ export default function Footer({
 			href: getDashboardSite('/auth/join'),
 		},
 		{ name: 'Services', href: TextContent.href.services },
-		{ name: 'Support', href: TextContent.href.support },
+		{ name: 'Support', href: getDashboardSite(TextContent.href.support) },
 		{ name: 'About Gras', href: getShopSite(TextContent.href.about) },
 	];
 	const legal = [

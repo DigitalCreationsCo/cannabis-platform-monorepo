@@ -77,6 +77,14 @@ const nextConfig = {
 	rewrites: async () => {
 		return [
 			{
+				source: '/blog',
+				destination: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/blog`,
+			},
+			{
+				source: '/blog/:path*',
+				destination: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/blog/:path*`,
+			},
+			{
 				source: '/.well-known/saml.cer',
 				destination: '/api/well-known/saml.cer',
 			},

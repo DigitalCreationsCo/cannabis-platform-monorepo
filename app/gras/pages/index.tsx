@@ -1,3 +1,6 @@
+import env from '@/lib/env';
+import { type NextPageWithLayout } from '@/lib/next.types';
+import SEOMetaTags from '@/lib/SEOMetaTags';
 import { TextContent } from '@cd/core-lib';
 import {
 	FlexBox,
@@ -18,9 +21,6 @@ import Link from 'next/link';
 import { type ReactElement } from 'react';
 import { twMerge } from 'tailwind-merge';
 import ImageGrid from '@/components/shared/ImageGrid/ImageGrid';
-import env from '@/lib/env';
-import { type NextPageWithLayout } from '@/lib/next.types';
-import SEOMetaTags from '@/lib/SEOMetaTags';
 import friendsVideo from '../public/Gras-community-clip.mp4';
 import logo from '../public/logo.png';
 

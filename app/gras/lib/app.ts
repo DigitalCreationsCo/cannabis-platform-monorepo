@@ -2,7 +2,7 @@ import packageInfo from '../package.json';
 import env from './env';
 
 const url = env.appUrl;
-const title = 'Find the best weed experiences near you at Grascannabis.org';
+const title = 'Find the best weed experiences near you at gras.live';
 const description =
 	'Find the best weed experiences, edibles, and dispensaries to celebrate cannabis near you. Order weed for delivery and pickup. View stores, store hours, and more.';
 
