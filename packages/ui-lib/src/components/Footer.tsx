@@ -29,17 +29,16 @@ export default function Footer({
 		{ name: 'About Gras', href: getShopSite(TextContent.href.about) },
 	];
 	const legal = [
-		{ name: 'Blog', href: getShopSite(TextContent.href.blog) },
-		{
-			name: 'Frequently Asked Questions',
-			href: getShopSite(TextContent.href.faq),
-		},
-		{ name: 'Help Center', href: getShopSite(TextContent.href.help) },
-		{ name: 'Privacy Policy', href: getShopSite(TextContent.href.privacy) },
+		// {
+		// 	name: 'Frequently Asked Questions',
+		// 	href: getShopSite(TextContent.href.faq),
+		// },
+		// { name: 'Help Center', href: getShopSite(TextContent.href.help) },
 		{
 			name: 'Terms and Conditions',
-			href: getShopSite(TextContent.href.dispensary_tos),
+			href: TextContent.href.terms,
 		},
+		{ name: 'Privacy Policy', href: TextContent.href.privacy },
 		// { name: 'Compliance', href: getShopSite(TextContent.href.compliance) },
 		// {
 		// 	name: 'User Terms and Conditions',
@@ -49,6 +48,7 @@ export default function Footer({
 		// 	name: 'Delivery Terms and Conditions',
 		// 	href: getShopSite(TextContent.href.driver_tos),
 		// },
+		{ name: 'Blog', href: getShopSite(TextContent.href.blog) },
 	];
 
 	return (
@@ -88,7 +88,7 @@ export default function Footer({
 					</div>
 				</div>
 				<div className="col-span-2 md:!col-span-4 lg:!col-span-2 md:!row-start-2 lg:!row-start-1 md:!col-start-1 lg:!col-start-5 row-span-3">
-					<FlexBox className="pb-4 flex-row items-center">
+					<FlexBox className="py-2 flex-row items-center">
 						<Link href={getShopSite('/')} className="z-10">
 							<GrasSignature className="text-inverse">Gras</GrasSignature>
 						</Link>
@@ -146,7 +146,8 @@ export default function Footer({
 					</FlexBox>
 
 					<Paragraph className="mt-6 max-w-sm font-medium">
-						{TextContent.info.ABOUT_GRAS_AND_MISSION}
+						{TextContent.info.ABOUT_GRAS_2}
+						{TextContent.info.GRAS_MISSION_3}
 					</Paragraph>
 					<CopyRight className="font-medium" />
 				</div>

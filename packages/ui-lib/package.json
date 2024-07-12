@@ -59,7 +59,7 @@
     "test:unit-ci": "echo \"No unit tests yet\" && exit 0",
     "typecheck": "tsc --project ./tsconfig.json --noEmit",
     "sync-assets": "rm -rf ./public/assets && syncdir ../../static/assets ./public/assets --copy",
-    "watch:css": "npx tailwindcss -i ./src/styles/ui-lib.css -o ./src/styles/tailwind.css --watch"
+    "watch:tailwind": "npx tailwindcss -i ./styles/globals.css -o ./styles/tailwind.css --minify --watch"
   },
   "version": "0.8.0"
 }

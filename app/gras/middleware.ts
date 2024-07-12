@@ -45,7 +45,9 @@ const unAuthenticatedRoutes = [
 	'/workwithus',
 	'/services',
 	'/messaging',
-	'/messaging',
+	'/terms',
+	'/privacy',
+	'/about-gras',
 ];
 
 const allowAllUsers = [
@@ -54,6 +56,9 @@ const allowAllUsers = [
 	'/workwithus',
 	'/services',
 	'/messaging',
+	'/terms',
+	'/privacy',
+	'/about-gras',
 ];
 
 export default async function middleware(req: NextRequest) {

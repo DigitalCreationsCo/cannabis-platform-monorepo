@@ -1,19 +1,27 @@
 import { TextContent } from '@cd/core-lib';
-import { CopyRight, FlexBox, H2, Paragraph } from '@cd/ui-lib';
+import { CopyRight, FlexBox, GrasSignature, Paragraph } from '@cd/ui-lib';
+import { useTranslation } from 'next-i18next';
 import Image from 'next/image';
 import logo from '../../public/logo.png';
 
 function AboutGras() {
+	const { t } = useTranslation('common');
 	return (
-		<div className="md:m-auto">
-			<FlexBox className="flex-row items-end">
-				<Image alt="Gras" width={50} height={50} src={logo} />
-				<H2 className="text-primary p-1">
-					About {TextContent.info.COMPANY_NAME}
-				</H2>
+		<div className="md:m-auto md:max-w-xl  bg-gray-800 border-gray-500 border shadow-inner rounded p-10">
+			<FlexBox className="flex-row items-center">
+				<GrasSignature className="text-inverse lg:text-4xl drop-shadow-lg pt-1 pb-0 mb-0 leading-3">
+					{t('gras')}
+				</GrasSignature>
+				<Image
+					alt="Gras"
+					className="w-[36px] md:w-[48px]"
+					src={logo}
+					quality={25}
+				/>
 			</FlexBox>
-			<Paragraph className="mt-4 max-w-md">
+			<Paragraph className="mt-2">
 				{TextContent.info.ABOUT_GRAS}
+				<br />
 				<br />
 				{TextContent.info.GRAS_MISSION}
 			</Paragraph>

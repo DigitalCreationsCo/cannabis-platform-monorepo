@@ -147,7 +147,8 @@ const TextContent = Object.freeze({
 	},
 
 	info: {
-		ABOUT_GRAS: `Gras is a home-grown service company. `,
+		ABOUT_GRAS: `At Gras, we are dedicated to transforming the cannabis industry by driving exceptional business value and enhancing personal well-being. `,
+		ABOUT_GRAS_2: `Gras is a home-grown services company for the cannabis industry. `,
 		ABOUT_GRAS_AND_MISSION: `Gras is a home-grown delivery company creating meaningful experiences for our customers and partners in the cannabis world, one${nbsp}delivery${nbsp}at${nbsp}a${nbsp}time. `,
 		BUILDING_TRUST_WITH_OUR_PARTNERS: `Gras is building a trusted community of partners and cannabis lovers.`,
 		CANNABIS_DELIVERED: `Serving people and cannabis${'\xa0'}🌴${'\xa0'}🔥`,
@@ -160,7 +161,10 @@ const TextContent = Object.freeze({
 		DELIVERY_BY_GRAS: `Delivery by Gras`,
 		EMAIL: 'Email',
 		GET_CANNABIS_DELIVERED: `Get${nbsp}Cannabis${nbsp}Delivered`,
-		GRAS_MISSION: `It's our mission to cultivate meaningful experiences with our customers and partners in the cannabis world, one${nbsp}delivery${nbsp}at${nbsp}a${nbsp}time.`,
+		GRAS_MISSION: `Our mission is to harness the unique benefits of the cannabis plant to create a healthier, more prosperous world. 
+		
+		Through innovation and integrity, we strive to deliver unparalleled value and promote a sense of harmony and health within our community.`,
+		GRAS_MISSION_3: `It's our mission to help create a healthier and peaceful world by sharing the unique benefits of the cannabis plant.`,
 		GRAS_MISSION_2: `Our mission is to cultivate fulfillment and meaningful experiences with our customers and partners in the cannabis world, one${nbsp}delivery${nbsp}at${nbsp}a${nbsp}time.`,
 		LEARN_MORE: `Learn more`,
 		MORE_CONTENT_COMING_SOON: `Our Team is bringing you more news and content from the world of cannabis.`,
@@ -377,14 +381,15 @@ const TextContent = Object.freeze({
 		support: '/support',
 
 		help: `/help`,
-		about: '/help?topic=about-gras',
+		about: '/about-gras',
 		compliance: `/help?topic=compliance`,
 		faq: `/help?topic=faq`,
 		install_guide: `/help?topic=install-guide`,
 		dispensary_tos: `/help?topic=dispensary-terms-and-conditions`,
-		user_tos: `/help?topic=user-terms-and-conditions`,
-		privacy: `/help?topic=privacy-policy`,
+		user_tos: `/terms`,
+		privacy: `/privacy`,
 		driver_tos: `/help?topic=driver-terms-and-conditions`,
+		terms: '/terms',
 	},
 });
 
