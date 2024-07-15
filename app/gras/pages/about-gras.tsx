@@ -14,7 +14,7 @@ const AboutPage: NextPageWithLayout = () => {
 				title={'About Gras'}
 				description={TextContent.info.ABOUT_GRAS}
 			/>
-			<Page className="!pt-0 md:pt-0 px-0 lg:px-0 md:!py-8 pb-0 bg-secondary text-light">
+			<Page className="!pt-0 md:pt-0 px-0 lg:px-0 md:!py-8 pb-0 bg-secondary text-light min-h-fit">
 				<AboutGras />
 			</Page>
 		</>

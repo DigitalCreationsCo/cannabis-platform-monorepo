@@ -1,9 +1,10 @@
-import { Page } from '@cd/ui-lib';
+import { Page, PlainTopBar } from '@cd/ui-lib';
 import HeroPost from '@/components/blog/HeroPost';
 import IndexPageHead from '@/components/blog/IndexPageHead';
 import type { Post, Settings } from '@/lib/sanity';
 import BlogHeader from './BlogHeader';
 import MorePosts from './MorePosts';
+import { BlogTopBar } from '.';
 
 export interface IndexPageProps {
 	preview?: boolean;
@@ -18,7 +19,8 @@ function IndexPage(props: IndexPageProps) {
 	const { title = '', description = '' } = settings || {};
 
 	return (
-		<Page className={'bg-inherit xl:mx-32 min-h-[660px]'}>
+		<Page className="m-0 p-0 md:p-0 lg:p-0 bg-gradient-to-b from-10% from-secondary-light to-secondary">
+			<PlainTopBar className="bg-transparent text-light" />
 			<IndexPageHead settings={settings} />
 			<BlogHeader
 				title={title}

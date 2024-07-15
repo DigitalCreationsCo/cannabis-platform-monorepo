@@ -11,7 +11,7 @@ const PrivacyPage: NextPageWithLayout = () => {
 	return (
 		<>
 			<SEOMetaTags title={'Our Privacy Policy | Gras.live'} />
-			<Page className="!pt-0 md:pt-0 px-0 lg:px-0 md:py-8 pb-0 bg-secondary text-light">
+			<Page className="!pt-0 md:pt-0 px-0 lg:px-0 md:py-8 pb-0 bg-secondary text-light min-h-fit">
 				<TopBar SearchComponent={null} />
 				<PrivacyPolicy />
 			</Page>

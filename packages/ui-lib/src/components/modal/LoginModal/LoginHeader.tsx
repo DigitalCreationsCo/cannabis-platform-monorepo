@@ -1,26 +1,27 @@
-import { TextContent } from '@cd/core-lib';
 import Image from 'next/image';
 import logo from '../../../../public/assets/images/logo.png';
 import FlexBox from '../../FlexBox';
-import { H1, H3 } from '../../Typography';
+import { GrasSignature, H2 } from '../../Typography';
 
 function LoginModalHeader() {
 	return (
-		<FlexBox>
+		<FlexBox className="relative top-0 left-0 w-full h-full">
+			<FlexBox className="flex-row items-center gap-x-2 pt-2">
+				<GrasSignature className="lg:text-4xl drop-shadow-lg pt-1 pb-0 mb-0 leading-3">
+					Gras
+				</GrasSignature>
+				<Image
+					alt="Gras"
+					className="w-[36px] md:w-[48px]"
+					src={logo}
+					quality={25}
+				/>
+			</FlexBox>
 			<Image
-				src={logo}
-				alt="Gras Cannabis logo"
-				width={53}
-				height={53}
-				priority
+				className="absolute w-full h-full object-cover -z-10"
+				src={require('../../../../public/events-1.png')}
 			/>
-			<H3>Welcome to</H3>
-			<H1>Gras</H1>
-
-			<H3>
-				{/* {TextContent.info.CONNECT_WITH_WORLD_OF_CANNABIS} */}
-				{TextContent.info.CANNABIS_DELIVERED}
-			</H3>
+			<H2 className="">{`Find cannabis events in your city`}</H2>
 		</FlexBox>
 	);
 }

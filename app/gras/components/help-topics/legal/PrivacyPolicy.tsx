@@ -2,7 +2,7 @@ import { CopyRight, H1, Paragraph } from '@cd/ui-lib';
 
 function PrivacyPolicy() {
 	return (
-		<div className="md:m-auto px-2">
+		<div className="md:m-auto p-2">
 			<H1 className="text-3xl text-primary">Our Privacy Policy</H1>
 			<Paragraph className="max-w-md text-justify">
 				Gras respects and secures the private information of the businesses,

@@ -35,7 +35,7 @@ function TextField({
 	error,
 	value,
 	label,
-	labelColor = 'text-dark',
+	labelColor = 'text-inherit',
 	justifyLabel,
 	placeholder,
 	defaultValue,
@@ -62,7 +62,7 @@ function TextField({
 		<FlexBox
 			className={twMerge(
 				'space-x-0 space-y-0 w-full',
-				'text-dark',
+				'text-inherit',
 				containerClassName
 			)}
 		>

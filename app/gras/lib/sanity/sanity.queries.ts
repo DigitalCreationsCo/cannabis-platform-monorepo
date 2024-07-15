@@ -95,3 +95,22 @@ export interface Settings {
 		title?: string;
 	};
 }
+
+export interface StrainOfTheWeek {
+	_type: 'strainOfTheWeek';
+	_id: string;
+	title: string;
+	image: ImageAsset;
+	testimonial1: string;
+	testimonial2: string;
+	flavorProfile: string;
+	ratings: {
+		flavor: number;
+		stink: number;
+		smoke: number;
+		sensation: number;
+	};
+	seoTitle: string;
+	seoDescription: string;
+	seoKeywords: string[];
+}

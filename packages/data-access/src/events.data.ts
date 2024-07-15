@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { type MongoClient } from 'mongodb';
 import { db_namespace } from './db';
-import { type EventJobLocation, type Event } from './types';
+import { type EventJobLocation, type Event, type EventComment } from './types';
 import { getZipcodeLocation } from './zipcode.data';
 
 export const createManyEvents = async ({
@@ -148,6 +148,29 @@ export const updateEvent = async ({
 	};
 };
 
+export const createEventComment = async ({
+	client,
+	where,
+	comment,
+}: {
+	client: MongoClient;
+	where: { id: string };
+	comment: Omit<EventComment, 'created_at'>;
+}) => {
+	const { db, collections } = db_namespace;
+	return await client
+		.db(db)
+		.collection<Event>(collections.events)
+		.updateOne(where, {
+			$push: {
+				comments: {
+					...comment,
+					created_at: new Date().toISOString(),
+				},
+			},
+		});
+};
+
 export const getEvent = async ({
 	client,
 	where,
@@ -156,10 +179,12 @@ export const getEvent = async ({
 	where: { id: string };
 }): Promise<Event | null> => {
 	const { db, collections } = db_namespace;
-	return await client
+	const event = await client
 		.db(db)
 		.collection<Event>(collections.events)
 		.findOne(where);
+	console.info('event found:: ', event);
+	return event;
 };
 
 export const getEvents = async ({

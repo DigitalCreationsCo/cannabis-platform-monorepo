@@ -54,17 +54,18 @@ function EventCard({
 			className={twMerge([
 				'flex flex-col',
 				// 'h-[240px] sm:max-w-[320px]',
-				'mx-1',
+				// 'mx-1',
 				'rounded',
 				'overflow-hidden',
 				'border border-transparent',
-				'hover:bg-gray-300/25',
+				// 'hover:bg-gray-300/25',
 				className,
 			])}
 		>
 			<div
 				className={twMerge(
 					'h-[180px] p-3',
+					'w-full',
 					isHovered && 'scale-105 -translate-y-1',
 					'transition duration-700',
 					'relative'
@@ -75,7 +76,7 @@ function EventCard({
 						{event.full_description || ''}
 						</Paragraph>
 						)) || <></>} */}
-				<div className="relative max-w-[300px] h-full mx-auto">
+				<div className="relative w-full h-full mx-auto">
 					{(!event.image?.url && (
 						<H5 className="w-full pt-2 absolute z-10 text-center tracking-wide text-xl text-white font-medium drop-shadow-[1px_2px_1px_#555555]">
 							{truncateWordsAndLeaveN(event.name, 8)}

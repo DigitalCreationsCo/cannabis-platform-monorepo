@@ -2,7 +2,7 @@ import { H1, Paragraph } from '@cd/ui-lib';
 
 function UserTermsAndConditions() {
 	return (
-		<div className="md:m-auto px-2">
+		<div className="md:m-auto p-2">
 			<H1 className="text-primary text-3xl">Gras.live Terms And Conditions</H1>
 			<div className="max-w-lg text-justify mx-auto">
 				<Paragraph className="font-medium mt-4">Acceptance of Terms</Paragraph>

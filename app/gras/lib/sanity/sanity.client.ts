@@ -123,6 +123,6 @@ export async function setContentUrl(
 	client: SanityClient,
 	document: SanityDocument
 ): Promise<Post> {
-	const contentUrl = `https://grascannabis.org/blog/posts/${document?.slug.current}`;
+	const contentUrl = `https://gras.live/blog/posts/${document?.slug.current}`;
 	return await client.patch(document._id).set({ contentUrl }).commit<Post>();
 }

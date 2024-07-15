@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { Footer, type LayoutContextProps } from '@cd/ui-lib';
-import { GetServerSidePropsContext, type GetStaticProps } from 'next';
+import { Footer } from '@cd/ui-lib';
+import { type GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { type ReactElement } from 'react';
 import { PostPage, PreviewPostPage } from '@/components/blog';

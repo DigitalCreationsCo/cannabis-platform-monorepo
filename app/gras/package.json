@@ -27,7 +27,8 @@
     "start": "NEW_RELIC_APP_NAME=gras NEW_RELIC_LICENSE_KEY=6cf1545341d719f71ea4a2af51be9661FFFFNRAL node -r @newrelic/next server.js",
     "sync-stripe": "node --env-file .env sync-stripe.js",
     "check-locale": "node check-locale.js",
-    "delete-team": "node --env-file .env delete-team.js"
+    "delete-team": "node --env-file .env delete-team.js",
+    "sanity:deploy": "sanity deploy"
   },
   "packageManager": "yarn@3.3.1",
   "dependencies": {

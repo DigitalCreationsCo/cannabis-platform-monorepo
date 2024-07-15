@@ -81,8 +81,17 @@ export interface Event {
 	is_online_event: boolean;
 	eid: string;
 	published: string;
+	rating: number;
+	comments: EventComment[];
 }
 
 export type EventJobLocation = {
 	location: string;
+};
+
+export type EventComment = {
+	comment: string;
+	created_at: string;
+	userId: string;
+	username: string;
 };

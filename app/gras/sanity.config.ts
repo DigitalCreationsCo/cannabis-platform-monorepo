@@ -38,12 +38,15 @@ export default defineConfig({
 	schema,
 
 	document: {
-		actions: (prev, context) =>
-			prev.map((originalAction) =>
+		actions: (prev, context) => {
+			console.info('prev', prev);
+			console.info('context', context);
+			return prev.map((originalAction) =>
 				originalAction.action === 'publish'
 					? createAsyncPublishAction(originalAction, context)
 					: originalAction
-			),
+			);
+		},
 	},
 
 	plugins: [

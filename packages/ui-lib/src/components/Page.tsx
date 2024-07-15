@@ -38,10 +38,10 @@ function Page({
 	});
 
 	return (
-		// add h-screen if you want the page to take up the full screen height
-		// <AnimationWrapper className="flex flex-col w-full h-screen">
-		<AnimationWrapper className="flex flex-col w-full">
-			<div className={twMerge(classes, className)} style={style}>
+		<AnimationWrapper
+			className={twMerge('flex flex-col w-full min-h-screen', className)}
+		>
+			<div className={twMerge(classes)} style={style}>
 				{children}
 				{/* <div className="fixed flex items-center bottom-0 right-0 cursor-default text-accent-soft space-x-1 pr-1">
 					<div

@@ -14,9 +14,9 @@ function TopBar({ className = '' }: { className?: string | string[] }) {
 	return (
 		<div className={twMerge(styles.TOPBAR.topbar, className)}>
 			<div>
-				<FlexBox className="flex-row items-center gap-x-2 pt-2">
+				<FlexBox className="flex-row items-center gap-x-2">
 					<Link href={'/'} className="z-50">
-						<GrasSignature className="pt-1 pb-0 mb-0 leading-3">
+						<GrasSignature className="pt-1 pb-0 mb-0 leading-3 text-inverse">
 							{t('gras')}
 						</GrasSignature>
 					</Link>

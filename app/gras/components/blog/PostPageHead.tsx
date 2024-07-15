@@ -19,7 +19,7 @@ export default function PostPageHead({ settings, post }: PostPageHeadProps) {
 					href: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/blog/posts/${post.slug}`,
 				},
 			]}
-			additionalKeywords={[...post.categories]}
+			additionalKeywords={[...(post.categories ?? [])]}
 			openGraph={{
 				title: post.title ? `${post.title} | ${title}` : title,
 				url: post.contentUrl,
@@ -30,18 +30,20 @@ export default function PostPageHead({ settings, post }: PostPageHeadProps) {
 					authors: [post.author?.name ?? ''],
 					tags: post.categories,
 				},
-				images: [
-					{
-						url: urlForImage(post.shareImage)!
-							.width(1200)
-							.height(627)
-							.fit('crop')
-							.url(),
-						width: 1200,
-						height: 630,
-						alt: post.title,
-					},
-				],
+				images: post.shareImage
+					? [
+							{
+								url: urlForImage(post.shareImage)
+									.width(1200)
+									.height(627)
+									.fit('crop')
+									.url(),
+								width: 1200,
+								height: 630,
+								alt: post.title,
+							},
+						]
+					: [],
 			}}
 		/>
 	);

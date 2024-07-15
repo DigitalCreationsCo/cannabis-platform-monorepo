@@ -6,6 +6,13 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import env from './lib/env';
 
+const matchers = {
+	// '/((?!_next/static|_next/image|favicon.ico|api/auth/session).*)',
+	// '/',
+	// '/((?!_next/static|_next/image|favicon.ico|api/auth/session).*)|^/$',
+	pageRoute: '/((?!_next/static|_next/image|favicon.ico|api).*)|^/',
+};
+
 // Add routes that don't require authentication
 const unAuthenticatedRoutes = [
 	'/',
@@ -25,6 +32,7 @@ const unAuthenticatedRoutes = [
 	'/api/webhooks/dsync',
 	'/api/contact-us',
 	'/api/save-visitor',
+	'/api/blog/**',
 
 	'/sitemap.xml',
 	'/robots.txt',
@@ -81,8 +89,15 @@ export default async function middleware(req: NextRequest) {
 		return NextResponse.redirect(url);
 	}
 
-	// Redirect to home page if user is under 21
-	if (!micromatch.isMatch(pathname, allowAllUsers) && over21 !== 'true') {
+	// if the path is not a nextapi,
+	// and the path is not allowed for all users,
+	// and the user is not over 21
+	if (
+		micromatch.isMatch(pathname, matchers.pageRoute) &&
+		!micromatch.isMatch(pathname, allowAllUsers) &&
+		over21 != 'true'
+	) {
+		console.info('Redirecting to home page');
 		return NextResponse.redirect(new URL('/', req.url));
 	}
 

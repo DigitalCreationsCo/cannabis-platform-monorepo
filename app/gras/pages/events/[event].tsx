@@ -2,8 +2,20 @@ import { clientPromise } from '@/lib/db';
 import env from '@/lib/env';
 import SEOMetaTags from '@/lib/SEOMetaTags';
 import { getSession } from '@/lib/session';
-import { renderAddress, showDate, showTime } from '@cd/core-lib';
-import { type Event, getEvent, getUserBySession } from '@cd/data-access';
+import {
+	axios,
+	fetcher,
+	renderAddress,
+	showDate,
+	showTime,
+} from '@cd/core-lib';
+import {
+	type Event,
+	type EventComment,
+	getEvent,
+	getUserBySession,
+	type User,
+} from '@cd/data-access';
 import { Button, FlexBox, H1, IconWrapper, Page, Paragraph } from '@cd/ui-lib';
 import {
 	UsersIcon as ShareIcon,
@@ -15,8 +27,10 @@ import { type GetServerSidePropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import { useRouter } from 'next/router';
-import { type ReactElement } from 'react';
+import { useState, type ReactElement } from 'react';
+import useSWR from 'swr';
 
 interface EventPageProps {
 	event: Event;
@@ -34,7 +48,7 @@ function EventPage({ event, user }: EventPageProps & { user: any }) {
 				gradient="green"
 				// style={{ ...showOrFilterPageBySession}}
 			>
-				<FlexBox className="gap-y-2 w-[640px] mx-auto">
+				<FlexBox className="gap-y-2 max-w-[640px] mx-auto">
 					<BackButton />
 					<H1 className="text-white drop-shadow-[0px_2px_2px_#666]">
 						{event.name}
@@ -56,6 +70,8 @@ function EventPage({ event, user }: EventPageProps & { user: any }) {
 						{(event.tickets_url && <RSVP />) || <></>}
 						{/* <Share /> */}
 					</FlexBox>
+
+					{/* <Comments comments={event.comments ?? []} user={user} /> */}
 				</FlexBox>
 			</Page>
 		</>
@@ -131,35 +147,26 @@ function EventPage({ event, user }: EventPageProps & { user: any }) {
 		);
 	}
 
-	function Share() {
-		return (
-			<Button
-				transparent
-				hover="accent-soft"
-				border
-				size="sm"
-				className="border-white border bg-transparent rounded-full gap-x-2 p-4"
-			>
-				<ShareIcon height={22} width={22} className="text-white" />
-				<Paragraph className="text-white">{`Share`}</Paragraph>
-			</Button>
-		);
-	}
+	// function Share() {
+	// 	return (
+	// 		<Button
+	// 			transparent
+	// 			hover="accent-soft"
+	// 			border
+	// 			size="sm"
+	// 			className="border-white border bg-transparent rounded-full gap-x-2 p-4"
+	// 		>
+	// 			<ShareIcon height={22} width={22} className="text-white" />
+	// 			<Paragraph className="text-white">{`Share`}</Paragraph>
+	// 		</Button>
+	// 	);
+	// }
 }
 export default EventPage;
 
 EventPage.getLayout = function getLayout(page: ReactElement) {
 	return <>{page}</>;
 };
-
-// export const getStaticPaths = async () => {
-//   const client = await clientPromise;
-//   const events = await getEvents({ client });
-//   return {
-//     paths: events.map(({ id }) => `/events/${id}`) || [],
-//     fallback: 'blocking',
-//   };
-// };
 
 export const getServerSideProps = async ({
 	req,
@@ -191,4 +198,58 @@ export const getServerSideProps = async ({
 			token,
 		},
 	};
+};
+
+const Comments = ({
+	user,
+	comments,
+}: {
+	comments: EventComment[];
+	user: User;
+}) => {
+	const [newComment, setNewComment] = useState('');
+	const { event } = useParams() as { event: string };
+
+	const { mutate } = useSWR(`/api/events/${event}/comments`, fetcher);
+
+	const handleCommentSubmit = async () => {
+		try {
+			await axios.post<any, any, Omit<EventComment, 'created_at'>>(
+				`/api/events/${event}/comments`,
+				{
+					username: user.username,
+					userId: user.id,
+					comment: newComment,
+				}
+			);
+			mutate();
+		} catch (error) {
+			console.error('Error posting comment:', error);
+		}
+	};
+
+	return (
+		<div className="comments-section">
+			<h2>Comments</h2>
+			<div className="comments-list">
+				{comments.map((comment, index) => (
+					<div key={index} className="comment">
+						<p>
+							<strong>{comment.username}</strong> (
+							{new Date(comment.created_at).toLocaleString()}):
+						</p>
+						<p>{comment.comment}</p>
+					</div>
+				))}
+			</div>
+			<div className="new-comment">
+				<textarea
+					value={newComment}
+					onChange={(e) => setNewComment(e.target.value)}
+					placeholder="Write a comment..."
+				/>
+				<button onClick={handleCommentSubmit}>Post Comment</button>
+			</div>
+		</div>
+	);
 };

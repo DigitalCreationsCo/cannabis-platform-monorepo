@@ -1,4 +1,4 @@
-import { GrasSignature, H4 } from '@cd/ui-lib';
+import { GrasSignature, H1, H2, H4, Paragraph } from '@cd/ui-lib';
 import { PortableText } from '@portabletext/react';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
@@ -17,30 +17,22 @@ export default function BlogHeader({
 	switch (level) {
 		case 1:
 			return (
-				<header className="mb-10 lg:mt-10 flex flex-col items-center md:mb-12 xl:flex-row xl:justify-between">
-					<GrasSignature
-						className={twMerge(
-							'text-outline drop-shadow text-6xl font-bold leading-tight tracking-tight md:pr-8 sm:text-8xl'
-						)}
-					>
-						{title}
-					</GrasSignature>
-					<H4
-						className={`text-inverse xl:self-end text-center text-2xl md:pl-8 md:text-left ${styles.portableText}`}
-					>
+				<header className="px-1 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-x-8">
+					<H1 className="z-10">{title}</H1>
+					<Paragraph className="h-fit">
 						<PortableText value={description} />
-					</H4>
+					</Paragraph>
 				</header>
 			);
 
 		case 2:
 			return (
 				<header className="px-4">
-					<GrasSignature className="mb-20 mt-8 text-2xl font-bold leading-tight tracking-tight md:text-4xl md:tracking-tighter">
-						<Link href="/" className="hover:underline">
+					<H1>
+						<Link href="/blog" className="hover:underline">
 							{title}
 						</Link>
-					</GrasSignature>
+					</H1>
 				</header>
 			);
 

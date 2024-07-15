@@ -19,7 +19,7 @@ function CloseButton({
 }: CloseButtonProps) {
 	const closeButtonStyle = [
 		'btn btn-ghost top-0 right-0 p-2 m-0 min-w-min h-min absolute',
-		props.theme === 'light' ? 'text-light' : 'text-dark',
+		props.theme === 'light' ? 'text-light' : 'text-inherit',
 	];
 
 	return (

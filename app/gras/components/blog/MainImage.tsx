@@ -35,13 +35,12 @@ export default function MainImage(props: CoverImageProps) {
 					<Image
 						blurDataURL={urlForImage(source)?.blur(100).url()}
 						className="h-auto w-full md:rounded"
-						width={2000}
+						width={1000}
 						height={1000}
 						alt={title}
 						src={urlForImage(source)!.url()}
 						sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 						priority={priority}
-						quality={25}
 					/>
 				</Link>
 			) : (
@@ -54,7 +53,6 @@ export default function MainImage(props: CoverImageProps) {
 					src={urlForImage(source)!.height(500).width(1000).url()}
 					sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 					priority={priority}
-					quality={25}
 				/>
 			)}
 			<div className="pt-4 mx-auto">
@@ -69,5 +67,5 @@ export default function MainImage(props: CoverImageProps) {
 		<div style={{ paddingTop: '50%', backgroundColor: '#ddd' }} />
 	);
 
-	return <div className="sm:mx-0">{image}</div>;
+	return <div className="sm:mx-auto">{image}</div>;
 }

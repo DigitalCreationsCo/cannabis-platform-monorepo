@@ -49,12 +49,6 @@ export const getStaticProps: GetStaticProps<DirectoryProps, Query> = async (
 	};
 };
 
-// BlogDirectory.getLayoutContext = (): LayoutContextProps => ({
-// 	showHeader: false,
-// 	showSearch: false,
-// 	showSideNavOnDesktop: false,
-// });
-
 BlogDirectory.getLayout = function getLayout(page: ReactElement) {
 	return (
 		<>

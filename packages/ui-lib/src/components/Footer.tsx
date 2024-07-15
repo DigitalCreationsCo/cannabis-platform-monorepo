@@ -68,7 +68,7 @@ export default function Footer({
 								href={replaceRelativePath(item.href)}
 								className="w-fit"
 							>
-								<Paragraph className="font-medium">{item.name}</Paragraph>
+								<Paragraph className="md:font-medium">{item.name}</Paragraph>
 							</Link>
 						))}
 					</div>
@@ -82,7 +82,7 @@ export default function Footer({
 								passHref
 								className="w-fit"
 							>
-								<Paragraph className="font-medium">{item.name}</Paragraph>
+								<Paragraph className="md:font-medium">{item.name}</Paragraph>
 							</Link>
 						))}
 					</div>
@@ -145,11 +145,11 @@ export default function Footer({
 						</a>
 					</FlexBox>
 
-					<Paragraph className="mt-6 max-w-sm font-medium">
+					<Paragraph className="mt-6 max-w-sm md:font-medium">
 						{TextContent.info.ABOUT_GRAS_2}
 						{TextContent.info.GRAS_MISSION_3}
 					</Paragraph>
-					<CopyRight className="font-medium" />
+					<CopyRight className="md:font-medium" />
 				</div>
 				<div className="row-start-1 md:!row-start-5 md:!col-start-1 lg:!row-start-4 lg:!col-start-5 col-span-2 md:col-span-2">
 					<H6 color="light">{TextContent.info.CANNABIS_DELIVERED}</H6>

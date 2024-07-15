@@ -1,3 +1,13 @@
+import AgreeMessage from '@/components/auth/AgreeMessage';
+import GithubButton from '@/components/auth/GithubButton';
+import GoogleButton from '@/components/auth/GoogleButton';
+import { AuthLayout } from '@/components/layouts';
+import { Alert } from '@/components/shared';
+import GoogleReCAPTCHA from '@/components/shared/GoogleReCAPTCHA';
+import TogglePasswordVisibility from '@/components/shared/TogglePasswordVisibility';
+import { authProviderEnabled } from '@/lib/auth';
+import env from '@/lib/env';
+import type { NextPageWithLayout } from '@/lib/next.types';
 import { maxLengthPolicies } from '@cd/core-lib';
 import { Button, LoadingPage, Paragraph, TextField } from '@cd/ui-lib';
 import { useFormik } from 'formik';
@@ -17,16 +27,6 @@ import type { ComponentStatus } from 'react-daisyui/dist/types';
 import type ReCAPTCHA from 'react-google-recaptcha';
 import * as Yup from 'yup';
 
-import AgreeMessage from '@/components/auth/AgreeMessage';
-import GithubButton from '@/components/auth/GithubButton';
-import GoogleButton from '@/components/auth/GoogleButton';
-import { AuthLayout } from '@/components/layouts';
-import { Alert } from '@/components/shared';
-import GoogleReCAPTCHA from '@/components/shared/GoogleReCAPTCHA';
-import TogglePasswordVisibility from '@/components/shared/TogglePasswordVisibility';
-import { authProviderEnabled } from '@/lib/auth';
-import env from '@/lib/env';
-import type { NextPageWithLayout } from '@/lib/next.types';
 
 interface Message {
 	text: string | null;
