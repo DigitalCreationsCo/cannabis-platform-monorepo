@@ -77,7 +77,7 @@ Full Service Delivery relieves you of these issues, and integrates with your sto
 			We help you plan and produce fire events and promotions that keep your customers talking, and keep them coming back.`,
 		footer:
 			'Become the destination for memorable cannabis events in your city. 🎉',
-		cta: `I want to create memorable events for my customers`,
+		cta: `Start creating memorable events`,
 		photos: [
 			require('../../../../public/events-2.png'),
 			require('../../../../public/events-1.png'),

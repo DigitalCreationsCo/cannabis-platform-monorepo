@@ -48,7 +48,7 @@ function Hero({
 					<b className="text-primary"> Promotions, Events</b> and
 					<b className="text-primary"> Delivery</b> Services.
 				</H2>
-				<FlexBox className="items-center gap-4 sm:flex-row justify-center lg:gap-8">
+				<FlexBox className="items-center gap-4 flex-col-reverse sm:flex-row justify-center lg:gap-8">
 					<Link
 						href={'#info'}
 						scroll={false}

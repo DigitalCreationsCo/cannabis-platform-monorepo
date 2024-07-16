@@ -1,5 +1,7 @@
 /* eslint-disable i18next/no-literal-string */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { ServicesTopBar } from '@/components/layouts';
+import SEOMetaTags from '@/lib/SEOMetaTags';
 import { getDashboardSite } from '@cd/core-lib';
 import {
 	Page,
@@ -31,8 +33,6 @@ import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { type ReactElement, useEffect } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { ServicesTopBar } from '@/components/layouts';
-import SEOMetaTags from '@/lib/SEOMetaTags';
 
 export default function DispensaryLandingPage() {
 	const { t } = useTranslation('common');
@@ -219,7 +219,7 @@ export default function DispensaryLandingPage() {
 				<Letter
 					className="bg-inverse"
 					{...letters['free-consultation']}
-					cta={t('contact-us')}
+					cta={t('contact-sales')}
 				>
 					<div className="py-6">
 						<Paragraph className="font-semibold text-center text-3xl">

@@ -28,11 +28,11 @@ export const unlockYourGrowth: BenefitData = {
 			icon: PresentationChartLineIcon,
 		},
 		{
-			description: `Personalized campaigns that sell more product`,
+			description: `Personalized messaging campaigns that sell more product`,
 			icon: MegaphoneIcon,
 		},
 		{
-			description: 'Create customer loyalty with memorable brand experience',
+			description: 'Create customer loyalty with memorable brand experiences',
 			icon: UsersIcon,
 		},
 	],
@@ -152,12 +152,13 @@ export const consumerTextMessaging: BenefitData = {
 };
 
 export const messageSupport: BenefitData = {
-	title: 'Support That Keeps You Going',
-	description: `You always have access to our customer support and success teams.`,
+	title: 'Support That Keeps You Growing',
+	description: `You always have access to our customer success teams.`,
 	// image: require('../../../../public/message.png'),
 	bullets: [
 		{
-			description: 'Deliver trusted customer experiences with compliance.',
+			description:
+				'Deliver trusted and compliant customer experiences with confidence.',
 			icon: UserCircleIcon,
 		},
 		{
@@ -166,7 +167,7 @@ export const messageSupport: BenefitData = {
 			icon: ChatBubbleLeftEllipsisIcon,
 		},
 		{
-			description: 'Technical support is available online and via email.',
+			description: 'Support is available via web, email and phone.',
 			icon: QuestionMarkCircleIcon,
 		},
 	],

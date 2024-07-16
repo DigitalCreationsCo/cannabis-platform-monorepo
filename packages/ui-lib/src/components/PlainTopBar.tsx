@@ -25,7 +25,9 @@ function TopBar({ className = '' }: { className?: string | string[] }) {
 					</Link>
 				</FlexBox>
 				<Link href={'/'}>
-					<Paragraph className={twMerge(styles.TOPBAR.tagline, '')}>
+					<Paragraph
+						className={twMerge(styles.TOPBAR.tagline, 'text-inverse-soft')}
+					>
 						{TextContent.info.CANNABIS_DELIVERED_TEXT}
 					</Paragraph>
 				</Link>

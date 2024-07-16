@@ -131,17 +131,17 @@ export function Benefit(
 		<div className="m-auto w-full flex flex-col max-w-[440px] px-2 items-center space-x-3">
 			<FlexBox className="w-full flex-row items-center gap-4">
 				<div className="flex h-11 w-11 shadow-lg shrink-0 items-center justify-center rounded-md bg-orange-300">
-					<IconWrapper iconSize={32} Icon={props.icon} />
+					<IconWrapper iconSize={30} Icon={props.icon} />
 				</div>
 				<div className={twMerge('w-full', props.valueColor)}>
-					<H5 className="text-2xl whitespace-nowrap font-semibold">
+					<H5 className="text-xl whitespace-nowrap font-semibold">
 						{props.title}
 						<span className={props.valueColor}>
 							{props.value && ` ($${props.value} value)`}
 						</span>
 					</H5>
 					{props.description && (
-						<Paragraph className={twMerge('mt-1 text-2xl font-medium')}>
+						<Paragraph className={twMerge('mt-1 text-xl font-medium')}>
 							{props.description}
 						</Paragraph>
 					)}

@@ -1,4 +1,4 @@
-import React, { type SelectHTMLAttributes } from 'react';
+import React, { useEffect, useState, type SelectHTMLAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { styles } from '../styleClassNames';
 import FlexBox from './FlexBox';
@@ -24,6 +24,19 @@ export default function Select({
 	labelColor = 'text-dark',
 	name,
 }: SelectProps) {
+	const [selectedValue, setSelectedValue] = useState(defaultValue || '');
+
+	useEffect(() => {
+		if (defaultValue) {
+			setSelectedValue(defaultValue);
+		}
+	}, [defaultValue]);
+
+	const handleChange = (event) => {
+		setSelectedValue(event.target.value);
+		setOption(event);
+	};
+
 	return (
 		<FlexBox className={twMerge(containerClassName)}>
 			{label && (
@@ -46,10 +59,9 @@ export default function Select({
 					'focus:shadow-md',
 					className
 				)}
-				onChange={setOption}
-				// className={twMerge('select focus:outline-none w-fit border', className)}
+				onChange={handleChange}
 				multiple={multiple}
-				defaultValue={defaultValue}
+				value={selectedValue}
 			>
 				{values?.map((value, index) => (
 					<option key={'option-' + index} value={value}>

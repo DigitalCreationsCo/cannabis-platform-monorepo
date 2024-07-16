@@ -36,8 +36,7 @@ function Hero({ href = '#get-started' }: { href?: string }) {
 						<Paragraph className="text-light font-encode mx-auto tracking-loose text-xl lg:text-2xl whitespace-pre-line">
 							{`Build deeper customer relationships with a messaging service based on choice, quality and trust.`}
 						</Paragraph>
-						<FlexBox className="w-full py-8 sm:flex-row gap-8 items-center">
-							<CTA cta={'Get Started'} href={href} />
+						<FlexBox className="w-full py-8 flex-col-reverse sm:flex-row gap-8 items-center">
 							<Link
 								className="w-[240px px-8 underline text-light pb-2 uppercase hover:text-secondary"
 								href={'#info'}
@@ -47,6 +46,7 @@ function Hero({ href = '#get-started' }: { href?: string }) {
 									{`Learn More`}
 								</Paragraph>
 							</Link>
+							<CTA cta={'Get Started'} href={href} />
 						</FlexBox>
 					</div>
 				</FlexBox>

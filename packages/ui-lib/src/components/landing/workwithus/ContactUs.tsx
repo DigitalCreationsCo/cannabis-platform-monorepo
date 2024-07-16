@@ -1,12 +1,12 @@
 import {
 	type ResponseDataEnvelope,
-	TextContent,
 	usStatesAbbreviationList,
 	applicationHeaders,
 	getFirstErrorOrNull,
 } from '@cd/core-lib';
 import axios, { type AxiosResponse } from 'axios';
 import { useFormik } from 'formik';
+import { useTranslation } from 'next-i18next';
 import Image from 'next/image';
 import { type HTMLAttributes, useState } from 'react';
 import { toast } from 'react-hot-toast';
@@ -66,6 +66,8 @@ const serviceOptions = [
 ];
 
 export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
+	const { t } = useTranslation('common');
+
 	const [loadingButton, setLoadingButton] = useState(false);
 	const initialValues: ContactUsFormResponse = {
 		firstName: '',
@@ -453,7 +455,7 @@ export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
 									handleSubmit();
 								}}
 							>
-								{TextContent.prompt.CONTACT_US}
+								{t('contact-sales')}
 							</Button>
 						</div>
 					</Grid>
