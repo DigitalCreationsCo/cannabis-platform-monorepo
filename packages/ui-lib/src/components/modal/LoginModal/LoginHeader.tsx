@@ -20,6 +20,7 @@ function LoginModalHeader() {
 			<Image
 				className="absolute w-full h-full object-cover -z-10"
 				src={require('../../../../public/events-1.png')}
+				alt="Find cannabis events in your city"
 			/>
 			<H2 className="">{`Find cannabis events in your city`}</H2>
 		</FlexBox>

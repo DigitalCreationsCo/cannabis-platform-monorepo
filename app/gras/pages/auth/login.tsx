@@ -27,7 +27,6 @@ import type { ComponentStatus } from 'react-daisyui/dist/types';
 import type ReCAPTCHA from 'react-google-recaptcha';
 import * as Yup from 'yup';
 
-
 interface Message {
 	text: string | null;
 	status: ComponentStatus | null;

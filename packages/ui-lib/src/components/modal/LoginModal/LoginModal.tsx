@@ -80,7 +80,7 @@ export default function LoginModal({
 	const { status } = useSession();
 	const { t } = useTranslation('common');
 	const [recaptchaToken, setRecaptchaToken] = useState<string>('');
-	const [message, setMessage] = useState<Message>({ text: null, status: null });
+	const [message, setMessage] = useState<any>({ text: null, status: null });
 	const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 	const recaptchaRef = useRef<ReCAPTCHA>(null);
 
