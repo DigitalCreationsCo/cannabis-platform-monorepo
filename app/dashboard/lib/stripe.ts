@@ -2,6 +2,7 @@ import { updateDispensary, type StaffMember } from '@cd/data-access';
 import Stripe from 'stripe';
 import env from '@/lib/env';
 import { clientPromise } from './db';
+import { sendEmail } from './email/sendEmail';
 
 export const stripe = new Stripe(env.stripe.secretKey ?? '', {
 	// https://github.com/stripe/stripe-node#configuration
@@ -54,4 +55,52 @@ export async function getStripeCustomerId(
 		customerId = teamMember.team.billingId;
 	}
 	return customerId;
+}
+
+export async function createInvoice(customerId, priceIds) {
+	try {
+		// Create invoice items using the price IDs
+		for (const priceId of priceIds) {
+			await stripe.invoiceItems.create({
+				customer: customerId,
+				price: priceId,
+			});
+		}
+
+		// Create the invoice
+		const invoice = await stripe.invoices.create({
+			customer: customerId,
+			auto_advance: true, // Automatically finalize and send the invoice
+		});
+
+		// notify the team the invoice is created
+		await notifyTeam(invoice.id, customerId, invoice.hosted_invoice_url);
+
+		console.log(`Invoice created successfully: ${invoice.id}`);
+		return invoice;
+	} catch (error) {
+		console.error('Error creating invoice:', error);
+		throw error;
+	}
+}
+
+async function notifyTeam(invoiceId, customerId, invoiceUrl) {
+	try {
+		const mailOptions = {
+			from: process.env.NOTIFY_EMAIL_USER ?? '',
+			to: process.env.TEAM_EMAIL ?? '',
+			subject: 'New Invoice Created',
+			text: `A new invoice (ID: ${invoiceId}) has been created for customer (ID: ${customerId}).
+			
+			You can view the invoice at the following link: ${invoiceUrl}`,
+		};
+
+		// send the email
+		await sendEmail(mailOptions);
+
+		console.log('Team notified of new invoice:', invoiceId);
+	} catch (error) {
+		console.error('Error notifying team:', error);
+		throw error;
+	}
 }

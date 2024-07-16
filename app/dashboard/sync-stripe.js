@@ -42,6 +42,9 @@ const sync = async () => {
 			stripe.prices.list({ active: true }),
 		]);
 
+		console.info('products:', products.data);
+		console.info('prices:', prices.data);
+
 		if (prices.data.length > 0 && products.data.length > 0) {
 			await serviceCollection.deleteMany({});
 			await priceCollection.deleteMany({});
@@ -99,6 +102,7 @@ async function seedServices(products, collection) {
 			image: data.images.length > 0 ? data.images[0] : '',
 			name: data.name,
 			created: new Date(data.created * 1000),
+			...data,
 		});
 		console.info('Inserted service, ', insert);
 	}
@@ -112,9 +116,10 @@ async function seedPrices(prices, collection) {
 			currency: data.currency,
 			serviceId: data.product,
 			amount: data.unit_amount ? data.unit_amount / 100 : undefined,
-			metadata: data.recurring,
 			type: data.type,
 			created: new Date(data.created * 1000),
+			...data,
+			metadata: data.recurring,
 		});
 		console.info('Inserted price, ', insert);
 	}

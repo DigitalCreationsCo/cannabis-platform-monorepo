@@ -1,13 +1,14 @@
 import { slugify, ApiError, FreshSales } from '@cd/core-lib';
-import Twilio from '@cd/core-lib/src/sms/twilio';
 import {
 	createDispensary,
+	type Dispensary,
 	getStaffMemberDispensaries,
 	isTeamExists,
 } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { clientPromise } from '@/lib/db';
 import { recordMetric } from '@/lib/metrics';
+import { createInvoice } from '@/lib/stripe';
 import { getCurrentUser } from '@/lib/user';
 import { createTeamSchema, validateWithSchema } from '@/lib/zod';
 
@@ -56,7 +57,12 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
 // Create a team
 const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 	const client = await clientPromise;
-	const create = validateWithSchema(createTeamSchema, req.body);
+	const create = validateWithSchema(
+		createTeamSchema,
+		req.body
+	) as Dispensary & { priceIds: string[] };
+
+	const { priceIds } = create;
 
 	const user = await getCurrentUser(req, res);
 	const slug = slugify(create.name);
@@ -81,6 +87,19 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 			weedTextPhoneNumber,
 		},
 	});
+
+	switch (true) {
+		case team.isSubscribedForDelivery:
+			// create an invoice for delivery subscription
+			break;
+		case team.isSubscribedForPickup:
+			// create an invoice for pickup subscription
+			break;
+		case team.isSubscribedForMessaging:
+			// create an invoice for text messaging subscription, email invoice to team members
+			await createInvoice(team.billingId, priceIds);
+			break;
+	}
 
 	recordMetric('team.created');
 

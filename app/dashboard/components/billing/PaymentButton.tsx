@@ -17,6 +17,7 @@ const PaymentButton = ({
 	const currencySymbol = getSymbolFromCurrency(price.currency || 'USD');
 	let buttonText = 'Get Started';
 
+	console.info('price: ', price);
 	if (metadata?.interval === 'month') {
 		buttonText = price.amount
 			? `${currencySymbol}${price.amount} / month`
@@ -26,6 +27,8 @@ const PaymentButton = ({
 			? `${currencySymbol}${price.amount} / year`
 			: `Yearly`;
 	}
+
+	console.info('metadata: ', metadata);
 
 	return (
 		<Button

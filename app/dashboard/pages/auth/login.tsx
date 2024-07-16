@@ -32,6 +32,7 @@ import React, {
 	type PropsWithChildren,
 } from 'react';
 import type { ComponentStatus } from 'react-daisyui/dist/types';
+// eslint-disable-next-line import/no-named-as-default
 import type ReCAPTCHA from 'react-google-recaptcha';
 import * as Yup from 'yup';
 import AgreeMessage from '@/components/auth/AgreeMessage';
@@ -40,7 +41,6 @@ import GoogleButton from '@/components/auth/GoogleButton';
 import { Alert } from '@/components/shared';
 import GoogleReCAPTCHA from '@/components/shared/GoogleReCAPTCHA';
 import TogglePasswordVisibility from '@/components/shared/TogglePasswordVisibility';
-import app from '@/lib/app';
 import { authProviderEnabled } from '@/lib/auth';
 import env from '@/lib/env';
 import type { NextPageWithLayout } from '@/lib/next.types';
@@ -131,19 +131,15 @@ const Login: NextPageWithLayout<
 
 	return (
 		<>
-			<SEOMetaTags title={t('business-login-title')} />
+			<SEOMetaTags
+				title={`${t('log-in-to-business-account')} | ${t('dispensary-success-services')}`}
+			/>
 			<Page className="bg-transparent border-b m-0 flex grow p-0 md:p-0 lg:p-0">
 				<ImageBackDrop src={backdrop}>
 					<PlainTopBar className={'!bg-transparent'} />
 					<Center className="gap-8 pb-12">
-						<H1
-							color="light"
-							className="tracking-normal text-5xl md:text-5xl lg:text-6xl"
-						>
-							{t('dispensary-success-services')}
-						</H1>
 						<FlexBox className="lg:flex-row gap-x-24 gap-y-8">
-							<div className="flex flex-col gap-y-6 m-auto">
+							<div className="flex flex-col gap-y-6 mx-auto md:mt-20">
 								{unlockYourGrowth.bullets.map((item, index) => (
 									<Benefit
 										key={index}
@@ -154,17 +150,16 @@ const Login: NextPageWithLayout<
 									/>
 								))}
 							</div>
-							<FlexBox className="text-light items-center space-y-2 mx-auto">
-								<Paragraph className="text-lg text-center">
+							<FlexBox className="items-center space-y-2 mx-auto">
+								<H1 className="text-light !text-lg lg:!text-xl !font-normal text-center">
 									{t('log-in-to-business-account')}
-								</Paragraph>
-
+								</H1>
 								{message.text && message.status && (
 									<Alert status={message.status} className="mb-5">
 										{t(message.text)}
 									</Alert>
 								)}
-								<div className="rounded p-6 bg-inverse drop-shadow">
+								<div className="rounded p-6 pt-0 sm:pt-6 sm:bg-inverse text-light sm:text-dark drop-shadow">
 									<div className="flex gap-2 flex-wrap">
 										{authProviders.github && <GithubButton />}
 										{authProviders.google && <GoogleButton />}
@@ -184,6 +179,7 @@ const Login: NextPageWithLayout<
 													name="email"
 													placeholder={t('email')}
 													value={formik.values.email}
+													className="text-dark"
 													error={
 														formik.touched.email
 															? !!formik.errors.email
@@ -200,6 +196,7 @@ const Login: NextPageWithLayout<
 														name="password"
 														placeholder={t('password')}
 														value={formik.values.password}
+														className="text-dark"
 														label={
 															<label className="label">
 																<span className="label-text">
@@ -237,17 +234,17 @@ const Login: NextPageWithLayout<
 														siteKey={recaptchaSiteKey}
 													/>
 												</div>
-											</div>
-											<div className="mt-3 space-y-3">
-												<Button
-													className="w-full font-bold bg-secondary-light hover:bg-primary-light"
-													type="submit"
-													color="primary"
-													loading={formik.isSubmitting}
-												>
-													{t('sign-in')}
-												</Button>
-												<AgreeMessage text={t('sign-in')} />
+												<div className="text-light sm:text-dark mt-3 pt-3 space-y-3">
+													<Button
+														className="text-light sm:text-dark w-full font-bold bg-secondary-light hover:bg-primary-light"
+														type="submit"
+														color="primary"
+														loading={formik.isSubmitting}
+													>
+														{t('sign-in')}
+													</Button>
+													<AgreeMessage text={t('sign-in')} />
+												</div>
 											</div>
 										</form>
 									)}
@@ -272,7 +269,7 @@ const Login: NextPageWithLayout<
 											</Link>
 										)}
 									</div>
-									<Paragraph className="text-center text-sm text-gray-600 mt-3">
+									<Paragraph className="text-center text-sm text-light sm:text-gray-600 mt-3">
 										{t('dont-have-an-account')}
 										<Link
 											href={`/auth/join${params}`}

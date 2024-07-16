@@ -4,12 +4,13 @@ import {
 	type ApiResponse,
 	TextContent,
 	defaultHeaders,
+	fetcher,
 	useDispensaries,
 } from '@cd/core-lib';
-import { type Dispensary } from '@cd/data-access';
+import { type Price, type Dispensary } from '@cd/data-access';
 import {
-	useFormContext,
 	Button,
+	useFormContext,
 	CheckBox,
 	FlexBox,
 	TermsAgreement,
@@ -17,7 +18,9 @@ import {
 	Modal2 as Modal,
 	H6,
 	H2,
+	LoadingPage,
 } from '@cd/ui-lib';
+import getSymbolFromCurrency from 'currency-symbol-map';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import { NextSeo } from 'next-seo';
@@ -26,14 +29,22 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { toast } from 'react-hot-toast';
+import useSWR from 'swr';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
+import { Error } from '@/components/shared';
 
 function DispensaryServices() {
 	const { t } = useTranslation('common');
 	const { prevFormStep, formValues, setFormValues } = useFormContext();
 	const { mutateTeams } = useDispensaries();
 	const router = useRouter();
+
+	const { data, isLoading, error: isError } = useSWR(`/api/products`, fetcher);
+
+	const plans = data?.data?.products || [];
+	// eslint-disable-next-line import/no-named-as-default-member
+	const [selectedPriceIds, setSelectedPriceIds] = React.useState<string[]>([]);
 
 	const formik = useFormik({
 		initialValues: {
@@ -59,7 +70,10 @@ function DispensaryServices() {
 				const response = await fetch('/api/dispensaries/', {
 					method: 'POST',
 					headers: defaultHeaders,
-					body: JSON.stringify(formValues.dispensary),
+					body: JSON.stringify({
+						...formValues.dispensary,
+						priceIds: selectedPriceIds,
+					}),
 				});
 
 				const json = (await response.json()) as ApiResponse<Dispensary>;
@@ -92,6 +106,16 @@ function DispensaryServices() {
 		});
 	}
 
+	if (isLoading) {
+		return <LoadingPage />;
+	}
+
+	if (isError) {
+		return <Error message={isError.message} />;
+	}
+
+	console.info('formik values ', formik.values);
+	console.info('plans: ', plans);
 	return (
 		<>
 			<NextSeo
@@ -101,36 +125,40 @@ function DispensaryServices() {
 			<form onSubmit={handleSubmit}>
 				<Modal.Header>{t('subscribe-to-services')}</Modal.Header>
 				<Modal.Body className="flex flex-col relative gap-8">
-					<ServiceCard
-						title={t('delivery-service')}
-						image={'/message-2.png'}
-						value={formik.values.isSubscribedForDelivery}
-						link={`https://grascannabis.org/services`}
-						name={'isSubscribedForDelivery'}
-						onClick={() => {
-							// check the box
-							formik.setFieldValue(
-								'isSubscribedForDelivery',
-								!formik.values.isSubscribedForDelivery
-							);
-						}}
-						handleChange={handleChange}
-					/>
-					<ServiceCard
-						title={t('message-service')}
-						image={'/message-1.png'}
-						value={formik.values.isSubscribedForMessaging}
-						link={`https://grascannabis.org/messaging`}
-						name={'isSubscribedForMessaging'}
-						onClick={() => {
-							// check the box
-							formik.setFieldValue(
-								'isSubscribedForMessaging',
-								!formik.values.isSubscribedForMessaging
-							);
-						}}
-						handleChange={handleChange}
-					/>
+					{plans.map((plan) => {
+						return (
+							<ServiceCard
+								key={plan.id}
+								plan={plan}
+								title={plan.name}
+								image={plan.image}
+								description={plan.description ?? ''}
+								value={formik.values[plan.metadata?.subscription ?? plan.name]}
+								link={plan.metadata?.link ?? 'https://gras.live/services'}
+								name={plan.metadata?.subscription ?? plan.name}
+								onClick={() => {
+									// check the box
+									formik.setFieldValue(
+										plan.metadata?.subscription,
+										formik.values[plan.metadata?.subscription ?? plan.name]
+									);
+									// add the price ids to the list
+									plan.prices.forEach((price) => {
+										if (selectedPriceIds.includes(price.id)) {
+											//  or remove it
+											setSelectedPriceIds(
+												selectedPriceIds.filter((id) => id !== price.id)
+											);
+										} else {
+											// add the plan id
+											setSelectedPriceIds([...selectedPriceIds, price.id]);
+										}
+									});
+								}}
+								handleChange={handleChange}
+							/>
+						);
+					})}
 					<TermsAgreement
 						name="termsAccepted"
 						onChange={handleChange}
@@ -188,15 +216,18 @@ const ServiceCard = ({
 	onClick,
 	value,
 	handleChange,
+	description,
+	plan,
 }) => {
 	const { t } = useTranslation('common');
 
 	return (
 		<div
 			className={twMerge(
-				'border border-gray-300 h-[300px] overflow-hidden shadow rounded cursor-pointer',
+				'border border-gray-300 overflow-hidden shadow rounded',
 				'transition',
-				'relative'
+				'relative',
+				'mx-auto'
 			)}
 			onClick={onClick}
 		>
@@ -210,19 +241,46 @@ const ServiceCard = ({
 					{t('learn-more')}
 				</Link>
 			</FlexBox>
+
 			<CheckBox
-				className="absolute p-4"
+				className="absolute w-full p-4 bg-gray-200/75 hover:bg-gray-300/75"
 				name={name}
 				onChange={handleChange}
 				checked={value}
+				label={description}
 			/>
+
 			<Image
 				src={image}
 				alt={title}
-				width={200}
+				width={300}
 				height={300}
-				className="w-full"
+				className="w-full h-full aspect-square object-cover"
 			/>
+			<FlexBox className="absolute bottom-0 w-full flex-col sm:flex-row">
+				{plan.prices.map((price: Price) => {
+					const metadata = price.metadata;
+					const currencySymbol = getSymbolFromCurrency(price.currency || 'USD');
+					let buttonText = `Get Started for ${currencySymbol}${price.amount}`;
+					if (metadata?.interval === 'month') {
+						buttonText = price.amount
+							? `${currencySymbol}${price.amount} / month`
+							: `Monthly`;
+					} else if (metadata?.interval === 'year') {
+						buttonText = price.amount
+							? `${currencySymbol}${price.amount} / year`
+							: `Yearly`;
+					}
+					return (
+						<div
+							key={`${plan.id}-${price.id}`}
+							className="text-center h-full flex-1 p-2 bg-gray-200/75"
+						>
+							{buttonText}
+						</div>
+					);
+				})}
+			</FlexBox>
 		</div>
 	);
 };

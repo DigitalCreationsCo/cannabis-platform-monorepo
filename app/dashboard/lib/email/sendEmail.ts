@@ -15,8 +15,9 @@ const transporter = nodemailer.createTransport({
 
 interface EmailData {
 	to: string;
+	from?: string;
 	subject: string;
-	html: string;
+	html?: string;
 	text?: string;
 }
 
@@ -29,5 +30,9 @@ export const sendEmail = async (data: EmailData) => {
 		from: env.smtp.from,
 	};
 
-	await transporter.sendMail({ ...emailDefaults, ...data });
+	await transporter.sendMail({
+		...emailDefaults,
+		...data,
+		from: data.from || emailDefaults.from,
+	});
 };

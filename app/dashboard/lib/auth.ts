@@ -8,7 +8,6 @@ export async function hashPassword(password: string) {
 }
 
 export async function verifyPassword(password: string, hashedPassword: string) {
-	console.info('compare ', await compare(password, hashedPassword));
 	return await compare(password, hashedPassword);
 }
 
