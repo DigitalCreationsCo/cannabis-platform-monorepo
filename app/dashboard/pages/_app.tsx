@@ -5,7 +5,7 @@ import {
 	GTMTag,
 	loadGoogleTagManager,
 } from '@cd/core-lib/src/lib/googletagmanager';
-import { loadHotJar } from '@cd/core-lib/src/lib/hotjar';
+import { loadHotJar } from '@cd/core-lib/src/lib/hotjar/hotjar-dashboard';
 import { loadSegment } from '@cd/core-lib/src/lib/segment';
 import {
 	LoadingPage,
@@ -21,12 +21,10 @@ import { AnimatePresence } from 'framer-motion';
 import mixpanel from 'mixpanel-browser';
 import { SessionProvider } from 'next-auth/react';
 import { appWithTranslation } from 'next-i18next';
-import { NextSeo } from 'next-seo';
 import { useEffect } from 'react';
 import { Provider as ReduxProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { AccountLayout } from '@/components/layouts';
-import app from '@/lib/app';
 import env from '@/lib/env';
 import { type AppPropsWithLayout } from '@/lib/next.types';
 

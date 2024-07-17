@@ -8,6 +8,7 @@ import {
 	type LayoutContextProps,
 	Button,
 	CheckBox,
+	Page,
 } from '@cd/ui-lib';
 import { PlusIcon, UserGroupIcon } from '@heroicons/react/24/outline';
 import axios from 'axios';
@@ -59,70 +60,22 @@ function CustomersPage({ customers }: CustomerDashboardProps) {
 	};
 
 	return (
-		<div className="bg-light lg:min-h-[710px]">
+		<Page className="bg-light mb-24 p-0 m-0 lg:p-0">
 			<PageHeader title="Customers" Icon={UserGroupIcon}>
 				<div className="flex flex-row gap-x-5 my-4">
-					{/* <Link href="/customers/add">
+					<Link href={`/teams/${team?.slug}/customers/add`}>
 						<Button className="bg-amber-100 hover:bg-amber-200 active:bg-amber-200 place-self-start px-4 mt-2">
-							{t('add-customer')}{' '}
-							<PlusIcon height={20} width={20} className="ml-1" />
+							<PlusIcon height={20} width={20} className="mr-1" />
+							{t('add-customer')}
 						</Button>
-					</Link> */}
-					<Link href="/customers/import">
+					</Link>
+					{/* <Link href={`/teams/${team?.slug}/customers/import`}>
 						<Button className="bg-amber-100 hover:bg-amber-200 active:bg-amber-200 place-self-start px-4 mt-2">
 							{t('import-customers')}
 						</Button>
-					</Link>
+					</Link> */}
 				</div>
 			</PageHeader>
-			{/* <Grid className="gap-2">
-				<Row className="grid h-[44px] grid-cols-12">
-					<H6 className="col-span-4">{t('name')}</H6>
-					<H6 className="col-span-4">{t('email')}</H6>
-					<H6 className="col-span-2">{t('phone')}</H6>
-					<H6 className="col-span-2">{t('role')}</H6>
-				</Row>
-				{current.length > 0 ? (
-					<>
-						{current.map((user) => (
-							<Link href={`/users/${user.id}`} key={user.id}>
-								<Row className="h-[54px] py-0">
-									<Image
-										className="hidden sm:block"
-										src={user?.profilePicture?.location || ''}
-										alt=""
-										height={100}
-										width={100}
-									/>
-									<H6 className="grow">
-										{user.firstName} {user.lastName}
-									</H6>
-									<Paragraph className="hidden w-[240px] justify-start lg:flex">
-										{user.email}
-									</Paragraph>
-									<Paragraph className="flex w-[120px] justify-center">
-										{user.phone || '-'}
-									</Paragraph>
-									<Paragraph className="flex w-[100px] justify-center">
-										{user?.memberships?.length &&
-											user?.memberships?.[0]?.role
-												.substring(0, 1)
-												.toLocaleUpperCase() +
-												user.memberships[0].role
-													.slice(1)
-													.toLocaleLowerCase()}{' '}
-									</Paragraph>
-									<DeleteButton onClick={handleDeleteCustomer}></DeleteButton>
-								</Row>
-							</Link>
-						))}
-						<PaginationButtons />
-					</>
-				) : (
-					<Row className="h-[52px]">{`No users are found.`}</Row>
-				)}
-			</Grid> */}
-
 			<Table
 				cols={[t('email'), t('name'), t('phone'), 'Subscribed']}
 				body={current.map((customer) => {
@@ -134,7 +87,7 @@ function CustomersPage({ customers }: CustomerDashboardProps) {
 								wrap: true,
 								element: (
 									<div className="flex items-center justify-start space-x-2">
-										<Paragraph className="font-semibold">
+										<Paragraph>
 											{customer.first_name} {customer.last_name}
 										</Paragraph>
 									</div>
@@ -165,13 +118,9 @@ function CustomersPage({ customers }: CustomerDashboardProps) {
             onChange={(_, value) => setCurrentPage(value)}
           />
         </FlexBox> */}
-		</div>
+		</Page>
 	);
 }
-
-CustomersPage.getLayoutContext = (): LayoutContextProps => ({
-	showHeader: false,
-});
 
 export default CustomersPage;
 
@@ -187,11 +136,6 @@ export async function getServerSideProps({
 	const customers = await FreshSales.getSegmentCustomers(
 		teamMember.team.weedTextSegmentId ?? ''
 	);
-
-	// const customers = await getCustomersByDispensary({
-	// 	client,
-	// 	where: { teamSlug: slug },
-	// });
 
 	return {
 		props: {

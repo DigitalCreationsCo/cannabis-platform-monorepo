@@ -27,7 +27,12 @@ type EventType =
 	| 'team.events.create'
 	| 'team.events.read'
 	| 'team.events.delete'
-	| 'team.events.update';
+	| 'team.events.update'
+	| 'team.customers.create'
+	| 'team.customers.read'
+	| 'team.customers.delete'
+	| 'team.customers.update'
+	| 'team.customers.import';
 
 interface Request {
 	action: EventType;

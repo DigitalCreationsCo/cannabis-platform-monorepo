@@ -1,10 +1,15 @@
+import { AccountLayout } from '@/components/layouts';
+import env from '@/lib/env';
+import { type AppPropsWithLayout } from '@/lib/next.types';
+import SEOMetaTags from '@/lib/SEOMetaTags';
+import { wrapper } from '@/lib/store';
 import { Themer } from '@boxyhq/react-ui/shared';
 import CacheProvider from '@cd/core-lib/src/lib/cache';
 import {
 	GTMTag,
 	loadGoogleTagManager,
 } from '@cd/core-lib/src/lib/googletagmanager';
-import { loadHotJar } from '@cd/core-lib/src/lib/hotjar';
+import { loadHotJar } from '@cd/core-lib/src/lib/hotjar/hotjar-gras';
 import { loadSegment } from '@cd/core-lib/src/lib/segment';
 import {
 	ErrorBoundary,
@@ -24,11 +29,6 @@ import { useEffect } from 'react';
 import { Provider as ReduxProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { SWRConfig } from 'swr';
-import { AccountLayout } from '@/components/layouts';
-import env from '@/lib/env';
-import { type AppPropsWithLayout } from '@/lib/next.types';
-import SEOMetaTags from '@/lib/SEOMetaTags';
-import { wrapper } from '@/lib/store';
 
 import '../styles/tailwind.css';
 

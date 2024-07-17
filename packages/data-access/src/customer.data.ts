@@ -189,7 +189,7 @@ export interface Customer {
 	open_deals_amount: string;
 	won_deals_amount: string;
 	last_contacted_sales_activity_mode: string | null;
-	custom_field: Record<string, any>;
+	custom_field: { birthdate?: string } & Record<string, any>;
 	created_at: string;
 	updated_at: string;
 	keyword: string | null;

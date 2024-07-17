@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import { FreshSales, applicationHeaders, urlBuilder } from '@cd/core-lib';
 import { type ContactUsFormResponse } from '@cd/ui-lib';
 import axios from 'axios';

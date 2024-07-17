@@ -1,9 +1,7 @@
-/* eslint-disable sonarjs/no-duplicate-string */
-/* eslint-disable @typescript-eslint/naming-convention */
-import { FreshSales, axios, throwIfNotAllowed } from '@cd/core-lib';
-import { type DailyDeal, createDispensaryDailyDeal } from '@cd/data-access';
+import { FreshSales, throwIfNotAllowed } from '@cd/core-lib';
+import freshsales from '@cd/core-lib/src/crm/freshsales';
+import { type Customer } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { clientPromise } from '@/lib/db';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
 import { recordMetric } from '@/lib/metrics';
 import { sendAudit } from '@/lib/retraced';
@@ -50,64 +48,54 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
 	res.status(200).json({ data: customers });
 };
 
-// Create dailyDeal
+// Create customer
 const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
-	const client = await clientPromise;
 	const teamMember = await throwIfNoDispensaryAccess(req, res);
-	throwIfNotAllowed(teamMember, 'team_member', 'create');
+	throwIfNotAllowed(teamMember, 'team_customers', 'create');
 
-	const create = req.body as DailyDeal;
+	const {
+		first_name,
+		last_name,
+		mobile_number,
+		email,
+		address,
+		city,
+		state,
+		country,
+		zipcode,
+		custom_field: { birthdate },
+	} = req.body as Customer;
 
-	const dailyDealCreated = await createDispensaryDailyDeal({
-		client,
-		data: create,
-	});
+	const insertedCustomer = await freshsales.upsertContact(
+		{
+			first_name,
+			last_name,
+			mobile_number,
+			email,
+			address: address!,
+			city,
+			state,
+			country: country!,
+			zipcode,
+			custom_field: { birthdate },
+		},
+		{
+			keyword: teamMember.teamSlug,
+		}
+	);
 
-	const { doesRepeat, teamSlug, schedule, id, startTime, endTime, timezone } =
-		dailyDealCreated;
-
-	const [minutes, hours, mdays, months, wdays] = schedule.split(' ');
-	if (doesRepeat) {
-		// schedule cron job to send notification to users
-		await axios.put(
-			`https://api.cron-job.org/jobs`,
-			{
-				job: {
-					title: `Daily Deal ${teamSlug}: ${id}-${startTime}`,
-					enabled: true,
-					folderId: 36202,
-					schedule: {
-						timezone,
-						minutes,
-						hours,
-						mdays,
-						months,
-						wdays,
-						expiresAt: endTime || 0,
-					},
-					url: `${process.env.NEXT_PUBLIC_DASHBOARD_APP_URL}/api/dispensaries/${teamSlug}/daily-deals/${id}`,
-					notification: {
-						onFailure: true,
-						onSuccess: true,
-						onDisable: true,
-					},
-					requestMethod: 'GET',
-					headers: { Authorization: `Bearer ${process.env.NEXTAUTH_SECRET}` },
-					body: dailyDealCreated,
-				},
-			},
-			{ headers: { 'Content-Type': 'application/json' } }
-		);
-	}
+	await freshsales.addCustomersToSegment(teamMember.team.weedTextSegmentId!, [
+		insertedCustomer,
+	]);
 
 	sendAudit({
-		action: 'team.daily_deals.create',
-		crud: 'u',
+		action: 'team.customers.create',
+		crud: 'c',
 		user: teamMember.user,
 		team: teamMember.team,
 	});
 
-	recordMetric('dispensary.dailyDeal.created');
+	recordMetric('dispensary.customer.created');
 
-	res.status(200).json({ data: dailyDealCreated });
+	res.status(200).json({ data: insertedCustomer });
 };
