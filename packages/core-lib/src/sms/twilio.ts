@@ -14,50 +14,60 @@ class Twilio {
 		});
 	}
 
-	async send(to: string, message: string) {
-		try {
-			await this.t.messages.create({
-				body: message,
+	async send(to: string, text: string) {
+		this.t.messages
+			.create({
+				body: text,
 				messagingServiceSid: this.broadcastServiceSid,
+				// applicationSid: '' // if i cant make this work with sdk, use REST
 				to,
+			})
+			.then((message) => {
+				console.log('TWILIO - send to: ', to);
+				console.log('TWILIO - status: ', message.status);
+			})
+			.catch((error) => {
+				console.error('TWILIO - send ERROR: ', error);
+				throw new Error(error);
 			});
-		} catch (error) {
-			console.error('TWILIO - ERROR: ', error);
-			throw new Error(error);
-		}
-		console.info('Message sent to: ', to);
 	}
 
-	async sendAll(numbers: string[], message: string) {
+	async sendAll(numbers: string[], text: string) {
 		// USE FRESHSALES DATA FOR NOW, WHEN SCALING TO 1000+ CONTACTS, USE SEGMENT AUDIENCE
 		// or customer.io
 		numbers.forEach((number) => {
 			this.t.messages
 				.create({
-					body: message,
+					body: text,
 					messagingServiceSid: this.broadcastServiceSid,
 					to: number,
 				})
 				.then((message) => {
-					console.log('TWILIO - send to: ', number);
+					console.log('TWILIO - send all to: ', number);
 					console.log('TWILIO - status: ', message.status);
 				})
 				.catch((error) => {
-					console.error('TWILIO - ERROR: ', error);
+					console.error('TWILIO - send all ERROR: ', error);
 					throw new Error(error);
 				});
 		});
 	}
 
-	async inviteCustomer(to: string, message: string) {
+	async inviteCustomer(to: string, text: string) {
 		this.t.messages
 			.create({
-				body: message,
+				body: text,
 				messagingServiceSid: this.inviteServiceSide,
 				to,
 			})
-			.catch((error) => console.error(error));
-		console.info('Invitation sent to: ', to);
+			.then((message) => {
+				console.log('TWILIO - invite to: ', to);
+				console.log('TWILIO - status: ', message.status);
+			})
+			.catch((error) => {
+				console.error('TWILIO - invite ERROR: ', error);
+				throw new Error(error);
+			});
 	}
 
 	async provisionSMSPhoneNumber(slug: string): Promise<string> {

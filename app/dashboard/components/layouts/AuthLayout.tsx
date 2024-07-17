@@ -22,6 +22,7 @@ export default function AuthLayout({
 				<div className="sm:mx-auto sm:w-full sm:max-w-sm">
 					<FlexBox className="flex-row justify-center content-center items-center drop-shadow">
 						<GrasSignature>{t('gras')}</GrasSignature>
+						{/* drop-shadow-[0px_2px_0px_#aaa] */}
 						<Image
 							className="ml-2 w-[36px] md:w-[48px] bg-inverse rounded-full p-0.25"
 							src={app.logoUrl}

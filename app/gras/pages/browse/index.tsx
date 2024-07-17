@@ -259,7 +259,7 @@ export default function Browse({
 				<Grid className="relative grid-cols-3 xs:pb-16">
 					<div className="col-span-full">
 						<div className="lg:hidden px-4 sm:w-fit">
-							<H1 className="lg:hidden font-normal text-xl md:text-3xl text-light md:pt-2 leading-2 md:drop-shadow-[0px_2px_1px_#555555] text-left">
+							<H1 className="lg:hidden font-medium text-xl md:text-3xl text-light md:pt-2 leading-2 drop-shadow-[0px_2px_1px_#555555] text-left">
 								{`Find flower, edibles, dispensaries`}
 								<span className="hidden lg:!inline">{` near you`}</span>
 							</H1>
@@ -331,7 +331,7 @@ export default function Browse({
 					</div>
 
 					<div className="col-span-full">
-						<H2 className="col-span-full font-normal !text-xl sm:pt-2 px-3 md:px-4 text-light leading-2 md:drop-shadow-[0px_2px_0px_#555555] text-left">
+						<H2 className="col-span-full font-medium !text-xl sm:pt-2 px-3 md:px-4 text-light leading-2 drop-shadow-[0px_2px_0px_#555555] text-left">
 							🎉 Nearby Events
 						</H2>
 						{(!isEventLoading && events.length < 2 && (
@@ -456,7 +456,7 @@ export default function Browse({
 						<></>
 					) : (
 						<div className="col-span-full">
-							<H2 className="col-span-full !text-xl font-normal sm:pt-2 px-3 md:px-4 text-light leading-2 md:drop-shadow-[0px_2px_0px_#555555] text-left">
+							<H2 className="col-span-full !text-xl font-medium sm:pt-2 px-3 md:px-4 text-light leading-2 drop-shadow-[0px_2px_0px_#555555] text-left">
 								🎉 Happening Today
 							</H2>
 							<Carousel
@@ -513,7 +513,7 @@ export default function Browse({
 					)}
 
 					<div className="col-span-full">
-						<H2 className="col-span-full !text-xl font-normal px-2 md:px-4 text-light leading-2 md:drop-shadow-[0px_2px_0px_#555555] text-left">
+						<H2 className="col-span-full !text-xl font-medium px-2 md:px-4 text-light leading-2 drop-shadow-[0px_2px_0px_#555555] text-left">
 							🍍 Fresh from our blog
 						</H2>
 						<Carousel

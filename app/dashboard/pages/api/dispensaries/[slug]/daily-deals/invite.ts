@@ -86,6 +86,8 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 	recordMetric('dispensary.customer.created');
 
 	await twilio.inviteCustomer(mobile_number, doubleOptInMessage);
+	// recordMetric('dispensary.message.sent');
+	// set up stripe metering
 
 	res.status(200).json({ success: true });
 };
