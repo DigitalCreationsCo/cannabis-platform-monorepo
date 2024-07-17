@@ -22,7 +22,7 @@ class Twilio {
 				to,
 			});
 		} catch (error) {
-			console.error('Error sending message', error);
+			console.error('TWILIO - ERROR: ', error);
 			throw new Error(error);
 		}
 		console.info('Message sent to: ', to);
@@ -39,11 +39,11 @@ class Twilio {
 					to: number,
 				})
 				.then((message) => {
-					console.log('Message sent to: ', number);
-					console.log(message.status);
+					console.log('TWILIO - send to: ', number);
+					console.log('TWILIO - status: ', message.status);
 				})
 				.catch((error) => {
-					console.error(error);
+					console.error('TWILIO - ERROR: ', error);
 					throw new Error(error);
 				});
 		});
