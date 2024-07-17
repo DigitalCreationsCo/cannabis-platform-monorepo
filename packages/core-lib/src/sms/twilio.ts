@@ -23,6 +23,7 @@ class Twilio {
 			});
 		} catch (error) {
 			console.error('Error sending message', error);
+			throw new Error(error);
 		}
 		console.info('Message sent to: ', to);
 	}
@@ -41,8 +42,10 @@ class Twilio {
 					console.log('Message sent to: ', number);
 					console.log(message.status);
 				})
-				.catch((error) => console.error(error));
-			// .finally(() => console.log('Message sent to: ', number));
+				.catch((error) => {
+					console.error(error);
+					throw new Error(error);
+				});
 		});
 	}
 

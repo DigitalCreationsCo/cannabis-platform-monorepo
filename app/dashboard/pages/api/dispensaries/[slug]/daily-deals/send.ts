@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { clientPromise } from '@/lib/db';
-import { recordMetric } from '@/lib/metrics';
 import { throwIfNotAllowed } from '@cd/core-lib';
 import freshsales from '@cd/core-lib/src/crm/freshsales';
 import twilio from '@cd/core-lib/src/sms/twilio';
 import { updateDispensaryDailyDeal, type DailyDeal } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { clientPromise } from '@/lib/db';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
+import { recordMetric } from '@/lib/metrics';
 
 export default async function handler(
 	req: NextApiRequest,
@@ -55,7 +55,9 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 			conversions,
 			numSent,
 			numDelivered,
-			...rest
+			lastSentAt,
+			isActive,
+			jobId,
 		} = JSON.parse(req.body) as DailyDeal;
 
 		if (!weedTextSegmentId) {
@@ -69,7 +71,7 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 			.filter(Boolean);
 		// check the number format to suit twilio
 
-		twilio.sendAll(customerPhoneNumbers, message);
+		await twilio.sendAll(customerPhoneNumbers, message);
 
 		// const response = await Slicktext.sendToList({
 		// 	textword: teamMember.team.slickTextTextwordId!,
@@ -95,7 +97,6 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 				campaign,
 				numSent,
 				numDelivered,
-				...rest,
 				isActive: true,
 				lastSentAt: Date.now().toString(),
 			},

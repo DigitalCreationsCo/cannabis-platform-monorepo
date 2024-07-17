@@ -88,6 +88,7 @@ export const updateDispensaryDailyDeal = async ({
 	client: MongoClient;
 	data: DailyDeal;
 }): Promise<DailyDeal> => {
+	console.info('data', data);
 	const { db, collections } = db_namespace;
 	const dailyDeal = await (
 		await client
