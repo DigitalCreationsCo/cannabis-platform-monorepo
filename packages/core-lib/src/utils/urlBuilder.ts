@@ -170,6 +170,10 @@ const urlBuilder = {
 			`${urlBuilder.freshSales.baseUrl}/api/contacts/lists/${id}`,
 		addContactToList: (id: string) =>
 			`${urlBuilder.freshSales.baseUrl}/api/lists/${id}/add_contacts`,
+
+		createAccount: () => `${urlBuilder.freshSales.baseUrl}/api/sales_accounts`,
+		upsertAccount: () =>
+			`${urlBuilder.freshSales.baseUrl}/api/sales_accounts/upsert`,
 	},
 
 	locationIq: {

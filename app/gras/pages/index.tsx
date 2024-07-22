@@ -1,197 +1,779 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable sonarjs/no-use-of-empty-return-value */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable i18next/no-literal-string */
+/* eslint-disable import/no-named-as-default-member */
+/* eslint-disable react/no-unknown-property */
+import { TopBar } from '@/components/layouts';
+import { Error } from '@/components/shared';
 import env from '@/lib/env';
-import { type NextPageWithLayout } from '@/lib/next.types';
 import SEOMetaTags from '@/lib/SEOMetaTags';
-import { TextContent } from '@cd/core-lib';
 import {
-	FlexBox,
-	Paragraph,
-	GrasSignature,
-	styles,
-	Button,
-	Page,
+	type ResponseDataEnvelope,
+	applicationHeaders,
+	axios,
+	debounce,
+	defaultHeaders,
+	getCoordinatePairFromCoordinates,
+	isValidZipcode,
+	urlBuilder,
+	useEvents,
+	useLocalDispensaries,
+} from '@cd/core-lib';
+import { type Event, type Coordinates, type Dispensary } from '@cd/data-access';
+import {
+	Grid,
 	H1,
 	Footer,
-	Over21Button,
+	Carousel,
+	H2,
+	DispensaryCard,
+	TextField,
+	H3,
+	Paragraph,
+	Button,
+	FlexBox,
+	Page,
+	styles,
 } from '@cd/ui-lib';
+import { type AxiosResponse } from 'axios';
+import { getCookie } from 'cookies-next';
+import { useFormik } from 'formik';
+import { AnimatePresence, motion } from 'framer-motion';
+import mapboxgl from 'mapbox-gl';
 import { type GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import Image from 'next/image';
-import Link from 'next/link';
-import { type ReactElement } from 'react';
+import {
+	type ReactElement,
+	useCallback,
+	useEffect,
+	useRef,
+	useState,
+} from 'react';
+import toast from 'react-hot-toast';
 import { twMerge } from 'tailwind-merge';
-import ImageGrid from '@/components/shared/ImageGrid/ImageGrid';
-import friendsVideo from '../public/Gras-community-clip.mp4';
-import logo from '../public/logo.png';
+import * as yup from 'yup';
+import { InfoCard } from '@/components/blog';
+import EventCard from '@/components/shared/EventCard';
+// import {
+// 	getFacebookLoginStatus,
+// 	initFacebookSdk,
+// 	fbLogin,
+// } from '@cd/core-lib/src/lib/facebookIG';
+import RestrictPage from '@/components/shared/RestrictedPage';
+import {
+	type Post,
+	type Settings,
+	getClient,
+	getPosts,
+	getSettings,
+	readToken,
+} from '@/lib/sanity';
+import markerImage from 'public/map-marker.png';
 
-const Home: NextPageWithLayout = () => {
+const defaultZipcode = '10001';
+
+export default function Browse({
+	token,
+	posts,
+	restrictContent,
+}: {
+	token: string;
+	posts: Post[];
+	settings: Settings;
+	restrictContent: boolean;
+}) {
 	const { t } = useTranslation('common');
+	const saveZipcodeToLocalStorage = (zipcode: string): string => {
+		if (isValidZipcode(zipcode)) {
+			localStorage.setItem('zipcode', zipcode.toString());
+		}
+		setZipcode(zipcode);
+		return zipcode;
+	};
 
-	const EnterEmail = () => (
-		<div className="flex flex-col">
-			<H1 className="text-center !text-5xl">{`Find cannabis events in your city`}</H1>
-			<Over21Button />
-		</div>
+	const getZipcodeLocalStorage = (): string => {
+		if (typeof window !== 'undefined') {
+			return localStorage.getItem('zipcode') || '';
+		}
+		return '';
+	};
+	const radius = 11000;
+	const [zipcode, setZipcode] = useState(getZipcodeLocalStorage());
+	const [zipcodeError, setZipcodeError] = useState('');
+
+	const [lookupCity, setLookupCity] = useState('');
+
+	const { isLoading, isError, dispensaries } = useLocalDispensaries({
+		zipcode: isValidZipcode(zipcode)
+			? zipcode
+			: getZipcodeLocalStorage() || saveZipcodeToLocalStorage(defaultZipcode),
+		radius,
+		token,
+	});
+	useEffect(() => {
+		if (isValidZipcode(zipcode)) {
+			setEventRequestSent(false);
+		}
+	}, [zipcode]);
+
+	const { isLoading: isEventLoading, events } = useEvents({
+		token,
+		zipcode,
+		radius,
+	});
+
+	const eventsToday =
+		events.filter(
+			(event) =>
+				event.start_date < new Date().toISOString().substring(0, 10) &&
+				event.end_date >= new Date().toISOString().substring(0, 10)
+		) || [];
+
+	const [eventRequestSent, setEventRequestSent] = useState(false);
+	const [loading, setLoading] = useState(false);
+	const [eventsLocationResults, setEventsLocationResults] = useState<any[]>([]);
+
+	const {
+		values,
+		errors,
+		touched,
+		handleBlur,
+		setFieldValue,
+		handleSubmit,
+		validateForm,
+	} = useFormik({
+		initialValues: {
+			city: '',
+			timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+		},
+		validateOnChange: false,
+		validationSchema: yup.object().shape({
+			city: yup.string().required(''),
+			timezone: yup.string().required(''),
+		}),
+		async onSubmit() {
+			try {
+				validateForm(values);
+				setLoading(true);
+				await axios.put<
+					ResponseDataEnvelope<any>,
+					AxiosResponse<ResponseDataEnvelope<any>>,
+					{ city: string }
+				>(
+					`/api/events?location=${values.city}&timezone=${values.timezone}&create_cron=true`,
+					values,
+					{
+						headers: {
+							...applicationHeaders,
+							Authorization: `Bearer ${token}`,
+						},
+					}
+				);
+				setLoading(false);
+				setEventRequestSent(true);
+			} catch (error: any) {
+				setLoading(false);
+				toast.error('Something went wrong. Try again.');
+			}
+		},
+	});
+
+	const debounceAddressLookup = useCallback(
+		debounce(async (e) => {
+			setEventsLocationResults([]);
+			// if (e.target.value.length < 5) {
+			// 	return;
+			// }
+			const response = await axios(
+				urlBuilder.locationIq.city(e.target.value, 6),
+				{
+					headers: { ...defaultHeaders },
+				}
+			);
+
+			if (response.status !== 200 || !response.data.length) {
+				setEventsLocationResults([]);
+			} else {
+				console.info('response', response.data);
+				setEventsLocationResults(response.data);
+			}
+		}, 1000),
+		[]
 	);
+
+	const getOrganizerImage = useCallback(
+		(event: Event) => {
+			return event.primary_organizer_slug
+				? dispensaries.find((d) => d.slug === event.primary_organizer_slug)
+						?.images[0].location
+				: '';
+		},
+		[dispensaries]
+	);
+
+	if (isError) {
+		return <Error message={isError.message} />;
+	}
 	return (
 		<>
-			<SEOMetaTags />
-			<Page
-				className={twMerge(
-					gradient,
-					'relative',
-					'!pt-0 md:pt-0 px-0 lg:px-0 pb-0',
-					'text-light'
-					// 'overflow-hidden'
-				)}
-			>
-				<div className={twMerge(styles.TOPBAR.topbar, 'bg-transparent')}>
-					<div>
-						<FlexBox className="flex-row items-center pt-2">
-							<Link href={'/'} className="z-50">
-								<GrasSignature className="text-inverse pt-1 pb-0 mb-0 leading-3">
-									{t('gras')}
-								</GrasSignature>
-							</Link>
-							<Link
-								href={'/'}
-								className="p-0.25 ml-2 bg-inverse w-fit rounded-full"
-							>
-								<Image
-									alt="Gras"
-									className="w-[36px]"
-									src={logo}
-									quality={25}
+			<SEOMetaTags
+				additionalKeywords={[
+					'drake leaked text messages',
+					'current events new york',
+					'msg new york events',
+					'new york events today',
+					'new york city events today',
+					'discovery green events',
+					'events new york',
+					'weed show',
+				]}
+			/>
+
+			<RestrictPage restrictContent={restrictContent}>
+				<Page
+					gradient="pink"
+					className="!pt-0 md:pt-0 px-0 lg:px-0 pb-0 min-h-[440px]"
+				>
+					<div className="lg:px-10">
+						<TopBar
+							SearchComponent={
+								<div className="hidden lg:block relative z-10">
+									{/* <H1 className="text-light text-lg px-2 leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left"> */}
+									<H1 className="pr-8">
+										{t('find-flower-events-dispensaries')}
+										<span className="hidden xl:!inline">{` near you`}</span>
+									</H1>
+									{/* <div className="px-4 relative top-0"> */}
+									{/* <H1 className="lg:hidden font-medium text-xl md:text-3xl text-light md:pt-2 leading-2 drop-shadow-[0px_2px_1px_#555555] text-left"> */}
+									{/* <H1 className="lg:hidden !z-10">
+									{t('find-flower-events-dispensaries')}
+									<span className="hidden lg:!inline">{` near you`}</span>
+								</H1> */}
+									{/* <TextField
+						className="text-dark"
+						name="zipcode"
+						maxLength={5}
+						// label="search your zipcode"
+						defaultValue={'Enter your zipcode'}
+						value={zipcode}
+						placeholder="Enter your zipcode"
+						onBlur={undefined}
+						onChange={(e: any) =>
+							// eslint-disable-next-line sonarjs/no-use-of-empty-return-value
+							debounce(
+								saveZipcodeToLocalStorage(e.target.value || ''),
+								2000
+							)
+						}
+						error={!!zipcodeError}
+						helperText={zipcodeError}
+					/> */}
+									{/* <Button
+									className={twMerge(
+										styles.BUTTON.highlight,
+										'hover:border-light text-light'
+									)}
+									size="sm"
+									bg="transparent"
+									hover="transparent"
+									// onClick={openLoginModal}
+								>
+									{`New York`}
+								</Button>
+								<Button
+									className={twMerge(
+										styles.BUTTON.highlight,
+										'hover:border-light text-light'
+									)}
+									size="sm"
+									bg="transparent"
+									hover="transparent"
+									// onClick={openLoginModal}
+								>
+									{`Los Angeles`}
+								</Button>
+								<TextField
+									containerClassName="max-w-md place-self-center self-center lg:mx-auto"
+									autoComplete="off"
+									type="text"
+									name="city"
+									value={values.city}
+									placeholder="wya"
+									onBlur={() => {
+										// handleBlur({ target: { name: 'city', value: values.city } });
+										setEventsLocationResults([]);
+									}}
+									onChange={(e: any) => {
+										// eslint-disable-next-line sonarjs/no-use-of-empty-return-value
+										// debounce(
+										// 	saveZipcodeToLocalStorage(e.target.value || ''),
+										// 	2000
+										// )
+										e.preventDefault();
+										setFieldValue('city', e.target.value);
+										debounceAddressLookup(e);
+									}}
+									error={!!zipcodeError}
+									helperText={zipcodeError}
 								/>
-							</Link>
-						</FlexBox>
-						<Link href={'/'}>
-							<Paragraph
-								className={twMerge(styles.TOPBAR.tagline, 'text-inverse-soft')}
-							>
-								{TextContent.info.CANNABIS_DELIVERED_TEXT}
-							</Paragraph>
-						</Link>
-					</div>
-					<div className="flex-none">
-						<ul className="flex items-center gap-2 sm:gap-4 md:pr-2">
-							<li>
-								<Link href="/auth/login">
-									<Button
-										className={twMerge(
-											styles.BUTTON.highlight,
-											'hover:border-light text-light'
-										)}
-										size="sm"
-										bg="transparent"
-										hover="transparent"
-									>
-										{t('sign-in')}
-									</Button>
-								</Link>
-							</li>
-						</ul>
-					</div>
-				</div>
+								<FlexBox className="absolute w-full flex-col bg-gray-100 z-50">
+									{eventsLocationResults.map((result, index) => (
+										<div
+											key={index}
+											className="hover:bg-gray-200 z-20 p-2 w-full"
+											onClick={(e) => {
+												e.preventDefault();
+												setFieldValue('city', result.display_name);
+												setEventsLocationResults([]);
+											}}
+										>
+											{result.display_name}
+										</div>
+									))}
+								</FlexBox>
+							</div> */}
+								</div>
+							}
+						/>
 
-				<div className="pt-4">
-					<ImageGrid>
-						<>
-							<video
-								className={twMerge(
-									'col-span-2',
-									'w-full h-full opacity-25',
-									'lg:rounded lg:opacity-100',
-									'shadow'
-								)}
-								style={{
-									objectFit: 'cover',
-									objectPosition: '40% 40%',
-									left: '0',
-									top: '0',
-								}}
-								src={friendsVideo}
-								autoPlay
-								loop
-								muted
-								preload="auto"
-								playsInline
-								poster={'/public/Gras-community.png'}
-							/>
-							<div>
-								<EnterEmail />
+						<Grid className="relative grid-cols-3 xs:pb-16">
+							<div className="col-span-full">
+								<Carousel
+									responsive={{
+										xl: {
+											breakpoint: { max: 4000, min: 1400 },
+											items: 5,
+											slidesToSlide: 4,
+											partialVisibilityGutter: 20,
+										},
+										lg: {
+											breakpoint: { max: 1400, min: 1100 },
+											items: 4,
+											slidesToSlide: 3,
+											partialVisibilityGutter: 20,
+										},
+										md: {
+											breakpoint: { max: 1100, min: 800 },
+											items: 3,
+											slidesToSlide: 2,
+											partialVisibilityGutter: 10,
+										},
+										sm: {
+											breakpoint: { max: 800, min: 464 },
+											items: 2,
+											partialVisibilityGutter: 10,
+										},
+									}}
+									items={
+										!isLoading && dispensaries.length
+											? dispensaries?.map((d, index) => (
+													<DispensaryCard
+														priority={index < 4}
+														loading={isLoading}
+														key={`dispensary-card-${index}`}
+														data={d}
+													/>
+												))
+											: [1, 2, 3, 4, 5, 6].map((d, index) => (
+													<DispensaryCard
+														loading={isLoading}
+														key={`dispensary-card-${index}`}
+														data={d as unknown as Required<Dispensary>}
+													/>
+												))
+									}
+								/>
 							</div>
-						</>
-					</ImageGrid>
-				</div>
 
-				<div className="lg:hidden flex flex-row w-full h-[550px] min-h-full grow col-span-3">
-					<video
-						className={twMerge(
-							'absolute flex-1 w-full opacity-25',
-							'lg:max-w-lg lg:rounded-lg lg:opacity-100',
-							'min-h-full',
-							'shadow'
-						)}
-						style={{
-							aspectRatio: 'auto',
-							width: '100%',
-							height: '100%',
-							objectFit: 'cover',
-							objectPosition: '40% 40%',
-							left: '0',
-							top: '0',
-						}}
-						src={friendsVideo}
-						autoPlay
-						loop
-						muted
-					/>
-					<div className="z-10 mx-auto mt-20 items-center max-w-md">
-						<EnterEmail />
+							<div className="col-span-full">
+								<H2 className="col-span-full font-medium !text-xl sm:pt-2 px-3 md:px-4 text-light leading-2 drop-shadow-[0px_2px_0px_#555555] text-left">
+									🎉 Nearby Events
+								</H2>
+								{(!isEventLoading && events.length < 2 && (
+									<div className="col-span-full lg:justify-center flex flex-row">
+										<div className="h-44 max-w-xl place-self-center bg-white shadow-xl rounded mx-4 gap-1">
+											<AnimatePresence>
+												{eventRequestSent && (
+													<motion.div
+														className="flex h-full p-5 hover:bg-gray-100 transition"
+														initial={{ y: 50, opacity: 0 }}
+														animate={{ y: 0, opacity: 1 }}
+														exit={{ y: 50, opacity: 0 }}
+													>
+														<Paragraph className="place-self-center">{`We're finding events in your city... 
+						Come back later to see them 🎉`}</Paragraph>
+													</motion.div>
+												)}
+
+												{!eventRequestSent && (
+													<motion.div
+														className="p-4 relative z-10"
+														animate={{ x: 0, opacity: 1 }}
+														exit={{ y: 50, opacity: 0 }}
+													>
+														<H3>{`Want to see more events in your city?`}</H3>
+														<Paragraph>{`Let us know. We'll find events in your city and display them when you come back.`}</Paragraph>
+														<FlexBox className="pt-2 flex-row items-stretch gap-2">
+															<TextField
+																autoComplete="off"
+																placeholder="Enter your city..."
+																type="text"
+																containerClassName="w-full"
+																name="city"
+																value={values.city}
+																onBlur={handleBlur}
+																onChange={(e) => {
+																	e.preventDefault();
+																	setFieldValue('city', e.target.value);
+																	debounceAddressLookup(e);
+																}}
+																className="text-dark"
+																error={!!errors.city || !!touched.city}
+															/>
+															<Button
+																type="submit"
+																className="text-dark bg-amber-100 hover:bg-amber-200"
+																loading={loading}
+																disabled={loading}
+																onClick={(e: any) => {
+																	e.preventDefault();
+																	e.stopPropagation();
+																	handleSubmit();
+																}}
+															>
+																{`Find Events`}
+															</Button>
+														</FlexBox>
+														<FlexBox className="flex-col bg-gray-100 z-50">
+															{eventsLocationResults.map((result, index) => (
+																<div
+																	key={index}
+																	className="hover:bg-gray-200 z-20 p-2 w-full"
+																	onClick={(e) => {
+																		e.preventDefault();
+																		setFieldValue('city', result.display_name);
+																		setEventsLocationResults([]);
+																	}}
+																>
+																	{result.display_name}
+																</div>
+															))}
+														</FlexBox>
+													</motion.div>
+												)}
+											</AnimatePresence>
+										</div>
+									</div>
+								)) || <></>}
+								<Carousel
+									responsive={{
+										xl: {
+											breakpoint: { max: 4000, min: 1400 },
+											items: 4,
+											slidesToSlide: 3,
+											partialVisibilityGutter: 40,
+										},
+										lg: {
+											// the naming can be any, depends on you.
+											breakpoint: { max: 1400, min: 1100 },
+											items: 3,
+											slidesToSlide: 2,
+											partialVisibilityGutter: 40,
+										},
+										md: {
+											breakpoint: { max: 1100, min: 700 },
+											items: 3,
+											slidesToSlide: 2,
+											partialVisibilityGutter: 40,
+										},
+										sm: {
+											breakpoint: { max: 700, min: 464 },
+											items: 2,
+										},
+										xs: {
+											breakpoint: { max: 464, min: 0 },
+											items: 2,
+											slidesToSlide: 1,
+										},
+									}}
+									items={events.map((event, index) => (
+										<EventCard
+											key={`event-card-${index}`}
+											loading={false}
+											event={event}
+											organizerImage={getOrganizerImage(event)}
+										/>
+									))}
+								/>
+							</div>
+
+							{!isEventLoading && eventsToday.length === 0 ? (
+								<></>
+							) : (
+								<div className="col-span-full">
+									<H2 className="col-span-full !text-xl font-medium sm:pt-2 px-3 md:px-4 text-light leading-2 drop-shadow-[0px_2px_0px_#555555] text-left">
+										🎉 Happening Today
+									</H2>
+									<Carousel
+										responsive={{
+											xl: {
+												breakpoint: { max: 4000, min: 1400 },
+												items: 4,
+												slidesToSlide: 3,
+												partialVisibilityGutter: 40,
+											},
+											lg: {
+												breakpoint: { max: 1400, min: 1100 },
+												items: 3,
+												slidesToSlide: 2,
+												partialVisibilityGutter: 40,
+											},
+											md: {
+												breakpoint: { max: 1100, min: 700 },
+												items: 3,
+												slidesToSlide: 2,
+												partialVisibilityGutter: 40,
+											},
+											sm: {
+												breakpoint: { max: 700, min: 464 },
+												items: 2,
+											},
+											xs: {
+												breakpoint: { max: 464, min: 0 },
+												items: 2,
+												slidesToSlide: 1,
+											},
+										}}
+										items={
+											!isEventLoading && eventsToday.length
+												? eventsToday.map((event, index) => (
+														<EventCard
+															priority={index < 4}
+															key={`event-card-${index}`}
+															loading={false}
+															event={event}
+															organizerImage={getOrganizerImage(event)}
+														/>
+													))
+												: [1, 2, 3, 4, 5, 6].map((d, index) => (
+														<EventCard
+															key={`event-card-${index}`}
+															loading={isEventLoading}
+															event={d as any}
+														/>
+													))
+										}
+									/>
+								</div>
+							)}
+
+							<div className="col-span-full">
+								<H2 className="col-span-full !text-xl font-medium px-2 md:px-4 text-light leading-2 drop-shadow-[0px_2px_0px_#555555] text-left">
+									🍍 Fresh from our blog
+								</H2>
+								<Carousel
+									title="Fresh from the Blog"
+									responsive={{
+										sm: {
+											breakpoint: { max: 700, min: 464 },
+											items: 2,
+										},
+										xs: {
+											breakpoint: { max: 464, min: 0 },
+											items: 2,
+											slidesToSlide: 1,
+										},
+									}}
+									items={posts.map((post, index) => (
+										<InfoCard
+											loading={isLoading}
+											key={`blog-card-${index}`}
+											data={post}
+											showDescription={false}
+										/>
+									))}
+								/>
+							</div>
+						</Grid>
 					</div>
-				</div>
-			</Page>
+
+					<Footer className="bg-transparent bg-gradient-to-b from-transparent to-secondary" />
+				</Page>
+			</RestrictPage>
+		</>
+	);
+}
+
+const RenderMapBox = ({
+	data,
+	current,
+	setCurrent,
+}: {
+	data: any[];
+	current: number;
+	setCurrent: React.Dispatch<React.SetStateAction<number>>;
+}) => {
+	mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_API_KEY!;
+	const mapContainer = useRef(null);
+	const map = useRef<mapboxgl.Map | null>(null);
+
+	useEffect(() => {
+		if (map.current) return; // initialize map only once
+		// eslint-disable-next-line import/no-named-as-default-member
+		map.current = new mapboxgl.Map({
+			container: 'map',
+			style: 'mapbox://styles/mapbox/streets-v12',
+			zoom: 11.5,
+			center: [-74.006, 40.72],
+			attributionControl: false,
+			// center: [lng, lat],
+			// zoom: zoom,
+		});
+	}, []);
+
+	useEffect(() => {
+		function addMarkersToMapBox(geojson: any) {
+			// add markers to map
+			if (!map.current || !geojson) return;
+			for (const feature of geojson.features) {
+				const index = geojson.features.indexOf(feature);
+				// create a HTML element for each feature
+				const el = document.createElement('div');
+				el.className = 'marker';
+				// el.textContent = feature.properties.title;
+				el.style.backgroundImage = `url(${feature.properties.image})`;
+				el.style.width = `15px`;
+				el.style.height = `19px`;
+				el.style.padding = '2px';
+				el.style.backgroundSize = '100%';
+				el.style.cursor = 'pointer';
+				// rotate the image 20 degrees
+				el.style.transform = 'rotate(20deg)';
+
+				el.style.backgroundPosition = 'bottom'; // Set background position to center
+
+				el.addEventListener('click', () => {
+					setCurrent(index);
+				});
+
+				new mapboxgl.Marker(el)
+					.setLngLat(feature.geometry.coordinates)
+					.addTo(map.current);
+			}
+		}
+		if (data.length > 0 && map.current?.isStyleLoaded) {
+			addMarkersToMapBox(generateGEOJSONDataFromDispensaries(data));
+		}
+	}, [data]);
+
+	useEffect(() => {
+		if (data.length > 0 && map.current?.isStyleLoaded) {
+			const { address } = data[current];
+			const [lng, lat] = getCoordinatePairFromCoordinates(
+				address.coordinates as Coordinates
+			);
+			map.current?.flyTo({
+				center: [lng, lat],
+				zoom: 11,
+				speed: 2,
+				animate: true,
+			});
+		}
+	}, [map.current]);
+
+	useEffect(() => {
+		if (data.length > 0 && map.current?.isStyleLoaded) {
+			const { address } = data[current];
+			const [lng, lat] = getCoordinatePairFromCoordinates(
+				address.coordinates as Coordinates
+			);
+			map.current?.flyTo({
+				center: [lng, lat],
+				speed: 2,
+				animate: true,
+			});
+		}
+	}, [current]);
+
+	function generateGEOJSONDataFromDispensaries(data: any[]) {
+		return {
+			type: 'FeatureCollection',
+			features: data.map((dispensary) => {
+				const { address, name } = dispensary;
+				const [lng, lat] = getCoordinatePairFromCoordinates(
+					address.coordinates as Coordinates
+				);
+				return {
+					type: 'Feature',
+					geometry: {
+						type: 'Point',
+						coordinates: [lng, lat],
+					},
+					properties: {
+						title: name,
+						message: name,
+						// image: dispensary.images[0].location || Logo.src,
+						image: markerImage.src,
+					},
+				};
+			}),
+		};
+	}
+	return (
+		<>
+			<div
+				id="map"
+				ref={mapContainer}
+				className="rounded overflow-hidden shadow"
+				style={{ width: '100%', height: '220px', float: 'right' }}
+			>
+				<style global jsx>{`
+					.mapbox-logo {
+						display: none;
+					}
+					.mapboxgl-ctrl-logo {
+						display: none !important;
+					}
+					.mapbox-improve-map {
+						display: none;
+					}
+					.mapboxgl-ctrl-compass {
+						display: none;
+					}
+				`}</style>
+			</div>
 		</>
 	);
 };
 
-const gradient = [
-	'bg-gradient-to-b',
-	'from-10%',
-	'from-secondary',
-	'to-secondary',
-];
+Browse.getLayout = function getLayout(page: ReactElement) {
+	return <>{page}</>;
+};
 
-export const getServerSideProps = async (
-	context: GetServerSidePropsContext
-) => {
-	// Redirect to login page if landing page is disabled
-	if (env.hideLandingPage) {
-		return {
-			redirect: {
-				destination: '/auth/login',
-				permanent: true,
-			},
-		};
-	}
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+	const authToken = env.nextAuth.secret;
 
-	const { locale } = context;
+	const { draftMode = false, locale, req } = ctx;
+	const sanityClient = getClient(draftMode ? { token: readToken } : undefined);
 
+	const [settings, posts = []] = await Promise.all([
+		getSettings(sanityClient),
+		getPosts(sanityClient),
+	]);
+
+	const over21 = await getCookie('yesOver21', { req });
 	return {
 		props: {
 			...(locale ? await serverSideTranslations(locale, ['common']) : {}),
+			posts,
+			settings,
+			draftMode,
+			token: authToken,
+			restrictContent: over21 != 'true',
 		},
 	};
 };
-
-Home.getLayout = function getLayout(page: ReactElement) {
-	return (
-		<>
-			{page}
-			<Footer />
-		</>
-	);
-};
-
-export default Home;

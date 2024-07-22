@@ -26,7 +26,10 @@ function Hero({ href = '#get-started' }: { href?: string }) {
 			<FlexBox className="flex-col md:flex-row justify-center items-center md:items-start gap-x-8 mx-auto px-16 py-4">
 				<FlexBox className="flex-1 justify-center items-center max-w-2xl">
 					<div
-						className={twMerge('sm:' + styles.textShadow, 'space-y-4 mx-auto')}
+						className={twMerge(
+							'sm:' + styles.shadow.textShadow,
+							'space-y-4 mx-auto'
+						)}
 					>
 						<H1
 							className={twMerge(heading, 'text-left max-w-fit mx-auto')}

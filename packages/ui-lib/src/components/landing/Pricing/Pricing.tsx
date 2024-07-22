@@ -38,7 +38,7 @@ const PricingCard = ({
 			<Card className="bg-light max-w-2xl mx-auto p-16 rounded shadow-md gap-y-12">
 				<H2
 					className={twMerge(
-						styles.textShadow,
+						styles.shadow.textShadow,
 						'text-center text-5xl whitespace-pre-line font-bold leading-snug tracking-tight lg:text-6xl lg:leading-tight'
 					)}
 				>

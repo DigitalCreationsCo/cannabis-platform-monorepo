@@ -21,7 +21,7 @@ function Hero({
 		<section className={twMerge('bg-inverse-soft', 'pt-8 md:pt-16')}>
 			<div
 				className={twMerge(
-					'sm:' + styles.textShadow,
+					'sm:' + styles.shadow.textShadow,
 					'text-center space-y-4 max-w-7xl mx-auto'
 				)}
 			>
@@ -49,20 +49,7 @@ function Hero({
 					<b className="text-primary"> Delivery</b> Services.
 				</H2>
 				<FlexBox className="items-center gap-4 flex-col-reverse sm:flex-row justify-center lg:gap-8">
-					<Link
-						href={'#info'}
-						scroll={false}
-						className="w-[240px] hover:scale-105 transition duration-200 pb-2"
-					>
-						<Button
-							size="lg"
-							bg="transparent"
-							hover="transparent"
-							className="w-full px-8 uppercase border-primary border-[3px]"
-						>
-							{TextContent.info.LEARN_MORE}
-						</Button>
-					</Link>
+					<CTA href={'#info'} secondary />
 					<CTA href={href} />
 				</FlexBox>
 			</div>

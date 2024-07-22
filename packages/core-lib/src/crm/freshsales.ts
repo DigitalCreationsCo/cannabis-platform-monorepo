@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { type Customer } from '@cd/data-access';
 import { applicationHeaders, axios } from '../axiosInstance';
+import { slugify } from '../utils/common.util';
 import { urlBuilder } from '../utils/urlBuilder';
 
 class FreshSales {
@@ -10,6 +11,86 @@ class FreshSales {
 		if (!process.env.FRESHSALES_API_KEY)
 			throw new Error(`Couldn't initialize FreshSales. No API key provided.`);
 		this.key = process.env.FRESHSALES_API_KEY;
+	}
+
+	async createAccount(
+		account: Partial<FreshSalesAccountParameters>
+	): Promise<string> {
+		try {
+			console.trace('create crm account');
+			const response = await axios.post(
+				urlBuilder.freshSales.createAccount(),
+				{
+					sales_account: {
+						...account,
+						name: account.name,
+						country: account.country ?? 'US',
+						owner_id: this.FRESHSALES_ADMIN_USERID,
+						custom_field: {
+							slug: slugify(account.name!),
+						},
+					},
+				},
+				{
+					headers: {
+						...applicationHeaders,
+						authorization: `Token token=${process.env.FRESHSALES_API_KEY}`,
+					},
+				}
+			);
+
+			console.info('response	', response.data);
+			if (response.status > 299)
+				throw new Error('Failed to upsert the contact.');
+
+			return (response.data as { sales_account: { id: string } }).sales_account
+				.id;
+		} catch (error: any) {
+			console.error('freshsales account create: ', error.message);
+			throw new Error(
+				error.response?.data?.errors?.message[0] || error.message
+			);
+		}
+	}
+
+	async upsertAccount(
+		account: Partial<FreshSalesAccountParameters>
+	): Promise<string> {
+		try {
+			console.trace('upsert crm account');
+			const response = await axios.post(
+				urlBuilder.freshSales.upsertAccount(),
+				{
+					unique_identifier: { name: account.name! },
+					sales_account: {
+						...account,
+						name: account.name,
+						country: account.country ?? 'US',
+						owner_id: this.FRESHSALES_ADMIN_USERID,
+						custom_field: {
+							slug: slugify(account.name!),
+						},
+					},
+				},
+				{
+					headers: {
+						...applicationHeaders,
+						authorization: `Token token=${process.env.FRESHSALES_API_KEY}`,
+					},
+				}
+			);
+
+			if (response.status > 299)
+				throw new Error('Failed to upsert the contact.');
+			console.info('response	', response.data);
+			return (response.data as { sales_account: { id: string } }).sales_account
+				.id;
+		} catch (error: any) {
+			console.error('freshsales account upsert: ', error.message);
+			throw new Error(
+				error.response?.data?.errors?.message[0] || error.message
+			);
+		}
 	}
 
 	async createContact(contact: Partial<FreshSalesContactParameters>) {
@@ -23,6 +104,7 @@ class FreshSales {
 						medium: 'new-visitor',
 						keyword: 'visitor',
 						...contact,
+						country: contact.country ?? 'US',
 					},
 				},
 				{
@@ -80,6 +162,7 @@ class FreshSales {
 					unique_identifier: { emails: contact.email },
 					contact: {
 						...contact,
+						country: contact.country ?? 'US',
 						job_title: contact.job_title ?? '',
 						email: contact.email,
 						first_name: contact.first_name || '',
@@ -273,6 +356,31 @@ export interface FreshSalesContactParameters {
 	sales_account_id: number; // Deprecated
 	lifecycle_stage_id: number;
 	custom_field: any;
+}
+
+export interface FreshSalesAccountParameters {
+	id: number; // Unique ID of the account
+	name: string; // Name of the account
+	address?: string; // Address of the account
+	city?: string; // City that the account belongs to
+	state?: string; // State that the account belongs to
+	zipcode?: string; // Zipcode of the region that the account belongs to
+	country?: string; // Country that the account belongs to
+	industry_type_id?: number; // ID of the industry that the account belongs to
+	business_type_id?: number; // ID of the business that the account belongs to
+	number_of_employees?: number; // Number of employees in the account
+	annual_revenue?: number; // Annual revenue of the account
+	website?: string; // Website of the account
+	phone?: string; // Phone number of the account
+	owner_id?: number; // ID of the user to whom the account has been assigned
+	facebook?: string; // Facebook username of the account
+	twitter?: string; // Twitter username of the account
+	linkedin?: string; // LinkedIn account of the account
+	territory_id?: number; // ID of the territory that the account belongs to
+	created_at: Date; // Account creation timestamp
+	updated_at: Date; // Account updated timestamp
+	parent_sales_account_id?: number; // Parent account id of the account
+	custom_field: any; // Custom fields of the account
 }
 
 export interface FreshSalesAttribution {

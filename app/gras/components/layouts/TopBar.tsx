@@ -20,7 +20,7 @@ import logo from '../../public/logo.png';
 export interface TopBarProps {
 	doesSessionExist?: boolean;
 	showSearch?: boolean;
-	SearchComponent: React.ReactNode | null;
+	SearchComponent?: React.ReactNode | null;
 	showLocation?: boolean;
 }
 
@@ -46,27 +46,24 @@ function TopBar({ showSearch = true, SearchComponent }: TopBarProps) {
 	const _AccountDropDown = useCallback(AccountDropDown, [user]);
 
 	return (
-		<div className={twMerge([styles.TOPBAR.topbar, 'bg-transparent pb-0'])}>
+		<div className={twMerge([styles.TOPBAR.topbar, 'bg-transparent'])}>
 			<FlexBox>
-				<FlexBox className="flex-row items-center gap-x-2 pt-2">
-					<Link href={'/'} className="z-50">
-						<GrasSignature className="text-inverse lg:text-4xl drop-shadow-lg pt-1 pb-0 mb-0 leading-3">
-							{t('gras')}
-						</GrasSignature>
-					</Link>
-					<Link href={'/'} className="p-0.25 w-fit rounded-full">
-						<Image
-							alt="Gras"
-							className="w-[36px] md:w-[48px]"
-							src={logo}
-							quality={25}
-						/>
-					</Link>
-				</FlexBox>
-				<Link href={'/'}>
-					<Paragraph className={twMerge(styles.TOPBAR.tagline, 'text-light')}>
-						{TextContent.info.CANNABIS_DELIVERED_TEXT}
-					</Paragraph>
+				<Link
+					href={'/'}
+					className={twMerge(
+						'z-50 flex flex-row gap-x-4 items-center',
+						styles.shadow.logoShadow
+					)}
+				>
+					<GrasSignature className="text-inverse pt-1 pb-0 mb-0 leading-3">
+						{t('gras')}
+					</GrasSignature>
+					<Image
+						alt="Gras"
+						className="w-[36px] bg-inverse rounded-full"
+						src={logo}
+						quality={25}
+					/>
 				</Link>
 			</FlexBox>
 

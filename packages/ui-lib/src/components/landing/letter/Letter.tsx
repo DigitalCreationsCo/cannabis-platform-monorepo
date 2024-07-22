@@ -12,6 +12,7 @@ interface LetterProps extends HTMLAttributes<HTMLDivElement> {
 	text?: string;
 	footer?: string;
 	cta?: string;
+	secondaryCTA?: string;
 	href?: string;
 	photos?: string[];
 	divider?: boolean;
@@ -26,6 +27,7 @@ export default function Letter({
 	href = '#get-started',
 	photos = [],
 	divider = true,
+	secondaryCTA,
 	...props
 }: LetterProps) {
 	return (
@@ -41,7 +43,7 @@ export default function Letter({
 				{title && (
 					<H2
 						className={twMerge(
-							styles.textShadow,
+							styles.shadow.textShadow,
 							'whitespace-pre-line mt-3 text-center font-bold leading-snug tracking-tight lg:leading-tight text-5xl lg:text-6xl'
 						)}
 					>
@@ -88,11 +90,12 @@ export default function Letter({
 						</div>
 					)}
 				</FlexBox>
-				{(cta && (
-					<div className="py-6">
-						<CTA cta={cta} href={href} />
-					</div>
-				)) || <></>}
+				<FlexBox className="py-6 gap-4 lg:gap-8 lg:flex-row-reverse">
+					{(cta && <CTA cta={cta} href={href} />) || <></>}
+					{(secondaryCTA && (
+						<CTA cta={secondaryCTA} href={'#get-started'} secondary />
+					)) || <></>}
+				</FlexBox>
 			</FlexBox>
 		</div>
 	);

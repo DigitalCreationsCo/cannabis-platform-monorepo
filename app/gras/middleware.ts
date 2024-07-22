@@ -72,33 +72,10 @@ const allowAllUsers = [
 export default async function middleware(req: NextRequest) {
 	const { pathname } = req.nextUrl;
 
+	// alternate spelling
 	if (pathname === '/workwithus') {
 		const url = new URL('/work-with-us', req.url);
 		return NextResponse.redirect(url);
-	}
-
-	const over21 = await getCookie('yesOver21', { req });
-
-	console.info('over21:', over21);
-	console.info('path name:', pathname);
-	// Redirect to browse page if user is over 21
-	if (pathname === '/' && over21 == 'true') {
-		const url = req.nextUrl.clone();
-		url.pathname = '/browse';
-		console.info('Redirecting to browse page ', url);
-		return NextResponse.redirect(url);
-	}
-
-	// if the path is not a nextapi,
-	// and the path is not allowed for all users,
-	// and the user is not over 21
-	if (
-		micromatch.isMatch(pathname, matchers.pageRoute) &&
-		!micromatch.isMatch(pathname, allowAllUsers) &&
-		over21 != 'true'
-	) {
-		console.info('Redirecting to home page');
-		return NextResponse.redirect(new URL('/', req.url));
 	}
 
 	// Bypass routes that don't require authentication

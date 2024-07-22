@@ -57,7 +57,7 @@ export async function getStripeCustomerId(
 	return customerId;
 }
 
-export async function createInvoice(customerId, priceIds) {
+export async function createInvoice(customerName, customerId, priceIds) {
 	try {
 		// Create invoice items using the price IDs
 		for (const priceId of priceIds) {
@@ -74,7 +74,12 @@ export async function createInvoice(customerId, priceIds) {
 		});
 
 		// notify the team the invoice is created
-		await notifyTeam(invoice.id, customerId, invoice.hosted_invoice_url);
+		await notifyTeam({
+			invoiceId: invoice.id,
+			customerId,
+			invoiceUrl: invoice.hosted_invoice_url ?? '',
+			customerName: customerName,
+		});
 
 		console.log(`Invoice created successfully: ${invoice.id}`);
 		return invoice;
@@ -84,15 +89,25 @@ export async function createInvoice(customerId, priceIds) {
 	}
 }
 
-async function notifyTeam(invoiceId, customerId, invoiceUrl) {
+async function notifyTeam({
+	invoiceId,
+	customerId,
+	invoiceUrl,
+	customerName,
+}: {
+	invoiceId: string;
+	customerId: string;
+	invoiceUrl: string;
+	customerName: string;
+}) {
 	try {
 		const mailOptions = {
 			from: process.env.NOTIFY_EMAIL_USER ?? '',
 			to: process.env.TEAM_EMAIL ?? '',
 			subject: 'New Invoice Created',
-			text: `A new invoice (ID: ${invoiceId}) has been created for customer (ID: ${customerId}).
+			text: `A new invoice (ID: ${invoiceId}) has been created for customer (${customerName}, ID: ${customerId}).
 			
-			You can view the invoice at the following link: ${invoiceUrl}`,
+			You can view the invoice here: ${invoiceUrl}`,
 		};
 
 		// send the email

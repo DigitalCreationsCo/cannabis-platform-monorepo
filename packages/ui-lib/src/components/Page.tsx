@@ -39,9 +39,13 @@ function Page({
 
 	return (
 		<AnimationWrapper
-			className={twMerge('flex flex-col w-full min-h-screen', className)}
+			className={twMerge(
+				classes,
+				'flex flex-col w-full min-h-screen',
+				className
+			)}
 		>
-			<div className={twMerge(classes)} style={style}>
+			<div style={style}>
 				{children}
 				{/* <div className="fixed flex items-center bottom-0 right-0 cursor-default text-accent-soft space-x-1 pr-1">
 					<div

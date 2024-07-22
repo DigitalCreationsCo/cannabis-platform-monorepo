@@ -1,4 +1,10 @@
 import {
+	Error as ErrorComponent,
+	UpgradeAccountDialog,
+} from '@/components/shared';
+import { DailyDeals } from '@/components/team';
+import env from '@/lib/env';
+import {
 	fetcher,
 	modalActions,
 	modalTypes,
@@ -25,13 +31,7 @@ import { useState } from 'react';
 import toast from 'react-hot-toast';
 import useSWR from 'swr';
 import { twMerge } from 'tailwind-merge';
-import {
-	Error as ErrorComponent,
-	UpgradeAccountDialog,
-} from '@/components/shared';
-import { DailyDeals } from '@/components/team';
 import SendDailyDealsInviteForm from '@/components/team/SendDailyDealsInviteModal';
-import env from '@/lib/env';
 
 const dailyDealsInfo = `Daily Deals are a great way to promote your business to your customers.
 Messages are sent to your customers via text message. 

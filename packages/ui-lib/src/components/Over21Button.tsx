@@ -70,37 +70,33 @@ const Over21Button = ({
 	});
 
 	return (
-		<Center className="w-full">
-			<FlexBox className="p-4 space-y-4">
-				<TextField
-					type="email"
-					containerClassName="w-full"
-					name="email"
-					placeholder="Enter your email..."
-					value={values.email}
-					onBlur={handleBlur}
-					onChange={handleChange}
-					error={!!errors.email || !!touched.email}
-				/>
-				<Paragraph className="text-lg font-medium">
-					By entering your email, you agree you are over 21.
-				</Paragraph>
-				<Button
-					type="submit"
-					bg={'secondary-light'}
-					hover={'primary-light'}
-					className="p-8 text-2xl place-self-center w-full !rounded"
-					loading={loading}
-					disabled={loading}
-					onClick={(e: any) => {
-						e.preventDefault();
-						e.stopPropagation();
-						handleSubmit();
-					}}
-				>
-					I'm over 21
-				</Button>
-			</FlexBox>
+		<Center className="w-full !p-0 !py-4 space-y-4">
+			<TextField
+				type="email"
+				containerClassName="w-full"
+				name="email"
+				placeholder="Enter your email..."
+				value={values.email}
+				onBlur={handleBlur}
+				onChange={handleChange}
+				error={!!errors.email || !!touched.email}
+			/>
+			<Paragraph>By entering your email, you agree you are over 21.</Paragraph>
+			<Button
+				type="submit"
+				bg={'secondary-light'}
+				hover={'primary-light'}
+				className="p-8 text-2xl place-self-center w-full !rounded"
+				loading={loading}
+				disabled={loading}
+				onClick={(e: any) => {
+					e.preventDefault();
+					e.stopPropagation();
+					handleSubmit();
+				}}
+			>
+				I'm over 21
+			</Button>
 		</Center>
 	);
 };

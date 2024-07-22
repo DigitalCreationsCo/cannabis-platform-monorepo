@@ -61,45 +61,35 @@ export default function Footer({
 		>
 			<Grid className="overflow-x-hidden mx-auto mt-20 md:mt-5 grid md:w-3/4 max-w-screen-xl pb-16 lg:pb-0 grid-rows-auto gap-6 md:gap-10 lg:gap-4 md:grid-cols-4 lg:grid-cols-6 overflow-visible">
 				<div className="col-span-2">
-					<div className="flex w-full flex-col flex-wrap md:ml-0 space-y-3 md:pt-4">
+					<div className="flex w-full flex-col flex-wrap md:ml-0">
 						{navigation.map((item, index) => (
-							<Link
-								key={index}
-								href={replaceRelativePath(item.href)}
-								className="w-fit"
-							>
-								<Paragraph className="md:font-medium">{item.name}</Paragraph>
-							</Link>
+							<FooterLink key={index} {...item} />
 						))}
 					</div>
 				</div>
 				<div className="col-span-2">
-					<div className="flex-col space-y-3 flex w-full flex-wrap lg:ml-0 md:pt-4">
+					<div className="flex-col flex w-full flex-wrap lg:ml-0">
 						{legal.map((item, index) => (
-							<Link
-								key={index}
-								href={replaceRelativePath(item.href)}
-								passHref
-								className="w-fit"
-							>
-								<Paragraph className="md:font-medium">{item.name}</Paragraph>
-							</Link>
+							<FooterLink key={index} {...item} />
 						))}
 					</div>
 				</div>
 				<div className="col-span-2 md:!col-span-4 lg:!col-span-2 md:!row-start-2 lg:!row-start-1 md:!col-start-1 lg:!col-start-5 row-span-3">
 					<FlexBox className="py-2 flex-row items-center">
-						<Link href={getShopSite('/')} className="z-10">
-							<GrasSignature className="text-inverse">Gras</GrasSignature>
-						</Link>
 						<Link
 							href={getShopSite('/')}
-							className="p-0.25 ml-4 bg-inverse w-fit rounded-full"
+							//  className="z-10">
+							className={twMerge(
+								'z-50 flex flex-row gap-x-4 items-center',
+								styles.shadow.logoShadow
+							)}
 						>
+							<GrasSignature className="text-inverse pt-1 pb-0 mb-0 leading-3">
+								Gras
+							</GrasSignature>
 							<Image
 								alt="Gras"
-								width={40}
-								height={40}
+								className="w-[36px] bg-inverse rounded-full"
 								src={logo}
 								quality={25}
 							/>
@@ -204,4 +194,13 @@ const Linkedin = ({ size = 28 }) => (
 	>
 		<path d="M22.23 0H1.77C.8 0 0 .77 0 1.72v20.56C0 23.23.8 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.72V1.72C24 .77 23.2 0 22.23 0zM7.27 20.1H3.65V9.24h3.62V20.1zM5.47 7.76h-.03c-1.22 0-2-.83-2-1.87 0-1.06.8-1.87 2.05-1.87 1.24 0 2 .8 2.02 1.87 0 1.04-.78 1.87-2.05 1.87zM20.34 20.1h-3.63v-5.8c0-1.45-.52-2.45-1.83-2.45-1 0-1.6.67-1.87 1.32-.1.23-.11.55-.11.88v6.05H9.28s.05-9.82 0-10.84h3.63v1.54a3.6 3.6 0 0 1 3.26-1.8c2.39 0 4.18 1.56 4.18 4.89v6.21z" />
 	</svg>
+);
+
+const FooterLink = ({ href, name }) => (
+	<Link
+		href={replaceRelativePath(href)}
+		className="w-fit hover:!drop-shadow-[0px_3px_1px_#6f6f6f] hover:-translate-y-1 hover:scale-105 transition py-2"
+	>
+		<Paragraph className="md:font-medium">{name}</Paragraph>
+	</Link>
 );

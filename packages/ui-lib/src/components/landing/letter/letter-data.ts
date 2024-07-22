@@ -14,6 +14,7 @@ const letters = {
 		Our services set you apart from the competition to become a favorite destination in your city with events and promotions for customers at home and on a night out. `,
 		footer: `The result? 10% growth in 100 days, and 2X sales in 1 year.`,
 		cta: `I'm ready to 2X my business`,
+		secondaryCTA: `Speak to a growth expert`,
 	},
 
 	'delivery-painpoints': {
@@ -78,6 +79,7 @@ Full Service Delivery relieves you of these issues, and integrates with your sto
 		footer:
 			'Become the destination for memorable cannabis events in your city. 🎉',
 		cta: `Start creating memorable events`,
+		secondaryCTA: `Speak to a growth expert`,
 		photos: [
 			require('../../../../public/events-2.png'),
 			require('../../../../public/events-1.png'),

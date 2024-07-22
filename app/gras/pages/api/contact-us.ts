@@ -1,6 +1,5 @@
-import { FreshSales, applicationHeaders, urlBuilder } from '@cd/core-lib';
+import { FreshSales, slugify } from '@cd/core-lib';
 import { type ContactUsFormResponse } from '@cd/ui-lib';
-import axios from 'axios';
 import { type NextApiRequest, type NextApiResponse } from 'next';
 
 const FRESHSALES_ADMIN_USERID = 26004178205;
@@ -51,33 +50,23 @@ const handlePOST = async (req: any, res: any) => {
 	} = req.body as Required<ContactUsFormResponse>;
 
 	// upsert account
-	const account = await axios.post<{ sales_account: { id: number } }>(
-		`${urlBuilder.freshSales.baseUrl}/api/sales_accounts/upsert`,
-		{
-			unique_identifier: { name: company },
-			sales_account: {
-				name: company,
-				address: street,
-				city,
-				state,
-				zipcode,
-				country: 'United_States',
-			},
+	const accountId = await FreshSales.upsertAccount({
+		name: company,
+		address: street,
+		city,
+		state,
+		zipcode,
+		country: 'United_States',
+		custom_field: {
+			cf_slug: slugify(company),
+			'How did you hear about us': howDidYouHearAboutUs,
+			cf_service_range_in_miles: serviceAreaRange,
+			cf_expected_weekly_deliveries: weeklyDeliveries,
+			'Contact Us Message': message,
 		},
-		{
-			headers: {
-				...applicationHeaders,
-				authorization: `Token token=${process.env.FRESHSALES_API_KEY}`,
-			},
-		}
-	);
+	});
 
-	// TO DO: Mar 30 2024
-	// create a contact with tag 'contact us', 'dispensary lead'
-	// set automations for the tags
-	// send an email to Gras with the contact information
-	// send an email to the contact with information about Gras
-
+	// upsert contact
 	await FreshSales.upsertContact(
 		{
 			first_name: firstName,
@@ -95,14 +84,10 @@ const handlePOST = async (req: any, res: any) => {
 			keyword: 'growth',
 			custom_field: {
 				company: company,
-				'How did you hear about us': howDidYouHearAboutUs,
-				'Service Area Range': serviceAreaRange,
-				'Weekly Deliveries': weeklyDeliveries,
-				'Contact Us Message': message,
 			},
 		},
 		{
-			sales_accounts: [{ id: account.data.sales_account.id, is_primary: true }],
+			sales_accounts: [{ id: accountId, is_primary: true }],
 			owner_id: FRESHSALES_ADMIN_USERID,
 			lead_source_id: undefined,
 			subscription_types: `${subscribeCannabisInsiderNewsletter ? 4 : 0};1;2;3;`,
@@ -110,71 +95,7 @@ const handlePOST = async (req: any, res: any) => {
 		}
 	);
 
-	// Internal and customer journeys are handled via crm workflows
+	// Internal emails and customer journeys are handled in crm workflows
 
-	// // send the form submission to Gras via email
-	// await axios
-	// 	.post<any>(
-	// 		urlBuilder.dailyStory.sendEmail({
-	// 			id: EMAIL_ID_INTERNAL_CONTACT_US_NOTICE,
-	// 			email: 'leads@grascannabis.org',
-	// 		}),
-	// 		{
-	// 			firstName,
-	// 			lastName,
-	// 			fromEmail,
-	// 			title,
-	// 			company,
-	// 			phone,
-	// 			city,
-	// 			state,
-	// 			zipcode,
-	// 			howDidYouHearAboutUs,
-	// 			serviceAreaRange,
-	// 			weeklyDeliveries,
-	// 			message,
-	// 			plaintext: JSON.stringify(`
-	// 		A partner request was submitted by ${firstName} ${lastName} at ${company}.
-
-	// 		Contact Information:
-	// 		${firstName} ${lastName}
-	// 		${fromEmail}
-	// 		${title}
-	// 		${company}
-	// 		${phone}
-	// 		${city}
-	// 		${state}
-	// 		${zipcode}
-	// 		How many miles from your store do you want to deliver? ${serviceAreaRange}
-	// 		How many orders do you expect to deliver per week? ${weeklyDeliveries}
-	// 		How did you hear about us? ${howDidYouHearAboutUs}
-
-	// 		The request message:
-	// 		${message}
-
-	//         A sign-up link has been sent to ${firstName} at ${fromEmail}.
-
-	//         Send a new email to ${fromEmail} to continue the conversation!
-	//         `),
-	// 		},
-	// 		{
-	// 			headers: {
-	// 				...applicationHeaders,
-	// 				authorization: `Bearer ${process.env.DAILYSTORY_API_KEY}`,
-	// 			},
-	// 		},
-	// 	)
-	// 	.then((response) => {
-	// 		console.info('contact us email sent');
-	// 		console.info('response', response.data.Response);
-	// 	});
 	return res.status(201).json({ success: 'true' });
-	// } catch (error: any) {
-	//   console.error('POST api/contact-us: ', error.message);
-	//   console.error('POST api/contact-us: ', error.response.data);
-	//   return res.json({
-	//     success: 'false',
-	//     error: error.response?.data?.errors?.message[0] || error.message,
-	//   });
-	// }
 };

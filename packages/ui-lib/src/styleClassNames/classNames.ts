@@ -20,7 +20,8 @@ const styles = Object.freeze({
 		// 'rounded-btn',
 		'rounded',
 		'overflow-hidden',
-		'shadow min-h-[220px] min-w-[240px]',
+		// 'min-w-[240px]',
+		'shadow min-h-[220px]',
 		'border border-transparent hover:border-primary',
 	],
 	infoCard: [
@@ -45,13 +46,13 @@ const styles = Object.freeze({
 	},
 	TOPBAR: {
 		topbar: [
-			'z-50 sticky flex flex-row bg-inverse-soft items-start min-h-20 shrink-0 justify-between space-x-5',
-			'p-2',
+			'z-50 sticky flex flex-row bg-inverse-soft items-center h-14 shrink-0 justify-between space-x-5',
+			'py-2 px-4',
 		],
 		tagline: [
 			'p-0 m-0',
 			'text-md',
-			'hidden',
+			// 'hidden',
 			'md:block',
 			'place-self-center',
 			'font-semibold',
@@ -81,8 +82,11 @@ const styles = Object.freeze({
 		'bg-inverse min-h-full h-full min-w-full sm:!rounded-none md:min-w-min md:min-h-min md:!rounded px-12',
 	],
 	padd: 'md:pt-12 md:pb-14',
-	textShadow: 'drop-shadow-[0px_3px_1px_#a8a8a8]',
-	textShadowLg: 'drop-shadow-[0px_10px_10px_#a8a8a8]',
+	shadow: {
+		textShadow: 'drop-shadow-[0px_3px_1px_#6f6f6f]',
+		textShadowLg: 'drop-shadow-[0px_10px_10px_#6f6f6f]',
+		logoShadow: 'drop-shadow-[0px_3px_1px_#6f6f6f]',
+	},
 });
 
 export default styles;

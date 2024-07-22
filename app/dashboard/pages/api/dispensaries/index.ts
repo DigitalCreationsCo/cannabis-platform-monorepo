@@ -1,4 +1,5 @@
 import { slugify, ApiError, FreshSales } from '@cd/core-lib';
+import freshsales from '@cd/core-lib/src/crm/freshsales';
 import {
 	createDispensary,
 	type Dispensary,
@@ -88,6 +89,16 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 		},
 	});
 
+	await freshsales.upsertAccount({
+		name: team.name,
+		address: team.address!.street1,
+		city: team.address!.city,
+		state: team.address!.state ?? '',
+		zipcode: team.address!.zipcode,
+		phone: team.phone,
+		website: team.ecommerceUrl ?? '',
+	});
+
 	switch (true) {
 		case team.isSubscribedForDelivery:
 			// create an invoice for delivery subscription
@@ -97,7 +108,7 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 			break;
 		case team.isSubscribedForMessaging:
 			// create an invoice for text messaging subscription, email invoice to team members
-			await createInvoice(team.billingId, priceIds);
+			await createInvoice(team.name, team.billingId, priceIds);
 			break;
 	}
 

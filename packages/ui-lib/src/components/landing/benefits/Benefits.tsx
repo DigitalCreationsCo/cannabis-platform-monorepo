@@ -57,7 +57,7 @@ export default function Benefits({
 				{(data.title && (
 					<H2
 						className={twMerge(
-							styles.textShadow,
+							styles.shadow.textShadow,
 							'text-center text-5xl lg:text-6xl font-bold leading-snug max-w-lg md:max-w-6xl lg:leading-tight whitespace-pre-line'
 						)}
 					>

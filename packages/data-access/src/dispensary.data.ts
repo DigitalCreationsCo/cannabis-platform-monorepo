@@ -26,7 +26,12 @@ export const createDispensary = async ({
 				await client
 					.db(db)
 					.collection(collections.dispensaries)
-					.insertOne({ ...data, createdAt, updatedAt })
+					.insertOne({
+						...data,
+						createdAt,
+						updatedAt,
+						showInMarketPlace: false,
+					})
 			).insertedId.toString(),
 		};
 
@@ -188,7 +193,14 @@ export const updateDispensary = async ({
 		.collection<Dispensary>(collections.dispensaries)
 		.findOneAndUpdate(
 			{ slug: data.slug },
-			{ $set: data },
+			{
+				$set: {
+					...data,
+					showInMarketPlace: data.isSignupComplete
+						? true
+						: data.showInMarketPlace,
+				},
+			},
 			{ returnDocument: 'after' }
 		);
 	return {
