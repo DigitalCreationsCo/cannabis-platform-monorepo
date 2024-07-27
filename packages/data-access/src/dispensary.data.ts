@@ -25,12 +25,25 @@ export const createDispensary = async ({
 			id: (
 				await client
 					.db(db)
-					.collection(collections.dispensaries)
+					.collection<Partial<Dispensary>>(collections.dispensaries)
 					.insertOne({
 						...data,
 						createdAt,
 						updatedAt,
 						showInMarketPlace: false,
+						siteSetting: {
+							title: data.name,
+							bannerText: `Shop at ${data.name}`,
+							description: '',
+							showTitle: true,
+							showBanner: true,
+							showDescription: true,
+							primaryColor: '#111111',
+							secondaryColor: '#111111',
+							tertiaryColor: '#000000',
+							textColor: '#000000',
+							backgroundColor: '#ffffff',
+						},
 					})
 			).insertedId.toString(),
 		};

@@ -1,7 +1,7 @@
-import { GrasSignature, H1, H2, H4, Paragraph } from '@cd/ui-lib';
+import { Button, H1, IconWrapper, Paragraph } from '@cd/ui-lib';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { PortableText } from '@portabletext/react';
 import Link from 'next/link';
-import { twMerge } from 'tailwind-merge';
 
 import styles from './BlogHeader.module.css';
 
@@ -17,9 +17,9 @@ export default function BlogHeader({
 	switch (level) {
 		case 1:
 			return (
-				<header className="px-1 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-x-8">
-					<H1 className="z-10">{title}</H1>
-					<Paragraph className="h-fit">
+				<header className="px-3 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-x-8">
+					<H1 className="z-10 text-3xl md:text-5xl">{title}</H1>
+					<Paragraph>
 						<PortableText value={description} />
 					</Paragraph>
 				</header>
@@ -28,11 +28,9 @@ export default function BlogHeader({
 		case 2:
 			return (
 				<header className="px-4">
-					<H1>
-						<Link href="/blog" className="hover:underline">
-							{title}
-						</Link>
-					</H1>
+					<Link href="/blog" className="w-fit block hover:underline">
+						<BackButton />
+					</Link>
 				</header>
 			);
 
@@ -43,4 +41,18 @@ export default function BlogHeader({
 				}, only 1 or 2 are allowed`
 			);
 	}
+}
+
+function BackButton() {
+	return (
+		<Button
+			size="sm"
+			bg="transparent"
+			hover="transparent"
+			className="px-0 self-start py-4"
+		>
+			<IconWrapper Icon={ArrowLeftIcon} className="pr-1" />
+			back
+		</Button>
+	);
 }

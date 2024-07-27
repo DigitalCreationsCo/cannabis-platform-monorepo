@@ -1,18 +1,27 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 const letters = {
 	growth: {
-		title: `The Only Dispensary Growth Partner You Need To 2X Your Cannabis Business 🔥`,
-		subtitle: `How Do We Do It?`,
-		text: `We help you grow revenue by creating raving customer appeal in your city with
+		title: `Your Path to 2X Your Cannabis Business in 12 months 🔥`,
+		subtitle: `We understand your journey.`,
+		text: `The late nights, the regulatory hurdles, the constant pressure to grow. 
+		It can be difficult to keep up with the demands of a legal cannabis business.
 
-		🚛 home delivery service
+		We've created a solution just for you,
 		
-🗣️ events that get folks talking about your business
-		
-		🛍️ marketing that works by reaching loyal and new customers
+		📈 Double your revenue in just 12 months
+		(Starting with a 10% boost in the first 100 days)
 
-		Our services set you apart from the competition to become a favorite destination in your city with events and promotions for customers at home and on a night out. `,
-		footer: `The result? 10% growth in 100 days, and 2X sales in 1 year.`,
+		🚛 Expand your reach with efficient home delivery services
+
+		🗣️ Create buzz with events that get people talking about your business
+		
+		🛍️ Implement marketing strategies that engage loyal and new customers alike
+
+		Our approach doesn't just double your business — it simplifies it. We streamline your operations and give you the tools and guidance to keep growing.`,
+		footer: `
+		The result? 
+		
+		10% growth in 100 days, and 2X in just 12 months.`,
 		cta: `I'm ready to 2X my business`,
 		secondaryCTA: `Speak to a growth expert`,
 	},

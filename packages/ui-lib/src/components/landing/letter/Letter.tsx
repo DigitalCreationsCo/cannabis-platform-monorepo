@@ -4,7 +4,7 @@ import { twMerge } from 'tailwind-merge';
 import { styles } from '../../../styleClassNames';
 import { CTA } from '../../button';
 import FlexBox from '../../FlexBox';
-import { H2, Paragraph } from '../../Typography';
+import { H2, H3, H5, Paragraph } from '../../Typography';
 
 interface LetterProps extends HTMLAttributes<HTMLDivElement> {
 	title: string;
@@ -33,7 +33,7 @@ export default function Letter({
 	return (
 		<div
 			id={props.id}
-			className={twMerge('relative bg-inverse py-20 pb-24', props.className)}
+			className={twMerge('relative bg-inverse py-20 pb-16', props.className)}
 		>
 			<FlexBox
 				className={twMerge(
@@ -43,8 +43,10 @@ export default function Letter({
 				{title && (
 					<H2
 						className={twMerge(
-							styles.shadow.textShadow,
-							'whitespace-pre-line mt-3 text-center font-bold leading-snug tracking-tight lg:leading-tight text-5xl lg:text-6xl'
+							styles.HERO.heading,
+							'font-semibold',
+							'text-dark'
+							// styles.shadow.textShadow
 						)}
 					>
 						{title}
@@ -53,22 +55,10 @@ export default function Letter({
 				{divider && <div className="w-11/12 mx-auto border-b-4"></div>}
 				<FlexBox className="w-full z-10 bg-inherit items-center justify-center">
 					<div className="mx-auto max-w-2xl py-4 px-10 bg-inherit">
-						{subtitle && (
-							<Paragraph className="font-semibold mt-1 text-2xl">
-								{subtitle}
-							</Paragraph>
-						)}
-						{text && (
-							<Paragraph className="font-normal mt-1 text-2xl">
-								{text}
-							</Paragraph>
-						)}
+						{subtitle && <H3 className="mt-1">{subtitle}</H3>}
+						{text && <H3 className="font-normal mt-1">{text}</H3>}
 						{props.children}
-						{footer && (
-							<Paragraph className="font-semibold mt-1 text-2xl">
-								{footer}
-							</Paragraph>
-						)}
+						{footer && <H3 className="mt-1">{footer}</H3>}
 					</div>
 
 					{photos.length > 0 && (

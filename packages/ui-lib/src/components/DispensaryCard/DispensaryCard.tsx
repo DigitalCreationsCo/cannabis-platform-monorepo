@@ -8,12 +8,7 @@ import {
 	// showTime,
 } from '@cd/core-lib';
 import { type Schedule, type Dispensary } from '@cd/data-access';
-import {
-	ArrowRightStartOnRectangleIcon,
-	BuildingLibraryIcon,
-	BuildingOfficeIcon,
-	BuildingStorefrontIcon,
-} from '@heroicons/react/24/outline';
+import { BuildingStorefrontIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -27,7 +22,6 @@ import logo from '../../../public/assets/images/logo.png';
 import { styles } from '../../styleClassNames';
 import FlexBox from '../FlexBox';
 import { H3, Paragraph } from '../Typography';
-import { default as css } from './DispensaryCard.module.css';
 
 export interface DispensaryCardProps {
 	data: Required<Dispensary>;
@@ -41,7 +35,6 @@ function DispensaryCard({
 	data: dispensary,
 	loading,
 	className,
-	current,
 	priority = false,
 }: DispensaryCardProps) {
 	const [isHovered, setIsHovered] = useState(false);
@@ -164,12 +157,10 @@ function DispensaryCard({
 			onMouseLeave={handleMouseLeave}
 			className={twMerge(
 				styles.dispensaryCard,
-				css.dispensaryCard,
-				'transition duration-500',
-				isHovered ? 'scale-102' : '',
+				styles.floatingCard,
 				isHovered
-					? 'drop-shadow-[-4px_5px_2px_#455555]'
-					: 'drop-shadow-[-5px_4px_1px_#455555]'
+					? 'drop-shadow-[-3px_5px_2px_#555555]'
+					: 'drop-shadow-[-4px_4px_1px_#555555]'
 			)}
 		>
 			<ImageBackDrop
@@ -185,7 +176,10 @@ function DispensaryCard({
 							>
 								<BuildingStorefrontIcon height={28} width={28} />
 							</Link>
-							<H3 className="z-5 font-semibold left-0 top-0 max-w-[248px] whitespace-normal tracking-wide drop-shadow text-[22px]">
+							<H3
+								style={{ color: applyDispensaryStyles['primary-color'] }}
+								className="z-5 font-semibold left-0 top-0 max-w-[248px] whitespace-normal tracking-wide drop-shadow text-[22px]"
+							>
 								{dispensary?.name}
 							</H3>
 							<FlexBox className="flex-wrap flex-row gap-x-1">

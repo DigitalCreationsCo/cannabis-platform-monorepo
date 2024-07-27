@@ -72,6 +72,7 @@ export interface Dispensary {
 	createdAt?: Date;
 	updatedAt?: Date;
 	showInMarketPlace?: boolean;
+	orders?: any[];
 }
 
 //  export type Dispensary = Prisma.OrganizationUncheckedCreateInput & {

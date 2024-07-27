@@ -40,10 +40,11 @@ export const showDay = (date: Date | string) => {
 	const tomorrow = new Date(today);
 	tomorrow.setDate(today.getDate() + 1);
 	if (new Date(date).getDate() === tomorrow.getDate()) return 'Tomorrow';
-	// return new Date(date).toLocaleDateString('en-US', {
-	// 	weekday: 'long',
-	// });
-	return new Date(date).toDateString();
+	return new Date(date).toLocaleDateString('en-us', {
+		weekday: 'long',
+		day: 'numeric',
+		month: 'short',
+	});
 };
 export function calculateDeliveryDeadline(): Date {
 	const hourSeconds = 60 * 60 * 1000;

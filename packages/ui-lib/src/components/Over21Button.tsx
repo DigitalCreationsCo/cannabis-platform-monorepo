@@ -39,7 +39,7 @@ const Over21Button = ({
 		initialValues: { email: '' },
 		validateOnChange: false,
 		validationSchema: yup.object().shape({
-			email: yup.string().email().required(''),
+			email: yup.string().email().required('Enter your email'),
 		}),
 		async onSubmit() {
 			try {
@@ -54,13 +54,10 @@ const Over21Button = ({
 					headers: { ...applicationHeaders },
 				});
 
-				// if (!response.data.success || response.data.success === 'false')
-				// 	throw new Error(response.data.error);
-
 				setCookie('yesOver21', 'true');
 				setCookie('email', values.email);
 				setLoading(false);
-
+				resetForm();
 				router.push(redirect);
 			} catch (error: any) {
 				setLoading(false);

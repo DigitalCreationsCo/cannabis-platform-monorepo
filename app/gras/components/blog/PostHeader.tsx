@@ -1,4 +1,5 @@
 import { Paragraph } from '@cd/ui-lib';
+import { twMerge } from 'tailwind-merge';
 import Avatar from '@/components/blog/AuthorAvatar';
 import type { Post } from '@/lib/sanity';
 import CoverImage from './MainImage';
@@ -32,27 +33,33 @@ export default function PostHeader(
 	return (
 		<>
 			<PostTitle>{title}</PostTitle>
-			<div className="flex flex-row mb-4 items-center gap-2">
-				<Paragraph className="post__date text-lg inline">
-					<Date dateString={_createdAt} />
-				</Paragraph>
-				<Paragraph className="inline text-lg">{categories}</Paragraph>
-				<div className="inline-block">
-					{author && <Avatar name={author.name} picture={author.picture} />}
+			<div className="mx-auto">
+				<div className="flex flex-row items-center gap-4 text-inverse-soft">
+					<Paragraph className="post__date inline">
+						<Date dateString={_createdAt} />
+					</Paragraph>
+					{categories && <Paragraph className="inline">{categories}</Paragraph>}
+					{author && (
+						<div className="inline-block">
+							<Avatar name={author.name} picture={author.picture} />
+						</div>
+					)}
 				</div>
-			</div>
-			<Paragraph className="leading-tight mb-4 post__excerpt text-inverse drop-shadow text-lg">
-				{excerpt}
-			</Paragraph>
-			<div className="mb-8 sm:mx-0 md:mb-16">
-				<CoverImage
-					title={title || ''}
-					image={mainImage}
-					priority
-					slug={slug}
-					creditUser={mainImageAsset.creditLine}
-					creditLink={mainImageAsset.source?.url}
-				/>
+				<Paragraph className="leading-tight my-4 post__excerpt text-lg">
+					{excerpt}
+				</Paragraph>
+				<div
+					className={twMerge('sm:mx-0 w-full', 'bg-light', 'md:pt-16 md:px-16')}
+				>
+					<CoverImage
+						title={title || ''}
+						image={mainImage}
+						priority
+						slug={slug}
+						creditUser={mainImageAsset.creditLine}
+						creditLink={mainImageAsset.source?.url}
+					/>
+				</div>
 			</div>
 		</>
 	);

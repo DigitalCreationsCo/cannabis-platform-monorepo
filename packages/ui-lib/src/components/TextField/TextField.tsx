@@ -110,18 +110,12 @@ function TextField({
 						'wh-10 w-full',
 						'px-4 py-2 rounded',
 						'text-dark',
-						'font-medium',
-						// 'font-encode',
 						'text-lg',
-						// 'tracking-wide',
-						// 'bg-light',
-						// 'items-center',
-						// 'outline-none focus:outline-none',
 						'input-md',
 						'shadow-inner',
 						focus && 'shadow-md',
-						error && 'input-error border-2',
-						'border border-gray-300',
+						(error && 'placeholder:text-error input-error') ||
+							'border border-gray-300',
 						'transition',
 						className
 					)}

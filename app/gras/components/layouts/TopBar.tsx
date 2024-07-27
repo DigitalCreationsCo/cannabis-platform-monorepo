@@ -55,7 +55,7 @@ function TopBar({ showSearch = true, SearchComponent }: TopBarProps) {
 						styles.shadow.logoShadow
 					)}
 				>
-					<GrasSignature className="text-inverse pt-1 pb-0 mb-0 leading-3">
+					<GrasSignature className="text-inverse py-0 mb-0 leading-3">
 						{t('gras')}
 					</GrasSignature>
 					<Image

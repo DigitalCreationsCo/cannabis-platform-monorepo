@@ -38,7 +38,6 @@ export default function Carousel<D>({
 						partialVisibilityGutter: 40,
 					},
 					lg: {
-						// the naming can be any, depends on you.
 						breakpoint: { max: 1400, min: 1100 },
 						items: 4,
 						slidesToSlide: 3,

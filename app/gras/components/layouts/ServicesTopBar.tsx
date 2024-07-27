@@ -18,26 +18,20 @@ export default function ServicesTopBar({
 }: HtmlHTMLAttributes<HTMLDivElement>) {
 	const { t } = useTranslation('common');
 	return (
-		<div
-			className={twMerge(styles.TOPBAR.topbar, 'shadow-none', className)}
-			{...props}
-		>
+		<div className={twMerge(styles.TOPBAR.topbar, className)} {...props}>
 			<FlexBox>
-				<FlexBox className="flex-row items-center">
-					<Link href={'/'} className="z-50">
-						<GrasSignature className="text-secondary pt-0.5">
-							{t('gras')}
-						</GrasSignature>
-					</Link>
-					<Link href={'/'} className="shrink-0">
-						<Image alt="Gras" width={40} height={40} src={logo} quality={25} />
-					</Link>
-				</FlexBox>
-				<Link href={'/'}>
-					<Paragraph className={twMerge(styles.TOPBAR.tagline)}>
-						{TextContent.info.CANNABIS_DELIVERED_TEXT}
-					</Paragraph>
+				<Link
+					href={'/'}
+					className={twMerge('z-50 flex flex-row gap-x-2 items-center')}
+				>
+					<GrasSignature className="text-secondary py-0 mb-0 leading-3">
+						{t('gras')}
+					</GrasSignature>
+					<Image alt="Gras" className="w-[40px] rounded-full" src={logo} />
 				</Link>
+				<Paragraph className={twMerge(styles.TOPBAR.tagline)}>
+					{TextContent.info.CANNABIS_DELIVERED_TEXT}
+				</Paragraph>
 				{/* <FlexBox className="flex flex-row items-center md:space-x-4 md:pr-2">
 				<GetStartedButton />
 			</FlexBox> */}

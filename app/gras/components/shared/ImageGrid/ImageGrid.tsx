@@ -47,19 +47,18 @@ export default function ImageGrid({ children }: { children: ReactElement }) {
 	}, []);
 	const [gridItem, gridImage] = [
 		'rounded max-w-xs aspect-square',
-		'rounded object-cover shrink-0 min-h-full bg-green-500/75 h-1',
+		'rounded object-cover shrink-0 h-full min-w-full bg-green-500/75',
 	];
 	const imagePadStart = 1;
 	const imagePadEnd = 6;
 	return (
 		<div
 			ref={parentRef}
-			className="hidden lg:block"
 			style={{
 				position: 'relative',
+				display: 'block',
 				width: '100%',
 				height: `${gridHeight}px`,
-				overflow: 'hidden',
 			}}
 		>
 			<div
@@ -110,7 +109,6 @@ export default function ImageGrid({ children }: { children: ReactElement }) {
 							position: 'relative',
 							display: 'inline-block',
 						}}
-						// className={twMerge(gridItem, 'border')}
 					>
 						<Image
 							src={randomImages[i + imagePadEnd]?.src ?? ''}

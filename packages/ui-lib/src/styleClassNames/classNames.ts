@@ -11,22 +11,40 @@ const styles = Object.freeze({
 		'mx-auto lg:mx-16',
 		'cursor-default w-full sm:max-w-[440px] grow h-fit py-4 pb-8 px-8 items-center shadow',
 	],
+	floatingCard: [
+		'transition duration-200',
+		'hover:scale-102',
+		'hover:-translate-y-1',
+	],
 	dispensaryCard: [
 		'relative',
 		'block',
 		'rounded',
-		// 'mx-4 my-8 sm:pt-4 pb-12 md:py-5 px-4 md:px-12',
-		'mx-3 my-3 sm:pt-4 md:py-5 px-4 md:px-12',
-		// 'rounded-btn',
-		'rounded',
+		'mx-3 my-3 sm:pt-5 md:py-5 px-5 md:px-12',
 		'overflow-hidden',
-		// 'min-w-[240px]',
 		'shadow min-h-[220px]',
-		'border border-transparent hover:border-primary',
+		// 'border border-transparent hover:border-primary',
+	],
+	eventCard: [
+		'relative',
+		'block',
+		'rounded',
+		'm-3',
+		'h-[190px]',
+		// 'sm:max-w-[320px]',
+		// 'w-full',
+		'overflow-hidden',
 	],
 	infoCard: [
 		'relative',
-		'w-[200px] md:min-w-[224px] md:w-[340px] h-[200px] p-4 !rounded',
+		'block',
+		'flex flex-col',
+		'bg-cyan-950',
+		'text-light',
+		'h-[240px]',
+		'mx-3 my-3',
+		'rounded',
+		'overflow-hidden',
 	],
 	isOpenBadge: [
 		'text-inherit border-b tracking-wider inline-block text-sm z-10 top-0 right-0',
@@ -40,14 +58,16 @@ const styles = Object.freeze({
 		],
 		responsiveHeading: ['text-3xl sm:text-4xl whitespace-normal'],
 		heading:
-			'tracking-tight inline-block whitespace-pre-line font-bold text-secondary-light text-5xl md:text-6xl xl:text-6xl drop-shadow-[1px_2px_1px_#444444] md:drop-shadow-[0px_2px_1px_#666666]',
+			'tracking-tight text-center inline-block whitespace-pre-line font-semibold text-secondary-light text-4xl lg:text-5xl xl:text-6xl',
 		largeHeading:
-			'tracking-normal bg-clip-text text-transparent bg-gradient-to-b from-secondary-light to-primary-light inline whitespace-pre-line text-6xl font-bold md:text-7xl drop-shadow-[0px_3px_2px_#444444] lg:text-8xl xl:text-8xl md:drop-shadow-[1px_3px_2px_#666666]',
+			'bg-clip-text text-transparent bg-gradient-to-b from-secondary-light to-primary-light inline whitespace-pre-line text-6xl lg:text-7xl lg:text-8xl xl:text-8xl font-bold',
 	},
 	TOPBAR: {
 		topbar: [
-			'z-50 sticky flex flex-row bg-inverse-soft items-center h-14 shrink-0 justify-between space-x-5',
+			'h-14',
+			'z-50 sticky flex flex-row bg-inverse-soft items-center shrink-0 justify-between space-x-5',
 			'py-2 px-4',
+			// 'border border-secondary',
 		],
 		tagline: [
 			'p-0 m-0',
@@ -71,7 +91,7 @@ const styles = Object.freeze({
 	},
 	FOOTER: {
 		container:
-			'cursor-default flex-col min-h-[188px] bg-secondary p-10 min-w-full bottom-0 shadow-lg pb-[120px]',
+			'cursor-default flex-col min-h-[188px] bg-secondary px-12 pt-0 md:pt-12 min-w-full bottom-0 shadow-lg pb-[120px]',
 	},
 	label_f: (justifyLabel: 'left' | 'center' | 'right' | undefined = 'left') => [
 		'px-2 py-1',
@@ -83,9 +103,11 @@ const styles = Object.freeze({
 	],
 	padd: 'md:pt-12 md:pb-14',
 	shadow: {
-		textShadow: 'drop-shadow-[0px_3px_1px_#6f6f6f]',
-		textShadowLg: 'drop-shadow-[0px_10px_10px_#6f6f6f]',
-		logoShadow: 'drop-shadow-[0px_3px_1px_#6f6f6f]',
+		textShadow: 'drop-shadow-[0px_2px_.75px_#555555]',
+		textShadowLg:
+			'drop-shadow-[0px_2px_.75px_#555555] md:drop-shadow-[1px_3px_1px_#555555]',
+		// 'drop-shadow-[1px_2px_1px_#555555] md:drop-shadow-[0px_2px_1px_#555555]'
+		logoShadow: 'drop-shadow-[0px_2.5px_.75px_#555555]',
 	},
 });
 

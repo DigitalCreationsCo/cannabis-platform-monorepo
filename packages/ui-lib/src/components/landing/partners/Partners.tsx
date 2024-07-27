@@ -21,13 +21,13 @@ function Partners({
 		<div
 			{...props}
 			className={twMerge(
-				'py-16',
+				'py-20',
 				'bg-gradient-to-b from-10% from-inverse-soft to-inverse',
-				'space-y-12',
+				'space-y-4',
 				className
 			)}
 		>
-			<Paragraph className="max-w-lg lg:max-w-full font-semibold text-center mx-auto text-3xl lg:mb-2">
+			<Paragraph className="max-w-lg lg:max-w-full font-semibold text-center mx-auto text-3xl">
 				{title}
 			</Paragraph>
 			<Grid className="grid-cols-2 justify-center md:px-16 lg:grid-cols-3 gap-4 mx-auto">

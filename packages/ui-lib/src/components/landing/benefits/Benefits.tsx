@@ -5,7 +5,7 @@ import { styles } from '../../../styleClassNames';
 import { CTA } from '../../button';
 import FlexBox from '../../FlexBox';
 import IconWrapper from '../../IconWrapper';
-import { H5, Paragraph, H2 } from '../../Typography';
+import { H5, H2, H3 } from '../../Typography';
 
 export interface BenefitData {
 	title?: string;
@@ -43,7 +43,7 @@ export default function Benefits({
 			id={props.id}
 			className={twMerge(
 				'relative bg-inverse',
-				'py-20 pb-28',
+				'py-20 pb-24',
 				'gap-8',
 				`${data.image && imagePosition === 'right' ? 'lg:justify-end' : ''}`,
 				props.className
@@ -51,24 +51,22 @@ export default function Benefits({
 		>
 			<FlexBox
 				className={twMerge(
-					'flex flex-col flex-wrap items-center justify-center gap-4 mx-auto'
+					'flex flex-col flex-wrap items-center text-center justify-center gap-4 mx-auto max-w-md'
 				)}
 			>
 				{(data.title && (
 					<H2
 						className={twMerge(
-							styles.shadow.textShadow,
-							'text-center text-5xl lg:text-6xl font-bold leading-snug max-w-lg md:max-w-6xl lg:leading-tight whitespace-pre-line'
+							styles.HERO.heading,
+							'text-dark',
+							'font-semibold'
+							// styles.shadow.textShadow
 						)}
 					>
 						{data.title}
 					</H2>
 				)) || <></>}
-				{data.description && (
-					<Paragraph className="font-encode font-semibold text-center max-w-md lg:max-w-3xl mx-auto text-2xl">
-						{data.description}
-					</Paragraph>
-				)}
+				{data.description && <H3>{data.description}</H3>}
 				<FlexBox
 					className={twMerge(
 						'flex flex-col lg:flex-row flex-wrap items-center justify-center gap-8 py-8'
@@ -103,7 +101,7 @@ export default function Benefits({
 						>
 							<Image
 								height={400}
-								className="bg-inverse shadow-lg rounded object-cover"
+								className="bg-inverse shadow-lg md:rounded object-cover"
 								src={data.image}
 								alt="Benefits"
 								placeholder="blur"
@@ -130,21 +128,17 @@ export function Benefit(
 	return (
 		<div className="m-auto w-full flex flex-col max-w-[440px] px-2 items-center space-x-3">
 			<FlexBox className="w-full flex-row items-center gap-4">
-				<div className="flex h-11 w-11 shadow-lg shrink-0 items-center justify-center rounded-md bg-orange-300">
+				<div className="flex h-11 w-11 shadow-lg shrink-0 items-center justify-center bg-orange-300">
 					<IconWrapper iconSize={30} Icon={props.icon} />
 				</div>
 				<div className={twMerge('w-full', props.valueColor)}>
-					<H5 className="text-xl whitespace-nowrap font-semibold">
+					<H5>
 						{props.title}
 						<span className={props.valueColor}>
 							{props.value && ` ($${props.value} value)`}
 						</span>
 					</H5>
-					{props.description && (
-						<Paragraph className={twMerge('mt-1 text-xl font-medium')}>
-							{props.description}
-						</Paragraph>
-					)}
+					{props.description && <H5>{props.description}</H5>}
 				</div>
 			</FlexBox>
 		</div>

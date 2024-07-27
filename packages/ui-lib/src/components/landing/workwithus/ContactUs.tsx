@@ -13,6 +13,7 @@ import { toast } from 'react-hot-toast';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 import founder from '../../../../public/founder.png';
+import { styles } from '../../../styleClassNames';
 import Button from '../../button/Button';
 import CheckBox from '../../CheckBox';
 import FlexBox from '../../FlexBox';
@@ -20,7 +21,7 @@ import Grid from '../../Grid';
 import Select from '../../Select';
 import TextArea from '../../TextArea';
 import TextField from '../../TextField';
-import { Paragraph, H2 } from '../../Typography';
+import { Paragraph, H2, H3, H5 } from '../../Typography';
 
 export interface ContactUsFormResponse {
 	firstName: string;
@@ -195,67 +196,48 @@ export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
 
 	return (
 		<div id={props.id} className={twMerge('bg-slate-100')}>
-			<Grid className="py-12 lg:!py-24 px-4 md:px-32 grid-cols-1 xl:grid-cols-2 xl:gap-x-24 auto-cols-max">
-				<div className="pb-12 text-2xl text-dark max-w-full col-span-full mx-auto">
-					<Paragraph
-						className={twMerge(
-							'leading-loose mb-2 max-w-md md:max-w-full text-2xl mx-auto md:mx-0 md:my-6 text-center'
-						)}
-					>
-						We help your cannabis business grow by delivering memorable
-						experiences, online and offline.
-					</Paragraph>
-					<H2
-						className={twMerge(
-							'drop-shadow-[0px_3px_1px_#a6a6a6]',
-							'md:text-6xl max-w-2xl lg:max-w-full lg:col-span-2 whitespace-pre-line mt-3 font-bold leading-snug tracking-tight lg:leading-tight text-5xl lg:text-6xl'
-						)}
-					>
-						<span className={twMerge(heading)}>Partner with Gras</span> for
-						cannabis delivery and promotional services
+			<Grid className="py-12 lg:!py-24 px-8 md:px-32 grid-cols-1 xl:grid-cols-2 xl:gap-x-24 auto-cols-max">
+				<div className="pb-12 text-dark max-w-5xl col-span-full mx-auto">
+					<H2 className={twMerge(styles.HERO.heading, 'text-dark')}>
+						<span className={twMerge(heading, styles.shadow.textShadow)}>
+							Partner with Gras
+						</span>{' '}
+						for cannabis delivery and promotional services
 					</H2>
 				</div>
 
 				<div
 					id="founder-quote"
-					className="p-12 border rounded-xl shadow-xl drop-shadow-2xl hidden xl:block xl:max-w-xl mx-auto row-start-2"
+					// className="chat chat-start p-12 border rounded-xl shadow-xl drop-shadow-2xl hidden xl:block mx-auto row-start-2"
+					className="chat chat-start row-start-2 max-w-3xl mx-auto col-span-full"
 				>
-					<FlexBox className="flex-row">
+					<div className="chat-image avatar">
 						<Image
-							width={140}
-							height={140}
+							width={100}
+							height={100}
 							className="rounded-full"
 							src={founder}
 							alt={'founder'}
 							quality={25}
 							unoptimized
 						/>
-						<FlexBox className="ml-8 flex-col self-center">
-							<Paragraph className="text-2xl font-semibold mb-1">
-								Bryant Mejia
-							</Paragraph>
-							<Paragraph className="text-primary text-2xl">
-								Founder of Gras
-							</Paragraph>
-						</FlexBox>
-					</FlexBox>
-
-					<div className="mt-12">
-						<Paragraph className="text-2xl leading-relaxed">
-							{`To best serve you, tell us about your delivery and business needs. We'll arrange a free call to form a working growth strategy. 
-							`}
+					</div>
+					<div className="chat-bubble ml-2 mb-6 bg-blue-300 drop-shadow">
+						<Paragraph>
+							{`To 2X your business revenue, tell us about your marketing and delivery needs. Then, schedule a free call with our team to start your growth strategy. 
+						Bryant Mejia, Founder`}
 						</Paragraph>
 					</div>
 				</div>
 
 				<form
 					id="contact-us-form"
-					className="self-end w-full lg:w-3/4 xl:w-full m-auto xl:max-w-xl lg:mr-auto row-start-2"
+					className="w-full lg:w-3/4 xl:w-full m-auto xl:max-w-xl row-start-3 col-span-full"
 				>
 					<Grid className="grid-cols-2">
-						<Paragraph className="col-span-2 px-2 mb-2 md:max-w-full text-2xl md:my-12">
-							{`Fill out the contact form. Our team will contact you today.`}
-						</Paragraph>
+						<H5 className="col-span-2 px-4 my-6 md:mt-12">
+							{`Fill out the form to schedule your free call.`}
+						</H5>
 						<TextField
 							containerClassName="px-2 col-span-1"
 							name="firstName"
@@ -440,7 +422,7 @@ export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
 							checked={values.subscribeCannabisInsiderNewsletter}
 							label="Subscribe for industry news and trends via our newsletter."
 						/>
-						<div className="mt-16 col-span-2 place-self-center mx-2">
+						<div className="mt-16 mb-8 lg:mb-0 col-span-2 place-self-center mx-2">
 							<Button
 								type="submit"
 								loading={loadingButton}

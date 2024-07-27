@@ -18,6 +18,8 @@ import {
 	defaultHeaders,
 	getCoordinatePairFromCoordinates,
 	isValidZipcode,
+	showDate,
+	showDay,
 	urlBuilder,
 	useEvents,
 	useLocalDispensaries,
@@ -215,6 +217,8 @@ export default function Browse({
 		[dispensaries]
 	);
 
+	const [nextEventDate, setNextEventDate] = useState('');
+
 	if (isError) {
 		return <Error message={isError.message} />;
 	}
@@ -243,7 +247,14 @@ export default function Browse({
 							SearchComponent={
 								<div className="hidden lg:block relative z-10">
 									{/* <H1 className="text-light text-lg px-2 leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left"> */}
-									<H1 className="pr-8">
+									<H1
+										className={twMerge([
+											'text-light',
+											'text-4xl',
+											'pr-8',
+											styles.shadow.textShadow,
+										])}
+									>
 										{t('find-flower-events-dispensaries')}
 										<span className="hidden xl:!inline">{` near you`}</span>
 									</H1>
@@ -391,7 +402,7 @@ export default function Browse({
 
 							<div className="col-span-full">
 								<H2 className="col-span-full font-medium !text-xl sm:pt-2 px-3 md:px-4 text-light leading-2 drop-shadow-[0px_2px_0px_#555555] text-left">
-									🎉 Nearby Events
+									🎉 Nearby Events{nextEventDate ? `, ${nextEventDate}` : ''}
 								</H2>
 								{(!isEventLoading && events.length < 2 && (
 									<div className="col-span-full lg:justify-center flex flex-row">
@@ -470,48 +481,66 @@ export default function Browse({
 									</div>
 								)) || <></>}
 								<Carousel
+									afterChange={(_, state) => {
+										console.info('state', state);
+										const event = events[state.currentSlide];
+										setNextEventDate(event ? showDay(event.start_date) : '');
+									}}
 									responsive={{
 										xl: {
 											breakpoint: { max: 4000, min: 1400 },
 											items: 4,
-											slidesToSlide: 3,
-											partialVisibilityGutter: 40,
+											slidesToSlide: 4,
+											partialVisibilityGutter: 30,
 										},
 										lg: {
 											// the naming can be any, depends on you.
 											breakpoint: { max: 1400, min: 1100 },
 											items: 3,
-											slidesToSlide: 2,
-											partialVisibilityGutter: 40,
+											slidesToSlide: 3,
+											partialVisibilityGutter: 30,
 										},
 										md: {
 											breakpoint: { max: 1100, min: 700 },
 											items: 3,
-											slidesToSlide: 2,
-											partialVisibilityGutter: 40,
+											slidesToSlide: 3,
+											partialVisibilityGutter: 30,
 										},
 										sm: {
 											breakpoint: { max: 700, min: 464 },
 											items: 2,
+											slidesToSlide: 2,
 										},
 										xs: {
 											breakpoint: { max: 464, min: 0 },
 											items: 2,
-											slidesToSlide: 1,
+											slidesToSlide: 2,
 										},
 									}}
-									items={events.map((event, index) => (
-										<EventCard
-											key={`event-card-${index}`}
-											loading={false}
-											event={event}
-											organizerImage={getOrganizerImage(event)}
-										/>
-									))}
+									items={
+										isEventLoading
+											? [1, 2, 3, 4, 5, 6].map((d, index) => (
+													<EventCard
+														key={`event-card-${index}`}
+														priority={index < 4}
+														loading={isEventLoading}
+														event={d as any}
+													/>
+												))
+											: events.map((event, index) => (
+													<EventCard
+														key={`event-card-${index}`}
+														priority={index < 4}
+														loading={isEventLoading}
+														event={event}
+														organizerImage={getOrganizerImage(event)}
+													/>
+												))
+									}
 								/>
 							</div>
 
-							{!isEventLoading && eventsToday.length === 0 ? (
+							{/* {!isEventLoading && eventsToday.length === 0 ? (
 								<></>
 							) : (
 								<div className="col-span-full">
@@ -569,7 +598,7 @@ export default function Browse({
 										}
 									/>
 								</div>
-							)}
+							)} */}
 
 							<div className="col-span-full">
 								<H2 className="col-span-full !text-xl font-medium px-2 md:px-4 text-light leading-2 drop-shadow-[0px_2px_0px_#555555] text-left">
@@ -578,6 +607,23 @@ export default function Browse({
 								<Carousel
 									title="Fresh from the Blog"
 									responsive={{
+										xl: {
+											breakpoint: { max: 4000, min: 1400 },
+											items: 4,
+											slidesToSlide: 4,
+											partialVisibilityGutter: 30,
+										},
+										lg: {
+											breakpoint: { max: 1400, min: 1100 },
+											items: 3,
+											slidesToSlide: 3,
+											partialVisibilityGutter: 30,
+										},
+										md: {
+											breakpoint: { max: 1100, min: 700 },
+											items: 3,
+											slidesToSlide: 3,
+										},
 										sm: {
 											breakpoint: { max: 700, min: 464 },
 											items: 2,
@@ -585,7 +631,7 @@ export default function Browse({
 										xs: {
 											breakpoint: { max: 464, min: 0 },
 											items: 2,
-											slidesToSlide: 1,
+											slidesToSlide: 2,
 										},
 									}}
 									items={posts.map((post, index) => (
@@ -594,6 +640,7 @@ export default function Browse({
 											key={`blog-card-${index}`}
 											data={post}
 											showDescription={false}
+											priority={index < 4}
 										/>
 									))}
 								/>

@@ -19,7 +19,7 @@ function IndexPage(props: IndexPageProps) {
 	const { title = '', description = '' } = settings || {};
 
 	return (
-		<Page className="m-0 p-0 md:p-0 lg:p-0 bg-gradient-to-b from-10% from-secondary-light to-secondary">
+		<Page className="m-0 p-0 md:p-0 lg:p-0 lg:px-10 bg-gradient-to-b from-10% from-secondary-light to-secondary">
 			<PlainTopBar className="bg-transparent text-light" />
 			<IndexPageHead settings={settings} />
 			<BlogHeader

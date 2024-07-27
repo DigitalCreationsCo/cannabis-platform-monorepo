@@ -47,15 +47,14 @@ export const H1 = ({
 	return (
 		<h1
 			className={twMerge(
+				// 'drop-shadow-[0px_2px_.75px_#454545]',
 				'text-5xl',
-				// 'tracking-wide',
-				// 'leading-tight',
-				// 'font-encode',
+				'tracking-[.5px]',
+				'font-medium',
+				(color === 'light' && 'text-inverse-soft') ||
+					(color === 'dark' && 'text-dark') ||
+					'text-inherit',
 				styles['cursor-inherit'],
-				// 'text-2xl md:text-4xl font-semibold whitespace-normal',
-				// (color === 'light' && 'text-inverse-soft') ||
-				// 	(color === 'dark' && 'text-dark') ||
-				'text-inherit',
 				className
 			)}
 			{...props}
@@ -74,14 +73,13 @@ export const H2 = ({
 	return (
 		<h2
 			className={twMerge(
-				// 'font-encode',
-				// 'tracking-wide',
+				'tracking-[.5px]',
+				'text-2xl lg:text-3xl',
+				'font-medium',
+				(color === 'light' && 'text-inverse-soft') ||
+					(color === 'dark' && 'text-dark') ||
+					'text-inherit',
 				styles['cursor-inherit'],
-				// 'text-2xl md:text-3xl',
-				// 'font-semibold whitespace-normal',
-				// (color === 'light' && 'text-inverse-soft') ||
-				// (color === 'dark' && 'text-dark') ||
-				'text-inherit',
 				className
 			)}
 			{...props}
@@ -100,14 +98,14 @@ export const H3 = ({
 	return (
 		<h3
 			className={twMerge(
-				// 'font-encode',
-				// 'tracking-wide',
+				'whitespace-pre-line',
+				'tracking-[.5px]',
+				'font-medium',
+				'text-xl lg:text-2xl',
 				styles['cursor-inherit'],
-				// 'text-xl md:text-2xl',
-				// 'font-semibold whitespace-normal',
-				// (color === 'light' && 'text-inverse-soft') ||
-				// (color === 'dark' && 'text-dark') ||
-				'text-inherit',
+				(color === 'light' && 'text-inverse-soft') ||
+					(color === 'dark' && 'text-dark') ||
+					'text-inherit',
 				className
 			)}
 			{...props}
@@ -151,13 +149,13 @@ export const H5 = ({
 	return (
 		<h5
 			className={twMerge(
-				// 'font-encode',
-				// 'tracking-[1px]',
+				'text-lg',
+				'tracking-[.5px]',
+				'leading-snug',
 				styles['cursor-inherit'],
-				// 'font-medium text-lg whitespace-normal',
-				// (color === 'light' && 'text-inverse-soft') ||
-				// (color === 'dark' && 'text-dark') ||
-				'text-inherit',
+				(color === 'light' && 'text-inverse-soft') ||
+					(color === 'dark' && 'text-dark') ||
+					'text-inherit',
 				className
 			)}
 			{...props}
@@ -201,15 +199,14 @@ export const Paragraph = ({
 	return (
 		<p
 			className={twMerge(
+				'whitespace-pre-line',
 				'font-encode',
-				// 'font-normal',
-				// 'text-md',
-				// 'tracking-[1px]',
+				'tracking-[.5px]',
+				// 'lg:text-lg',
 				styles['cursor-inherit'],
-				// 'whitespace-pre-line',
-				// (color === 'light' && 'text-inverse-soft') ||
-				// (color === 'dark' && 'text-dark') ||
-				'text-inherit',
+				(color === 'light' && 'text-inverse-soft') ||
+					(color === 'dark' && 'text-dark') ||
+					'text-inherit',
 				className
 			)}
 			{...props}
@@ -228,13 +225,13 @@ export const Small = ({
 	return (
 		<p
 			className={twMerge(
-				// 'tracking-[.5px]',
-				// 'font-encode',
+				'whitespace-pre-line',
+				'tracking-[.5px]',
+				'text-sm',
 				styles['cursor-inherit'],
-				// (color === 'light' && 'text-inverse-soft') ||
-				// (color === 'dark' && 'text-dark') ||
-				'text-inherit',
-				// 'text-sm whitespace-pre-line',
+				(color === 'light' && 'text-inverse-soft') ||
+					(color === 'dark' && 'text-dark') ||
+					'text-inherit',
 				className
 			)}
 			{...props}

@@ -1,4 +1,4 @@
-import { Page } from '@cd/ui-lib';
+import { Page, PlainTopBar } from '@cd/ui-lib';
 import { notFound } from 'next/navigation';
 import PostPageHead from '@/components/blog/PostPageHead';
 import PostTitle from '@/components/blog/PostTitle';
@@ -29,15 +29,19 @@ export default function PostPage(props: PostPageProps) {
 	}
 
 	return (
-		<Page className={'bg-inherit pt-8 min-h-[660px]'}>
+		<Page
+			className={
+				'm-0 p-0 md:p-0 lg:p-0 lg:px-10 min-h-[660px] bg-gradient-to-b from-10% from-secondary-light to-secondary'
+			}
+		>
+			<PlainTopBar className="bg-transparent text-light" />
 			<PostPageHead settings={settings} post={post} />
-
 			<BlogHeader title={title || ''} level={2} />
 			{preview && !post ? (
 				<PostTitle>{`Loading…`}</PostTitle>
 			) : (
 				<>
-					<article className="w-full mx-auto max-w-7xl">
+					<article className="w-full lg:w-3/4 px-4 pt-4 mx-auto">
 						<PostHeader
 							slug={post.slug}
 							_createdAt={post._createdAt}

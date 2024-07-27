@@ -14,6 +14,7 @@ import {
 	Letter,
 	ContactUs,
 	Hero,
+	H5,
 } from '@cd/ui-lib';
 import {
 	automateDeliveryCompliance,
@@ -107,13 +108,13 @@ export default function DispensaryLandingPage() {
 					href={getDashboardSite('/')}
 				/>
 
-				<Letter
-					{...letters['delivery-painpoints']}
+				<Benefits
+					data={deliveryManagementService}
 					href={getDashboardSite('/')}
 				/>
-				<Benefits
+				<Letter
 					className="bg-gradient-to-b from-10% from-inverse to-inverse-soft"
-					data={deliveryManagementService}
+					{...letters['delivery-painpoints']}
 					href={getDashboardSite('/')}
 				/>
 				<Benefits
@@ -195,19 +196,15 @@ export default function DispensaryLandingPage() {
 					valueColor="text-primary"
 					href={getDashboardSite('/')}
 				>
-					<Paragraph className="font-semibold text-3xl text-primary">
+					<H5 className="text-primary">
 						Total Value{' '}
 						<span className="line-through">{`$${price.dealValues.reduce(
 							(a, b) => a + b,
 							0
 						)}`}</span>
-					</Paragraph>
-					<Paragraph className="font-semibold text-4xl">
-						{`You don't pay this price today!`}
-					</Paragraph>
-					<Paragraph className="font-semibold text-3xl ml-6">
-						{`See today's price below 👇`}
-					</Paragraph>
+					</H5>
+					<H5>{`You don't pay this price today!`}</H5>
+					<H5 className="ml-6">{`See today's price below 👇`}</H5>
 				</Benefits>
 
 				<Letter
@@ -247,8 +244,8 @@ export default function DispensaryLandingPage() {
 DispensaryLandingPage.getLayoutContext = (): LayoutContextProps => ({
 	TopBarComponent: () => (
 		<>
-			<div className="bg-secondary-light text-inverse-soft py-1 cursor-default">
-				<H2 className="text-center font-semibold">
+			<div className="text-center bg-secondary-light text-inverse-soft py-1 cursor-default">
+				<H2>
 					Create Hyper Growth For Your Dispensary With Customer Appeal and
 					Delivery
 				</H2>
@@ -256,8 +253,6 @@ DispensaryLandingPage.getLayoutContext = (): LayoutContextProps => ({
 			<ServicesTopBar />
 		</>
 	),
-	showHeader: false,
-	showSideNav: false,
 });
 
 const Bonus = ({ title }: { title: string }) => {
@@ -277,13 +272,13 @@ const Bonus = ({ title }: { title: string }) => {
 DispensaryLandingPage.getLayout = function getLayout(page: ReactElement) {
 	return (
 		<>
-			<div className="bg-secondary-light text-inverse-soft py-1 cursor-default">
-				<H2 className="text-center font-semibold">
+			<div className="text-center bg-secondary-light text-inverse-soft py-1 cursor-default">
+				<H2>
 					Create Hyper Growth For Your Dispensary With Customer Appeal and
 					Delivery
 				</H2>
 			</div>
-			<ServicesTopBar />
+			<ServicesTopBar className="lg:px-10 h-fit" />
 			{page}
 			<Footer />
 		</>

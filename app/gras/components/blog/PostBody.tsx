@@ -8,6 +8,7 @@
  *
  */
 import { H1, H2, H3, H4, Paragraph } from '@cd/ui-lib';
+import { EllipsisHorizontalIcon } from '@heroicons/react/24/solid';
 import {
 	PortableText,
 	type PortableTextReactComponents,
@@ -32,8 +33,9 @@ const myPortableTextComponents: Partial<PortableTextReactComponents> = {
 
 export default function PostBody({ body }: { body: any }) {
 	return (
-		<div className={`mx-auto max-w-2xl my-24`}>
+		<div className="flex flex-col mx-auto bg-light p-8 md:px-16 pb-16 min-h-[250px] justify-between">
 			<PortableText value={body} components={myPortableTextComponents} />
+			<EllipsisHorizontalIcon className="w-10 h-10 mx-auto mt-4" />
 		</div>
 	);
 }

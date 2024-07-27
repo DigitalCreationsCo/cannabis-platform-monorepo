@@ -19,8 +19,8 @@ import FleetTrackingImage from '../../../../public/fleet-tracking-and-app-view.p
 import { type BenefitData } from './Benefits';
 
 export const unlockYourGrowth: BenefitData = {
-	title: 'We Unlock Hyper Growth For Your Dispensary',
-	description: `Your Vision & Our Support = Hyper Growth`,
+	title: 'Your Vision & Our Support = Hyper Growth',
+	description: `You've built something special. Now, let's take it to the next level.`,
 	image: require('../../../../public/dispensary.png'),
 	bullets: [
 		{
@@ -28,11 +28,11 @@ export const unlockYourGrowth: BenefitData = {
 			icon: PresentationChartLineIcon,
 		},
 		{
-			description: `Personalized messaging campaigns that sell more product`,
+			description: `Personalized messaging campaigns and strategic promotions`,
 			icon: MegaphoneIcon,
 		},
 		{
-			description: 'Create customer loyalty with memorable brand experiences',
+			description: 'Create customer loyalty with high-impact events',
 			icon: UsersIcon,
 		},
 	],
@@ -71,7 +71,7 @@ export const trackDeliveries: BenefitData = {
 
 export const deliveryManagementService: BenefitData = {
 	title: 'Make Cannabis Delivery A Breeze',
-	description: `Delivery Management Service`,
+	description: `with Delivery Management Service`,
 	image: require('../../../../public/sun.png'),
 	bullets: [
 		{

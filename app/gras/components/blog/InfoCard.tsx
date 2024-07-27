@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { truncateWordsAndLeaveN } from '@cd/core-lib';
-import { FlexBox, H5, Paragraph } from '@cd/ui-lib';
+import { FlexBox, H5, Paragraph, styles } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -34,16 +34,8 @@ function InfoCard({
 			onMouseEnter={handleMouseEnter}
 			onMouseLeave={handleMouseLeave}
 			className={twMerge([
-				'flex flex-col',
-				'h-[240px]',
-				'mx-3 my-3',
-				'bg-cyan-950',
-				'rounded',
-				'overflow-hidden',
-				'border border-transparent',
-				'hover:border-inverse-soft',
-				'text-inverse-soft',
-				'transition duration-500 hover:scale-105 hover:-translate-y-1',
+				styles.infoCard,
+				styles.floatingCard,
 				isHovered
 					? 'drop-shadow-[-3px_4px_3px_#555]'
 					: 'drop-shadow-[-5px_4px_1px_#555]',
@@ -66,7 +58,7 @@ function InfoCard({
 				<H5>{info.title}</H5>
 				{(showDescription && (
 					<Paragraph className="text-inverse">
-						{truncateWordsAndLeaveN(info.excerpt!, 12)}
+						{truncateWordsAndLeaveN(info.excerpt!, 9)}
 					</Paragraph>
 				)) || <></>}
 			</div>

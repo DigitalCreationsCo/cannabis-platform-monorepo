@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { Paragraph } from '@cd/ui-lib';
+import { Paragraph, Small } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
@@ -27,6 +27,7 @@ export default function MainImage(props: CoverImageProps) {
 		<div
 			className={twMerge(
 				'shadow-small',
+				'w-full',
 				slug && 'transition-shadow duration-200 hover:shadow-medium'
 			)}
 		>
@@ -34,7 +35,7 @@ export default function MainImage(props: CoverImageProps) {
 				<Link href={`/blog/posts/${slug}`} aria-label={title}>
 					<Image
 						blurDataURL={urlForImage(source)?.blur(100).url()}
-						className="h-auto w-full md:rounded"
+						className="h-auto w-full"
 						width={1000}
 						height={1000}
 						alt={title}
@@ -55,17 +56,20 @@ export default function MainImage(props: CoverImageProps) {
 					priority={priority}
 				/>
 			)}
-			<div className="pt-4 mx-auto">
-				<Paragraph className="text-center">
-					<a href={`${creditLink}?utm_source=Gras&utm_medium=referral`}>
-						{creditUser}
-					</a>
-				</Paragraph>
-			</div>
+			{(creditUser && (
+				<div className="pt-2 mx-auto bg-light">
+					<Small className="text-center">
+						<a href={`${creditLink}?utm_source=Gras&utm_medium=referral`}>
+							{creditUser}
+						</a>
+					</Small>
+				</div>
+			)) ||
+				null}
 		</div>
 	) : (
 		<div style={{ paddingTop: '50%', backgroundColor: '#ddd' }} />
 	);
 
-	return <div className="sm:mx-auto">{image}</div>;
+	return <div className="mx-auto">{image}</div>;
 }
