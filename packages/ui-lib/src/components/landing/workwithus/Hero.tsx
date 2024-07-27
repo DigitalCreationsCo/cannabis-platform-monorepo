@@ -30,9 +30,7 @@ function Hero({
 					) : (
 						<></>
 					)}
-					<H1
-						className={twMerge(heading, 'font-onest', styles.shadow.textShadow)}
-					>
+					<H1 className={twMerge(heading, styles.shadow.textShadow)}>
 						The ultimate cannabis business growth solution is here:
 					</H1>
 				</div>

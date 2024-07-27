@@ -20,7 +20,7 @@ const styles = Object.freeze({
 		'relative',
 		'block',
 		'rounded',
-		'mx-3 my-3 sm:pt-5 md:py-5 px-5 md:px-12',
+		'sm:pt-5 md:py-5 px-5 md:px-12',
 		'overflow-hidden',
 		'shadow min-h-[220px]',
 		// 'border border-transparent hover:border-primary',
