@@ -177,6 +177,8 @@ const urlBuilder = {
 	},
 
 	locationIq: {
+		search: (q: string, limit = 1) =>
+			`https://us1.locationiq.com/v1/search?q=${q}&format=json&addressdetails=1&limit=${limit}&normalizeaddress=1&normalizecity=1&postaladdress=1&dedupe=1&key=${process.env.NEXT_PUBLIC_LOCATION_IQ_API_KEY}`,
 		autocomplete: (q: string, limit = 10) =>
 			`https://us1.locationiq.com/v1/autocomplete?key=${process.env.NEXT_PUBLIC_LOCATION_IQ_API_KEY}&q=${q}&limit=${limit}`,
 		city: (city: string, limit = 10) =>

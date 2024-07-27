@@ -38,3 +38,9 @@ export const normalizeUser = (user: any) => {
 
 	return user;
 };
+
+export const EARTH_RADIUS_METERS = 6371000;
+
+export function metersToRadians(meters: number) {
+	return meters / EARTH_RADIUS_METERS;
+}

@@ -41,7 +41,7 @@ export const showDay = (date: Date | string) => {
 	tomorrow.setDate(today.getDate() + 1);
 	if (new Date(date).getDate() === tomorrow.getDate()) return 'Tomorrow';
 	return new Date(date).toLocaleDateString('en-us', {
-		weekday: 'long',
+		weekday: 'short',
 		day: 'numeric',
 		month: 'short',
 	});

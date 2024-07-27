@@ -7,7 +7,7 @@ import { isValidZipcode } from '../utils/geo.util';
 
 const useDispensaries = ({
 	zipcode,
-	radius = 11000,
+	radius = 15000,
 	token,
 }: {
 	zipcode?: string;

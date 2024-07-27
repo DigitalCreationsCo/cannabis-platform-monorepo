@@ -55,12 +55,14 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
 		throw new Error('Unauthorized');
 	}
 
+	console.info('get events: ', { zipcode, radius });
 	const events = await getActiveEvents({
 		client,
 		zipcode,
 		radius: Number(radius),
 	});
 
+	console.info('events: ', events);
 	recordMetric('event.fetched');
 	res.status(200).json({ data: events });
 };

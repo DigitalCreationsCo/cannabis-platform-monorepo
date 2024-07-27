@@ -8,7 +8,7 @@ import { isValidZipcode } from '../utils/geo.util';
 const useEvents = ({
 	zipcode,
 	token,
-	radius = 10000,
+	radius = 15000,
 }: {
 	zipcode?: string;
 	token: string;

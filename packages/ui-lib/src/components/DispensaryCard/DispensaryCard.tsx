@@ -8,7 +8,10 @@ import {
 	// showTime,
 } from '@cd/core-lib';
 import { type Schedule, type Dispensary } from '@cd/data-access';
-import { BuildingStorefrontIcon } from '@heroicons/react/24/outline';
+import {
+	BuildingStorefrontIcon,
+	ArrowRightCircleIcon,
+} from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -172,9 +175,9 @@ function DispensaryCard({
 						<div style={{ ...hoverStyles }} className="w-full px-2">
 							<Link
 								href={`/browse/${dispensary.slug}`}
-								className="absolute bg-dark transition-50 w-30 h-30 bottom-1 right-1 p-2.5 rounded-full hover:text-[#f4d03f]"
+								className="absolute w-30 h-30 bottom-1 right-1 p-2.5 rounded-full hover:text-[#f4d03f]"
 							>
-								<BuildingStorefrontIcon height={28} width={28} />
+								<ArrowRightCircleIcon height={38} width={38} />
 							</Link>
 							<H3
 								style={{ color: applyDispensaryStyles['primary-color'] }}

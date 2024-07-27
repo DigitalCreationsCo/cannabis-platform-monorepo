@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { type MongoClient, ObjectId } from 'mongodb';
 import { db_namespace } from './db';
+import { metersToRadians, EARTH_RADIUS_METERS } from './helpers';
 import { addStaffMember } from './staff.data';
 import { type Dispensary } from './types/dispensary.types';
 import { Role } from './types/role.types';
@@ -256,6 +257,7 @@ export const getDispensaries = async ({
 
 export async function getDispensariesByLocation({
 	client,
+	where: { limit = 12, radius = 10000 },
 	where,
 }: {
 	client: MongoClient;
@@ -273,14 +275,23 @@ export async function getDispensariesByLocation({
 			{
 				$geoNear: {
 					near: where.loc,
-					distanceField: 'distanceFromLoc',
-					maxDistance: where.radius,
+					distanceField: 'distance',
+					maxDistance: metersToRadians(Number(radius)),
+					distanceMultiplier: EARTH_RADIUS_METERS,
 					spherical: true,
 				},
 			},
 			{
+				$limit: Number(limit),
+			},
+			{
+				$addFields: {
+					distance: '$distance',
+				},
+			},
+			{
 				$sort: {
-					distanceFromLoc: 1,
+					distance: 1,
 				},
 			},
 		])
@@ -311,17 +322,26 @@ export async function getDispensariesByZipcode({
 				$geoNear: {
 					near: zip.loc,
 					distanceField: 'distance',
-					maxDistance: Number(radius),
+					maxDistance: metersToRadians(Number(radius)),
+					distanceMultiplier: EARTH_RADIUS_METERS,
 					spherical: true,
 				},
+			},
+			{
+				$limit: Number(limit),
+			},
+			{
+				$addFields: {
+					distance: '$distance',
+				},
+			},
+			{
+				$limit: Number(limit),
 			},
 			{
 				$sort: {
 					distance: 1,
 				},
-			},
-			{
-				$limit: Number(limit),
 			},
 		])
 		.toArray();

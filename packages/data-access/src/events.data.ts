@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { type MongoClient } from 'mongodb';
 import { db_namespace } from './db';
+import { metersToRadians, EARTH_RADIUS_METERS } from './helpers';
 import { type EventJobLocation, type Event, type EventComment } from './types';
 import { getZipcodeLocation } from './zipcode.data';
 
@@ -211,7 +212,8 @@ export const getEvents = async ({
 				$geoNear: {
 					near: zip.loc,
 					distanceField: 'distance',
-					maxDistance: Number(radius),
+					maxDistance: metersToRadians(Number(radius)),
+					distanceMultiplier: EARTH_RADIUS_METERS,
 					spherical: true,
 				},
 			},
@@ -222,6 +224,7 @@ export const getEvents = async ({
 				$addFields: {
 					// id: { $toString: '$_id' },
 					date: { $dateFromString: { dateString: '$start_date' } },
+					distance: '$distance',
 				},
 			},
 			{
@@ -259,7 +262,8 @@ export const getActiveEvents = async ({
 				$geoNear: {
 					near: zip.loc,
 					distanceField: 'distance',
-					maxDistance: Number(radius),
+					maxDistance: metersToRadians(Number(radius)),
+					distanceMultiplier: EARTH_RADIUS_METERS,
 					spherical: true,
 				},
 			},
@@ -275,6 +279,7 @@ export const getActiveEvents = async ({
 				$addFields: {
 					// id: { $toString: '$_id' },
 					date: { $dateFromString: { dateString: '$start_date' } },
+					distance: '$distance',
 				},
 			},
 			{
