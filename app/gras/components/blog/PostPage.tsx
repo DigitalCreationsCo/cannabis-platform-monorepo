@@ -41,7 +41,7 @@ export default function PostPage(props: PostPageProps) {
 				<PostTitle>{`Loading…`}</PostTitle>
 			) : (
 				<>
-					<article className="w-full lg:w-3/4 px-4 pt-4 mx-auto">
+					<article className="w-full lg:max-w-4xl px-4 pt-4 mx-auto">
 						<PostHeader
 							slug={post.slug}
 							_createdAt={post._createdAt}
@@ -55,7 +55,11 @@ export default function PostPage(props: PostPageProps) {
 						<PostBody body={post.body} />
 					</article>
 					<SectionSeparator />
-					{morePosts.length > 0 && <MorePosts posts={morePosts} />}
+					{morePosts.length > 0 && (
+						<div className="text-inverse">
+							<MorePosts posts={morePosts} />
+						</div>
+					)}
 				</>
 			)}
 		</Page>
