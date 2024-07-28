@@ -27,7 +27,7 @@ export default function Carousel<D>({
 	return (
 		<>
 			<BaseCarousel
-				className="z-0 hidden md:flex"
+				className="z-0 hidden sm:flex"
 				swipeable
 				// partialVisible
 				centerMode
@@ -69,12 +69,18 @@ export default function Carousel<D>({
 				{items}
 			</BaseCarousel>
 
-			<SimpleCarousel className="block md:hidden" items={items} />
+			<SimpleCarousel className="sm:hidden" items={items} />
 		</>
 	);
 }
 
-const SimpleCarousel = ({ className, items }: any) => {
+const SimpleCarousel = ({
+	className,
+	items,
+}: {
+	className?: string;
+	items: any[];
+}) => {
 	const [scrollPosition, setScrollPosition] = useState(0);
 	const carouselRef = useRef<any>(null);
 	const [touchStart, setTouchStart] = useState<number | null>(null);
@@ -111,7 +117,7 @@ const SimpleCarousel = ({ className, items }: any) => {
 
 	return (
 		<div
-			className={twMerge('relative overflow-hidden w-full h-fit', className)}
+			className={twMerge(['relative overflow-hidden w-full h-fit', className])}
 		>
 			<div
 				ref={carouselRef}

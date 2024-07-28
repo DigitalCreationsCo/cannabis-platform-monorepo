@@ -59,7 +59,7 @@ export default function Footer({
 				className
 			)}
 		>
-			<Grid className="overflow-x-hidden mx-auto mt-20 md:mt-5 grid md:w-3/4 max-w-screen-xl pb-16 lg:pb-0 grid-rows-auto gap-6 md:gap-10 lg:gap-4 md:grid-cols-4 lg:grid-cols-6 overflow-visible">
+			<Grid className="overflow-x-hidden w-[277px] mx-auto mt-20 md:mt-5 grid md:w-3/4 max-w-screen-lg pb-16 lg:pb-0 grid-rows-auto gap-6 md:gap-10 lg:gap-4 md:grid-cols-4 lg:grid-cols-6 overflow-visible">
 				<div className="col-span-2">
 					<div className="flex w-full flex-col flex-wrap md:ml-0">
 						{navigation.map((item, index) => (
@@ -75,7 +75,7 @@ export default function Footer({
 					</div>
 				</div>
 				<div className="col-span-2 md:!col-span-4 lg:!col-span-2 md:!row-start-2 lg:!row-start-1 md:!col-start-1 lg:!col-start-5 row-span-3">
-					<FlexBox className="py-2 flex-row items-center">
+					<FlexBox className="pb-4 justify-center flex-row items-center">
 						<Link
 							href={getShopSite('/')}
 							//  className="z-10">
@@ -96,7 +96,7 @@ export default function Footer({
 						</Link>
 					</FlexBox>
 
-					<FlexBox className="mt-2 flex-row gap-x-8 text-inverse">
+					<FlexBox className="mt-2 flex-row justify-center gap-x-8 text-inverse">
 						<a
 							href="https://twitter.com/gras_cannabis"
 							target="_blank"
@@ -135,14 +135,21 @@ export default function Footer({
 						</a>
 					</FlexBox>
 
-					<Paragraph className="mt-6 max-w-sm md:font-medium">
-						{TextContent.info.ABOUT_GRAS_2}
-						{TextContent.info.GRAS_MISSION_3}
-					</Paragraph>
-					<CopyRight className="md:font-medium" />
+					<FlexBox className="mt-6 mx-auto max-w-sm md:font-medium">
+						<Paragraph>
+							{TextContent.info.ABOUT_GRAS_2}
+							{TextContent.info.GRAS_MISSION_3}
+						</Paragraph>
+						<CopyRight className="md:font-medium" />
+					</FlexBox>
 				</div>
-				<div className="row-start-1 md:!row-start-5 md:!col-start-1 lg:!row-start-4 lg:!col-start-5 col-span-2 md:col-span-2">
-					<H6 color="light">{TextContent.info.CANNABIS_DELIVERED}</H6>
+				<div className="w-full row-start-1 md:!row-start-5 md:!col-start-1 lg:!row-start-4 lg:!col-start-5 col-span-2 md:col-span-full">
+					<Paragraph
+						color="light"
+						className="font-medium md:mx-auto lg:m-0 w-fit"
+					>
+						{TextContent.info.CANNABIS_DELIVERED}
+					</Paragraph>
 				</div>
 			</Grid>
 		</FlexBox>
@@ -201,6 +208,6 @@ const FooterLink = ({ href, name }) => (
 		href={replaceRelativePath(href)}
 		className="w-fit hover:!drop-shadow-[0px_3px_1px_#6f6f6f] hover:-translate-y-1 hover:scale-105 transition py-2"
 	>
-		<Paragraph className="md:font-medium">{name}</Paragraph>
+		<Paragraph className="font-medium">{name}</Paragraph>
 	</Link>
 );

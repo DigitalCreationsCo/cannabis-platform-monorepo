@@ -268,7 +268,7 @@ export default function Browse({
 								</div>
 							}
 						/>
-						<div className="relative mx-4 sm:mx-auto sm:max-w-md">
+						<div className="relative mx-4 sm:mx-auto md:max-w-md max-w-fit">
 							{/* {`lookup city: ${lookupCity}`}
 							{`values.city: ${values.city}`}
 							{`eventsLocationResults length: ${eventsLocationResults.length}`}
@@ -289,7 +289,7 @@ export default function Browse({
 								autoComplete="off"
 								type="text"
 								name="city"
-								placeholder="wya"
+								placeholder="Enter your city..."
 								value={values.city}
 								onBlur={() => {
 									setEventsLocationResults([]);
@@ -301,7 +301,9 @@ export default function Browse({
 								}}
 								error={!!zipcodeError}
 								helperText={zipcodeError}
-								insertIcon={<GlobeAmericasIcon className="h-8 w-8 pr-1" />}
+								insertIcon={
+									<GlobeAmericasIcon className="h-7 w-7 shrink-0 pr-1" />
+								}
 							/>
 							<FlexBox
 								className={twMerge(
