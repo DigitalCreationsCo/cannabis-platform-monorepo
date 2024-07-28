@@ -246,68 +246,25 @@ export default function Browse({
 					<div className="lg:px-10">
 						<TopBar
 							SearchComponent={
-								<div className="hidden md:block relative z-10">
-									{/* <H1 className="text-light text-lg px-2 leading-2 drop-shadow-[0px_2px_0px_#555555] sm:drop-shadow-[0px_2px_1px_#555555] text-left"> */}
+								<div className="hidden md:block relative mx-auto z-10">
 									<H1
 										className={twMerge([
 											'text-light',
-											'text-4xl',
-											'lg:pr-8',
+											'text-2xl',
+											'lg:text-4xl',
+											'hidden',
+											'md:block',
+											'pr-8',
+											'lg:pr-0',
+											'xl:pr-8',
 											styles.shadow.textShadow,
 										])}
 									>
 										{t('find-flower-events-dispensaries')}
-										<span className="hidden xl:!inline">{` near you`}</span>
+										<span
+										// className="hidden xl:!inline"
+										>{` near you`}</span>
 									</H1>
-									{/* <div className="px-4 relative top-0"> */}
-									{/* <H1 className="lg:hidden font-medium text-xl md:text-3xl text-light md:pt-2 leading-2 drop-shadow-[0px_2px_1px_#555555] text-left"> */}
-									{/* <H1 className="lg:hidden !z-10">
-									{t('find-flower-events-dispensaries')}
-									<span className="hidden lg:!inline">{` near you`}</span>
-								</H1> */}
-									{/* <TextField
-						className="text-dark"
-						name="zipcode"
-						maxLength={5}
-						// label="search your zipcode"
-						defaultValue={'Enter your zipcode'}
-						value={zipcode}
-						placeholder="Enter your zipcode"
-						onBlur={undefined}
-						onChange={(e: any) =>
-							// eslint-disable-next-line sonarjs/no-use-of-empty-return-value
-							debounce(
-								saveZipcodeToLocalStorage(e.target.value || ''),
-								2000
-							)
-						}
-						error={!!zipcodeError}
-						helperText={zipcodeError}
-					/> */}
-									{/* <Button
-									className={twMerge(
-										styles.BUTTON.highlight,
-										'hover:border-light text-light'
-									)}
-									size="sm"
-									bg="transparent"
-									hover="transparent"
-									// onClick={openLoginModal}
-								>
-									{`New York`}
-								</Button>
-								<Button
-									className={twMerge(
-										styles.BUTTON.highlight,
-										'hover:border-light text-light'
-									)}
-									size="sm"
-									bg="transparent"
-									hover="transparent"
-									// onClick={openLoginModal}
-								>
-									{`Los Angeles`}
-								</Button> */}
 								</div>
 							}
 						/>
@@ -317,19 +274,26 @@ export default function Browse({
 							{`eventsLocationResults length: ${eventsLocationResults.length}`}
 							{`zipcode: ${zipcode}`}
 							{`radius: ${radius}`} */}
+							<H1
+								className={twMerge([
+									'md:hidden text-xl',
+									'text-light',
+									styles.shadow.textShadow,
+								])}
+							>
+								{t('find-flower-events-dispensaries')}
+								<span>{` near you`}</span>
+							</H1>
 							<TextField
-								containerClassName="mt-4 lg:mt-0 place-self-center self-center w-full"
+								containerClassName="mt-1 md:mt-0 place-self-center self-center w-full"
 								autoComplete="off"
 								type="text"
 								name="city"
-								placeholder="wya?"
+								placeholder="wya"
 								value={values.city}
-								onBlur={
-									// set locations results to empty array
-									() => {
-										setEventsLocationResults([]);
-									}
-								}
+								onBlur={() => {
+									setEventsLocationResults([]);
+								}}
 								onChange={(e: any) => {
 									e.preventDefault();
 									setFieldValue('city', e.target.value);
@@ -337,11 +301,14 @@ export default function Browse({
 								}}
 								error={!!zipcodeError}
 								helperText={zipcodeError}
-								insertIcon={
-									<GlobeAmericasIcon className="h-10 w-10 px-1 text-blue-400" />
-								}
+								insertIcon={<GlobeAmericasIcon className="h-8 w-8 pr-1" />}
 							/>
-							<FlexBox className="absolute rounded mt-1 border sm:max-w-md flex-col bg-gray-100 z-50">
+							<FlexBox
+								className={twMerge(
+									'absolute rounded mt-1 border sm:max-w-md flex-col bg-gray-100 z-50',
+									!eventsLocationResults.length && 'hidden'
+								)}
+							>
 								{eventsLocationResults.map((result, index) => (
 									<div
 										key={index}
@@ -362,28 +329,32 @@ export default function Browse({
 						<Grid className="relative grid-cols-3 xs:pb-16">
 							<div className="col-span-full">
 								<Carousel
+									// focusOnSelect={true}
 									responsive={{
 										xl: {
 											breakpoint: { max: 4000, min: 1400 },
-											items: 5,
+
+											items: 4,
 											slidesToSlide: 4,
-											partialVisibilityGutter: 20,
+											partialVisibilityGutter: 12,
 										},
 										lg: {
 											breakpoint: { max: 1400, min: 1100 },
-											items: 4,
+											items: 3,
 											slidesToSlide: 3,
 											partialVisibilityGutter: 20,
 										},
 										md: {
 											breakpoint: { max: 1100, min: 800 },
 											items: 3,
-											slidesToSlide: 2,
+											slidesToSlide: 3,
 											partialVisibilityGutter: 10,
 										},
 										sm: {
 											breakpoint: { max: 800, min: 464 },
-											items: 2,
+
+											items: 3,
+											slidesToSlide: 1,
 											partialVisibilityGutter: 10,
 										},
 									}}
@@ -409,12 +380,12 @@ export default function Browse({
 							</div>
 
 							<div className="col-span-full">
-								<H2 className="col-span-full font-medium !text-xl sm:pt-2 px-3 md:px-4 text-light leading-2 drop-shadow-[0px_2px_0px_#555555] text-left">
+								<H2 className="col-span-full font-medium !text-xl pt-2 px-3 md:px-4 text-light leading-2 drop-shadow-[0px_2px_0px_#555555] text-left">
 									🎉 Nearby Events{nextEventDate ? `, ${nextEventDate}` : ''}
 								</H2>
 								{(!isEventLoading && events.length < 2 && (
 									<div className="col-span-full lg:justify-center flex flex-row">
-										<div className="h-44 max-w-xl place-self-center bg-white shadow-xl rounded mx-4 gap-1">
+										<div className="min-h-44 max-w-xl place-self-center bg-white shadow-xl rounded gap-1">
 											<AnimatePresence>
 												{eventRequestSent && (
 													<motion.div
@@ -497,12 +468,11 @@ export default function Browse({
 									responsive={{
 										xl: {
 											breakpoint: { max: 4000, min: 1400 },
-											items: 4,
-											slidesToSlide: 4,
+											items: 3,
+											slidesToSlide: 3,
 											partialVisibilityGutter: 30,
 										},
 										lg: {
-											// the naming can be any, depends on you.
 											breakpoint: { max: 1400, min: 1100 },
 											items: 3,
 											slidesToSlide: 3,
@@ -510,8 +480,8 @@ export default function Browse({
 										},
 										md: {
 											breakpoint: { max: 1100, min: 700 },
-											items: 3,
-											slidesToSlide: 3,
+											items: 2,
+											slidesToSlide: 2,
 											partialVisibilityGutter: 30,
 										},
 										sm: {
@@ -548,68 +518,8 @@ export default function Browse({
 								/>
 							</div>
 
-							{/* {!isEventLoading && eventsToday.length === 0 ? (
-								<></>
-							) : (
-								<div className="col-span-full">
-									<H2 className="col-span-full !text-xl font-medium sm:pt-2 px-3 md:px-4 text-light leading-2 drop-shadow-[0px_2px_0px_#555555] text-left">
-										🎉 Happening Today
-									</H2>
-									<Carousel
-										responsive={{
-											xl: {
-												breakpoint: { max: 4000, min: 1400 },
-												items: 4,
-												slidesToSlide: 3,
-												partialVisibilityGutter: 40,
-											},
-											lg: {
-												breakpoint: { max: 1400, min: 1100 },
-												items: 3,
-												slidesToSlide: 2,
-												partialVisibilityGutter: 40,
-											},
-											md: {
-												breakpoint: { max: 1100, min: 700 },
-												items: 3,
-												slidesToSlide: 2,
-												partialVisibilityGutter: 40,
-											},
-											sm: {
-												breakpoint: { max: 700, min: 464 },
-												items: 2,
-											},
-											xs: {
-												breakpoint: { max: 464, min: 0 },
-												items: 2,
-												slidesToSlide: 1,
-											},
-										}}
-										items={
-											!isEventLoading && eventsToday.length
-												? eventsToday.map((event, index) => (
-														<EventCard
-															priority={index < 4}
-															key={`event-card-${index}`}
-															loading={false}
-															event={event}
-															organizerImage={getOrganizerImage(event)}
-														/>
-													))
-												: [1, 2, 3, 4, 5, 6].map((d, index) => (
-														<EventCard
-															key={`event-card-${index}`}
-															loading={isEventLoading}
-															event={d as any}
-														/>
-													))
-										}
-									/>
-								</div>
-							)} */}
-
 							<div className="col-span-full">
-								<H2 className="col-span-full !text-xl font-medium px-2 md:px-4 text-light leading-2 drop-shadow-[0px_2px_0px_#555555] text-left">
+								<H2 className="col-span-full !text-xl font-medium mt-2 px-2 md:px-4 text-light leading-2 drop-shadow-[0px_2px_0px_#555555] text-left">
 									🍍 Fresh from our blog
 								</H2>
 								<Carousel
@@ -617,14 +527,14 @@ export default function Browse({
 									responsive={{
 										xl: {
 											breakpoint: { max: 4000, min: 1400 },
-											items: 4,
-											slidesToSlide: 4,
+											items: 5,
+											slidesToSlide: 5,
 											partialVisibilityGutter: 30,
 										},
 										lg: {
 											breakpoint: { max: 1400, min: 1100 },
-											items: 3,
-											slidesToSlide: 3,
+											items: 5,
+											slidesToSlide: 5,
 											partialVisibilityGutter: 30,
 										},
 										md: {

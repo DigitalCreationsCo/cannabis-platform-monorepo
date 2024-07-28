@@ -1,0 +1,119 @@
+.react-multiple-carousel__arrow {
+    position: absolute;
+    outline: 0;
+    transition: all .5s;
+    
+    /* border-radius: 5px; */
+    border-radius: 50%;
+    /* border-radius: 0;  */
+
+    border: 0;
+    background: rgba(0, 0, 0, 0.4);
+
+    z-index:999;
+
+    min-width: 63px;
+    min-height: 63px;
+    opacity: 1;
+    cursor: pointer;
+
+    /* min-width: 63px; */
+    /* min-height: 100%; */
+    
+    /* width: 40px;  */
+    /* Set fixed width */
+    
+    /* height: 40px;  */
+    /* Set fixed height */
+
+    /* width: auto; */
+    /* height: auto; */
+
+    /* height: calc((100% * .8));  */
+
+    
+    top: 33%; 
+    /* Center vertically */
+    
+    /* transform: translateY(-50%);  */
+    /* Adjust for exact center */
+
+    /* top: 10%;  */
+    /* Adjust as needed to align with the top of non-active items */
+
+    /* bottom: 10%;  */
+    /* Adjust as needed to align with the bottom of non-active items */
+}
+
+.react-multiple-carousel__arrow:hover {
+    background-color: rgba(25, 25, 25, 0.7); 
+
+}
+
+.react-multiple-carousel__arrow::before {
+    font-size: 20px;
+    color: #fff;
+    display: block;
+    font-family: revicons;
+    text-align: center;
+    z-index: -2;
+    position: relative;
+    
+    /* height: 100%;  */
+    /* width: 100%; */
+    
+    /* display: flex; */
+    /* justify-content: center; */
+    /* align-items: center; */
+}
+
+.react-multiple-carousel__arrow:disabled {
+    cursor: default;
+    background: rgba(0, 0, 0, 0.5)
+    
+    /* visibility: hidden; */
+}
+
+.react-multiple-carousel__arrow--left {
+    /* left: 0; */
+    left: calc(4% + 1px)
+
+    /* width: calc((100% - 40px) * 0.11);  */
+    /* Match width to the first non-active item */
+    /* 20% of the visible area, adjust if needed */
+}
+
+.react-multiple-carousel__arrow--left::before {
+    content: "\e824"
+}
+
+.react-multiple-carousel__arrow--right {
+    /* right: 0; */
+    right: calc(4% + 1px);
+    
+    /* width: calc((100% - 40px) * 0.11);  */
+    /* Match width to the first non-active item */
+    /* 20% of the visible area, adjust if needed */
+}
+
+.react-multiple-carousel__arrow--right::before {
+    content: "\e825"
+}
+
+.rtl.react-multiple-carousel__arrow--right {
+    right: auto;
+    left: calc(4% + 1px)
+}
+
+.rtl.react-multiple-carousel__arrow--right::before {
+    content: "\e824"
+}
+
+.rtl.react-multiple-carousel__arrow--left {
+    left: auto;
+    right: calc(4% + 1px)
+}
+
+.rtl.react-multiple-carousel__arrow--left::before {
+    content: "\e825"
+}

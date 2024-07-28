@@ -76,12 +76,13 @@ function TextField({
 			)}
 			<label
 				className={twMerge(
-					'grow w-full flex flex-row input items-center',
-					'wh-10 w-full',
-					'pl-1 py-2 rounded',
-					'text-dark',
+					'input',
+					'input-md',
+					'!outline-blue-600',
+					'grow w-full flex flex-row items-center',
+					'px-3 p-2',
 					'text-lg',
-					// 'input-md',
+					'text-dark',
 					'shadow-inner',
 					focus && 'shadow-md',
 					(error && 'placeholder:text-error input-error') ||
@@ -107,20 +108,7 @@ function TextField({
 						setFocus(false);
 					}}
 					placeholder={helperText || placeholder}
-					className={twMerge(
-						'grow',
-						// 'wh-10 w-full',
-						// 'px-4 py-2 rounded',
-						// 'text-dark',
-						// 'text-lg',
-						// 'input-md',
-						// 'shadow-inner',
-						// focus && 'shadow-md',
-						// (error && 'placeholder:text-error input-error') ||
-						// 	'border border-gray-300',
-						// 'transition',
-						className
-					)}
+					className={twMerge('grow', className)}
 					{...inputProps}
 				/>
 			</label>

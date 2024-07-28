@@ -8,10 +8,7 @@ import {
 	// showTime,
 } from '@cd/core-lib';
 import { type Schedule, type Dispensary } from '@cd/data-access';
-import {
-	BuildingStorefrontIcon,
-	ArrowRightCircleIcon,
-} from '@heroicons/react/24/outline';
+import { ArrowRightCircleIcon } from '@heroicons/react/24/solid';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -87,7 +84,7 @@ function DispensaryCard({
 				// 		? applyDispensaryStyles['primary-color']
 				// 		: applyDispensaryStyles['secondary-color'],
 				// }}
-				className={twMerge(styles.isOpenBadge, 'text-white font-medium')}
+				className={twMerge(styles.isOpenBadge, 'z-50 text-white font-medium')}
 			>
 				{nextScheduleDay ? (
 					checkIsDispensaryOpen(schedule) ? (
@@ -117,7 +114,7 @@ function DispensaryCard({
 	const hoverStyles: CSSProperties = {
 		position: 'absolute',
 		zIndex: 10,
-		backgroundColor: 'rgb(0,0,0,.6)',
+		backgroundColor: 'rgb(77,113,152,0.7)',
 		width: '100%',
 		height: '100%',
 		color: 'white',
@@ -175,7 +172,7 @@ function DispensaryCard({
 						<div style={{ ...hoverStyles }} className="w-full px-2">
 							<Link
 								href={`/browse/${dispensary.slug}`}
-								className="absolute w-30 h-30 bottom-1 right-1 p-2.5 rounded-full hover:text-[#f4d03f]"
+								className="absolute w-30 h-30 bottom-1 right-1 p-2.5 rounded-full hover:text-secondary-light"
 							>
 								<ArrowRightCircleIcon height={38} width={38} />
 							</Link>

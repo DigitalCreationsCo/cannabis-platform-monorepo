@@ -29,7 +29,6 @@ const styles = Object.freeze({
 		'relative',
 		'block',
 		'rounded',
-		'm-3',
 		'h-[190px]',
 		// 'sm:max-w-[320px]',
 		// 'w-full',
@@ -42,12 +41,11 @@ const styles = Object.freeze({
 		'bg-cyan-950',
 		'text-light',
 		'h-[240px]',
-		'mx-3 my-3',
 		'rounded',
 		'overflow-hidden',
 	],
 	isOpenBadge: [
-		'text-inherit border-b tracking-wider inline-block text-sm z-10 top-0 right-0',
+		'text-inherit border-b border-light tracking-wider inline-block text-sm z-10 top-0 right-0',
 	],
 	HERO: {
 		container: ['w-full p-4 md:px-14 lg:px-32', 'justify-center'],
