@@ -7,14 +7,16 @@ const SEOMetaTags = ({
 	additionalMetaTags = [],
 	additionalLinkTags = [],
 	additionalKeywords = [],
-	openGraph = {},
+	openGraph = app.opengraph,
 	twitter = {},
 	...props
 }: NextSeoProps & { additionalKeywords?: string[] }) => {
+	const pageTitle = title || app.name;
+	const pageDescription = description || app.description;
 	return (
 		<NextSeo
-			title={title || app.name}
-			description={description || app.description}
+			title={pageTitle}
+			description={pageDescription}
 			additionalMetaTags={[
 				{
 					name: 'viewport',
@@ -152,9 +154,9 @@ const SEOMetaTags = ({
 				...additionalMetaTags,
 			]}
 			openGraph={{
-				...app.opengraph,
 				...openGraph,
-				images: [...(openGraph.images || []), ...app.opengraph.images],
+				// ...app.opengraph,
+				// images: [...(openGraph.images || []), ...app.opengraph.images],
 			}}
 			twitter={{
 				cardType: 'summary_large_image',

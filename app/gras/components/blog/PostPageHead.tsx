@@ -13,6 +13,8 @@ export default function PostPageHead({ settings, post }: PostPageHeadProps) {
 	const title = settings.title ?? demo.title;
 	return (
 		<SEOMetaTags
+			title={post.title ? `${post.title} | ${title}` : title}
+			description={post.excerpt}
 			additionalLinkTags={[
 				{
 					rel: 'canonical',
@@ -30,9 +32,10 @@ export default function PostPageHead({ settings, post }: PostPageHeadProps) {
 					authors: [post.author?.name ?? ''],
 					tags: post.categories,
 				},
-				images: post.shareImage
-					? [
-							{
+				type: 'article',
+				images: [
+					post.shareImage
+						? {
 								url: urlForImage(post.shareImage)
 									.width(1200)
 									.height(627)
@@ -41,9 +44,14 @@ export default function PostPageHead({ settings, post }: PostPageHeadProps) {
 								width: 1200,
 								height: 630,
 								alt: post.title,
+							}
+						: {
+								url: urlForImage(post.mainImage)!.url(),
+								width: 1200,
+								height: 630,
+								alt: post.title,
 							},
-						]
-					: [],
+				],
 			}}
 		/>
 	);

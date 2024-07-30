@@ -1,3 +1,4 @@
+import app from '@/lib/app';
 import { clientPromise } from '@/lib/db';
 import env from '@/lib/env';
 import SEOMetaTags from '@/lib/SEOMetaTags';
@@ -16,11 +17,21 @@ import {
 	getUserBySession,
 	type User,
 } from '@cd/data-access';
-import { Button, FlexBox, H1, IconWrapper, Page, Paragraph } from '@cd/ui-lib';
+import {
+	Button,
+	FlexBox,
+	Grid,
+	H1,
+	H5,
+	IconWrapper,
+	Page,
+	Paragraph,
+	Icons,
+} from '@cd/ui-lib';
 import {
 	UsersIcon as ShareIcon,
 	ArrowLeftIcon,
-	MapPinIcon,
+	GlobeAmericasIcon,
 	ClockIcon,
 } from '@heroicons/react/24/solid';
 import { type GetServerSidePropsContext } from 'next';
@@ -41,37 +52,61 @@ function EventPage({ event, user }: EventPageProps & { user: any }) {
 	const Router = useRouter();
 	// const showOrFilterPageBySession = {filter: !session? 'blur(2px)' : 'none'}
 	console.info('event ', event);
+
+	console.info('location: ', window.location.href);
 	return (
 		<>
-			<SEOMetaTags title={event.name} description={event.summary} />
+			<SEOMetaTags
+				title={event.name}
+				description={event.summary}
+				openGraph={{
+					url: window.location.href,
+					title: `${event.name} at Gras.live`,
+					type: 'website',
+					description: app.description,
+					images: [
+						{
+							url: event.image?.url || require('public/hemp.png'),
+							alt: event.name,
+							width: 300,
+						},
+					],
+					siteName: app.name,
+				}}
+			/>
 			<Page
 				gradient="green"
 				// style={{ ...showOrFilterPageBySession}}
 			>
-				<FlexBox className="gap-y-2 max-w-[640px] mx-auto">
-					<BackButton />
+				<BackButton />
+				<FlexBox className="gap-y-2 max-w-screen-md lg:max-w-full lg:w-full">
 					<H1 className="text-white drop-shadow-[0px_2px_2px_#666]">
 						{event.name}
 					</H1>
-					<div className="w-full">
-						<Image
-							src={event.image?.url || require('public/hemp.png')}
-							alt={event.name}
-							width={300}
-							height={300}
-							className="w-full max-w-[640px] mx-auto rounded shadow"
-							priority
-						/>
-					</div>
-					<EventDetails />
-					<Summary />
+					<Grid className="grid-cols-1 lg:grid-cols-4 gap-8">
+						<div className="flex max-w-screen-sm flex-col lg:col-span-2 gap-4">
+							<EventDetails />
+							<Image
+								src={event.image?.url || require('public/hemp.png')}
+								alt={event.name}
+								width={300}
+								height={300}
+								className="mx-auto w-full rounded shadow"
+								priority
+								quality={100}
+							/>
+							<Summary />
+						</div>
 
-					<FlexBox className="flex-row flex-wrap gap-x-8">
-						{(event.tickets_url && <RSVP />) || <></>}
-						{/* <Share /> */}
-					</FlexBox>
+						<div className="space-y-4">
+							{(event.tickets_url && <RSVP />) || <></>}
+							<Share />
+						</div>
 
-					{/* <Comments comments={event.comments ?? []} user={user} /> */}
+						{/* <FlexBox className="px-4">
+							<Comments comments={event.comments ?? []} user={user} />
+						</FlexBox> */}
+					</Grid>
 				</FlexBox>
 			</Page>
 		</>
@@ -80,8 +115,12 @@ function EventPage({ event, user }: EventPageProps & { user: any }) {
 	function EventDetails() {
 		return (
 			<FlexBox className="flex-col gap-x-2 flex-wrap">
-				<FlexBox className="flex-row gap-2 items-center sm:items-center flex-wrap">
-					<MapPinIcon height={20} width={20} className="text-inverse" />
+				<FlexBox className="flex-row gap-2 items-center">
+					<GlobeAmericasIcon
+						height={20}
+						width={20}
+						className="text-inverse shrink-0"
+					/>
 					<Paragraph className="text-white font-medium whitespace-wrap">
 						{renderAddress({
 							address: {
@@ -95,13 +134,13 @@ function EventPage({ event, user }: EventPageProps & { user: any }) {
 						})}
 					</Paragraph>
 				</FlexBox>
-				<FlexBox className="flex-row gap-2 items-center sm:items-center flex-wrap">
-					<ClockIcon height={20} width={20} className="text-inverse" />
-					<Paragraph className="text-white font-medium">
-						{showDate(event.start_date)}{' '}
-						{showTime(event.start_time, event.timezone)} -{' '}
-						{showDate(event.end_date)}{' '}
-						{showTime(event.end_time, event.timezone)}
+				<FlexBox className="flex-row gap-2 items-center">
+					<ClockIcon height={20} width={20} className="text-inverse shrink-0" />
+					<Paragraph className="text-white font-medium whitespace-normal">
+						{`${showDate(event.start_date)} 
+						${showTime(event.start_time, event.timezone)} - 
+						${showDate(event.end_date)} 
+						${showTime(event.end_time, event.timezone)}`}
 					</Paragraph>
 				</FlexBox>
 			</FlexBox>
@@ -133,7 +172,7 @@ function EventPage({ event, user }: EventPageProps & { user: any }) {
 
 	function RSVP() {
 		return (
-			<Link href={`${event.tickets_url}`} target="_blank" className="inline">
+			<Link href={`${event.tickets_url}`} target="_blank" className="w-fit">
 				<Button
 					transparent
 					hover="accent-soft"
@@ -147,20 +186,40 @@ function EventPage({ event, user }: EventPageProps & { user: any }) {
 		);
 	}
 
-	// function Share() {
-	// 	return (
-	// 		<Button
-	// 			transparent
-	// 			hover="accent-soft"
-	// 			border
-	// 			size="sm"
-	// 			className="border-white border bg-transparent rounded-full gap-x-2 p-4"
-	// 		>
-	// 			<ShareIcon height={22} width={22} className="text-white" />
-	// 			<Paragraph className="text-white">{`Share`}</Paragraph>
-	// 		</Button>
-	// 	);
-	// }
+	function Share() {
+		return (
+			<FlexBox className="gap-4">
+				{/* <Button
+					transparent
+					hover="accent-soft"
+					border
+					size="sm"
+					className="border-white border bg-transparent rounded-full gap-x-2 p-4"
+				>
+					<ShareIcon height={22} width={22} className="text-white" />
+					<Paragraph className="text-white">{`Share`}</Paragraph>
+				</Button> */}
+				<Link
+					className="twitter-share-button w-fit"
+					href={`https://x.com/compose/post?text=${encodeURIComponent(`I'll be at ${event.name} in ${event.primary_venue.address.city} on ${showDate(event.start_date)}.
+
+Come check it out! https://gras.live${window.location.pathname}
+#cannabis #events`)}`}
+					target="_blank"
+				>
+					<Button
+						transparent
+						border
+						size="sm"
+						className="border-white border bg-transparent rounded-full w-fit h-fit p-0"
+					>
+						<Icons.TwitterFilled className="text-white shrink-0 h-16 w-16 lg:h-10 lg:w-10" />
+						{/* <Paragraph className="text-white">{`Share`}</Paragraph> */}
+					</Button>
+				</Link>
+			</FlexBox>
+		);
+	}
 }
 export default EventPage;
 
@@ -229,26 +288,36 @@ const Comments = ({
 	};
 
 	return (
-		<div className="comments-section">
-			<h2>Comments</h2>
-			<div className="comments-list">
+		<div className="comments-section flex flex-col max-h-fit w-full gap-4">
+			<H5 className="text-light">Read the comments</H5>
+			<ul className="comments-list h-[45vh] rounded shadow-inner">
 				{comments.map((comment, index) => (
-					<div key={index} className="comment">
+					<li key={index} className="comment">
 						<p>
 							<strong>{comment.username}</strong> (
 							{new Date(comment.created_at).toLocaleString()}):
 						</p>
 						<p>{comment.comment}</p>
-					</div>
+					</li>
 				))}
-			</div>
-			<div className="new-comment">
+			</ul>
+			<div className="post-comment">
 				<textarea
+					className="w-full p-4"
 					value={newComment}
 					onChange={(e) => setNewComment(e.target.value)}
 					placeholder="Write a comment..."
 				/>
-				<button onClick={handleCommentSubmit}>Post Comment</button>
+				<Button
+					className="w-full hover:border border-light transition p-2 text-light"
+					size="sm"
+					bg="transparent"
+					hover="transparent"
+					transparent
+					onClick={handleCommentSubmit}
+				>
+					Post Comment
+				</Button>
 			</div>
 		</div>
 	);

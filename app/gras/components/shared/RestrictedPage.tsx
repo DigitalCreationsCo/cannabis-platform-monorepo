@@ -47,7 +47,7 @@ export default function RestrictPage({
 				<Page
 					className={twMerge(
 						'relative',
-						'!pt-16 px-0 lg:px-0 pb-0',
+						'lg:!pt-16 p-0 lg:px-0 pb-0',
 						'bg-gradient-to-b',
 						'from-10%',
 						'from-primary',
@@ -138,7 +138,7 @@ export default function RestrictPage({
 							loop
 							muted
 						/>
-						<div className="z-10 mx-auto mt-2 md:mt-20 items-center max-w-md space-y-4">
+						<div className="z-10 mx-auto px-4 mt-2 md:mt-20 items-center max-w-md space-y-4">
 							<FlexBox>
 								<Link
 									href={'/'}

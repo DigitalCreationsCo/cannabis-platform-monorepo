@@ -2,9 +2,9 @@ import packageInfo from '../package.json';
 import env from './env';
 
 const url = env.appUrl;
-const title = 'Find the best weed experiences near you at gras.live';
+const title = 'Find cannabis-friendly experiences events at gras.live';
 const description =
-	'Find the best weed experiences, edibles, and dispensaries to celebrate cannabis near you. Order weed for delivery and pickup. View stores, store hours, and more.';
+	'Find the best flower, edibles, and dispensaries to celebrate cannabis near you. Order weed for delivery and pickup. View stores, events, and explore.';
 
 const app = {
 	version: packageInfo.version,
@@ -13,7 +13,7 @@ const app = {
 	logoUrl: require('../public/logo.png'),
 	url,
 	opengraph: {
-		site_name: title,
+		siteName: title,
 		url,
 		title,
 		type: 'website',

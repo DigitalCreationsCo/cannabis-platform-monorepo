@@ -3,6 +3,7 @@ import { twMerge } from 'tailwind-merge';
 import AnimationWrapper from './AnimationWrapper';
 
 interface PageProps {
+	id?: string;
 	gradient?: 'pink' | 'green' | 'neon';
 	className?: string | string[];
 	style?: CSSProperties;
@@ -15,6 +16,7 @@ function Page({
 	children,
 	className = '',
 	style = {},
+	...props
 }: PropsWithChildren<PageProps>) {
 	// const appVersion = '0.1.0';
 
@@ -44,6 +46,7 @@ function Page({
 				'flex flex-col w-full min-h-screen',
 				className
 			)}
+			{...props}
 		>
 			<div style={style}>
 				{children}

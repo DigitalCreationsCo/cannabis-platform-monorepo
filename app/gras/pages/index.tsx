@@ -227,7 +227,6 @@ export default function Browse({
 		<>
 			<SEOMetaTags
 				additionalKeywords={[
-					'drake leaked text messages',
 					'current events new york',
 					'msg new york events',
 					'new york events today',
@@ -240,6 +239,7 @@ export default function Browse({
 
 			<RestrictPage restrictContent={restrictContent}>
 				<Page
+					id="browse-page"
 					gradient="pink"
 					className="!pt-0 md:pt-0 px-0 lg:px-0 pb-0 min-h-[440px]"
 				>

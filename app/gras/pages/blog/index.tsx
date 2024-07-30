@@ -1,4 +1,4 @@
-import { Footer, type LayoutContextProps } from '@cd/ui-lib';
+import { Footer } from '@cd/ui-lib';
 import { type GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { type ReactElement } from 'react';

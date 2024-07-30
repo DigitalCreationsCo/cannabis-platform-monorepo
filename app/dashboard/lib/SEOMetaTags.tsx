@@ -21,7 +21,7 @@ const SEOMetaTags = ({
 				type: 'website',
 				description: app.description,
 				images: [{ url: app.opengraph.image, alt: app.name, width: 300 }],
-				site_name: app.name,
+				siteName: app.name,
 			}}
 			twitter={{
 				cardType: 'summary_large_image',
