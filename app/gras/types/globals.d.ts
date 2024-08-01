@@ -11,6 +11,9 @@ interface Window {
 	// GTM
 	dataLayer: any;
 
+	// Cal
+	Cal: any;
+
 	// new relic
 	newrelic: any;
 

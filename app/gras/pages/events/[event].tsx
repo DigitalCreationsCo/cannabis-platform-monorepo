@@ -1,11 +1,11 @@
 import app from '@/lib/app';
 import { clientPromise } from '@/lib/db';
 import env from '@/lib/env';
-import SEOMetaTags from '@/lib/SEOMetaTags';
 import { getSession } from '@/lib/session';
 import {
 	axios,
 	fetcher,
+	keywords,
 	renderAddress,
 	showDate,
 	showTime,
@@ -36,12 +36,14 @@ import {
 } from '@heroicons/react/24/solid';
 import { type GetServerSidePropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { NextSeo } from 'next-seo';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useRouter } from 'next/router';
 import { useState, type ReactElement } from 'react';
 import useSWR from 'swr';
+import seoConfig from '@/lib/seo.config';
 
 interface EventPageProps {
 	event: Event;
@@ -51,12 +53,9 @@ interface EventPageProps {
 function EventPage({ event, user }: EventPageProps & { user: any }) {
 	const Router = useRouter();
 	// const showOrFilterPageBySession = {filter: !session? 'blur(2px)' : 'none'}
-	console.info('event ', event);
-
-	console.info('location: ', window.location.href);
 	return (
 		<>
-			<SEOMetaTags
+			<NextSeo
 				title={event.name}
 				description={event.summary}
 				openGraph={{
@@ -73,6 +72,18 @@ function EventPage({ event, user }: EventPageProps & { user: any }) {
 					],
 					siteName: app.name,
 				}}
+				additionalLinkTags={seoConfig.additionalLinkTags}
+				additionalMetaTags={[
+					...seoConfig.additionalMetaTags,
+					{
+						name: 'keywords',
+						content: [
+							...keywords['cannabis'],
+							...keywords['business'],
+							...keywords['events'],
+						].join(', '),
+					},
+				]}
 			/>
 			<Page
 				gradient="green"

@@ -9,7 +9,6 @@
 import { TopBar } from '@/components/layouts';
 import { Error } from '@/components/shared';
 import env from '@/lib/env';
-import SEOMetaTags from '@/lib/SEOMetaTags';
 import {
 	type ResponseDataEnvelope,
 	applicationHeaders,
@@ -18,6 +17,7 @@ import {
 	defaultHeaders,
 	// getCoordinatePairFromCoordinates,
 	isValidZipcode,
+	keywords,
 	showDay,
 	urlBuilder,
 	useEvents,
@@ -48,6 +48,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { type GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { NextSeo } from 'next-seo';
 import {
 	type ReactElement,
 	useCallback,
@@ -74,6 +75,7 @@ import {
 	getSettings,
 	readToken,
 } from '@/lib/sanity';
+import seoconfig from '@/lib/seo.config';
 // import markerImage from 'public/map-marker.png';
 
 const defaultZipcode = '10001';
@@ -225,15 +227,18 @@ export default function Browse({
 	}
 	return (
 		<>
-			<SEOMetaTags
-				additionalKeywords={[
-					'current events new york',
-					'msg new york events',
-					'new york events today',
-					'new york city events today',
-					'discovery green events',
-					'events new york',
-					'weed show',
+			<NextSeo
+				{...seoconfig}
+				additionalMetaTags={[
+					...seoconfig.additionalMetaTags,
+					{
+						name: 'keywords',
+						content: [
+							...keywords['cannabis'],
+							...keywords['events'],
+							...keywords['delivery'],
+						].join(', '),
+					},
 				]}
 			/>
 

@@ -4460,6 +4460,35 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@calcom/embed-core@npm:1.5.0":
+  version: 1.5.0
+  resolution: "@calcom/embed-core@npm:1.5.0"
+  checksum: 2b5a6a95b2c1a530ba63d361f7408b089a53bebf1c072e955ba6ee771367845a369fa7431fb624d6f4193a9bf05f87b4dd115f7cf123248649b0f8b11fefa3b8
+  languageName: node
+  linkType: hard
+
+"@calcom/embed-react@npm:^1.5.0":
+  version: 1.5.0
+  resolution: "@calcom/embed-react@npm:1.5.0"
+  dependencies:
+    "@calcom/embed-core": 1.5.0
+    "@calcom/embed-snippet": 1.3.0
+  peerDependencies:
+    react: ^18.2.0
+    react-dom: ^18.2.0
+  checksum: 770151f2d3688b19f013f2a626fe7a9106b947c8af4cbbeaec86ce5fe0c398c372d52b66100c4c37bea94d6a90eb1792b802356a22ebbe15e2c9fbcceadfaa70
+  languageName: node
+  linkType: hard
+
+"@calcom/embed-snippet@npm:1.3.0":
+  version: 1.3.0
+  resolution: "@calcom/embed-snippet@npm:1.3.0"
+  dependencies:
+    "@calcom/embed-core": 1.5.0
+  checksum: d37e5478bf924eecde6504322c910351edfed5abac44bb926a5d5d60c01cfd2cb0f9b17c5e277ad8b5f8c9f9aeed3d43b3b0c5ed9ecba456b6eebaeab1910474
+  languageName: node
+  linkType: hard
+
 "@cd/ai@workspace:packages/ai":
   version: 0.0.0-use.local
   resolution: "@cd/ai@workspace:packages/ai"
@@ -7352,6 +7381,7 @@ __metadata:
     "@auth/mongodb-adapter": 3.0.0
     "@boxyhq/metrics": 0.2.6
     "@boxyhq/react-ui": 3.3.43
+    "@calcom/embed-react": ^1.5.0
     "@cd/core-lib": "workspace:*"
     "@cd/data-access": "workspace:*"
     "@cd/eslint-config": "workspace:*"
@@ -7374,6 +7404,7 @@ __metadata:
     "@stripe/react-stripe-js": 2.4.0
     "@stripe/stripe-js": 2.3.0
     "@tailwindcss/typography": 0.5.12
+    "@typeform/embed-react": ^4.0.0
     "@types/bcryptjs": 2.4.6
     "@types/cheerio": ^0.22.35
     "@types/jest": ^29.5.12
@@ -14714,6 +14745,25 @@ __metadata:
   version: 1.0.4
   resolution: "@tsconfig/node16@npm:1.0.4"
   checksum: 202319785901f942a6e1e476b872d421baec20cf09f4b266a1854060efbf78cde16a4d256e8bc949d31e6cd9a90f1e8ef8fb06af96a65e98338a2b6b0de0a0ff
+  languageName: node
+  linkType: hard
+
+"@typeform/embed-react@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "@typeform/embed-react@npm:4.0.0"
+  dependencies:
+    "@typeform/embed": 5.0.0
+    fast-deep-equal: ^3.1.3
+  peerDependencies:
+    react: ">=16.8.0"
+  checksum: 0a69ec1142774ad750b847b01f0b0e229075925cbc13abb21cdd4418d82ecb16878b8b4526b2d5cbff4322533263432643c5fd11059096bd116b197543cf8d06
+  languageName: node
+  linkType: hard
+
+"@typeform/embed@npm:5.0.0":
+  version: 5.0.0
+  resolution: "@typeform/embed@npm:5.0.0"
+  checksum: 28041b471b06d62b1c3f9af7ee4170985289cab22115c85990dbdf557474a3075fb9f042210988c0c8a432ad1fc811ffd729c981b5b90d3fd495f7b34c4e5eca
   languageName: node
   linkType: hard
 

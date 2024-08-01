@@ -49,7 +49,7 @@ export default function Select({
 			<select
 				name={name}
 				className={twMerge(
-					'border',
+					'border border-gray-300',
 					'wh-10 w-full',
 					'text-lg',
 					'rounded-btn',

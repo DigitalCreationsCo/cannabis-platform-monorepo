@@ -132,7 +132,7 @@ export const fullServiceDelivery: BenefitData = {
 
 export const consumerTextMessaging: BenefitData = {
 	title: 'Stay In Touch With Your Customers',
-	description: `With engaging and trusted experiences that make their day better, and keep them coming back`,
+	description: `With engaging messaging and trusted experiences that make their day better, and keep them coming back`,
 	image: require('../../../../public/message.png'),
 	bullets: [
 		{

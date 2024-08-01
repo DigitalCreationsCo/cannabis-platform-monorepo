@@ -1,14 +1,16 @@
+import Cal, { getCalApi } from '@calcom/embed-react';
 import {
 	type ResponseDataEnvelope,
 	usStatesAbbreviationList,
 	applicationHeaders,
 	getFirstErrorOrNull,
 } from '@cd/core-lib';
+import { Widget } from '@typeform/embed-react';
 import axios, { type AxiosResponse } from 'axios';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import Image from 'next/image';
-import { type HTMLAttributes, useState } from 'react';
+import React, { type HTMLAttributes, useState, useEffect } from 'react';
 import { toast } from 'react-hot-toast';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
@@ -16,12 +18,11 @@ import founder from '../../../../public/founder.png';
 import { styles } from '../../../styleClassNames';
 import Button from '../../button/Button';
 import CheckBox from '../../CheckBox';
-import FlexBox from '../../FlexBox';
 import Grid from '../../Grid';
 import Select from '../../Select';
 import TextArea from '../../TextArea';
 import TextField from '../../TextField';
-import { Paragraph, H2, H3, H5 } from '../../Typography';
+import { Paragraph, H2, H5, H4, H3 } from '../../Typography';
 
 export interface ContactUsFormResponse {
 	firstName: string;
@@ -32,13 +33,15 @@ export interface ContactUsFormResponse {
 	city: string;
 	state: string;
 	zipcode: string;
+	ecommerceUrl: string;
 	whichServiceInterestedIn: (typeof serviceOptions)[number] | '';
 	howDidYouHearAboutUs:
-		| ''
 		| 'Linkedin'
-		| 'recommended by a colleague'
-		| 'search'
-		| 'other';
+		| 'Recommended'
+		| 'Online Search'
+		| 'Social Media'
+		| 'Other'
+		| '';
 	message: string;
 	allowProcessResponse: boolean;
 	subscribeCannabisInsiderNewsletter: boolean;
@@ -46,17 +49,22 @@ export interface ContactUsFormResponse {
 	company: string;
 	serviceAreaRange?: number;
 	weeklyDeliveries?: number;
+	teamMember: TeamMember;
 }
 
-const howDidYouHearAboutUsOptions: {
-	value: ContactUsFormResponse['howDidYouHearAboutUs'];
-	label: string;
-}[] = [
-	{ value: '', label: '' },
-	{ value: 'Linkedin', label: 'Linkedin' },
-	{ value: 'recommended by a colleague', label: 'recommended by a colleague' },
-	{ value: 'search', label: 'search' },
-	{ value: 'other', label: 'other' },
+interface TeamMember {
+	name: string;
+	email: string;
+	role: string;
+	id: string;
+}
+
+const howDidYouHearAboutUsOptions: string[] = [
+	'Linkedin',
+	'Recommended',
+	'Online Search',
+	'Social Media',
+	'Other',
 ];
 
 const serviceOptions = [
@@ -66,9 +74,12 @@ const serviceOptions = [
 	'Promotional Events🔥',
 ];
 
+const dataLayer = (typeof window !== 'undefined' && window.dataLayer) || [];
+
 export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
 	const { t } = useTranslation('common');
 
+	const [showScheduler, setShowScheduler] = useState(false);
 	const [loadingButton, setLoadingButton] = useState(false);
 	const initialValues: ContactUsFormResponse = {
 		firstName: '',
@@ -84,12 +95,19 @@ export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
 		whichServiceInterestedIn: '',
 		allowProcessResponse: true,
 		subscribeCannabisInsiderNewsletter: false,
+		ecommerceUrl: '',
 		title: '',
 		company: '',
 		// How many miles from your store do you want to deliver?*
 		// How many orders do you expect to deliver per week?*
 		serviceAreaRange: undefined,
 		weeklyDeliveries: undefined,
+		teamMember: {
+			name: 'Bryant Mejia',
+			email: 'bryantmejia@gras.live',
+			role: 'CEO',
+			id: '1',
+		},
 	};
 	const {
 		resetForm,
@@ -115,7 +133,8 @@ export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
 			message: yup.string(),
 			howDidYouHearAboutUs: yup
 				.string()
-				.required('How did you hear about Gras?'),
+				.oneOf(howDidYouHearAboutUsOptions, 'How did you hear about us?')
+				.required('How did you hear about us?'),
 			allowProcessResponse: yup.boolean().isTrue('Please agree to the terms'),
 			title: yup.string().required('Title is required'),
 			company: yup.string().required('Company is required'),
@@ -142,7 +161,10 @@ export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
 	function notifyValidation() {
 		validateForm().then((errors) => {
 			if (getFirstErrorOrNull(errors)) {
-				toast.error(getFirstErrorOrNull(errors) || 'Error sending invite link');
+				toast.error(
+					getFirstErrorOrNull(errors) || 'Error sending invite link',
+					{ position: 'bottom-center' }
+				);
 			}
 		});
 	}
@@ -160,35 +182,34 @@ export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
 			if (!response.data.success || response.data.success === 'false')
 				throw new Error(response.data.error);
 
-			const dataLayer = window.dataLayer || [];
-			// push event to GTM with form values
-			dataLayer.push({
-				event: 'formSubmission',
-				formId: 'contact-us-form',
-				formValues: values,
-			});
-			toast.success(
-				'We received your message. Our team will reach out in the next business day.',
-				{
-					duration: 5000,
-				}
-			);
 			setLoadingButton(false);
-			resetForm({ values: initialValues });
+			setShowScheduler(true);
+			// resetForm({ values: initialValues });
 		} catch (error: any) {
 			setLoadingButton(false);
-			// get GTM datalayer
-			const dataLayer = window.dataLayer || [];
-			// push event to GTM with form values
+
 			dataLayer.push({
 				event: 'formSubmissionError',
 				formId: 'contact-us-form',
 				formValues: values,
 				errorMessage: error.message,
 			});
-			toast.error(error.message);
+
+			toast.error(error.message, { position: 'bottom-center' });
 		}
 	}
+
+	const onSuccess = () => {
+		toast.success(
+			'We received your message. Our team will reach out in the next business day.',
+			{
+				duration: 5000,
+				position: 'bottom-center',
+			}
+		);
+
+		resetForm({ values: initialValues });
+	};
 
 	const [heading] = [
 		'bg-clip-text text-transparent bg-gradient-to-b from-secondary-light to-primary-light inline max-w-4xl whitespace-pre-line text-5xl font-bold sm:text-6xl xl:text-7xl',
@@ -208,25 +229,37 @@ export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
 
 				<div
 					id="founder-quote"
-					// className="chat chat-start p-12 border rounded-xl shadow-xl drop-shadow-2xl hidden xl:block mx-auto row-start-2"
-					className="chat chat-start row-start-2 max-w-3xl mx-auto col-span-full"
+					className="flex flex-col md:flex-row row-start-2 max-w-3xl justify-center items-center mx-auto col-span-full gap-4"
 				>
-					<div className="chat-image avatar">
+					<aside className="avatar w-24 h-24 shrink-0">
 						<Image
-							width={100}
-							height={100}
+							width={50}
+							height={50}
 							className="rounded-full"
 							src={founder}
 							alt={'founder'}
 							quality={25}
 							unoptimized
 						/>
-					</div>
-					<div className="chat-bubble ml-2 mb-6 bg-blue-300 drop-shadow">
-						<Paragraph>
-							{`To 2X your business revenue, tell us about your marketing and delivery needs. Then, schedule a free call with our team to start your growth strategy. 
-						Bryant Mejia, Founder`}
-						</Paragraph>
+					</aside>
+					<div className="mb-2 bg-blue-300 drop-shadow">
+						{/* {!showScheduler ? ( */}
+						<>
+							<H3 className="px-4 font-semibold">{`
+						Let's 2X Your Cannabis Business in 12 months.
+						`}</H3>
+							<Paragraph className="px-4 text-justify">
+								{`Bryant Mejia, founder of Gras
+
+What is the #1 biggest barrier to growing your cannabis business?
+`}
+							</Paragraph>
+						</>
+						{/* ) : (
+							<H3 className="px-4 font-semibold">{`
+						Schedule your call.
+						`}</H3>
+						)} */}
 					</div>
 				</div>
 
@@ -235,128 +268,122 @@ export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
 					className="w-full lg:w-3/4 xl:w-full m-auto xl:max-w-xl row-start-3 col-span-full"
 				>
 					<Grid className="grid-cols-2">
-						<H5 className="col-span-2 px-4 my-6 md:mt-12">
-							{`Fill out the form to schedule your free call.`}
-						</H5>
-						<TextField
-							containerClassName="px-2 col-span-1"
-							name="firstName"
-							label=" first name"
-							value={values?.firstName}
-							onBlur={handleBlur}
-							onChange={handleChange}
-							error={!!touched.firstName && !!errors.firstName}
-							helperText={touched.firstName && errors.firstName}
-						/>
-						<TextField
-							containerClassName="px-2 col-span-1"
-							name="lastName"
-							label=" last name"
-							value={values?.lastName}
-							onBlur={handleBlur}
-							onChange={handleChange}
-							error={!!touched.lastName && !!errors.lastName}
-						/>
-
-						<TextField
-							type="email"
-							containerClassName="px-2 col-span-2 lg:col-span-1"
-							name="email"
-							label="email"
-							value={values?.email}
-							onBlur={handleBlur}
-							onChange={handleChange}
-							error={!!touched.email && !!errors.email}
-						/>
-						<TextField
-							containerClassName="px-2 xl:col-span-1"
-							name="company"
-							label=" company"
-							value={values?.company}
-							onBlur={handleBlur}
-							onChange={handleChange}
-							error={!!touched.company && !!errors.company}
-						/>
-						<TextField
-							containerClassName="px-2 xl:col-span-1"
-							name="title"
-							label=" title"
-							value={values.title}
-							onBlur={handleBlur}
-							onChange={handleChange}
-							error={!!touched.title && !!errors.title}
-							helperText={touched.title && errors.title}
-						/>
-						<TextField
-							containerClassName="px-2 xl:col-span-1"
-							type="tel"
-							name="phone"
-							label="phone"
-							value={values?.phone}
-							onBlur={handleBlur}
-							onChange={handleChange}
-							error={!!touched.phone && !!errors.phone}
-						/>
-						<TextField
-							containerClassName="px-2 xl:col-span-1"
-							name="street"
-							label=" street"
-							value={values.street}
-							onBlur={handleBlur}
-							onChange={handleChange}
-							error={!!touched.street && !!errors.street}
-							helperText={touched.street && errors.street}
-						/>
-						<TextField
-							containerClassName="px-2 xl:col-span-1"
-							name="city"
-							label=" city"
-							value={values.city}
-							onBlur={handleBlur}
-							onChange={handleChange}
-							error={!!touched.city && !!errors.city}
-							helperText={touched.city && errors.city}
-						/>
-
-						<Select
-							containerClassName="px-2 xl:col-span-auto"
-							name="state"
-							label=" state"
-							className="rounded border"
-							defaultValue={values.state}
-							values={usStatesAbbreviationList}
-							setOption={handleChange}
-						/>
-
-						<TextField
-							containerClassName="px-2 xl:col-span-1"
-							name="zipcode"
-							label=" zipcode"
-							type="number"
-							value={values.zipcode}
-							onBlur={handleBlur}
-							onChange={handleChange}
-							error={!!touched.zipcode && !!errors.zipcode}
-							helperText={touched.zipcode && errors.zipcode}
-						/>
-
-						<Select
-							values={['', ...serviceOptions]}
-							containerClassName="p-2 xl:col-span-2"
-							name="whichServiceInterestedIn"
-							label="Which of our services are you most interested in?"
-							defaultValue={''}
-							value={values?.whichServiceInterestedIn}
-							onBlur={handleBlur}
-							setOption={handleChange}
-						/>
-						{values.whichServiceInterestedIn.includes('Delivery') && (
+						{(!showScheduler && (
+							<Paragraph className="p-4 text-justify col-span-full mx-auto">
+								{`Fill out this 4 minute form so we can meet to understand your needs 
+							and 2X your business with customer satisfaction, messaging and technology.
+							`}
+							</Paragraph>
+						)) || <></>}
+						{!showScheduler ? (
 							<>
+								<TextField
+									containerClassName="px-2 col-span-1"
+									name="firstName"
+									label="Your First Name"
+									value={values?.firstName}
+									onBlur={handleBlur}
+									onChange={handleChange}
+									error={!!touched.firstName && !!errors.firstName}
+									helperText={touched.firstName && errors.firstName}
+								/>
+								<TextField
+									containerClassName="px-2 col-span-1"
+									name="lastName"
+									label="Your Last Name"
+									value={values?.lastName}
+									onBlur={handleBlur}
+									onChange={handleChange}
+									error={!!touched.lastName && !!errors.lastName}
+								/>
+
+								<TextField
+									containerClassName="px-2 xl:col-span-1"
+									name="company"
+									label=" Company name"
+									value={values?.company}
+									onBlur={handleBlur}
+									onChange={handleChange}
+									error={!!touched.company && !!errors.company}
+								/>
+								<TextField
+									type="email"
+									containerClassName="px-2 col-span-2 lg:col-span-1"
+									name="email"
+									label="Email Address"
+									value={values?.email}
+									onBlur={handleBlur}
+									onChange={handleChange}
+									error={!!touched.email && !!errors.email}
+								/>
+								<TextField
+									containerClassName="px-2 xl:col-span-1"
+									name="title"
+									label=" Your Role"
+									value={values.title}
+									onBlur={handleBlur}
+									onChange={handleChange}
+									error={!!touched.title && !!errors.title}
+									helperText={touched.title && errors.title}
+								/>
+								<TextField
+									containerClassName="px-2 xl:col-span-1"
+									type="tel"
+									name="phone"
+									label="Phone Number"
+									value={values?.phone}
+									onBlur={handleBlur}
+									onChange={handleChange}
+									error={!!touched.phone && !!errors.phone}
+								/>
+								<TextField
+									containerClassName="px-2 col-span-2"
+									name="street"
+									label=" Business Address"
+									value={values.street}
+									onBlur={handleBlur}
+									onChange={handleChange}
+									error={!!touched.street && !!errors.street}
+									helperText={touched.street && errors.street}
+								/>
+								<TextField
+									containerClassName="px-2 xl:col-span-1"
+									name="city"
+									label="Business City"
+									value={values.city}
+									onBlur={handleBlur}
+									onChange={handleChange}
+									error={!!touched.city && !!errors.city}
+									helperText={touched.city && errors.city}
+								/>
+
+								<Select
+									containerClassName="px-2 xl:col-span-auto"
+									name="state"
+									label="Business State"
+									className="rounded border"
+									defaultValue={values.state}
+									values={usStatesAbbreviationList}
+									setOption={handleChange}
+								/>
+
+								<TextField
+									containerClassName="px-2 xl:col-span-1"
+									name="zipcode"
+									label="Business Zipcode"
+									type="number"
+									value={values.zipcode}
+									onBlur={handleBlur}
+									onChange={handleChange}
+									error={!!touched.zipcode && !!errors.zipcode}
+									helperText={touched.zipcode && errors.zipcode}
+								/>
+
 								<TextField
 									containerClassName="px-2 col-span-2"
 									name="serviceAreaRange"
 									type="number"
-									label="How many miles from your store do you want to deliver?"
+									label="How many miles from your location do you deliver?"
 									value={values.serviceAreaRange!}
 									onBlur={handleBlur}
 									onChange={handleChange}
@@ -367,11 +394,12 @@ export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
 										touched.serviceAreaRange && errors.serviceAreaRange
 									}
 								/>
+
 								<TextField
 									containerClassName="px-2 col-span-2"
 									type="number"
 									name="weeklyDeliveries"
-									label="How many orders do you expect to deliver per week?"
+									label="On average, how many deliveries do you complete per week?"
 									value={values.weeklyDeliveries!}
 									onBlur={handleBlur}
 									onChange={handleChange}
@@ -382,69 +410,211 @@ export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
 										touched.weeklyDeliveries && errors.weeklyDeliveries
 									}
 								/>
-							</>
-						)}
-						<Select
-							values={howDidYouHearAboutUsOptions.map(({ value }) => value)}
-							containerClassName="p-2 xl:col-span-2"
-							name="howDidYouHearAboutUs"
-							label="How did you hear about us?"
-							defaultValue={''}
-							value={values?.howDidYouHearAboutUs}
-							onBlur={handleBlur}
-							setOption={handleChange}
-						/>
-						<TextArea
-							rows={4}
-							containerClassName="px-2 col-span-2"
-							name="message"
-							label="Is there anything you'd like us to know?"
-							placeholder={
-								'Please share any goals, interests or comments to prepare for your success call.'
-							}
-							value={values?.message}
-							onBlur={handleBlur}
-							onChange={handleChange}
-							error={!!touched.message && !!errors.message}
-						/>
-						<CheckBox
-							className="px-2 pt-4 w-full col-span-full"
-							name={'allowProcessResponse'}
-							onChange={handleChange}
-							checked={values.allowProcessResponse}
-							label={`You allow us to store your contact information. 
+
+								<TextField
+									containerClassName="px-2 col-span-2"
+									name="ecommerceUrl"
+									label="Your Ecommerce Website"
+									value={values.ecommerceUrl}
+									onBlur={handleBlur}
+									onChange={handleChange}
+									error={!!touched.ecommerceUrl && !!errors.ecommerceUrl}
+									helperText={touched.ecommerceUrl && errors.ecommerceUrl}
+								/>
+
+								<TextArea
+									rows={4}
+									containerClassName="px-2 col-span-2"
+									name="message"
+									label="Additional Notes"
+									placeholder={`Please share any goals, interests or inquires you have about 2X'ing your business.`}
+									value={values?.message}
+									onBlur={handleBlur}
+									onChange={handleChange}
+									error={!!touched.message && !!errors.message}
+								/>
+
+								<Select
+									values={['', ...serviceOptions]}
+									containerClassName="px-2 col-span-2"
+									name="whichServiceInterestedIn"
+									label="Which service are you interested in?"
+									defaultValue={''}
+									value={values?.whichServiceInterestedIn}
+									onBlur={handleBlur}
+									setOption={handleChange}
+								/>
+								{/* {values.whichServiceInterestedIn.includes('Delivery') && (
+								<>
+									<TextField
+										containerClassName="px-2 col-span-2"
+										name="serviceAreaRange"
+										type="number"
+										label="How many miles from your store do you want to deliver?"
+										value={values.serviceAreaRange!}
+										onBlur={handleBlur}
+										onChange={handleChange}
+										error={
+											!!touched.serviceAreaRange && !!errors.serviceAreaRange
+										}
+										helperText={
+											touched.serviceAreaRange && errors.serviceAreaRange
+										}
+									/>
+									<TextField
+										containerClassName="px-2 col-span-2"
+										type="number"
+										name="weeklyDeliveries"
+										label="How many orders do you expect to deliver per week?"
+										value={values.weeklyDeliveries!}
+										onBlur={handleBlur}
+										onChange={handleChange}
+										error={
+											!!touched.weeklyDeliveries && !!errors.weeklyDeliveries
+										}
+										helperText={
+											touched.weeklyDeliveries && errors.weeklyDeliveries
+										}
+									/>
+								</>
+								)} */}
+								<Select
+									values={howDidYouHearAboutUsOptions}
+									containerClassName="px-2 col-span-2"
+									name="howDidYouHearAboutUs"
+									label="How did you hear about us?"
+									defaultValue={''}
+									value={values?.howDidYouHearAboutUs || ''}
+									onBlur={handleBlur}
+									setOption={handleChange}
+								/>
+
+								{/* <CheckBox
+									className="px-2 pt-4 w-full col-span-full"
+									name={'allowProcessResponse'}
+									onChange={handleChange}
+									checked={values.allowProcessResponse}
+									label={`You allow us to store your contact information. 
 							Gras will only use your information to contact your business.`}
-						/>
-						<CheckBox
-							className="px-2 pt-4 w-full col-span-full"
-							name={'subscribeCannabisInsiderNewsletter'}
-							onChange={handleChange}
-							checked={values.subscribeCannabisInsiderNewsletter}
-							label="Subscribe for industry news and trends via our newsletter."
-						/>
-						<div className="mt-16 mb-8 lg:mb-0 col-span-2 place-self-center mx-2">
-							<Button
-								type="submit"
-								loading={loadingButton}
-								size="lg"
-								bg="secondary-light"
-								hover="primary"
-								className="p-8 text-2xl place-self-center uppercase hover:scale-105 transition duration-200"
-								onClick={(e: any) => {
-									e.preventDefault();
-									e.stopPropagation();
-									notifyValidation();
-									handleSubmit();
-								}}
-							>
-								{t('contact-sales')}
-							</Button>
-						</div>
+								/> */}
+								<CheckBox
+									className="px-2 w-full col-span-full"
+									name={'subscribeCannabisInsiderNewsletter'}
+									onChange={handleChange}
+									checked={values.subscribeCannabisInsiderNewsletter}
+									label="Subscribe to our email newsletter for new trends, culture and events."
+								/>
+
+								<Paragraph className="px-2 col-span-full mx-auto">{`Gras uses your information to support your business. 
+								We will never sell your information.`}</Paragraph>
+
+								<div className="mt-16 mb-8 lg:mb-0 col-span-2 place-self-center mx-2">
+									<Button
+										type="submit"
+										loading={loadingButton}
+										size="lg"
+										bg="secondary-light"
+										hover="primary"
+										className="p-8 text-2xl place-self-center uppercase hover:scale-105 transition duration-200"
+										onClick={(e: any) => {
+											e.preventDefault();
+											e.stopPropagation();
+											notifyValidation();
+											handleSubmit();
+										}}
+									>
+										{/* {t('contact-sales')} */}
+										LET'S 2X MY BUSINESS
+									</Button>
+								</div>
+							</>
+						) : (
+							<div className="mt-4 mb-8 col-span-full">
+								<CalInlineEmbed values={values} onSuccess={onSuccess} />
+							</div>
+						)}
 					</Grid>
 				</form>
+				{/* <TypeFormEmbed /> */}
 			</Grid>
 
 			<hr className="border-2" />
 		</div>
 	);
 }
+
+// function TypeFormEmbed() {
+// 	return (
+// 		<Widget
+// 			id="kOE4cSUn"
+// 			className="h-full"
+// 			hidden={{
+// 				meetingLengthSeconds: '1800',
+// 				ownerEmail: 'bryantmejia@gras.live',
+// 			}}
+// 		/>
+// 	);
+// }
+
+const CalInlineEmbed = ({
+	onSuccess,
+	values,
+}: {
+	onSuccess: any;
+	values: ContactUsFormResponse;
+}) => {
+	useEffect(() => {
+		(async function () {
+			const cal = await getCalApi({ namespace: 'success-call' });
+			cal('ui', {
+				styles: {
+					branding: { brandColor: '#4BBE6E' },
+				},
+				hideEventTypeDetails: true,
+				layout: 'month_view',
+			});
+
+			cal('on', {
+				action: 'bookingSuccessful',
+				callback: (event) => {
+					toast.success(
+						'We received your message. Our team will reach out in the next business day.',
+						{
+							duration: 5000,
+							position: 'bottom-center',
+						}
+					);
+
+					dataLayer.push({
+						event: 'formSubmission',
+						formId: 'contact-us-form',
+						formValues: values,
+					});
+
+					onSuccess?.();
+				},
+			});
+		})();
+	}, []);
+	return (
+		<Cal
+			className="-mb-0 mx-auto"
+			namespace="success-call"
+			calLink="bryant-mejia-gras/success-call"
+			style={{ width: '100%', height: '100%', overflow: 'hidden' }}
+			config={{
+				layout: 'month_view',
+				name: `${values.firstName} ${values.lastName}`,
+				company: values.company,
+				email: values.email,
+				phone: `+1-${values.phone}`,
+				title: `Your 2X Success Call With Gras`,
+				notes: `${values.message}
+---
+You're meeting with ${values.teamMember.name}, ${values.teamMember.role} to go over the #1 barrier to 2X your cannabis business in the next 12 months with customer text messaging, event promotion and automation.
+We look forward to working with you.
+`,
+			}}
+		/>
+	);
+};

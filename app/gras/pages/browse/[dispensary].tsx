@@ -1,5 +1,4 @@
 import env from '@/lib/env';
-import SEOMetaTags from '@/lib/SEOMetaTags';
 import { renderAddress, renderSchedule, TextContent } from '@cd/core-lib';
 import {
 	type ProductVariantWithDetails,
@@ -25,12 +24,14 @@ import {
 } from '@heroicons/react/24/outline';
 import { MapPinIcon } from '@heroicons/react/24/solid';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { NextSeo } from 'next-seo';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import logo from 'public/logo.png';
 import { type PropsWithChildren, useState, type ReactElement } from 'react';
 import { twMerge } from 'tailwind-merge';
+import seoConfig from '@/lib/seo.config';
 
 function DispensaryPage({
 	dispensary: organization,
@@ -277,7 +278,7 @@ function DispensaryPage({
 
 	return (
 		<>
-			<SEOMetaTags />
+			<NextSeo {...seoConfig} />
 			<Page
 				gradient="pink"
 				className="w-full !pt-0 pb-0 px-0 md:!pt-12 sm:!pb-24 md:!pb-24 lg:!pb-24 xl:!pb-24 !min-h-full"

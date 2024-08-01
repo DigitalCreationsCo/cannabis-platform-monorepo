@@ -1,8 +1,9 @@
 import app from '@/lib/app';
-import SEOMetaTags from '@/lib/SEOMetaTags';
 import { toPlainText } from '@portabletext/react';
+import { NextSeo } from 'next-seo';
 import { urlForImage, type Post, type Settings } from '@/lib/sanity';
 import * as demo from '@/lib/sanity/demo.data';
+import seoConfig from '@/lib/seo.config';
 
 export interface IndexPageHeadProps {
 	heroPost: Post;
@@ -22,8 +23,7 @@ export default function IndexPageHead({
 	const ogImageTitle = ogImage?.title || demo.ogImageTitle;
 
 	return (
-		//
-		<SEOMetaTags
+		<NextSeo
 			title={title}
 			description={toPlainText(description)}
 			openGraph={{
@@ -40,6 +40,8 @@ export default function IndexPageHead({
 				],
 				siteName: `${app.name}/blog`,
 			}}
+			twitter={seoConfig.twitter}
+			additionalLinkTags={seoConfig.additionalLinkTags}
 		/>
 	);
 }

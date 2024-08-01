@@ -55,7 +55,7 @@ const unAuthenticatedRoutes = [
 	'/messaging',
 	'/terms',
 	'/privacy',
-	'/about-gras',
+	'/about-us',
 ];
 
 const allowAllUsers = [

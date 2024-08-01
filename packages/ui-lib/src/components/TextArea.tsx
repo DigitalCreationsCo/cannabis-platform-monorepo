@@ -106,7 +106,6 @@ export default function TextArea({
 					}}
 					placeholder={helperText || placeholder}
 					className={twMerge(
-						'font-medium',
 						'py-2',
 						'text-lg',
 						'bg-light',
@@ -119,7 +118,7 @@ export default function TextArea({
 						// 'input-md',
 						focus && 'shadow-md',
 						error && 'input-error border-2',
-						'border',
+						'border border-gray-300',
 						'transition',
 						className
 					)}

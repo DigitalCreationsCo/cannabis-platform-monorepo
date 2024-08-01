@@ -169,7 +169,7 @@ function DispensaryCard({
 			>
 				<FlexBox className="z-5 left-0 flex-col">
 					{isHovered ? (
-						<div style={{ ...hoverStyles }} className="w-full px-2">
+						<div style={{ ...hoverStyles }} className="w-full p-2">
 							<Link
 								href={`/browse/${dispensary.slug}`}
 								className="absolute w-30 h-30 bottom-1 right-1 p-2.5 rounded-full hover:text-secondary-light"
@@ -178,7 +178,7 @@ function DispensaryCard({
 							</Link>
 							<H3
 								style={{ color: applyDispensaryStyles['primary-color'] }}
-								className="z-5 font-semibold left-0 top-0 max-w-[248px] whitespace-normal tracking-wide drop-shadow text-[22px]"
+								className="drop-shadow overflow-x-hidden z-5"
 							>
 								{dispensary?.name}
 							</H3>
@@ -198,10 +198,10 @@ function DispensaryCard({
 							</FlexBox>
 						</div>
 					) : (
-						<div className="w-full px-2">
+						<div className="w-full p-2">
 							<H3
 								style={{ color: applyDispensaryStyles['primary-color'] }}
-								className="z-5 font-semibold left-0 top-0 max-w-[248px] whitespace-normal tracking-wide drop-shadow text-[22px]"
+								className="drop-shadow overflow-x-hidden z-5"
 							>
 								{dispensary?.name}
 							</H3>

@@ -28,6 +28,7 @@ export * from './crm';
 export * from './cron-job';
 export * from './hooks';
 export * from './middleware';
+export { default as keywords } from './seo/keywords';
 export * from './reducer';
 export * from './types';
 export * from './utils';

@@ -100,6 +100,7 @@ export const H3 = ({
 			className={twMerge(
 				'whitespace-pre-line',
 				'tracking-[.5px]',
+				'leading-tight',
 				'font-medium',
 				'text-xl lg:text-2xl',
 				styles['cursor-inherit'],
@@ -124,10 +125,11 @@ export const H4 = ({
 	return (
 		<h4
 			className={twMerge(
-				// 'font-encode',
-				// 'tracking-[1px]',
+				'whitespace-pre-line',
+				'tracking-[.5px]',
+				'leading-tight',
+				'font-medium',
 				styles['cursor-inherit'],
-				// 'font-medium text-xl whitespace-normal',
 				// (color === 'light' && 'text-inverse-soft') ||
 				// (color === 'dark' && 'text-dark') ||
 				// 'text-inherit',
@@ -202,7 +204,6 @@ export const Paragraph = ({
 				'whitespace-pre-line',
 				'font-encode',
 				'tracking-[.5px]',
-				// 'lg:text-lg',
 				styles['cursor-inherit'],
 				(color === 'light' && 'text-inverse-soft') ||
 					(color === 'dark' && 'text-dark') ||

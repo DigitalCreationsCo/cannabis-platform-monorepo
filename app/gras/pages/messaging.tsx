@@ -1,4 +1,5 @@
-import { getDashboardSite } from '@cd/core-lib';
+import { ServicesTopBar } from '@/components/layouts';
+import { getDashboardSite, keywords } from '@cd/core-lib';
 import {
 	Page,
 	Footer,
@@ -16,12 +17,12 @@ import messagingPrices from '@cd/ui-lib/src/components/landing/Pricing/messaging
 import PricingCard from '@cd/ui-lib/src/components/landing/Pricing/Pricing';
 import { type GetServerSidePropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { NextSeo } from 'next-seo';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { type ReactElement, useEffect } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { ServicesTopBar } from '@/components/layouts';
-import SEOMetaTags from '@/lib/SEOMetaTags';
+import seoConfig from '@/lib/seo.config';
 
 export default function MessagingLandingPage() {
 	useEffect(() => {
@@ -31,20 +32,18 @@ export default function MessagingLandingPage() {
 	}, []);
 	return (
 		<>
-			<SEOMetaTags
-				additionalKeywords={[
-					'cannabis text message marketing',
-					'cannabis text message',
-					'cannabis sms',
-					'dispensary text message',
-					'send messages from dispensary',
-					'message dispensary customers',
-					'weed text',
-					'cannabis messaging',
-					'cannabis business messag',
-					'cannabis business marketing',
-					'cannabis business consulting',
-					'cannabis marketing solution',
+			<NextSeo
+				{...seoConfig}
+				additionalMetaTags={[
+					...seoConfig.additionalMetaTags,
+					{
+						name: 'keywords',
+						content: [
+							...keywords['business'],
+							...keywords['messaging'],
+							...keywords['events'],
+						].join(', '),
+					},
 				]}
 			/>
 			<Page

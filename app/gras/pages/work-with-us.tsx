@@ -1,6 +1,5 @@
 import { ServicesTopBar } from '@/components/layouts';
-import SEOMetaTags from '@/lib/SEOMetaTags';
-import { getDashboardSite } from '@cd/core-lib';
+import { getDashboardSite, keywords } from '@cd/core-lib';
 import {
 	Page,
 	H2,
@@ -19,8 +18,10 @@ import { letters } from '@cd/ui-lib/src/components/landing/letter/letter-data';
 import { type GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { NextSeo } from 'next-seo';
 import { type ReactElement, useEffect } from 'react';
 import { twMerge } from 'tailwind-merge';
+import seoConfig from '@/lib/seo.config';
 
 export default function DispensaryLandingPage() {
 	const { t } = useTranslation('common');
@@ -31,42 +32,18 @@ export default function DispensaryLandingPage() {
 	}, []);
 	return (
 		<>
-			<SEOMetaTags
-				additionalKeywords={[
-					'cannabis business help',
-					'cannabis business growth',
-					'cannabis business success',
-					'cannabis dispensary help',
-					'cannabis dispensary sales',
-					'cannabis dispensary growth',
-					'cannabis delivery software',
-					'cannabis business',
-					'cannabis business services',
-					'cannabis delivery service',
-					'weed delivery software',
-					'weed delivery business',
-					'weed business',
-					'dispensary software',
-					'weed delivery service',
-					'bud delivery service',
-					'weed delivery help',
-					'cannabis delivery help',
-					'bud delivery help',
-					'help my dispensary',
-					'help my cannabis business',
-					'dispensary success',
-					'merchant services for cannabis businesses',
-					'business services for cannabis',
-					'cannabis business compliance services',
-					'cannabis businesses and services',
-					'cannabis business solutions',
-					'cannabis delivery business plan',
-					'cannabis consulting',
-					'cannabis business consulting',
-					'cannabis business marketing',
-					'cannabis messaging',
-					'cannabis business messag',
-					'cannabis industry business services',
+			<NextSeo
+				{...seoConfig}
+				additionalMetaTags={[
+					...seoConfig.additionalMetaTags,
+					{
+						name: 'keywords',
+						content: [
+							...keywords['cannabis'],
+							...keywords['business'],
+							...keywords['events'],
+						].join(', '),
+					},
 				]}
 			/>
 			<Page

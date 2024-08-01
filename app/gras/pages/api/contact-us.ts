@@ -42,11 +42,13 @@ const handlePOST = async (req: any, res: any) => {
 		city,
 		state,
 		zipcode,
+		whichServiceInterestedIn,
 		howDidYouHearAboutUs,
 		subscribeCannabisInsiderNewsletter,
 		serviceAreaRange,
 		weeklyDeliveries,
 		message,
+		ecommerceUrl = '',
 	} = req.body as Required<ContactUsFormResponse>;
 
 	// upsert account
@@ -63,6 +65,8 @@ const handlePOST = async (req: any, res: any) => {
 			cf_service_range_in_miles: serviceAreaRange,
 			cf_expected_weekly_deliveries: weeklyDeliveries,
 			'Contact Us Message': message,
+			cf_ecommerce_url: ecommerceUrl,
+			cf_requested_service: whichServiceInterestedIn,
 		},
 	});
 

@@ -22,15 +22,14 @@ function CheckBox({
 	...inputProps
 }: CheckBoxProps) {
 	const styles = {
-		checkboxContainer:
-			'flex flex-row space-x-4 py-8 md:py-4 md:self-start w-full',
+		checkboxContainer: 'flex flex-row space-x-4 py-8 md:self-start w-full',
 		helperText: error && 'input-error border-2',
 	};
 
 	return (
 		<div className={twMerge(styles.checkboxContainer, className)}>
 			<input
-				className="cursor-pointer text-lg bg-primary accent-primary-light"
+				className="cursor-pointer bg-primary accent-primary-light"
 				style={{ minHeight: '30px', minWidth: '30px' }}
 				type="checkbox"
 				id={name}
@@ -42,11 +41,9 @@ function CheckBox({
 			<FlexBox className={twMerge('flex-col w-full', styles.helperText)}>
 				{helperText && <LabelComponent>{helperText}</LabelComponent>}
 				{label && (
-					<LabelComponent>
-						<Label className="cursor-pointer w-full text-lg" htmlFor={name}>
-							{label}
-						</Label>
-					</LabelComponent>
+					<Label className="cursor-pointer w-full" htmlFor={name}>
+						<LabelComponent>{label}</LabelComponent>
+					</Label>
 				)}
 			</FlexBox>
 		</div>

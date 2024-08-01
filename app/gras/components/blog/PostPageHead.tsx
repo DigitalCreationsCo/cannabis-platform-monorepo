@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import SEOMetaTags from '@/lib/SEOMetaTags';
+import { NextSeo } from 'next-seo';
 import * as demo from '@/lib/sanity/demo.data';
 import { urlForImage } from '@/lib/sanity/sanity.image';
 import { type Post, type Settings } from '@/lib/sanity/sanity.queries';
+import seoConfig from '@/lib/seo.config';
 
 export interface PostPageHeadProps {
 	settings: Settings;
@@ -12,16 +13,26 @@ export interface PostPageHeadProps {
 export default function PostPageHead({ settings, post }: PostPageHeadProps) {
 	const title = settings.title ?? demo.title;
 	return (
-		<SEOMetaTags
+		<NextSeo
 			title={post.title ? `${post.title} | ${title}` : title}
 			description={post.excerpt}
 			additionalLinkTags={[
+				...seoConfig.additionalLinkTags,
 				{
 					rel: 'canonical',
 					href: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/blog/posts/${post.slug}`,
 				},
 			]}
-			additionalKeywords={[...(post.categories ?? [])]}
+			additionalMetaTags={[
+				{
+					name: 'keywords',
+					content: []
+						.concat(post.categories)
+						.concat(post.title.split(' '))
+						.concat(post.excerpt.split(' '))
+						.join(', '),
+				},
+			]}
 			openGraph={{
 				title: post.title ? `${post.title} | ${title}` : title,
 				url: post.contentUrl,
@@ -53,6 +64,7 @@ export default function PostPageHead({ settings, post }: PostPageHeadProps) {
 							},
 				],
 			}}
+			twitter={seoConfig.twitter}
 		/>
 	);
 }

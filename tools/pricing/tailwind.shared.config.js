@@ -1,7 +1,7 @@
-/** @type {import('tailwindcss').Config} */
 
 const colors = require('tailwindcss/colors');
 
+/** @type {import('tailwindcss').Config} */
 module.exports = {
 	plugins: [require('@tailwindcss/typography'), require('daisyui')],
 	content: [
@@ -18,13 +18,12 @@ module.exports = {
 		extend: {
 			keyframes: {
 				gradient: {
-					'0%': {
-						'background-position': '0% 50%',
-					},
-					'100%': {
-						'background-position': '100% 50%',
-					},
+					'0%, 100%': { 'background-position': '0% 50%' },
+					'50%': { 'background-position': '100% 50%' },
 				},
+			},
+			animation: {
+				gradient: 'gradient 44s ease infinite',
 			},
 			colors: {
 				inherit: colors.inherit,
@@ -46,6 +45,7 @@ module.exports = {
 				'light-soft': 'var(--light-soft)',
 				error: 'var(--error)',
 				yellow: 'var(--yellow)',
+				blue: colors.blue['500']
 			},
 			borderWidth: {
 				DEFAULT: '1.5px',

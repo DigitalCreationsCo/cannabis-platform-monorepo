@@ -1,3 +1,4 @@
+
 const colors = require('tailwindcss/colors');
 
 /** @type {import('tailwindcss').Config} */
@@ -44,7 +45,7 @@ module.exports = {
 				'light-soft': 'var(--light-soft)',
 				error: 'var(--error)',
 				yellow: 'var(--yellow)',
-				blue: colors.blue['500'],
+				blue: colors.blue['500']
 			},
 			borderWidth: {
 				DEFAULT: '1.5px',

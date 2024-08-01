@@ -1,7 +1,6 @@
 import { AccountLayout } from '@/components/layouts';
 import env from '@/lib/env';
 import { type AppPropsWithLayout } from '@/lib/next.types';
-import SEOMetaTags from '@/lib/SEOMetaTags';
 import { wrapper } from '@/lib/store';
 import { Themer } from '@boxyhq/react-ui/shared';
 import CacheProvider from '@cd/core-lib/src/lib/cache';
@@ -25,12 +24,14 @@ import { AnimatePresence } from 'framer-motion';
 import mixpanel from 'mixpanel-browser';
 import { SessionProvider } from 'next-auth/react';
 import { appWithTranslation } from 'next-i18next';
+import { NextSeo } from 'next-seo';
 import { useEffect } from 'react';
 import { Provider as ReduxProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { SWRConfig } from 'swr';
 
 import '../styles/tailwind.css';
+import seoConfig from '@/lib/seo.config';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_API_KEY!);
 
@@ -77,7 +78,7 @@ function MyApp({
 				{loadGoogleTagManager()}
 				{loadHotJar()}
 				<GTMTag />
-				<SEOMetaTags />
+				<NextSeo {...seoConfig} />
 			</>
 			<SWRConfig
 				value={{
