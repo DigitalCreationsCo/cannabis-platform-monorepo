@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import TeamNavigation from './TeamNavigation';
 import UserNavigation from './UserNavigation';
 
-const Navigation = () => {
+const Navigation = ({ isExpanded = true }: { isExpanded?: boolean }) => {
 	const { asPath, isReady, query } = useRouter();
 	const [activePathname, setActivePathname] = useState<null | string>(null);
 
@@ -18,14 +18,20 @@ const Navigation = () => {
 
 	const Navigation = () => {
 		if (slug) {
-			return <TeamNavigation activePathname={activePathname} slug={slug} />;
+			return (
+				<TeamNavigation
+					isExpanded={isExpanded}
+					activePathname={activePathname}
+					slug={slug}
+				/>
+			);
 		} else {
 			return <UserNavigation activePathname={activePathname} />;
 		}
 	};
 
 	return (
-		<nav className="flex flex-1 flex-col pl-2 pr-6">
+		<nav className="flex flex-1 flex-col px-2">
 			<Navigation />
 		</nav>
 	);

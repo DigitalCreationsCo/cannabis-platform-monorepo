@@ -1,27 +1,29 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
-import { useTheme } from '@cd/ui-lib';
+// import { useTheme } from '@cd/ui-lib';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import {
 	CheckBadgeIcon,
 	ArrowRightOnRectangleIcon,
 	Bars3Icon,
 	UserCircleIcon,
-	QuestionMarkCircleIcon,
+	// QuestionMarkCircleIcon,
 } from '@heroicons/react/24/outline';
 import { useSession, signOut } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
 import React from 'react';
-import env from '@/lib/env';
+// import env from '@/lib/env';
 
 interface HeaderProps {
 	setSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
+	sidebarOpen: boolean;
+	setStayOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Header = ({ setSidebarOpen }: HeaderProps) => {
-	const { toggleTheme } = useTheme();
+const Header = ({ setSidebarOpen, sidebarOpen, setStayOpen }: HeaderProps) => {
+	// const { toggleTheme } = useTheme();
 	const { status, data } = useSession();
 	const { t } = useTranslation('common');
 	if (status === 'loading' || !data) {
@@ -38,8 +40,11 @@ const Header = ({ setSidebarOpen }: HeaderProps) => {
 		<div className="bg-inherit relative top-0 z-40 flex h-14 shrink-0 items-center px-4 sm:gap-x-6 sm:px-6 lg:px-8  dark:bg-black dark:text-white">
 			<button
 				type="button"
-				className="-m-2.5 p-2.5 text-gray-700 dark:text-gray-50 lg:hidden"
-				onClick={() => setSidebarOpen(true)}
+				className="-m-2.5 p-2.5 text-gray-700 dark:text-gray-50 lg"
+				onClick={() => {
+					setSidebarOpen((prev) => !prev);
+					setStayOpen((prev) => !prev);
+				}}
 			>
 				<span className="sr-only">{t('open-sidebar')}</span>
 				<Bars3Icon className="h-6 w-6" aria-hidden="true" />
@@ -48,10 +53,13 @@ const Header = ({ setSidebarOpen }: HeaderProps) => {
 				<div className="relative flex flex-1"></div>
 				<div className="flex items-center gap-x-4 lg:gap-x-6">
 					<div className="dropdown dropdown-end">
-						<div className="flex items-center cursor-pointer" tabIndex={0}>
+						<div
+							className="flex btn btn-ghost items-center cursor-pointer"
+							tabIndex={0}
+						>
 							<span className="hidden lg:flex lg:items-center">
 								<button
-									className="ml-4 text-sm font-semibold leading-6 text-gray-900 dark:text-gray-50"
+									className="ml-4 leading-6 text-gray-900 dark:text-gray-50"
 									aria-hidden="true"
 								>
 									{user.name}

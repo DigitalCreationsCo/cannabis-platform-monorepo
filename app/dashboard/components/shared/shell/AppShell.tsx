@@ -10,6 +10,7 @@ export default function AppShell({ children }: PropsWithChildren) {
 	const session = useSession();
 	const { status } = session;
 	const [sidebarOpen, setSidebarOpen] = useState(false);
+	const [stayOpen, setStayOpen] = useState(false);
 
 	if (status === 'loading') {
 		return <LoadingPage />;
@@ -21,11 +22,21 @@ export default function AppShell({ children }: PropsWithChildren) {
 	}
 
 	return (
-		<div className="bg-inverse min-h-screen lg:pb-24">
-			<Drawer sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-			<div className="lg:pl-64 lg:pr-8">
-				<Header setSidebarOpen={setSidebarOpen} />
-				<main className="py-5 md:h-fit bg-white shadow-lg lg:rounded">
+		<div className="min-h-screen lg:pb-24">
+			<Drawer
+				sidebarOpen={sidebarOpen}
+				setSidebarOpen={setSidebarOpen}
+				stayOpen={stayOpen}
+			/>
+			<div
+				className={`${(sidebarOpen && 'lg:pl-64') || 'lg:pl-20'} transition-[padding]`}
+			>
+				<Header
+					setSidebarOpen={setSidebarOpen}
+					sidebarOpen={sidebarOpen}
+					setStayOpen={setStayOpen}
+				/>
+				<main className="py-5 md:h-fit bg-white shadow-inner">
 					<div className="mx-auto px-4 lg:!px-8">{children}</div>
 				</main>
 			</div>

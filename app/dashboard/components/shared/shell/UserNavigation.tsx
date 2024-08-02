@@ -32,22 +32,22 @@ const UserNavigation = ({ activePathname }: NavigationProps) => {
 			icon: ShieldCheckIcon,
 			active: activePathname === '/settings/security',
 		},
-		{
-			name: t('support'),
-			href: '/support',
-			active: activePathname === '/support',
-			icon: CheckBadgeIcon,
-			// eslint-disable-next-line sonarjs/no-all-duplicated-branches
-			items: activePathname?.includes('/support')
-				? [
-						// {
-						// 	name: t('support'),
-						// 	href: '/support',
-						// 	active: activePathname === '/support',
-						// },
-					]
-				: [],
-		},
+		// {
+		// 	name: t('support'),
+		// 	href: '/support',
+		// 	active: activePathname === '/support',
+		// 	icon: CheckBadgeIcon,
+		// 	// eslint-disable-next-line sonarjs/no-all-duplicated-branches
+		// 	items: activePathname?.includes('/support')
+		// 		? [
+		// 				// {
+		// 				// 	name: t('support'),
+		// 				// 	href: '/support',
+		// 				// 	active: activePathname === '/support',
+		// 				// },
+		// 			]
+		// 		: [],
+		// },
 	];
 
 	return <NavigationItems menus={menus} />;

@@ -176,7 +176,6 @@ export const H6 = ({
 	return (
 		<h6
 			className={twMerge(
-				// 'font-encode',
 				// 'tracking-[1px]',
 				styles['cursor-inherit'],
 				// 'font-semibold text-md whitespace-normal',
@@ -202,7 +201,6 @@ export const Paragraph = ({
 		<p
 			className={twMerge(
 				'whitespace-pre-line',
-				'font-encode',
 				'tracking-[.5px]',
 				styles['cursor-inherit'],
 				(color === 'light' && 'text-inverse-soft') ||
@@ -276,7 +274,6 @@ export const Tiny = ({
 			className={twMerge([
 				// 'w-fit',
 				// 'tracking-[1px]',
-				// 'font-encode',
 				// (color === 'light' && 'text-inverse-soft') ||
 				// (color === 'dark' && 'text-dark') ||
 				'text-inherit',

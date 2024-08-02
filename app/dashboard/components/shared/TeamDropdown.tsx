@@ -13,9 +13,10 @@ import { useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { twMerge } from 'tailwind-merge';
 
-const TeamDropdown = () => {
+const TeamDropdown = ({ isExpanded = true }: { isExpanded?: boolean }) => {
 	const router = useRouter();
 	const { dispensaries } = useDispensaries();
 	const { data } = useSession();
@@ -25,6 +26,12 @@ const TeamDropdown = () => {
 	const currentTeam = (dispensaries || []).find(
 		(team) => team.slug === router.query.slug
 	);
+
+	useEffect(() => {
+		if (document.activeElement) {
+			(document.activeElement as HTMLElement).blur();
+		}
+	}, [isExpanded]);
 
 	const menus = [
 		{
@@ -73,14 +80,24 @@ const TeamDropdown = () => {
 		<div className="dropdown w-full">
 			<div
 				tabIndex={0}
-				className="btn btn-ghost text-lg text-gray-900 hover:bg-gray-200 hover:text-gray-900 dark:text-gray-100 dark:hover:text-gray-100 dark:hover:bg-gray-800 flex h-10 items-center px-4 justify-between cursor-pointer font-semibold capitalize"
+				className="items-center rounded-none btn btn-ghost text-lg text-gray-900 hover:bg-gray-200 hover:text-gray-900 dark:text-gray-100 dark:hover:text-gray-100 dark:hover:bg-gray-800 flex flex-nowrap h-10 px-4 justify-between cursor-pointer font-semibold capitalize"
 			>
-				{currentTeam?.name ||
-					data?.user?.name?.substring(
-						0,
-						maxLengthPolicies.nameShortDisplay
-					)}{' '}
-				<ChevronDownIcon className="w-5 h-5" />
+				<span
+					className={twMerge(
+						(isExpanded && 'block') || 'hidden',
+						'whitespace-nowrap',
+						'transition-[display] delay-500'
+					)}
+				>
+					{currentTeam?.name ||
+						data?.user?.name?.substring(
+							0,
+							maxLengthPolicies.nameShortDisplay
+						)}{' '}
+				</span>
+				<ChevronDownIcon
+					className={twMerge('w-5 h-5', !isExpanded && 'mx-auto')}
+				/>
 			</div>
 			<ul
 				tabIndex={0}

@@ -69,8 +69,8 @@ function MyApp({ Component, ...appProps }: AppPropsWithLayout) {
 
 	return (
 		<>
-			{loadBrevoChat()}
-			{loadSegment()}
+			{/* {loadBrevoChat()} */}
+			{/* {loadSegment()} */}
 			{loadGoogleTagManager()}
 			{loadHotJar()}
 			<GTMTag />

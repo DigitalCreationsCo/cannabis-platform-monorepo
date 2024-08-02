@@ -12,11 +12,11 @@ const Brand = () => {
 		<div className="flex pt-2 px-2 shrink-0 items-center text-xl font-bold gap-2 dark:text-gray-100">
 			<Link
 				href={'/dashboard'}
-				className="shrink-0 flex flex-row items-center gap-2 pl-2"
+				className="shrink-0 flex flex-row items-center gap-2 px-2"
 			>
-				<GrasSignature className="drop-shadow-sm pt-1 pb-0 mb-0 leading-3">
+				{/* <GrasSignature className="drop-shadow-sm pt-1 pb-0 mb-0 leading-3">
 					{t('gras')}
-				</GrasSignature>
+				</GrasSignature> */}
 				<Image alt="Gras" width={48} height={48} src={logo} quality={25} />
 			</Link>
 			{/* <Image

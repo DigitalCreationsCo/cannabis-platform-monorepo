@@ -336,7 +336,6 @@ export default function Browse({
 						<Grid className="relative grid-cols-3 xs:pb-16">
 							<div className="col-span-full">
 								<Carousel
-									// focusOnSelect={true}
 									responsive={{
 										xl: {
 											breakpoint: { max: 4000, min: 1400 },

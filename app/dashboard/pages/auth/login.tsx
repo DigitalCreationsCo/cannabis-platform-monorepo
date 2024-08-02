@@ -179,7 +179,6 @@ const Login: NextPageWithLayout<
 													name="email"
 													placeholder={t('email')}
 													value={formik.values.email}
-													className="text-dark"
 													error={
 														formik.touched.email
 															? !!formik.errors.email
@@ -196,21 +195,20 @@ const Login: NextPageWithLayout<
 														name="password"
 														placeholder={t('password')}
 														value={formik.values.password}
-														className="text-dark"
 														label={
-															<label className="label">
+															<>
 																<span className="label-text">
 																	{t('password')}
 																</span>
 																<span className="label-text-alt">
 																	<Link
 																		href="/auth/forgot-password"
-																		className="text-sm text-primary hover:text-[color-mix(in_oklab,oklch(var(--p)),black_7%)]"
+																		className="text-sm underline hover:text-light sm:hover:!text-dark text-primary"
 																	>
 																		{t('forgot-password')}
 																	</Link>
 																</span>
-															</label>
+															</>
 														}
 														error={
 															formik.touched.password

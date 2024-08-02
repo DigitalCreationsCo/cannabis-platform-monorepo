@@ -1,4 +1,3 @@
-
 const colors = require('tailwindcss/colors');
 
 /** @type {import('tailwindcss').Config} */
@@ -25,6 +24,9 @@ module.exports = {
 			animation: {
 				gradient: 'gradient 44s ease infinite',
 			},
+			transitionProperty: {
+				width: 'width',
+			},
 			colors: {
 				inherit: colors.inherit,
 				current: colors.current,
@@ -45,7 +47,7 @@ module.exports = {
 				'light-soft': 'var(--light-soft)',
 				error: 'var(--error)',
 				yellow: 'var(--yellow)',
-				blue: colors.blue['500']
+				blue: colors.blue['500'],
 			},
 			borderWidth: {
 				DEFAULT: '1.5px',

@@ -16,25 +16,34 @@ export interface NavigationProps {
 
 interface NavigationItemsProps {
 	menus: MenuItem[];
+	isExpanded?: boolean;
 }
 
 interface NavigationItemProps {
 	menu: MenuItem;
 	className?: string;
+	isExpanded?: boolean;
 }
 
-const NavigationItems = ({ menus }: NavigationItemsProps) => {
+const NavigationItems = ({
+	menus,
+	isExpanded = true,
+}: NavigationItemsProps) => {
 	return (
 		// eslint-disable-next-line jsx-a11y/no-redundant-roles
 		<ul role="list" className="flex flex-1 flex-col gap-1">
 			{menus.map((menu) => (
 				<li key={menu.name}>
-					<NavigationItem menu={menu} />
+					<NavigationItem isExpanded={isExpanded} menu={menu} />
 					{menu.items && (
 						<ul className="flex flex-col gap-1 mt-1">
 							{menu.items.map((subitem) => (
 								<li key={subitem.name}>
-									<NavigationItem menu={subitem} className="" />
+									<NavigationItem
+										menu={subitem}
+										isExpanded={isExpanded}
+										className=""
+									/>
 								</li>
 							))}
 						</ul>
@@ -45,23 +54,38 @@ const NavigationItems = ({ menus }: NavigationItemsProps) => {
 	);
 };
 
-const NavigationItem = ({ menu, className }: NavigationItemProps) => {
+const NavigationItem = ({
+	menu,
+	isExpanded = true,
+	className,
+}: NavigationItemProps) => {
 	return (
 		<Link
 			href={menu.href}
-			className={`group transition flex items-center rounded text-sm text-gray-900 hover:bg-gray-200 hover:text-gray-900 dark:text-gray-100 dark:hover:text-gray-100 dark:hover:bg-gray-800 p-2 gap-2 font-medium ${
-				menu.active ? ' bg-gray-200 font-semibold pl-9' : ''
-			}${className}`}
+			className={twMerge(
+				`group transition flex items-center rounded text-gray-900 hover:bg-gray-200 hover:text-gray-900 dark:text-gray-100 dark:hover:text-gray-100 dark:hover:bg-gray-800 p-2 gap-2 font-medium ${
+					menu.active ? ' bg-gray-200 font-semibold pl-9' : ''
+				}${className}`
+			)}
 		>
 			{menu.icon && (
 				<menu.icon
 					className={twMerge([
-						'h-5 w-5 shrink-0 group-hover:text-gray-900 dark:group-hover:text-gray-100',
+						'transition-transform duration-1000 ease-in-out',
+						isExpanded ? '' : 'translate-x-2',
+						'h-8 w-8 shrink-0 group-hover:text-gray-900 dark:group-hover:text-gray-100',
 					])}
 					aria-hidden="true"
 				/>
 			)}
-			{menu.name}
+			<span
+				className={twMerge([
+					'whitespace-nowrap transition-[opacity] duration-300 ease-in-out', // Transition for the title
+					isExpanded ? 'opacity-100' : 'opacity-0', // Fade in/out
+				])}
+			>
+				{menu.name}
+			</span>
 		</Link>
 	);
 };

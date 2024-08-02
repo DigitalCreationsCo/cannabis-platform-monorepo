@@ -14,9 +14,14 @@ import NavigationItems, {
 
 interface NavigationItemsProps extends NavigationProps {
 	slug: string;
+	isExpanded?: boolean;
 }
 
-const TeamNavigation = ({ slug, activePathname }: NavigationItemsProps) => {
+const TeamNavigation = ({
+	slug,
+	activePathname,
+	isExpanded = true,
+}: NavigationItemsProps) => {
 	const { t } = useTranslation('common');
 
 	const menus: MenuItem[] = [
@@ -77,7 +82,7 @@ const TeamNavigation = ({ slug, activePathname }: NavigationItemsProps) => {
 		},
 	];
 
-	return <NavigationItems menus={menus} />;
+	return <NavigationItems isExpanded={isExpanded} menus={menus} />;
 };
 
 export default TeamNavigation;

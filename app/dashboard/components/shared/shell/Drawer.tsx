@@ -1,6 +1,7 @@
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'next-i18next';
 import React from 'react';
+import { twMerge } from 'tailwind-merge';
 import TeamDropdown from '../TeamDropdown';
 import Brand from './Brand';
 import Navigation from './Navigation';
@@ -8,10 +9,13 @@ import Navigation from './Navigation';
 interface DrawerProps {
 	sidebarOpen: boolean;
 	setSidebarOpen: (open: boolean) => void;
+	stayOpen: boolean;
 }
 
-const Drawer = ({ sidebarOpen, setSidebarOpen }: DrawerProps) => {
+const Drawer = ({ sidebarOpen, setSidebarOpen, stayOpen }: DrawerProps) => {
 	const { t } = useTranslation('common');
+
+	// eslint-disable-next-line import/no-named-as-default-member
 
 	return (
 		<>
@@ -33,7 +37,7 @@ const Drawer = ({ sidebarOpen, setSidebarOpen }: DrawerProps) => {
 									/>
 								</button>
 							</div>
-							<div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white dark:bg-black px-4 pb-4">
+							<div className="flex grow flex-col gap-y-5 overflow-y-auto bg-inverse dark:bg-black px-4 pb-4">
 								<Brand />
 								<TeamDropdown />
 								<Navigation />
@@ -43,12 +47,20 @@ const Drawer = ({ sidebarOpen, setSidebarOpen }: DrawerProps) => {
 				</div>
 			)}
 
-			<div className="hidden lg:!fixed lg:inset-y-0 lg:z-50 lg:!flex lg:w-64 lg:flex-col">
-				<div className="flex grow flex-col gap-y-5 overflow-y-auto">
+			<div
+				className={twMerge(
+					(sidebarOpen && 'lg:w-64') || 'lg:w-20 hover:lg:w-64',
+					'hidden lg:!fixed lg:inset-y-0 lg:z-50 lg:!flex lg:flex-col bg-inverse transition-width transition-50'
+				)}
+				onMouseEnter={() => !stayOpen && setSidebarOpen(true)}
+				onMouseLeave={() => !stayOpen && setSidebarOpen(false)}
+			>
+				<div className="flex grow flex-col gap-y-5">
 					<Brand />
-					<TeamDropdown />
-					<Navigation />
+					<TeamDropdown isExpanded={sidebarOpen} />
+					<Navigation isExpanded={sidebarOpen} />
 				</div>
+				{/* </div> */}
 			</div>
 		</>
 	);

@@ -74,7 +74,7 @@ function MyApp({
 		<>
 			<>
 				{/* {loadBrevoChat()} */}
-				{loadSegment()}
+				{/* {loadSegment()} */}
 				{loadGoogleTagManager()}
 				{loadHotJar()}
 				<GTMTag />
@@ -119,7 +119,7 @@ function MyApp({
 										<AnimatePresence
 											mode="wait"
 											initial={false}
-											onExitComplete={() => window.scrollTo(0, 0)}
+											// onExitComplete={() => window.scrollTo(0, 0)}
 										>
 											{getLayout(<Component {...props} />)}
 										</AnimatePresence>

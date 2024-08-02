@@ -92,6 +92,8 @@ const styles = Object.freeze({
 			'cursor-default flex-col min-h-[188px] bg-secondary px-12 pt-0 md:pt-12 min-w-full bottom-0 shadow-lg pb-[120px]',
 	},
 	label_f: (justifyLabel: 'left' | 'center' | 'right' | undefined = 'left') => [
+		'flex',
+		'justify-between',
 		'px-2 py-1',
 		'w-full',
 		justifyLabel && `text-${justifyLabel}`,
@@ -105,7 +107,7 @@ const styles = Object.freeze({
 		textShadowLg:
 			'drop-shadow-[0px_2px_.75px_#555555] md:drop-shadow-[1px_3px_1px_#555555]',
 		// 'drop-shadow-[1px_2px_1px_#555555] md:drop-shadow-[0px_2px_1px_#555555]'
-		logoShadow: 'drop-shadow-[0px_2.5px_.75px_#555555]',
+		logoShadow: 'drop-shadow-[0px_2.5px_1.2px_#555555]',
 	},
 });
 

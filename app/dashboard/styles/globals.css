@@ -21,22 +21,24 @@
 	html,
 	body {
 		@apply text-dark;
-		@apply font-encode;
 		-ms-overflow-style: none;
 		padding: 0;
 		margin: 0;
-		/* font-family:
-		-apple-system,
-		BlinkMacSystemFont,
-		Segoe UI,
-		Roboto,
-		Oxygen,
-		Ubuntu,
-		Cantarell,
-		Fira Sans,
-		Droid Sans,
-		Helvetica Neue,
-		sans-serif; */
+		font-family:
+		/* -apple-system, */
+		/* BlinkMacSystemFont, */
+		/* Segoe UI, */
+		/* Helvetica Neue, */ sans-serif;
+		letter-spacing: 0.5px;
+	}
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		@apply font-encode;
 	}
 
 	/* body::-webkit-scrollbar {
