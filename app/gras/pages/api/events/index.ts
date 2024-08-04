@@ -81,6 +81,8 @@ const handlePUT = async (req: NextApiRequest, res: NextApiResponse) => {
 		query: string;
 		create_cron: string;
 	};
+
+	console.info('req.headers ', req.headers);
 	const headerToken = req.headers.authorization?.split(' ')[1];
 	console.info('clientToken: ', headerToken);
 
