@@ -6,9 +6,6 @@
 /* eslint-disable i18next/no-literal-string */
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable react/no-unknown-property */
-import { TopBar } from '@/components/layouts';
-import { Error } from '@/components/shared';
-import env from '@/lib/env';
 import {
 	type ResponseDataEnvelope,
 	applicationHeaders,
@@ -60,6 +57,8 @@ import { toast } from 'react-hot-toast';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 import { InfoCard } from '@/components/blog';
+import { TopBar } from '@/components/layouts';
+import { Error } from '@/components/shared';
 import EventCard from '@/components/shared/EventCard';
 // import {
 // 	getFacebookLoginStatus,
@@ -67,6 +66,7 @@ import EventCard from '@/components/shared/EventCard';
 // 	fbLogin,
 // } from '@cd/core-lib/src/lib/facebookIG';
 import RestrictPage from '@/components/shared/RestrictedPage';
+import env from '@/lib/env';
 import {
 	type Post,
 	type Settings,
@@ -90,7 +90,6 @@ export default function Browse({
 	settings: Settings;
 	user: User;
 }) {
-	console.info('user, ', user);
 	const { t } = useTranslation('common');
 	const saveZipcodeToLocalStorage = (zipcode: string): string => {
 		if (isValidZipcode(zipcode)) {
@@ -99,6 +98,13 @@ export default function Browse({
 		setZipcode(zipcode);
 		return zipcode;
 	};
+	const saveCityToLocalStorage = (city: string): string => {
+		if (city) {
+			localStorage.setItem('city', city);
+		}
+		setLookupCity(city);
+		return city;
+	};
 
 	const getZipcodeLocalStorage = (): string => {
 		if (typeof window !== 'undefined') {
@@ -106,11 +112,16 @@ export default function Browse({
 		}
 		return '';
 	};
+	const getCityLocalStorage = (): string => {
+		return (
+			(typeof window !== 'undefined' && localStorage.getItem('city')) || ''
+		);
+	};
 	const radius = 15000;
 	const [zipcode, setZipcode] = useState(getZipcodeLocalStorage());
 	const [zipcodeError] = useState('');
 
-	const [lookupCity, setLookupCity] = useState('');
+	const [lookupCity, setLookupCity] = useState(getCityLocalStorage());
 
 	const { isLoading, isError, dispensaries } = useLocalDispensaries({
 		zipcode: isValidZipcode(zipcode)
@@ -152,7 +163,7 @@ export default function Browse({
 		validateForm,
 	} = useFormik({
 		initialValues: {
-			city: lookupCity,
+			city: '',
 			timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
 		},
 		validateOnChange: false,
@@ -272,6 +283,7 @@ export default function Browse({
 							}
 						/>
 						<div className="relative mx-4 sm:mx-auto md:max-w-md max-w-fit">
+							{/* TEST */}
 							{/* {`lookup city: ${lookupCity}`}
 							{`values.city: ${values.city}`}
 							{`eventsLocationResults length: ${eventsLocationResults.length}`}
@@ -292,7 +304,7 @@ export default function Browse({
 								autoComplete="off"
 								type="text"
 								name="city"
-								placeholder="Enter your city..."
+								placeholder={lookupCity || 'Enter your city'}
 								value={values.city}
 								onBlur={() => {
 									setEventsLocationResults([]);
@@ -321,7 +333,7 @@ export default function Browse({
 										onMouseDown={(e) => {
 											e.stopPropagation();
 											setFieldValue('city', result.display_name);
-											setLookupCity(result.display_name);
+											saveCityToLocalStorage(result.display_name);
 											saveZipcodeToLocalStorage(result.address.postcode);
 											setEventsLocationResults([]);
 										}}
