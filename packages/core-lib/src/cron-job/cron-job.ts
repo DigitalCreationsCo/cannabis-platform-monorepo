@@ -192,15 +192,16 @@ class CronJobApi {
 				job: {
 					title: `update-events-${location}`,
 					enabled: true,
+					saveResponses: true,
 					folderId: folders.events,
 					schedule: getCronStringFourMinutesAhead(),
-					url: urlBuilder.shop + `/api/events?location=${location}`,
+					url: encodeURI(urlBuilder.shop + `/api/events?location=${location}`),
 					notification: {
 						onFailure: true,
 						onSuccess: true,
 						onDisable: true,
 					},
-					requestMethod: METHODS.POST,
+					requestMethod: METHODS.PUT,
 					extendedData: {
 						headers: {
 							Authorization: `Bearer ${process.env.NEXTAUTH_SECRET}`,
