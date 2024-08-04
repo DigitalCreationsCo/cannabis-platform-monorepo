@@ -24,7 +24,7 @@ const Over21Button = ({
 	redirect?: string;
 }) => {
 	const router = useRouter();
-	const [cookie, setCookie] = useCookies(['yesOver21', 'email']);
+	const [cookie, setCookie] = useCookies(['is_legal_age', 'email']);
 	const [loading, setLoading] = useState(false);
 	const {
 		resetForm,
@@ -54,11 +54,11 @@ const Over21Button = ({
 					headers: { ...applicationHeaders },
 				});
 
-				setCookie('yesOver21', 'true');
+				setCookie('is_legal_age', 'true');
 				setCookie('email', values.email);
 				setLoading(false);
-				resetForm();
 				router.push(redirect);
+				resetForm();
 			} catch (error: any) {
 				setLoading(false);
 				toast.error(error.message);
@@ -72,13 +72,13 @@ const Over21Button = ({
 				type="email"
 				containerClassName="w-full"
 				name="email"
-				placeholder="Enter your email..."
+				placeholder="Enter your email"
 				value={values.email}
 				onBlur={handleBlur}
 				onChange={handleChange}
 				error={!!errors.email || !!touched.email}
 			/>
-			<Paragraph>By entering your email, you agree you are over 21.</Paragraph>
+			<Paragraph>By entering your email, you agree you're over 21.</Paragraph>
 			<Button
 				type="submit"
 				bg={'secondary-light'}
@@ -92,7 +92,7 @@ const Over21Button = ({
 					handleSubmit();
 				}}
 			>
-				I'm over 21
+				I'm legal
 			</Button>
 		</Center>
 	);

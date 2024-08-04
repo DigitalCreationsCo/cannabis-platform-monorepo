@@ -19,7 +19,7 @@ function AnimationWrapper(props: PropsWithChildren<{ className?: string }>) {
 export default AnimationWrapper;
 
 const variants: Variants = {
-	hidden: { opacity: 0, x: 0, y: 0 },
+	hidden: { opacity: 0.5, x: 0, y: 0 },
 	enter: { opacity: 1, x: 0, y: 0 },
 	exit: { opacity: 0, x: 0, y: 0 },
 };

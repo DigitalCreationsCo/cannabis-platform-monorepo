@@ -43,6 +43,7 @@ import { useParams } from 'next/navigation';
 import { useRouter } from 'next/router';
 import { useState, type ReactElement } from 'react';
 import useSWR from 'swr';
+import RestrictPage from '@/components/shared/RestrictedPage';
 import seoConfig from '@/lib/seo.config';
 
 interface EventPageProps {
@@ -52,7 +53,6 @@ interface EventPageProps {
 
 function EventPage({ event, user }: EventPageProps & { user: any }) {
 	const Router = useRouter();
-	// const showOrFilterPageBySession = {filter: !session? 'blur(2px)' : 'none'}
 	return (
 		<>
 			<NextSeo
@@ -85,41 +85,43 @@ function EventPage({ event, user }: EventPageProps & { user: any }) {
 					},
 				]}
 			/>
-			<Page
-				gradient="green"
-				// style={{ ...showOrFilterPageBySession}}
-			>
-				<BackButton />
-				<FlexBox className="gap-y-2 max-w-screen-md lg:max-w-full lg:w-full">
-					<H1 className="text-white drop-shadow-[0px_2px_2px_#666]">
-						{event.name}
-					</H1>
-					<Grid className="grid-cols-1 lg:grid-cols-4 gap-8">
-						<div className="flex max-w-screen-sm flex-col lg:col-span-2 gap-4">
-							<EventDetails />
-							<Image
-								src={event.image?.url || require('public/hemp.png')}
-								alt={event.name}
-								width={300}
-								height={300}
-								className="mx-auto w-full rounded shadow"
-								priority
-								quality={100}
-							/>
-							<Summary />
-						</div>
+			<RestrictPage showRestrictedContent={user.is_legal_age}>
+				<Page
+					gradient="green"
+					// style={{ ...showOrFilterPageBySession}}
+				>
+					<BackButton />
+					<FlexBox className="gap-y-4 max-w-screen-md lg:max-w-full lg:w-full">
+						<H1 className="text-white drop-shadow-[0px_2px_2px_#666]">
+							{event.name}
+						</H1>
+						<Grid className="grid-cols-1 lg:grid-cols-4 gap-8 w-full">
+							<div className="flex max-w-screen-sm flex-col lg:col-span-2 gap-4">
+								<EventDetails />
+								<Image
+									src={event.image?.url || require('public/hemp.png')}
+									alt={event.name}
+									width={300}
+									height={300}
+									className="mx-auto w-full rounded shadow aspect-auto"
+									priority
+									quality={100}
+								/>
+								<Summary />
+							</div>
 
-						<div className="space-y-4">
-							{(event.tickets_url && <RSVP />) || <></>}
-							<Share />
-						</div>
+							<div className="space-y-4">
+								{(event.tickets_url && <RSVP />) || <></>}
+								<Share />
+							</div>
 
-						{/* <FlexBox className="px-4">
+							{/* <FlexBox className="px-4">
 							<Comments comments={event.comments ?? []} user={user} />
 						</FlexBox> */}
-					</Grid>
-				</FlexBox>
-			</Page>
+						</Grid>
+					</FlexBox>
+				</Page>
+			</RestrictPage>
 		</>
 	);
 
@@ -260,11 +262,16 @@ export const getServerSideProps = async ({
 		};
 	}
 
+	console.info(req.cookies);
+	console.info('is legal? ', Boolean(req.cookies['is_legal_age']));
 	return {
 		props: {
 			...(locale ? await serverSideTranslations(locale, ['common']) : {}),
 			event: JSON.parse(JSON.stringify(event)),
-			user: (user && JSON.parse(JSON.stringify(user))) || null,
+			user: {
+				...((user && JSON.parse(JSON.stringify(user))) || {}),
+				is_legal_age: user.is_legal_age || Boolean(req.cookies['is_legal_age']),
+			},
 			token,
 		},
 	};

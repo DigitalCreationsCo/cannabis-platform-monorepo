@@ -19,10 +19,10 @@ const CheckAge = ({
 	isMultiStep?: boolean;
 }) => {
 	const router = useRouter();
-	const [cookie, setCookie] = useCookies(['yesOver21']);
+	const [cookie, setCookie] = useCookies(['is_legal_age']);
 
-	const [yesOver21, setYesOver21] = useState(false);
-	const toggleOver21 = () => setYesOver21(!yesOver21);
+	const [is_legal_age, setis_legal_age] = useState(false);
+	const toggleOver21 = () => setis_legal_age(!is_legal_age);
 	const [showNext, setShowNext] = useState(false);
 
 	const next = () => {
@@ -55,7 +55,7 @@ const CheckAge = ({
 									className="w-auto m-auto text-lg"
 									name={'checkAge'}
 									onChange={toggleOver21}
-									checked={yesOver21}
+									checked={is_legal_age}
 									LabelComponent={H3}
 									label="Yes, I'm over 21"
 								/>
@@ -64,10 +64,10 @@ const CheckAge = ({
 									size="lg"
 									bg={'secondary-light'}
 									hover={'primary-light'}
-									loading={cookie.yesOver21 === 'true'}
-									disabled={!yesOver21}
+									loading={cookie.is_legal_age === 'true'}
+									disabled={!is_legal_age}
 									onClick={() => {
-										setCookie('yesOver21', 'true');
+										setCookie('is_legal_age', 'true');
 										next();
 									}}
 								>
@@ -93,7 +93,7 @@ const CheckAge = ({
 									size="lg"
 									bg={'secondary-light'}
 									hover={'primary-light'}
-									disabled={!yesOver21}
+									disabled={!is_legal_age}
 									onClick={onSubmit}
 								>
 									I know what I'm looking for
@@ -104,7 +104,7 @@ const CheckAge = ({
 									size="lg"
 									bg={'secondary-light'}
 									hover={'primary-light'}
-									disabled={!yesOver21}
+									disabled={!is_legal_age}
 									onClick={() => router.push('/weed-text')}
 								>
 									Send me offers

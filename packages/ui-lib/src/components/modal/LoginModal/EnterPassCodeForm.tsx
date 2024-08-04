@@ -32,7 +32,7 @@ export default function EnterOTPForm({
 	dispatchCloseModal,
 	signInSyncAction = userActions.signinUserSync,
 }: LoginFormComponentProps) {
-	const [, setCookie] = useCookies(['yesOver21']);
+	const [, setCookie] = useCookies(['is_legal_age']);
 	const [loadingButton, setLoadingButton] = useState(false);
 
 	const dispatch = useDispatch();
@@ -108,8 +108,8 @@ export default function EnterOTPForm({
 				.userFromDb;
 
 			if (isLegalAgeAndVerified(user as User)) {
-				setCookie('yesOver21', 'true');
-				console.debug('set yesOver21 cookie to true');
+				setCookie('is_legal_age', 'true');
+				console.debug('set is_legal_age cookie to true');
 			}
 			dispatch(
 				signInSyncAction({

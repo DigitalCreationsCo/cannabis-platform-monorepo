@@ -58,12 +58,12 @@ function TopBar({ showSearch = true, SearchComponent }: TopBarProps) {
 					<GrasSignature className="text-inverse py-0 mb-0 leading-3">
 						{t('gras')}
 					</GrasSignature>
-					<Image
+					{/* <Image
 						alt="Gras"
 						className="w-[36px] bg-inverse rounded-full"
 						src={logo}
 						quality={25}
-					/>
+					/> */}
 				</Link>
 			</FlexBox>
 

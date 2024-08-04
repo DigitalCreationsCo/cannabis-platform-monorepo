@@ -12,9 +12,10 @@ const styles = Object.freeze({
 		'cursor-default w-full sm:max-w-[440px] grow h-fit py-4 pb-8 px-8 items-center shadow',
 	],
 	floatingCard: [
-		'transition duration-200',
-		'hover:scale-102',
+		'transition duration-100',
+		'hover:scale-[104%]',
 		'hover:-translate-y-1',
+		'ease-out',
 	],
 	dispensaryCard: [
 		'relative',

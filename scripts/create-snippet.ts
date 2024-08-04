@@ -121,7 +121,7 @@ function composeSnippet<T extends Record<string, any>>(): Record<
 				'\tinputValue,',
 				'\tdispatchCloseModal,',
 				'}: LoginFormComponentProps) {',
-				"\tconst [, setCookie] = useCookies(['yesOver21']);",
+				"\tconst [, setCookie] = useCookies(['is_legal_age']);",
 				'\tconst [loadingButton, setLoadingButton] = useState(false);',
 				'',
 				'\tconst dispatch = useDispatch();',

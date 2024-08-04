@@ -30,7 +30,7 @@ function UserSignUpReview() {
 	const dispatch = useAppDispatch();
 
 	const [account, setAccount] = useState<UserWithDetails | null>(null);
-	const [, setCookie] = useCookies(['yesOver21']);
+	const [, setCookie] = useCookies(['is_legal_age']);
 
 	const { formValues, isComplete, resetFormValues } = useFormContext();
 
@@ -61,8 +61,8 @@ function UserSignUpReview() {
 			try {
 				loading.current = true;
 				await createUser();
-				setCookie('yesOver21', 'true');
-				console.debug('set yesOver21 cookie to true');
+				setCookie('is_legal_age', 'true');
+				console.debug('set is_legal_age cookie to true');
 				isComplete && isComplete();
 				resetFormValues();
 				toast.success(TextContent.account.ACCOUNT_IS_CREATED);

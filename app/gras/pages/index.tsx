@@ -23,7 +23,7 @@ import {
 	useEvents,
 	useLocalDispensaries,
 } from '@cd/core-lib';
-import { type Event, type Dispensary } from '@cd/data-access';
+import { type Event, type Dispensary, type User } from '@cd/data-access';
 import {
 	Grid,
 	H1,
@@ -83,13 +83,14 @@ const defaultZipcode = '10001';
 export default function Browse({
 	token,
 	posts,
-	restrictContent,
+	user,
 }: {
 	token: string;
 	posts: Post[];
 	settings: Settings;
-	restrictContent: boolean;
+	user: User;
 }) {
+	console.info('user, ', user);
 	const { t } = useTranslation('common');
 	const saveZipcodeToLocalStorage = (zipcode: string): string => {
 		if (isValidZipcode(zipcode)) {
@@ -242,7 +243,7 @@ export default function Browse({
 				]}
 			/>
 
-			<RestrictPage restrictContent={restrictContent}>
+			<RestrictPage showRestrictedContent={user.is_legal_age}>
 				<Page
 					id="browse-page"
 					gradient="pink"
@@ -736,7 +737,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 		getPosts(sanityClient),
 	]);
 
-	const over21 = await getCookie('yesOver21', { req });
+	const over21 = await getCookie('is_legal_age', { req });
 	return {
 		props: {
 			...(locale ? await serverSideTranslations(locale, ['common']) : {}),
@@ -744,7 +745,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 			settings,
 			draftMode,
 			token: authToken,
-			restrictContent: over21 != 'true',
+			user: { is_legal_age: Boolean(over21) },
 		},
 	};
 };

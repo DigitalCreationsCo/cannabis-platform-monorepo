@@ -206,7 +206,7 @@ const Linkedin = ({ size = 28 }) => (
 const FooterLink = ({ href, name }) => (
 	<Link
 		href={replaceRelativePath(href)}
-		className="w-fit hover:!drop-shadow-[0px_3px_1px_#6f6f6f] hover:-translate-y-1 hover:scale-105 transition py-2"
+		className="w-fit hover:!drop-shadow-[0px_3px_1px_#6f6f6f] hover:-translate-y-[2px] hover:scale-[107%] transition py-2"
 	>
 		<Paragraph className="font-medium">{name}</Paragraph>
 	</Link>

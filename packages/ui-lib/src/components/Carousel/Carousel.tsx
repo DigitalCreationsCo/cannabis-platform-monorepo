@@ -27,7 +27,7 @@ export default function Carousel<D>({
 	return (
 		<>
 			<BaseCarousel
-				className="z-0 hidden sm:flex"
+				className="z-0 hidden sm:flex overflow-visible"
 				swipeable
 				// partialVisible
 				centerMode

@@ -81,9 +81,13 @@ const handlePUT = async (req: NextApiRequest, res: NextApiResponse) => {
 		query: string;
 		create_cron: string;
 	};
-	const clientToken = req.headers.authorization?.split(' ')[1];
+	const headerToken = req.headers.authorization?.split(' ')[1];
+	console.info('clientToken: ', headerToken);
+
 	const token = env.nextAuth.secret;
-	if (clientToken !== token) {
+	console.info('token: ', token);
+
+	if (headerToken !== token) {
 		throw new Error('Unauthorized');
 	}
 	// get cannabis events from eventbrite platform
@@ -108,6 +112,8 @@ const handlePUT = async (req: NextApiRequest, res: NextApiResponse) => {
 			}
 		}
 	});
+
+	// console.info('events, ', events);
 	const { ok, matchedCount, modifiedCount, hasWriteErrors, upsertedCount } =
 		await updateManyEvents({ client, data: [...events] });
 

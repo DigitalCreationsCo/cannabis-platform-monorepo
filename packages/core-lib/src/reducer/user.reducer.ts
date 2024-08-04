@@ -99,7 +99,7 @@ export const userSlice = createSlice({
 
 			// optional document for non browser environment
 			if (document) {
-				document.cookie = 'yesOver21=true;path=/';
+				document.cookie = 'is_legal_age=true;path=/';
 				if (!user.isSignUpComplete) {
 					document.cookie = 'isSignUpComplete=false;path=/';
 				}
@@ -132,7 +132,7 @@ export const userSlice = createSlice({
 		builder.addCase(signOutUserAsync.fulfilled, () => {
 			// optional document for non browser environment
 			if (document) {
-				document.cookie = 'yesOver21=false;path=/';
+				document.cookie = 'is_legal_age=false;path=/';
 			}
 
 			// 	// window.location.href = '/';

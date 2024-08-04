@@ -1,98 +1,98 @@
 <?xml version="1.0" encoding="UTF-8"?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-    <loc>https://gras.live/404.tsx</loc>
-    <lastmod>2024-08-02T05:34:39.301Z</lastmod>
+    <loc>http://localhost:3000/404.tsx</loc>
+    <lastmod>2024-08-04T05:07:44.811Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://gras.live/500.tsx</loc>
-    <lastmod>2024-08-02T05:34:39.305Z</lastmod>
+    <loc>http://localhost:3000/500.tsx</loc>
+    <lastmod>2024-08-04T05:07:44.811Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://gras.live/about-us.tsx</loc>
-    <lastmod>2024-08-02T05:34:39.305Z</lastmod>
+    <loc>http://localhost:3000/about-us.tsx</loc>
+    <lastmod>2024-08-04T05:07:44.811Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://gras.live/dashboard.tsx</loc>
-    <lastmod>2024-08-02T05:34:39.305Z</lastmod>
+    <loc>http://localhost:3000/dashboard.tsx</loc>
+    <lastmod>2024-08-04T05:07:44.811Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://gras.live/help.tsx</loc>
-    <lastmod>2024-08-02T05:34:39.305Z</lastmod>
+    <loc>http://localhost:3000/help.tsx</loc>
+    <lastmod>2024-08-04T05:07:44.811Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://gras.live/index.tsx</loc>
-    <lastmod>2024-08-02T05:34:39.305Z</lastmod>
+    <loc>http://localhost:3000/index.tsx</loc>
+    <lastmod>2024-08-04T05:07:44.811Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://gras.live/messaging.tsx</loc>
-    <lastmod>2024-08-02T05:34:39.305Z</lastmod>
+    <loc>http://localhost:3000/messaging.tsx</loc>
+    <lastmod>2024-08-04T05:07:44.811Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://gras.live/privacy.tsx</loc>
-    <lastmod>2024-08-02T05:34:39.305Z</lastmod>
+    <loc>http://localhost:3000/privacy.tsx</loc>
+    <lastmod>2024-08-04T05:07:44.811Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://gras.live/services.tsx</loc>
-    <lastmod>2024-08-02T05:34:39.305Z</lastmod>
+    <loc>http://localhost:3000/services.tsx</loc>
+    <lastmod>2024-08-04T05:07:44.811Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://gras.live/terms.tsx</loc>
-    <lastmod>2024-08-02T05:34:39.305Z</lastmod>
+    <loc>http://localhost:3000/terms.tsx</loc>
+    <lastmod>2024-08-04T05:07:44.811Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://gras.live/work-with-us.tsx</loc>
-    <lastmod>2024-08-02T05:34:39.305Z</lastmod>
+    <loc>http://localhost:3000/work-with-us.tsx</loc>
+    <lastmod>2024-08-04T05:07:44.811Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://gras.live/browse/[dispensary].tsx</loc>
-    <lastmod>2024-08-02T05:34:39.305Z</lastmod>
+    <loc>http://localhost:3000/browse/[dispensary].tsx</loc>
+    <lastmod>2024-08-04T05:07:44.811Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://gras.live/blog/index.tsx</loc>
-    <lastmod>2024-08-02T05:34:39.305Z</lastmod>
+    <loc>http://localhost:3000/events/[event].tsx</loc>
+    <lastmod>2024-08-04T05:07:44.811Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://gras.live/events/[event].tsx</loc>
-    <lastmod>2024-08-02T05:34:39.305Z</lastmod>
+    <loc>http://localhost:3000/blog/index.tsx</loc>
+    <lastmod>2024-08-04T05:07:44.811Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://gras.live/blog/posts/[slug].tsx</loc>
-    <lastmod>2024-08-02T05:34:39.305Z</lastmod>
+    <loc>http://localhost:3000/blog/posts/[slug].tsx</loc>
+    <lastmod>2024-08-04T05:07:44.811Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://gras.live/blog/studio/[[...studio]].tsx</loc>
-    <lastmod>2024-08-02T05:34:39.305Z</lastmod>
+    <loc>http://localhost:3000/blog/studio/[[...studio]].tsx</loc>
+    <lastmod>2024-08-04T05:07:44.811Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
