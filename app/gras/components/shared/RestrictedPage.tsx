@@ -73,7 +73,7 @@ export default function RestrictPage({
 						'w-full lg:w-[60%]',
 						'lg:top-[10%]',
 						'lg:left-[20%]',
-						'p-4 lg:p-20',
+						'p-4 lg:p-16',
 						'gap-2 lg:gap-4',
 						'lg:rounded',
 						// 'lg:!py-16 p-0 lg:px-0 pb-0',
@@ -85,30 +85,6 @@ export default function RestrictPage({
 						'lg:overflow-hidden'
 					)}
 				>
-					<video
-						className={twMerge(
-							'absolute lg:relative lg:inline',
-							'min-h-full',
-							'opacity-35',
-							'lg:max-w-md lg:rounded-lg lg:opacity-100',
-							'shadow',
-							'aspect-video'
-						)}
-						style={{
-							objectFit: 'cover',
-							objectPosition: '40% 40%',
-							left: '0',
-							top: '0',
-						}}
-						src={friendsVideo}
-						autoPlay
-						loop
-						muted
-						preload="auto"
-						playsInline
-						poster={'/public/Gras-community.png'}
-					/>
-
 					<div className="z-10 h-fit mx-auto lg:my-auto px-4 max-w-sm space-y-4">
 						{/* <FlexBox>
 								<Link
@@ -134,6 +110,29 @@ export default function RestrictPage({
 							</FlexBox> */}
 						<EnterEmail />
 					</div>
+					<video
+						className={twMerge(
+							'absolute lg:relative lg:inline',
+							'min-h-full',
+							'opacity-35',
+							'lg:max-w-md lg:rounded-lg lg:opacity-100',
+							'shadow',
+							'aspect-video'
+						)}
+						style={{
+							objectFit: 'cover',
+							objectPosition: '40% 40%',
+							left: '0',
+							top: '0',
+						}}
+						src={friendsVideo}
+						autoPlay
+						loop
+						muted
+						preload="auto"
+						playsInline
+						poster={'/public/Gras-community.png'}
+					/>
 				</motion.div>
 			)}
 			<div style={blurRestrictedContent} className="overflow-hidden">

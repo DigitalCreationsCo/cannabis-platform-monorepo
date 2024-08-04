@@ -47,11 +47,15 @@ function TopBar({ showSearch = true, SearchComponent }: TopBarProps) {
 
 	return (
 		<div className={twMerge([styles.TOPBAR.topbar, 'bg-transparent'])}>
-			<FlexBox>
+			<div className="justify-center hidden sm:flex relative mx-auto z-10">
+				{(showSearch && SearchComponent) || null}
+			</div>
+
+			<FlexBox className="grow">
 				<Link
 					href={'/'}
 					className={twMerge(
-						'z-50 flex flex-row gap-x-4 items-center',
+						'z-50 flex flex-row gap-x-4 w-full items-center sm:justify-end',
 						styles.shadow.logoShadow
 					)}
 				>
@@ -71,10 +75,6 @@ function TopBar({ showSearch = true, SearchComponent }: TopBarProps) {
 				// <Paragraph>Location: {user.address[0].zipcode || 10011}</Paragraph>
 				<Paragraph>Location: 10011</Paragraph>
 			)} */}
-
-			<div className="flex grow justify-center">
-				{(showSearch && SearchComponent) || null}
-			</div>
 
 			<FlexBox className="flex flex-row items-center md:space-x-4 md:pr-2">
 				{/* SHOW ACCOUNT DROPDOWN BUTTON OR SIGNIN */}

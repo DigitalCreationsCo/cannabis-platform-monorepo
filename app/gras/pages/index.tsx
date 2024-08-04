@@ -252,15 +252,12 @@ export default function Browse({
 					<div className="lg:px-10">
 						<TopBar
 							SearchComponent={
-								<div className="hidden md:block relative mx-auto z-10">
+								<>
 									<H1
 										className={twMerge([
 											'text-light',
 											'text-2xl',
 											'lg:text-4xl',
-											'hidden',
-											'md:block',
-											'pr-8',
 											'lg:pr-0',
 											'xl:pr-8',
 											styles.shadow.textShadow,
@@ -271,7 +268,7 @@ export default function Browse({
 										// className="hidden xl:!inline"
 										>{` near you`}</span>
 									</H1>
-								</div>
+								</>
 							}
 						/>
 						<div className="relative mx-4 sm:mx-auto md:max-w-md max-w-fit">
@@ -282,7 +279,7 @@ export default function Browse({
 							{`radius: ${radius}`} */}
 							<H1
 								className={twMerge([
-									'md:hidden text-xl',
+									'sm:hidden text-xl',
 									'text-light',
 									styles.shadow.textShadow,
 								])}
