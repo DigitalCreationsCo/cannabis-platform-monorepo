@@ -1,18 +1,20 @@
 import { TextContent } from '@cd/core-lib';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
-import Button from './Button';
+import Button, { type ButtonProps } from './Button';
 
 const CTA = ({
 	className,
 	cta,
 	href = '#get-started',
 	secondary = false,
+	loading = false,
 }: {
 	className?: any;
 	cta?: any;
 	href?: string;
 	secondary?: boolean;
+	loading?: boolean;
 }) => {
 	return (
 		<Link
@@ -21,6 +23,7 @@ const CTA = ({
 			className={twMerge('w-[420px] transition duration-200 mb-2', className)}
 		>
 			<Button
+				loading={loading}
 				size="lg"
 				bg={secondary ? 'transparent' : 'secondary-light'}
 				hover={secondary ? 'transparent' : 'primary'}

@@ -15,7 +15,7 @@ import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 import founder from '../../../../public/founder.png';
 import { styles } from '../../../styleClassNames';
-import CTA from '../../button/CTA';
+import Button from '../../button/Button';
 import CheckBox from '../../CheckBox';
 import Grid from '../../Grid';
 import Select from '../../Select';
@@ -549,22 +549,28 @@ What is the #1 biggest barrier to growing your cannabis business?
 								<Paragraph className="px-2 col-span-full mx-auto">{`Gras uses your information to support your business. 
 								We will never sell your information.`}</Paragraph>
 
-								<div className="mt-16 mb-8 lg:mb-0 col-span-2 place-self-center mx-2">
-									<CTA
+								<div className="w-[420px] mt-16 mb-8 lg:mb-0 col-span-2 place-self-center mx-2 transition duration-200">
+									<Button
 										type="submit"
 										loading={loadingButton}
 										size="lg"
 										bg="secondary-light"
 										hover="primary"
-										className="p-8 text-2xl place-self-center uppercase hover:scale-105 transition duration-200"
+										className={twMerge(
+											'w-full uppercase px-8',
+											'hover:-translate-y-1',
+											'font-black',
+											'hover:scale-105'
+										)}
 										onClick={(e: any) => {
 											e.preventDefault();
 											e.stopPropagation();
 											notifyValidation();
 											handleSubmit();
 										}}
-										cta={`Book your Success Call`}
-									/>
+									>
+										{`Book your Success Call`}
+									</Button>
 								</div>
 							</>
 						) : (

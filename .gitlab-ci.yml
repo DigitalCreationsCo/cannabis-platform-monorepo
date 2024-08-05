@@ -211,9 +211,9 @@ deploy:
       - app/shop
       # - app/drive
       - app/dashboard
-      - app/help
-      - app/blog
-      - server/main
-      - server/payments
-      - server/image
+      # - app/help
+      # - app/blog
+      # - server/main
+      # - server/payments
+      # - server/image
       # - server/dispatch
