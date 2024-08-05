@@ -1,53 +1,42 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 const letters = {
 	growth: {
-		title: `Your Path to 2X Your Cannabis Business in 12 months 🔥`,
-		subtitle: `We understand your journey.`,
-		text: `The late nights, the regulatory hurdles, the constant pressure to grow. 
-		It can be difficult to keep up with the demands of a legal cannabis business.
-
-		We've created a solution just for you,
+		title: `Your Blueprint to 2X Your Cannabis Business 
+		in 12 Months`,
+		subtitle: `You thought running your legal cannabis business would be smooth sailing, but it's more like wrestling a pissed off crocodile. 🐊`,
+		text: `
+		The hectic night hours are demanding, the competitive pressure is making your hair fall out, and the regulatory nightmares keep you awake at night, staring at the ceiling. 
 		
-		📈 Double your revenue in just 12 months
-		(Starting with a 10% boost in the first 100 days)
+		We understand your journey.
 
-		🚛 Expand your reach with efficient home delivery services
-
-		🗣️ Create buzz with events that get people talking about your business
-		
-		🛍️ Implement marketing strategies that engage loyal and new customers alike
-
-		Our approach doesn't just double your business — it simplifies it. We streamline your operations and give you the tools and guidance to keep growing.`,
+		Our solution is made for you, to help you grow your dispensary like weed and double your revenue in just 12 months, peacefully.
+		`,
 		footer: `
-		The result? 
-		
-		10% growth in 100 days, and 2X in just 12 months.`,
+		Not only do we double your business — we streamline your operations with technology and give you the tools and support to keep growing.`,
 		cta: `I'm ready to 2X my business`,
 		secondaryCTA: `Speak to a growth expert`,
 	},
 
 	'delivery-painpoints': {
-		title: `Offering legal cannabis delivery is a pain in the a**. 😖 
-		We have a better way. `,
-		subtitle: `Dear Dispensary Owner,`,
-		text: `Do you wake up in the morning and prepare delivery manifests? 
-		File paperwork from the previous day? 
-		Call your delivery drivers to handle your orders?
+		title: `Delivering legal cannabis is a pain in the buns. 🍔🍔 
+		Our way is easier, more efficient, and more affordable.`,
+		subtitle: `Does this sound familiar?`,
+		text: `You walk in your office first thing in the morning and you're facing last night's paperwork - delivery manifests that need to be reviewed and filed from yesterday? 
 				
-        Manually running your delivery service creates uncertainty for your business, drivers, and customers, and puts a mountain of paperwork and customer support issues on YOU.
-		You're losing precious time you could use to grow your business.
+        Keeping your delivery service records on paper is slow and puts and your business at risk, and puts a mountain of paperwork on your desk.
+		You and your delivery drivers are losing precious time with paperwork when you could be serving your customers.
 
 		Stop doing this to yourself. 😖
 		
-		We understand these challenges of running a delivery service. That's why we specialize in automating your delivery manifests and keeping your delivery service running smoothly and legally.`,
+		With Delivery Assistance, we digitize your manifests and keep your deliveries running smoothly.`,
 
-		footer: `Take the pain out of delivery with our Delivery Compliance service. Give yourself the time back to focus on what you do best: Building your business.`,
+		footer: `Take the pain out of delivery with Delivery Assistance service. Give yourself the time back to focus on what you do best: Building your business.`,
 		cta: `I'm ready to simplify my delivery service`,
 	},
 
 	'delivery-tracking': {
-		title: `Upgrade your delivery with tech that makes life easy.`,
-		subtitle: `Bring your delivery service into the 21st century.`,
+		title: `Bring your delivery service into the 21st century.`,
+		subtitle: `Upgrade your delivery service with Delivery Management technology that makes life easy.`,
 		text: `Are you and your team taking time out of the day to call your drivers, reroute orders, and resolve customer service issues?
 		
 		It's hard enough to run a dispensary. You don't have to worry about issues on the road anymore.
@@ -68,25 +57,41 @@ const letters = {
 	},
 
 	'full-service-delivery': {
-		title: `We Handle Delivery, Full Stop.`,
-		subtitle: `Put Your Delivery Service On Auto Pilot. 
-		Focus on running your dispensary.`,
-		text: `We understand the hustle of running a top-shelf dispensary. That's why we offer Full Service Delivery.
+		title: `We Handle Delivery, 
+		Full Stop.`,
+		subtitle: `Put your delivery service on auto-pilot, so you can focus on the customer.`,
+		text: `
+When you no longer want to spend time hovering over delivery orders, paperwork headaches, and staffing, 
+Full Service Delivery relieves you of these issues, and integrates with your store operations.
 
-Stop fretting over delivery orders, paperwork headaches, and staffing concerns. 
-Full Service Delivery relieves you of these issues, and integrates with your store operations.`,
-		footer: `We make it easy to deliver cannabis in your city.`,
+`,
+		footer: `We make it easy to for your business to deliver cannabis.`,
 		cta: `Outsource my delivery`,
 	},
 
-	events: {
-		title: 'Keep Your Customers Talking With Events and Promotions',
-		subtitle: `How Do We Do It?`,
-		text: `Create buzz about your dispensary with monthly events for folks at home and on a night out.
+	'consumer-messaging': {
+		title: `Reach loyal and new customers with Messaging Service.`,
+		subtitle: 'Share the amazing perks of being your customer.',
+		text: `
+		Share limited-time offers the moment they drop. 
+		Send order reminders so they never forget to pick up their favorites. 
+		Share a fresh dose of humor - send riddles, jokes, and even memes to brighten someone's day.
+		Do all this and more with Messaging Service.
 
-			We help you plan and produce fire events and promotions that keep your customers talking, and keep them coming back.`,
-		footer:
-			'Become the destination for memorable cannabis events in your city. 🎉',
+`,
+		footer: `Keep your customers happy with promotions, events and good news. They'll love you for it.`,
+		cta: `Starting messaging my customers`,
+		photos: [require('../../../../public/message-2.png')],
+	},
+
+	events: {
+		title: 'Host the hottest events and promotions in your city.',
+		subtitle: `How does it work?`,
+		text: `We help you create buzz for your dispensary with monthly events for folks at home and on a night out.
+
+			Our events team works with you to design and produce 🔥 events and promotions that keeps your city talking, and keeps your customers coming back.
+			`,
+		footer: `Become the hottest destination for memorable cannabis events in your city with Events Promotion. 🎉`,
 		cta: `Start creating memorable events`,
 		secondaryCTA: `Speak to a growth expert`,
 		photos: [
@@ -96,43 +101,20 @@ Full Service Delivery relieves you of these issues, and integrates with your sto
 		],
 	},
 
-	'consumer-messaging': {
-		title: `Reach Loyal and New Customers With Consumer Messaging`,
-		subtitle: 'Share the amazing perks of being your customer.',
-		text: `Share limited-time offers the moment they drop. 
-		Send order reminders so they never forget to pick up their favorites. 
-		Share a fresh dose of humor - send riddles, jokes, and even memes to brighten someone's day.
-		
-		Do all this and more with Consumer Messaging Service.
+	'partner-relationship': {
+		title: `"A business owner gets a customer to make a sale. 
+		A business builder makes a sale to start a relationship."`,
+		text: `We're business builders. When you place your trust in our team, we become a partner in your sustainable, long-term growth.
 
-		Show your customers love by letting them know you appreciate them, build a community and build trust.`,
-		footer: `Keep your customers happy with deals, events and good news. They'll love you for it.`,
-		cta: `Starting messaging my customers`,
-		photos: [require('../../../../public/message-2.png')],
-	},
-
-	'take-urgent-action': {
-		title: `Most people hope and pray things will get easier, when they could be taking action to make it better.`,
-		subtitle: `Dear Dispensary Owner,`,
-		text: `In the hustle of running a thriving business, it's easy to fall into the trap of hoping and praying for things to get easier. 
-
-		But you're different. You want to take control of your business and grow a loyal following of customers. That's why you're on this page, right? You're looking for help to make your dispensary the best it can be, by solving the challenges of compliant, efficient delivery, getting and retaining loyal customers and creating memorable experiences that keep them coming back.
+		Your growth is our goal. We support you every step of your journey to help your dispensary grow to new heights.
 		
-		So, if you want to finally resolve issues with running compliant, efficient delivery service, and you want to grow your dispensary with loyal customers and memorable experiences, then it's time to take urgent action.`,
-		footer: `
-		We'll support you every step of the way
-		
-		by giving you the tools and support to have your best year in business yet, boost your sales 10% in 100 days and 2X sales in 1 year. 
-
-		Because when you take action, amazing things happen.
-		
-		Click below to contact our team of dispensary growth experts and boost your sales today.`,
+		`,
+		footer: `If you're ready to have your best year in business yet, click the button below to contact us.`,
 		cta: `I'm ready to 2X my business`,
 	},
 
 	'limited-offer': {
-		title: `This Offer That Will Not Last. 
-		Don't Miss Your Chance For Growth.`,
+		title: `We Can't Help Everyone. This Is Your Chance For 2X Growth. Don't Miss It.`,
 		// subtitle: `So you can focus on running your dispensary.`,
 		text: `We're partnering with only a handful of dispensaries in your city boost your dispensary sales, and set yourself apart from the competition.
 		Our offer is exclusive to a limited number of dispensaries in your city.
@@ -156,26 +138,34 @@ Full Service Delivery relieves you of these issues, and integrates with your sto
 		cta: `I'm ready to 2X my business`,
 	},
 
-	'partner-relationship': {
-		title: `"A business owner gets a customer to make a sale. 
-		A business builder makes a sale to start a relationship."`,
-		text: `We live by these values. When you work with Gras, we become your partner in sustainable long-term growth.
+	'take-urgent-action': {
+		title: `Most people hope and pray things will get easier, when they could be taking action to make it better.`,
+		subtitle: `Dear Dispensary Owner,`,
+		text: `In the hustle of running a thriving business, it's easy to fall into the trap of hoping and praying for things to get easier. 
 
-		That means your growth is our goal. We're here to support you every step of the way and help your dispensary grow to new heights.`,
+		But you're different. You want to take control of your business and grow a loyal following of customers. That's why you're on this page, right? You're looking for help to make your dispensary the best it can be, by solving the challenges of compliant, efficient delivery, getting and retaining loyal customers and creating memorable experiences that keep them coming back.
+		
+		So, if you want to finally resolve issues with running compliant, efficient delivery service, and you want to grow your dispensary with loyal customers and memorable experiences, then it's time to take urgent action.`,
 		footer: `
-		If you're ready to have your best year in business yet, click the button below to contact us.`,
+		We'll support you every step of the way
+		
+		by giving you the tools and support to have your best year in business yet, boost your sales 10% in 100 days and 2X sales in 1 year. 
+
+		Because when you take action, amazing things happen.
+		
+		Click below to contact our team of dispensary growth experts and boost your sales today.`,
 		cta: `I'm ready to 2X my business`,
 	},
 
 	'free-consultation': {
 		title: `We Are Your Dispensary's Sustainable Growth Partner`,
 		subtitle: ``,
-		text: `We believe in supporting the long-term growth of your cannabis business. 
+		text: `Our personalized support ensures the long-term growth of your cannabis business. 
 		
-		That's why our partnership starts with a free success call to determine the unique needs of your business. 
+		Our business partnerships start with a free Success Call to meet you, understand your needs and learn the #1 barrier to growth of your cannabis business.
 		
-		We'll create a growth plan using the right services to support your business, delight your customers, and boost your sales 10% in 100 days.`,
-		footer: `We'll reach out today to schedule your free success call.`,
+		We'll create a blueprint for growth using the right services to enhance your business, delight your customers, and boost your sales 10% in 100 days.`,
+		footer: `Our team will reach out within 1 business day to schedule your free Success Call.`,
 		cta: `I'm ready to 2X my business`,
 	},
 };

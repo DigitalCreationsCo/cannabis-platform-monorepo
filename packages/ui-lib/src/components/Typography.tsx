@@ -125,14 +125,15 @@ export const H4 = ({
 	return (
 		<h4
 			className={twMerge(
+				'text-lg',
 				'whitespace-pre-line',
 				'tracking-[.5px]',
 				'leading-tight',
 				'font-medium',
 				styles['cursor-inherit'],
-				// (color === 'light' && 'text-inverse-soft') ||
-				// (color === 'dark' && 'text-dark') ||
-				// 'text-inherit',
+				(color === 'light' && 'text-inverse-soft') ||
+					(color === 'dark' && 'text-dark') ||
+					'text-inherit',
 				className
 			)}
 			{...props}
@@ -151,7 +152,7 @@ export const H5 = ({
 	return (
 		<h5
 			className={twMerge(
-				'text-lg',
+				'whitespace-pre-line',
 				'tracking-[.5px]',
 				'leading-snug',
 				styles['cursor-inherit'],

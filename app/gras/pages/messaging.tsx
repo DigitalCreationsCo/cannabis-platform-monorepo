@@ -92,8 +92,8 @@ export default function MessagingLandingPage() {
 
 				<Letter
 					className="bg-inverse-soft"
-					title={`Create Memorable Customer Experiences Today`}
-					text={`Start building customer engagement with compliant cannabis text messaging from Gras.`}
+					title={`Start creating memorable customer experiences today.`}
+					text={`Create customer engagement and build trust with compliant Messaging Service from Gras.`}
 					cta={`Get Started`}
 					href={getDashboardSite('/')}
 					divider={false}

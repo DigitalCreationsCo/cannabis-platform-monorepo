@@ -14,6 +14,7 @@ import {
 	ContactUs,
 	Hero,
 	H5,
+	H4,
 } from '@cd/ui-lib';
 import {
 	automateDeliveryCompliance,
@@ -70,9 +71,16 @@ export default function DispensaryLandingPage() {
 				<Hero href={getDashboardSite('/')} />
 
 				<Letter id="info" {...letters.growth} href={getDashboardSite('/')} />
+
 				<Benefits
 					data={unlockYourGrowth}
 					className="bg-inverse-soft"
+					href={getDashboardSite('/')}
+				/>
+
+				<Letter
+					className="bg-gradient-to-b from-10% from-inverse to-inverse-soft"
+					{...letters['delivery-painpoints']}
 					href={getDashboardSite('/')}
 				/>
 
@@ -80,25 +88,9 @@ export default function DispensaryLandingPage() {
 					data={deliveryManagementService}
 					href={getDashboardSite('/')}
 				/>
-				<Letter
-					className="bg-gradient-to-b from-10% from-inverse to-inverse-soft"
-					{...letters['delivery-painpoints']}
-					href={getDashboardSite('/')}
-				/>
 				<Benefits
 					imagePosition="left"
 					data={automateDeliveryCompliance}
-					href={getDashboardSite('/')}
-					className="bg-inverse-soft"
-				/>
-
-				<Letter
-					{...letters['delivery-tracking']}
-					href={getDashboardSite('/')}
-				/>
-				<Benefits
-					imagePosition="left"
-					data={trackDeliveries}
 					href={getDashboardSite('/')}
 					className="bg-inverse-soft"
 				/>
@@ -116,6 +108,17 @@ export default function DispensaryLandingPage() {
 				</div>
 
 				<Letter
+					{...letters['delivery-tracking']}
+					href={getDashboardSite('/')}
+				/>
+				<Benefits
+					imagePosition="left"
+					data={trackDeliveries}
+					href={getDashboardSite('/')}
+					className="bg-inverse-soft"
+				/>
+
+				<Letter
 					className="bg-inverse-soft"
 					{...letters['full-service-delivery']}
 					href={getDashboardSite('/')}
@@ -127,16 +130,17 @@ export default function DispensaryLandingPage() {
 				/>
 
 				<Letter
+					className="bg-inverse"
+					href={getDashboardSite('/')}
+					{...letters.events}
+				/>
+
+				<Letter
 					className="bg-inverse-soft"
 					{...letters['consumer-messaging']}
 					href={getDashboardSite('/')}
 				/>
 
-				<Letter
-					className="bg-inverse"
-					href={getDashboardSite('/')}
-					{...letters.events}
-				/>
 				<Benefits
 					className="bg-inverse-soft"
 					imagePosition="left"
@@ -164,15 +168,15 @@ export default function DispensaryLandingPage() {
 					valueColor="text-primary"
 					href={getDashboardSite('/')}
 				>
-					<H5 className="text-primary">
+					<H3 className="text-primary">
 						Total Value{' '}
 						<span className="line-through">{`$${price.dealValues.reduce(
 							(a, b) => a + b,
 							0
 						)}`}</span>
-					</H5>
-					<H5>{`You don't pay this price today!`}</H5>
-					<H5 className="ml-6">{`See today's price below 👇`}</H5>
+					</H3>
+					<H3 className="mt-1 leading-normal">{`You don't pay this price today!
+					See today's price below 👇`}</H3>
 				</Benefits>
 
 				<Letter
@@ -184,10 +188,12 @@ export default function DispensaryLandingPage() {
 				<Letter
 					className="bg-inverse"
 					{...letters['free-consultation']}
-					cta={t('contact-sales')}
+					href={getDashboardSite('/')}
+					cta={t('sign-up-now')}
+					secondaryCTA={t('contact-sales')}
 				>
 					<div className="py-6">
-						<Paragraph className="font-semibold text-center text-3xl">
+						<Paragraph className="text-center text-2xl">
 							Your price today is{' '}
 							<span className="text-primary line-through">{`$980.88`}</span>
 							<H3 className="items-center pt-4">
@@ -197,7 +203,7 @@ export default function DispensaryLandingPage() {
 							</H3>
 						</Paragraph>
 						<br />
-						<Paragraph className="font-semibold text-3xl text-center">
+						<Paragraph className="text-2xl text-start">
 							{`Fill Out The Form Below 👇`}
 						</Paragraph>
 					</div>

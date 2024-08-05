@@ -18,10 +18,7 @@ const CTA = ({
 		<Link
 			href={href}
 			scroll={false}
-			className={twMerge(
-				'min-w-[240px] transition duration-200 mb-2',
-				className
-			)}
+			className={twMerge('w-[420px] transition duration-200 mb-2', className)}
 		>
 			<Button
 				size="lg"

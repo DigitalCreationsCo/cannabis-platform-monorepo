@@ -114,7 +114,7 @@ function DispensaryCard({
 	const hoverStyles: CSSProperties = {
 		position: 'absolute',
 		zIndex: 10,
-		backgroundColor: 'rgb(77,113,152,0.7)',
+		backgroundColor: 'rgb(77,113,152,0.6)',
 		width: '100%',
 		height: '100%',
 		color: 'white',
@@ -146,7 +146,7 @@ function DispensaryCard({
 			style={{
 				borderColor: applyDispensaryStyles['background-color'],
 				backgroundColor:
-					(hasLogo && applyDispensaryStyles['background-color']) || '#fff2da',
+					(hasLogo && applyDispensaryStyles['background-color']) || '#ffffff',
 			}}
 			onClick={() => {
 				if (document.activeElement) {
@@ -172,9 +172,9 @@ function DispensaryCard({
 						<div style={{ ...hoverStyles }} className="w-full p-2">
 							<Link
 								href={`/browse/${dispensary.slug}`}
-								className="absolute w-30 h-30 bottom-1 right-1 p-2.5 rounded-full hover:text-secondary-light"
+								className="absolute w-50 h-50 bottom-1 -mb-10 -mr-10 right-1 rounded-full text-gray-500 hover:text-secondary-light"
 							>
-								<ArrowRightCircleIcon height={38} width={38} />
+								<ArrowRightCircleIcon height={125} width={125} />
 							</Link>
 							<H3
 								style={{ color: applyDispensaryStyles['primary-color'] }}

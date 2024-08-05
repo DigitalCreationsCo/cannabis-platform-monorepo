@@ -24,14 +24,33 @@ export default function ServicesTopBar({
 					href={'/'}
 					className={twMerge('z-50 flex flex-row gap-x-2 items-center')}
 				>
-					<GrasSignature className="text-secondary py-0 mb-0 leading-3">
+					<GrasSignature
+						className={twMerge(
+							styles.shadow.textShadow,
+							'text-secondary-light py-0 mb-0 leading-3'
+						)}
+					>
 						{t('gras')}
 					</GrasSignature>
-					<Image alt="Gras" className="w-[40px] rounded-full" src={logo} />
+					<Image
+						alt="Gras"
+						className={twMerge(
+							styles.shadow.textShadow,
+							'w-[54px] rounded-full'
+						)}
+						src={logo}
+					/>
+					<Paragraph
+						className={twMerge(
+							styles.TOPBAR.tagline,
+							'hidden md:block',
+							'pt-2',
+							'!drop-shadow-[0px_0px_0px_0px_#000000]'
+						)}
+					>
+						{TextContent.info.CANNABIS_DELIVERED_TEXT}
+					</Paragraph>
 				</Link>
-				<Paragraph className={twMerge(styles.TOPBAR.tagline)}>
-					{TextContent.info.CANNABIS_DELIVERED_TEXT}
-				</Paragraph>
 				{/* <FlexBox className="flex flex-row items-center md:space-x-4 md:pr-2">
 				<GetStartedButton />
 			</FlexBox> */}

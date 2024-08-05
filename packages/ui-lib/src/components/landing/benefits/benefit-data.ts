@@ -14,34 +14,66 @@ import {
 	UserGroupIcon,
 	QuestionMarkCircleIcon,
 	ArchiveBoxIcon,
+	HandThumbUpIcon,
+	MapIcon,
 } from '@heroicons/react/24/outline';
 import FleetTrackingImage from '../../../../public/fleet-tracking-and-app-view.png';
 import { type BenefitData } from './Benefits';
 
 export const unlockYourGrowth: BenefitData = {
 	title: 'Your Vision & Our Support = Hyper Growth',
-	description: `You've built something special. Now, let's take it to the next level.`,
+	description: `You've built something special. 
+	Now, let's take it to the next level.`,
 	image: require('../../../../public/dispensary.png'),
 	bullets: [
 		{
-			description: 'Increase revenue by growing your local customer base',
-			icon: PresentationChartLineIcon,
+			description:
+				'Boost delivery revenues with automation and class-leading efficiency',
+			icon: UsersIcon,
 		},
 		{
-			description: `Personalized messaging campaigns and strategic promotions`,
+			description: `Appeal to new and regular customers with personalized messages and exclusive promotions`,
 			icon: MegaphoneIcon,
 		},
 		{
-			description: 'Create customer loyalty with high-impact events',
+			description:
+				'Create buzz with events that get people talking about your business',
 			icon: UsersIcon,
+		},
+		{
+			icon: PresentationChartLineIcon,
+			description: `2X your revenue in just 12 months
+			(Starting with a 10% boost in the first 100 days)`,
 		},
 	],
 	cta: `I'm ready to 2X My Business`,
 };
 
+export const deliveryManagementService: BenefitData = {
+	title: 'Make Cannabis Delivery A Breeze',
+	description: `with Delivery Assistance. Here's how we can help:`,
+	image: require('../../../../public/sun.png'),
+	bullets: [
+		{
+			description: `No more paper manifests. Automate your records.`,
+			icon: CheckIcon,
+		},
+		{
+			description:
+				'Manifests are assigned to drivers, for high accountability and less error.',
+			icon: ClipboardDocumentCheckIcon,
+		},
+		{
+			description: `Your drivers keep driving. We handle the rest.`,
+			icon: TruckIcon,
+		},
+	],
+	cta: `Automate my delivery service`,
+};
+
 export const automateDeliveryCompliance: BenefitData = {
-	title: `Relax, We Keep Your Delivery Compliant`,
-	description: `With Automation That Suits Your Business`,
+	title: `You Can Relax, We Keep Your Delivery Service Compliant`,
+	description: `With Automation That Suits Your Business.`,
 	image: require('../../../../public/compliance.png'),
 	bullets: [
 		{
@@ -49,12 +81,12 @@ export const automateDeliveryCompliance: BenefitData = {
 			icon: CheckIcon,
 		},
 		{
-			description: `Electronic records eliminate mistakes and keep your drivers on the road.`,
+			description: `Your records are saved in the cloud, and can't be lost.`,
 			icon: ArchiveBoxIcon,
 		},
 		{
 			description:
-				'State audit? No sweat. Your records are backed up and always available.',
+				'State audit? No sweat. Your records are backed up and instantly available.',
 			icon: ClipboardDocumentCheckIcon,
 		},
 	],
@@ -63,37 +95,30 @@ export const automateDeliveryCompliance: BenefitData = {
 
 export const trackDeliveries: BenefitData = {
 	title: 'Your Drivers Will Stay On Track',
-	description: `Track delivery drivers, orders and make adjustments on the fly`,
+	description: `Track delivery drivers, orders and make adjustments on the fly 
+	with Delivery Management.`,
 	image: FleetTrackingImage,
-	bullets: [],
-	cta: `Upgrade my delivery service`,
-};
-
-export const deliveryManagementService: BenefitData = {
-	title: 'Make Cannabis Delivery A Breeze',
-	description: `with Delivery Management Service`,
-	image: require('../../../../public/sun.png'),
 	bullets: [
 		{
-			description: `No more paper manifests. Automate your records.`,
-			icon: CheckIcon,
+			description: `Ensure on-time deliveries and maximize selling time.`,
+			icon: ClockIcon,
 		},
 		{
-			description: `Your drivers keep driving. We handle the rest.`,
-			icon: TruckIcon,
+			description: `Delivery scheduling maximizes capacity and minimizes trips.`,
+			icon: MapIcon,
 		},
 		{
-			description:
-				'State audit? No sweat. Your records are backed up and always available.',
-			icon: ClipboardDocumentCheckIcon,
+			description: `Delivery just got easier. 
+			Ask our sales team about Delivery Promotion.`,
+			icon: HandThumbUpIcon,
 		},
 	],
-	cta: `Automate my delivery service`,
+	cta: `Upgrade my delivery service`,
 };
 
 export const fullServiceDelivery: BenefitData = {
 	title: 'Outsource Your Delivery',
-	description: `Our Full Service Delivery has you covered from your doorstep to your customers. Here's what you can expect:`,
+	description: `Full Service Delivery has you covered from your doorstep to your customers. Here's what we can do for you:`,
 	// image: require('../../../../public/delivery-4.png'),
 	bullets: [
 		// {
@@ -132,7 +157,7 @@ export const fullServiceDelivery: BenefitData = {
 
 export const consumerTextMessaging: BenefitData = {
 	title: 'Stay In Touch With Your Customers',
-	description: `With engaging messaging and trusted experiences that make their day better, and keep them coming back`,
+	description: `With engaging messaging and trusted experiences that make their day better, and keep them coming back.`,
 	image: require('../../../../public/message.png'),
 	bullets: [
 		{
@@ -153,7 +178,7 @@ export const consumerTextMessaging: BenefitData = {
 
 export const messageSupport: BenefitData = {
 	title: 'Support That Keeps You Growing',
-	description: `You always have access to our customer success teams.`,
+	description: `You always have access to our Customer Success teams.`,
 	// image: require('../../../../public/message.png'),
 	bullets: [
 		{
@@ -199,7 +224,7 @@ export const dealValue: BenefitData = {
 	description: `We help you deliver experiences that earn you returning customers.`,
 	bullets: [
 		{
-			title: `Delivery Compliance Service`,
+			title: `Delivery Assistance Service`,
 			icon: CheckIcon,
 		},
 		{
@@ -211,7 +236,7 @@ export const dealValue: BenefitData = {
 			icon: CheckIcon,
 		},
 		{
-			title: `Consumer Messaging`,
+			title: `Messaging Service`,
 			icon: CheckIcon,
 		},
 		{

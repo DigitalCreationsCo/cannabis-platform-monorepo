@@ -5,7 +5,7 @@ import { styles } from '../../../styleClassNames';
 import { CTA } from '../../button';
 import FlexBox from '../../FlexBox';
 import IconWrapper from '../../IconWrapper';
-import { H5, H2, H3 } from '../../Typography';
+import { H5, H2, H3, H4 } from '../../Typography';
 
 export interface BenefitData {
 	title?: string;
@@ -54,19 +54,14 @@ export default function Benefits({
 					'flex flex-col flex-wrap items-center text-center justify-center gap-4 mx-auto max-w-md'
 				)}
 			>
-				{(data.title && (
-					<H2
-						className={twMerge(
-							styles.HERO.heading,
-							'text-dark',
-							'font-semibold'
-							// styles.shadow.textShadow
-						)}
-					>
+				{data.title && (
+					<H2 className={twMerge(styles.HERO.heading, 'text-dark')}>
 						{data.title}
 					</H2>
-				)) || <></>}
-				{data.description && <H3>{data.description}</H3>}
+				)}
+				{data.description && (
+					<H3 className="leading-normal">{data.description}</H3>
+				)}
 				<FlexBox
 					className={twMerge(
 						'flex flex-col lg:flex-row flex-wrap items-center justify-center gap-8 py-8'
@@ -103,7 +98,7 @@ export default function Benefits({
 								height={400}
 								className="bg-inverse shadow-lg md:rounded object-cover"
 								src={data.image}
-								alt="Benefits"
+								alt={data.title || ''}
 								placeholder="blur"
 								blurDataURL={data.image.toString()}
 								unoptimized
@@ -131,13 +126,18 @@ export function Benefit(
 				<div className="flex h-11 w-11 shadow-lg shrink-0 items-center justify-center bg-orange-300">
 					<IconWrapper iconSize={30} Icon={props.icon} />
 				</div>
-				<div className={twMerge('w-full', props.valueColor)}>
-					<H5>
+				<div
+					className={twMerge(
+						'w-full text-start flex flex-col',
+						props.valueColor
+					)}
+				>
+					<H4>
 						{props.title}
 						<span className={props.valueColor}>
 							{props.value && ` ($${props.value} value)`}
 						</span>
-					</H5>
+					</H4>
 					{props.description && <H5>{props.description}</H5>}
 				</div>
 			</FlexBox>

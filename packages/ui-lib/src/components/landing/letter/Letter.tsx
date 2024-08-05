@@ -4,7 +4,7 @@ import { twMerge } from 'tailwind-merge';
 import { styles } from '../../../styleClassNames';
 import { CTA } from '../../button';
 import FlexBox from '../../FlexBox';
-import { H2, H3, H5, Paragraph } from '../../Typography';
+import { H2, H3, H4, H5, Paragraph } from '../../Typography';
 
 interface LetterProps extends HTMLAttributes<HTMLDivElement> {
 	title: string;
@@ -41,33 +41,26 @@ export default function Letter({
 				)}
 			>
 				{title && (
-					<H2
-						className={twMerge(
-							styles.HERO.heading,
-							'font-semibold',
-							'text-dark'
-							// styles.shadow.textShadow
-						)}
-					>
-						{title}
-					</H2>
+					<H2 className={twMerge(styles.HERO.heading, 'text-dark')}>{title}</H2>
 				)}
 				{divider && <div className="w-11/12 mx-auto border-b-4"></div>}
 				<FlexBox className="w-full z-10 bg-inherit items-center justify-center">
 					<div className="mx-auto max-w-2xl py-4 px-10 bg-inherit">
-						{subtitle && <H3 className="mt-1">{subtitle}</H3>}
-						{text && <H3 className="font-normal mt-1">{text}</H3>}
+						{subtitle && <H3 className="mt-1 leading-normal">{subtitle}</H3>}
+						{text && (
+							<H4 className="font-normal mt-1 leading-normal">{text}</H4>
+						)}
 						{props.children}
-						{footer && <H3 className="mt-1">{footer}</H3>}
+						{footer && <H4 className="mt-1 leading-normal">{footer}</H4>}
 					</div>
 
 					{photos.length > 0 && (
-						<div className="flex-row justify-center md:flex hidden py-6">
+						<div className="flex flex-col md:flex-row justify-center gap-y-2 py-6">
 							{photos.map((photo: string, index) => (
 								<Image
 									key={index}
 									className={twMerge(
-										'rotate-[359.5deg] max-w-sm max-h-[275px]',
+										`rotate-[${359.5}deg] max-w-sm max-h-[275px]`,
 										index > 1 ? 'hidden lg:block' : 'block',
 										index === 1 ? 'z-10' : ''
 									)}

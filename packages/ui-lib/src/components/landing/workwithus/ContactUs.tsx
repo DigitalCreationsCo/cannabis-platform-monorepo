@@ -5,7 +5,6 @@ import {
 	applicationHeaders,
 	getFirstErrorOrNull,
 } from '@cd/core-lib';
-import { Widget } from '@typeform/embed-react';
 import axios, { type AxiosResponse } from 'axios';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
@@ -16,13 +15,13 @@ import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 import founder from '../../../../public/founder.png';
 import { styles } from '../../../styleClassNames';
-import Button from '../../button/Button';
+import CTA from '../../button/CTA';
 import CheckBox from '../../CheckBox';
 import Grid from '../../Grid';
 import Select from '../../Select';
 import TextArea from '../../TextArea';
 import TextField from '../../TextField';
-import { Paragraph, H2, H5, H4, H3 } from '../../Typography';
+import { Paragraph, H2, H3 } from '../../Typography';
 
 export interface ContactUsFormResponse {
 	firstName: string;
@@ -60,6 +59,7 @@ interface TeamMember {
 }
 
 const howDidYouHearAboutUsOptions: string[] = [
+	'',
 	'Linkedin',
 	'Recommended',
 	'Online Search',
@@ -68,11 +68,25 @@ const howDidYouHearAboutUsOptions: string[] = [
 ];
 
 const serviceOptions = [
-	'Delivery Management',
-	'Delivery Service',
-	'Consumer Messaging',
-	'Promotional Events🔥',
+	`I'm here to optimize my delivery service.`,
+	'I want to use text messaging to promote my business.',
+	`I'm here to automate my records and stay compliant.`,
+	'I want to promote my business events. 🔥',
 ];
+
+// const serviceOptions = [
+// 	'Delivery Management',
+// 	'Delivery Service',
+// 	'Messaging Service',
+// 	'Promotional Events🔥',
+// ];
+
+// const serviceOptions = [
+// 	{ value:'Delivery Management', label: 'I want to optimize my delivery service.'},
+// 	{value: 'Delivery Service', label: "I want to automate my record-keeping."},
+// 	{value: 'Messaging Service', label: "I want to use text messaging to promote my business."},
+// 	{value: 'Promotional Events🔥', label: "I want to promote my business events. 🔥"}
+// ];
 
 const dataLayer = (typeof window !== 'undefined' && window.dataLayer) || [];
 
@@ -81,6 +95,8 @@ export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
 
 	const [showScheduler, setShowScheduler] = useState(false);
 	const [loadingButton, setLoadingButton] = useState(false);
+	const [isSubmitted, setIsSubmitted] = useState(false);
+
 	const initialValues: ContactUsFormResponse = {
 		firstName: '',
 		lastName: '',
@@ -140,8 +156,8 @@ export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
 			company: yup.string().required('Company is required'),
 			whichServiceInterestedIn: yup
 				.string()
-				.oneOf(serviceOptions, 'Which service are you interested in?')
-				.required('Which service are you interested in?'),
+				.oneOf(serviceOptions, 'What motivated you to contact us?')
+				.required('What motivated you to contact us?'),
 			serviceAreaRange: yup.number().when('whichServiceInterestedIn', {
 				is: (value: any) => {
 					value?.includes('Delivery') || false;
@@ -182,6 +198,10 @@ export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
 			if (!response.data.success || response.data.success === 'false')
 				throw new Error(response.data.error);
 
+			// scroll to element
+			const element = document.getElementById('partner-heading');
+			element?.scrollIntoView({ behavior: 'smooth' });
+
 			setLoadingButton(false);
 			setShowScheduler(true);
 			// resetForm({ values: initialValues });
@@ -200,13 +220,21 @@ export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
 	}
 
 	const onSuccess = () => {
+		setIsSubmitted(true);
+
 		toast.success(
-			'We received your message. Our team will reach out in the next business day.',
+			'We received your message. Our team will reach out within 1 business day.',
 			{
 				duration: 5000,
 				position: 'bottom-center',
 			}
 		);
+
+		dataLayer.push({
+			event: 'formSubmission',
+			formId: 'contact-us-form',
+			formValues: values,
+		});
 
 		resetForm({ values: initialValues });
 	};
@@ -219,7 +247,10 @@ export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
 		<div id={props.id} className={twMerge('bg-slate-100')}>
 			<Grid className="py-12 lg:!py-24 px-8 md:px-32 grid-cols-1 xl:grid-cols-2 xl:gap-x-24 auto-cols-max">
 				<div className="pb-12 text-dark max-w-5xl col-span-full mx-auto">
-					<H2 className={twMerge(styles.HERO.heading, 'text-dark')}>
+					<H2
+						id="partner-heading"
+						className={twMerge(styles.HERO.heading, 'text-dark')}
+					>
 						<span className={twMerge(heading, styles.shadow.textShadow)}>
 							Partner with Gras
 						</span>{' '}
@@ -243,23 +274,30 @@ export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
 						/>
 					</aside>
 					<div className="mb-2 bg-blue-300 drop-shadow">
-						{/* {!showScheduler ? ( */}
 						<>
 							<H3 className="px-4 font-semibold">{`
 						Let's 2X Your Cannabis Business in 12 months.
 						`}</H3>
-							<Paragraph className="px-4 text-justify">
-								{`Bryant Mejia, founder of Gras
+							{!showScheduler ? (
+								<Paragraph className="px-4 text-justify">
+									{`Bryant Mejia, founder of Gras
 
 What is the #1 biggest barrier to growing your cannabis business?
 `}
-							</Paragraph>
+								</Paragraph>
+							) : isSubmitted ? (
+								<Paragraph className="px-4 text-justify">{`
+									Thank you for booking a call with our team.
+									Check your inbox for your confirmation email.
+									We look forward to working with you to achieve 
+									remarkable growth for your business.
+						`}</Paragraph>
+							) : (
+								<Paragraph className="px-4 text-justify">{`
+						Book your free Success Call with ${values.teamMember.name}.
+						`}</Paragraph>
+							)}
 						</>
-						{/* ) : (
-							<H3 className="px-4 font-semibold">{`
-						Schedule your call.
-						`}</H3>
-						)} */}
 					</div>
 				</div>
 
@@ -270,8 +308,10 @@ What is the #1 biggest barrier to growing your cannabis business?
 					<Grid className="grid-cols-2">
 						{(!showScheduler && (
 							<Paragraph className="p-4 text-justify col-span-full mx-auto">
-								{`Fill out this 4 minute form so we can meet to understand your needs 
-							and 2X your business with customer satisfaction, messaging and technology.
+								{`This 4 minute form helps us understand your current business needs. 
+								Think of it as an intro to your Success Call with our team. 
+								
+								On the call, we'll share your personalized blueprint to 2X your revenue in 12 months using messaging, delivery and events promotion to blow customer satisfaction through the roof.
 							`}
 							</Paragraph>
 						)) || <></>}
@@ -379,11 +419,22 @@ What is the #1 biggest barrier to growing your cannabis business?
 									helperText={touched.zipcode && errors.zipcode}
 								/>
 
+								<Select
+									values={['', ...serviceOptions]}
+									containerClassName="px-2 col-span-2"
+									name="whichServiceInterestedIn"
+									label="What motivated you to contact us?"
+									defaultValue={''}
+									value={values?.whichServiceInterestedIn}
+									onBlur={handleBlur}
+									setOption={handleChange}
+								/>
+
 								<TextField
 									containerClassName="px-2 col-span-2"
 									name="serviceAreaRange"
 									type="number"
-									label="How many miles from your location do you deliver?"
+									label="How many miles from your store location do you deliver?"
 									value={values.serviceAreaRange!}
 									onBlur={handleBlur}
 									onChange={handleChange}
@@ -434,16 +485,6 @@ What is the #1 biggest barrier to growing your cannabis business?
 									error={!!touched.message && !!errors.message}
 								/>
 
-								<Select
-									values={['', ...serviceOptions]}
-									containerClassName="px-2 col-span-2"
-									name="whichServiceInterestedIn"
-									label="Which service are you interested in?"
-									defaultValue={''}
-									value={values?.whichServiceInterestedIn}
-									onBlur={handleBlur}
-									setOption={handleChange}
-								/>
 								{/* {values.whichServiceInterestedIn.includes('Delivery') && (
 								<>
 									<TextField
@@ -484,7 +525,7 @@ What is the #1 biggest barrier to growing your cannabis business?
 									name="howDidYouHearAboutUs"
 									label="How did you hear about us?"
 									defaultValue={''}
-									value={values?.howDidYouHearAboutUs || ''}
+									value={values?.howDidYouHearAboutUs}
 									onBlur={handleBlur}
 									setOption={handleChange}
 								/>
@@ -502,14 +543,14 @@ What is the #1 biggest barrier to growing your cannabis business?
 									name={'subscribeCannabisInsiderNewsletter'}
 									onChange={handleChange}
 									checked={values.subscribeCannabisInsiderNewsletter}
-									label="Subscribe to our email newsletter for new trends, culture and events."
+									label="Subscribe to our email newsletter for trends, culture and events."
 								/>
 
 								<Paragraph className="px-2 col-span-full mx-auto">{`Gras uses your information to support your business. 
 								We will never sell your information.`}</Paragraph>
 
 								<div className="mt-16 mb-8 lg:mb-0 col-span-2 place-self-center mx-2">
-									<Button
+									<CTA
 										type="submit"
 										loading={loadingButton}
 										size="lg"
@@ -522,10 +563,8 @@ What is the #1 biggest barrier to growing your cannabis business?
 											notifyValidation();
 											handleSubmit();
 										}}
-									>
-										{/* {t('contact-sales')} */}
-										LET'S 2X MY BUSINESS
-									</Button>
+										cta={`Book your Success Call`}
+									/>
 								</div>
 							</>
 						) : (
@@ -574,23 +613,11 @@ const CalInlineEmbed = ({
 				layout: 'month_view',
 			});
 
+			cal('preload', { calLink: 'bryant-mejia-gras/success-call' });
+
 			cal('on', {
 				action: 'bookingSuccessful',
-				callback: (event) => {
-					toast.success(
-						'We received your message. Our team will reach out in the next business day.',
-						{
-							duration: 5000,
-							position: 'bottom-center',
-						}
-					);
-
-					dataLayer.push({
-						event: 'formSubmission',
-						formId: 'contact-us-form',
-						formValues: values,
-					});
-
+				callback: () => {
 					onSuccess?.();
 				},
 			});
@@ -611,7 +638,7 @@ const CalInlineEmbed = ({
 				title: `Your 2X Success Call With Gras`,
 				notes: `${values.message}
 ---
-You're meeting with ${values.teamMember.name}, ${values.teamMember.role} to go over the #1 barrier to 2X your cannabis business in the next 12 months with customer text messaging, event promotion and automation.
+You're meeting with ${values.teamMember.name}, ${values.teamMember.role} to go over the #1 barrier to 2X the revenue of ${values.company || 'your cannabis business'} in the next 12 months with customer text messaging, event promotion and automation.
 We look forward to working with you.
 `,
 			}}
