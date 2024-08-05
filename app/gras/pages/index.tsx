@@ -6,6 +6,11 @@
 /* eslint-disable i18next/no-literal-string */
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable react/no-unknown-property */
+import { TopBar } from '@/components/layouts';
+import { Error } from '@/components/shared';
+import { clientPromise } from '@/lib/db';
+import env from '@/lib/env';
+import { getSession } from '@/lib/session';
 import {
 	type ResponseDataEnvelope,
 	applicationHeaders,
@@ -20,7 +25,12 @@ import {
 	useEvents,
 	useLocalDispensaries,
 } from '@cd/core-lib';
-import { type Event, type Dispensary, type User } from '@cd/data-access';
+import {
+	type Event,
+	type Dispensary,
+	type User,
+	getUserBySession,
+} from '@cd/data-access';
 import {
 	Grid,
 	H1,
@@ -57,8 +67,6 @@ import { toast } from 'react-hot-toast';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 import { InfoCard } from '@/components/blog';
-import { TopBar } from '@/components/layouts';
-import { Error } from '@/components/shared';
 import EventCard from '@/components/shared/EventCard';
 // import {
 // 	getFacebookLoginStatus,
@@ -66,7 +74,6 @@ import EventCard from '@/components/shared/EventCard';
 // 	fbLogin,
 // } from '@cd/core-lib/src/lib/facebookIG';
 import RestrictPage from '@/components/shared/RestrictedPage';
-import env from '@/lib/env';
 import {
 	type Post,
 	type Settings,
@@ -736,17 +743,20 @@ Browse.getLayout = function getLayout(page: ReactElement) {
 };
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
-	const authToken = env.nextAuth.secret;
-
-	const { draftMode = false, locale, req } = ctx;
+	const { draftMode = false, locale, req, res } = ctx;
 	const sanityClient = getClient(draftMode ? { token: readToken } : undefined);
+
+	const session = await getSession(req, res);
+	const authToken = env.nextAuth.secret;
 
 	const [settings, posts = []] = await Promise.all([
 		getSettings(sanityClient),
 		getPosts(sanityClient),
 	]);
 
-	const over21 = await getCookie('is_legal_age', { req });
+	const client = await clientPromise;
+	const user = await getUserBySession({ client, session });
+
 	return {
 		props: {
 			...(locale ? await serverSideTranslations(locale, ['common']) : {}),
@@ -754,7 +764,11 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 			settings,
 			draftMode,
 			token: authToken,
-			user: { is_legal_age: Boolean(over21) },
+			user: {
+				...((user && JSON.parse(JSON.stringify(user))) || {}),
+				is_legal_age:
+					user?.is_legal_age || Boolean(req.cookies['is_legal_age']) || false,
+			},
 		},
 	};
 };

@@ -262,15 +262,14 @@ export const getServerSideProps = async ({
 		};
 	}
 
-	console.info(req.cookies);
-	console.info('is legal? ', Boolean(req.cookies['is_legal_age']));
 	return {
 		props: {
 			...(locale ? await serverSideTranslations(locale, ['common']) : {}),
 			event: JSON.parse(JSON.stringify(event)),
 			user: {
 				...((user && JSON.parse(JSON.stringify(user))) || {}),
-				is_legal_age: user.is_legal_age || Boolean(req.cookies['is_legal_age']),
+				is_legal_age:
+					user?.is_legal_age || Boolean(req.cookies['is_legal_age']) || false,
 			},
 			token,
 		},
