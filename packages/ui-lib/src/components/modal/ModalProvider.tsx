@@ -14,26 +14,30 @@ import LoginModal from './LoginModal/LoginModal';
 import MessageModal from './MessageModal';
 import NewDailyDealModal from './NewDailyDeal';
 import StoreFrontModal from './StoreFrontModal';
+import UserSignupModal from './UserSignupModal';
 // import ConfirmModal from "./ConfirmModal";
 // import MessageBanner from "./MessageBanner";
 // import MessageModal from "./MessageModal";
 // import SelectModal from "./SelectModal";
 // import TipModal from "./TipModal";
 
-const MODAL_COMPONENTS = Object.freeze({
-	SHOW_MODAL: MessageModal,
-	CONFIRM_MODAL: () => <></>,
-	SELECT_MODAL: () => <></>,
-	TIP_MODAL: () => <></>,
-	MESSAGE_BANNER: () => <></>,
-	CHECK_AGE_MODAL: CheckAgeModal,
-	CHECKOUT_MODAL: CheckoutModal,
-	CART_MODAL: CartModal,
-	LOGIN_MODAL: LoginModal,
-	EMAIL_MODAL: EmailModal,
-	NEW_DAILY_DEAL_MODAL: NewDailyDealModal,
-	STOREFRONT_MODAL: StoreFrontModal,
-});
+const MODAL_COMPONENTS =
+	// typeof values of modalTypes object
+	Object.freeze<Record<ModalType, React.FC<ModalStateProps>>>({
+		SHOW_MODAL: MessageModal,
+		CONFIRM_MODAL: () => <></>,
+		SELECT_MODAL: () => <></>,
+		TIP_MODAL: () => <></>,
+		MESSAGE_BANNER: () => <></>,
+		CHECK_AGE_MODAL: CheckAgeModal,
+		CHECKOUT_MODAL: CheckoutModal,
+		CART_MODAL: CartModal,
+		LOGIN_MODAL: LoginModal,
+		EMAIL_MODAL: EmailModal,
+		NEW_DAILY_DEAL_MODAL: NewDailyDealModal,
+		STOREFRONT_MODAL: StoreFrontModal,
+		SHOP_SIGN_UP_MODAL: UserSignupModal,
+	});
 
 type ModalContainerProps = ModalStateProps & {
 	dispatchCloseModal: () => void;

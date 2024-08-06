@@ -104,7 +104,10 @@ export default function LoginModal({
 		}
 	}, [error, success]);
 
-	const redirectUrl = token ? `/invitations/${token}` : '/browse';
+	const redirectUrl =
+		typeof window !== 'undefined' && token
+			? `/invitations/${token}`
+			: window.location.pathname || '/';
 
 	const formik = useFormik({
 		initialValues: {

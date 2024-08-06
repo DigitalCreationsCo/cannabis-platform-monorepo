@@ -53,6 +53,7 @@ export interface Event {
 	tickets_by: string;
 	primary_organizer_id: string;
 	primary_organizer_slug?: string;
+	primary_organizer_name?: string;
 	dedup: Dedup;
 	num_children: number;
 	debug_info: Record<string, any>;
@@ -83,7 +84,15 @@ export interface Event {
 	published: string;
 	rating: number;
 	comments: EventComment[];
+	is_new: boolean;
+	attendees: Attendee[];
 }
+
+export type Attendee = {
+	userId: string;
+	fullName: string;
+	username: string;
+};
 
 export type EventJobLocation = {
 	location: string;

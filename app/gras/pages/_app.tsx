@@ -25,7 +25,8 @@ import mixpanel from 'mixpanel-browser';
 import { SessionProvider } from 'next-auth/react';
 import { appWithTranslation } from 'next-i18next';
 import { NextSeo } from 'next-seo';
-import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import { Provider as ReduxProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { SWRConfig } from 'swr';
@@ -38,6 +39,7 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_API_KEY!);
 export interface SharedPageProps {
 	draftMode: boolean;
 	token: string;
+	isRouteChanging?: boolean;
 }
 
 function MyApp({
@@ -50,6 +52,25 @@ function MyApp({
 
 	const { pageProps } = appProps;
 	const { session, ...props } = pageProps;
+
+	const router = useRouter();
+	const [isRouteChanging, setIsRouteChanging] = useState(false);
+
+	useEffect(() => {
+		const handleRouteChange = (url) => {
+			console.log(`Route changed to: ${url}`);
+			setIsRouteChanging(true);
+		};
+		const handleRouteChangeComplete = (url) => {
+			console.log(`Route changed to: ${url}`);
+			setIsRouteChanging(false);
+		};
+
+		router.events.on('routeChangeComplete', handleRouteChangeComplete);
+		return () => {
+			router.events.off('routeChangeComplete', handleRouteChange);
+		};
+	}, [router]);
 
 	// Add mixpanel
 	useEffect(() => {
@@ -121,7 +142,12 @@ function MyApp({
 											initial={false}
 											// onExitComplete={() => window.scrollTo(0, 0)}
 										>
-											{getLayout(<Component {...props} />)}
+											{getLayout(
+												<Component
+													{...props}
+													isRouteChanging={isRouteChanging}
+												/>
+											)}
 										</AnimatePresence>
 									</Themer>
 								</Elements>

@@ -15,3 +15,4 @@ export * from './Modal';
 export { default as ModalProvider } from './ModalProvider';
 export { default as Modal } from './Modal';
 export { default as Modal2 } from './Modal2';
+export { default as UserSignupModal } from './UserSignupModal';

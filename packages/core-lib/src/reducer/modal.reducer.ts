@@ -88,7 +88,8 @@ export type ModalType =
 	| 'CHECK_AGE_MODAL'
 	| 'EMAIL_MODAL'
 	| 'NEW_DAILY_DEAL_MODAL'
-	| 'STOREFRONT_MODAL';
+	| 'STOREFRONT_MODAL'
+	| 'SHOP_SIGN_UP_MODAL';
 
 export interface ModalStateProps {
 	organization?: Dispensary;
@@ -101,6 +102,7 @@ export interface ModalStateProps {
 	isSelected?: boolean;
 	errorMessage?: string;
 	onSubmit?: () => any;
+	dispatchCloseModal: () => void;
 }
 
 const initialState: ModalStateProps = {
@@ -113,6 +115,7 @@ const initialState: ModalStateProps = {
 	isDeclined: false,
 	isSelected: false,
 	errorMessage: '',
+	dispatchCloseModal: () => {},
 };
 
 export type ModalActionPayload = ModalStateProps;

@@ -136,6 +136,7 @@
 	"new-team": "New Dispensary",
 	"enter-dispensary-details": "Enter your dispensary details",
 	"profile": "Profile",
+	"user-not-found": "User not found",
 	"team-not-found": "Dispensary not found",
 	"add-customer": "Add Customer",
 	"customer-added": "Customer added successfully.",
@@ -297,5 +298,9 @@
 	"learn-more": "Learn More",
 	"send-invite": "Send Invite",
 	"invite-customer": "Invite Customer",
-	"find-flower-events-dispensaries": "Find events & dispensaries"
+	"find-flower-events-dispensaries": "Find events, activities and dispensaries",
+	"get-tickets": "Get Tickets",
+	"rsvp": "RSVP",
+	"rsvp-success": "You successfully rsvp'd for this event",
+	"rsvp-failed": "Something went wrong while rsvp'ing. Please try again."
 }

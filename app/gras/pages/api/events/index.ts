@@ -25,9 +25,6 @@ export default async function handler(
 			case 'PUT':
 				await handlePUT(req, res);
 				break;
-			// case 'PATCH':
-			// 	await handlePATCH(req, res);
-			// 	break;
 			default:
 				// res.setHeader('Allow', 'GET, PUT, PATCH');
 				res.setHeader('Allow', 'GET, PUT');

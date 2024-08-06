@@ -63,9 +63,9 @@ const styles = Object.freeze({
 	},
 	TOPBAR: {
 		topbar: [
-			'h-14',
-			'z-50 sticky flex flex-row bg-inverse-soft items-center shrink-0 justify-between md:gap-x-5',
-			'py-2 px-4',
+			'h-auto sm:h-[68px]',
+			'z-50 sticky flex flex-row bg-inverse-soft items-center shrink-0 justify-between gap-x-5',
+			'pt-4 px-4',
 		],
 		tagline: [
 			'p-0 m-0',
@@ -84,7 +84,7 @@ const styles = Object.freeze({
 			'btn focus:!border-primary focus:!ring-primary focus:!outline-primary h-32 w-32 col-span-1 !rounded-full p-0 m-0 overflow-hidden',
 		],
 		highlight: [
-			'border border-transparent transition hover:border hover:border-primary rounded-btn px-4 py-1 tracking-wide text-lg',
+			'border border-transparent transition hover:border hover:border-primary rounded-btn px-4 py-1 tracking-wide text-lg whitespace-nowrap',
 		],
 	},
 	FOOTER: {

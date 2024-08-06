@@ -1,11 +1,14 @@
 import app from '@/lib/app';
 import { clientPromise } from '@/lib/db';
 import env from '@/lib/env';
+import { NextPageWithLayout } from '@/lib/next.types';
 import { getSession } from '@/lib/session';
 import {
 	axios,
 	fetcher,
 	keywords,
+	modalActions,
+	modalTypes,
 	renderAddress,
 	showDate,
 	showTime,
@@ -34,7 +37,9 @@ import {
 	GlobeAmericasIcon,
 	ClockIcon,
 } from '@heroicons/react/24/solid';
+import { motion, AnimatePresence } from 'framer-motion';
 import { type GetServerSidePropsContext } from 'next';
+import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { NextSeo } from 'next-seo';
 import Image from 'next/image';
@@ -42,17 +47,72 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useRouter } from 'next/router';
 import { useState, type ReactElement } from 'react';
+import { toast } from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
 import useSWR from 'swr';
 import RestrictPage from '@/components/shared/RestrictedPage';
 import seoConfig from '@/lib/seo.config';
+import { useIsLegalAge } from '@/lib/util';
+import { type SharedPageProps } from '../_app';
 
-interface EventPageProps {
+interface EventPageProps extends SharedPageProps {
 	event: Event;
 	token: string;
 }
 
-function EventPage({ event, user }: EventPageProps & { user: any }) {
+function EventPage({
+	event,
+	user,
+	isRouteChanging,
+}: EventPageProps & { user: any }) {
+	console.info('event ', event);
 	const Router = useRouter();
+	const { t } = useTranslation('common');
+	const dispatch = useDispatch();
+
+	const { isLegalAge } = useIsLegalAge(user);
+
+	function openLoginModal() {
+		dispatch(
+			modalActions.openModal({
+				modalType: modalTypes.loginModal,
+			})
+		);
+	}
+
+	const isSignedInOrThrow = (user: User) => {
+		if (!user.id) {
+			throw new Error(t('user-not-found'));
+		}
+	};
+
+	const rsvpEvent = () => {
+		try {
+			isSignedInOrThrow(user);
+			sendUserRSVP({ eventId: event.id, user });
+		} catch (error: any) {
+			if (error.message === t('user-not-found')) {
+				openLoginModal();
+			} else {
+				toast.error(error.message);
+			}
+		}
+	};
+
+	const sendUserRSVP = async ({ user }: { eventId: string; user: User }) => {
+		try {
+			await axios.post(`/api/events/${event.id}/rsvp`, {
+				userId: user.id,
+				fullName: user.name,
+				username: user.username,
+			});
+			toast.success(t('rsvp-success'));
+		} catch (error) {
+			console.error('Error RSVPing to event:', error);
+			toast.error(t('rsvp-failed'));
+		}
+	};
+
 	return (
 		<>
 			<NextSeo
@@ -85,39 +145,49 @@ function EventPage({ event, user }: EventPageProps & { user: any }) {
 					},
 				]}
 			/>
-			<RestrictPage showRestrictedContent={user.is_legal_age}>
+			<RestrictPage showRestrictedContent={isLegalAge}>
 				<Page
 					gradient="green"
 					// style={{ ...showOrFilterPageBySession}}
 				>
 					<BackButton />
 					<FlexBox className="gap-y-4 max-w-screen-md lg:max-w-full lg:w-full">
-						<H1 className="text-white drop-shadow-[0px_2px_2px_#666]">
+						<H1 className="text-3xl md:text-5xl text-white drop-shadow-[0px_2px_2px_#666]">
 							{event.name}
 						</H1>
 						<Grid className="grid-cols-1 lg:grid-cols-4 gap-8 w-full">
-							<div className="flex max-w-screen-sm flex-col lg:col-span-2 gap-4">
-								<EventDetails />
-								<Image
-									src={event.image?.url || require('public/hemp.png')}
-									alt={event.name}
-									width={300}
-									height={300}
-									className="mx-auto w-full rounded shadow aspect-auto"
-									priority
-									quality={100}
-								/>
-								<Summary />
+							<div className="flex flex-col lg:col-span-2 gap-4">
+								{isRouteChanging || (
+									<motion.div
+										key={event.id}
+										initial={{ scale: 1.5 }}
+										animate={{ scale: 1 }}
+										exit={{ scale: 2 }}
+									>
+										<Image
+											src={event.image?.url || require('public/hemp.png')}
+											alt={event.name}
+											width={300}
+											height={300}
+											className="mx-auto w-full rounded shadow aspect-auto"
+											priority
+											quality={100}
+										/>
+									</motion.div>
+								)}
 							</div>
 
-							<div className="space-y-4">
+							<div className="space-y-4 lg:col-span-1">
+								<EventDetails />
+								<Summary />
+
 								{(event.tickets_url && <RSVP />) || <></>}
 								<Share />
 							</div>
 
-							{/* <FlexBox className="px-4">
-							<Comments comments={event.comments ?? []} user={user} />
-						</FlexBox> */}
+							{/* <FlexBox>
+								<Comments comments={event.comments ?? []} user={user} />
+							</FlexBox> */}
 						</Grid>
 					</FlexBox>
 				</Page>
@@ -185,33 +255,39 @@ function EventPage({ event, user }: EventPageProps & { user: any }) {
 
 	function RSVP() {
 		return (
-			<Link href={`${event.tickets_url}`} target="_blank" className="w-fit">
+			<FlexBox className="flex-wrap flex-row gap-4">
 				<Button
+					onClick={rsvpEvent}
 					transparent
 					hover="accent-soft"
 					border
 					size="sm"
-					className="border-white border bg-transparent rounded-full gap-x-2 p-4"
+					className="uppercase border-white border bg-transparent rounded-full gap-x-2 p-4"
 				>
-					<Paragraph className="text-white font-medium">{`Get tickets`}</Paragraph>
+					<Paragraph className="text-white font-medium">{t('rsvp')}</Paragraph>
 				</Button>
-			</Link>
+
+				<Link href={`${event.tickets_url}`} target="_blank">
+					<Button
+						transparent
+						hover="accent-soft"
+						border
+						size="sm"
+						className="uppercase border-white border bg-transparent rounded-full gap-x-2 p-4"
+					>
+						<Paragraph className="text-white font-medium">
+							{t(`get-tickets`)}
+						</Paragraph>
+					</Button>
+				</Link>
+			</FlexBox>
 		);
 	}
 
 	function Share() {
 		return (
-			<FlexBox className="gap-4">
-				{/* <Button
-					transparent
-					hover="accent-soft"
-					border
-					size="sm"
-					className="border-white border bg-transparent rounded-full gap-x-2 p-4"
-				>
-					<ShareIcon height={22} width={22} className="text-white" />
-					<Paragraph className="text-white">{`Share`}</Paragraph>
-				</Button> */}
+			<FlexBox className="gap-4 text-light">
+				Share this event
 				<Link
 					className="twitter-share-button w-fit"
 					href={`https://x.com/compose/post?text=${encodeURIComponent(`I'll be at ${event.name} in ${event.primary_venue.address.city} on ${showDate(event.start_date)}.
@@ -266,11 +342,7 @@ export const getServerSideProps = async ({
 		props: {
 			...(locale ? await serverSideTranslations(locale, ['common']) : {}),
 			event: JSON.parse(JSON.stringify(event)),
-			user: {
-				...((user && JSON.parse(JSON.stringify(user))) || {}),
-				is_legal_age:
-					user?.is_legal_age || Boolean(req.cookies['is_legal_age']) || false,
-			},
+			user: (user && JSON.parse(JSON.stringify(user))) || {},
 			token,
 		},
 	};

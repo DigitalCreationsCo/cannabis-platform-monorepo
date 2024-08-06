@@ -167,9 +167,9 @@ function DispensaryCard({
 				src={dispensary?.images?.[0]?.location || logo.src}
 				blurData={dispensary?.images?.[0]?.blurhash || ''}
 			>
-				<FlexBox className="z-5 left-0 flex-col">
+				<FlexBox className="z-5 left-0 flex-col w-full">
 					{isHovered ? (
-						<div style={{ ...hoverStyles }} className="w-full p-2">
+						<div style={{ ...hoverStyles }} className="px-1 w-full">
 							<Link
 								href={`/browse/${dispensary.slug}`}
 								className="absolute w-50 h-50 bottom-1 -mb-10 -mr-10 right-1 rounded-full text-gray-500 hover:text-secondary-light"
@@ -198,7 +198,7 @@ function DispensaryCard({
 							</FlexBox>
 						</div>
 					) : (
-						<div className="w-full p-2">
+						<div className="px-1 w-full">
 							<H3
 								style={{ color: applyDispensaryStyles['primary-color'] }}
 								className="drop-shadow overflow-x-hidden z-5"

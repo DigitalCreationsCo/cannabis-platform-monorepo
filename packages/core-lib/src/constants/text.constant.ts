@@ -380,7 +380,7 @@ const TextContent = Object.freeze({
 		support: '/support',
 
 		help: `/help`,
-		about: '/about-gras',
+		about: '/about-us',
 		compliance: `/help?topic=compliance`,
 		faq: `/help?topic=faq`,
 		install_guide: `/help?topic=install-guide`,

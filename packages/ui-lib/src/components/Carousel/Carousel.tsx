@@ -32,6 +32,7 @@ export default function Carousel<D>({
 				// partialVisible
 				centerMode
 				removeArrowOnDeviceType={['tablet', 'mobile']}
+				renderArrowsWhenDisabled
 				responsive={{
 					xl: {
 						breakpoint: { max: 4000, min: 1400 },

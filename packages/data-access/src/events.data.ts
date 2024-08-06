@@ -3,7 +3,12 @@
 import { type MongoClient } from 'mongodb';
 import { db_namespace } from './db';
 import { metersToRadians, EARTH_RADIUS_METERS } from './helpers';
-import { type EventJobLocation, type Event, type EventComment } from './types';
+import {
+	type EventJobLocation,
+	type Event,
+	type EventComment,
+	type Attendee,
+} from './types';
 import { getZipcodeLocation } from './zipcode.data';
 
 export const createManyEvents = async ({
@@ -25,6 +30,9 @@ export const createManyEvents = async ({
 
 				// Set the location field
 				event.primary_venue.address.location = [longitude, latitude];
+
+				// TTL index 2 weeks
+				event.is_new = true;
 
 				return event;
 			})
@@ -60,6 +68,20 @@ export const updateManyEvents = async ({
 								},
 							},
 						},
+						$setOnInsert: {
+							...event,
+							primary_venue: {
+								...event.primary_venue,
+								address: {
+									...event.primary_venue.address,
+									location: [
+										parseFloat(event.primary_venue.address.longitude),
+										parseFloat(event.primary_venue.address.latitude),
+									],
+								},
+							},
+							is_new: true, // TTL index 2 weeks
+						},
 					},
 					upsert: true,
 				},
@@ -94,6 +116,7 @@ export const createEvent = async ({
 								],
 							},
 						},
+						is_new: true, // TTL index 2 weeks
 					},
 				},
 				{
@@ -136,6 +159,20 @@ export const updateEvent = async ({
 								],
 							},
 						},
+					},
+					$setOnInsert: {
+						...data,
+						primary_venue: {
+							...data.primary_venue,
+							address: {
+								...data.primary_venue.address,
+								location: [
+									parseFloat(data.primary_venue.address.longitude),
+									parseFloat(data.primary_venue.address.latitude),
+								],
+							},
+						},
+						is_new: true, // TTL index 2 weeks
 					},
 				},
 				{
@@ -223,6 +260,47 @@ export const getEvents = async ({
 			{
 				$addFields: {
 					// id: { $toString: '$_id' },
+					date: { $dateFromString: { dateString: '$start_date' } },
+					distance: '$distance',
+				},
+			},
+			{
+				$sort: {
+					end_date: 1,
+					start_date: 1,
+				},
+			},
+		])
+		.toArray();
+};
+
+export const getNewEvents = async ({
+	client,
+	limit = 3,
+	zipcode = '10011',
+}: {
+	client: MongoClient;
+	limit?: number;
+	zipcode: string;
+}) => {
+	const { db, collections } = db_namespace;
+	return await client
+		.db(db)
+		.collection<Event>(collections.events)
+		.aggregate<Event>([
+			{ $match: { is_new: true } },
+			{
+				$geoNear: {
+					near: zipcode,
+					distanceField: 'distance',
+					spherical: true,
+				},
+			},
+			{
+				$limit: Number(limit),
+			},
+			{
+				$addFields: {
 					date: { $dateFromString: { dateString: '$start_date' } },
 					distance: '$distance',
 				},
@@ -326,6 +404,26 @@ export const getEventsByTeamSlug = async ({
 			},
 		])
 		.toArray();
+};
+
+export const addEventAttendee = async ({
+	client,
+	where,
+	attendee,
+}: {
+	client: MongoClient;
+	where: { id: string };
+	attendee: Attendee;
+}) => {
+	const { db, collections } = db_namespace;
+	return await client
+		.db(db)
+		.collection<Event>(collections.events)
+		.updateOne(where, {
+			$push: {
+				attendees: attendee,
+			},
+		});
 };
 
 export const deleteEvent = async ({

@@ -48,7 +48,6 @@ import {
 } from '@cd/ui-lib';
 import { GlobeAmericasIcon } from '@heroicons/react/24/outline';
 import { type AxiosResponse } from 'axios';
-import { getCookie } from 'cookies-next';
 import { useFormik } from 'formik';
 import { AnimatePresence, motion } from 'framer-motion';
 // import mapboxgl from 'mapbox-gl';
@@ -84,6 +83,7 @@ import {
 } from '@/lib/sanity';
 import seoconfig from '@/lib/seo.config';
 // import markerImage from 'public/map-marker.png';
+import { useIsLegalAge } from '@/lib/util';
 
 const defaultZipcode = '10001';
 
@@ -97,6 +97,8 @@ export default function Browse({
 	settings: Settings;
 	user: User;
 }) {
+	const { isLegalAge } = useIsLegalAge(user);
+
 	const { t } = useTranslation('common');
 	const saveZipcodeToLocalStorage = (zipcode: string): string => {
 		if (isValidZipcode(zipcode)) {
@@ -261,7 +263,7 @@ export default function Browse({
 				]}
 			/>
 
-			<RestrictPage showRestrictedContent={user.is_legal_age}>
+			<RestrictPage showRestrictedContent={isLegalAge}>
 				<Page
 					id="browse-page"
 					gradient="pink"
@@ -270,87 +272,82 @@ export default function Browse({
 					<div className="lg:px-10">
 						<TopBar
 							SearchComponent={
-								<>
+								<div className="flex flex-col xl:flex-row relative self-start z-10 gap-x-8 gap-y-1 w-full">
+									{/* TEST */}
+									{/* {`lookup city: ${lookupCity}`}
+							{`values.city: ${values.city}`}
+							{`eventsLocationResults length: ${eventsLocationResults.length}`}
+							{`zipcode: ${zipcode}`}
+							{`radius: ${radius}`} */}
 									<H1
 										className={twMerge([
 											'text-light',
 											'text-2xl',
 											'lg:text-4xl',
-											'lg:pr-0',
-											'xl:pr-8',
+											'whitespace-nowrap',
 											styles.shadow.textShadow,
 										])}
+										// className={twMerge([
+										// 	'sm:hidden text-xl',
+										// 	'text-light',
+										// 	styles.shadow.textShadow,
+										// ])}
 									>
-										{t('find-flower-events-dispensaries')}
-										<span
-										// className="hidden xl:!inline"
-										>{` near you`}</span>
+										{/* {t('find-flower-events-dispensaries')} */}
+										{`Find events`}
+										{/* <span className="hidden md:!inline">{`, activities`}</span> */}
+										{` and dispensaries`}
+										<span className="hidden md:!inline">{` near you`}</span>
 									</H1>
-								</>
+									<div className="relative w-full">
+										<TextField
+											containerClassName="w-full max-w-lg"
+											autoComplete="off"
+											type="text"
+											name="city"
+											placeholder={lookupCity || 'Enter your city'}
+											value={values.city}
+											onBlur={() => {
+												setEventsLocationResults([]);
+											}}
+											onChange={(e: any) => {
+												e.preventDefault();
+												setFieldValue('city', e.target.value);
+												debounceAddressLookup(e);
+											}}
+											error={!!zipcodeError}
+											helperText={zipcodeError}
+											insertIcon={
+												<GlobeAmericasIcon className="h-7 w-7 shrink-0 pr-1" />
+											}
+										/>
+										<FlexBox
+											className={twMerge(
+												'absolute rounded mt-1 border sm:max-w-md flex-col bg-gray-100 z-50',
+												!eventsLocationResults.length && 'hidden'
+											)}
+										>
+											{eventsLocationResults.map((result, index) => (
+												<div
+													key={index}
+													className="hover:bg-gray-200 z-20 p-2 w-full"
+													onMouseDown={(e) => {
+														e.stopPropagation();
+														setFieldValue('city', result.display_name);
+														saveCityToLocalStorage(result.display_name);
+														saveZipcodeToLocalStorage(result.address.postcode);
+														setEventsLocationResults([]);
+													}}
+												>
+													{result.display_name}
+												</div>
+											))}
+										</FlexBox>
+									</div>{' '}
+								</div>
 							}
 						/>
-						<div className="relative mx-4 sm:mx-auto md:max-w-md max-w-fit">
-							{/* TEST */}
-							{/* {`lookup city: ${lookupCity}`}
-							{`values.city: ${values.city}`}
-							{`eventsLocationResults length: ${eventsLocationResults.length}`}
-							{`zipcode: ${zipcode}`}
-							{`radius: ${radius}`} */}
-							<H1
-								className={twMerge([
-									'sm:hidden text-xl',
-									'text-light',
-									styles.shadow.textShadow,
-								])}
-							>
-								{t('find-flower-events-dispensaries')}
-								<span>{` near you`}</span>
-							</H1>
-							<TextField
-								containerClassName="mt-1 md:mt-0 place-self-center self-center w-full"
-								autoComplete="off"
-								type="text"
-								name="city"
-								placeholder={lookupCity || 'Enter your city'}
-								value={values.city}
-								onBlur={() => {
-									setEventsLocationResults([]);
-								}}
-								onChange={(e: any) => {
-									e.preventDefault();
-									setFieldValue('city', e.target.value);
-									debounceAddressLookup(e);
-								}}
-								error={!!zipcodeError}
-								helperText={zipcodeError}
-								insertIcon={
-									<GlobeAmericasIcon className="h-7 w-7 shrink-0 pr-1" />
-								}
-							/>
-							<FlexBox
-								className={twMerge(
-									'absolute rounded mt-1 border sm:max-w-md flex-col bg-gray-100 z-50',
-									!eventsLocationResults.length && 'hidden'
-								)}
-							>
-								{eventsLocationResults.map((result, index) => (
-									<div
-										key={index}
-										className="hover:bg-gray-200 z-20 p-2 w-full"
-										onMouseDown={(e) => {
-											e.stopPropagation();
-											setFieldValue('city', result.display_name);
-											saveCityToLocalStorage(result.display_name);
-											saveZipcodeToLocalStorage(result.address.postcode);
-											setEventsLocationResults([]);
-										}}
-									>
-										{result.display_name}
-									</div>
-								))}
-							</FlexBox>
-						</div>
-						<Grid className="relative grid-cols-3 xs:pb-16">
+						<Grid className="relative grid-cols-3 xs:pb-16 pt-2 sm:pt-10 lg:pt-12 xl:pt-0">
 							<div className="col-span-full">
 								<Carousel
 									responsive={{
@@ -764,11 +761,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 			settings,
 			draftMode,
 			token: authToken,
-			user: {
-				...((user && JSON.parse(JSON.stringify(user))) || {}),
-				is_legal_age:
-					user?.is_legal_age || Boolean(req.cookies['is_legal_age']) || false,
-			},
+			user: (user && JSON.parse(JSON.stringify(user))) || {},
 		},
 	};
 };

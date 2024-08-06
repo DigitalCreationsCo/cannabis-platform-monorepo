@@ -14,7 +14,7 @@ import { useTranslation } from 'next-i18next';
 import Image from 'next/image';
 import Link from 'next/link';
 import logo from 'public/logo.png';
-import { type CSSProperties, type PropsWithChildren } from 'react';
+import { useEffect, type CSSProperties, type PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 import ImageGrid from '@/components/shared/ImageGrid/ImageGrid';
 import friendsVideo from 'public/Gras-community-clip.mp4';
@@ -73,7 +73,7 @@ export default function RestrictPage({
 						'w-full lg:w-[60%]',
 						'lg:top-[10%]',
 						'lg:left-[20%]',
-						'p-4 lg:p-16',
+						'p-4 sm:p-10',
 						'gap-2 lg:gap-4',
 						'lg:rounded',
 						// 'lg:!py-16 p-0 lg:px-0 pb-0',
@@ -85,7 +85,7 @@ export default function RestrictPage({
 						'lg:overflow-hidden'
 					)}
 				>
-					<div className="z-10 h-fit mx-auto lg:my-auto px-4 max-w-sm space-y-4">
+					<div className="z-10 h-fit mx-auto lg:my-auto px-4 w-1/2 max-w-sm shrink-0 space-y-4">
 						{/* <FlexBox>
 								<Link
 									href={'/'}
@@ -112,12 +112,12 @@ export default function RestrictPage({
 					</div>
 					<video
 						className={twMerge(
-							'absolute lg:relative lg:inline',
+							'absolute lg:relative',
 							'min-h-full',
 							'opacity-35',
-							'lg:max-w-md lg:rounded-lg lg:opacity-100',
-							'shadow',
-							'aspect-video'
+							'lg:w-1/2 lg:opacity-100',
+							'aspect-video',
+							'shadow'
 						)}
 						style={{
 							objectFit: 'cover',

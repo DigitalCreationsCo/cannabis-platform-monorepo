@@ -47,15 +47,13 @@ function TopBar({ showSearch = true, SearchComponent }: TopBarProps) {
 
 	return (
 		<div className={twMerge([styles.TOPBAR.topbar, 'bg-transparent'])}>
-			<div className="justify-center hidden sm:flex relative mx-auto z-10">
-				{(showSearch && SearchComponent) || null}
-			</div>
+			{(showSearch && SearchComponent) || null}
 
-			<FlexBox className="grow">
+			<FlexBox className="flex h-16 sm:h-full items-center justify-between shrink-0 flex-col sm:flex-row gap-5">
 				<Link
 					href={'/'}
 					className={twMerge(
-						'z-50 flex flex-row gap-x-4 w-full items-center sm:justify-end',
+						'z-50 flex flex-row gap-x-4',
 						styles.shadow.logoShadow
 					)}
 				>
@@ -69,19 +67,10 @@ function TopBar({ showSearch = true, SearchComponent }: TopBarProps) {
 						quality={25}
 					/> */}
 				</Link>
-			</FlexBox>
-
-			{/* {showLocation && (
-				// <Paragraph>Location: {user.address[0].zipcode || 10011}</Paragraph>
-				<Paragraph>Location: 10011</Paragraph>
-			)} */}
-
-			<FlexBox className="flex flex-row items-center md:space-x-4 md:pr-2">
 				{/* SHOW ACCOUNT DROPDOWN BUTTON OR SIGNIN */}
 				{user && <_AccountDropDown />}
 				{!user && (
-					<FlexBox>
-						{/* <Link href="/auth/login"> */}
+					<FlexBox className="shrink-0">
 						<Button
 							className={twMerge(
 								styles.BUTTON.highlight,
@@ -94,7 +83,6 @@ function TopBar({ showSearch = true, SearchComponent }: TopBarProps) {
 						>
 							{t('sign-in')}
 						</Button>
-						{/* </Link> */}
 					</FlexBox>
 				)}
 			</FlexBox>

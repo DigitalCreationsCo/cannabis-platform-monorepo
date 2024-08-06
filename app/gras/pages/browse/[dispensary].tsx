@@ -10,6 +10,7 @@ import {
 	Card,
 	ErrorMessage,
 	FlexBox,
+	H1,
 	H4,
 	H6,
 	IconWrapper,
@@ -63,12 +64,12 @@ function DispensaryPage({
 
 	const Heading = () => (
 		<div>
-			{/* <H1
+			<H1
 				style={{ color: applyDispensaryStyles['primary-color'] }}
 				className={`whitespace-normal px-2`}
 			>
 				{organization.name}
-			</H1> */}
+			</H1>
 			{(organization.images?.length && organization.images?.length > 0 && (
 				<div className="min-h-[150px] content-center">
 					<Image
@@ -281,7 +282,7 @@ function DispensaryPage({
 			<NextSeo {...seoConfig} />
 			<Page
 				gradient="pink"
-				className="w-full !pt-0 pb-0 px-0 md:!pt-12 sm:!pb-24 md:!pb-24 lg:!pb-24 xl:!pb-24 !min-h-full"
+				className="w-full !pt-0 pb-0 px-0 md:!pt-12 sm:!pb-24 md:!pb-24 lg:!pb-24 xl:!pb-24 h-screen"
 			>
 				<Card
 					style={{ backgroundColor: applyDispensaryStyles['background-color'] }}

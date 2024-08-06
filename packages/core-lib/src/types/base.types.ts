@@ -57,6 +57,7 @@ export type AppEvent =
 	| 'webhook.updated'
 	| 'event.fetched'
 	| 'event.comment.created'
+	| 'event.rsvp.created'
 	| 'dispensaries.fetched'
 	| 'dispensary.dailyDeal.fetched'
 	| 'dispensary.dailyDeal.created'
