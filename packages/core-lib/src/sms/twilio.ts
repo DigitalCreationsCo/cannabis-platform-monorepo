@@ -1,3 +1,4 @@
+import { type Dispensary } from '@cd/data-access';
 import { Twilio as TwilioClient, getExpectedTwilioSignature } from 'twilio';
 class Twilio {
 	private t: TwilioClient;
@@ -70,7 +71,7 @@ class Twilio {
 			});
 	}
 
-	async provisionSMSPhoneNumber(slug: string): Promise<string> {
+	async provisionSMSPhoneNumber(team: Dispensary): Promise<string> {
 		// provision new phone number and return;
 		const numbers = await this.t
 			.availablePhoneNumbers('US')
@@ -78,11 +79,26 @@ class Twilio {
 		if (numbers[0]?.phoneNumber === undefined) {
 			throw new Error('No phone numbers available');
 		}
-		await this.t.incomingPhoneNumbers.create({
-			friendlyName: slug,
+		const { phoneNumber } = await this.t.incomingPhoneNumbers.create({
+			friendlyName: team.slug,
 			phoneNumber: numbers[0].phoneNumber,
 		});
-		return numbers[0].phoneNumber;
+
+		// TODO add phone number to service pool cnditionally
+		//
+
+		// call storeData function to sync dispensary to phone number
+		await this.t.sync.v1
+			.services(process.env.SYNC_SERVICE_ID!)
+			.documents.create({
+				uniqueName: phoneNumber,
+				data: {
+					name: team.name,
+					slug: team.slug,
+					segment: team.weedTextSegmentId,
+				} as TwilioDocumentSyncDispensary,
+			});
+		return phoneNumber;
 	}
 
 	async getPhoneNumberBySlug(slug: string) {
@@ -107,3 +123,9 @@ class Twilio {
 const accountSid = process.env.TWILIO_ACCOUNT_SID ?? '';
 const authToken = process.env.TWILIO_AUTH_TOKEN ?? '';
 export default new Twilio(accountSid, authToken);
+
+interface TwilioDocumentSyncDispensary {
+	name: string;
+	slug: string;
+	segment: string;
+}

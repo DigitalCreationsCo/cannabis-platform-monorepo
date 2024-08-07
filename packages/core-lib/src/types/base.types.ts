@@ -71,6 +71,8 @@ export type AppEvent =
 	| 'dispensary.customer.updated'
 	| 'dispensary.customer.removed'
 	| 'dispensary.customer.invited'
+	| 'dispensary.customer.sms_subscribed'
+	| 'dispensary.customer.sms_unsubscribed'
 	| 'dispensary.event.fetched'
 	| 'dispensary.event.created'
 	| 'dispensary.event.updated'

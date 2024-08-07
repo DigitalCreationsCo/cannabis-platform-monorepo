@@ -2,11 +2,15 @@
 import { type Customer } from '@cd/data-access';
 import { applicationHeaders, axios } from '../axiosInstance';
 import { slugify } from '../utils/common.util';
+import { prependDialCode } from '../utils/phone.util';
 import { urlBuilder } from '../utils/urlBuilder';
 
 class FreshSales {
 	private key: string;
 	private FRESHSALES_ADMIN_USERID = 26004178205;
+
+	// change this be more selective of customers, vendors, etc.
+	private ALL_CONTACTS_VIEW_ID = 26004135503;
 	constructor() {
 		if (!process.env.FRESHSALES_API_KEY)
 			throw new Error(`Couldn't initialize FreshSales. No API key provided.`);
@@ -93,7 +97,9 @@ class FreshSales {
 		}
 	}
 
-	async createContact(contact: Partial<FreshSalesContactParameters>) {
+	async createContact(
+		contact: Partial<FreshSalesContactParameters>
+	): Promise<FreshSalesContactParameters> {
 		try {
 			console.info('create contact');
 			const response = await axios.post<any>(
@@ -116,29 +122,21 @@ class FreshSales {
 			);
 
 			console.info('freshsales create contact: ', response.data);
-			// if (response.status > 299)
-			// 	throw new Error('Failed to create the contact.');
-			// return response.data.Response;
+			if (response.status > 299)
+				throw new Error('Failed to create the contact.');
+
+			return (response.data as { contact: { id: string } })
+				.contact as FreshSalesContactParameters;
 		} catch (error: any) {
 			console.error('freshsales create contact: ', error.message);
-			// throw new Error(
-			// 	error.response?.data?.errors?.message[0] || error.message
-			// );
+			throw new Error(
+				error.response?.data?.errors?.message[0] || error.message
+			);
 		}
 	}
 
 	async upsertContact(
-		contact: Pick<
-			Customer,
-			| 'email'
-			| 'first_name'
-			| 'last_name'
-			| 'mobile_number'
-			| 'city'
-			| 'state'
-			| 'zipcode'
-			| 'custom_field'
-		> & {
+		contact: Partial<Customer> & {
 			work_number?: string;
 			job_title?: string;
 			address?: string;
@@ -146,20 +144,22 @@ class FreshSales {
 			medium?: string;
 			keyword?: string;
 		},
-		attribution: FreshSalesAttribution
+		{ medium = 'new-visitor', ...attribution }: FreshSalesAttribution
 	): Promise<string> {
 		try {
 			const response = await axios.post<
 				any,
 				any,
 				{
-					unique_identifier: { emails: string };
+					unique_identifier: { emails: string } | { mobile_number: string };
 					contact: Partial<FreshSalesContactParameters>;
 				}
 			>(
 				urlBuilder.freshSales.upsertContact(),
 				{
-					unique_identifier: { emails: contact.email },
+					unique_identifier: contact.email
+						? { emails: contact.email! }
+						: { mobile_number: contact.mobile_number! },
 					contact: {
 						...contact,
 						country: contact.country ?? 'US',
@@ -169,7 +169,7 @@ class FreshSales {
 						last_name: contact.last_name || '',
 						lead_source_id: undefined,
 						owner_id: this.FRESHSALES_ADMIN_USERID,
-						medium: 'new-visitor',
+						medium,
 						...attribution,
 					} as any,
 				},
@@ -183,7 +183,6 @@ class FreshSales {
 
 			if (response.status > 299)
 				throw new Error('Failed to upsert the contact.');
-			console.info('response	', response.data);
 			return (response.data as { contact: { id: string } }).contact.id;
 		} catch (error: any) {
 			console.error('freshsales upsert contact: ', error.message);
@@ -235,6 +234,92 @@ class FreshSales {
 		}
 	}
 
+	// async getCustomerByEmail(
+	// 	email: string
+	// ): Promise<FreshSalesContactParameters | null> {
+	// 	try {
+	// 		if (!email) {
+	// 			console.error('No email provided.');
+	// 			return null;
+	// 		}
+	// 		const response = await axios(
+	// 			urlBuilder.freshSales.getContacts(),
+	// 			{
+	// 				headers: {
+	// 					...applicationHeaders,
+	// 					authorization: `Token token=${process.env.FRESHSALES_API_KEY}`,
+	// 				},
+	// 			}
+	// 		);
+	// 		if (response.status > 299) throw new Error('Failed to create segment.');
+	// 		return (
+	// 			(
+	// 				response.data as {
+	// 					contacts: any[];
+	// 				}
+	// 			).contacts || []
+	// 		);
+	// 	} catch (error: any) {
+	// 		console.error('freshsales get segment customers: ', error.message);
+	// 		throw new Error(
+	// 			error.response?.data?.errors?.message[0] || error.message
+	// 		);
+	// 	}
+	// }
+
+	async getContactByMobileNumber(
+		mobile_number: string,
+		segment: string
+	): Promise<FreshSalesContactParameters | null> {
+		try {
+			if (!mobile_number) {
+				console.error('No mobile_number provided.');
+				return null;
+			}
+			const response = await axios(
+				urlBuilder.freshSales.getContactsFromView(
+					this.ALL_CONTACTS_VIEW_ID.toString()
+				),
+				{
+					headers: {
+						...applicationHeaders,
+						authorization: `Token token=${process.env.FRESHSALES_API_KEY}`,
+					},
+				}
+			);
+			if (response.status > 299) throw new Error('Failed to create segment.');
+
+			const allContacts =
+				(
+					response.data as {
+						contacts: any[];
+					}
+				).contacts || [];
+			console.info('allContacts', allContacts);
+
+			const contact =
+				(allContacts.length > 0 &&
+					allContacts.find(
+						(contact) =>
+							prependDialCode(contact.mobile_number) ===
+							prependDialCode(mobile_number)
+					)) ||
+				null;
+			if (contact?.mobile_number) {
+				contact.mobile_number = prependDialCode(contact.mobile_number);
+			}
+
+			console.info('contact', contact);
+
+			return contact;
+		} catch (error: any) {
+			console.error('freshsales get segment customers: ', error.message);
+			throw new Error(
+				error.response?.data?.errors?.message[0] || error.message
+			);
+		}
+	}
+
 	async getSegmentCustomers(
 		id: string
 	): Promise<Partial<FreshSalesContactParameters>[]> {
@@ -278,7 +363,7 @@ class FreshSales {
 			}
 
 			const response = await axios.put(
-				urlBuilder.freshSales.addContactToList(id),
+				urlBuilder.freshSales.addContactsToList(id),
 				{ ids: customerIds.map((id) => parseInt(id)) },
 				{
 					headers: {
@@ -303,6 +388,39 @@ class FreshSales {
 			);
 		} catch (error: any) {
 			console.error('freshsales addCustomersToSegment: ', error.message);
+			throw new Error(
+				error.response?.data?.errors?.message[0] || error.message
+			);
+		}
+	}
+
+	async removeCustomersFromSegment(id: string, customerIds: string[] = []) {
+		try {
+			if (!id) {
+				console.error('No segment id provided.');
+				return [];
+			}
+
+			const response = await axios.put(
+				urlBuilder.freshSales.removeContactsFromList(id),
+				{ ids: customerIds.map((id) => parseInt(id)) },
+				{
+					headers: {
+						...applicationHeaders,
+						authorization: `Token token=${process.env.FRESHSALES_API_KEY}`,
+					},
+				}
+			);
+
+			console.info('remove customers from segment: ', response.data);
+			if (response.status > 299)
+				throw new Error(
+					response.data.errors?.message?.[0] ??
+						'Failed to add customers to list.'
+				);
+			return;
+		} catch (error: any) {
+			console.error('freshsales removeCustomersFromSegment: ', error.message);
 			throw new Error(
 				error.response?.data?.errors?.message[0] || error.message
 			);
@@ -342,6 +460,7 @@ export interface FreshSalesContactParameters {
 	// 		| 'Conferences & Events'
 	// 		| 'Non-marketing emails';
 	// }>;
+	sms_subscription_status: 0 | 1 | 2;
 	subscription_types: any;
 	medium: string;
 	campaign_id: number;

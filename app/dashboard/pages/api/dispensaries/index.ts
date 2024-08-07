@@ -1,5 +1,6 @@
 import { slugify, ApiError, FreshSales } from '@cd/core-lib';
 import freshsales from '@cd/core-lib/src/crm/freshsales';
+import Twilio from '@cd/core-lib/src/sms/twilio';
 import {
 	createDispensary,
 	type Dispensary,
@@ -72,10 +73,11 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 		throw new ApiError(400, 'A team with the slug already exists.');
 	}
 
-	const weedTextPhoneNumber = '';
 	let weedTextSegmentId = '';
-	// weedTextPhoneNumber = await Twilio.provisionSMSPhoneNumber(slug);
 	weedTextSegmentId = await FreshSales.createSegment(slug);
+
+	let weedTextPhoneNumber = '';
+	weedTextPhoneNumber = await Twilio.provisionSMSPhoneNumber(create);
 
 	const team = await createDispensary({
 		client,

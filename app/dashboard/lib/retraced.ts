@@ -32,7 +32,10 @@ type EventType =
 	| 'team.customers.read'
 	| 'team.customers.delete'
 	| 'team.customers.update'
-	| 'team.customers.import';
+	| 'team.customers.import'
+	| 'team.customers.export'
+	| 'team.customers.sms_subscribe'
+	| 'team.customers.sms_unsubscribe';
 
 interface Request {
 	action: EventType;

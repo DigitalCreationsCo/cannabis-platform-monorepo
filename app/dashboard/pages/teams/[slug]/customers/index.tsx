@@ -77,7 +77,7 @@ function CustomersPage({ customers }: CustomerDashboardProps) {
 				</div>
 			</PageHeader>
 			<Table
-				cols={[t('email'), t('name'), t('phone'), 'Subscribed']}
+				cols={[t('email'), t('name'), t('phone'), 'Join SMS']}
 				body={current.map((customer) => {
 					return {
 						id: customer.id.toString(),
@@ -96,8 +96,12 @@ function CustomersPage({ customers }: CustomerDashboardProps) {
 							{ wrap: true, text: customer.mobile_number },
 							{
 								wrap: true,
-								element: <CheckBox checked={!!customer.subscription_status} />, // SUBSCRIPTION STATUS??
-								// element: <CheckBox checked={!!customer.sms_subscription_status} />, // SUBSCRIPTION STATUS??
+								element: (
+									<CheckBox
+										// checked={Number(customer.sms_subscription_status) === 1}
+										checked={true}
+									/>
+								),
 							},
 						],
 					};

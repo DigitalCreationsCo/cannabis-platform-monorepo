@@ -10,6 +10,7 @@ const unAuthenticatedRoutes = [
 	'/404',
 	'/500',
 
+	// API routes
 	'/api/hello',
 	'/api/health',
 	'/api/robots',
@@ -19,8 +20,11 @@ const unAuthenticatedRoutes = [
 	'/api/invitations/*',
 	'/api/webhooks/stripe',
 	'/api/webhooks/dsync',
-
 	'/auth/**',
+
+	// public API routes
+	'/api/dispensaries/*/customers/add_sms_subscribe',
+	'/api/dispensaries/*/customers/remove_sms_subscribe',
 
 	'/sitemap.xml',
 	'/robots.txt',

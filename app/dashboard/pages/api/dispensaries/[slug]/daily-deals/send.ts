@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { throwIfNotAllowed } from '@cd/core-lib';
+import { prependDialCode, throwIfNotAllowed } from '@cd/core-lib';
 import freshsales from '@cd/core-lib/src/crm/freshsales';
 import twilio from '@cd/core-lib/src/sms/twilio';
 import { updateDispensaryDailyDeal, type DailyDeal } from '@cd/data-access';
@@ -67,9 +67,8 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 		const customers = await freshsales.getSegmentCustomers(weedTextSegmentId);
 
 		const customerPhoneNumbers = customers
-			.map((customer) => customer.mobile_number ?? customer.work_number ?? '')
+			.map((customer) => prependDialCode(customer.mobile_number!))
 			.filter(Boolean);
-		// check the number format to suit twilio
 
 		await twilio.sendAll(customerPhoneNumbers, message);
 

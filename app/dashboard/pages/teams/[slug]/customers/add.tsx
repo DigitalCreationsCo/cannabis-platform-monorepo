@@ -54,6 +54,7 @@ export default function AddCustomer() {
 			mobile_number: '',
 			custom_field: {
 				birthdate: '',
+				segment: [team.weedTextSegmentId],
 			},
 		} as Customer,
 		onSubmit: async (values) => {

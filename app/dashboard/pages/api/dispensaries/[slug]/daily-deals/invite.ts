@@ -1,6 +1,6 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { throwIfNotAllowed } from '@cd/core-lib';
+import { prependDialCode, throwIfNotAllowed } from '@cd/core-lib';
 import freshsales from '@cd/core-lib/src/crm/freshsales';
 import twilio from '@cd/core-lib/src/sms/twilio';
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -44,7 +44,7 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 	const {
 		firstName: first_name,
 		lastName: last_name,
-		phone: mobile_number,
+		phone,
 		email,
 		city,
 		state,
@@ -62,6 +62,8 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 		birthdate: string;
 		doubleOptInMessage: string;
 	};
+
+	const mobile_number = prependDialCode(phone);
 
 	const insertedCustomer = await freshsales.upsertContact(
 		{

@@ -1,16 +1,23 @@
 import { LoadingPage } from '@cd/ui-lib';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { useRouter as Router } from 'next/router';
+
 import React, { type PropsWithChildren, useState } from 'react';
 import Drawer from './Drawer';
 import Header from './Header';
 
 export default function AppShell({ children }: PropsWithChildren) {
 	const router = useRouter();
+	const { query } = Router();
+
 	const session = useSession();
 	const { status } = session;
-	const [sidebarOpen, setSidebarOpen] = useState(false);
+	// eslint-disable-next-line prefer-const
+	let [sidebarOpen, setSidebarOpen] = useState(false);
 	const [stayOpen, setStayOpen] = useState(false);
+
+	sidebarOpen = query.slug ? sidebarOpen : true;
 
 	if (status === 'loading') {
 		return <LoadingPage />;
@@ -29,7 +36,7 @@ export default function AppShell({ children }: PropsWithChildren) {
 				stayOpen={stayOpen}
 			/>
 			<div
-				className={`${(sidebarOpen && 'lg:pl-64') || 'lg:pl-20'} transition-[padding]`}
+				className={`${(sidebarOpen && 'lg:pl-60') || 'lg:pl-20'} transition-[padding]`}
 			>
 				<Header
 					setSidebarOpen={setSidebarOpen}

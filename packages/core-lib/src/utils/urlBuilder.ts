@@ -166,10 +166,16 @@ const urlBuilder = {
 		createContact: () => `${urlBuilder.freshSales.baseUrl}/api/contacts`,
 		upsertContact: () => `${urlBuilder.freshSales.baseUrl}/api/contacts/upsert`,
 		marketingList: () => `${urlBuilder.freshSales.baseUrl}/api/lists`,
+		getContactViews: () =>
+			`${urlBuilder.freshSales.baseUrl}/api/contacts/filters`,
+		getContactsFromView: (id: string) =>
+			`${urlBuilder.freshSales.baseUrl}/api/contacts/view/${id}`,
 		getContactsFromList: (id: string) =>
 			`${urlBuilder.freshSales.baseUrl}/api/contacts/lists/${id}`,
-		addContactToList: (id: string) =>
+		addContactsToList: (id: string) =>
 			`${urlBuilder.freshSales.baseUrl}/api/lists/${id}/add_contacts`,
+		removeContactsFromList: (id: string) =>
+			`${urlBuilder.freshSales.baseUrl}/api/lists/${id}/remove_contacts`,
 
 		createAccount: () => `${urlBuilder.freshSales.baseUrl}/api/sales_accounts`,
 		upsertAccount: () =>

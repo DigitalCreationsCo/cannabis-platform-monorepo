@@ -189,7 +189,10 @@ export interface Customer {
 	open_deals_amount: string;
 	won_deals_amount: string;
 	last_contacted_sales_activity_mode: string | null;
-	custom_field: { birthdate?: string } & Record<string, any>;
+	custom_field: { birthdate?: string; segment?: string[] } & Record<
+		string,
+		any
+	>;
 	created_at: string;
 	updated_at: string;
 	keyword: string | null;
@@ -211,14 +214,12 @@ export interface Customer {
 	team_user_ids: string | null;
 	external_id: string | null;
 	work_email: string | null;
-	subscription_status: any;
-	// subscription_status: number;
+	subscription_status: number;
 	subscription_types: any;
-	// subscription_types: string;
 	customer_fit: number;
 	record_type_id: string;
 	whatsapp_subscription_status: number;
-	sms_subscription_status: number;
+	sms_subscription_status: 0 | 1 | 2;
 	last_seen_chat: string | null;
 	first_seen_chat: string | null;
 	locale: string | null;

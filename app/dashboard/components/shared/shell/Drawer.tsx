@@ -49,7 +49,7 @@ const Drawer = ({ sidebarOpen, setSidebarOpen, stayOpen }: DrawerProps) => {
 
 			<div
 				className={twMerge(
-					(sidebarOpen && 'lg:w-64') || 'lg:w-20 hover:lg:w-64',
+					(sidebarOpen && 'lg:w-60') || 'lg:w-20 hover:lg:w-60',
 					'hidden lg:!fixed lg:inset-y-0 lg:z-50 lg:!flex lg:flex-col bg-inverse transition-width transition-50'
 				)}
 				onMouseEnter={() => !stayOpen && setSidebarOpen(true)}
@@ -60,7 +60,6 @@ const Drawer = ({ sidebarOpen, setSidebarOpen, stayOpen }: DrawerProps) => {
 					<TeamDropdown isExpanded={sidebarOpen} />
 					<Navigation isExpanded={sidebarOpen} />
 				</div>
-				{/* </div> */}
 			</div>
 		</>
 	);

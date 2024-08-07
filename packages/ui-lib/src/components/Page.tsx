@@ -41,6 +41,7 @@ function Page({
 
 	return (
 		<AnimationWrapper
+			style={style}
 			className={twMerge(
 				classes,
 				'flex flex-col w-full min-h-screen',
@@ -48,9 +49,8 @@ function Page({
 			)}
 			{...props}
 		>
-			<div style={style}>
-				{children}
-				{/* <div className="fixed flex items-center bottom-0 right-0 cursor-default text-accent-soft space-x-1 pr-1">
+			{children}
+			{/* <div className="fixed flex items-center bottom-0 right-0 cursor-default text-accent-soft space-x-1 pr-1">
 					<div
 						className={twMerge([
 							'hidden',
@@ -62,7 +62,6 @@ function Page({
 					</div>
 					<Tiny>{appVersion}</Tiny>
 				</div> */}
-			</div>
 		</AnimationWrapper>
 	);
 }

@@ -1,4 +1,4 @@
-import { FreshSales, throwIfNotAllowed } from '@cd/core-lib';
+import { FreshSales, prependDialCode, throwIfNotAllowed } from '@cd/core-lib';
 import freshsales from '@cd/core-lib/src/crm/freshsales';
 import { type Customer } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -63,30 +63,35 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 		state,
 		country,
 		zipcode,
-		custom_field: { birthdate },
+		custom_field: { birthdate, segment },
 	} = req.body as Customer;
 
+	// create crm contact
 	const insertedCustomer = await freshsales.upsertContact(
 		{
 			first_name,
 			last_name,
-			mobile_number,
+			mobile_number: prependDialCode(mobile_number),
 			email,
 			address: address!,
 			city,
 			state,
 			country: country!,
 			zipcode,
-			custom_field: { birthdate },
+			custom_field: { birthdate, segment },
 		},
 		{
-			keyword: teamMember.teamSlug,
+			medium: teamMember.team.name,
+			keyword: 'customer',
 		}
 	);
 
+	// add customer to dispensary segment
 	await freshsales.addCustomersToSegment(teamMember.team.weedTextSegmentId!, [
 		insertedCustomer,
 	]);
+
+	// create twilio message binding
 
 	sendAudit({
 		action: 'team.customers.create',

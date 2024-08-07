@@ -89,6 +89,7 @@ function NewEvent() {
 			tickets_by: '',
 			primary_organizer_id: team?.id ?? '',
 			primary_organizer_slug: team?.slug ?? '',
+			primary_organizer_name: team?.name ?? '',
 			num_children: 0,
 			debug_info: {},
 			parent_url: '',
@@ -192,9 +193,10 @@ function NewEvent() {
 	);
 
 	useEffect(() => {
-		if (team?.id && team?.slug) {
+		if (team?.id && team?.slug && team?.name) {
 			setFieldValue('primary_organizer_id', team.id);
 			setFieldValue('primary_organizer_slug', team.slug);
+			setFieldValue('primary_organizer_name', team.name);
 		}
 	}, [team]);
 

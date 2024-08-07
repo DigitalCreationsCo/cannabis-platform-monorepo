@@ -1,4 +1,4 @@
-import { FreshSales, slugify } from '@cd/core-lib';
+import { FreshSales, prependDialCode, slugify } from '@cd/core-lib';
 import { type ContactUsFormResponse } from '@cd/ui-lib';
 import { type NextApiRequest, type NextApiResponse } from 'next';
 
@@ -77,8 +77,8 @@ const handlePOST = async (req: any, res: any) => {
 			last_name: lastName,
 			job_title: title,
 			email: fromEmail,
-			mobile_number: phone,
-			work_number: phone,
+			mobile_number: prependDialCode(phone),
+			work_number: prependDialCode(phone),
 			address: street,
 			city,
 			state,
