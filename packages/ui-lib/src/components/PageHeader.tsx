@@ -28,7 +28,7 @@ export default function PageHeader({
 		<FlexBox className={twMerge('top-[66px] min-h-[54px] flex', className)}>
 			<FlexBox className="flex-col">
 				<FlexBox className="flex-row items-center space-x-2">
-					<H1 className="md:text-2xl">{title}</H1>
+					<H1 className="text-2xl">{title}</H1>
 					{Icon && (
 						<IconWrapper
 							iconColor={iconColor}

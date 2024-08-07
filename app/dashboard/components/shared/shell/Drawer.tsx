@@ -50,7 +50,7 @@ const Drawer = ({ sidebarOpen, setSidebarOpen, stayOpen }: DrawerProps) => {
 			<div
 				className={twMerge(
 					(sidebarOpen && 'lg:w-60') || 'lg:w-20 hover:lg:w-60',
-					'hidden lg:!fixed lg:inset-y-0 lg:z-50 lg:!flex lg:flex-col bg-inverse transition-width transition-50'
+					'hidden lg:!fixed lg:inset-y-0 lg:z-50 lg:!flex lg:flex-col bg-inverse transition-width duration-100'
 				)}
 				onMouseEnter={() => !stayOpen && setSidebarOpen(true)}
 				onMouseLeave={() => !stayOpen && setSidebarOpen(false)}

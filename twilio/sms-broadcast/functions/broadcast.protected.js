@@ -57,6 +57,7 @@ class BroadcastCommand extends Command {
 			return callback(null, broadcastNotAuthorizedMessage);
 		}
 
+		// TODO: UPDATE TO USE SYNC OR CALL TWILIO CLIENT FROM APP BACKEND
 		// Create a new Notification for all bindings with the text of the message
 		this.notify.notifications
 			.create({
@@ -74,6 +75,9 @@ class BroadcastCommand extends Command {
 }
 
 exports.handler = (context, event, callback) => {
+	const logger = context.logger || console;
+	logger.info('BROADCAST::Received event:', event);
+
 	let cmd = event.Body || '';
 	cmd = cmd.trim().split(' ')[0].toLowerCase();
 

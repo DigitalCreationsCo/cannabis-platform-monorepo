@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 // import { useTheme } from '@cd/ui-lib';
+import { Button } from '@cd/ui-lib';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import {
 	CheckBadgeIcon,
@@ -53,21 +54,20 @@ const Header = ({ setSidebarOpen, sidebarOpen, setStayOpen }: HeaderProps) => {
 				<div className="relative flex flex-1"></div>
 				<div className="flex items-center gap-x-4 lg:gap-x-6">
 					<div className="dropdown dropdown-end">
-						<div
-							className="flex btn btn-ghost items-center cursor-pointer"
-							tabIndex={0}
-						>
+						<div className="flex items-center cursor-pointer" tabIndex={0}>
 							<span className="hidden lg:flex lg:items-center">
-								<button
-									className="ml-4 leading-6 text-gray-900 dark:text-gray-50"
+								<Button
+									bg="transparent"
+									hover="transparent"
+									className="btn btn-ghost px-0 ml-4 border font-medium leading-6 text-gray-900 dark:text-gray-50"
 									aria-hidden="true"
 								>
 									{user.name}
-								</button>
-								<ChevronDownIcon
-									className="ml-2 h-5 w-5 text-gray-400"
-									aria-hidden="true"
-								/>
+									<ChevronDownIcon
+										className="ml-2 h-5 w-5 text-gray-400"
+										aria-hidden="true"
+									/>
+								</Button>
 							</span>
 						</div>
 						<ul

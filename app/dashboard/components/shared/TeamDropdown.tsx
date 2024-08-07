@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import { useDispensaries, maxLengthPolicies } from '@cd/core-lib';
+import { H5 } from '@cd/ui-lib';
 import {
 	ChevronDownIcon,
 	FolderIcon,
@@ -80,10 +81,11 @@ const TeamDropdown = ({ isExpanded = true }: { isExpanded?: boolean }) => {
 		<div className="dropdown w-full">
 			<div
 				tabIndex={0}
-				className="items-center rounded-none btn btn-ghost text-lg text-gray-900 hover:bg-gray-200 hover:text-gray-900 dark:text-gray-100 dark:hover:text-gray-100 dark:hover:bg-gray-800 flex flex-nowrap h-10 px-4 justify-between cursor-pointer font-semibold capitalize"
+				className="items-center rounded-none btn btn-ghost text-lg text-gray-900 hover:bg-gray-200 hover:text-gray-900 dark:text-gray-100 dark:hover:text-gray-100 dark:hover:bg-gray-800 flex flex-nowrap h-10 px-4 justify-between cursor-pointer font-medium capitalize"
 			>
 				<span
 					className={twMerge(
+						'pl-2',
 						(isExpanded && 'block') || 'hidden',
 						'whitespace-nowrap',
 						'transition-[display] delay-500'

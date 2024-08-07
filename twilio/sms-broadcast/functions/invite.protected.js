@@ -10,11 +10,6 @@ class Command {
 		this.event = event;
 		this.context = context;
 
-		const client = this.context.getTwilioClient();
-		this.notify = client.notify.services(
-			process.env.BROADCAST_NOTIFY_SERVICE_SID
-		);
-
 		/*
 		 * Occassionally, US numbers will be passed without the preceding
 		 * country code - check for this eventuality and fix it
@@ -50,16 +45,35 @@ class Command {
 
 class InviteCommand extends Command {
 	run(callback) {
+		/*
+		 * Check if sender is in list of admins, stored in the system environment
+		 * as a comma-separated string
+		 */
+		if (this.context.BROADCAST_ADMIN_NUMBERS.indexOf(this.fromNumber) < 0) {
+			return callback(
+				null,
+				'You are not authorized to use the invite channel.'
+			);
+		}
+
+		if (this.commandArguments.length === 0) {
+			return callback(
+				null,
+				'Please provide a valid phone number and optional message. Format: invite [phone_number] [message]'
+			);
+		}
+
 		// invite command example:
-		// invite Join our SMS list for daily deals and events!
-		const message = this.body.trim().split(' ').slice(1).join(' ');
+		// invite +15707901185 Join our SMS list for daily deals and events!
+		const recipient = this.commandArguments[0];
+		const message = this.commandArguments.slice(1).join(' ');
 
 		// Send an invite message to the user
 		const client = this.context.getTwilioClient();
 		client.messages
 			.create({
-				from: this.fromNumber,
-				to: this.toNumber,
+				from: this.toNumber, // send from the Twilio phone number
+				to: recipient, // recipient argument
 				body: message || inviteMessage,
 			})
 			.then((msg) => {
@@ -76,6 +90,9 @@ class InviteCommand extends Command {
 }
 
 exports.handler = (context, event, callback) => {
+	const logger = context.logger || console;
+	logger.info('INVITE::Received event:', event);
+
 	let cmd = event.Body || '';
 	cmd = cmd.trim().split(' ')[0].toLowerCase();
 
