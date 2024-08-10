@@ -96,7 +96,11 @@ export default function Benefits({
 						>
 							<Image
 								height={400}
-								className="bg-inverse shadow-lg md:rounded object-cover"
+								className={twMerge(
+									'object-contain',
+									'aspect-auto',
+									'bg-inverse shadow-lg md:rounded object-cover'
+								)}
 								src={data.image}
 								alt={data.title || ''}
 								placeholder="blur"

@@ -37,7 +37,7 @@ export default function Letter({
 		>
 			<FlexBox
 				className={twMerge(
-					'bg-inherit flex flex-col flex-wrap items-center justify-center gap-2 space-y-0 max-w-md sm:!max-w-2xl lg:!max-w-4xl mx-auto'
+					'bg-inherit flex flex-col flex-wrap items-center justify-center gap-2 space-y-0 sm:!max-w-2xl lg:!max-w-4xl mx-auto'
 				)}
 			>
 				{title && (
@@ -60,7 +60,9 @@ export default function Letter({
 								<Image
 									key={index}
 									className={twMerge(
-										`rotate-[${359.5}deg] max-w-sm max-h-[275px]`,
+										'object-contain',
+										'aspect-auto',
+										`rotate-[${359.5}deg] max-h-[275px]`,
 										index > 1 ? 'hidden lg:block' : 'block',
 										index === 1 ? 'z-10' : ''
 									)}
@@ -73,7 +75,7 @@ export default function Letter({
 						</div>
 					)}
 				</FlexBox>
-				<FlexBox className="py-6 gap-4 lg:gap-8 lg:flex-row-reverse">
+				<FlexBox className="py-6 gap-4 lg:gap-8 lg:flex-row-reverse items-center">
 					{(cta && <CTA cta={cta} href={href} />) || <></>}
 					{(secondaryCTA && (
 						<CTA cta={secondaryCTA} href={'#get-started'} secondary />

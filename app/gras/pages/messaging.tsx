@@ -136,14 +136,14 @@ const SectionsNav = () => {
 };
 MessagingLandingPage.getLayout = function getLayout(page: ReactElement) {
 	return (
-		<div className="">
+		<>
 			<ServicesTopBar />
-			<div className="sticky top-0 z-50">
+			{/* <div className="sticky top-0 z-50">
 				<SectionsNav />
-			</div>
+			</div> */}
 			{page}
 			<Footer />
-		</div>
+		</>
 	);
 };
 export async function getStaticProps({ locale }: GetServerSidePropsContext) {

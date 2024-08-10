@@ -35,11 +35,12 @@ const PricingCard = ({
 				props.className
 			)}
 		>
-			<Card className="bg-light max-w-2xl mx-auto p-16 rounded shadow-md gap-y-12">
+			<Card className="bg-light border border-gray-300 max-w-2xl p-4 md:p-16 mx-auto rounded shadow-md gap-y-12">
 				<H2
 					className={twMerge(
-						styles.shadow.textShadow,
-						'text-center text-5xl whitespace-pre-line font-bold leading-snug tracking-tight lg:text-6xl lg:leading-tight'
+						styles.HERO.heading,
+						'text-dark',
+						'text-5xl lg:text-6xl'
 					)}
 				>
 					{title}
@@ -63,8 +64,8 @@ const PricingCard = ({
 						</div>
 					))}
 				</div>
+				{(props.cta && <CTA cta={props.cta} href={href} />) || <></>}
 			</Card>
-			{(props.cta && <CTA cta={props.cta} href={href} />) || <></>}
 		</div>
 	);
 };

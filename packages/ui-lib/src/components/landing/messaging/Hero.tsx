@@ -9,10 +9,6 @@ import FlexBox from '../../FlexBox';
 import { H1, Paragraph } from '../../Typography';
 
 function Hero({ href = '#get-started' }: { href?: string }) {
-	const [heading, largeHeading] = [
-		'tracking-normal !leading-tight font-bold text-inverse-soft text-5xl lg:text-6xl xl:text-6xl drop-shadow-[0px_3px_1px_#444]',
-		'tracking-normal bg-clip-text text-transparent bg-gradient-to-b from-secondary-light to-primary-light inline whitespace-pre-line text-6xl font-bold md:text-7xl drop-shadow-[0px_3px_1px_#444444] lg:text-8xl xl:text-8xl md:drop-shadow-[1px_-5px_1px_#666666]',
-	];
 	return (
 		<section
 			id="messaging"
@@ -62,7 +58,7 @@ function Hero({ href = '#get-started' }: { href?: string }) {
 				<Image
 					src={messageImg}
 					alt={`consumer-messaging`}
-					className="rounded bg-inverse shadow-lg object-cover max-w-sm lg:max-w-md flex-1 md:mt-8"
+					className="rounded bg-inverse shadow-lg object-contain max-w-sm lg:max-w-md flex-1 md:mt-8"
 					priority
 				/>
 			</FlexBox>

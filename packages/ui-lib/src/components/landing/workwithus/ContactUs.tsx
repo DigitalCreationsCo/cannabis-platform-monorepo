@@ -549,7 +549,7 @@ What is the #1 biggest barrier to growing your cannabis business?
 								<Paragraph className="px-2 col-span-full mx-auto">{`Gras uses your information to support your business. 
 								We will never sell your information.`}</Paragraph>
 
-								<div className="w-[420px] mt-16 mb-8 lg:mb-0 col-span-2 place-self-center mx-2 transition duration-200">
+								<div className="max-w-[420px] mt-16 mb-8 lg:mb-0 col-span-2 place-self-center mx-2 transition duration-200">
 									<Button
 										type="submit"
 										loading={loadingButton}

@@ -20,7 +20,10 @@ const CTA = ({
 		<Link
 			href={href}
 			scroll={false}
-			className={twMerge('w-[420px] transition duration-200 mb-2', className)}
+			className={twMerge(
+				'max-w-[420px] transition duration-200 mb-2',
+				className
+			)}
 		>
 			<Button
 				loading={loading}

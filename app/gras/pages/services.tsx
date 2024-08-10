@@ -203,7 +203,7 @@ export default function DispensaryLandingPage() {
 							</H3>
 						</Paragraph>
 						<br />
-						<Paragraph className="text-2xl text-start">
+						<Paragraph className="text-2xl text-center">
 							{`Fill Out The Form Below 👇`}
 						</Paragraph>
 					</div>

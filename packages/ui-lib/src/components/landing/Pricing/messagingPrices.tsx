@@ -6,7 +6,7 @@ const messagingPrices: PricingProps = {
 	dealValues: [779, 1179, 4779, 979, 1479],
 	prices: [
 		{
-			price: `$${convertCentsToDollars(48999)}`,
+			price: `$${convertCentsToDollars(48900)}`,
 			description: 'Send compliant messages to your customers.',
 			rate: 'monthly',
 			text: 'Unlimited Messages',
