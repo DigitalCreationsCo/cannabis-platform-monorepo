@@ -59,7 +59,7 @@ export default function Footer({
 				className
 			)}
 		>
-			<Grid className="overflow-x-hidden w-[277px] mx-auto mt-20 md:mt-5 grid md:w-3/4 max-w-screen-lg pb-16 lg:pb-0 grid-rows-auto gap-6 md:gap-10 lg:gap-4 md:grid-cols-4 lg:grid-cols-6 overflow-visible">
+			<Grid className="overflow-x-hidden w-[277px] mx-auto mt-8 sm:mt-20 md:mt-5 grid md:w-3/4 max-w-screen-lg pb-16 lg:pb-0 grid-rows-auto gap-6 md:gap-10 lg:gap-4 md:grid-cols-4 lg:grid-cols-6 overflow-visible">
 				<div className="col-span-2">
 					<div className="flex w-full flex-col flex-wrap md:ml-0">
 						{navigation.map((item, index) => (
@@ -80,7 +80,7 @@ export default function Footer({
 							href={getShopSite('/')}
 							//  className="z-10">
 							className={twMerge(
-								'z-50 flex flex-row gap-x-4 items-center',
+								'z-10 flex flex-row gap-x-4 items-center',
 								styles.shadow.logoShadow
 							)}
 						>
@@ -206,7 +206,7 @@ const Linkedin = ({ size = 28 }) => (
 const FooterLink = ({ href, name }) => (
 	<Link
 		href={replaceRelativePath(href)}
-		className="w-fit hover:!drop-shadow-[0px_3px_1px_#6f6f6f] hover:-translate-y-[2px] hover:scale-[107%] transition py-2"
+		className="w-fit hover:!drop-shadow-[0px_3px_1px_#6f6f6f] hover:-translate-y-[2px] hover:scale-[107%] transition py-1"
 	>
 		<Paragraph className="font-medium">{name}</Paragraph>
 	</Link>

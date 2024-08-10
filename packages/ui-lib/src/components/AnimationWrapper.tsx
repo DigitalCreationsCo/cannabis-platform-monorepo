@@ -1,9 +1,6 @@
-import { motion, type Variants } from 'framer-motion';
-import { type PropsWithChildren } from 'react';
+import { type HTMLMotionProps, motion, type Variants } from 'framer-motion';
 
-function AnimationWrapper(
-	props: PropsWithChildren<{ style?: any; className?: string }>
-) {
+function AnimationWrapper(props: HTMLMotionProps<'main'>) {
 	return (
 		<motion.main
 			variants={variants} // Pass the variant object into Framer Motion
@@ -11,11 +8,8 @@ function AnimationWrapper(
 			animate="enter" // Animated state to variants.enter
 			exit="exit" // Exit state (used later) to variants.exit
 			transition={{ type: 'linear' }} // Set the transition to linear
-			className={props.className}
-			style={props.style}
-		>
-			{props.children}
-		</motion.main>
+			{...props}
+		/>
 	);
 }
 

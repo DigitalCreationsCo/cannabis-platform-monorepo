@@ -18,7 +18,6 @@ import { twMerge } from 'tailwind-merge';
 import logo from '../../public/logo.png';
 
 export interface TopBarProps {
-	doesSessionExist?: boolean;
 	showSearch?: boolean;
 	SearchComponent?: React.ReactNode | null;
 	showLocation?: boolean;
@@ -56,7 +55,7 @@ function TopBar({
 		>
 			{(showSearch && SearchComponent) || null}
 
-			<FlexBox className="flex sm:h-full pt-5 sm:pt-0 self-start justify-start sm:items-center sm:justify-between shrink-0 flex-col sm:flex-row gap-5">
+			<FlexBox className="hidden sm:flex sm:h-full pt-5 sm:pt-0 self-start justify-start sm:items-center sm:justify-between shrink-0 flex-col sm:flex-row gap-5">
 				<Link
 					href={'/'}
 					className={twMerge(

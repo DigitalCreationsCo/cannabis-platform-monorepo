@@ -64,12 +64,12 @@ function DispensaryPage({
 
 	const Heading = () => (
 		<div>
-			<H1
+			{/* <H1
 				style={{ color: applyDispensaryStyles['primary-color'] }}
 				className={`whitespace-normal px-2`}
 			>
 				{organization.name}
-			</H1>
+			</H1> */}
 			{(organization.images?.length && organization.images?.length > 0 && (
 				<div className="min-h-[150px] content-center">
 					<Image

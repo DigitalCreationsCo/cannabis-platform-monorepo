@@ -29,7 +29,7 @@ import Button from '../../button/Button';
 import FlexBox from '../../FlexBox';
 import LoadingPage from '../../LoadingPage';
 import TextField from '../../TextField';
-import { GrasSignature, H2 } from '../../Typography';
+import { GrasSignature, H2, H3, H4, H5, Paragraph } from '../../Typography';
 import Modal from '../Modal';
 import EnterPasscode from './EnterPassCodeForm';
 import LoginModalHeader from './LoginHeader';
@@ -181,10 +181,10 @@ export default function LoginModal({
 				<H2>{`Find cannabis events in your city`}</H2>
 
 				<form onSubmit={formik.handleSubmit} className="text-light mx-auto">
-					<div className="space-y-3">
+					<div className="space-y-2">
 						<TextField
 							type="email"
-							label="Email"
+							label={t('sign-in-to-your-account')}
 							name="email"
 							placeholder={t('email')}
 							value={formik.values.email}
@@ -199,17 +199,12 @@ export default function LoginModal({
 								placeholder={t('password')}
 								value={formik.values.password}
 								label={
-									<label className="label">
-										<span className="label-text">{t('password')}</span>
-										<span className="label-text-alt">
-											<Link
-												href="/auth/forgot-password"
-												className="text-sm text-primary hover:text-[color-mix(in_oklab,oklch(var(--p)),black_7%)]"
-											>
-												{t('forgot-password')}
-											</Link>
-										</span>
-									</label>
+									<Link
+										href="/auth/forgot-password"
+										className="mx-auto self-center text-sm text-light underline hover:text-[color-mix(in_oklab,oklch(var(--p)),black_7%)]"
+									>
+										{t('forgot-password')}
+									</Link>
 								}
 								error={
 									formik.touched.password ? !!formik.errors.password : undefined
@@ -237,7 +232,15 @@ export default function LoginModal({
 						>
 							{t('sign-in')}
 						</Button>
-						{/* <AgreeMessage text={t('sign-in')} /> */}
+						<Paragraph className="text-center text-sm">
+							{t('dont-have-an-account')}
+							<Link
+								href={`/auth/join${params}`}
+								className="font-semibold text-light underline block hover:text-[color-mix(in_oklab,oklch(var(--p)),black_7%)]"
+							>
+								&nbsp;{t('create-a-free-account')}
+							</Link>
+						</Paragraph>
 					</div>
 				</form>
 			</FlexBox>

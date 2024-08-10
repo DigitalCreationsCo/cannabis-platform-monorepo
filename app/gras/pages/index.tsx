@@ -52,6 +52,7 @@ import { useFormik } from 'formik';
 import { AnimatePresence, motion } from 'framer-motion';
 // import mapboxgl from 'mapbox-gl';
 import { type GetServerSidePropsContext } from 'next';
+import { useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { NextSeo } from 'next-seo';
@@ -97,6 +98,7 @@ export default function Browse({
 	settings: Settings;
 	user: User;
 }) {
+	const { status } = useSession();
 	const { isLegalAge } = useIsLegalAge(user);
 
 	const { t } = useTranslation('common');
@@ -265,6 +267,7 @@ export default function Browse({
 
 			<RestrictPage showRestrictedContent={isLegalAge}>
 				<Page
+					status={status}
 					id="browse-page"
 					gradient="pink"
 					className="!pt-0 md:pt-0 px-0 lg:px-0 pb-0 min-h-[440px]"
@@ -732,10 +735,6 @@ export default function Browse({
 // 	);
 // };
 
-Browse.getLayout = function getLayout(page: ReactElement) {
-	return <>{page}</>;
-};
-
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 	const { draftMode = false, locale, req, res } = ctx;
 	const sanityClient = getClient(draftMode ? { token: readToken } : undefined);
@@ -761,4 +760,8 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 			user: (user && JSON.parse(JSON.stringify(user))) || {},
 		},
 	};
+};
+
+Browse.getLayout = function getLayout(page: ReactElement) {
+	return <>{page}</>;
 };

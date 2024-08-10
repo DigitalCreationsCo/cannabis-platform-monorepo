@@ -53,7 +53,7 @@ const Modal = ({
 			(backdrop && (
 				<div className="absolute bg-secondary w-full h-full -z-20">
 					<Image
-						className="opacity-75 absolute w-full h-full object-cover"
+						className="opacity-50 absolute w-full h-full object-cover"
 						src={backdrop}
 						alt={alt || ''}
 					/>
