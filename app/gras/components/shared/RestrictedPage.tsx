@@ -34,7 +34,7 @@ export default function RestrictPage({
 
 	const EnterEmail = () => (
 		<div className="flex flex-col my-auto">
-			<H1 className="w-2/4 lg:w-3/4 mb-4">{`Find cannabis events in your city`}</H1>
+			<H1 className="w-3/4 mb-4">{`Find cannabis events in your city`}</H1>
 			<Over21Button
 				redirect={
 					typeof window !== 'undefined' ? window.location.pathname : '/'
@@ -85,7 +85,7 @@ export default function RestrictPage({
 						'lg:overflow-hidden'
 					)}
 				>
-					<div className="z-10 h-fit mx-auto lg:my-auto px-4 w-1/2 max-w-sm shrink-0 space-y-4">
+					<div className="z-10 h-fit mx-auto lg:my-auto px-4 md:w-1/2 max-w-sm shrink-0 space-y-4">
 						{/* <FlexBox>
 								<Link
 									href={'/'}

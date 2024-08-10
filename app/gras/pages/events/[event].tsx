@@ -1,4 +1,3 @@
-import app from '@/lib/app';
 import { clientPromise } from '@/lib/db';
 import env from '@/lib/env';
 import { NextPageWithLayout } from '@/lib/next.types';
@@ -51,6 +50,7 @@ import { toast } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import useSWR from 'swr';
 import RestrictPage from '@/components/shared/RestrictedPage';
+import app from '@/lib/app';
 import seoConfig from '@/lib/seo.config';
 import { useIsLegalAge } from '@/lib/util';
 import { type SharedPageProps } from '../_app';
@@ -165,6 +165,7 @@ function EventPage({
 										exit={{ scale: 2 }}
 									>
 										<Image
+											loading="eager"
 											src={event.image?.url || require('public/hemp.png')}
 											alt={event.name}
 											width={300}

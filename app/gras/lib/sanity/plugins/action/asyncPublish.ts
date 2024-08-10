@@ -9,6 +9,7 @@ import {
 } from 'sanity';
 import { apiVersion } from '@/lib/sanity/sanity.api';
 import { setContentUrl } from '@/lib/sanity/sanity.client';
+import { type Post } from '../../sanity.queries';
 
 export function createAsyncPublishAction(
 	originalAction: DocumentActionComponent,
@@ -28,7 +29,7 @@ export function createAsyncPublishAction(
 					originalResult.onHandle();
 
 					// Wait until the document is published
-					const document = await client.getDocument(props.id);
+					const document = await client.getDocument<Post>(props.id);
 
 					console.info('document: ', document);
 					if (!document) {
@@ -41,6 +42,9 @@ export function createAsyncPublishAction(
 					});
 
 					// Set the content URL after the document is published
+					// document.categories.includes('Business')
+					// 	? await setContentUrl(client, document, 'business')
+					// 	:
 					await setContentUrl(client, document);
 
 					// Call the original onHandle to complete the publishing process

@@ -29,6 +29,11 @@ export const postsQuery = groq`
   ${postFields}
 }`;
 
+export const businessPostsQuery = groq`
+*[_type == "post" && categories[]->title == "Business"] | order(_createdAt desc, _updatedAt desc) {
+  ${postFields}
+}`;
+
 export const postAndMoreStoriesQuery = groq`
 {
   "post": *[_type == "post" && slug.current == $slug] | order(_updatedAt desc) [0] {
@@ -41,8 +46,24 @@ export const postAndMoreStoriesQuery = groq`
   }
 }`;
 
+export const businessPostAndMoreStoriesQuery = groq`
+{
+  "post": *[_type == "post" && slug.current == $slug && categories[]->title == "Business"] | order(_updatedAt desc) [0] {
+	body,
+	${postFields}
+  },
+  "morePosts": *[_type == "post" && slug.current != $slug && categories[]->title == "Business"] | order(_createdAt desc, _updatedAt desc) [0...2] {
+	body,
+	${postFields}
+  }
+}`;
+
 export const postSlugsQuery = groq`
   *[_type == "post" && defined(slug.current)][].slug.current
+  `;
+
+export const businessPostSlugsQuery = groq`
+  *[_type == "post" && defined(slug.current) && categories[]->title == "Business"][].slug.current
   `;
 
 export const postBySlugQuery = groq`*[_type == "post" && slug.current == $slug][0]{ ${postFields} }`;

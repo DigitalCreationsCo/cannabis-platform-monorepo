@@ -27,23 +27,23 @@ export default function ServicesTopBar({
 					<GrasSignature
 						className={twMerge(
 							styles.shadow.textShadow,
-							'text-secondary-light py-0 mb-0 leading-3'
+							'text-secondary-light py-4 mb-0 leading-3'
 						)}
 					>
 						{t('gras')}
 					</GrasSignature>
-					<Image
+					{/* <Image
 						alt="Gras"
 						className={twMerge(
 							styles.shadow.textShadow,
 							'w-[54px] rounded-full'
 						)}
 						src={logo}
-					/>
+					/> */}
 					<Paragraph
 						className={twMerge(
 							styles.TOPBAR.tagline,
-							'hidden md:block',
+							// 'hidden md:block',
 							'pt-2',
 							'!drop-shadow-[0px_0px_0px_0px_#000000]'
 						)}

@@ -22,9 +22,14 @@ export interface TopBarProps {
 	showSearch?: boolean;
 	SearchComponent?: React.ReactNode | null;
 	showLocation?: boolean;
+	className?: string;
 }
 
-function TopBar({ showSearch = true, SearchComponent }: TopBarProps) {
+function TopBar({
+	showSearch = true,
+	SearchComponent,
+	className,
+}: TopBarProps) {
 	const { t } = useTranslation('common');
 	const dispatch = useDispatch();
 
@@ -46,14 +51,16 @@ function TopBar({ showSearch = true, SearchComponent }: TopBarProps) {
 	const _AccountDropDown = useCallback(AccountDropDown, [user]);
 
 	return (
-		<div className={twMerge([styles.TOPBAR.topbar, 'bg-transparent'])}>
+		<div
+			className={twMerge([styles.TOPBAR.topbar, 'bg-transparent', className])}
+		>
 			{(showSearch && SearchComponent) || null}
 
-			<FlexBox className="flex h-16 sm:h-full items-center justify-between shrink-0 flex-col sm:flex-row gap-5">
+			<FlexBox className="flex sm:h-full pt-5 sm:pt-0 self-start justify-start sm:items-center sm:justify-between shrink-0 flex-col sm:flex-row gap-5">
 				<Link
 					href={'/'}
 					className={twMerge(
-						'z-50 flex flex-row gap-x-4',
+						'hidden md:flex z-50 flex-row gap-x-4',
 						styles.shadow.logoShadow
 					)}
 				>
@@ -67,6 +74,7 @@ function TopBar({ showSearch = true, SearchComponent }: TopBarProps) {
 						quality={25}
 					/> */}
 				</Link>
+
 				{/* SHOW ACCOUNT DROPDOWN BUTTON OR SIGNIN */}
 				{user && <_AccountDropDown />}
 				{!user && (
@@ -74,7 +82,7 @@ function TopBar({ showSearch = true, SearchComponent }: TopBarProps) {
 						<Button
 							className={twMerge(
 								styles.BUTTON.highlight,
-								'hover:border-light text-light'
+								'hover:border-light sm:text-light'
 							)}
 							size="sm"
 							bg="transparent"
@@ -124,7 +132,7 @@ function TopBar({ showSearch = true, SearchComponent }: TopBarProps) {
 									hover="transparent"
 									className={twMerge(
 										styles.BUTTON.highlight,
-										'hover:border-light text-light',
+										'hover:border-light sm:text-light',
 										'w-full'
 									)}
 								>
@@ -141,7 +149,7 @@ function TopBar({ showSearch = true, SearchComponent }: TopBarProps) {
 								hover="transparent"
 								className={twMerge(
 									styles.BUTTON.highlight,
-									'hover:border-light text-light',
+									'hover:border-light sm:text-light',
 									'w-full'
 								)}
 							>
@@ -156,7 +164,7 @@ function TopBar({ showSearch = true, SearchComponent }: TopBarProps) {
 							hover="transparent"
 							className={twMerge(
 								styles.BUTTON.highlight,
-								'hover:border-light text-light',
+								'hover:border-light sm:text-light',
 								'w-full'
 							)}
 							onClick={() => signOut()}

@@ -32,16 +32,22 @@ function Hero({ href = '#get-started' }: { href?: string }) {
 						)}
 					>
 						<H1
-							className={twMerge(heading, 'text-left max-w-fit mx-auto')}
+							className={twMerge(
+								styles.HERO.heading,
+								styles.shadow.textShadow,
+								'!leading-tight',
+								'text-inverse',
+								'text-left max-w-fit mx-auto'
+							)}
 						>{`Personalized Text Messaging Service For Cannabis Businesses`}</H1>
 					</div>
 					<div className="sm:my-0 mx-auto grid py-6 place-self-center text-left gap-y-8 mt-0">
-						<Paragraph className="text-light font-encode mx-auto tracking-loose text-xl lg:text-2xl whitespace-pre-line">
+						<Paragraph className="text-light mx-auto text-xl lg:text-2xl">
 							{`Build deeper customer relationships with a messaging service based on choice, quality and trust.`}
 						</Paragraph>
 						<FlexBox className="w-full py-8 flex-col-reverse sm:flex-row gap-8 items-center">
 							<Link
-								className="w-[240px px-8 underline text-light pb-2 uppercase hover:text-secondary"
+								className="w-[240px px-8 underline text-light pb-2 uppercase hover:text-dark transition"
 								href={'#info'}
 								scroll={false}
 							>

@@ -28,12 +28,12 @@ const CTA = ({
 				bg={secondary ? 'transparent' : 'secondary-light'}
 				hover={secondary ? 'transparent' : 'primary'}
 				className={twMerge(
-					'w-full uppercase px-8',
+					'w-full px-8',
 					'hover:-translate-y-1',
 					secondary ? 'border-[3px] border-secondary-light ' : 'font-black',
 					secondary
 						? 'hover:bg-secondary-light hover:scale-102'
-						: 'hover:scale-105'
+						: 'hover:bg-primary hover:scale-105'
 				)}
 			>
 				{secondary

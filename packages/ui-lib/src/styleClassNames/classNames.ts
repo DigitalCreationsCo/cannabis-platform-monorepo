@@ -63,9 +63,9 @@ const styles = Object.freeze({
 	},
 	TOPBAR: {
 		topbar: [
-			'h-auto sm:h-[68px]',
+			'h-auto',
 			'z-50 sticky flex flex-row bg-inverse-soft items-center shrink-0 justify-between gap-x-5',
-			'pt-4 px-4',
+			'px-4',
 		],
 		tagline: [
 			'p-0 m-0',
@@ -104,6 +104,7 @@ const styles = Object.freeze({
 	padd: 'md:pt-12 md:pb-14',
 	shadow: {
 		textShadow: 'drop-shadow-[0px_2px_.75px_#555555]',
+		textShadowOnSmallBreakpoint: 'sm:drop-shadow-[0px_2px_.75px_#555555]',
 		textShadowLg:
 			'drop-shadow-[0px_2px_.75px_#555555] md:drop-shadow-[1px_3px_1px_#555555]',
 		// 'drop-shadow-[1px_2px_1px_#555555] md:drop-shadow-[0px_2px_1px_#555555]'

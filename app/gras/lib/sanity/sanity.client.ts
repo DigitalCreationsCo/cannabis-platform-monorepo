@@ -21,6 +21,9 @@ import {
 	type Settings,
 	nonPublishedPostsQuery,
 	postByIdQuery,
+	businessPostsQuery,
+	businessPostSlugsQuery,
+	businessPostAndMoreStoriesQuery,
 } from './sanity.queries';
 
 export function getClient(preview?: { token: string }): SanityClient {
@@ -57,9 +60,19 @@ export async function getPosts(client: SanityClient): Promise<Post[]> {
 	return await client.fetch(postsQuery);
 }
 
+export async function getBusinessPosts(client: SanityClient): Promise<Post[]> {
+	return await client.fetch(businessPostsQuery);
+}
+
 export async function getAllPostsSlugs(): Promise<Pick<Post, 'slug'>[]> {
 	const client = getClient();
 	const slugs = (await client.fetch<string[]>(postSlugsQuery)) || [];
+	return slugs.map((slug) => ({ slug }));
+}
+
+export async function getBusinessPostsSlugs(): Promise<Pick<Post, 'slug'>[]> {
+	const client = getClient();
+	const slugs = (await client.fetch<string[]>(businessPostSlugsQuery)) || [];
 	return slugs.map((slug) => ({ slug }));
 }
 
@@ -86,6 +99,13 @@ export async function getPostAndMoreStories(
 	slug: string
 ): Promise<{ post: Post; morePosts: Post[] }> {
 	return await client.fetch(postAndMoreStoriesQuery, { slug });
+}
+
+export async function getBusinessPostAndMoreStories(
+	client: SanityClient,
+	slug: string
+): Promise<{ post: Post; morePosts: Post[] }> {
+	return await client.fetch(businessPostAndMoreStoriesQuery, { slug });
 }
 
 export async function getCategories(client: SanityClient): Promise<string[]> {
@@ -121,8 +141,9 @@ export async function setPostPublishedToSocialMedia(
 
 export async function setContentUrl(
 	client: SanityClient,
-	document: SanityDocument
+	document: SanityDocument,
+	postsPath = 'posts'
 ): Promise<Post> {
-	const contentUrl = `https://gras.live/blog/posts/${document?.slug.current}`;
+	const contentUrl = `https://gras.live/blog/${postsPath}/${document?.slug.current}`;
 	return await client.patch(document._id).set({ contentUrl }).commit<Post>();
 }

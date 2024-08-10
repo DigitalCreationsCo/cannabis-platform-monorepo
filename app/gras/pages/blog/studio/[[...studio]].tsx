@@ -21,13 +21,6 @@ export default function StudioPage() {
 	);
 }
 
-// StudioPage.getLayoutContext = (): LayoutContextProps => ({
-// 	showHeader: false,
-// 	showSideNav: false,
-// 	showFooter: false,
-// 	showTopBar: false,
-// });
-
 StudioPage.getLayout = function getLayout(page: ReactElement) {
 	return (
 		<>

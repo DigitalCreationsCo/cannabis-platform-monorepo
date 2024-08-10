@@ -271,8 +271,9 @@ export default function Browse({
 				>
 					<div className="lg:px-10">
 						<TopBar
+							className="sm:h-[68px] items-center"
 							SearchComponent={
-								<div className="flex flex-col xl:flex-row relative self-start z-10 gap-x-8 gap-y-1 w-full">
+								<div className="flex flex-col xl:flex-row relative self-start z-10 gap-x-8 gap-y-1 w-fit xl:w-full">
 									{/* TEST */}
 									{/* {`lookup city: ${lookupCity}`}
 							{`values.city: ${values.city}`}
@@ -281,25 +282,21 @@ export default function Browse({
 							{`radius: ${radius}`} */}
 									<H1
 										className={twMerge([
-											'text-light',
+											'pt-4',
+											'sm:text-light',
 											'text-2xl',
 											'lg:text-4xl',
 											'whitespace-nowrap',
-											styles.shadow.textShadow,
+											styles.shadow.textShadowOnSmallBreakpoint,
 										])}
-										// className={twMerge([
-										// 	'sm:hidden text-xl',
-										// 	'text-light',
-										// 	styles.shadow.textShadow,
-										// ])}
 									>
 										{/* {t('find-flower-events-dispensaries')} */}
 										{`Find events`}
 										{/* <span className="hidden md:!inline">{`, activities`}</span> */}
 										{` and dispensaries`}
-										<span className="hidden md:!inline">{` near you`}</span>
+										<span className="hidden sm:!inline">{` near you`}</span>
 									</H1>
-									<div className="relative w-full">
+									<div className="relative w-full pt-1 xl:pt-4">
 										<TextField
 											containerClassName="w-full max-w-lg"
 											autoComplete="off"
@@ -400,7 +397,7 @@ export default function Browse({
 							</div>
 
 							<div className="col-span-full">
-								<H2 className="col-span-full font-medium !text-xl pt-2 px-3 md:px-4 text-light leading-2 drop-shadow-[0px_2px_0px_#555555] text-left">
+								<H2 className="col-span-full font-medium text-lg sm:!text-xl pt-2 px-3 md:px-4 sm:text-light leading-2 sm:drop-shadow-[0px_2px_0px_#555555] text-left">
 									🎉 Nearby Events{nextEventDate ? `, ${nextEventDate}` : ''}
 								</H2>
 								{(!isEventLoading && events.length < 2 && (
@@ -539,7 +536,7 @@ export default function Browse({
 							</div>
 
 							<div className="col-span-full">
-								<H2 className="col-span-full !text-xl font-medium mt-2 px-2 md:px-4 text-light leading-2 drop-shadow-[0px_2px_0px_#555555] text-left">
+								<H2 className="col-span-full text-lg sm:!text-xl font-medium mt-2 px-2 md:px-4 sm:text-light leading-2 sm:drop-shadow-[0px_2px_0px_#555555] text-left">
 									🍍 Fresh from our blog
 								</H2>
 								<Carousel
