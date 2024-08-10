@@ -21,15 +21,15 @@ function TopBar({ className = '' }: { className?: string | string[] }) {
 						styles.shadow.logoShadow
 					)}
 				>
-					<GrasSignature className="text-inverse py-0 mb-0 leading-3">
-						{t('gras')}
-					</GrasSignature>
 					<Image
 						alt="Gras"
 						className="w-[36px] bg-inverse rounded-full"
 						src={logo}
 						quality={25}
 					/>
+					<GrasSignature className="text-inverse py-4 mb-0 leading-3">
+						{t('gras')}
+					</GrasSignature>
 					{/* <Paragraph
 						className={twMerge(styles.TOPBAR.tagline, 'text-inverse-soft')}
 					>

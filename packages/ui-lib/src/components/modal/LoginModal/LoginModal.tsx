@@ -3,38 +3,30 @@
 // import GoogleButton from '@/components/auth/GoogleButton';
 // import { AuthLayout } from '@/components/layouts';
 // import { Alert } from '@/components/shared';
-// import GoogleReCAPTCHA from '@/components/shared/GoogleReCAPTCHA';
-// import TogglePasswordVisibility from '@/components/shared/TogglePasswordVisibility';
-import { maxLengthPolicies } from '@cd/core-lib';
+import { type AppState, maxLengthPolicies } from '@cd/core-lib';
 import { useFormik } from 'formik';
 import { signIn, useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, {
-	useEffect,
-	useMemo,
-	useRef,
-	useState,
-	type ReactElement,
-} from 'react';
-import type ReCAPTCHA from 'react-google-recaptcha';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import * as Yup from 'yup';
 import logo from '../../../../public/assets/images/logo.png';
-// import { Button, LoadingPage, Paragraph, TextField } from '@cd/ui-lib';
 import { styles } from '../../../styleClassNames';
+import AgreeMessage from '../../AgreeMessage';
 import Button from '../../button/Button';
 import FlexBox from '../../FlexBox';
+import GoogleReCAPTCHA from '../../GoogleReCAPTCHA';
 import LoadingPage from '../../LoadingPage';
 import TextField from '../../TextField';
-import { GrasSignature, H2, H3, H4, H5, Paragraph } from '../../Typography';
+import TogglePasswordVisibility from '../../TogglePasswordVisibility';
+import { GrasSignature, H2, Paragraph } from '../../Typography';
 import Modal from '../Modal';
 import EnterPasscode from './EnterPassCodeForm';
-import LoginModalHeader from './LoginHeader';
 import SendPasscode from './SendPassCodeForm';
-
 interface LoginModalProps {
 	dispatchCloseModal: () => void;
 	modalVisible: boolean;
@@ -93,6 +85,8 @@ export default function LoginModal({
 	const handlePasswordVisibility = () => {
 		setIsPasswordVisible((prev) => !prev);
 	};
+
+	const { recaptcha } = useSelector((state: AppState) => state.env);
 
 	useEffect(() => {
 		if (error) {
@@ -165,23 +159,26 @@ export default function LoginModal({
 		>
 			{/* <LoginModalHeader /> */}
 			<FlexBox
-				className={twMerge(styles.padd, 'p-20', 'w-fit mx-auto text-inverse')}
+				className={twMerge(
+					styles.padd,
+					'h-full self-center align-middle justify-center place-self-center justify-self-center max-w-fit px-8 m-auto text-light'
+				)}
 			>
-				<FlexBox className="flex-row items-center gap-x-2 pt-2">
-					<GrasSignature className="drop-shadow-lg pt-1 pb-0 mb-0 leading-3">
-						Gras
-					</GrasSignature>
+				<FlexBox className="text-inverse flex-row items-center gap-x-2 pt-2">
 					<Image
 						alt="Gras"
-						className="bg-inverse w-[36px] rounded-full"
+						className="bg-inverse w-[40px] rounded-full"
 						src={logo}
 						quality={25}
 					/>
+					<GrasSignature className="drop-shadow-lg pt-1 pb-0 mb-0 leading-3">
+						Gras
+					</GrasSignature>
 				</FlexBox>
-				<H2>{`Find cannabis events in your city`}</H2>
+				<H2>{t('find-cannabis-events-in-your-city')}</H2>
 
 				<form onSubmit={formik.handleSubmit} className="text-light mx-auto">
-					<div className="space-y-2">
+					<div className="space-y-3">
 						<TextField
 							type="email"
 							label={t('sign-in-to-your-account')}
@@ -199,12 +196,17 @@ export default function LoginModal({
 								placeholder={t('password')}
 								value={formik.values.password}
 								label={
-									<Link
-										href="/auth/forgot-password"
-										className="mx-auto self-center text-sm text-light underline hover:text-[color-mix(in_oklab,oklch(var(--p)),black_7%)]"
-									>
-										{t('forgot-password')}
-									</Link>
+									<label className="flex w-full justify-between">
+										<span>{t('password')}</span>
+										<span className="label-text-alt">
+											<Link
+												href="/auth/forgot-password"
+												className="mx-auto self-center text-sm text-light underline hover:text-[color-mix(in_oklab,oklch(var(--p)),black_7%)]"
+											>
+												{t('forgot-password')}
+											</Link>
+										</span>
+									</label>
 								}
 								error={
 									formik.touched.password ? !!formik.errors.password : undefined
@@ -212,16 +214,16 @@ export default function LoginModal({
 								helperText={formik.touched.password && formik.errors.password}
 								onChange={formik.handleChange}
 							/>
-							{/* <TogglePasswordVisibility
-							isPasswordVisible={isPasswordVisible}
-							handlePasswordVisibility={handlePasswordVisibility}
-						/> */}
+							<TogglePasswordVisibility
+								isPasswordVisible={isPasswordVisible}
+								handlePasswordVisibility={handlePasswordVisibility}
+							/>
 						</div>
-						{/* <GoogleReCAPTCHA
-						recaptchaRef={recaptchaRef}
-						onChange={setRecaptchaToken}
-						siteKey={recaptchaSiteKey}
-					/> */}
+						<GoogleReCAPTCHA
+							recaptchaRef={recaptchaRef}
+							onChange={setRecaptchaToken}
+							siteKey={recaptcha.siteKey}
+						/>
 					</div>
 					<div className="mt-3 space-y-3">
 						<Button
@@ -232,11 +234,12 @@ export default function LoginModal({
 						>
 							{t('sign-in')}
 						</Button>
+						<AgreeMessage text={t('sign-in')} />
 						<Paragraph className="text-center text-sm">
 							{t('dont-have-an-account')}
 							<Link
 								href={`/auth/join${params}`}
-								className="font-semibold text-light underline block hover:text-[color-mix(in_oklab,oklch(var(--p)),black_7%)]"
+								className="font-semibold underline block hover:text-[color-mix(in_oklab,oklch(var(--p)),black_7%)]"
 							>
 								&nbsp;{t('create-a-free-account')}
 							</Link>

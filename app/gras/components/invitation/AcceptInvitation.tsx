@@ -29,7 +29,7 @@ const AcceptInvitation = ({ invitation }: AcceptInvitationProps) => {
 			return;
 		}
 
-		router.push('/dashboard');
+		router.push('/');
 	};
 
 	return (

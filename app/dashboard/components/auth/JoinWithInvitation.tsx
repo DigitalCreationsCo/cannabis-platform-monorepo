@@ -6,7 +6,13 @@ import {
 	useInvitation,
 	type ApiResponse,
 } from '@cd/core-lib';
-import { Button, TextField } from '@cd/ui-lib';
+import {
+	Button,
+	TextField,
+	AgreeMessage,
+	GoogleReCAPTCHA,
+	TogglePasswordVisibility,
+} from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
@@ -15,9 +21,6 @@ import type ReCAPTCHA from 'react-google-recaptcha';
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
 import { Error, WithLoadingAndError } from '@/components/shared';
-import GoogleReCAPTCHA from '../shared/GoogleReCAPTCHA';
-import TogglePasswordVisibility from '../shared/TogglePasswordVisibility';
-import AgreeMessage from './AgreeMessage';
 
 interface JoinWithInvitationProps {
 	inviteToken: string;

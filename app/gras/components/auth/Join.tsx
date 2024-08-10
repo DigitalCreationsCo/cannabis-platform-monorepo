@@ -4,7 +4,14 @@ import {
 	maxLengthPolicies,
 	passwordPolicies,
 } from '@cd/core-lib';
-import { Button, TextField } from '@cd/ui-lib';
+import {
+	Button,
+	TextField,
+	AgreeMessage,
+	TogglePasswordVisibility,
+	GoogleReCAPTCHA,
+} from '@cd/ui-lib';
+import { getCookie } from 'cookies-next';
 import { useFormik } from 'formik';
 import { track } from 'mixpanel-browser';
 import { useTranslation } from 'next-i18next';
@@ -13,10 +20,6 @@ import { useState, useRef } from 'react';
 import type ReCAPTCHA from 'react-google-recaptcha';
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
-import { InputWithLabel } from '@/components/shared';
-import GoogleReCAPTCHA from '../shared/GoogleReCAPTCHA';
-import TogglePasswordVisibility from '../shared/TogglePasswordVisibility';
-import AgreeMessage from './AgreeMessage';
 
 interface JoinProps {
 	recaptchaSiteKey: string | null;
@@ -46,9 +49,8 @@ const Join = ({ recaptchaSiteKey }: JoinProps) => {
 	const formik = useFormik({
 		initialValues: {
 			name: '',
-			email: '',
+			email: getCookie('email') || '',
 			password: '',
-			team: '',
 		},
 		validationSchema: JoinUserSchema,
 		validateOnChange: false,
@@ -92,28 +94,8 @@ const Join = ({ recaptchaSiteKey }: JoinProps) => {
 	});
 
 	return (
-		<form onSubmit={formik.handleSubmit}>
+		<form onSubmit={formik.handleSubmit} className="mx-auto">
 			<div className="space-y-1">
-				<TextField
-					type="text"
-					label={t('name')}
-					name="name"
-					placeholder={t('your-name')}
-					value={formik.values.name}
-					error={formik.touched.name ? !!formik.errors.name : undefined}
-					helperText={formik.touched.name && formik.errors.name}
-					onChange={formik.handleChange}
-				/>
-				<TextField
-					type="text"
-					label={t('team')}
-					name="team"
-					placeholder={t('team-name')}
-					value={formik.values.team}
-					error={!!formik.errors.team}
-					helperText={formik.errors.team}
-					onChange={formik.handleChange}
-				/>
 				<TextField
 					type="email"
 					label={t('email')}
@@ -122,6 +104,16 @@ const Join = ({ recaptchaSiteKey }: JoinProps) => {
 					value={formik.values.email}
 					error={!!formik.errors.email}
 					helperText={formik.errors.email}
+					onChange={formik.handleChange}
+				/>
+				<TextField
+					type="text"
+					label={t('name')}
+					name="name"
+					placeholder={t('your-name')}
+					value={formik.values.name}
+					error={formik.touched.name ? !!formik.errors.name : undefined}
+					helperText={formik.touched.name && formik.errors.name}
 					onChange={formik.handleChange}
 				/>
 				<div className="relative flex">
@@ -148,7 +140,7 @@ const Join = ({ recaptchaSiteKey }: JoinProps) => {
 			</div>
 			<div className="mt-3 space-y-3">
 				<Button
-					className="w-full font-bold bg-primary hover:bg-primary-light"
+					className="w-full text-light font-bold bg-primary hover:bg-primary-light"
 					type="submit"
 					color="primary"
 					loading={formik.isSubmitting}

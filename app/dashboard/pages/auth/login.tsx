@@ -11,6 +11,9 @@ import {
 	Paragraph,
 	TextField,
 	PlainTopBar,
+	AgreeMessage,
+	TogglePasswordVisibility,
+	GoogleReCAPTCHA,
 } from '@cd/ui-lib';
 import { unlockYourGrowth } from '@cd/ui-lib/src/components/landing/benefits/benefit-data';
 import { useFormik } from 'formik';
@@ -35,12 +38,9 @@ import type { ComponentStatus } from 'react-daisyui/dist/types';
 // eslint-disable-next-line import/no-named-as-default
 import type ReCAPTCHA from 'react-google-recaptcha';
 import * as Yup from 'yup';
-import AgreeMessage from '@/components/auth/AgreeMessage';
 import GithubButton from '@/components/auth/GithubButton';
 import GoogleButton from '@/components/auth/GoogleButton';
 import { Alert } from '@/components/shared';
-import GoogleReCAPTCHA from '@/components/shared/GoogleReCAPTCHA';
-import TogglePasswordVisibility from '@/components/shared/TogglePasswordVisibility';
 import { authProviderEnabled } from '@/lib/auth';
 import env from '@/lib/env';
 import type { NextPageWithLayout } from '@/lib/next.types';

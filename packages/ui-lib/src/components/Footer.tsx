@@ -84,15 +84,15 @@ export default function Footer({
 								styles.shadow.logoShadow
 							)}
 						>
-							<GrasSignature className="text-inverse pt-1 pb-0 mb-0 leading-3">
-								Gras
-							</GrasSignature>
 							<Image
 								alt="Gras"
 								className="w-[36px] bg-inverse rounded-full"
 								src={logo}
 								quality={25}
 							/>
+							<GrasSignature className="text-inverse pt-1 pb-0 mb-0 leading-3">
+								Gras
+							</GrasSignature>
 						</Link>
 					</FlexBox>
 

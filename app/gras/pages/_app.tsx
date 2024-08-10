@@ -1,8 +1,8 @@
 import { AccountLayout } from '@/components/layouts';
-import env from '@/lib/env';
 import { type AppPropsWithLayout } from '@/lib/next.types';
-import { wrapper } from '@/lib/store';
+import { setEnv, wrapper } from '@/lib/store';
 import { Themer } from '@boxyhq/react-ui/shared';
+import { axios } from '@cd/core-lib';
 import CacheProvider from '@cd/core-lib/src/lib/cache';
 import {
 	GTMTag,
@@ -15,19 +15,16 @@ import {
 	LoadingPage,
 	ModalProvider,
 	ToastProvider,
-	type Theme,
-	applyTheme,
 } from '@cd/ui-lib';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { AnimatePresence } from 'framer-motion';
-import mixpanel from 'mixpanel-browser';
 import { SessionProvider } from 'next-auth/react';
 import { appWithTranslation } from 'next-i18next';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { Provider as ReduxProvider } from 'react-redux';
+import { Provider as ReduxProvider, useDispatch } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { SWRConfig } from 'swr';
 
@@ -42,6 +39,16 @@ export interface SharedPageProps {
 	isRouteChanging?: boolean;
 }
 
+async function fetchEnvConfig() {
+	try {
+		const response = await axios('/api/env');
+		return response.data;
+	} catch (error) {
+		console.error('Failed to fetch environment config:', error);
+		return {};
+	}
+}
+
 function MyApp({
 	Component,
 	...appProps
@@ -53,10 +60,21 @@ function MyApp({
 	const { pageProps } = appProps;
 	const { session, ...props } = pageProps;
 
+	const dispatch = useDispatch();
 	const router = useRouter();
 	const [isRouteChanging, setIsRouteChanging] = useState(false);
 
+	// add env config to redux state
 	useEffect(() => {
+		async function initializeApp() {
+			const envConfig = await fetchEnvConfig();
+			dispatch(setEnv(envConfig));
+		}
+		initializeApp();
+	}, []);
+
+	useEffect(() => {
+		// Set up route change event listeners and update state
 		const handleRouteChange = (url) => {
 			console.log(`Route changed to: ${url}`);
 			setIsRouteChanging(true);
@@ -73,20 +91,20 @@ function MyApp({
 	}, [router]);
 
 	// Add mixpanel
-	useEffect(() => {
-		if (env.mixpanel.token) {
-			mixpanel.init(env.mixpanel.token, {
-				debug: true,
-				ignore_dnt: true,
-				track_pageview: true,
-				persistence: 'localStorage',
-			});
-		}
+	// useEffect(() => {
+	// 	if (env.mixpanel.token) {
+	// 		mixpanel.init(env.mixpanel.token, {
+	// 			debug: true,
+	// 			ignore_dnt: true,
+	// 			track_pageview: true,
+	// 			persistence: 'localStorage',
+	// 		});
+	// 	}
 
-		if (env.darkModeEnabled) {
-			applyTheme(localStorage.getItem('theme') as Theme);
-		}
-	}, []);
+	// 	if (env.darkModeEnabled) {
+	// 		applyTheme(localStorage.getItem('theme') as Theme);
+	// 	}
+	// }, []);
 
 	const getLayout =
 		Component.getLayout || ((page) => <AccountLayout>{page}</AccountLayout>);

@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { Error, WithLoadingAndError } from '@/components/shared';
 import {
 	defaultHeaders,
 	maxLengthPolicies,
@@ -6,7 +7,15 @@ import {
 	useInvitation,
 	type ApiResponse,
 } from '@cd/core-lib';
-import { Button, TextField, LoadingDots } from '@cd/ui-lib';
+import {
+	Button,
+	TextField,
+	LoadingDots,
+	AgreeMessage,
+	TogglePasswordVisibility,
+	GoogleReCAPTCHA,
+} from '@cd/ui-lib';
+import { getCookie } from 'cookies-next';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
@@ -14,14 +23,6 @@ import { useRef, useState } from 'react';
 import type ReCAPTCHA from 'react-google-recaptcha';
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
-import {
-	Error,
-	InputWithLabel,
-	WithLoadingAndError,
-} from '@/components/shared';
-import GoogleReCAPTCHA from '../shared/GoogleReCAPTCHA';
-import TogglePasswordVisibility from '../shared/TogglePasswordVisibility';
-import AgreeMessage from './AgreeMessage';
 
 interface JoinWithInvitationProps {
 	inviteToken: string;
@@ -61,7 +62,7 @@ const JoinWithInvitation = ({
 	const formik = useFormik({
 		initialValues: {
 			name: '',
-			email: '',
+			email: getCookie('email') || '',
 			password: '',
 			sentViaEmail: invitation?.sentViaEmail || true,
 		},
@@ -106,17 +107,6 @@ const JoinWithInvitation = ({
 	return (
 		<WithLoadingAndError isLoading={isLoading} error={error}>
 			<form className="space-y-3" onSubmit={formik.handleSubmit}>
-				<TextField
-					type="text"
-					label={t('name')}
-					name="name"
-					placeholder={t('your-name')}
-					value={formik.values.name}
-					error={!!formik.errors.name}
-					helperText={formik.errors.name}
-					onChange={formik.handleChange}
-				/>
-
 				{invitation.sentViaEmail ? (
 					<TextField
 						type="email"
@@ -136,6 +126,17 @@ const JoinWithInvitation = ({
 						onChange={formik.handleChange}
 					/>
 				)}
+
+				<TextField
+					type="text"
+					label={t('name')}
+					name="name"
+					placeholder={t('your-name')}
+					value={formik.values.name}
+					error={!!formik.errors.name}
+					helperText={formik.errors.name}
+					onChange={formik.handleChange}
+				/>
 
 				<div className="relative flex">
 					<TextField

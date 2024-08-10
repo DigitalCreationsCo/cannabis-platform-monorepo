@@ -1,3 +1,10 @@
+import { JoinWithInvitation, Join } from '@/components/auth';
+import GithubButton from '@/components/auth/GithubButton';
+import GoogleButton from '@/components/auth/GoogleButton';
+import { AuthLayout } from '@/components/layouts';
+import { authProviderEnabled } from '@/lib/auth';
+import env from '@/lib/env';
+import type { NextPageWithLayout } from '@/lib/next.types';
 import { LoadingPage, Paragraph } from '@cd/ui-lib';
 import {
 	type GetServerSidePropsContext,
@@ -6,18 +13,13 @@ import {
 import { useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { NextSeo } from 'next-seo';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { type ReactElement, useEffect } from 'react';
 import toast from 'react-hot-toast';
-import { JoinWithInvitation, Join } from '@/components/auth';
-import GithubButton from '@/components/auth/GithubButton';
-import GoogleButton from '@/components/auth/GoogleButton';
-import { AuthLayout } from '@/components/layouts';
-import { authProviderEnabled } from '@/lib/auth';
-import env from '@/lib/env';
-import type { NextPageWithLayout } from '@/lib/next.types';
+import seoConfig from '@/lib/seo.config';
 
 const Signup: NextPageWithLayout<
 	InferGetServerSidePropsType<typeof getServerSideProps>
@@ -48,42 +50,47 @@ const Signup: NextPageWithLayout<
 	const params = token ? `?token=${token}` : '';
 
 	return (
-		<AuthLayout heading="get-started" description="create-a-new-account">
-			<Head>
-				<title>{t('sign-up-title')}</title>
-			</Head>
-			<div className="rounded p-6 bg-inverse drop-shadow">
-				<div className="flex gap-2 flex-wrap">
-					{authProviders.github && <GithubButton />}
-					{authProviders.google && <GoogleButton />}
-				</div>
-
-				{(authProviders.github || authProviders.google) &&
-					authProviders.credentials && <div className="divider">{t('or')}</div>}
-
-				{authProviders.credentials && (
-					<>
-						{token ? (
-							<JoinWithInvitation
-								inviteToken={token}
-								recaptchaSiteKey={recaptchaSiteKey}
-							/>
-						) : (
-							<Join recaptchaSiteKey={recaptchaSiteKey} />
-						)}
-					</>
-				)}
-			</div>
-			<Paragraph className="text-center text-sm text-gray-600 mt-3">
-				{t('already-have-an-account')}
-				<Link
-					href={`/auth/login/${params}`}
-					className="font-medium text-primary hover:text-[color-mix(in_oklab,oklch(var(--p)),black_7%)]"
+		<div className="bg-inverse justify-center">
+			<NextSeo {...seoConfig} title={t('sign-up-title')} />
+			<div className="rounded drop-shadow max-w-sm mx-auto">
+				<AuthLayout
+					heading={t('find-cannabis-events-in-your-city')}
+					description="create-a-new-account"
 				>
-					&nbsp;{t('sign-in')}
-				</Link>
-			</Paragraph>
-		</AuthLayout>
+					<div className="flex gap-2 flex-wrap">
+						{authProviders.github && <GithubButton />}
+						{authProviders.google && <GoogleButton />}
+					</div>
+
+					{(authProviders.github || authProviders.google) &&
+						authProviders.credentials && (
+							<div className="divider">{t('or')}</div>
+						)}
+
+					{authProviders.credentials && (
+						<>
+							{token ? (
+								<JoinWithInvitation
+									inviteToken={token}
+									recaptchaSiteKey={recaptchaSiteKey}
+								/>
+							) : (
+								<Join recaptchaSiteKey={recaptchaSiteKey} />
+							)}
+						</>
+					)}
+					<Paragraph className="text-center text-sm mt-3">
+						{t('already-have-an-account')}{' '}
+						<Link
+							href={`/auth/login/${params}`}
+							className="underline font-medium hover:text-[color-mix(in_oklab,oklch(var(--p)),black_7%)]"
+						>
+							{t('sign-in')}
+						</Link>
+					</Paragraph>
+				</AuthLayout>
+			</div>
+		</div>
 	);
 };
 

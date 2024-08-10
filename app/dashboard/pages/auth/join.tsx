@@ -51,7 +51,7 @@ const Signup: NextPageWithLayout<
 		<div className="bg-secondary text-inverse">
 			<AuthLayout heading="get-started" description="create-a-business-account">
 				<Head>
-					<title>{t('sign-up-title')}</title>
+					<title>{t('create-a-business-account')}</title>
 				</Head>
 				<div className="text-dark rounded p-6 bg-inverse drop-shadow">
 					<div className="flex gap-2 flex-wrap">

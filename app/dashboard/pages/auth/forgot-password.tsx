@@ -3,7 +3,7 @@ import {
 	type ApiResponse,
 	maxLengthPolicies,
 } from '@cd/core-lib';
-import { Button, Paragraph, TextField } from '@cd/ui-lib';
+import { Button, Paragraph, TextField, GoogleReCAPTCHA } from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import type {
 	GetServerSidePropsContext,
@@ -18,7 +18,6 @@ import type { default as ReCAPTCHA } from 'react-google-recaptcha';
 import { default as toast } from 'react-hot-toast';
 import * as Yup from 'yup';
 import { AuthLayout } from '@/components/layouts';
-import GoogleReCAPTCHA from '@/components/shared/GoogleReCAPTCHA';
 import env from '@/lib/env';
 import type { NextPageWithLayout } from '@/lib/next.types';
 

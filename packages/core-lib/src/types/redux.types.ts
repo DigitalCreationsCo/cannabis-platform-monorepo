@@ -30,6 +30,7 @@ export type AppState = Readonly<{
 	cart: CartStateProps;
 	socket: SocketStateType;
 	dispensary: DispensaryStateProps;
+	env: Record<string, any>;
 }>;
 
 export interface ThunkArgumentsType {

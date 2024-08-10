@@ -25,11 +25,29 @@ import { signOut } from 'supertokens-auth-react/recipe/session';
 
 const middlewares = [crashMiddleware, locationMiddleware, loggerMiddleware];
 
+export const SET_ENV = 'SET_ENV';
+
+export const setEnv = (config) => ({
+	type: SET_ENV,
+	payload: config,
+});
+
 const rootReducer = combineReducers({
 	modal: modalReducer,
 	location: locationReducer,
 	cart: cartReducer,
 	blog: blogReducer,
+	env: (state = {}, action) => {
+		switch (action.type) {
+			case SET_ENV:
+				return {
+					...state,
+					...action.payload,
+				};
+			default:
+				return state;
+		}
+	},
 });
 
 const hydratableReducer = (state: any, action: any) => {
@@ -54,12 +72,12 @@ export const persistConfig =
 	process.env.NODE_ENV === 'development' && process.env.DEV_ENV === 'docker'
 		? {
 				key: 'root',
-				whitelist: ['modal', 'shop', 'user', 'blog'],
+				whitelist: ['shop', 'user', 'blog'],
 				storage,
 			}
 		: {
 				key: 'root',
-				blacklist: ['modal'],
+				blacklist: ['env', 'modal'],
 				storage,
 			};
 

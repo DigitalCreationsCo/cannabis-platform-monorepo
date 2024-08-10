@@ -1,24 +1,13 @@
 import { hashPassword } from '@/lib/auth';
 import { clientPromise } from '@/lib/db';
 import { sendVerificationEmail } from '@/lib/email/sendVerificationEmail';
-import { isEmailAllowed } from '@/lib/email/utils';
 import env from '@/lib/env';
 import { recordMetric } from '@/lib/metrics';
 import { validateRecaptcha } from '@/lib/recaptcha';
 import { userJoinSchema, validateWithSchema } from '@/lib/zod';
-import { slugify, ApiError, generateToken } from '@cd/core-lib';
-import {
-	type Dispensary,
-	createUser,
-	getUser,
-	createDispensary,
-	createVerificationToken,
-	isTeamExists,
-} from '@cd/data-access';
+import { ApiError, generateToken } from '@cd/core-lib';
+import { createUser, getUser, createVerificationToken } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
-
-// TODO:
-// Add zod schema validation
 
 export default async function handler(
 	req: NextApiRequest,
@@ -48,13 +37,7 @@ export default async function handler(
 // Signup the user
 const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 	try {
-		const {
-			name,
-			password,
-			dispensary,
-			// inviteToken,
-			recaptchaToken,
-		} = req.body;
+		const { name, password, recaptchaToken } = req.body;
 		const client = await clientPromise;
 
 		await validateRecaptcha(recaptchaToken);
@@ -83,33 +66,33 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 			password,
 		});
 
-		if (!isEmailAllowed(email)) {
-			throw new ApiError(
-				400,
-				`We currently only accept work email addresses for sign-up. Please use your work email to create an account. If you don't have a work email, feel free to contact our support team for assistance.`
-			);
-		}
+		// if (!isEmailAllowed(email)) {
+		// 	throw new ApiError(
+		// 		400,
+		// 		`We currently only accept work email addresses for sign-up. Please use your work email to create an account. If you don't have a work email, feel free to contact our support team for assistance.`
+		// 	);
+		// }
 
 		if (await getUser({ client, where: { email } })) {
 			throw new ApiError(400, 'An user with this email already exists.');
 		}
 
 		// Check if team name is available
-		if (!invitation) {
-			if (!dispensary) {
-				throw new ApiError(400, 'A team name is required.');
-			}
+		// if (!invitation) {
+		// 	if (!dispensary) {
+		// 		throw new ApiError(400, 'A team name is required.');
+		// 	}
 
-			const slug = slugify(dispensary);
+		// 	const slug = slugify(dispensary);
 
-			validateWithSchema(userJoinSchema, { dispensary, slug });
+		// 	validateWithSchema(userJoinSchema, { dispensary, slug });
 
-			const slugCollisions = await isTeamExists({ client, where: { slug } });
+		// 	const slugCollisions = await isTeamExists({ client, where: { slug } });
 
-			if (slugCollisions > 0) {
-				throw new ApiError(400, 'A team with this slug already exists.');
-			}
-		}
+		// 	if (slugCollisions > 0) {
+		// 		throw new ApiError(400, 'A team with this slug already exists.');
+		// 	}
+		// }
 
 		const user = await createUser({
 			client,
@@ -121,24 +104,6 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 			},
 		});
 
-		let userDispensary: Dispensary;
-
-		// Create team if user is not invited
-		// So we can create the team with the user as the owner
-		// if (!invitation) {
-		// eslint-disable-next-line prefer-const
-		userDispensary = await createDispensary({
-			client,
-			data: {
-				name: dispensary,
-				slug: slugify(dispensary),
-			},
-			userId: user.id,
-		});
-		// } else {
-		//   userDispensary = await getDispensary({ slug: invitation.team.slug });
-		// }
-		//
 		// Send account verification email
 		if (env.confirmEmail && !user.emailVerified) {
 			const verificationToken = await createVerificationToken({

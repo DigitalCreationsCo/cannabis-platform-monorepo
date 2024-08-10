@@ -1,15 +1,24 @@
-import AgreeMessage from '@/components/auth/AgreeMessage';
 import GithubButton from '@/components/auth/GithubButton';
 import GoogleButton from '@/components/auth/GoogleButton';
-import { AuthLayout } from '@/components/layouts';
 import { Alert } from '@/components/shared';
-import GoogleReCAPTCHA from '@/components/shared/GoogleReCAPTCHA';
-import TogglePasswordVisibility from '@/components/shared/TogglePasswordVisibility';
 import { authProviderEnabled } from '@/lib/auth';
 import env from '@/lib/env';
 import type { NextPageWithLayout } from '@/lib/next.types';
 import { maxLengthPolicies } from '@cd/core-lib';
-import { Button, LoadingPage, Paragraph, TextField } from '@cd/ui-lib';
+import {
+	Button,
+	FlexBox,
+	GrasSignature,
+	H2,
+	LoadingPage,
+	Page,
+	Paragraph,
+	styles,
+	TextField,
+	AgreeMessage,
+	TogglePasswordVisibility,
+	GoogleReCAPTCHA,
+} from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import type {
 	GetServerSidePropsContext,
@@ -19,13 +28,24 @@ import type {
 import { getCsrfToken, signIn, useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import Head from 'next/head';
+import { NextSeo } from 'next-seo';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { type ReactElement, useEffect, useState, useRef } from 'react';
+import React, {
+	type ReactElement,
+	useEffect,
+	useState,
+	useRef,
+	useCallback,
+} from 'react';
 import type { ComponentStatus } from 'react-daisyui/dist/types';
 import type ReCAPTCHA from 'react-google-recaptcha';
+import { twMerge } from 'tailwind-merge';
 import * as Yup from 'yup';
+import seoConfig from '@/lib/seo.config';
+import backdrop from '../../public/events-3.png';
+import logo from '../../public/logo.png';
 
 interface Message {
 	text: string | null;
@@ -99,6 +119,39 @@ const Login: NextPageWithLayout<
 		},
 	});
 
+	const ImageBackdrop = useCallback(() => {
+		return (
+			<div className="absolute bg-secondary w-full h-full -z-20">
+				<Image
+					className="opacity-50 absolute w-full h-full object-cover"
+					style={{
+						position: 'absolute',
+						width: '100%',
+						height: '100%',
+						zIndex: -1,
+						objectFit: 'cover',
+						objectPosition: '50% 40%',
+					}}
+					src={backdrop}
+					alt={'Find Cannabis Events near you'}
+				/>
+			</div>
+			// 	<div
+			// 		className="flex h-full grow"
+			// 		style={{
+			// 			zIndex: -1,
+			// 			backgroundColor: 'rgba(155,155,125,.25)',
+			// 			position: 'absolute',
+			// 			height: '100%',
+			// 			width: '100%',
+			// 			left: '0',
+			// 			top: '0',
+			// 		}}
+			// 	></div>
+			// </div>
+		);
+	}, [backdrop]);
+
 	if (status === 'loading') {
 		return <LoadingPage />;
 	}
@@ -110,120 +163,150 @@ const Login: NextPageWithLayout<
 	const params = token ? `?token=${token}` : '';
 
 	return (
-		<AuthLayout heading="welcome-back" description="log-in-to-account">
-			<Head>
-				<title>{t('login-title')}</title>
-			</Head>
-			{message.text && message.status && (
-				<Alert status={message.status} className="mb-5">
-					{t(message.text)}
-				</Alert>
-			)}
-			<div className="rounded p-6 bg-inverse drop-shadow">
-				<div className="flex gap-2 flex-wrap">
-					{authProviders.github && <GithubButton />}
-					{authProviders.google && <GoogleButton />}
-				</div>
+		<>
+			<NextSeo {...seoConfig} title={t('login-title')} />
+			<Page className="bg-transparent m-0 p-0 md:p-0 lg:p-0">
+				{/* <AuthLayout heading="welcome-back" description="log-in-to-account"> */}
 
-				{(authProviders.github || authProviders.google) &&
-					authProviders.credentials && <div className="divider">{t('or')}</div>}
+				<ImageBackdrop />
+				<FlexBox
+					className={twMerge(
+						styles.padd,
+						'max-w-sm',
+						'justify-self-center self-center place-self-center text-light px-8 m-auto'
+					)}
+				>
+					<FlexBox className="text-inverse flex-row items-center gap-x-2 pt-2">
+						<Image
+							alt="Gras"
+							className="bg-inverse w-[40px] rounded-full"
+							src={logo}
+							quality={25}
+						/>
+						<GrasSignature className="drop-shadow-lg pt-1 pb-0 mb-0 leading-3">
+							Gras
+						</GrasSignature>
+					</FlexBox>
+					<H2>{t('find-cannabis-events-in-your-city')}</H2>
+					{message.text && message.status && (
+						<Alert status={message.status} className="mb-5">
+							{t(message.text)}
+						</Alert>
+					)}
+					{/* <div className="rounded p-6 bg-inverse drop-shadow"> */}
+					<div className="flex gap-2 flex-wrap">
+						{authProviders.github && <GithubButton />}
+						{authProviders.google && <GoogleButton />}
+					</div>
 
-				{authProviders.credentials && (
-					<form onSubmit={formik.handleSubmit}>
-						<div className="space-y-3">
-							<TextField
-								type="email"
-								label="Email"
-								name="email"
-								placeholder={t('email')}
-								value={formik.values.email}
-								error={formik.touched.email ? !!formik.errors.email : undefined}
-								helperText={formik.touched.email && formik.errors.email}
-								onChange={formik.handleChange}
-							/>
-							<div className="relative flex">
+					{(authProviders.github || authProviders.google) &&
+						authProviders.credentials && (
+							<div className="divider">{t('or')}</div>
+						)}
+
+					{authProviders.credentials && (
+						<form onSubmit={formik.handleSubmit} className="mx-auto">
+							<div className="space-y-3">
 								<TextField
-									type={isPasswordVisible ? 'text' : 'password'}
-									name="password"
-									placeholder={t('password')}
-									value={formik.values.password}
-									label={
-										<label className="label">
-											<span className="label-text">{t('password')}</span>
-											<span className="label-text-alt">
-												<Link
-													href="/auth/forgot-password"
-													className="text-sm text-primary hover:text-[color-mix(in_oklab,oklch(var(--p)),black_7%)]"
-												>
-													{t('forgot-password')}
-												</Link>
-											</span>
-										</label>
-									}
+									type="email"
+									label={t('sign-in-to-your-account')}
+									name="email"
+									placeholder={t('email')}
+									value={formik.values.email}
 									error={
-										formik.touched.password
-											? !!formik.errors.password
-											: undefined
+										formik.touched.email ? !!formik.errors.email : undefined
 									}
-									helperText={formik.touched.password && formik.errors.password}
+									helperText={formik.touched.email && formik.errors.email}
 									onChange={formik.handleChange}
 								/>
-								<TogglePasswordVisibility
-									isPasswordVisible={isPasswordVisible}
-									handlePasswordVisibility={handlePasswordVisibility}
+								<div className="relative flex">
+									<TextField
+										type={isPasswordVisible ? 'text' : 'password'}
+										name="password"
+										placeholder={t('password')}
+										value={formik.values.password}
+										label={
+											<label className="flex w-full justify-between">
+												<span>{t('password')}</span>
+												<span className="label-text-alt">
+													<Link
+														href="/auth/forgot-password"
+														className="mx-auto self-center text-sm text-light underline hover:text-[color-mix(in_oklab,oklch(var(--p)),black_7%)]"
+													>
+														{t('forgot-password')}
+													</Link>
+												</span>
+											</label>
+										}
+										error={
+											formik.touched.password
+												? !!formik.errors.password
+												: undefined
+										}
+										helperText={
+											formik.touched.password && formik.errors.password
+										}
+										onChange={formik.handleChange}
+									/>
+									<TogglePasswordVisibility
+										isPasswordVisible={isPasswordVisible}
+										handlePasswordVisibility={handlePasswordVisibility}
+									/>
+								</div>
+								<GoogleReCAPTCHA
+									recaptchaRef={recaptchaRef}
+									onChange={setRecaptchaToken}
+									siteKey={recaptchaSiteKey}
 								/>
 							</div>
-							<GoogleReCAPTCHA
-								recaptchaRef={recaptchaRef}
-								onChange={setRecaptchaToken}
-								siteKey={recaptchaSiteKey}
-							/>
-						</div>
-						<div className="mt-3 space-y-3">
-							<Button
-								className="w-full font-bold bg-secondary-light hover:bg-primary-light"
-								type="submit"
-								color="primary"
-								loading={formik.isSubmitting}
+							<div className="mt-3 space-y-3">
+								<Button
+									className="w-full font-bold bg-secondary-light hover:bg-primary-light"
+									type="submit"
+									color="primary"
+									loading={formik.isSubmitting}
+								>
+									{t('sign-in')}
+								</Button>
+								<AgreeMessage text={t('sign-in')} />
+							</div>
+						</form>
+					)}
+
+					{(authProviders.email || authProviders.saml) && (
+						<div className="divider"></div>
+					)}
+
+					<div className="space-y-3">
+						{authProviders.email && (
+							<Link
+								href={`/auth/magic-link${params}`}
+								className="btn btn-outline w-full"
 							>
-								{t('sign-in')}
-							</Button>
-							<AgreeMessage text={t('sign-in')} />
-						</div>
-					</form>
-				)}
+								&nbsp;{t('sign-in-with-email')}
+							</Link>
+						)}
 
-				{(authProviders.email || authProviders.saml) && (
-					<div className="divider"></div>
-				)}
-
-				<div className="space-y-3">
-					{authProviders.email && (
+						{authProviders.saml && (
+							<Link href="/auth/sso" className="btn btn-outline w-full">
+								&nbsp;{t('continue-with-saml-sso')}
+							</Link>
+						)}
+					</div>
+					{/* </div> */}
+					<Paragraph className="mt-3 mx-auto text-center text-sm">
+						{t('dont-have-an-account')}
 						<Link
-							href={`/auth/magic-link${params}`}
-							className="btn btn-outline w-full"
+							href={`/auth/join${params}`}
+							className="font-semibold underline block text-light hover:text-[color-mix(in_oklab,oklch(var(--p)),black_7%)]"
 						>
-							&nbsp;{t('sign-in-with-email')}
+							&nbsp;{t('create-a-free-account')}
 						</Link>
-					)}
-
-					{authProviders.saml && (
-						<Link href="/auth/sso" className="btn btn-outline w-full">
-							&nbsp;{t('continue-with-saml-sso')}
-						</Link>
-					)}
-				</div>
-			</div>
-			<Paragraph className="text-center text-sm text-gray-600 mt-3">
-				{t('dont-have-an-account')}
-				<Link
-					href={`/auth/join${params}`}
-					className="font-medium text-primary hover:text-[color-mix(in_oklab,oklch(var(--p)),black_7%)]"
-				>
-					&nbsp;{t('create-a-free-account')}
-				</Link>
-			</Paragraph>
-		</AuthLayout>
+					</Paragraph>
+				</FlexBox>
+				{/* </AuthLayout> */}
+			</Page>
+		</>
 	);
 };
 

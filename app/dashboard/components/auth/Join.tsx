@@ -4,7 +4,13 @@ import {
 	maxLengthPolicies,
 	passwordPolicies,
 } from '@cd/core-lib';
-import { Button, TextField } from '@cd/ui-lib';
+import {
+	Button,
+	TextField,
+	AgreeMessage,
+	TogglePasswordVisibility,
+	GoogleReCAPTCHA,
+} from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
@@ -12,9 +18,6 @@ import { useState, useRef } from 'react';
 import type ReCAPTCHA from 'react-google-recaptcha';
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
-import GoogleReCAPTCHA from '../shared/GoogleReCAPTCHA';
-import TogglePasswordVisibility from '../shared/TogglePasswordVisibility';
-import AgreeMessage from './AgreeMessage';
 
 interface JoinProps {
 	recaptchaSiteKey: string | null;

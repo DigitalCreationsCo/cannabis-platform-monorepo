@@ -8,6 +8,9 @@ module.exports = {
 		'../../node_modules/daisyui/dist/**/*.js',
 		'../../node_modules/react-daisyui/dist/**/*.js',
 	],
+	safelist: process.env.NODE_ENV === 'development' 
+    ? [{ pattern: /.*/ }]
+    : [],
 	theme: {
 		fontFamily: {
 			encode: ['Encode Sans', 'sans-serif'],
@@ -88,9 +91,13 @@ module.exports = {
 				cannabis: {
 					'--primary': '#14a33d',
 					'--primary-light': '#17c649',
-					'--secondary': '#13622a',
+					// '--secondary': '#13622a',
+					'--secondary': '#377B42',
 					'--secondary-light': '#4BBE6E',
-					'--inverse': '#fff2da',
+					// '--inverse': '#fff2da', // light tan
+					// '--inverse': '#fad9c7', // red tan
+					// '--inverse': '#FAF2C8', // medium tan
+					'--inverse': '#F2F0ED', // light tan
 					'--inverse-soft': '#f9f7f2',
 					'--accent': '#a49b8a',
 					'--accent-soft': '#bbb5a9',
