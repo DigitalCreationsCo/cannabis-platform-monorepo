@@ -79,6 +79,7 @@ module.exports = {
 			'warn',
 			{ argsIgnorePattern: '^_', ignoreRestSiblings: true },
 		],
+		'@typescript-eslint/no-require-imports': 'off',
 		'@typescript-eslint/no-non-null-asserted-optional-chain': 'warn',
 		'@typescript-eslint/prefer-nullish-coalescing': 'off',
 		'@typescript-eslint/prefer-optional-chain': 'warn',

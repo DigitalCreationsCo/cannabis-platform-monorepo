@@ -9,24 +9,27 @@ interface BaseMenuItem {
 	items?: Omit<MenuItem, 'icon' | 'items'>[];
 	className?: string;
 }
-export type MenuItem =
-	| (BaseMenuItem & {
-			href: string;
 
+export type MenuItem<B = BaseMenuItem> = B & {
+	href: string;
+	onClick?: never;
+} extends B
+	? B & {
+			href: string;
 			onClick?: never;
-	  })
-	| (BaseMenuItem & { href?: never; onClick: () => void });
+		}
+	: B & { onClick: () => void; href?: never };
 
 export interface NavigationProps {
 	activePathname: string | null;
 }
 
 interface NavigationItemsProps {
-	menus: MenuItem[];
+	menus: MenuItem<BaseMenuItem>[];
 }
 
 interface NavigationItemProps {
-	menu: MenuItem;
+	menu: MenuItem<BaseMenuItem>;
 	className?: string;
 }
 

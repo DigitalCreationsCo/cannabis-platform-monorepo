@@ -1,24 +1,18 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import axios from 'axios';
-import { type SanityDocument } from 'next-sanity';
-import {
-	type DocumentActionDescription,
-	type DocumentActionComponent,
-	type DocumentActionsContext,
-	type DocumentActionProps,
-} from 'sanity';
+// import { type SanityDocument } from 'next-sanity';
+import {} from // type DocumentActionComponent,
+// type DocumentActionsContext,
+// type DocumentActionProps,
+'sanity';
 import { apiVersion } from '@/lib/sanity/sanity.api';
 import { setContentUrl } from '@/lib/sanity/sanity.client';
-import { type Post } from '../../sanity.queries';
+// import { type Post } from '../../sanity.queries';
 
-export function createAsyncPublishAction(
-	originalAction: DocumentActionComponent,
-	context: DocumentActionsContext
-): DocumentActionComponent {
+export function createAsyncPublishAction(originalAction, context) {
 	const client = context.getClient({ apiVersion });
-	return (props: DocumentActionProps) => {
-		const originalResult = originalAction(props)!;
-		const publishedDocument: SanityDocument = props.published!;
+	return (props) => {
+		const originalResult = originalAction(props);
+		const publishedDocument = props.published;
 		console.info('publishedDocument: ', publishedDocument);
 
 		// originalResult.onHandle();
@@ -28,10 +22,11 @@ export function createAsyncPublishAction(
 				try {
 					originalResult.onHandle();
 
-					// Wait until the document is published
-					const document = await client.getDocument<Post>(props.id);
+					const document = await client.getDocument(props.id);
+					// const document = await client.fetch<Post>(`*[_id == $id][0]`, {
+					// 	id: props.id,
+					// });
 
-					console.info('document: ', document);
 					if (!document) {
 						throw new Error('Document is not yet published.');
 					}

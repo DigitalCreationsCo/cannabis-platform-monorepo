@@ -112,10 +112,10 @@ function Page({
 				<div
 					className={twMerge(
 						'relative',
-						// showBottomTab ? 'translate-y-0' : '-translate-y-20',
 						'transition',
 						'h-fit w-full',
-						'z-10 grow text-light sm:hidden fixed bottom-0'
+						'grow text-light sm:hidden fixed bottom-0'
+						// showBottomTab ? 'translate-y-0' : '-translate-y-20',
 					)}
 				>
 					<div

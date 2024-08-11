@@ -1,7 +1,9 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-import type { PortableTextBlock } from '@portabletext/types';
-import type { ImageAsset } from '@sanity/types';
+import {
+	type SanityAsset,
+	type SanityImageSource,
+} from '@sanity/image-url/lib/types/types';
 import groq from 'groq';
+import { type PortableTextBlock } from 'sanity';
 
 const postFields = groq`
   _id,
@@ -99,8 +101,8 @@ export interface Post {
 	slug: string;
 	excerpt?: string;
 	author?: Author;
-	mainImage: ImageAsset;
-	mainImageAsset: ImageAsset;
+	mainImage: SanityAsset;
+	mainImageAsset: SanityAsset;
 	body: PortableTextBlock[];
 	shareImage: any;
 	categories: string[];
@@ -121,7 +123,7 @@ export interface StrainOfTheWeek {
 	_type: 'strainOfTheWeek';
 	_id: string;
 	title: string;
-	image: ImageAsset;
+	image: SanityImageSource;
 	testimonial1: string;
 	testimonial2: string;
 	flavorProfile: string;

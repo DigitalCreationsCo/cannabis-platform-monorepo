@@ -72,7 +72,7 @@ export const persistConfig =
 	process.env.NODE_ENV === 'development' && process.env.DEV_ENV === 'docker'
 		? {
 				key: 'root',
-				whitelist: ['shop', 'user', 'blog'],
+				whitelist: ['modal', 'shop', 'user', 'blog'],
 				storage,
 			}
 		: {
@@ -95,7 +95,7 @@ const makeStore = () => {
 	if (isClient) {
 		store = configureStore({
 			devTools: process.env.NODE_ENV !== 'production',
-			reducer: persistReducer(persistConfig, rootReducer),
+			reducer: persistReducer(persistConfig, rootReducer as any),
 			middleware: (getDefaultMiddleware) =>
 				getDefaultMiddleware({
 					...getDefaultMiddleware(),

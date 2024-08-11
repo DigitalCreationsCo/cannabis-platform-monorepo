@@ -77,7 +77,7 @@ const AnimatedDropdown = ({
 			<div
 				className={twMerge(
 					(openDirection === 'down' && 'bottom-0') || 'top-0',
-					`-z-0 left-0 absolute w-full shadow-lg bg-gray-200 ring-1 ring-black ring-opacity-5 transition-all ease-in-out`,
+					`-z-10 left-0 absolute w-full shadow-lg bg-gray-200 ring-1 ring-black ring-opacity-5 transition-all ease-in-out`,
 					isOpen
 						? `transform opacity-100 ${(openDirection === 'down' && 'rounded-md translate-y-full') || 'rounded-t-md -translate-y-full'} scale-[1.01]`
 						: `transform translate-y-full opacity-0 pointer-events-none ${(origin && 'scale-0 origin-' + origin) || 'scale-95'}`

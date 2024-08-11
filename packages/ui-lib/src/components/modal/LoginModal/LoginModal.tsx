@@ -11,6 +11,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import type { ReCAPTCHA } from 'react-google-recaptcha';
 import { useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import * as Yup from 'yup';

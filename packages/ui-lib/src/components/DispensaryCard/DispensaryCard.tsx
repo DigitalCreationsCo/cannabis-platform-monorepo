@@ -114,12 +114,11 @@ function DispensaryCard({
 	const hoverStyles: CSSProperties = {
 		position: 'absolute',
 		zIndex: 10,
-		backgroundColor: 'rgb(77,113,152,0.6)',
+		backgroundColor: 'rgb(77,113,152,0.5)',
 		width: '100%',
 		height: '100%',
 		color: 'white',
-		// fontSize: '20px',
-		// cursor: 'pointer',
+		transition: 'all 0.1s ease-in-out',
 	};
 
 	if (loading)
@@ -155,13 +154,7 @@ function DispensaryCard({
 			}}
 			onMouseEnter={handleMouseEnter}
 			onMouseLeave={handleMouseLeave}
-			className={twMerge(
-				styles.dispensaryCard,
-				styles.floatingCard
-				// isHovered
-				// 	? 'drop-shadow-[-3px_5px_2px_#555555]'
-				// 	: 'drop-shadow-[-4px_4px_1px_#555555]'
-			)}
+			className={twMerge(styles.dispensaryCard, styles.floatingCard)}
 		>
 			<ImageBackDrop
 				src={dispensary?.images?.[0]?.location || logo.src}
@@ -172,7 +165,7 @@ function DispensaryCard({
 						<div style={{ ...hoverStyles }} className="px-1 w-full">
 							<Link
 								href={`/browse/${dispensary.slug}`}
-								className="absolute border w-50 h-50 bottom-1 -mb-10 -mr-10 right-1 rounded-full text-gray-500 hover:text-secondary-light"
+								className="text-light hover:text-secondary-light absolute !p-0 !m-0 w-32 h-32 md:w-24 md:h-24 lg:w-32 lg:h-32 -right-7 md:-right-8 -bottom-8 md:bottom-0 lg:-bottom-10 rounded-full"
 							>
 								<ArrowRightCircleIcon />
 							</Link>

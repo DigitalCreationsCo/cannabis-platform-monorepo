@@ -1,6 +1,3 @@
-import { clientPromise } from '@/lib/db';
-import env from '@/lib/env';
-import { recordMetric } from '@/lib/metrics';
 import { CronJobApi, axios } from '@cd/core-lib';
 import {
 	addToEventJobLocations,
@@ -11,6 +8,9 @@ import {
 } from '@cd/data-access';
 import * as cheerio from 'cheerio';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { clientPromise } from '@/lib/db';
+import env from '@/lib/env';
+import { recordMetric } from '@/lib/metrics';
 
 export default async function handler(
 	req: NextApiRequest,
@@ -125,8 +125,10 @@ const handlePUT = async (req: NextApiRequest, res: NextApiResponse) => {
 				(eventJobLocation) => eventJobLocation.location === location
 			)
 		) {
-			process.env.NODE_ENV === 'production' &&
-				(await CronJobApi.createGetEventsByLocationJob(location, timezone));
+			if (process.env.NODE_ENV === 'production') {
+				await CronJobApi.createGetEventsByLocationJob(location, timezone);
+			}
+
 			await addToEventJobLocations({ client, location });
 		}
 	}

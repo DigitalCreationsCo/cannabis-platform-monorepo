@@ -1,5 +1,4 @@
 import createImageUrlBuilder from '@sanity/image-url';
-import type { Image } from 'sanity';
 import { dataset, projectId } from './sanity.api';
 
 const imageBuilder = createImageUrlBuilder({
@@ -7,7 +6,7 @@ const imageBuilder = createImageUrlBuilder({
 	dataset: dataset || '',
 });
 
-export const urlForImage = (source: Image) => {
+export const urlForImage = (source) => {
 	// Ensure that source image contains a valid reference
 	if (!source?.asset?._ref) {
 		return undefined;

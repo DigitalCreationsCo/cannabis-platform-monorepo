@@ -1,13 +1,10 @@
-import {
-	createClient,
-	type SanityClient,
-	type SanityDocument,
-} from 'next-sanity';
+import { createClient } from 'next-sanity';
+import { type SanityClient } from 'sanity';
 import {
 	apiVersion,
 	dataset,
-	projectId,
 	studioUrl,
+	projectId,
 	useCdn,
 } from './sanity.api';
 import {
@@ -33,8 +30,11 @@ export function getClient(preview?: { token: string }): SanityClient {
 		apiVersion,
 		useCdn,
 		perspective: 'published',
-		encodeSourceMap: preview?.token ? true : false,
-		studioUrl,
+		resultSourceMap: preview?.token ? true : false,
+		stega: {
+			enabled: true,
+			studioUrl,
+		},
 	});
 	if (preview) {
 		if (!preview.token) {
@@ -141,7 +141,7 @@ export async function setPostPublishedToSocialMedia(
 
 export async function setContentUrl(
 	client: SanityClient,
-	document: SanityDocument,
+	document,
 	postsPath = 'posts'
 ): Promise<Post> {
 	const contentUrl = `https://gras.live/blog/${postsPath}/${document?.slug.current}`;

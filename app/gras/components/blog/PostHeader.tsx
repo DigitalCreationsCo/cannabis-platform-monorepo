@@ -56,7 +56,7 @@ export default function PostHeader(
 						image={mainImage}
 						priority
 						slug={slug}
-						creditUser={mainImageAsset.creditLine}
+						// creditUser={mainImageAsset}
 						creditLink={mainImageAsset.source?.url}
 					/>
 				</div>

@@ -3,7 +3,7 @@ import {
 	UserCircleIcon,
 	UserIcon,
 } from '@heroicons/react/24/outline';
-import { signOut } from 'next-auth/react';
+// import { signOut } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import NavigationItems, {
 	type MenuItem,

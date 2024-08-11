@@ -14,7 +14,7 @@ import { useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 const TeamDropdown = ({ isExpanded = true }: { isExpanded?: boolean }) => {
@@ -27,6 +27,8 @@ const TeamDropdown = ({ isExpanded = true }: { isExpanded?: boolean }) => {
 	const currentTeam = (dispensaries || []).find(
 		(team) => team.slug === router.query.slug
 	);
+
+	const [isOpen, setIsOpen] = useState(false);
 
 	const menus = [
 		{
@@ -73,7 +75,9 @@ const TeamDropdown = ({ isExpanded = true }: { isExpanded?: boolean }) => {
 
 	return (
 		<DropDown
-			ButtonComponent={
+			setIsOpen={setIsOpen}
+			isOpen={isOpen}
+			ButtonComponent={() => (
 				<div
 					tabIndex={0}
 					className="items-center rounded-none btn btn-ghost text-lg text-gray-900 hover:bg-gray-200 hover:text-gray-900 dark:text-gray-100 dark:hover:text-gray-100 dark:hover:bg-gray-800 flex flex-nowrap h-10 px-4 justify-between cursor-pointer font-medium capitalize"
@@ -96,7 +100,7 @@ const TeamDropdown = ({ isExpanded = true }: { isExpanded?: boolean }) => {
 						className={twMerge('w-5 h-5', !isExpanded && 'mx-auto')}
 					/>
 				</div>
-			}
+			)}
 			items={menus.map(({ id, name, items }) => {
 				return (
 					<React.Fragment key={id}>

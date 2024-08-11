@@ -96,8 +96,8 @@ module.exports = {
 					'--secondary-light': '#4BBE6E',
 					// '--inverse': '#fff2da', // light tan
 					// '--inverse': '#fad9c7', // red tan
-					// '--inverse': '#FAF2C8', // medium tan
-					'--inverse': '#F2F0ED', // light tan
+					'--inverse': '#FAF2C8', // medium tan
+					// '--inverse': '#F2F0ED', // light tan
 					'--inverse-soft': '#f9f7f2',
 					'--accent': '#a49b8a',
 					'--accent-soft': '#bbb5a9',

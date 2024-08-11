@@ -190,6 +190,7 @@
     "speed-measure-webpack-plugin": "^1.5.0",
     "storybook": "8.1.5",
     "stripe": "15.3.0",
+    "styled-components": "^6.1.12",
     "supertest": "6.3.3",
     "supertokens-auth-react": "0.35.8",
     "supertokens-node": "16.6.1",
@@ -202,8 +203,8 @@
     "yup": "0.32.11"
   },
   "resolutions": {
-    "typescript": "4.9.3",
-    "@types/react": "18.0.34",
+    "typescript": "5.4.5",
+    "@types/react": "18.2.79",
     "@types/react-dom": "18.0.11",
     "postcss": "8.4.38",
     "postcss-js": "4.0.1"

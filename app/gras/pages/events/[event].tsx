@@ -1,3 +1,4 @@
+import app from '@/lib/app';
 import { clientPromise } from '@/lib/db';
 import env from '@/lib/env';
 import { NextPageWithLayout } from '@/lib/next.types';
@@ -31,12 +32,11 @@ import {
 	Icons,
 } from '@cd/ui-lib';
 import {
-	UsersIcon as ShareIcon,
 	ArrowLeftIcon,
 	GlobeAmericasIcon,
 	ClockIcon,
 } from '@heroicons/react/24/solid';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { type GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -50,9 +50,9 @@ import { toast } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import useSWR from 'swr';
 import RestrictPage from '@/components/shared/RestrictedPage';
-import app from '@/lib/app';
 import seoConfig from '@/lib/seo.config';
 import { useIsLegalAge } from '@/lib/util';
+import hemp from '../../public/hemp.png';
 import { type SharedPageProps } from '../_app';
 
 interface EventPageProps extends SharedPageProps {
@@ -125,7 +125,7 @@ function EventPage({
 					description: app.description,
 					images: [
 						{
-							url: event.image?.url || require('public/hemp.png'),
+							url: event.image?.url || hemp.src,
 							alt: event.name,
 							width: 300,
 						},
@@ -146,10 +146,7 @@ function EventPage({
 				]}
 			/>
 			<RestrictPage showRestrictedContent={isLegalAge}>
-				<Page
-					gradient="green"
-					// style={{ ...showOrFilterPageBySession}}
-				>
+				<Page gradient="green">
 					<BackButton />
 					<FlexBox className="gap-y-4 max-w-screen-md lg:max-w-full lg:w-full">
 						<H1 className="text-3xl md:text-5xl text-white drop-shadow-[0px_2px_2px_#666]">
@@ -166,7 +163,7 @@ function EventPage({
 									>
 										<Image
 											loading="eager"
-											src={event.image?.url || require('public/hemp.png')}
+											src={event.image?.url || hemp.src}
 											alt={event.name}
 											width={300}
 											height={300}

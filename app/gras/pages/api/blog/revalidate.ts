@@ -22,17 +22,11 @@
  * 16. Redeploy with `npx vercel --prod` to apply the new environment variable
  */
 
-import { type NextApiRequest, type NextApiResponse } from 'next';
 import { createClient, groq, type SanityClient } from 'next-sanity';
 import { parseBody } from 'next-sanity/webhook';
 import { apiVersion, dataset, projectId } from '@/lib/sanity';
 
-export { config } from 'next-sanity/webhook';
-
-export default async function revalidate(
-	req: NextApiRequest,
-	res: NextApiResponse
-) {
+export default async function revalidate(req, res) {
 	try {
 		const { body, isValidSignature } = await parseBody(
 			req,
