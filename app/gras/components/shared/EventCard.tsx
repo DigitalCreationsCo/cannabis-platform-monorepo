@@ -43,11 +43,9 @@ function EventCard({
 			onMouseEnter={() => setIsHovered(true)}
 			onMouseLeave={() => setIsHovered(false)}
 			className={twMerge([
+				'transition',
 				styles.eventCard,
 				styles.floatingCard,
-				isHovered
-					? 'drop-shadow-[-3px_5px_2px_#555555]'
-					: 'drop-shadow-[-4px_4px_1px_#555555]',
 				className,
 			])}
 		>

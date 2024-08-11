@@ -33,14 +33,7 @@ function InfoCard({
 			href={resolveHref('post', info.slug)!}
 			onMouseEnter={handleMouseEnter}
 			onMouseLeave={handleMouseLeave}
-			className={twMerge([
-				styles.infoCard,
-				styles.floatingCard,
-				isHovered
-					? 'drop-shadow-[-3px_4px_3px_#555]'
-					: 'drop-shadow-[-5px_4px_1px_#555]',
-				className,
-			])}
+			className={twMerge([styles.infoCard, styles.floatingCard, className])}
 		>
 			<FlexBox className="grow relative">
 				<Image

@@ -78,7 +78,6 @@ const Over21Button = ({
 				onChange={handleChange}
 				error={!!errors.email || !!touched.email}
 			/>
-			<Paragraph>By entering your email, you agree you're over 21.</Paragraph>
 			<Button
 				type="submit"
 				bg={'secondary-light'}

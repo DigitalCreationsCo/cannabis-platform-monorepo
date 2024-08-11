@@ -1,8 +1,9 @@
 import {
-	RectangleStackIcon,
 	ShieldCheckIcon,
 	UserCircleIcon,
+	UserIcon,
 } from '@heroicons/react/24/outline';
+import { signOut } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import NavigationItems, {
 	type MenuItem,
@@ -14,15 +15,9 @@ const UserNavigation = ({ activePathname }: NavigationProps) => {
 
 	const menus: MenuItem[] = [
 		{
-			name: t('all-teams'),
-			href: '/teams',
-			icon: RectangleStackIcon,
-			active: activePathname === '/teams',
-		},
-		{
 			name: t('account'),
 			href: '/settings/account',
-			icon: UserCircleIcon,
+			icon: UserIcon,
 			active: activePathname === '/settings/account',
 		},
 		{
@@ -31,6 +26,18 @@ const UserNavigation = ({ activePathname }: NavigationProps) => {
 			icon: ShieldCheckIcon,
 			active: activePathname === '/settings/security',
 		},
+		{
+			name: t('profile'),
+			href: '/settings/profile',
+			icon: UserCircleIcon,
+			active: activePathname === '/settings/security',
+		},
+		// {
+		// 	name: t('sign-out'),
+		// 	onClick: () => signOut(),
+		// 	icon: UserCircleIcon,
+		// 	active: false,
+		// },
 	];
 
 	return <NavigationItems menus={menus} />;

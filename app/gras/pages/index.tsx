@@ -8,6 +8,7 @@
 /* eslint-disable react/no-unknown-property */
 import { TopBar } from '@/components/layouts';
 import { Error } from '@/components/shared';
+import UserNavigation from '@/components/shared/shell/UserNavigation';
 import { clientPromise } from '@/lib/db';
 import env from '@/lib/env';
 import { getSession } from '@/lib/session';
@@ -270,6 +271,7 @@ export default function Browse({
 					status={status}
 					id="browse-page"
 					gradient="pink"
+					Navigation={UserNavigation}
 					className="!pt-0 md:pt-0 px-0 lg:px-0 pb-0 min-h-[440px]"
 				>
 					<div className="lg:px-10">

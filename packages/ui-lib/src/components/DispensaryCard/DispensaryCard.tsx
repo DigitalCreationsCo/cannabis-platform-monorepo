@@ -157,10 +157,10 @@ function DispensaryCard({
 			onMouseLeave={handleMouseLeave}
 			className={twMerge(
 				styles.dispensaryCard,
-				styles.floatingCard,
-				isHovered
-					? 'drop-shadow-[-3px_5px_2px_#555555]'
-					: 'drop-shadow-[-4px_4px_1px_#555555]'
+				styles.floatingCard
+				// isHovered
+				// 	? 'drop-shadow-[-3px_5px_2px_#555555]'
+				// 	: 'drop-shadow-[-4px_4px_1px_#555555]'
 			)}
 		>
 			<ImageBackDrop
@@ -172,9 +172,9 @@ function DispensaryCard({
 						<div style={{ ...hoverStyles }} className="px-1 w-full">
 							<Link
 								href={`/browse/${dispensary.slug}`}
-								className="absolute w-50 h-50 bottom-1 -mb-10 -mr-10 right-1 rounded-full text-gray-500 hover:text-secondary-light"
+								className="absolute border w-50 h-50 bottom-1 -mb-10 -mr-10 right-1 rounded-full text-gray-500 hover:text-secondary-light"
 							>
-								<ArrowRightCircleIcon height={125} width={125} />
+								<ArrowRightCircleIcon />
 							</Link>
 							<H3
 								style={{ color: applyDispensaryStyles['primary-color'] }}

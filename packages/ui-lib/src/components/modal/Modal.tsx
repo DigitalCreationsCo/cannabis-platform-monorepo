@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import React, { useCallback, useRef } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { useOnClickOutside } from '../../hooks';
+import { useOnClickOutside, useScrollLock } from '../../hooks';
 import CloseButton from '../button/CloseButton';
 import { H6 } from '../Typography';
 
@@ -32,6 +32,7 @@ const Modal = ({
 	alt,
 }: ModalProps) => {
 	const ref = useRef(null);
+	useScrollLock();
 	useOnClickOutside(ref, () => {
 		if (!disableClickOutside) {
 			onClose();

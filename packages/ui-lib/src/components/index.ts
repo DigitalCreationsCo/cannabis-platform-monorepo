@@ -14,6 +14,7 @@ export * from './FAQ';
 export { default as FAQ } from './FAQ';
 export * from './CheckBox';
 export { default as CheckBox } from './CheckBox';
+export { default as DropDown } from './DropDown';
 export { default as ClickableTags } from './ClickableTags';
 export * from './landing';
 export { default as CopyRight } from './CopyRight';

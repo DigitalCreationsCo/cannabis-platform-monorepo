@@ -7,15 +7,24 @@ import {
 	selectIsCartEmpty,
 	TextContent,
 } from '@cd/core-lib';
-import { Button, FlexBox, GrasSignature, Paragraph, styles } from '@cd/ui-lib';
+import {
+	Button,
+	DropDown,
+	FlexBox,
+	GrasSignature,
+	Paragraph,
+	styles,
+} from '@cd/ui-lib';
+import { is } from 'cheerio/lib/api/traversing';
 import { useSession, signOut } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useCallback } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/logo.png';
+import UserNavigation from '../shared/shell/UserNavigation';
 
 export interface TopBarProps {
 	showSearch?: boolean;
@@ -37,6 +46,7 @@ function TopBar({
 
 	const cart = useSelector(selectCartState);
 	const isCartEmpty = useSelector(selectIsCartEmpty);
+	const [isOpen, setIsOpen] = useState(false);
 
 	function openLoginModal() {
 		dispatch(
@@ -46,8 +56,23 @@ function TopBar({
 		);
 	}
 
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	const _AccountDropDown = useCallback(AccountDropDown, [user]);
+	const AccountDropDown = useCallback(
+		() => (
+			<Image
+				onClick={() => setIsOpen((p) => !p)}
+				tabIndex={0}
+				src={user?.image ?? logo}
+				alt={'my account'}
+				width={40}
+				height={40}
+				className="rounded-full border btn btn-ghost h-[54px] w-[54px] p-0"
+				quality={25}
+				loader={({ src }) => src}
+				unoptimized
+			/>
+		),
+		[user, isOpen, setIsOpen]
+	);
 
 	return (
 		<div
@@ -55,11 +80,11 @@ function TopBar({
 		>
 			{(showSearch && SearchComponent) || null}
 
-			<FlexBox className="hidden sm:flex sm:h-full pt-5 sm:pt-0 self-start justify-start sm:items-center sm:justify-between shrink-0 flex-col sm:flex-row gap-5">
+			<FlexBox className="relative hidden sm:flex sm:h-full pt-5 sm:pt-0 self-start justify-start sm:items-center sm:justify-between shrink-0 flex-col sm:flex-row gap-5">
 				<Link
 					href={'/'}
 					className={twMerge(
-						'hidden md:flex z-50 flex-row gap-x-4',
+						'hidden sm:flex z-50 flex-row gap-x-4',
 						styles.shadow.logoShadow
 					)}
 				>
@@ -74,8 +99,18 @@ function TopBar({
 					/> */}
 				</Link>
 
-				{/* SHOW ACCOUNT DROPDOWN BUTTON OR SIGNIN */}
-				{user && <_AccountDropDown />}
+				{user && (
+					<>
+						<AccountDropDown />
+						<DropDown
+							isOpen={isOpen}
+							setIsOpen={setIsOpen}
+							ButtonComponent={() => <></>}
+							items={<UserNavigation activePathname="" />}
+							origin="right"
+						/>
+					</>
+				)}
 				{!user && (
 					<FlexBox className="shrink-0">
 						<Button
@@ -95,86 +130,6 @@ function TopBar({
 			</FlexBox>
 		</div>
 	);
-
-	function AccountDropDown() {
-		return (
-			<div className="dropdown dropdown-end m-0 p-0">
-				<label className="btn btn-ghost h-[54px] w-[54px] rounded-full p-0">
-					<Image
-						tabIndex={0}
-						src={user?.image ?? logo}
-						alt={'my account'}
-						width={40}
-						height={40}
-						className="rounded-full border"
-						quality={25}
-						loader={({ src }) => src}
-						unoptimized
-					/>
-				</label>
-				<ul
-					tabIndex={0}
-					id="Account-Dropdown"
-					className={twMerge(
-						'menu dropdown-content bg-inverse top-0 absolute right-0 mt-12 w-48 rounded shadow'
-					)}
-				>
-					{user && (
-						<FlexBox className="active:bg-accent-soft focus:bg-accent-soft w-full">
-							<Link
-								className={twMerge('w-full')}
-								href={TextContent.href.support}
-							>
-								<Button
-									size="md"
-									bg="transparent"
-									hover="transparent"
-									className={twMerge(
-										styles.BUTTON.highlight,
-										'hover:border-light sm:text-light',
-										'w-full'
-									)}
-								>
-									{t('contact-support')}
-								</Button>
-							</Link>
-						</FlexBox>
-					)}
-					<FlexBox className="active:bg-accent-soft focus:bg-accent-soft w-full">
-						<Link href={TextContent.href.settings} className="w-full">
-							<Button
-								size="md"
-								bg="transparent"
-								hover="transparent"
-								className={twMerge(
-									styles.BUTTON.highlight,
-									'hover:border-light sm:text-light',
-									'w-full'
-								)}
-							>
-								{t('settings')}
-							</Button>
-						</Link>
-					</FlexBox>
-					<FlexBox className="active:bg-accent-soft focus:bg-accent-soft w-full">
-						<Button
-							size="md"
-							bg="transparent"
-							hover="transparent"
-							className={twMerge(
-								styles.BUTTON.highlight,
-								'hover:border-light sm:text-light',
-								'w-full'
-							)}
-							onClick={() => signOut()}
-						>
-							{t('sign-out')}
-						</Button>
-					</FlexBox>
-				</ul>
-			</div>
-		);
-	}
 }
 
 export default TopBar;

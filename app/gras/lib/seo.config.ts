@@ -20,7 +20,7 @@ const seoConfig: NextSeoProps = {
 		},
 		{
 			name: 'theme-color',
-			content: '#000',
+			content: '#FAF2C8',
 		},
 		{
 			property: 'charSet',

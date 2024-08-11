@@ -12,10 +12,13 @@ const styles = Object.freeze({
 		'cursor-default w-full sm:max-w-[440px] grow h-fit py-4 pb-8 px-8 items-center shadow',
 	],
 	floatingCard: [
-		'transition duration-100',
-		'hover:scale-[104%]',
-		'hover:-translate-y-1',
-		'ease-out',
+		// 'transition duration-100',
+		// 'md:hover:scale-[104%]',
+		// 'md:hover:-translate-y-1',
+		// 'ease-out',
+		'scale-shadow-container',
+		// ? 'drop-shadow-[-3px_5px_2px_#555555]'
+		// : 'drop-shadow-[-4px_4px_1px_#555555]',
 	],
 	dispensaryCard: [
 		'relative',
@@ -23,7 +26,7 @@ const styles = Object.freeze({
 		'rounded',
 		'sm:pt-5 md:py-5 px-5 md:px-12',
 		'overflow-hidden',
-		'shadow min-h-[220px]',
+		'min-h-[220px]',
 		// 'border border-transparent hover:border-primary',
 	],
 	eventCard: [

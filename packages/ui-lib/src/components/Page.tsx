@@ -1,6 +1,8 @@
 import { modalActions, modalTypes } from '@cd/core-lib';
-import { set } from 'date-fns';
+import { HomeIcon, UserCircleIcon } from '@heroicons/react/24/outline';
+import { type SessionContextValue } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
+import { useRouter } from 'next/router';
 import {
 	useCallback,
 	useEffect,
@@ -12,13 +14,16 @@ import { useDispatch } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import AnimationWrapper from './AnimationWrapper';
 import { Button } from './button';
+import DropDown from './DropDown';
+import FlexBox from './FlexBox';
 
 interface PageProps {
 	id?: string;
 	gradient?: 'pink' | 'green' | 'neon';
 	className?: string | string[];
 	style?: CSSProperties;
-	status?: string;
+	status?: SessionContextValue['status'];
+	Navigation?: (a: any) => any;
 }
 
 // TRACK PAGE VIEWS ON PAGE LOAD, AND TRACK EXITS ON PAGE UNLOAD
@@ -29,11 +34,17 @@ function Page({
 	children,
 	className = '',
 	style = {},
+	Navigation,
 	...props
 }: PropsWithChildren<PageProps>) {
 	// const appVersion = '0.1.0';
+
 	const { t } = useTranslation('common');
+	const router = useRouter();
+	const { asPath, isReady } = useRouter();
+
 	const dispatch = useDispatch();
+
 	function openLoginModal() {
 		dispatch(
 			modalActions.openModal({
@@ -50,6 +61,7 @@ function Page({
 			dispatch(memoizedCloseModal());
 		};
 	}, [dispatch, memoizedCloseModal]);
+
 	type Styles = (string | string[])[];
 	const classes: Styles = Object.values({
 		page: [
@@ -69,6 +81,22 @@ function Page({
 		className,
 	});
 
+	const [showBottomTab, setShowBottomTab] = useState(true);
+	const [showButtonDrawer, setShowButtonDrawer] = useState(false);
+	const [activePathname, setActivePathname] = useState<null | string>(null);
+
+	useEffect(() => {
+		if (isReady && asPath) {
+			const activePathname = new URL(asPath, location.href).pathname;
+			setActivePathname(activePathname);
+		}
+	}, [asPath, isReady]);
+
+	const showBottomTabHandler = () =>
+		status === 'unauthenticated'
+			? openLoginModal()
+			: setShowButtonDrawer(!showButtonDrawer);
+
 	return (
 		<AnimationWrapper
 			style={style}
@@ -80,28 +108,60 @@ function Page({
 			{...props}
 		>
 			{children}
-			{status === 'unauthenticated' && (
+			{Navigation && (
 				<div
 					className={twMerge(
+						'relative',
 						// showBottomTab ? 'translate-y-0' : '-translate-y-20',
-						'flex flex-row',
 						'transition',
-						'z-50 h-[44px] border-t text-light border-inverse items-center justify-center sm:hidden bg-secondary fixed w-full bottom-0'
+						'h-fit w-full',
+						'z-10 grow text-light sm:hidden fixed bottom-0'
 					)}
 				>
-					<Button
+					<div
 						className={twMerge(
-							// styles.BUTTON.highlight,
-							'text-light',
-							'hover:border-light sm:text-light underline'
+							'shadow',
+							'h-2 w-full',
+							(gradient && 'anim8-' + gradient + '-gradient') || '',
+							'animate-gradient'
 						)}
-						size="sm"
-						bg="transparent"
-						hover="transparent"
-						onClick={openLoginModal}
-					>
-						{t('sign-in-to-your-account')}
-					</Button>
+					></div>
+					<FlexBox className="z-10 bg-secondary py-1.5 h-fit flex-row items-center px-8 gap-x-8 w-full">
+						<Button
+							className={twMerge(
+								'p-1 m-0 w-fit min-h-fit h-fit',
+								'btn btn-ghost',
+								'text-light',
+								(gradient && 'anim8-' + gradient + '-gradient') || '',
+								'animate-gradient'
+							)}
+							size="sm"
+							onClick={() => router.push('/')}
+						>
+							<HomeIcon className="text-light w-7 h-7" />
+						</Button>
+
+						<Button
+							className={twMerge(
+								'p-1 m-0 w-fit min-h-fit h-fit',
+								'btn btn-ghost',
+								'text-light',
+								(gradient && 'anim8-' + gradient + '-gradient') || '',
+								'animate-gradient'
+							)}
+							size="sm"
+							onClick={showBottomTabHandler}
+						>
+							<UserCircleIcon className="text-light w-7 h-7" />
+						</Button>
+					</FlexBox>
+					<DropDown
+						openDirection="up"
+						isOpen={showButtonDrawer}
+						setIsOpen={setShowButtonDrawer}
+						ButtonComponent={() => <></>}
+						items={<Navigation activePathname={activePathname} />}
+					/>
 				</div>
 			)}
 			{/* <div className="fixed flex items-center bottom-0 right-0 cursor-default text-accent-soft space-x-1 pr-1">

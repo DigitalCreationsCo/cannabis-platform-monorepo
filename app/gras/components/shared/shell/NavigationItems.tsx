@@ -2,14 +2,20 @@
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
 
-export interface MenuItem {
+interface BaseMenuItem {
 	name: string;
-	href: string;
 	icon?: any;
 	active?: boolean;
 	items?: Omit<MenuItem, 'icon' | 'items'>[];
 	className?: string;
 }
+export type MenuItem =
+	| (BaseMenuItem & {
+			href: string;
+
+			onClick?: never;
+	  })
+	| (BaseMenuItem & { href?: never; onClick: () => void });
 
 export interface NavigationProps {
 	activePathname: string | null;
@@ -47,23 +53,46 @@ const NavigationItems = ({ menus }: NavigationItemsProps) => {
 
 const NavigationItem = ({ menu, className }: NavigationItemProps) => {
 	return (
-		<Link
-			href={menu.href}
-			className={`group flex items-center rounded text-sm text-gray-900 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-gray-100 dark:hover:bg-gray-800 p-2 gap-2${
-				menu.active ? 'text-white bg-gray-800 font-semibold' : ''
-			}${className}`}
-		>
-			{menu.icon && (
-				<menu.icon
-					className={twMerge([
-						'h-5 w-5 shrink-0 group-hover:text-gray-900 dark:group-hover:text-gray-100',
-						menu.active ? 'text-gray-100' : '',
-					])}
-					aria-hidden="true"
-				/>
+		<>
+			{menu.href && (
+				<Link
+					href={menu.href}
+					className={`group flex items-center rounded text-sm text-gray-900 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-gray-100 dark:hover:bg-gray-800 p-2 gap-2${
+						menu.active ? 'text-white bg-gray-800 font-semibold' : ''
+					}${className}`}
+				>
+					{menu.icon && (
+						<menu.icon
+							className={twMerge([
+								'h-5 w-5 shrink-0 group-hover:text-gray-900 dark:group-hover:text-gray-100',
+								menu.active ? 'text-gray-100' : '',
+							])}
+							aria-hidden="true"
+						/>
+					)}
+					{menu.name}
+				</Link>
 			)}
-			{menu.name}
-		</Link>
+			{!menu.href && (
+				<button
+					onClick={menu.onClick}
+					className={`group flex w-full items-center rounded text-sm text-gray-900 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-gray-100 dark:hover:bg-gray-800 p-2 gap-2${
+						menu.active ? 'text-white bg-gray-800 font-semibold' : ''
+					}${className}`}
+				>
+					{menu.icon && (
+						<menu.icon
+							className={twMerge([
+								'h-5 w-5 shrink-0 group-hover:text-gray-900 dark:group-hover:text-gray-100',
+								menu.active ? 'text-gray-100' : '',
+							])}
+							aria-hidden="true"
+						/>
+					)}
+					{menu.name}
+				</button>
+			)}
+		</>
 	);
 };
 

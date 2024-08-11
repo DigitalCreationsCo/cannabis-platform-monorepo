@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import { useDispensaries, maxLengthPolicies } from '@cd/core-lib';
-import { H5 } from '@cd/ui-lib';
+import { DropDown } from '@cd/ui-lib';
 import {
 	ChevronDownIcon,
 	FolderIcon,
@@ -14,7 +14,7 @@ import { useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { twMerge } from 'tailwind-merge';
 
 const TeamDropdown = ({ isExpanded = true }: { isExpanded?: boolean }) => {
@@ -27,12 +27,6 @@ const TeamDropdown = ({ isExpanded = true }: { isExpanded?: boolean }) => {
 	const currentTeam = (dispensaries || []).find(
 		(team) => team.slug === router.query.slug
 	);
-
-	useEffect(() => {
-		if (document.activeElement) {
-			(document.activeElement as HTMLElement).blur();
-		}
-	}, [isExpanded]);
 
 	const menus = [
 		{
@@ -78,66 +72,63 @@ const TeamDropdown = ({ isExpanded = true }: { isExpanded?: boolean }) => {
 	];
 
 	return (
-		<div className="dropdown w-full">
-			<div
-				tabIndex={0}
-				className="items-center rounded-none btn btn-ghost text-lg text-gray-900 hover:bg-gray-200 hover:text-gray-900 dark:text-gray-100 dark:hover:text-gray-100 dark:hover:bg-gray-800 flex flex-nowrap h-10 px-4 justify-between cursor-pointer font-medium capitalize"
-			>
-				<span
-					className={twMerge(
-						'pl-2',
-						(isExpanded && 'block') || 'hidden',
-						'whitespace-nowrap',
-						'transition-[display] delay-500'
-					)}
+		<DropDown
+			ButtonComponent={
+				<div
+					tabIndex={0}
+					className="items-center rounded-none btn btn-ghost text-lg text-gray-900 hover:bg-gray-200 hover:text-gray-900 dark:text-gray-100 dark:hover:text-gray-100 dark:hover:bg-gray-800 flex flex-nowrap h-10 px-4 justify-between cursor-pointer font-medium capitalize"
 				>
-					{currentTeam?.name ||
-						data?.user?.name?.substring(
-							0,
-							maxLengthPolicies.nameShortDisplay
-						)}{' '}
-				</span>
-				<ChevronDownIcon
-					className={twMerge('w-5 h-5', !isExpanded && 'mx-auto')}
-				/>
-			</div>
-			<ul
-				tabIndex={0}
-				className="dropdown-content dark:border-gray-600 p-2 shadow-md bg-light w-full rounded-b border-t"
-			>
-				{menus.map(({ id, name, items }) => {
-					return (
-						<React.Fragment key={id}>
-							{name && (
-								<li
-									className="text-xs text-gray-500 py-1 px-2"
-									key={`${id}-name`}
-								>
-									{name}
-								</li>
-							)}
-							{items.map((item) => (
-								<li
-									key={`${id}-${item.id}`}
-									onClick={() => {
-										if (document.activeElement) {
-											(document.activeElement as HTMLElement).blur();
-										}
-									}}
-								>
-									<Link href={item.href}>
-										<div className="flex hover:bg-gray-200 hover:dark:text-black focus:bg-gray-100 focus:outline-none p-2 rounded text-sm font-medium gap-2 items-center">
-											<item.icon className="w-5 h-5" /> {item.name}
-										</div>
-									</Link>
-								</li>
-							))}
-							{name && <li className="divider m-0" key={`${id}-divider`} />}
-						</React.Fragment>
-					);
-				})}
-			</ul>
-		</div>
+					<span
+						className={twMerge(
+							'pl-2',
+							(isExpanded && 'block') || 'hidden',
+							'whitespace-nowrap',
+							'transition-[display] delay-500'
+						)}
+					>
+						{currentTeam?.name ||
+							data?.user?.name?.substring(
+								0,
+								maxLengthPolicies.nameShortDisplay
+							)}{' '}
+					</span>
+					<ChevronDownIcon
+						className={twMerge('w-5 h-5', !isExpanded && 'mx-auto')}
+					/>
+				</div>
+			}
+			items={menus.map(({ id, name, items }) => {
+				return (
+					<React.Fragment key={id}>
+						{name && (
+							<li
+								className="text-xs text-gray-500 py-1 px-2"
+								key={`${id}-name`}
+							>
+								{name}
+							</li>
+						)}
+						{items.map((item) => (
+							<li
+								key={`${id}-${item.id}`}
+								onClick={() => {
+									if (document.activeElement) {
+										(document.activeElement as HTMLElement).blur();
+									}
+								}}
+							>
+								<Link href={item.href}>
+									<div className="flex hover:bg-gray-200 hover:dark:text-black focus:bg-gray-100 focus:outline-none p-2 rounded text-sm font-medium gap-2 items-center">
+										<item.icon className="w-5 h-5" /> {item.name}
+									</div>
+								</Link>
+							</li>
+						))}
+						{name && <li className="divider m-0" key={`${id}-divider`} />}
+					</React.Fragment>
+				);
+			})}
+		/>
 	);
 };
 
