@@ -199,8 +199,7 @@ function SendDailyDealsInviteForm({
 							name="state"
 							containerClassName={'flex-1'}
 							label="* state"
-							placeholder="state"
-							defaultValue={values?.state || 'NY'}
+							defaultValue={values?.state ?? 'NY'}
 							values={usStatesAbbreviationList}
 							setOption={handleChange}
 						/>

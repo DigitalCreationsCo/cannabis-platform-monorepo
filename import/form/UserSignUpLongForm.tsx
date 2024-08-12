@@ -306,8 +306,7 @@ function UserSignUpForm() {
 					<TextField
 						name="address.state"
 						label="State"
-						placeholder="State"
-						value={values?.address?.state}
+						value={values?.address?.state ?? 'NY'}
 						onBlur={handleBlur}
 						onChange={handleChange}
 						error={!!touched?.address?.state && !!errors?.address?.state}

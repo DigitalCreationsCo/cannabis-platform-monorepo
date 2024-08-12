@@ -153,8 +153,7 @@ function AddAddressUserModal({
 						<TextField
 							name={`state`}
 							label="State"
-							placeholder="State"
-							value={values?.state}
+							value={values?.state ?? 'NY'}
 							onBlur={handleBlur}
 							onChange={handleChange}
 							error={!!touched.state && !!errors.state}

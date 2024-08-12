@@ -181,7 +181,6 @@ function SubmitAddressForm() {
 				{/* <TextField
 					name="address.state"
 					label="* state"
-					placeholder="State"
 					value={values?.address?.state}
 					onBlur={handleBlur}
 					onChange={handleChange}

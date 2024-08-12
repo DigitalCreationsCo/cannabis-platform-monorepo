@@ -1,3 +1,4 @@
+import { Error as ErrorComponent } from '@/components/shared';
 import {
 	axios,
 	formatToTimeZone,
@@ -23,7 +24,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { Error as ErrorComponent } from '@/components/shared';
 
 export default function AddCustomer() {
 	const router = useRouter();
@@ -162,8 +162,7 @@ export default function AddCustomer() {
 						name="state"
 						containerClassName={'flex-1'}
 						label="* state"
-						placeholder="state"
-						defaultValue={values?.state || 'NY'}
+						defaultValue={values?.state ?? 'NY'}
 						values={usStatesAbbreviationList}
 						setOption={handleChange}
 					/>

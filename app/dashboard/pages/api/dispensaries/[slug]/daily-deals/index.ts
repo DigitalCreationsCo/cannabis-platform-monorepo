@@ -1,5 +1,8 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable @typescript-eslint/naming-convention */
+import { clientPromise } from '@/lib/db';
+import { recordMetric } from '@/lib/metrics';
+import { sendAudit } from '@/lib/retraced';
 import { CronJobApi, axios, throwIfNotAllowed } from '@cd/core-lib';
 import {
 	updateDispensaryDailyDeal,
@@ -8,10 +11,7 @@ import {
 	getDispensaryDailyDeals,
 } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { clientPromise } from '@/lib/db';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
-import { recordMetric } from '@/lib/metrics';
-import { sendAudit } from '@/lib/retraced';
 
 export default async function handler(
 	req: NextApiRequest,
@@ -108,8 +108,10 @@ const handlePATCH = async (req: NextApiRequest, res: NextApiResponse) => {
 	});
 
 	if (doesRepeat) {
+		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 		update.jobId && (await CronJobApi.updateDailyDealJob(update.jobId, update));
 	} else {
+		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 		update.jobId && (await CronJobApi.deleteDailyDealJob(update.jobId));
 	}
 

@@ -240,7 +240,6 @@ export default function UserDetails({ user }: { user: any }) {
                   {/* <TextField
 										name={`state`}
 										label="State"
-										placeholder="State"
 										value={addressUpdate?.state as string}
 										onBlur={handleBlur}
 										onChange={(e) => handleAddressUpdate(e, 'state')}

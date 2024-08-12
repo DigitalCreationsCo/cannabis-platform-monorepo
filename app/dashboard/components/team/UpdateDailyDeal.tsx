@@ -98,6 +98,7 @@ const UpdateDailyDeal = ({
 				toast.success(t('successfully-updated'));
 				setLoadingButton(false);
 				mutateDailyDeals();
+				// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 				onCancel && onCancel();
 			} catch (error: any) {
 				console.error(error);

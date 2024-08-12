@@ -409,6 +409,7 @@ export const getAuthOptions = (
 					return getCookie(sessionTokenCookieName, { req, res }) || '';
 				}
 
+				console.info('jwt: encode, ', encode(params));
 				return encode(params);
 			},
 
@@ -416,7 +417,7 @@ export const getAuthOptions = (
 				if (isCredentialsProviderCallbackWithDbSession) {
 					return null;
 				}
-
+				console.info('jwt: decode, ', decode(params));
 				return decode(params);
 			},
 		},

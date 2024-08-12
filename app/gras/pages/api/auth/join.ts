@@ -1,3 +1,6 @@
+import { ApiError, generateToken } from '@cd/core-lib';
+import { createUser, getUser, createVerificationToken } from '@cd/data-access';
+import type { NextApiRequest, NextApiResponse } from 'next';
 import { hashPassword } from '@/lib/auth';
 import { clientPromise } from '@/lib/db';
 import { sendVerificationEmail } from '@/lib/email/sendVerificationEmail';
@@ -5,9 +8,6 @@ import env from '@/lib/env';
 import { recordMetric } from '@/lib/metrics';
 import { validateRecaptcha } from '@/lib/recaptcha';
 import { userJoinSchema, validateWithSchema } from '@/lib/zod';
-import { ApiError, generateToken } from '@cd/core-lib';
-import { createUser, getUser, createVerificationToken } from '@cd/data-access';
-import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
 	req: NextApiRequest,
