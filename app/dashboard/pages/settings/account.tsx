@@ -1,4 +1,4 @@
-import { getUserBySession } from '@cd/data-access';
+import { getStaffMemberBySession } from '@cd/data-access';
 import type {
 	GetServerSidePropsContext,
 	InferGetServerSidePropsType,
@@ -24,7 +24,7 @@ export const getServerSideProps = async (
 ) => {
 	const client = await clientPromise;
 	const session = await getSession(context.req, context.res);
-	const user = await getUserBySession({ client, session });
+	const user = await getStaffMemberBySession({ client, session });
 	const { locale } = context;
 
 	if (!user) {

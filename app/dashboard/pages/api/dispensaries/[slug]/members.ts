@@ -1,4 +1,12 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+import { clientPromise } from '@/lib/db';
+import { recordMetric } from '@/lib/metrics';
+import { sendAudit } from '@/lib/retraced';
+import {
+	deleteMemberSchema,
+	updateMemberSchema,
+	validateWithSchema,
+} from '@/lib/zod';
 import { throwIfNotAllowed, ApiError } from '@cd/core-lib';
 import {
 	Role,
@@ -8,17 +16,9 @@ import {
 	updateStaffMember,
 } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { clientPromise } from '@/lib/db';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
-import { recordMetric } from '@/lib/metrics';
 import { validateMembershipOperation } from '@/lib/rbac';
-import { sendAudit } from '@/lib/retraced';
 import { sendEvent } from '@/lib/svix';
-import {
-	deleteMemberSchema,
-	updateMemberSchema,
-	validateWithSchema,
-} from '@/lib/zod';
 
 export default async function handler(
 	req: NextApiRequest,
@@ -86,7 +86,7 @@ const handleDELETE = async (req: NextApiRequest, res: NextApiResponse) => {
 
 	const teamMemberRemoved = await removeStaffMember({
 		client,
-		where: { dispensaryId: teamMember.teamId, userId: memberId },
+		where: { dispensaryId: teamMember.team.id, staffMemberId: memberId },
 	});
 
 	await sendEvent(teamMember.teamId, 'member.removed', teamMemberRemoved);
@@ -94,7 +94,7 @@ const handleDELETE = async (req: NextApiRequest, res: NextApiResponse) => {
 	sendAudit({
 		action: 'member.remove',
 		crud: 'd',
-		user: teamMember.user,
+		user: teamMember,
 		team: teamMember.team,
 	});
 
@@ -144,7 +144,7 @@ Execution Time: 0.057 ms
 		client,
 		where: {
 			role: Role.OWNER,
-			teamId: teamMember.teamId,
+			teams: teamMember.team.slug,
 		},
 	});
 
@@ -154,7 +154,10 @@ Execution Time: 0.057 ms
 
 	await removeStaffMember({
 		client,
-		where: { dispensaryId: teamMember.teamId, userId: teamMember.user.id },
+		where: {
+			dispensaryId: teamMember.teamId,
+			staffMemberId: teamMember.id,
+		},
 	});
 
 	recordMetric('member.left');
@@ -179,17 +182,17 @@ const handlePATCH = async (req: NextApiRequest, res: NextApiResponse) => {
 
 	const memberUpdated = await updateStaffMember({
 		client,
+		where: { id: memberId },
 		data: {
-			teamId: teamMember.teamId,
-			userId: memberId,
 			role,
+			$addToSet: { teams: teamMember.teamId },
 		},
 	});
 
 	sendAudit({
 		action: 'member.update',
 		crud: 'u',
-		user: teamMember.user,
+		user: teamMember,
 		team: teamMember.team,
 	});
 

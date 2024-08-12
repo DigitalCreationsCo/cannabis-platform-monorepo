@@ -11,12 +11,14 @@ export interface User {
 	password: string;
 	role: string;
 	id_verified: boolean;
-	emailVerified: boolean;
+	emailVerified: Date | null;
 	is_legal_age: boolean;
 	isSignUpComplete: boolean;
 	invalid_login_attempts: number;
 	lockedAt: Date;
 	termsAccepted: boolean;
+	billingId: string;
+	billingProvider: string;
 	createdAt: Date;
 	updatedAt: Date;
 }

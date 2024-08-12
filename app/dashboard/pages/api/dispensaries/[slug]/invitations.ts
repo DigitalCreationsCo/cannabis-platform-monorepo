@@ -8,7 +8,6 @@ import // createInvitation,
 // type Invitation,
 // type Role,
 // countStaffMembers,
-// addStaffMember,
 '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
@@ -258,7 +257,7 @@ const handlePUT = async (req: NextApiRequest, res: NextApiResponse) => {
 	//   }
 	// }
 
-	// const teamMember = await addStaffMember(
+	// const teamMember = await addStaffMemberToDispensary(
 	//   invitation.team.id,
 	//   session?.user?.id as string,
 	//   invitation.role

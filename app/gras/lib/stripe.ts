@@ -1,6 +1,6 @@
-import env from '@/lib/env';
-import { updateDispensary, type StaffMember } from '@cd/data-access';
+import { type User, updateUser } from '@cd/data-access';
 import Stripe from 'stripe';
+import env from '@/lib/env';
 import { clientPromise } from './db';
 
 export const stripe = new Stripe(env.stripe.secretKey ?? '', {
@@ -9,20 +9,20 @@ export const stripe = new Stripe(env.stripe.secretKey ?? '', {
 	apiVersion: env.stripe.apiVersion,
 });
 
-export async function getStripeCustomerId(
-	teamMember: StaffMember,
-	session?: any
-) {
+export async function getStripeCustomerId(user: User, session?: any) {
 	const client = await clientPromise;
 	let customerId = '';
-	if (!teamMember.team.billingId) {
+	if (!user.billingId) {
 		const customerData: {
-			metadata: { teamId: string };
+			metadata: { userId: string; name: string; email?: string };
 			email?: string;
 		} = {
 			metadata: {
-				teamId: teamMember.teamId,
+				userId: user.id,
+				name: user.name,
+				email: user.email,
 			},
+			email: user.email,
 		};
 		if (session?.user?.email) {
 			customerData.email = session?.user?.email;
@@ -31,17 +31,17 @@ export async function getStripeCustomerId(
 			...customerData,
 			name: session?.user?.name as string,
 		});
-		await updateDispensary({
+		await updateUser({
 			client,
+			where: { id: user.id },
 			data: {
-				slug: teamMember.team.slug,
 				billingId: customer.id,
 				billingProvider: 'stripe',
 			},
 		});
 		customerId = customer.id;
 	} else {
-		customerId = teamMember.team.billingId;
+		customerId = user.billingId;
 	}
 	return customerId;
 }

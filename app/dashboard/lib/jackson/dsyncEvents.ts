@@ -1,13 +1,13 @@
 import { type DirectorySyncEvent } from '@boxyhq/saml-jackson';
 import {
 	countStaffMembers,
-	deleteUser,
-	getUser,
-	updateUser,
-	upsertUser,
-	addStaffMember,
 	removeStaffMember,
 	Role,
+	addStaffMemberToDispensary,
+	getStaffMember,
+	upsertStaffMember,
+	deleteStaffMember,
+	updateStaffMember,
 } from '@cd/data-access';
 import { clientPromise } from '../db';
 
@@ -27,7 +27,7 @@ export const handleEvents = async (event: DirectorySyncEvent) => {
 
 	// User has been added
 	if (action === 'user.created') {
-		const user = await upsertUser({
+		const staffMember = await upsertStaffMember({
 			client,
 			where: {
 				email,
@@ -37,44 +37,47 @@ export const handleEvents = async (event: DirectorySyncEvent) => {
 			},
 		});
 
-		await addStaffMember({
+		await addStaffMemberToDispensary({
 			client,
-			dispensary: teamId,
-			userId: user.id,
+			dispensaryId: teamId,
+			staffMemberId: staffMember.id,
 			role: Role.MEMBER,
 		});
 	}
 
 	// User has been updated
 	else if (action === 'user.updated') {
-		const user = await getUser({ client, where: { email } });
+		const staffMember = await getStaffMember({ client, where: { email } });
 
-		if (!user) {
+		if (!staffMember) {
 			return;
 		}
 
-		// Deactivation of user by removing them from the team
+		// Deactivation of staffMember by removing them from the team
 		if (active === false) {
 			await removeStaffMember({
 				client,
-				where: { dispensaryId: teamId, userId: user.id },
+				where: { dispensaryId: teamId, staffMemberId: staffMember.id },
 			});
 
 			const otherTeamsCount = await countStaffMembers({
 				client,
 				where: {
-					userId: user.id,
+					id: staffMember.id,
 				},
 			});
 
 			if (otherTeamsCount === 0) {
-				await deleteUser({ client, where: { email: user.email } });
+				await deleteStaffMember({
+					client,
+					where: { email: staffMember.email },
+				});
 			}
 
 			return;
 		}
 
-		await updateUser({
+		await updateStaffMember({
 			client,
 			where: { email },
 			data: {
@@ -83,36 +86,36 @@ export const handleEvents = async (event: DirectorySyncEvent) => {
 		});
 
 		// Reactivation of user by adding them back to the team
-		await addStaffMember({
+		await addStaffMemberToDispensary({
 			client,
-			dispensary: teamId,
-			userId: user.id,
+			dispensaryId: teamId,
+			staffMemberId: staffMember.id,
 			role: Role.MEMBER,
 		});
 	}
 
 	// User has been removed
 	else if (action === 'user.deleted') {
-		const user = await getUser({ client, where: { email } });
+		const staffMember = await getStaffMember({ client, where: { email } });
 
-		if (!user) {
+		if (!staffMember) {
 			return;
 		}
 
 		await removeStaffMember({
 			client,
-			where: { dispensaryId: teamId, userId: user.id },
+			where: { dispensaryId: teamId, staffMemberId: staffMember.id },
 		});
 
 		const otherTeamsCount = await countStaffMembers({
 			client,
 			where: {
-				userId: user.id,
+				id: staffMember.id,
 			},
 		});
 
 		if (otherTeamsCount === 0) {
-			await deleteUser({ client, where: { email: user.email } });
+			await deleteStaffMember({ client, where: { email: staffMember.email } });
 		}
 	}
 };

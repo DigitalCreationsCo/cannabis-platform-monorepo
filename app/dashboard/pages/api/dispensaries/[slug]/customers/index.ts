@@ -1,10 +1,10 @@
+import { recordMetric } from '@/lib/metrics';
+import { sendAudit } from '@/lib/retraced';
 import { FreshSales, prependDialCode, throwIfNotAllowed } from '@cd/core-lib';
 import freshsales from '@cd/core-lib/src/crm/freshsales';
 import { type Customer } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
-import { recordMetric } from '@/lib/metrics';
-import { sendAudit } from '@/lib/retraced';
 
 export default async function handler(
 	req: NextApiRequest,
@@ -96,7 +96,7 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 	sendAudit({
 		action: 'team.customers.create',
 		crud: 'c',
-		user: teamMember.user,
+		user: teamMember,
 		team: teamMember.team,
 	});
 

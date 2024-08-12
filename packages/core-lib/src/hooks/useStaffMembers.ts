@@ -1,4 +1,4 @@
-import { type StaffMemberWithUser } from '@cd/data-access/src';
+import { type StaffMember } from '@cd/data-access/src';
 import useSWR, { mutate } from 'swr';
 import fetcher from '../lib/fetcher';
 import type { ApiResponse } from '../types';
@@ -6,7 +6,7 @@ import type { ApiResponse } from '../types';
 const useStaffMembers = (slug: string) => {
 	const url = `/api/dispensaries/${slug}/members`;
 
-	const { data, error, isLoading } = useSWR<ApiResponse<StaffMemberWithUser[]>>(
+	const { data, error, isLoading } = useSWR<ApiResponse<StaffMember[]>>(
 		url,
 		fetcher
 	);

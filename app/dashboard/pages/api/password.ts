@@ -1,12 +1,4 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import {
-	findFirstUserOrThrow,
-	updateUser,
-	deleteManySessions,
-} from '@cd/data-access';
-import { getCookie } from 'cookies-next';
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { ApiError } from 'next/dist/server/api-utils';
 import { hashPassword, verifyPassword } from '@/lib/auth';
 import { clientPromise } from '@/lib/db';
 import env from '@/lib/env';
@@ -14,6 +6,14 @@ import { recordMetric } from '@/lib/metrics';
 import { sessionTokenCookieName } from '@/lib/nextAuth';
 import { getSession } from '@/lib/session';
 import { validateWithSchema, updatePasswordSchema } from '@/lib/zod';
+import {
+	findFirstStaffMemberOrThrow,
+	updateStaffMember,
+	deleteManySessions,
+} from '@cd/data-access';
+import { getCookie } from 'cookies-next';
+import type { NextApiRequest, NextApiResponse } from 'next';
+import { ApiError } from 'next/dist/server/api-utils';
 
 export default async function handler(
 	req: NextApiRequest,
@@ -49,7 +49,7 @@ const handlePUT = async (req: NextApiRequest, res: NextApiResponse) => {
 		req.body
 	);
 
-	const user = await findFirstUserOrThrow({
+	const user = await findFirstStaffMemberOrThrow({
 		client,
 		where: { id: session!.user.id },
 	});
@@ -58,9 +58,9 @@ const handlePUT = async (req: NextApiRequest, res: NextApiResponse) => {
 		throw new ApiError(400, 'Your current password is incorrect');
 	}
 
-	await updateUser({
+	await updateStaffMember({
 		client,
-		where: { id: session?.user.id },
+		where: { id: session!.user.id },
 		data: { password: await hashPassword(newPassword) },
 	});
 

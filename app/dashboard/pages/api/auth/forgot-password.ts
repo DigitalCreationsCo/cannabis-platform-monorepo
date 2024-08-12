@@ -1,11 +1,11 @@
-import { generateToken, ApiError, validateEmail } from '@cd/core-lib';
-import { getUser, createPasswordReset } from '@cd/data-access';
-import type { NextApiRequest, NextApiResponse } from 'next';
 import { clientPromise } from '@/lib/db';
 import { sendPasswordResetEmail } from '@/lib/email/sendPasswordResetEmail';
 import { recordMetric } from '@/lib/metrics';
 import { validateRecaptcha } from '@/lib/recaptcha';
 import { forgotPasswordSchema, validateWithSchema } from '@/lib/zod';
+import { generateToken, ApiError, validateEmail } from '@cd/core-lib';
+import { createPasswordReset, getStaffMember } from '@cd/data-access';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
 	req: NextApiRequest,
@@ -43,7 +43,7 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 		throw new ApiError(422, 'The e-mail address you entered is invalid');
 	}
 
-	const user = await getUser({ client, where: { email } });
+	const user = await getStaffMember({ client, where: { email } });
 
 	if (!user) {
 		throw new ApiError(422, `We can't find a user with that e-mail address`);

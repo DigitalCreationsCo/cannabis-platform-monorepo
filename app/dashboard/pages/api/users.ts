@@ -1,12 +1,12 @@
-import { ApiError } from '@cd/core-lib';
-import { getUser, updateUser } from '@cd/data-access';
-import type { NextApiRequest, NextApiResponse } from 'next';
 import { clientPromise } from '@/lib/db';
 import { isEmailAllowed } from '@/lib/email/utils';
 import env from '@/lib/env';
 import { recordMetric } from '@/lib/metrics';
 import { getSession } from '@/lib/session';
 import { updateAccountSchema, validateWithSchema } from '@/lib/zod';
+import { ApiError } from '@cd/core-lib';
+import { getStaffMember, updateStaffMember } from '@cd/data-access';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
 	req: NextApiRequest,
@@ -48,20 +48,20 @@ const handlePUT = async (req: NextApiRequest, res: NextApiResponse) => {
 			throw new ApiError(400, 'Please use your work email.');
 		}
 
-		const user = await getUser({ client, where: { email: data.email } });
+		const user = await getStaffMember({ client, where: { email: data.email } });
 
 		if (user && user.id !== session?.user.id) {
 			throw new ApiError(400, 'Email already in use.');
 		}
 	}
 
-	await updateUser({
+	await updateStaffMember({
 		client,
-		where: { id: session?.user.id },
+		where: { id: session!.user.id },
 		data,
 	});
 
-	recordMetric('user.updated');
+	recordMetric('member.updated');
 
 	res.status(204).end();
 };

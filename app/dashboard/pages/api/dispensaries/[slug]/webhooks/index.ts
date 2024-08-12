@@ -1,22 +1,22 @@
 /* eslint-disable sonarjs/no-duplicate-string */
+import env from '@/lib/env';
+import { recordMetric } from '@/lib/metrics';
+import { sendAudit } from '@/lib/retraced';
+import {
+	deleteWebhookSchema,
+	validateWithSchema,
+	webhookEndpointSchema,
+} from '@/lib/zod';
 import { ApiError, throwIfNotAllowed } from '@cd/core-lib';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { type EndpointIn } from 'svix';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
-import env from '@/lib/env';
-import { recordMetric } from '@/lib/metrics';
-import { sendAudit } from '@/lib/retraced';
 import {
 	createWebhook,
 	deleteWebhook,
 	findOrCreateApp,
 	listWebhooks,
 } from '@/lib/svix';
-import {
-	deleteWebhookSchema,
-	validateWithSchema,
-	webhookEndpointSchema,
-} from '@/lib/zod';
 
 export default async function handler(
 	req: NextApiRequest,
@@ -85,7 +85,7 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 	sendAudit({
 		action: 'webhook.create',
 		crud: 'c',
-		user: teamMember.user,
+		user: teamMember,
 		team: teamMember.team,
 	});
 
@@ -137,7 +137,7 @@ const handleDELETE = async (req: NextApiRequest, res: NextApiResponse) => {
 	sendAudit({
 		action: 'webhook.delete',
 		crud: 'd',
-		user: teamMember.user,
+		user: teamMember,
 		team: teamMember.team,
 	});
 

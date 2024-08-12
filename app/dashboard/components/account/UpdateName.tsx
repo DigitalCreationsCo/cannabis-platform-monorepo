@@ -1,15 +1,15 @@
+import { Card } from '@/components/shared';
+import { updateAccountSchema } from '@/lib/zod';
 import { defaultHeaders, type ApiResponse } from '@cd/core-lib';
-import type { User } from '@cd/data-access';
+import type { StaffMember } from '@cd/data-access';
 import { TextField, Button } from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import { useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
-import { Card } from '@/components/shared';
-import { updateAccountSchema } from '@/lib/zod';
 
-const UpdateName = ({ user }: { user: Partial<User> }) => {
+const UpdateName = ({ user }: { user: Partial<StaffMember> }) => {
 	const { t } = useTranslation('common');
 	const { update } = useSession();
 	const router = useRouter();

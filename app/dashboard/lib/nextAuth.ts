@@ -15,12 +15,12 @@ import { validateRecaptcha } from '@/lib/recaptcha';
 import { MongoDBAdapter } from '@auth/mongodb-adapter';
 import { maxLengthPolicies, forceConsume } from '@cd/core-lib';
 import {
-	createUser,
-	getUser,
 	Role,
 	getAccount,
-	addStaffMember,
 	getDispensary,
+	createStaffMember,
+	addStaffMemberToDispensary,
+	getStaffMember,
 } from '@cd/data-access';
 import { setCookie, getCookie } from 'cookies-next';
 import type {
@@ -75,7 +75,7 @@ if (isAuthProviderEnabled('credentials')) {
 					return null;
 				}
 
-				const user = await getUser({ client, where: { email } });
+				const user = await getStaffMember({ client, where: { email } });
 
 				console.trace('user ', user);
 				if (!user) {
@@ -317,7 +317,7 @@ export const getAuthOptions = (
 				}
 
 				const client = await clientPromise;
-				const existingUser = await getUser({
+				const existingUser = await getStaffMember({
 					client,
 					where: { email: user.email },
 				});
@@ -339,9 +339,9 @@ export const getAuthOptions = (
 
 				// First time users
 				if (!existingUser) {
-					const newUser = await createUser({
+					const newUser = await createStaffMember({
 						client,
-						data: {
+						user: {
 							name: `${user.name}`,
 							email: `${user.email}`,
 						},
@@ -487,5 +487,10 @@ const linkToTeam = async (profile: any, userId: string) => {
 		}
 	}
 
-	await addStaffMember({ client, dispensary: team.id, userId, role: userRole });
+	await addStaffMemberToDispensary({
+		client,
+		dispensaryId: team.id,
+		staffMemberId: userId,
+		role: userRole,
+	});
 };

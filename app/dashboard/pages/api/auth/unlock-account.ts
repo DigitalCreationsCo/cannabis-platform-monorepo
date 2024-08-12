@@ -1,9 +1,9 @@
-import { ApiError } from '@cd/core-lib';
-import { deleteVerificationToken, getUser } from '@cd/data-access';
-import type { NextApiRequest, NextApiResponse } from 'next';
 import { isAccountLocked, sendLockoutEmail } from '@/lib/accountLock';
 import { clientPromise } from '@/lib/db';
 import { resendLinkRequestSchema, validateWithSchema } from '@/lib/zod';
+import { ApiError } from '@cd/core-lib';
+import { deleteVerificationToken, getStaffMember } from '@cd/data-access';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
 	req: NextApiRequest,
@@ -36,7 +36,7 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 		req.body
 	);
 
-	const user = await getUser({ client, where: { email } });
+	const user = await getStaffMember({ client, where: { email } });
 
 	if (!user) {
 		throw new ApiError(400, 'User not found');

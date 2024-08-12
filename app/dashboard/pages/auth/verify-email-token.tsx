@@ -1,11 +1,11 @@
+import { clientPromise } from '@/lib/db';
 import {
 	deleteVerificationToken,
-	updateUser,
+	updateStaffMember,
 	getVerificationToken,
 } from '@cd/data-access';
 import type { GetServerSidePropsContext } from 'next';
 import type { ReactElement } from 'react';
-import { clientPromise } from '@/lib/db';
 
 const VerifyEmailToken = () => {
 	return <></>;
@@ -48,7 +48,7 @@ export const getServerSideProps = async ({
 	}
 
 	await Promise.allSettled([
-		updateUser({
+		updateStaffMember({
 			client,
 			where: {
 				email: verificationToken.identifier,

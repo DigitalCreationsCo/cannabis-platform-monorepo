@@ -81,7 +81,7 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 	sendAudit({
 		action: 'team.daily_deals.create',
 		crud: 'u',
-		user: teamMember.user,
+		user: teamMember,
 		team: teamMember.team,
 	});
 
@@ -118,7 +118,7 @@ const handlePATCH = async (req: NextApiRequest, res: NextApiResponse) => {
 	sendAudit({
 		action: 'team.daily_deals.update',
 		crud: 'u',
-		user: teamMember.user,
+		user: teamMember,
 		team: teamMember.team,
 	});
 

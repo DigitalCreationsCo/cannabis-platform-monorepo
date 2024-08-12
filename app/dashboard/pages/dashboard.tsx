@@ -1,10 +1,10 @@
+import type { NextPageWithLayout } from '@/lib/next.types';
 import { useDispensaries } from '@cd/core-lib';
 import { LoadingDots } from '@cd/ui-lib';
 import { type GetServerSidePropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import type { NextPageWithLayout } from '@/lib/next.types';
 
 const Dashboard: NextPageWithLayout = () => {
 	const router = useRouter();
@@ -16,7 +16,7 @@ const Dashboard: NextPageWithLayout = () => {
 		}
 
 		if (dispensaries.length === 0) {
-			router.push('teams/create-dispensary');
+			router.push('/teams');
 		} else {
 			router.push(`/teams/${dispensaries[0]!.slug}/home`);
 		}

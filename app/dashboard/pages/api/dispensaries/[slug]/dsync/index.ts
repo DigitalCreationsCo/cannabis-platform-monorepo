@@ -1,9 +1,9 @@
+import env from '@/lib/env';
+import { sendAudit } from '@/lib/retraced';
 import { throwIfNotAllowed, ApiError } from '@cd/core-lib';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
-import env from '@/lib/env';
 import { dsyncManager } from '@/lib/jackson/dsync';
-import { sendAudit } from '@/lib/retraced';
 
 const dsync = dsyncManager();
 
@@ -69,7 +69,7 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 	sendAudit({
 		action: 'dsync.connection.create',
 		crud: 'c',
-		user: teamMember.user,
+		user: teamMember,
 		team: teamMember.team,
 	});
 

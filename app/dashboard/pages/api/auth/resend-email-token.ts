@@ -1,9 +1,9 @@
-import { ApiError } from '@cd/core-lib';
-import { getUser, createVerificationToken } from '@cd/data-access';
-import type { NextApiRequest, NextApiResponse } from 'next';
 import { clientPromise } from '@/lib/db';
 import { sendVerificationEmail } from '@/lib/email/sendVerificationEmail';
 import { resendEmailToken, validateWithSchema } from '@/lib/zod';
+import { ApiError } from '@cd/core-lib';
+import { createVerificationToken, getStaffMember } from '@cd/data-access';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
 	req: NextApiRequest,
@@ -32,7 +32,7 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 	const client = await clientPromise;
 	const { email } = validateWithSchema(resendEmailToken, req.body);
 
-	const user = await getUser({ client, where: { email } });
+	const user = await getStaffMember({ client, where: { email } });
 
 	if (!user) {
 		throw new ApiError(422, `We can't find a user with that e-mail address`);

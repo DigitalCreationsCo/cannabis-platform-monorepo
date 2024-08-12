@@ -1,3 +1,8 @@
+import { clientPromise } from '@/lib/db';
+import { recordMetric } from '@/lib/metrics';
+import { createInvoice } from '@/lib/stripe';
+import { getCurrentUser } from '@/lib/user';
+import { createTeamSchema, validateWithSchema } from '@/lib/zod';
 import { slugify, ApiError, FreshSales } from '@cd/core-lib';
 import freshsales from '@cd/core-lib/src/crm/freshsales';
 import Twilio from '@cd/core-lib/src/sms/twilio';
@@ -8,11 +13,6 @@ import {
 	isTeamExists,
 } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { clientPromise } from '@/lib/db';
-import { recordMetric } from '@/lib/metrics';
-import { createInvoice } from '@/lib/stripe';
-import { getCurrentUser } from '@/lib/user';
-import { createTeamSchema, validateWithSchema } from '@/lib/zod';
 
 export default async function handler(
 	req: NextApiRequest,
@@ -45,14 +45,13 @@ export default async function handler(
 // Get teams
 const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
 	const client = await clientPromise;
-	const user = await getCurrentUser(req, res);
+	const staffMember = await getCurrentUser(req, res);
 	const teams = await getStaffMemberDispensaries({
 		client,
-		where: { userId: user.id },
+		where: { staffMemberId: staffMember.id },
 	});
 
 	recordMetric('team.fetched');
-
 	res.status(200).json({ data: teams });
 };
 
@@ -66,22 +65,19 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 
 	const { priceIds } = create;
 
-	const user = await getCurrentUser(req, res);
+	const staffMember = await getCurrentUser(req, res);
 	const slug = slugify(create.name);
 
 	if (await isTeamExists({ client, where: { slug } })) {
 		throw new ApiError(400, 'A team with the slug already exists.');
 	}
 
-	let weedTextSegmentId = '';
-	weedTextSegmentId = await FreshSales.createSegment(slug);
-
-	let weedTextPhoneNumber = '';
-	weedTextPhoneNumber = await Twilio.provisionSMSPhoneNumber(create);
+	const weedTextSegmentId = await FreshSales.createSegment(slug);
+	const weedTextPhoneNumber = await Twilio.provisionSMSPhoneNumber(create);
 
 	const team = await createDispensary({
 		client,
-		userId: user.id,
+		staffMemberId: staffMember.id,
 		data: {
 			...create,
 			name: create.name,

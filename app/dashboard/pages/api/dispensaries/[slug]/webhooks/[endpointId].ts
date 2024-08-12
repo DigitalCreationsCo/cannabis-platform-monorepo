@@ -1,16 +1,16 @@
-import { ApiError, throwIfNotAllowed } from '@cd/core-lib';
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { type EndpointIn } from 'svix';
-import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
 import env from '@/lib/env';
 import { recordMetric } from '@/lib/metrics';
 import { sendAudit } from '@/lib/retraced';
-import { findOrCreateApp, findWebhook, updateWebhook } from '@/lib/svix';
 import {
 	getWebhookSchema,
 	updateWebhookEndpointSchema,
 	validateWithSchema,
 } from '@/lib/zod';
+import { ApiError, throwIfNotAllowed } from '@cd/core-lib';
+import type { NextApiRequest, NextApiResponse } from 'next';
+import { type EndpointIn } from 'svix';
+import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
+import { findOrCreateApp, findWebhook, updateWebhook } from '@/lib/svix';
 
 export default async function handler(
 	req: NextApiRequest,
@@ -103,7 +103,7 @@ const handlePUT = async (req: NextApiRequest, res: NextApiResponse) => {
 	sendAudit({
 		action: 'webhook.update',
 		crud: 'u',
-		user: teamMember.user,
+		user: teamMember,
 		team: teamMember.team,
 	});
 

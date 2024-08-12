@@ -1,13 +1,13 @@
+import AccountLocked from '@/components/emailTemplates/AccountLocked';
+import { clientPromise } from '@/lib/db';
 import { generateToken } from '@cd/core-lib';
 import {
 	type User,
-	updateUser,
 	createVerificationToken,
+	updateStaffMember,
 } from '@cd/data-access';
 import { render } from '@react-email/components';
 
-import AccountLocked from '@/components/emailTemplates/AccountLocked';
-import { clientPromise } from '@/lib/db';
 import app from './app';
 import { sendEmail } from './email/sendEmail';
 import env from './env';
@@ -16,7 +16,7 @@ const UNLOCK_ACCOUNT_TOKEN_EXPIRATION = 7 * 24 * 60 * 60 * 1000; // 7 days
 
 export const incrementLoginAttempts = async (user: User) => {
 	const client = await clientPromise;
-	const updatedUser = await updateUser({
+	const updatedStaffMember = await updateStaffMember({
 		client,
 		where: { id: user.id },
 		data: {
@@ -26,8 +26,8 @@ export const incrementLoginAttempts = async (user: User) => {
 		},
 	});
 
-	if (exceededLoginAttemptsThreshold(updatedUser)) {
-		await updateUser({
+	if (exceededLoginAttemptsThreshold(updatedStaffMember)) {
+		await updateStaffMember({
 			client,
 			where: { id: user.id },
 			data: {
@@ -38,12 +38,12 @@ export const incrementLoginAttempts = async (user: User) => {
 		await sendLockoutEmail(user);
 	}
 
-	return updatedUser;
+	return updatedStaffMember;
 };
 
 export const clearLoginAttempts = async (user: User) => {
 	const client = await clientPromise;
-	await updateUser({
+	await updateStaffMember({
 		client,
 		where: { id: user.id },
 		data: {
@@ -54,7 +54,7 @@ export const clearLoginAttempts = async (user: User) => {
 
 export const unlockAccount = async (user: User) => {
 	const client = await clientPromise;
-	await updateUser({
+	await updateStaffMember({
 		client,
 		where: { id: user.id },
 		data: {

@@ -1,19 +1,23 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { ApiError } from '@cd/core-lib';
-import { Role, type StaffMember, getStaffMember } from '@cd/data-access';
+import {
+	Role,
+	type StaffMemberWithDispensary,
+	getStaffMemberWithDispensary,
+} from '@cd/data-access';
 import { clientPromise } from './db';
 
 export async function validateMembershipOperation(
 	memberId: string,
-	teamMember: StaffMember,
+	teamMember: StaffMemberWithDispensary,
 	operationMeta?: {
 		role?: Role;
 	}
 ) {
 	const client = await clientPromise;
-	const updatingMember = await getStaffMember({
+	const updatingMember = await getStaffMemberWithDispensary({
 		client,
-		where: { userId: memberId, slug: teamMember.team.slug },
+		where: { id: memberId, teamSlug: teamMember.team.slug },
 	});
 	// Member and Admin can't update the role of Owner
 	if (

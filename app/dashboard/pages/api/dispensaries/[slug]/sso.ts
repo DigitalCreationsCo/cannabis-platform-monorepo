@@ -1,13 +1,13 @@
+import env from '@/lib/env';
+import { sendAudit } from '@/lib/retraced';
 import { ApiError, throwIfNotAllowed } from '@cd/core-lib';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
-import env from '@/lib/env';
 import {
 	extractClientId,
 	throwIfNoAccessToConnection,
 } from '@/lib/guards/team-sso';
 import { ssoManager } from '@/lib/jackson/sso/index';
-import { sendAudit } from '@/lib/retraced';
 
 const sso = ssoManager();
 
@@ -91,7 +91,7 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 	sendAudit({
 		action: 'sso.connection.create',
 		crud: 'c',
-		user: teamMember.user,
+		user: teamMember,
 		team: teamMember.team,
 	});
 
@@ -117,7 +117,7 @@ const handlePATCH = async (req: NextApiRequest, res: NextApiResponse) => {
 	sendAudit({
 		action: 'sso.connection.patch',
 		crud: 'u',
-		user: teamMember.user,
+		user: teamMember,
 		team: teamMember.team,
 	});
 
@@ -139,7 +139,7 @@ const handleDELETE = async (req: NextApiRequest, res: NextApiResponse) => {
 	sendAudit({
 		action: 'sso.connection.delete',
 		crud: 'c',
-		user: teamMember.user,
+		user: teamMember,
 		team: teamMember.team,
 	});
 

@@ -1,10 +1,10 @@
+import { clientPromise } from '@/lib/db';
+import { recordMetric } from '@/lib/metrics';
+import { sendAudit } from '@/lib/retraced';
 import { throwIfNotAllowed } from '@cd/core-lib';
 import { type Event, createEvent, getEventsByTeamSlug } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { clientPromise } from '@/lib/db';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
-import { recordMetric } from '@/lib/metrics';
-import { sendAudit } from '@/lib/retraced';
 
 export default async function handler(
 	req: NextApiRequest,
@@ -48,7 +48,7 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
 	sendAudit({
 		action: 'team.events.read',
 		crud: 'r',
-		user: teamMember.user,
+		user: teamMember,
 		team: teamMember.team,
 	});
 
@@ -69,7 +69,7 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 	sendAudit({
 		action: 'team.events.create',
 		crud: 'u',
-		user: teamMember.user,
+		user: teamMember,
 		team: teamMember.team,
 	});
 

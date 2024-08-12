@@ -1,107 +1,193 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { type MongoClient, ObjectId } from 'mongodb';
+import {
+	type Document,
+	type MongoClient,
+	ObjectId,
+	type UpdateFilter,
+} from 'mongodb';
 import { db_namespace } from './db';
+// eslint-disable-next-line import/no-cycle
+import { getDispensary } from './dispensary.data';
 import { normalizeUser } from './helpers';
 import { type Dispensary } from './types/dispensary.types';
 import { type Role } from './types/role.types';
 import {
-	type StaffMemberWithUser,
+	type StaffMemberWithDispensary,
 	type StaffMember,
 } from './types/staff.types';
 
-export const addStaffMember = async ({
+export const createStaffMember = async ({
 	client,
 	dispensary,
-	userId,
+	user,
 	role,
 }: {
 	client: MongoClient;
-	dispensary: Dispensary | string;
-	userId: string;
-	role: Role;
+	dispensary?: Dispensary | string;
+	user: Pick<StaffMember, 'name' | 'email'> & Partial<StaffMember>;
+	role?: Role;
 }): Promise<StaffMember> => {
 	const { db, collections } = db_namespace;
 
-	let staffMember: StaffMember;
-
+	let staffMember;
 	if (typeof dispensary === 'string') {
-		dispensary = (
+		dispensary = (await getDispensary({
+			client,
+			where: { id: dispensary },
+		})) as Dispensary;
+
+		// create staff member with team id and team slug
+		staffMember = (
 			await client
 				.db(db)
-				.collection<Dispensary>(collections.dispensaries)
-				.findOneAndUpdate(
-					{ _id: new ObjectId(dispensary) },
-					{ $push: { members: userId } }
-				)
-		).value as Dispensary;
+				.collection<StaffMember>(collections.staff)
+				.aggregate<StaffMemberWithDispensary>([
+					{
+						$set: {
+							...normalizeUser(user),
+							role,
+							_id: { $objectId: {} },
+						},
+						$addToSet: { teams: dispensary.id },
+					},
+					{
+						$set: {
+							id: { $toString: '$_id' },
+						},
+					},
+					{
+						$merge: {
+							into: collections.staff,
+							whenMatched: 'fail', // This will cause the operation to fail if a document with the same _id already exists
+						},
+					},
+				])
+				.toArray()
+		)[0] as StaffMember;
 	} else {
-		client
+		// create staff member without team id and team slug
+		staffMember = (
+			await client
+				.db(db)
+				.collection<StaffMember>(collections.staff)
+				.aggregate<StaffMember>([
+					{
+						$set: {
+							...normalizeUser(user),
+							role,
+							_id: { $objectId: {} },
+						},
+					},
+					{
+						$set: {
+							id: { $toString: '$_id' },
+						},
+					},
+					{
+						$merge: {
+							into: collections.staff,
+							whenMatched: 'fail', // This will cause the operation to fail if a document with the same _id already exists
+						},
+					},
+				])
+				.toArray()
+		)[0] as StaffMember;
+		return staffMember;
+	}
+
+	return staffMember;
+};
+
+export const addStaffMemberToDispensary = async ({
+	client,
+	dispensaryId,
+	staffMemberId,
+	role,
+}: {
+	client: MongoClient;
+	// dispensary: Dispensary | string;
+	dispensaryId: string;
+	staffMemberId: string;
+	role: Role;
+}): Promise<void> => {
+	const { db, collections } = db_namespace;
+
+	await client
+		.db(db)
+		.collection<StaffMember>(collections.staff)
+		.findOneAndUpdate(
+			{ id: staffMemberId },
+			{
+				$set: {
+					role, // roles are user wide, not specific roles to teams
+				},
+				// use $addToSet instead of $push to ensure no duplicate ids
+				$addToSet: { teams: dispensaryId },
+			}
+		);
+
+	(await (
+		await client
 			.db(db)
 			.collection<Dispensary>(collections.dispensaries)
 			.findOneAndUpdate(
-				{ _id: new ObjectId(dispensary.id) },
-				{ $push: { members: userId } }
-			);
-	}
-
-	// eslint-disable-next-line prefer-const
-	staffMember = (
-		await client
-			.db(db)
-			.collection<StaffMember>(collections.staff)
-			.findOneAndUpdate(
-				{ teamId: dispensary.id, userId },
-				{
-					$set: {
-						role,
-						teamId: dispensary.id,
-						teamSlug: dispensary.slug,
-						id: userId,
-					},
-				},
-				{ upsert: true, returnDocument: 'after' }
+				{ _id: new ObjectId(dispensaryId) },
+				{ $push: { members: staffMemberId } }
 			)
-	).value as StaffMember;
+	).value) as Dispensary;
 
-	return {
-		...staffMember!,
-		id: staffMember!.id,
-		team: dispensary,
-	};
+	// return {
+	// 	...staffMember,
+	// 	team: dispensary,
+	// };
 };
 
 export const updateStaffMember = async ({
 	client,
+	where,
 	data,
 }: {
 	client: MongoClient;
-	data: Partial<StaffMemberWithUser>;
-}) => {
+	where: { id: string } | { email: string };
+	data: UpdateFilter<StaffMember>;
+}): Promise<StaffMember> => {
 	data = normalizeUser(data);
 	const { db, collections } = db_namespace;
-	return await client
-		.db(db)
-		.collection(collections.staff)
-		.updateOne({ id: data.id }, normalizeUser(data));
+	const staffMember = await (
+		await client
+			.db(db)
+			.collection<StaffMember>(collections.staff)
+			.findOneAndUpdate(
+				where,
+				{ $set: normalizeUser(data) },
+				{
+					returnDocument: 'after',
+				}
+			)
+	).value;
+
+	return { ...staffMember!, id: staffMember!._id.toString() };
 };
 
 export const upsertStaffMember = async ({
 	client,
-	data,
+	where,
+	update,
 }: {
 	client: MongoClient;
-	data: Partial<StaffMemberWithUser>;
-}) => {
-	data = normalizeUser(data);
+	where: { id: string } | { email: string };
+	update: Partial<StaffMember>;
+}): Promise<StaffMember> => {
+	update = normalizeUser(update);
 	const { db, collections } = db_namespace;
-	return await client.db(db).collection(collections.staff).updateOne(
-		{
-			id: data.id,
-		},
-		{ $set: data },
-		{ upsert: true }
-	);
+	const staffMember = await (
+		await client
+			.db(db)
+			.collection<StaffMember>(collections.staff)
+			.findOneAndUpdate(where, { $set: update }, { upsert: true })
+	).value;
+	return staffMember!;
 };
 
 export const getStaffMember = async ({
@@ -109,45 +195,78 @@ export const getStaffMember = async ({
 	where,
 }: {
 	client: MongoClient;
-	where: {
-		userId: string;
-		slug?: string;
-	};
-}): Promise<StaffMemberWithUser> => {
+	where:
+		| {
+				id: string;
+				email?: never;
+		  }
+		| {
+				id?: never;
+				email: string;
+		  };
+}): Promise<StaffMember> => {
 	const { db, collections } = db_namespace;
 
 	return (
 		await client
 			.db(db)
 			.collection(collections.staff)
-			.aggregate<StaffMemberWithUser>([
+			.aggregate<StaffMember>([
 				{
-					$match: { userId: where.userId, teamSlug: where.slug },
+					$match: { where },
 				},
-				{ $addFields: { _userId: { $toObjectId: '$userId' } } },
+			])
+			.toArray()
+	)[0]!;
+};
+
+export const getStaffMemberWithDispensary = async ({
+	client,
+	where,
+}: {
+	client: MongoClient;
+	where:
+		| {
+				id: string;
+				teamSlug: string;
+				email?: never;
+		  }
+		| {
+				id?: never;
+				teamSlug: string;
+				email: string;
+		  };
+}): Promise<StaffMemberWithDispensary> => {
+	const { db, collections } = db_namespace;
+	return (
+		await client
+			.db(db)
+			.collection(collections.staff)
+			.aggregate<StaffMemberWithDispensary>([
+				{
+					$match: where,
+				},
 				{
 					$lookup: {
-						from: collections.users,
-						localField: '_userId',
-						foreignField: '_id',
-						as: 'user',
-					},
-				},
-				{
-					$unwind: '$user',
-				},
-				{
-					$lookup: {
-						from: collections.dispensaries,
-						localField: 'teamSlug',
-						foreignField: 'slug',
+						from: 'dispensaries',
+						let: { teamSlug: where.teamSlug },
+						pipeline: [{ $match: { $expr: { $eq: ['$slug', '$$teamSlug'] } } }],
 						as: 'team',
 					},
 				},
 				{
-					$unwind: '$team',
+					$unwind: {
+						path: '$team',
+						preserveNullAndEmptyArrays: true,
+					},
 				},
-				{ $addFields: { 'team.id': { $toString: '$team._id' } } },
+				{
+					$addFields: {
+						teamId: { $toString: '$team._id' },
+						teamSlug: '$team.slug',
+						'team.id': { $toString: '$team._id' },
+					},
+				},
 			])
 			.toArray()
 	)[0]!;
@@ -171,7 +290,7 @@ export const getStaffMemberBySession = async ({
 	}
 
 	// get staff with team document
-	return await getStaffMember({ client, where: { userId: id } });
+	return await getStaffMember({ client, where: { id } });
 };
 
 export const deleteStaffMember = async ({
@@ -210,7 +329,7 @@ export const countStaffMembers = async ({
 	where,
 }: {
 	client: MongoClient;
-	where: any;
+	where: Document;
 }) => {
 	const { db, collections } = db_namespace;
 	return client.db(db).collection(collections.staff).countDocuments(where);
@@ -222,36 +341,35 @@ export const getStaffMembers = async ({
 }: {
 	client: MongoClient;
 	where: { slug: string };
-}) => {
+}): Promise<StaffMemberWithDispensary[]> => {
 	const { db, collections } = db_namespace;
 	const staffMembers = await client
 		.db(db)
-		.collection<StaffMemberWithUser>(collections.staff)
-		.aggregate<StaffMemberWithUser>([
+		.collection<StaffMemberWithDispensary>(collections.staff)
+		.aggregate<StaffMemberWithDispensary>([
 			{
-				$match: { teamSlug: where.slug },
+				$match: { teams: where.slug },
 			},
 			{
 				$lookup: {
-					from: collections.users,
-					localField: 'userId',
-					foreignField: 'id',
-					as: 'user',
-				},
-			},
-			{
-				$unwind: '$user',
-			},
-			{
-				$lookup: {
-					from: collections.dispensaries,
-					localField: 'teamSlug',
-					foreignField: 'slug',
+					from: 'dispensaries',
+					let: { teamSlug: where.slug },
+					pipeline: [{ $match: { $expr: { $eq: ['$slug', '$$teamSlug'] } } }],
 					as: 'team',
 				},
 			},
 			{
-				$unwind: '$team',
+				$unwind: {
+					path: '$team',
+					preserveNullAndEmptyArrays: true,
+				},
+			},
+			{
+				$addFields: {
+					teamId: { $toString: '$team._id' },
+					teamSlug: '$team.slug',
+					'team.id': { $toString: '$team._id' },
+				},
 			},
 		])
 		.toArray();

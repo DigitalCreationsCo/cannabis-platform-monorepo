@@ -1,17 +1,17 @@
-import {
-	updateUser,
-	deleteManySessions,
-	deletePasswordReset,
-	getPasswordReset,
-} from '@cd/data-access';
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { ApiError } from 'next/dist/server/api-utils';
 import { unlockAccount } from '@/lib/accountLock';
 import { hashPassword } from '@/lib/auth';
 import { clientPromise } from '@/lib/db';
 import env from '@/lib/env';
 import { recordMetric } from '@/lib/metrics';
 import { resetPasswordSchema, validateWithSchema } from '@/lib/zod';
+import {
+	updateStaffMember,
+	deleteManySessions,
+	deletePasswordReset,
+	getPasswordReset,
+} from '@cd/data-access';
+import type { NextApiRequest, NextApiResponse } from 'next';
+import { ApiError } from 'next/dist/server/api-utils';
 
 export default async function handler(
 	req: NextApiRequest,
@@ -64,7 +64,7 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 
 	const hashedPassword = await hashPassword(password);
 
-	const updatedUser = await updateUser({
+	const updatedUser = await updateStaffMember({
 		client,
 		where: { email: passwordReset.email },
 		data: {
@@ -87,7 +87,7 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 
 	await deletePasswordReset({ client, where: { token } });
 
-	recordMetric('user.password.reset');
+	recordMetric('member.password.reset');
 
 	res.status(200).json({ message: 'Password reset successfully' });
 };

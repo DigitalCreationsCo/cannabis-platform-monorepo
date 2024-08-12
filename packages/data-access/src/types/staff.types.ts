@@ -2,28 +2,19 @@ import { type Dispensary } from './dispensary.types';
 import { type Role } from './role.types';
 import { type User } from './user.types';
 
-export interface StaffMember {
+export interface StaffMember extends User {
 	id: string;
 	email: string;
-	userId: string;
-	role: Role;
+	role: Role; // roles are user wide, not specific roles to teams
 	createdAt: Date;
 	updatedAt: Date;
-	team: Dispensary;
-	teamId: string;
+	teams: string[]; // multiple dispensary Ids
 }
 
-export interface StaffMemberWithUser {
-	id: string;
-	email: string;
-	userId: string;
-	user: User;
-	role: Role;
-	team: Dispensary;
-	teamId: string;
-	teamSlug: string;
-	createdAt: Date;
-	updatedAt: Date;
+export interface StaffMemberWithDispensary extends StaffMember {
+	teamSlug: string; // 1 dispensary slug
+	teamId: string; // 1 dispensary Id
+	team: Dispensary; // details of 1 dispensary
 }
 
 // export type UserDispensaryStaff = User & {

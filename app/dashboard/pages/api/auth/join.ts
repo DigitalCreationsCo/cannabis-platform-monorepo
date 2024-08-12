@@ -10,9 +10,9 @@ import { ApiError, generateToken } from '@cd/core-lib';
 import {
 	// getInvitation,
 	// isInvitationExpired,
-	createUser,
-	getUser,
 	createVerificationToken,
+	createStaffMember,
+	getStaffMember,
 	// getDispensary,
 } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -46,7 +46,7 @@ export default async function handler(
 	}
 }
 
-// Signup the user
+// Signup the staff member
 const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 	try {
 		const {
@@ -95,7 +95,7 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 			);
 		}
 
-		if (await getUser({ client, where: { email } })) {
+		if (await getStaffMember({ client, where: { email } })) {
 			throw new ApiError(400, 'An user with this email already exists.');
 		}
 
@@ -112,9 +112,9 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 			// }
 		}
 
-		const user = await createUser({
+		const user = await createStaffMember({
 			client,
-			data: {
+			user: {
 				name,
 				email,
 				password: await hashPassword(password),
@@ -143,12 +143,12 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 			await sendVerificationEmail({ user, verificationToken });
 		}
 
-		recordMetric('user.signup');
+		recordMetric('member.signup');
 
 		slackNotify()?.alert({
 			text: invitation
-				? 'New user signed up via invitation'
-				: 'New user signed up',
+				? 'New team member signed up via invitation'
+				: 'New team member signed up',
 			fields: {
 				Name: user.name,
 				Email: user.email,

@@ -4,14 +4,7 @@
 import { randomUUID } from 'crypto';
 import { MongoDBAdapter } from '@auth/mongodb-adapter';
 import { maxLengthPolicies, forceConsume } from '@cd/core-lib';
-import {
-	createUser,
-	getUser,
-	Role,
-	getAccount,
-	addStaffMember,
-	getDispensary,
-} from '@cd/data-access';
+import { createUser, getUser, Role, getAccount } from '@cd/data-access';
 import { setCookie, getCookie } from 'cookies-next';
 import type {
 	NextApiRequest,
@@ -441,13 +434,15 @@ const linkAccount = async (user: User, account: Account) => {
 };
 
 const linkToTeam = async (profile: Profile, userId: string) => {
+	// if teams
 	const client = await clientPromise;
-	const team = await getDispensary({
-		client,
-		where: {
-			id: profile.requested.tenant,
-		},
-	});
+
+	// const team = await getDispensary({
+	// 	client,
+	// 	where: {
+	// 		id: profile.requested.tenant,
+	// 	},
+	// });
 
 	// Sort out roles
 	const roles = profile.roles || profile.groups || [];
@@ -473,5 +468,11 @@ const linkToTeam = async (profile: Profile, userId: string) => {
 		}
 	}
 
-	await addStaffMember({ client, dispensary: team.id, userId, role: userRole });
+	// if teams
+	// await addStaffMemberToDispensary({
+	// 	client,
+	// 	dispensaryId: team.id,
+	// 	staffMemberId: userId,
+	// 	role: userRole,
+	// });
 };

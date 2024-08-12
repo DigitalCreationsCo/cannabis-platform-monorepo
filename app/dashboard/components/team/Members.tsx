@@ -1,3 +1,6 @@
+import { InviteMember } from '@/components/invitation';
+import { Error, LetterAvatar } from '@/components/shared';
+import { Table } from '@/components/shared/table/Table';
 import {
 	useStaffMembers,
 	useCanAccess,
@@ -10,9 +13,6 @@ import { useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { InviteMember } from '@/components/invitation';
-import { Error, LetterAvatar } from '@/components/shared';
-import { Table } from '@/components/shared/table/Table';
 import ConfirmationDialog from '../shared/ConfirmationDialog';
 import UpdateMemberRole from './UpdateMemberRole';
 
@@ -21,7 +21,9 @@ const Members = ({ team }: { team: Dispensary }) => {
 	const { t } = useTranslation('common');
 	const { canAccess } = useCanAccess();
 	const [visible, setVisible] = useState(false);
-	const [selectedMember, setSelectedMember] = useState<any | null>(null);
+	const [selectedMember, setSelectedMember] = useState<StaffMember | null>(
+		null
+	);
 	const [confirmationDialogVisible, setConfirmationDialogVisible] =
 		useState(false);
 
@@ -46,7 +48,7 @@ const Members = ({ team }: { team: Dispensary }) => {
 			return;
 		}
 
-		const sp = new URLSearchParams({ memberId: member.userId });
+		const sp = new URLSearchParams({ memberId: member.id });
 
 		const response = await fetch(
 			`/api/dispensaries/${team.slug}/members?${sp.toString()}`,
@@ -69,13 +71,13 @@ const Members = ({ team }: { team: Dispensary }) => {
 
 	const canUpdateRole = (member: StaffMember) => {
 		return (
-			session?.user.id != member.userId && canAccess('team_member', ['update'])
+			session?.user.id != member.id && canAccess('team_member', ['update'])
 		);
 	};
 
 	const canRemoveMember = (member: StaffMember) => {
 		return (
-			session?.user.id != member.userId && canAccess('team_member', ['delete'])
+			session?.user.id != member.id && canAccess('team_member', ['delete'])
 		);
 	};
 
@@ -110,12 +112,12 @@ const Members = ({ team }: { team: Dispensary }) => {
 								wrap: true,
 								element: (
 									<div className="flex items-center justify-start space-x-2">
-										<LetterAvatar name={member.user.name} />
-										<span>{member.user.name}</span>
+										<LetterAvatar name={member.name} />
+										<span>{member.name}</span>
 									</div>
 								),
 							},
-							{ wrap: true, text: member.user.email },
+							{ wrap: true, text: member.email },
 							{
 								element: canUpdateRole(member) ? (
 									<UpdateMemberRole team={team} member={member} />
@@ -149,8 +151,8 @@ const Members = ({ team }: { team: Dispensary }) => {
 				title={t('confirm-delete-member')}
 			>
 				{t('delete-member-warning', {
-					name: selectedMember?.user.name,
-					email: selectedMember?.user.email,
+					name: selectedMember?.name,
+					email: selectedMember?.email,
 				})}
 			</ConfirmationDialog>
 			<InviteMember visible={visible} setVisible={setVisible} team={team} />

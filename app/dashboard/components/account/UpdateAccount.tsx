@@ -1,12 +1,12 @@
-import type { User } from '@cd/data-access';
 import env from '@/lib/env';
+import type { StaffMember } from '@cd/data-access';
 import UpdateEmail from './UpdateEmail';
 import UpdateName from './UpdateName';
 import UpdateTheme from './UpdateTheme';
 import UploadAvatar from './UploadAvatar';
 
 interface UpdateAccountProps {
-	user: Partial<User>;
+	user: Partial<StaffMember>;
 	allowEmailChange: boolean;
 }
 

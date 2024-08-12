@@ -1,20 +1,22 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { type MongoClient, ObjectId } from 'mongodb';
+import { type MongoClient, ObjectId, type WithId } from 'mongodb';
 import { db_namespace } from './db';
 import { metersToRadians, EARTH_RADIUS_METERS } from './helpers';
-import { addStaffMember } from './staff.data';
+// eslint-disable-next-line import/no-cycle
+import { addStaffMemberToDispensary } from './staff.data';
 import { type Dispensary } from './types/dispensary.types';
 import { Role } from './types/role.types';
 import { getZipcodeLocation } from './zipcode.data';
 
 export const createDispensary = async ({
 	client,
-	userId,
+	staffMemberId,
 	data,
 }: {
 	client: MongoClient;
-	userId: string;
+	staffMemberId: string;
 	data: Omit<Dispensary, 'id'>;
 }): Promise<Dispensary> => {
 	try {
@@ -29,6 +31,7 @@ export const createDispensary = async ({
 					.collection<Partial<Dispensary>>(collections.dispensaries)
 					.insertOne({
 						...data,
+						id: new ObjectId().toHexString(),
 						createdAt,
 						updatedAt,
 						showInMarketPlace: false,
@@ -49,7 +52,12 @@ export const createDispensary = async ({
 			).insertedId.toString(),
 		};
 
-		await addStaffMember({ client, dispensary, userId, role: Role.OWNER });
+		await addStaffMemberToDispensary({
+			client,
+			dispensaryId: dispensary.id,
+			staffMemberId,
+			role: Role.OWNER,
+		});
 
 		// await findOrCreateApp(team.name, team.id);
 
@@ -82,15 +90,16 @@ export const getDispensary = async ({
 }: {
 	client: MongoClient;
 	where: { id: string } | { slug: string } | any;
-}) => {
-	Object.hasOwnProperty.call(where, 'id') &&
-		(where = { _id: new ObjectId(where.id) });
+}): Promise<Dispensary> => {
 	const { db, collections } = db_namespace;
 
-	const dispensary = await client
+	Object.hasOwnProperty.call(where, 'id') &&
+		(where = { _id: new ObjectId(where.id) });
+
+	const dispensary = (await client
 		.db(db)
 		.collection<Dispensary>(collections.dispensaries)
-		.findOne(where);
+		.findOne(where)) as WithId<Dispensary>;
 	return { ...dispensary, id: dispensary!._id.toString() };
 };
 
@@ -101,8 +110,9 @@ export const deleteDispensary = async ({
 	client: MongoClient;
 	where: { id: string } | { slug: string } | any;
 }) => {
-	Object.hasOwnProperty.call(where, 'id') &&
-		(where = { _id: new ObjectId(where.id) });
+	if (Object.hasOwnProperty.call(where, 'id')) {
+		where = { _id: new ObjectId(where.id) };
+	}
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
@@ -117,7 +127,7 @@ export const removeStaffMember = async ({
 	client: MongoClient;
 	where: {
 		dispensaryId: string;
-		userId: string;
+		staffMemberId: string;
 	};
 }) => {
 	const { db, collections } = db_namespace;
@@ -126,7 +136,7 @@ export const removeStaffMember = async ({
 		.collection(collections.staff)
 		.findOneAndDelete({
 			dispensaryId: where.dispensaryId,
-			_id: new ObjectId(where.userId),
+			_id: new ObjectId(where.staffMemberId),
 		});
 	return deleted.value!;
 };
@@ -136,7 +146,7 @@ export const getStaffMemberDispensaries = async ({
 	where,
 }: {
 	client: MongoClient;
-	where: { userId: string };
+	where: { staffMemberId: string };
 }) => {
 	const { db, collections } = db_namespace;
 	return await client
@@ -144,7 +154,7 @@ export const getStaffMemberDispensaries = async ({
 		.collection<Dispensary>(collections.dispensaries)
 		.aggregate<Dispensary>([
 			{
-				$match: { members: where.userId },
+				$match: { members: where.staffMemberId },
 			},
 			{
 				$addFields: {
@@ -161,14 +171,14 @@ export async function getDispensaryRoles({
 	where,
 }: {
 	client: MongoClient;
-	where: { userId: string };
+	where: { staffMemberId: string };
 }) {
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
 		.collection(collections.staff)
 		.findOne(
-			{ _id: new ObjectId(where.userId) },
+			{ _id: new ObjectId(where.staffMemberId) },
 			{ projection: { role: 1, dispensaryId: 1 } }
 		);
 }
@@ -181,14 +191,14 @@ export async function isDispensaryAdmin({
 	where,
 }: {
 	client: MongoClient;
-	where: { userId: string; dispensaryId: string };
+	where: { staffId: string; dispensaryId: string };
 }) {
 	const { db, collections } = db_namespace;
 	const staffMember = await client
 		.db(db)
 		.collection(collections.staff)
 		.findOne({
-			_id: new ObjectId(where.userId),
+			_id: new ObjectId(where.staffId),
 			dispensaryId: where.dispensaryId,
 		});
 	return staffMember?.role === Role.ADMIN || staffMember?.role === Role.OWNER;

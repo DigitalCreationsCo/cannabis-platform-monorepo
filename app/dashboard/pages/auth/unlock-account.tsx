@@ -1,20 +1,19 @@
+import { AuthLayout } from '@/components/layouts';
+import { Alert } from '@/components/shared';
+import { unlockAccount } from '@/lib/accountLock';
+import { clientPromise } from '@/lib/db';
 import { defaultHeaders } from '@cd/core-lib';
 import {
 	deleteVerificationToken,
 	getVerificationToken,
 	isVerificationTokenExpired,
-	getUser,
+	getStaffMember,
 } from '@cd/data-access';
 import { Button } from '@cd/ui-lib';
 import type { GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { useState, type ReactElement, useEffect } from 'react';
 import type { ComponentStatus } from 'react-daisyui/dist/types';
-
-import { AuthLayout } from '@/components/layouts';
-import { Alert } from '@/components/shared';
-import { unlockAccount } from '@/lib/accountLock';
-import { clientPromise } from '@/lib/db';
 
 interface UnlockAccountProps {
 	email: string;
@@ -130,7 +129,7 @@ export const getServerSideProps = async ({
 		};
 	}
 
-	const user = await getUser({
+	const user = await getStaffMember({
 		client,
 		where: { email: verificationToken.identifier },
 	});

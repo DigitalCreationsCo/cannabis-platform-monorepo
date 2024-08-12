@@ -1,6 +1,9 @@
-import { updateDispensary, type StaffMember } from '@cd/data-access';
-import Stripe from 'stripe';
 import env from '@/lib/env';
+import {
+	type StaffMemberWithDispensary,
+	updateDispensary,
+} from '@cd/data-access';
+import Stripe from 'stripe';
 import { clientPromise } from './db';
 import { sendEmail } from './email/sendEmail';
 
@@ -11,7 +14,7 @@ export const stripe = new Stripe(env.stripe.secretKey ?? '', {
 });
 
 export async function getStripeCustomerId(
-	teamMember: StaffMember,
+	teamMember: StaffMemberWithDispensary,
 	session?: any
 ) {
 	const client = await clientPromise;

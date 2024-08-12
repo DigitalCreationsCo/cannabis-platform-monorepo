@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+import { clientPromise } from '@/lib/db';
+import { recordMetric } from '@/lib/metrics';
+import { sendAudit } from '@/lib/retraced';
 import { CronJobApi, axios, throwIfNotAllowed } from '@cd/core-lib';
 import { deleteDispensaryDailyDeal, getDailyDeal } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { clientPromise } from '@/lib/db';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
-import { recordMetric } from '@/lib/metrics';
-import { sendAudit } from '@/lib/retraced';
 import { sendEvent } from '@/lib/svix';
 
 export default async function handler(
@@ -76,7 +76,7 @@ const handleDELETE = async (req: NextApiRequest, res: NextApiResponse) => {
 	sendAudit({
 		action: 'team.daily_deals.delete',
 		crud: 'd',
-		user: teamMember.user,
+		user: teamMember,
 		team: teamMember.team,
 	});
 

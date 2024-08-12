@@ -16,7 +16,7 @@ const UpdateMemberRole = ({ team, member }: UpdateMemberRoleProps) => {
 			method: 'PATCH',
 			headers: defaultHeaders,
 			body: JSON.stringify({
-				memberId: member.userId,
+				memberId: member.id,
 				role,
 			}),
 		});
