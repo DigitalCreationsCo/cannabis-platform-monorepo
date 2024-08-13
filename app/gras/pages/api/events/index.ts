@@ -26,7 +26,6 @@ export default async function handler(
 				await handlePUT(req, res);
 				break;
 			default:
-				// res.setHeader('Allow', 'GET, PUT, PATCH');
 				res.setHeader('Allow', 'GET, PUT');
 				res.status(405).json({
 					error: { message: `Method ${method} Not Allowed` },
@@ -52,14 +51,13 @@ const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
 		throw new Error('Unauthorized');
 	}
 
-	console.info('get events: ', { zipcode, radius });
+	console.debug('get events: ', { zipcode, radius });
 	const events = await getActiveEvents({
 		client,
 		zipcode,
 		radius: Number(radius),
 	});
 
-	console.info('events: ', events);
 	recordMetric('event.fetched');
 	res.status(200).json({ data: events });
 };
@@ -79,12 +77,12 @@ const handlePUT = async (req: NextApiRequest, res: NextApiResponse) => {
 		create_cron: string;
 	};
 
-	console.info('req.headers ', req.headers);
+	console.debug('req.headers ', req.headers);
 	const headerToken = req.headers.authorization?.split(' ')[1];
-	console.info('clientToken: ', headerToken);
+	console.debug('clientToken: ', headerToken);
 
 	const token = env.nextAuth.secret;
-	console.info('token: ', token);
+	console.debug('token: ', token);
 
 	if (headerToken !== token) {
 		throw new Error('Unauthorized');
@@ -93,7 +91,7 @@ const handlePUT = async (req: NextApiRequest, res: NextApiResponse) => {
 	const response = await axios(
 		`https://www.eventbrite.com/d/${location}/${query}/`
 	);
-	console.info('response: ', response);
+	console.debug('response: ', response);
 	if (response.status !== 200) {
 		return res
 			.status(500)
@@ -112,7 +110,6 @@ const handlePUT = async (req: NextApiRequest, res: NextApiResponse) => {
 		}
 	});
 
-	// console.info('events, ', events);
 	const { ok, matchedCount, modifiedCount, hasWriteErrors, upsertedCount } =
 		await updateManyEvents({ client, data: [...events] });
 

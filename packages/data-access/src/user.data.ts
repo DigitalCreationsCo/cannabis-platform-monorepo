@@ -23,31 +23,50 @@ export const createUser = async ({
 	};
 }): Promise<User> => {
 	const { db, collections } = db_namespace;
-	return await (
-		(await client
-			.db(db)
-			.collection(collections.users)
-			.aggregate([
-				{
-					$set: {
-						...normalizeUser(data),
-						_id: { $objectId: {} },
-					},
-				},
-				{
-					$set: {
-						id: { $toString: '$_id' },
-					},
-				},
-				{
-					$merge: {
-						into: collections.users,
-						whenMatched: 'fail', // This will cause the operation to fail if a document with the same _id already exists
-					},
-				},
-			])
-			.toArray()) as User[]
-	)[0]!;
+
+	const _id = new ObjectId();
+	await await client
+		.db(db)
+		.collection(collections.users)
+		.insertOne({
+			...normalizeUser(data),
+			_id,
+			id: _id.toString(),
+			createdAt: new Date(),
+			updatedAt: new Date(),
+		});
+	return { ...normalizeUser(data), _id, id: _id.toString() };
+	// return await (
+	// 	(await client
+	// 		.db(db)
+	// 		.collection(collections.users)
+	// 		.aggregate([
+	// 			{
+	// 				$documents: [
+	// 					{
+	// 						_id,
+	// 						...normalizeUser(data),
+	// 						createdAt: new Date(),
+	// 						updatedAt: new Date(),
+	// 					},
+	// 				],
+	// 			},
+	// 			{
+	// 				$addFields: {
+	// 					id: { $toString: '$_id' },
+	// 				},
+	// 			},
+	// 			{
+	// 				$merge: {
+	// 					into: collections.users,
+	// 					on: '_id',
+	// 					whenMatched: 'fail',
+	// 					whenNotMatched: 'insert',
+	// 				},
+	// 			},
+	// 		])
+	// 		.toArray()) as User[]
+	// )[0]!;
 };
 
 export const updateUser = async ({
@@ -112,7 +131,7 @@ export const getUser = async ({
 		.db(db)
 		.collection<User>(collections.users)
 		.findOne(where)) as WithId<User>;
-	return { ...normalizeUser(user), id: user._id.toString() };
+	return (user && { ...normalizeUser(user), id: user._id.toString() }) || null;
 };
 
 export const getUserBySession = async ({

@@ -1,4 +1,5 @@
 @import './gradient.css';
+@import './shadow.css';
 
 @tailwind base;
 @tailwind components;

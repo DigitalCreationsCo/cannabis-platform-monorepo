@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { getDispensariesByZipcode, dispensaries } from '@cd/data-access';
-import type { NextApiRequest, NextApiResponse } from 'next';
 import { clientPromise } from '@/lib/db';
 import env from '@/lib/env';
 import { recordMetric } from '@/lib/metrics';
+import { getDispensariesByZipcode, dispensaries } from '@cd/data-access';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
 	req: NextApiRequest,
@@ -16,7 +16,7 @@ export default async function handler(
 				await handleGET(req, res);
 				break;
 			default:
-				res.setHeader('Allow', 'GET, POST');
+				res.setHeader('Allow', 'GET');
 				res.status(405).json({
 					error: { message: `Method ${method} Not Allowed` },
 				});

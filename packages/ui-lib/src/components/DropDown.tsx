@@ -47,6 +47,16 @@ const AnimatedDropdown = ({
 			passive: true,
 		}
 	);
+	useOnClickOutside(
+		ref,
+		() => {
+			setIsOpen(false);
+		},
+		'mouseup',
+		{
+			passive: true,
+		}
+	);
 
 	const AnimatedChevron = ({ openDirection = 'down', isOpen }) => {
 		const baseRotation = openDirection === 'down' ? 0 : 180;

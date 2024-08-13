@@ -1,8 +1,8 @@
+import { deleteEvent, getEvent } from '@cd/data-access';
+import type { NextApiRequest, NextApiResponse } from 'next';
 import { clientPromise } from '@/lib/db';
 import env from '@/lib/env';
 import { recordMetric } from '@/lib/metrics';
-import { deleteEvent, getEvent } from '@cd/data-access';
-import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
 	req: NextApiRequest,
@@ -30,7 +30,6 @@ export default async function handler(
 	}
 }
 
-// Get cannabis events
 const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
 	const client = await clientPromise;
 	const clientToken = req.headers.authorization?.split(' ')[1];

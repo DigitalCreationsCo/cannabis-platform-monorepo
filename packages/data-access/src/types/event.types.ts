@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
+import { type User } from './user.types';
+
 interface ImageObject {
 	edge_color_set: boolean;
 	edge_color: string;
@@ -43,10 +45,13 @@ interface TicketInfo {
 }
 
 export interface Event {
+	id: string;
+	eventbrite_event_id: string;
+	eid: string;
+	external_id: string;
 	image: ImageObject;
 	timezone: string;
 	location?: string;
-	id: string;
 	tickets_url: string;
 	ticket: TicketInfo;
 	urgency_signals: UrgencySignals;
@@ -64,7 +69,6 @@ export interface Event {
 	_type: string;
 	end_date: string;
 	tags: Record<string, any>[];
-	eventbrite_event_id: string;
 	start_time: string;
 	primary_venue: PrimaryVenue;
 	full_description: string | null;
@@ -80,7 +84,6 @@ export interface Event {
 	hide_start_date: boolean;
 	summary: string;
 	is_online_event: boolean;
-	eid: string;
 	published: string;
 	rating: number;
 	comments: EventComment[];
@@ -88,10 +91,9 @@ export interface Event {
 	attendees: Attendee[];
 }
 
-export type Attendee = {
-	userId: string;
-	fullName: string;
-	username: string;
+export type Attendee = Pick<User, 'username' | 'name' | 'id' | 'image'> & {
+	rsvpDate: Date | string;
+	isPurchased: boolean;
 };
 
 export type EventJobLocation = {

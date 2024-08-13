@@ -1,5 +1,6 @@
 import env from '@/lib/env';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { getSession } from 'next-auth/react';
 
 export default async function handler(
 	req: NextApiRequest,
@@ -8,6 +9,10 @@ export default async function handler(
 	try {
 		if (req.method !== 'GET') {
 			throw new Error('Method not allowed');
+		}
+		const session = await getSession({ req });
+		if (!session) {
+			throw { status: 401, message: 'Unauthorized' };
 		}
 		res.status(200).json({ ...env });
 	} catch (error: any) {

@@ -303,6 +303,8 @@
 	"find-flower-events-dispensaries": "Find events, activities and dispensaries",
 	"get-tickets": "Get Tickets",
 	"rsvp": "RSVP",
-	"rsvp-success": "You successfully rsvp'd for this event",
-	"rsvp-failed": "Something went wrong while rsvp'ing. Please try again."
+	"rsvp-success": "You successfully rsvp'ed for the event.",
+	"rsvp-success-event-name": "You rsvp'ed for ",
+	"rsvp-failed": "Something went wrong while rsvp'ing. Please try again.",
+	"thank-you-attendee": "Thank you for your support! Can't wait to see you there!"
 }

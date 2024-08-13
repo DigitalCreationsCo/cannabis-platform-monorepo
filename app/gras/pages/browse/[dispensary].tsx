@@ -1,4 +1,3 @@
-import env from '@/lib/env';
 import { renderAddress, renderSchedule, TextContent } from '@cd/core-lib';
 import {
 	type ProductVariantWithDetails,
@@ -29,10 +28,11 @@ import { NextSeo } from 'next-seo';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import logo from 'public/logo.png';
 import { type PropsWithChildren, useState, type ReactElement } from 'react';
 import { twMerge } from 'tailwind-merge';
+import env from '@/lib/env';
 import seoConfig from '@/lib/seo.config';
+import logo from 'public/logo.png';
 
 function DispensaryPage({
 	dispensary: organization,
@@ -64,12 +64,12 @@ function DispensaryPage({
 
 	const Heading = () => (
 		<div>
-			{/* <H1
+			<H1
 				style={{ color: applyDispensaryStyles['primary-color'] }}
-				className={`whitespace-normal px-2`}
+				className={`hidden absolute whitespace-normal px-2`}
 			>
 				{organization.name}
-			</H1> */}
+			</H1>
 			{(organization.images?.length && organization.images?.length > 0 && (
 				<div className="min-h-[150px] content-center">
 					<Image
@@ -279,7 +279,11 @@ function DispensaryPage({
 
 	return (
 		<>
-			<NextSeo {...seoConfig} />
+			<NextSeo
+				{...seoConfig}
+				title={`Discover ${organization.name} at Gras.Live`}
+				description={`${organization.siteSetting.bannerText}.${seoConfig.description.split('.')[1]}`}
+			/>
 			<Page
 				gradient="pink"
 				className="w-full !pt-0 pb-0 px-0 md:!pt-12 sm:!pb-24 md:!pb-24 lg:!pb-24 xl:!pb-24 h-screen"

@@ -1,5 +1,15 @@
 const colors = require('tailwindcss/colors');
 
+console.info(
+	`
+Tailwind Mode:`,
+	process.env.NODE_ENV || 'development'
+);
+const isProd = process.env.NODE_ENV === 'production';
+
+if (!isProd) {console.info(`
+WARNING: Bundle size is large. Use production mode for optimized bundle.`)}
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
 	plugins: [require('@tailwindcss/typography'), require('daisyui')],
@@ -8,9 +18,7 @@ module.exports = {
 		'../../node_modules/daisyui/dist/**/*.js',
 		'../../node_modules/react-daisyui/dist/**/*.js',
 	],
-	safelist: process.env.NODE_ENV === 'development' 
-    ? [{ pattern: /.*/ }]
-    : [],
+	safelist: isProd ? [] : [{ pattern: /.*/ }],
 	theme: {
 		fontFamily: {
 			encode: ['Encode Sans', 'sans-serif'],
@@ -96,8 +104,8 @@ module.exports = {
 					'--secondary-light': '#4BBE6E',
 					// '--inverse': '#fff2da', // light tan
 					// '--inverse': '#fad9c7', // red tan
-					// '--inverse': '#FAF2C8', // medium tan
-					'--inverse': '#F2F0ED', // light tan
+					'--inverse': '#FAF2C8', // medium tan
+					// '--inverse': '#F2F0ED', // light tan
 					'--inverse-soft': '#f9f7f2',
 					'--accent': '#a49b8a',
 					'--accent-soft': '#bbb5a9',

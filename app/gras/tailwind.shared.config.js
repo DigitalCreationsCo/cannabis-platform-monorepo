@@ -1,5 +1,11 @@
 const colors = require('tailwindcss/colors');
 
+console.log(
+	`
+Tailwind Mode:`,
+	process.env.NODE_ENV || 'development'
+);
+const isProd = process.env.NODE_ENV === 'production';
 /** @type {import('tailwindcss').Config} */
 module.exports = {
 	plugins: [require('@tailwindcss/typography'), require('daisyui')],
@@ -8,9 +14,7 @@ module.exports = {
 		'../../node_modules/daisyui/dist/**/*.js',
 		'../../node_modules/react-daisyui/dist/**/*.js',
 	],
-	safelist: process.env.NODE_ENV === 'development' 
-    ? [{ pattern: /.*/ }]
-    : [],
+	safelist: isProd ? [] : [{ pattern: /.*/ }],
 	theme: {
 		fontFamily: {
 			encode: ['Encode Sans', 'sans-serif'],

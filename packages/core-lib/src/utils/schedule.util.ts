@@ -40,7 +40,6 @@ export function checkIsDispensaryOpen(schedule: Schedule[]): boolean | null {
 }
 
 export function getNextScheduleDay(schedules: Schedule[]): Schedule | null {
-	console.info('schedules ', schedules);
 	const now = new Date();
 	const currentDayIndex = now.getDay(); // 0 (Sunday) to 6 (Saturday)
 	const currentTime = now.getHours() * 100 + now.getMinutes(); // HHMM format

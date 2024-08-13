@@ -1,10 +1,5 @@
-import app from '@/lib/app';
-import { clientPromise } from '@/lib/db';
-import env from '@/lib/env';
-import { NextPageWithLayout } from '@/lib/next.types';
-import { getSession } from '@/lib/session';
 import {
-	axios,
+	debounce,
 	fetcher,
 	keywords,
 	modalActions,
@@ -12,8 +7,11 @@ import {
 	renderAddress,
 	showDate,
 	showTime,
+	urlBuilder,
+	useEvent,
 } from '@cd/core-lib';
 import {
+	type Attendee,
 	type Event,
 	type EventComment,
 	getEvent,
@@ -30,12 +28,15 @@ import {
 	Page,
 	Paragraph,
 	Icons,
+	LoadingDots,
+	CheckBox,
 } from '@cd/ui-lib';
 import {
 	ArrowLeftIcon,
 	GlobeAmericasIcon,
 	ClockIcon,
 } from '@heroicons/react/24/solid';
+import axios from 'axios';
 import { motion } from 'framer-motion';
 import { type GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
@@ -50,7 +51,11 @@ import { toast } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import useSWR from 'swr';
 import RestrictPage from '@/components/shared/RestrictedPage';
+import app from '@/lib/app';
+import { clientPromise } from '@/lib/db';
+import env from '@/lib/env';
 import seoConfig from '@/lib/seo.config';
+import { getSession } from '@/lib/session';
 import { useIsLegalAge } from '@/lib/util';
 import hemp from '../../public/hemp.png';
 import { type SharedPageProps } from '../_app';
@@ -64,13 +69,17 @@ function EventPage({
 	event,
 	user,
 	isRouteChanging,
+	token,
 }: EventPageProps & { user: any }) {
-	console.info('event ', event);
+	// console.info('event ', event);
+	// console.info('user ', user);
 	const Router = useRouter();
 	const { t } = useTranslation('common');
 	const dispatch = useDispatch();
 
 	const { isLegalAge } = useIsLegalAge(user);
+	const { mutateEvent } = useEvent(event.id, token);
+	const [isPurchased, setIsPurchased] = useState(false);
 
 	function openLoginModal() {
 		dispatch(
@@ -99,16 +108,57 @@ function EventPage({
 		}
 	};
 
-	const sendUserRSVP = async ({ user }: { eventId: string; user: User }) => {
+	const sendUserRSVP = async ({
+		eventId,
+		user,
+	}: {
+		eventId: string;
+		user: User;
+	}) => {
 		try {
-			await axios.post(`/api/events/${event.id}/rsvp`, {
-				userId: user.id,
-				fullName: user.name,
-				username: user.username,
-			});
+			console.info('posting rsvp');
+			const response = await axios.post<any, any, Attendee>(
+				urlBuilder.shop + `/api/events/${eventId}/rsvp`,
+				{
+					id: user.id,
+					name: user.name,
+					image: user.image,
+					username: user.username || '',
+					rsvpDate: new Date().toISOString(),
+					isPurchased,
+				}
+			);
+			console.info('2');
+			mutateEvent();
 			toast.success(t('rsvp-success'));
 		} catch (error) {
 			console.error('Error RSVPing to event:', error);
+			toast.error(t('rsvp-failed'));
+		}
+	};
+
+	const updateRSVP = async ({
+		eventId,
+		user,
+	}: {
+		eventId: string;
+		user: User;
+	}) => {
+		try {
+			await axios.patch<any, any, Partial<Attendee>>(
+				`/api/events/${eventId}/rsvp`,
+				{
+					id: user.id,
+					image: user.image,
+					name: user.name,
+					username: user.username,
+					isPurchased,
+				}
+			);
+			mutateEvent();
+			toast.success(t('thank-you-attendee'));
+		} catch (error) {
+			console.error('Error updating rsvp:', error);
 			toast.error(t('rsvp-failed'));
 		}
 	};
@@ -152,7 +202,7 @@ function EventPage({
 						<H1 className="text-3xl md:text-5xl text-white drop-shadow-[0px_2px_2px_#666]">
 							{event.name}
 						</H1>
-						<Grid className="grid-cols-1 lg:grid-cols-4 gap-8 w-full">
+						<Grid className="grid-cols-1 lg:grid-cols-4 gap-x-8 gap-y-4 w-full">
 							<div className="flex flex-col lg:col-span-2 gap-4">
 								{isRouteChanging || (
 									<motion.div
@@ -175,11 +225,13 @@ function EventPage({
 								)}
 							</div>
 
-							<div className="space-y-4 lg:col-span-1">
+							<div className="space-y-4 px-2 lg:col-span-2 xl:col-span-1 lg:py-2">
 								<EventDetails />
 								<Summary />
 
-								{(event.tickets_url && <RSVP />) || <></>}
+								{(event.tickets_url && (
+									<RSVP attendees={event.attendees} />
+								)) || <></>}
 								<Share />
 							</div>
 
@@ -198,9 +250,9 @@ function EventPage({
 			<FlexBox className="flex-col gap-x-2 flex-wrap">
 				<FlexBox className="flex-row gap-2 items-center">
 					<GlobeAmericasIcon
-						height={20}
-						width={20}
-						className="text-inverse shrink-0"
+						height={28}
+						width={28}
+						className="text-light shrink-0"
 					/>
 					<Paragraph className="text-white font-medium whitespace-wrap">
 						{renderAddress({
@@ -216,7 +268,7 @@ function EventPage({
 					</Paragraph>
 				</FlexBox>
 				<FlexBox className="flex-row gap-2 items-center">
-					<ClockIcon height={20} width={20} className="text-inverse shrink-0" />
+					<ClockIcon height={28} width={28} className="text-light shrink-0" />
 					<Paragraph className="text-white font-medium whitespace-normal">
 						{`${showDate(event.start_date)} 
 						${showTime(event.start_time, event.timezone)} - 
@@ -251,33 +303,115 @@ function EventPage({
 		);
 	}
 
-	function RSVP() {
+	function RSVP({ attendees = [] }: { attendees: Attendee[] }) {
 		return (
-			<FlexBox className="flex-wrap flex-row gap-4">
-				<Button
-					onClick={rsvpEvent}
-					transparent
-					hover="accent-soft"
-					border
-					size="sm"
-					className="uppercase border-white border bg-transparent rounded-full gap-x-2 p-4"
-				>
-					<Paragraph className="text-white font-medium">{t('rsvp')}</Paragraph>
-				</Button>
+			<FlexBox className="text-light drop-shadow gap-y-4 pt-2">
+				<FlexBox className="gap-y-2">
+					<Paragraph>
+						{attendees.length > 0 ? `Who's Attending?` : `Be the first to RSVP`}
+					</Paragraph>
+					<FlexBox className="flex-row gap-6">
+						{(!attendees && <LoadingDots />) || (
+							<>
+								{attendees.slice(0, 3).map((user) => (
+									<FlexBox
+										key={`avatar-${user.id}`}
+										data-tip={user.username}
+										className="flex-col items-center gap-2 tooltip tooltip-dark"
+									>
+										<img
+											src={user.image}
+											alt={user.username}
+											width={50}
+											height={50}
+											className="rounded-full border-dark border-2"
+										/>
+										{/* <Image
+											src={user.image}
+											alt={user.username}
+											width={50}
+											height={50}
+											className="rounded-full"
+										/> */}
+										{/* <Paragraph>{user.username}</Paragraph> */}
+									</FlexBox>
+								))}
+								{/* <FlexBox className="flex-col w-[50px] h-[50px] items-center gap-2 tooltip tooltip-dark"> */}
+								{/* {(attendees?.findIndex((u) => u.id === user.id) !== -1 && (
+										<img
+											src={user.image}
+											alt={user.username}
+											width={50}
+											height={50}
+											className="rounded-full border-dark border-2"
+										/>
+									)) || (
+										<Button
+											onClick={rsvpEvent}
+											transparent
+											hover="accent-soft"
+											border
+											size="sm"
+											className="uppercase border-white border bg-transparent rounded-full gap-x-2 p-4"
+										>
+											<Paragraph className="text-white font-medium">
+												{t('rsvp')}
+											</Paragraph>
+										</Button>
+									)} */}
+								{/* <Image
+											src={user.image}
+											alt={user.username}
+											width={50}
+											height={50}
+											className="rounded-full"
+										/> */}
+								{/* <Paragraph>{user.username}</Paragraph> */}
+								{/* </FlexBox> */}
+							</>
+						)}
+					</FlexBox>
+				</FlexBox>
 
-				<Link href={`${event.tickets_url}`} target="_blank">
+				<FlexBox className="flex-wrap flex-row gap-4">
 					<Button
+						onClick={rsvpEvent}
 						transparent
-						hover="accent-soft"
+						hover="primary"
 						border
 						size="sm"
-						className="uppercase border-white border bg-transparent rounded-full gap-x-2 p-4"
+						className="hover:scale-105 uppercase border-white border bg-transparent rounded-full p-4"
 					>
 						<Paragraph className="text-white font-medium">
-							{t(`get-tickets`)}
+							{t('rsvp')}
 						</Paragraph>
 					</Button>
-				</Link>
+
+					<Link href={`${event.tickets_url}`} target="_blank">
+						<Button
+							transparent
+							hover="primary"
+							border
+							size="sm"
+							className="hover:scale-105 uppercase border-white border bg-transparent rounded-full p-4"
+						>
+							<Paragraph className="text-white font-medium">
+								{t(`get-tickets`)}
+							</Paragraph>
+						</Button>
+					</Link>
+				</FlexBox>
+				<CheckBox
+					checked={isPurchased}
+					onChange={() => {
+						setIsPurchased(!isPurchased);
+						debounce(updateRSVP({ eventId: event.id, user }), 2000);
+					}}
+					className="w-fit"
+					helperText={`Did you purchase a ticket?`}
+					label={isPurchased ? `I got 'em` : 'I need tickets'}
+					name="purchased"
+				/>
 			</FlexBox>
 		);
 	}
@@ -301,7 +435,6 @@ Come check it out! https://gras.live${window.location.pathname}
 						className="border-white border bg-transparent rounded-full w-fit h-fit p-0"
 					>
 						<Icons.TwitterFilled className="text-white shrink-0 h-16 w-16 lg:h-10 lg:w-10" />
-						{/* <Paragraph className="text-white">{`Share`}</Paragraph> */}
 					</Button>
 				</Link>
 			</FlexBox>

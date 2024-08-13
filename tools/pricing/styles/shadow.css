@@ -1,0 +1,26 @@
+.scale-shadow-container {
+    --shadow-x: 0px;
+    --shadow-y: 4px;
+    --shadow-blur: 6px;
+    --shadow-spread: 0px;
+    --shadow-color: rgba(0, 0, 0, 0.5);
+    
+    display: inline-block;
+    perspective: 1000px;
+    transition: all 0.15s ease-in-out;
+    transform: scale(1) translateZ(0);
+    filter: drop-shadow(var(--shadow-x) var(--shadow-y) var(--shadow-blur) var(--shadow-color));
+}
+
+@media (min-width: 768px) {
+    .scale-shadow-container:hover {
+        --shadow-x: 0px;
+        --shadow-y: 4px;
+        --shadow-blur: 10px;
+        --shadow-color: rgba(0, 0, 0, 0.5);
+        
+        transform: scale(1.05) translateZ(0);
+    }
+}
+
+  

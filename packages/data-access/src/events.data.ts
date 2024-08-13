@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { type MongoClient } from 'mongodb';
+import { type UpdateFilter, type MongoClient } from 'mongodb';
 import { db_namespace } from './db';
 import { metersToRadians, EARTH_RADIUS_METERS } from './helpers';
 import {
@@ -22,21 +22,64 @@ export const createManyEvents = async ({
 	return await client
 		.db(db)
 		.collection<Event>(collections.events)
-		.insertMany(
-			data.map((event) => {
-				// Ensure longitude and latitude are numbers
-				const longitude = parseFloat(event.primary_venue.address.longitude);
-				const latitude = parseFloat(event.primary_venue.address.latitude);
+		.aggregate<Event>([
+			{
+				$documents: data, // This stage is available in MongoDB 5.1+
+			},
+			{
+				$addFields: {
+					external_id: '$eventbrite_event_id',
+					id: '$_id',
+					'primary_venue.address.location': {
+						$cond: {
+							if: {
+								$and: [
+									{
+										$isNumber: {
+											$toDouble: '$primary_venue.address.longitude',
+										},
+									},
+									{
+										$isNumber: { $toDouble: '$primary_venue.address.latitude' },
+									},
+								],
+							},
+							then: [
+								{ $toDouble: '$primary_venue.address.longitude' },
+								{ $toDouble: '$primary_venue.address.latitude' },
+							],
+							else: null,
+						},
+					},
+					is_new: true,
+				},
+			},
+			{
+				$merge: {
+					into: collections.events, // Replace with your actual collection name
+					on: 'external_id', // Specify the field to match on
+					whenMatched: 'merge', // This will update existing documents
+					whenNotMatched: 'insert', // This will insert new documents
+				},
+			},
+		]);
+	// .insertMany(
+	// 	data.map((event) => {
+	// 		event.externalId = event.id;
 
-				// Set the location field
-				event.primary_venue.address.location = [longitude, latitude];
+	// 		// Ensure longitude and latitude are numbers
+	// 		const longitude = parseFloat(event.primary_venue.address.longitude);
+	// 		const latitude = parseFloat(event.primary_venue.address.latitude);
 
-				// TTL index 2 weeks
-				event.is_new = true;
+	// 		// Set the location field
+	// 		event.primary_venue.address.location = [longitude, latitude];
 
-				return event;
-			})
-		);
+	// 		// TTL index 2 weeks
+	// 		event.is_new = true;
+
+	// 		return event;
+	// 	},
+	// );
 };
 
 export const updateManyEvents = async ({
@@ -412,18 +455,52 @@ export const addEventAttendee = async ({
 	attendee,
 }: {
 	client: MongoClient;
-	where: { id: string };
+	where: { eventId: string };
 	attendee: Attendee;
 }) => {
 	const { db, collections } = db_namespace;
 	return await client
 		.db(db)
 		.collection<Event>(collections.events)
-		.updateOne(where, {
-			$push: {
-				attendees: attendee,
+		.updateOne(
+			{ id: where.eventId },
+			{
+				$push: {
+					attendees: {
+						$each: [attendee],
+					},
+				},
+				$setOnInsert: {
+					attendees: [],
+				},
+			}
+		);
+};
+
+export const updateEventAttendee = async ({
+	client,
+	where,
+	attendee,
+}: {
+	client: MongoClient;
+	where: { eventId: string };
+	attendee: UpdateFilter<Attendee>;
+}): Promise<void> => {
+	const { db, collections } = db_namespace;
+	await await client
+		.db(db)
+		.collection<Event>(collections.events)
+		.findOneAndUpdate(
+			{
+				id: where.eventId,
+				'attendees.id': attendee.id,
 			},
-		});
+			{
+				$set: {
+					'attendees.$': attendee,
+				},
+			}
+		);
 };
 
 export const deleteEvent = async ({

@@ -61,6 +61,7 @@ export type AppEvent =
 	| 'event.fetched'
 	| 'event.comment.created'
 	| 'event.rsvp.created'
+	| 'event.rsvp.updated'
 	| 'dispensaries.fetched'
 	| 'dispensary.dailyDeal.fetched'
 	| 'dispensary.dailyDeal.created'

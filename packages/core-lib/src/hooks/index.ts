@@ -4,6 +4,7 @@ export { default as useCheckHrefIncludes } from './useCheckHrefIncludes';
 export { default as useEncryptCookies } from './useEncryptCookies';
 export * from './useHash';
 export { default as useProductSearch } from './useProductSearch';
+export { default as useEvent } from './useEvent';
 export { default as useEvents } from './useEvents';
 export { default as useRandom } from './useRandom';
 export { default as useCanAccess } from './useCanAccess';

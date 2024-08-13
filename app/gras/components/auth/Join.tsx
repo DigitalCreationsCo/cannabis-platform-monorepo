@@ -32,7 +32,6 @@ const JoinUserSchema = Yup.object().shape({
 		.required()
 		.min(passwordPolicies.minLength)
 		.max(maxLengthPolicies.password),
-	team: Yup.string().required().min(3).max(maxLengthPolicies.team),
 });
 
 const Join = ({ recaptchaSiteKey }: JoinProps) => {
@@ -72,6 +71,7 @@ const Join = ({ recaptchaSiteKey }: JoinProps) => {
 			recaptchaRef.current?.reset();
 
 			if (!response.ok) {
+				console.debug('Error:', json.error.message);
 				toast.error(json.error.message);
 				return;
 			}

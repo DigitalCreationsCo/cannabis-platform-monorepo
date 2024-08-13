@@ -42,7 +42,7 @@ const rootReducer = combineReducers({
 			case SET_ENV:
 				return {
 					...state,
-					...action.payload,
+					...(action.payload || {}),
 				};
 			default:
 				return state;

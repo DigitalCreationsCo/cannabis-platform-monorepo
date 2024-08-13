@@ -1,7 +1,7 @@
-import app from '@/lib/app';
 import { FlexBox, GrasSignature, H2, Paragraph } from '@cd/ui-lib';
 import { useTranslation } from 'next-i18next';
 import Image from 'next/image';
+import app from '@/lib/app';
 
 interface AuthLayoutProps {
 	children: React.ReactNode;
@@ -18,7 +18,7 @@ export default function AuthLayout({
 
 	return (
 		<>
-			<div className="flex min-h-full flex-1 flex-col justify-center px-8 py-20 lg:px-8">
+			<div className="flex min-h-full flex-1 flex-col justify-center p-8 sm:py-20 lg:px-8">
 				<div className="sm:mx-auto sm:w-full sm:max-w-sm gap-y-2">
 					<FlexBox className="drop-shadow-lg flex-row items-center justify-self center content-center">
 						<Image

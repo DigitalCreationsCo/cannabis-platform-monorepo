@@ -1,10 +1,3 @@
-import { JoinWithInvitation, Join } from '@/components/auth';
-import GithubButton from '@/components/auth/GithubButton';
-import GoogleButton from '@/components/auth/GoogleButton';
-import { AuthLayout } from '@/components/layouts';
-import { authProviderEnabled } from '@/lib/auth';
-import env from '@/lib/env';
-import type { NextPageWithLayout } from '@/lib/next.types';
 import { LoadingPage, Paragraph } from '@cd/ui-lib';
 import {
 	type GetServerSidePropsContext,
@@ -14,11 +7,17 @@ import { useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { NextSeo } from 'next-seo';
-import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { type ReactElement, useEffect } from 'react';
 import toast from 'react-hot-toast';
+import { JoinWithInvitation, Join } from '@/components/auth';
+import GithubButton from '@/components/auth/GithubButton';
+import GoogleButton from '@/components/auth/GoogleButton';
+import { AuthLayout } from '@/components/layouts';
+import { authProviderEnabled } from '@/lib/auth';
+import env from '@/lib/env';
+import type { NextPageWithLayout } from '@/lib/next.types';
 import seoConfig from '@/lib/seo.config';
 
 const Signup: NextPageWithLayout<

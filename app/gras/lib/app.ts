@@ -2,9 +2,9 @@ import packageInfo from '../package.json';
 import env from './env';
 
 const url = env.appUrl;
-const title = 'Find cannabis-friendly experiences events at gras.live';
+const title = 'Find cannabis friendly events at Gras.Live';
 const description =
-	'Find the best flower, edibles, and dispensaries to celebrate cannabis near you. Order weed for delivery and pickup. View stores, events, and explore.';
+	'Discover the best events, flower, and shops to celebrate cannabis near you. Order online, find your faves and explore.';
 
 const app = {
 	version: packageInfo.version,

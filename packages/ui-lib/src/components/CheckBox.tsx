@@ -22,31 +22,34 @@ function CheckBox({
 	...inputProps
 }: CheckBoxProps) {
 	const styles = {
-		checkboxContainer: 'flex flex-row space-x-4 py-8 md:self-start w-full',
+		checkboxContainer:
+			'flex flex-row space-x-4 md:self-start w-full items-center',
 		helperText: error && 'input-error border-2',
 	};
 
 	return (
-		<div className={twMerge(styles.checkboxContainer, className)}>
-			<input
-				className="cursor-pointer bg-primary accent-primary-light"
-				style={{ minHeight: '30px', minWidth: '30px' }}
-				type="checkbox"
-				id={name}
-				// if the componenet breaks, remove name prop
-				name={name}
-				onChange={onChange}
-				{...inputProps}
-			/>
-			<FlexBox className={twMerge('flex-col w-full', styles.helperText)}>
-				{helperText && <LabelComponent>{helperText}</LabelComponent>}
+		<FlexBox
+			className={twMerge('flex-col w-full py-8 gap-y-2', styles.helperText)}
+		>
+			{helperText && <LabelComponent>{helperText}</LabelComponent>}
+			<div className={twMerge(styles.checkboxContainer, className)}>
+				<input
+					className="cursor-pointer bg-primary accent-primary-light"
+					style={{ minHeight: '30px', minWidth: '30px' }}
+					type="checkbox"
+					id={name}
+					// if the componenet breaks, remove name prop
+					name={name}
+					onChange={onChange}
+					{...inputProps}
+				/>
 				{label && (
 					<Label className="cursor-pointer w-full" htmlFor={name}>
 						<LabelComponent>{label}</LabelComponent>
 					</Label>
 				)}
-			</FlexBox>
-		</div>
+			</div>
+		</FlexBox>
 	);
 }
 

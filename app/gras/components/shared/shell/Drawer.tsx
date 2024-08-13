@@ -34,9 +34,9 @@ const Drawer = ({ sidebarOpen, setSidebarOpen }: DrawerProps) => {
 								</button>
 							</div>
 							<div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white dark:bg-black px-6 pb-4">
-								<Brand />
+								{/* <Brand />
 								<TeamDropdown />
-								<Navigation />
+								<Navigation /> */}
 							</div>
 						</div>
 					</div>
