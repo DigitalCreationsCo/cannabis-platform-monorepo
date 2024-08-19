@@ -1,6 +1,6 @@
 import { AccountLayout } from '@/components/layouts';
 import { type AppPropsWithLayout } from '@/lib/next.types';
-import { setEnv, wrapper } from '@/lib/store';
+import { wrapper } from '@/lib/store';
 import { Themer } from '@boxyhq/react-ui/shared';
 import { axios } from '@cd/core-lib';
 import CacheProvider from '@cd/core-lib/src/lib/cache';
@@ -9,7 +9,6 @@ import {
 	loadGoogleTagManager,
 } from '@cd/core-lib/src/lib/googletagmanager';
 import { loadHotJar } from '@cd/core-lib/src/lib/hotjar/hotjar-gras';
-import { loadSegment } from '@cd/core-lib/src/lib/segment';
 import {
 	ErrorBoundary,
 	LoadingPage,
@@ -24,7 +23,7 @@ import { appWithTranslation } from 'next-i18next';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { Provider as ReduxProvider, useDispatch } from 'react-redux';
+import { Provider as ReduxProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { SWRConfig } from 'swr';
 
@@ -60,18 +59,8 @@ function MyApp({
 	const { pageProps } = appProps;
 	const { session, ...props } = pageProps;
 
-	const dispatch = useDispatch();
 	const router = useRouter();
 	const [isRouteChanging, setIsRouteChanging] = useState(false);
-
-	// add env config to redux state
-	useEffect(() => {
-		async function initializeApp() {
-			const envConfig = await fetchEnvConfig();
-			dispatch(setEnv(envConfig));
-		}
-		initializeApp();
-	}, []);
 
 	useEffect(() => {
 		// Set up route change event listeners and update state
@@ -89,6 +78,15 @@ function MyApp({
 			router.events.off('routeChangeComplete', handleRouteChange);
 		};
 	}, [router]);
+
+	// // add env config to redux state
+	// useEffect(() => {
+	// 	async function initializeApp() {
+	// 		const envConfig = await fetchEnvConfig();
+	// 		dispatch(setEnv(envConfig));
+	// 	}
+	// 	initializeApp();
+	// }, []);
 
 	// Add mixpanel
 	// useEffect(() => {
@@ -178,4 +176,29 @@ function MyApp({
 	);
 }
 
-export default wrapper.withRedux(appWithTranslation<never>(MyApp));
+export default appWithTranslation<never>(MyApp);
+
+// Remaining code...
+
+// MyApp.getInitialProps = wrapper.getInitialAppProps(
+// 	(store) => async (context) => {
+// 		const appProps = await App.getInitialProps(context);
+
+// 		console.info('is server? ', typeof window === 'undefined');
+// 		console.info('store ', store);
+// 		// if (!cachedLeftNav) {
+// 		//   try {
+// 		// 	const response = await axios.get('/api/left-nav');
+// 		// 	cachedLeftNav = response?.data?.leftNav ?? null;
+// 		// 	store.dispatch(setLeftNav(cachedLeftNav));
+// 		//   } catch (error) {
+// 		// 	console.error('Failed to fetch left nav:', error);
+// 		// 	cachedLeftNav = null;
+// 		//   }
+// 		// }
+
+// 		return {
+// 			...appProps,
+// 		};
+// 	}
+// );

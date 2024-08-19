@@ -12,10 +12,10 @@ import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { toast } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
-import {
-	consumeCode,
-	resendCode,
-} from 'supertokens-auth-react/recipe/passwordless';
+// import {
+// 	consumeCode,
+// 	resendCode,
+// } from 'supertokens-auth-react/recipe/passwordless';
 import * as yup from 'yup';
 import Icons from '../../../icons';
 import Button from '../../button/Button/Button';
@@ -77,46 +77,46 @@ export default function EnterOTPForm({
 
 	async function handleOTPAndSignIn() {
 		try {
-			const response = await consumeCode({
-				userInputCode: values.passcode,
-			});
+			// const response = await consumeCode({
+			// 	userInputCode: values.passcode,
+			// });
 
-			if (!response) throw new Error('The driver was not found.');
+			// if (!response) throw new Error('The driver was not found.');
 
-			if (response.status === 'INCORRECT_USER_INPUT_CODE_ERROR') {
-				throw new Error(`Invalid passcode. Please try again.
-						  You have ${
-								response.maximumCodeInputAttempts -
-								response.failedCodeInputAttemptCount
-							} attempts left.`);
-			}
+			// if (response.status === 'INCORRECT_USER_INPUT_CODE_ERROR') {
+			// 	throw new Error(`Invalid passcode. Please try again.
+			// 			  You have ${
+			// 					response.maximumCodeInputAttempts -
+			// 					response.failedCodeInputAttemptCount
+			// 				} attempts left.`);
+			// }
 
-			if (response.status === 'EXPIRED_USER_INPUT_CODE_ERROR') {
-				throw new Error(`Invalid passcode. Please try again.
-						  You have ${
-								response.maximumCodeInputAttempts -
-								response.failedCodeInputAttemptCount
-							} attempts left.`);
-			}
+			// if (response.status === 'EXPIRED_USER_INPUT_CODE_ERROR') {
+			// 	throw new Error(`Invalid passcode. Please try again.
+			// 			  You have ${
+			// 					response.maximumCodeInputAttempts -
+			// 					response.failedCodeInputAttemptCount
+			// 				} attempts left.`);
+			// }
 
-			if (response.status === 'RESTART_FLOW_ERROR') {
-				console.error(response.status);
-				throw new Error('There was an error. Please try again.');
-			}
+			// if (response.status === 'RESTART_FLOW_ERROR') {
+			// 	console.error(response.status);
+			// 	throw new Error('There was an error. Please try again.');
+			// }
 
-			const { user, token } = (response as unknown as ConsumeCodeResponse)
-				.userFromDb;
+			// const { user, token } = (response as unknown as ConsumeCodeResponse)
+			// 	.userFromDb;
 
-			if (isLegalAgeAndVerified(user as User)) {
-				setCookie('is_legal_age', 'true');
-				console.debug('set is_legal_age cookie to true');
-			}
-			dispatch(
-				signInSyncAction({
-					token,
-					user: user as User,
-				})
-			);
+			// if (isLegalAgeAndVerified(user as User)) {
+			// 	setCookie('is_legal_age', 'true');
+			// 	console.debug('set is_legal_age cookie to true');
+			// }
+			// dispatch(
+			// 	signInSyncAction({
+			// 		token,
+			// 		user: user as User,
+			// 	})
+			// );
 			setLoadingButton(false);
 			toast.success(TextContent.account.SIGNING_IN, { duration: 5000 });
 			dispatchCloseModal();
@@ -154,7 +154,7 @@ export default function EnterOTPForm({
 		if (canSend) {
 			setCounter(15);
 			setCanSend(false);
-			resendCode();
+			// resendCode();
 			toast.success(`A one time passcode has been sent to ${inputValue}.`, {
 				duration: 5000,
 			});

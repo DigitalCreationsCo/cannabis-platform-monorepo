@@ -1,11 +1,10 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback } from 'react';
 import {
 	default as BaseCarousel,
 	type CarouselProps as BaseProps,
 } from 'react-multi-carousel';
-// import 'react-multi-carousel/lib/styles.css';
 import './Carousel.css';
-import { twMerge } from 'tailwind-merge';
+import MobileCarousel from './MobileCarousel';
 
 type CarouselItemComponent<DataType> = React.FC<{
 	data: DataType;
@@ -24,7 +23,7 @@ export default function Carousel<D>({
 	responsive,
 	...carouselProps
 }: CarouselProps<D>) {
-	return useMemo(
+	const renderCarousel = useCallback(
 		() => (
 			<>
 				<BaseCarousel
@@ -70,76 +69,15 @@ export default function Carousel<D>({
 				>
 					{items}
 				</BaseCarousel>
-				<SimpleCarousel className="md:hidden" items={items} />
 			</>
 		),
 		[items]
 	);
-}
-
-const SimpleCarousel = ({
-	className,
-	items,
-}: {
-	className?: string;
-	items: any[];
-}) => {
-	const [scrollPosition, setScrollPosition] = useState(0);
-	const carouselRef = useRef<any>(null);
-	const [touchStart, setTouchStart] = useState<number | null>(null);
-	const [isDragging, setIsDragging] = useState(false);
-
-	const onTouchStart = (e) => {
-		setTouchStart(e.targetTouches[0].clientX);
-		setIsDragging(true);
-	};
-
-	const onTouchMove = (e) => {
-		if (!isDragging) return;
-		const currentTouch = e.targetTouches[0].clientX;
-		const diff = touchStart! - currentTouch;
-		setScrollPosition((prev) => {
-			const newPosition = prev + diff;
-			const maxScroll =
-				carouselRef.current.scrollWidth - carouselRef.current.clientWidth;
-			return Math.max(0, Math.min(newPosition, maxScroll));
-		});
-		setTouchStart(currentTouch);
-	};
-
-	const onTouchEnd = () => {
-		setIsDragging(false);
-	};
-
-	useEffect(() => {
-		const carousel = carouselRef.current;
-		if (carousel) {
-			carousel.scrollLeft = scrollPosition;
-		}
-	}, [scrollPosition]);
 
 	return (
-		<div
-			className={twMerge(['relative overflow-hidden w-full h-fit', className])}
-		>
-			<div
-				ref={carouselRef}
-				className="flex h-full overflow-x-auto scrollbar-hide px-2"
-				style={{ scrollSnapType: 'none', scrollBehavior: 'auto' }}
-				onTouchStart={onTouchStart}
-				onTouchMove={onTouchMove}
-				onTouchEnd={onTouchEnd}
-			>
-				{items.map((item, index) => (
-					<div
-						key={index}
-						// className="w-full h-full flex-shrink-0 flex items-center justify-center bg-gray-200"
-						className="p-2 min-w-[188px]"
-					>
-						{item}
-					</div>
-				))}
-			</div>
-		</div>
+		<>
+			{renderCarousel()}
+			<MobileCarousel items={items} />
+		</>
 	);
-};
+}

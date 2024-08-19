@@ -118,6 +118,7 @@
     "@commitlint/cli": "17.6.5",
     "@commitlint/config-conventional": "17.6.5",
     "@formkit/auto-animate": "1.0.0-beta.6",
+    "@next/bundle-analyzer": "14.2.5",
     "@paralleldrive/cuid2": "2.2.1",
     "@reduxjs/toolkit": "2.2.1",
     "@storybook/addon-essentials": "8.1.5",
@@ -193,8 +194,6 @@
     "stripe": "15.3.0",
     "styled-components": "^6.1.12",
     "supertest": "6.3.3",
-    "supertokens-auth-react": "0.35.8",
-    "supertokens-node": "16.6.1",
     "swr": "2.2.5",
     "syncpack": "11.2.1",
     "tsx": "3.12.6",
@@ -212,7 +211,6 @@
   },
   "dependencies": {
     "global": "^4.4.0",
-    "storybook-addon-performance": "^0.17.3",
-    "supertokens-web-js": "0.8.0"
+    "storybook-addon-performance": "^0.17.3"
   }
 }

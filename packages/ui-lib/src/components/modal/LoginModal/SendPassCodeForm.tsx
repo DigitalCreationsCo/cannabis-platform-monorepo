@@ -2,7 +2,7 @@ import { TextContent, getFirstErrorOrNull } from '@cd/core-lib';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
-import { createCode } from 'supertokens-auth-react/recipe/passwordless';
+// import { createCode } from 'supertokens-auth-react/recipe/passwordless';
 import * as yup from 'yup';
 import Button from '../../button/Button/Button';
 import FlexBox from '../../FlexBox';
@@ -36,6 +36,7 @@ export default function SendOTPForm({
 
 	useEffect(() => {
 		const switchInputEmailOrPhone = () => {
+			// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 			values.emailOrPhone.match(/^\+?\d+$/g)
 				? setIsInputPhone(true)
 				: setIsInputPhone(false);
@@ -66,7 +67,7 @@ export default function SendOTPForm({
 				setLoading(true);
 				setInputValue(values.emailOrPhone);
 				if (isInputPhone) {
-					await createCode({ phoneNumber: values.emailOrPhone });
+					// await createCode({ phoneNumber: values.emailOrPhone });
 
 					toast.success(
 						TextContent.account.ONETIME_PASSCODE_SENT_MOBILE_f(
@@ -77,7 +78,7 @@ export default function SendOTPForm({
 						}
 					);
 				} else {
-					await createCode({ email: values.emailOrPhone });
+					// await createCode({ email: values.emailOrPhone });
 
 					toast.success(
 						TextContent.account.ONETIME_PASSCODE_SENT_EMAIL_f(

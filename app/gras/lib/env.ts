@@ -1,5 +1,7 @@
 import type { SessionStrategy } from 'next-auth';
 
+export type Env = typeof env;
+
 const env = {
 	databaseUrl: `${process.env.DATABASE_URL}`,
 	appUrl: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}`,

@@ -100,6 +100,7 @@ export default function Browse({
 	user: User;
 }) {
 	const { status } = useSession();
+
 	const { isLegalAge } = useIsLegalAge(user);
 
 	const { t } = useTranslation('common');
@@ -266,7 +267,7 @@ export default function Browse({
 				]}
 			/>
 
-			<RestrictPage showRestrictedContent={isLegalAge}>
+			<RestrictPage restrictContent={!isLegalAge}>
 				<Page
 					status={status}
 					id="browse-page"
@@ -278,7 +279,7 @@ export default function Browse({
 						<TopBar
 							className="sm:h-[68px] items-center"
 							SearchComponent={
-								<div className="flex flex-col xl:flex-row relative self-start z-10 gap-x-8 gap-y-1 w-fit xl:w-full">
+								<div className="flex flex-col xl:flex-row relative self-start z-10 gap-x-8 gap-y-1 w-96 sm:w-fit xl:w-full">
 									{/* TEST */}
 									{/* {`lookup city: ${lookupCity}`}
 							{`values.city: ${values.city}`}
@@ -296,7 +297,7 @@ export default function Browse({
 										])}
 									>
 										{/* {t('find-flower-events-dispensaries')} */}
-										{`Find events`}
+										{`Find 🔥 events`}
 										{/* <span className="hidden md:!inline">{`, activities`}</span> */}
 										{` and dispensaries`}
 										<span className="hidden sm:!inline">{` near you`}</span>
@@ -542,7 +543,7 @@ export default function Browse({
 
 							<div className="col-span-full">
 								<H2 className="col-span-full text-lg sm:!text-xl font-medium mt-2 px-2 md:px-4 sm:text-light leading-2 sm:drop-shadow-[0px_2px_0px_#555555] text-left">
-									🍍 Fresh from our blog
+									🍍 Reading Selection
 								</H2>
 								<Carousel
 									title="Fresh from the Blog"
@@ -588,7 +589,7 @@ export default function Browse({
 						</Grid>
 					</div>
 
-					<Footer className="bg-transparent bg-gradient-to-b from-transparent to-secondary" />
+					<Footer className="pt-24 md:pt-36 bg-transparent bg-gradient-to-b from-transparent to-secondary" />
 				</Page>
 			</RestrictPage>
 		</>

@@ -106,13 +106,13 @@ DispensaryLandingPage.getLayoutContext = (): LayoutContextProps => ({
 DispensaryLandingPage.getLayout = function getLayout(page: ReactElement) {
 	return (
 		<>
+			<ServicesTopBar />
 			<div className="bg-secondary-light text-inverse-soft py-1 cursor-default">
 				<H2 className="text-center font-semibold">
 					Create Hyper Growth For Your Dispensary With Customer Appeal and
 					Delivery
 				</H2>
 			</div>
-			<ServicesTopBar />
 			{page}
 			<Footer />
 		</>

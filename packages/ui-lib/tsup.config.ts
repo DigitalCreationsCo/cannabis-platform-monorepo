@@ -52,5 +52,6 @@ export default defineConfig((options) => ({
 		'aws4',
 		'@mongodb-js/zstd-darwin-arm64',
 		'@napi-rs',
+		'supertokens-auth-react/recipe/passwordless',
 	],
 }));

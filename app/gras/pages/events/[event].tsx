@@ -1,3 +1,7 @@
+import app from '@/lib/app';
+import { clientPromise } from '@/lib/db';
+import env from '@/lib/env';
+import { getSession } from '@/lib/session';
 import {
 	debounce,
 	fetcher,
@@ -51,11 +55,7 @@ import { toast } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import useSWR from 'swr';
 import RestrictPage from '@/components/shared/RestrictedPage';
-import app from '@/lib/app';
-import { clientPromise } from '@/lib/db';
-import env from '@/lib/env';
 import seoConfig from '@/lib/seo.config';
-import { getSession } from '@/lib/session';
 import { useIsLegalAge } from '@/lib/util';
 import hemp from '../../public/hemp.png';
 import { type SharedPageProps } from '../_app';
@@ -195,7 +195,7 @@ function EventPage({
 					},
 				]}
 			/>
-			<RestrictPage showRestrictedContent={isLegalAge}>
+			<RestrictPage restrictContent={!isLegalAge}>
 				<Page gradient="green">
 					<BackButton />
 					<FlexBox className="gap-y-4 max-w-screen-md lg:max-w-full lg:w-full">

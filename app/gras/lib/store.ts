@@ -21,7 +21,6 @@ import {
 	REHYDRATE,
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import { signOut } from 'supertokens-auth-react/recipe/session';
 
 const middlewares = [crashMiddleware, locationMiddleware, loggerMiddleware];
 
@@ -81,15 +80,10 @@ export const persistConfig =
 				storage,
 			};
 
-const supertokensArguments = () => {
-	return { signOut };
-};
-
 const makeStore = () => {
 	let store;
-	const thunkArguments: { store: Store | null; supertokens: any } = {
+	const thunkArguments: { store: Store | null } = {
 		store: null,
-		supertokens: supertokensArguments(),
 	};
 	const isClient = typeof window !== 'undefined';
 	if (isClient) {

@@ -7,24 +7,20 @@ import { type AxiosResponse } from 'axios';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { useCookies } from 'react-cookie';
 import { toast } from 'react-hot-toast';
 import * as yup from 'yup';
 import Button from './button/Button/Button';
 import Center from './Center';
-import FlexBox from './FlexBox';
 import TextField from './TextField';
-import { Paragraph } from './Typography';
 
 const Over21Button = ({
-	redirect = '/browse',
+	redirect = false,
 	onContinue,
 }: {
 	onContinue?: () => void;
-	redirect?: string;
+	redirect: false | string;
 }) => {
 	const router = useRouter();
-	const [cookie, setCookie] = useCookies(['is_legal_age', 'email']);
 	const [loading, setLoading] = useState(false);
 	const {
 		resetForm,
@@ -44,9 +40,10 @@ const Over21Button = ({
 		async onSubmit() {
 			try {
 				validateForm(values);
-
 				setLoading(true);
-				const response = await axios.post<
+
+				// dont await
+				const response = axios.post<
 					ResponseDataEnvelope<any>,
 					AxiosResponse<ResponseDataEnvelope<any>>,
 					{ email: string }
@@ -54,14 +51,19 @@ const Over21Button = ({
 					headers: { ...applicationHeaders },
 				});
 
-				setCookie('is_legal_age', 'true');
-				setCookie('email', values.email);
-				setLoading(false);
-				router.push(redirect);
-				resetForm();
+				document.cookie = `is_legal_age=true;`;
+				document.cookie = `email=${values.email};`;
 			} catch (error: any) {
 				setLoading(false);
 				toast.error(error.message);
+			} finally {
+				if (onContinue) {
+					onContinue();
+				}
+				if (redirect) {
+					router.push(redirect);
+				}
+				setLoading(false);
 			}
 		},
 	});
@@ -81,7 +83,7 @@ const Over21Button = ({
 			<Button
 				type="submit"
 				bg={'secondary-light'}
-				hover={'primary-light'}
+				hover={'secondary'}
 				className="p-8 text-2xl place-self-center w-full !rounded"
 				loading={loading}
 				disabled={loading}

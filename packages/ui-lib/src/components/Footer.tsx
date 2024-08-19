@@ -59,28 +59,14 @@ export default function Footer({
 				className
 			)}
 		>
-			<Grid className="overflow-x-hidden w-[277px] mx-auto mt-8 sm:mt-20 md:mt-5 grid md:w-3/4 max-w-screen-lg pb-16 lg:pb-0 grid-rows-auto gap-6 md:gap-10 lg:gap-4 md:grid-cols-4 lg:grid-cols-6 overflow-visible">
-				<div className="col-span-2">
-					<div className="flex w-full flex-col flex-wrap md:ml-0">
-						{navigation.map((item, index) => (
-							<FooterLink key={index} {...item} />
-						))}
-					</div>
-				</div>
-				<div className="col-span-2">
-					<div className="flex-col flex w-full flex-wrap lg:ml-0">
-						{legal.map((item, index) => (
-							<FooterLink key={index} {...item} />
-						))}
-					</div>
-				</div>
-				<div className="col-span-2 md:!col-span-4 lg:!col-span-2 md:!row-start-2 lg:!row-start-1 md:!col-start-1 lg:!col-start-5 row-span-3">
-					<FlexBox className="pb-4 justify-center flex-row items-center">
+			<Grid className="*:overflow-x-hidden w-[277px] mx-auto mt-8 sm:mt-20 md:mt-5 grid md:w-3/4 max-w-screen-lg pb-16 lg:pb-0 grid-rows-auto gap-y-2 lg:gap-x-6 grid-cols-2 md:grid-cols-4 lg:grid-cols-6 overflow-visible">
+				<div className="col-span-full lg:col-span-2 row-start-1 row-span-1">
+					<FlexBox className="px-4 pb-2 justify-start flex-row items-center">
 						<Link
 							href={getShopSite('/')}
 							//  className="z-10">
 							className={twMerge(
-								'z-10 flex flex-row gap-x-4 items-center',
+								'flex flex-row gap-x-4 items-center',
 								styles.shadow.logoShadow
 							)}
 						>
@@ -95,8 +81,30 @@ export default function Footer({
 							</GrasSignature>
 						</Link>
 					</FlexBox>
+				</div>
+				<div className="px-4 w-full row-start-2 col-span-3 lg:col-span-2">
+					<Paragraph color="light" className="font-medium lg:m-0 w-fit">
+						{TextContent.info.CANNABIS_DELIVERED}
+					</Paragraph>
+				</div>
 
-					<FlexBox className="mt-2 flex-row justify-center gap-x-8 text-inverse">
+				<div className="col-span-2 row-start-4 lg:col-start-3 lg:row-start-1 lg:row-span-4">
+					<div className="px-4 flex w-full flex-col flex-wrap md:ml-0">
+						{navigation.map((item, index) => (
+							<FooterLink key={index} {...item} />
+						))}
+					</div>
+				</div>
+				<div className="col-span-2 row-start-5 md:row-start-4 md:col-start-3 lg:col-start-5 lg:row-start-1 lg:row-span-4">
+					<div className="px-4 flex-col flex w-full flex-wrap lg:ml-0">
+						{legal.map((item, index) => (
+							<FooterLink key={index} {...item} />
+						))}
+					</div>
+				</div>
+
+				<div className="row-start-3 lg:row-start-3 col-span-2">
+					<FlexBox className="p-4 flex-row justify-start gap-x-8 text-inverse">
 						<a
 							href="https://twitter.com/gras_cannabis"
 							target="_blank"
@@ -134,22 +142,15 @@ export default function Footer({
 							<Linkedin />
 						</a>
 					</FlexBox>
-
-					<FlexBox className="mt-6 mx-auto max-w-sm md:font-medium">
+				</div>
+				<div className="row-start-6 lg:row-start-4 col-span-2">
+					<FlexBox className="px-4 mx-auto max-w-sm md:font-medium">
 						<Paragraph>
 							{TextContent.info.ABOUT_GRAS_2}
 							{TextContent.info.GRAS_MISSION_3}
 						</Paragraph>
 						<CopyRight className="md:font-medium" />
 					</FlexBox>
-				</div>
-				<div className="w-full row-start-1 md:!row-start-5 md:!col-start-1 lg:!row-start-4 lg:!col-start-5 col-span-2 md:col-span-full">
-					<Paragraph
-						color="light"
-						className="font-medium md:mx-auto lg:m-0 w-fit"
-					>
-						{TextContent.info.CANNABIS_DELIVERED}
-					</Paragraph>
 				</div>
 			</Grid>
 		</FlexBox>

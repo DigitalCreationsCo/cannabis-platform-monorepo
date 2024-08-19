@@ -18,9 +18,7 @@ function Hero({
 }) {
 	const { heading, largeHeading } = styles.HERO;
 	return (
-		<section
-			className={twMerge(['bg-inverse-soft', 'pt-0 px-4 md:pt-8', 'mx-auto'])}
-		>
+		<section className={twMerge(['bg-light', 'pt-0 px-4 md:pt-8'])}>
 			<div className="space-y-4 max-w-6xl mx-auto">
 				<div className="max-w-5xl mx-auto w-fit text-center xl:text-start">
 					{showPretext ? (

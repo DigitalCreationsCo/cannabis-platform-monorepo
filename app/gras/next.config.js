@@ -5,6 +5,9 @@ const { config: configEnv } = require('dotenv');
 const { expand } = require('dotenv-expand');
 const findUp = require('find-up');
 const workspaceRoot = path.join(__dirname, '../../');
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+	enabled: process.env.ANALYZE === 'true',
+});
 
 const _env =
 	process.env.NEXT_PUBLIC_IS_LOCAL_BUILD == '1'
@@ -13,8 +16,15 @@ const _env =
 
 const nrExternals = require('@newrelic/next/load-externals');
 
+const sentryWebpackPluginOptions = {
+	silent: true,
+	hideSourceMaps: true,
+};
+// Additional config options for the Sentry webpack plugin.
+// For all available options: https://github.com/getsentry/sentry-webpack-plugin#options.
+
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig = withBundleAnalyzer({
 	env: {
 		...expand(configEnv({ path: findUp.sync(`.env.${_env}`) })).parsed,
 		NEXT_PUBLIC_SHOP_APP_URL: process.env.NEXT_PUBLIC_SHOP_APP_URL,
@@ -22,6 +32,13 @@ const nextConfig = {
 		NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET_GRAS,
 	},
 	experimental: {
+		optimizePackageImports: [
+			'@newrelic/next',
+			'@retracedhq/logs-viewer',
+			'@retracedhq/retraced',
+			'sharp',
+			'boarding.js',
+		],
 		esmExternals: true,
 		outputFileTracingRoot: workspaceRoot,
 		// webpackBuildWorker: true,
@@ -116,9 +133,7 @@ const nextConfig = {
 			},
 		];
 	},
-	sentry: {
-		hideSourceMaps: true,
-	},
+
 	async headers() {
 		return [
 			{
@@ -140,11 +155,6 @@ const nextConfig = {
 			},
 		];
 	},
-};
+});
 
-// Additional config options for the Sentry webpack plugin.
-// For all available options: https://github.com/getsentry/sentry-webpack-plugin#options.
-const sentryWebpackPluginOptions = {
-	silent: true,
-};
 module.exports = withSentryConfig(nextConfig, sentryWebpackPluginOptions);
