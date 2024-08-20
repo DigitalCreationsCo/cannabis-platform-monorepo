@@ -4,8 +4,8 @@ import { createInvoice } from '@/lib/stripe';
 import { getCurrentUser } from '@/lib/user';
 import { createTeamSchema, validateWithSchema } from '@/lib/zod';
 import { slugify, ApiError, FreshSales } from '@cd/core-lib';
-import freshsales from '@cd/core-lib/src/crm/freshsales';
-import Twilio from '@cd/core-lib/src/sms/twilio';
+import freshsales from '@cd/core-lib/crm/freshsales';
+import Twilio from '@cd/core-lib/sms/twilio';
 import {
 	createDispensary,
 	type Dispensary,

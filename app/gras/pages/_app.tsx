@@ -3,12 +3,12 @@ import { type AppPropsWithLayout } from '@/lib/next.types';
 import { wrapper } from '@/lib/store';
 import { Themer } from '@boxyhq/react-ui/shared';
 import { axios } from '@cd/core-lib';
-import CacheProvider from '@cd/core-lib/src/lib/cache';
+import CacheProvider from '@cd/core-lib/lib/cache';
 import {
 	GTMTag,
 	loadGoogleTagManager,
-} from '@cd/core-lib/src/lib/googletagmanager';
-import { loadHotJar } from '@cd/core-lib/src/lib/hotjar/hotjar-gras';
+} from '@cd/core-lib/lib/googletagmanager';
+import { loadHotJar } from '@cd/core-lib/lib/hotjar/hotjar-gras';
 import {
 	ErrorBoundary,
 	LoadingPage,

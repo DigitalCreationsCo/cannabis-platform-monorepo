@@ -1,5 +1,5 @@
 import { type AppStore, modalReducer } from '@cd/core-lib';
-import { crashMiddleware, loggerMiddleware } from '@cd/core-lib/src/middleware';
+import { crashMiddleware, loggerMiddleware } from '@cd/core-lib/middleware';
 import {
 	combineReducers,
 	configureStore,

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { prependDialCode, throwIfNotAllowed } from '@cd/core-lib';
-import freshsales from '@cd/core-lib/src/crm/freshsales';
-import twilio from '@cd/core-lib/src/sms/twilio';
+import freshsales from '@cd/core-lib/crm/freshsales';
+import twilio from '@cd/core-lib/sms/twilio';
 import { updateDispensaryDailyDeal, type DailyDeal } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { clientPromise } from '@/lib/db';

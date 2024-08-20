@@ -1,7 +1,7 @@
 // /* eslint-disable @typescript-eslint/no-non-null-assertion */
 // // import { agent } from '@cd/ai';
 // import { agent, createAgentTask } from '@cd/ai';
-// import { BrevoMailer } from '@cd/core-lib/src/lib/brevo-mailer';
+// import { BrevoMailer } from '@cd/core-lib/lib/brevo-mailer';
 // import { type NextApiResponse } from 'next';
 // import nc from 'next-connect';
 // import { createClient } from 'next-sanity';

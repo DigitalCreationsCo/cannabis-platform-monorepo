@@ -1,5 +1,5 @@
 import { prependDialCode } from '@cd/core-lib';
-import freshsales, { leadSourceIds } from '@cd/core-lib/src/crm/freshsales';
+import freshsales, { leadSourceIds } from '@cd/core-lib/crm/freshsales';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import env from '@/lib/env';
 import { recordMetric } from '@/lib/metrics';

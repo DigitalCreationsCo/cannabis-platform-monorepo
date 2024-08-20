@@ -14,7 +14,7 @@ import {
 	logger,
 	createErrorLogger,
 	createRequestLogger,
-} from '@cd/core-lib/src/lib/logger';
+} from '@cd/core-lib/lib/logger';
 import { createAdapter } from '@socket.io/redis-adapter';
 import express from 'express';
 import { Server } from 'socket.io';
@@ -82,7 +82,7 @@ try {
 		if (text.match(/\b1\b/)) {
 			const client: Client =
 				await redisDispatchClientsController.getOneClientByPhone(
-					from.split('+1')[1],
+					from.split('+1')[1]
 				);
 			if (!isEmpty(client)) {
 				new ClusterInit().sendToWorker({
@@ -126,7 +126,7 @@ try {
 			console.info('phone ,', from.split('+1')[1]);
 			const client: Client =
 				await redisDispatchClientsController.getOneClientByPhone(
-					from.split('+1')[1],
+					from.split('+1')[1]
 				);
 			console.info('client retrieved using incoming sms message', client);
 			if (!isEmpty(client)) {
@@ -170,7 +170,7 @@ try {
 		if (text.match(/\byes\b/)) {
 			const client: Client =
 				await redisDispatchClientsController.getOneClientByPhone(
-					from.split('+1')[1],
+					from.split('+1')[1]
 				);
 			if (!isEmpty(client)) {
 				new ClusterInit().sendToWorker({
@@ -188,7 +188,7 @@ try {
 
 	global.io = new Server(httpServer);
 	global.io.adapter(
-		createAdapter(redisDispatchSockets, subscribeDispatchSockets),
+		createAdapter(redisDispatchSockets, subscribeDispatchSockets)
 	);
 	global.io.on('connection', function (socket) {
 		socket.emit(dispatchEvents.connection, {
@@ -223,15 +223,18 @@ try {
 	const port = process.env.SERVER_PORT || 6041;
 	httpServer.listen(port, () => {
 		console.info(
-			`  🚚 server-dispatch is in ${process.env.NODE_ENV} mode on port ${port}.`,
+			`  🚚 server-dispatch is in ${process.env.NODE_ENV} mode on port ${port}.`
 		);
 	});
 
 	// interval runs to delete vacant and completed rooms
 	// 5 minutes
-	setInterval(() => {
-		redisDispatchRoomsController.deleteClosedRooms();
-	}, 1000 * 60 * 5);
+	setInterval(
+		() => {
+			redisDispatchRoomsController.deleteClosedRooms();
+		},
+		1000 * 60 * 5
+	);
 } catch (error) {
 	console.error('server-dispatch error: ', error);
 	process.exit(1);

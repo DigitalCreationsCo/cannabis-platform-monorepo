@@ -1,5 +1,5 @@
 import { FreshSales, prependDialCode, slugify } from '@cd/core-lib';
-import { leadSourceIds } from '@cd/core-lib/src/crm/freshsales';
+import { leadSourceIds } from '@cd/core-lib/crm/freshsales';
 import { type ContactUsFormResponse } from '@cd/ui-lib';
 import { type NextApiRequest, type NextApiResponse } from 'next';
 

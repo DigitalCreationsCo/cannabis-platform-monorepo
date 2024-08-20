@@ -1,4 +1,4 @@
-import SMS from '@cd/core-lib/src/lib/sms';
+import SMS from '@cd/core-lib/lib/sms';
 import { findActiveDailyDeals, setExpiredDailyDeals } from '@cd/data-access';
 import { schedule } from 'node-cron';
 import {
@@ -63,7 +63,7 @@ export default class DailyDealScheduler {
 				//
 			});
 			console.info(
-				'Scheduled daily deal send task to start at ' + taskStartTime,
+				'Scheduled daily deal send task to start at ' + taskStartTime
 			);
 		} catch (error) {
 			console.error('runSendDailyDealsTask: ', error);
@@ -92,7 +92,7 @@ async function updateDailyDealsCache() {
 				console.error(
 					'updateDailyDealsCache encountered an error with deal ' + deal.id,
 					deal,
-					error,
+					error
 				);
 				throw new Error(error.message);
 			}

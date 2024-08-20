@@ -1,5 +1,5 @@
 import { dynamicBlurDataUrl, getGeoCoordinatesFromAddress } from '@cd/core-lib';
-// import { EmailService } from '@cd/core-lib/src/lib/email/EmailService';
+// import { EmailService } from '@cd/core-lib/lib/email/EmailService';
 import {
 	type Dispensary,
 	type OrganizationUpdateType,
@@ -28,7 +28,7 @@ export default class OrganizationController {
 			const organization: Dispensary = req.body;
 
 			const coordinates = await getGeoCoordinatesFromAddress(
-				organization.address,
+				organization.address
 			);
 
 			organization.address.coordinates = { ...coordinates };
@@ -194,7 +194,7 @@ export default class OrganizationController {
 			const data = await OrganizationDA.getOrganizationsByZipcode(
 				Number(zipcode),
 				Number(limit),
-				Number(radius),
+				Number(radius)
 			);
 			if (!data)
 				return res.status(404).json({

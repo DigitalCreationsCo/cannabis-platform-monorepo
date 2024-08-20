@@ -1,4 +1,4 @@
-import { type ModalStateProps } from '@cd/core-lib/src/reducer/modal.reducer';
+import { type ModalStateProps } from '@cd/core-lib/reducer/modal.reducer';
 import { useTranslation } from 'next-i18next';
 import { useEffect, useState } from 'react';
 import { Button } from '../button';

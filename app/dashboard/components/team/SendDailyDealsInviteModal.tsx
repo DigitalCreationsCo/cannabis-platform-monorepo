@@ -7,7 +7,7 @@ import {
 	TimeZoneMap,
 	getFirstErrorOrNull,
 } from '@cd/core-lib';
-// import { type CustomerSMSInvite } from '@cd/core-lib/src/sms/slicktext';
+// import { type CustomerSMSInvite } from '@cd/core-lib/sms/slicktext';
 import { type Dispensary } from '@cd/data-access';
 import {
 	Button,

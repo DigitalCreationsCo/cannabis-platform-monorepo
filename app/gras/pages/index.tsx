@@ -73,7 +73,7 @@ import EventCard from '@/components/shared/EventCard';
 // 	getFacebookLoginStatus,
 // 	initFacebookSdk,
 // 	fbLogin,
-// } from '@cd/core-lib/src/lib/facebookIG';
+// } from '@cd/core-lib/lib/facebookIG';
 import RestrictPage from '@/components/shared/RestrictedPage';
 import {
 	type Post,

@@ -4,7 +4,7 @@
 // import {
 // 	EmailService,
 // 	type NewsletterContent,
-// } from '@cd/core-lib/src/lib/email/EmailService';
+// } from '@cd/core-lib/lib/email/EmailService';
 // import { schedule } from 'node-cron';
 
 // export default class NewsletterScheduler {

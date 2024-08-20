@@ -1,5 +1,5 @@
 import { getGeoCoordinatesFromAddress } from '@cd/core-lib';
-// import { EmailService } from '@cd/core-lib/src/lib/email/EmailService';
+// import { EmailService } from '@cd/core-lib/lib/email/EmailService';
 import { type AddressPayload, type DriverCreateType } from '@cd/data-access';
 import { DriverDA } from '../data-access';
 
@@ -21,7 +21,7 @@ export default class DriverController {
 			const driverData = req.body as DriverCreateType;
 
 			const coordinates = await getGeoCoordinatesFromAddress(
-				driverData.address[0] as AddressPayload,
+				driverData.address[0] as AddressPayload
 			);
 			if (coordinates) driverData.address[0].coordinates = coordinates;
 
@@ -106,7 +106,7 @@ export default class DriverController {
 			console.info(
 				'successfully updated driverSession status ',
 				id,
-				onlineStatus,
+				onlineStatus
 			);
 			return res.status(200).json(data);
 		} catch (error: any) {

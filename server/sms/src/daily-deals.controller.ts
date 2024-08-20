@@ -7,7 +7,7 @@ import {
 	showTime,
 	getDailyDealProductsAndCalculateTotal,
 } from '@cd/core-lib';
-import SMS from '@cd/core-lib/src/lib/sms/sms.module';
+import SMS from '@cd/core-lib/lib/sms/sms.module';
 import {
 	type DailyDealCreateWithSkus,
 	findDailyDeal,
@@ -70,7 +70,7 @@ export class DailyDealsController {
 			const dailyDealCreateDataWithSkus: DailyDealCreateWithSkus = req.body;
 			const dailyDealWithProductDetails =
 				await getDailyDealProductsAndCalculateTotal(
-					dailyDealCreateDataWithSkus,
+					dailyDealCreateDataWithSkus
 				);
 			await createDailyDeal(dailyDealWithProductDetails);
 			console.debug(' Successfully created DailyDeal record.');
@@ -171,7 +171,7 @@ export class DailyDealsController {
 					phoneNumber,
 					numOrders,
 					deliveryTime,
-					order.deliveryDeadline,
+					order.deliveryDeadline
 				);
 				return res.status(200).json({
 					success: 'true',
@@ -225,7 +225,7 @@ async function processWeedTextOrder({
 
 		const createdOrder = await axios.post<OrderWithShopDetails>(
 			urlBuilder.main.orders(),
-			order,
+			order
 		);
 
 		// send ajax request for payment service to charge the customer's card
@@ -291,19 +291,19 @@ async function sendOrderConfirmationSMS(
 	phone: string,
 	numOrders: number,
 	deliveryTime: RequestedDeliveryTime,
-	etaTime: Date,
+	etaTime: Date
 ) {
 	SMS.send(
 		'new_order',
 		phone,
 		`Got it, you want ${numOrders}, delivered ${deliveryTime}.  We'll deliver to you by ${showTime(
-			etaTime,
-		)} We'll message you when it's on the way!`,
+			etaTime
+		)} We'll message you when it's on the way!`
 	);
 }
 
 const isValidWeedTextOrderRequest = async (
-	body: Record<string, any>,
+	body: Record<string, any>
 ): Promise<DailyDealWithOrganization | false> => {
 	try {
 		// check body for required fields
@@ -345,7 +345,7 @@ function isOrderPlacedAtAValidTime(date: any, deal: DailyDeal) {
 }
 
 const getCacheDailyDeal = async (
-	dealId: string,
+	dealId: string
 ): Promise<DailyDealWithOrganization | false> => {
 	// get dailydeal from memory cache
 	let dailyDeal = await dailyDealCache.get<DailyDealWithOrganization>(dealId);
@@ -371,8 +371,8 @@ export const getAllCacheDailyDeals = async (): Promise<
 	// get dailydeal from memory cache
 	let dailyDeals = Object.values(
 		await dailyDealCache.mget<DailyDealWithOrganization>(
-			await dailyDealCache.keys(),
-		),
+			await dailyDealCache.keys()
+		)
 	);
 	if (!dailyDeals.length || dailyDeals.length === 0) {
 		// get dailydeal from redis
@@ -390,7 +390,7 @@ export const getAllCacheDailyDeals = async (): Promise<
 					console.error(
 						'getAllCacheDailyDeals encountered an error with deal ' + deal.id,
 						deal,
-						error,
+						error
 					);
 					throw new Error(error.message);
 				}

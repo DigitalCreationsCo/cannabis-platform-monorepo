@@ -1,12 +1,12 @@
 import { wrapper } from '@/lib/store';
 import { Themer } from '@boxyhq/react-ui/shared';
-import { loadBrevoChat } from '@cd/core-lib/src/lib/brevoChat';
+import { loadBrevoChat } from '@cd/core-lib/lib/brevoChat';
 import {
 	GTMTag,
 	loadGoogleTagManager,
-} from '@cd/core-lib/src/lib/googletagmanager';
-import { loadHotJar } from '@cd/core-lib/src/lib/hotjar/hotjar-dashboard';
-import { loadSegment } from '@cd/core-lib/src/lib/segment';
+} from '@cd/core-lib/lib/googletagmanager';
+import { loadHotJar } from '@cd/core-lib/lib/hotjar/hotjar-dashboard';
+import { loadSegment } from '@cd/core-lib/lib/segment';
 import {
 	LoadingPage,
 	ModalProvider,

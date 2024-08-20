@@ -1,4 +1,4 @@
-import Freshsales, { leadSourceIds } from '@cd/core-lib/src/crm/freshsales';
+import Freshsales, { leadSourceIds } from '@cd/core-lib/crm/freshsales';
 import { type NextApiRequest, type NextApiResponse } from 'next';
 
 export default async function handler(

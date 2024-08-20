@@ -4,7 +4,7 @@ import {
 	isArray,
 	normalizeUserData,
 } from '@cd/core-lib';
-// import { EmailService } from '@cd/core-lib/src/lib/email/EmailService';
+// import { EmailService } from '@cd/core-lib/lib/email/EmailService';
 import { type AddressCreateType } from '@cd/data-access';
 import { ShopDA, UserDA } from '../data-access';
 
@@ -83,7 +83,7 @@ export default class UserController {
 			const data = await UserDA.createDispensaryStaffUser(
 				user,
 				role,
-				dispensaryId,
+				dispensaryId
 			);
 			if (!data)
 				return res.status(404).json({
@@ -112,7 +112,7 @@ export default class UserController {
 			const data = await UserDA.updateDispensaryStaffUser(
 				user,
 				role,
-				dispensaryId,
+				dispensaryId
 			);
 			if (!data)
 				return res.status(404).json({
@@ -138,7 +138,7 @@ export default class UserController {
 			console.log('update user: ', userData);
 			if (!isArray(userData.address)) {
 				const coordinates = await getGeoCoordinatesFromAddress(
-					userData.address,
+					userData.address
 				);
 				if (coordinates) userData.address.coordinates = coordinates;
 			}

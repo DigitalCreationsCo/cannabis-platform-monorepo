@@ -1,4 +1,4 @@
-import CacheProvider from '@cd/core-lib/src/lib/cache';
+import CacheProvider from '@cd/core-lib/lib/cache';
 import React from 'react';
 import { SWRConfig } from 'swr';
 import AppShell from '../shared/shell/AppShell';
