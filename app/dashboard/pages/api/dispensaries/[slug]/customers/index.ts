@@ -1,10 +1,10 @@
-import { recordMetric } from '@/lib/metrics';
-import { sendAudit } from '@/lib/retraced';
 import { FreshSales, prependDialCode, throwIfNotAllowed } from '@cd/core-lib';
-import freshsales from '@cd/core-lib/src/crm/freshsales';
+import freshsales, { leadSourceIds } from '@cd/core-lib/src/crm/freshsales';
 import { type Customer } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
+import { recordMetric } from '@/lib/metrics';
+import { sendAudit } from '@/lib/retraced';
 
 export default async function handler(
 	req: NextApiRequest,
@@ -67,24 +67,21 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 	} = req.body as Customer;
 
 	// create crm contact
-	const insertedCustomer = await freshsales.upsertContact(
-		{
-			first_name,
-			last_name,
-			mobile_number: prependDialCode(mobile_number),
-			email,
-			address: address!,
-			city,
-			state,
-			country: country!,
-			zipcode,
-			custom_field: { birthdate, segment },
-		},
-		{
-			medium: teamMember.team.name,
-			keyword: 'customer',
-		}
-	);
+	const insertedCustomer = await freshsales.upsertContact({
+		first_name,
+		last_name,
+		mobile_number: prependDialCode(mobile_number),
+		email,
+		address: address!,
+		city,
+		state,
+		country: country!,
+		zipcode,
+		custom_field: { birthdate, segment },
+		lead_source_id: leadSourceIds.web,
+		medium: teamMember.team.name,
+		keyword: 'customer',
+	});
 
 	// add customer to dispensary segment
 	await freshsales.addCustomersToSegment(teamMember.team.weedTextSegmentId!, [

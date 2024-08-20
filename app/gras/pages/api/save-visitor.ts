@@ -1,4 +1,4 @@
-import Freshsales from '@cd/core-lib/src/crm/freshsales';
+import Freshsales, { leadSourceIds } from '@cd/core-lib/src/crm/freshsales';
 import { type NextApiRequest, type NextApiResponse } from 'next';
 
 export default async function handler(
@@ -27,8 +27,15 @@ export default async function handler(
 	}
 }
 
-const handlePOST = async (req: any, res: any) => {
+const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { email } = req.body as { email: string };
-	const payload = await Freshsales.createContact({ email });
+	const payload = await Freshsales.createContact({
+		email,
+		lead_source_id: leadSourceIds.web,
+		medium: `${req.query['utm_source']}` || 'organic',
+		keyword: ['user', req.query['utm_campaign'], req.query['utm_term']].join(
+			','
+		),
+	});
 	res.json({ success: 'true', payload });
 };

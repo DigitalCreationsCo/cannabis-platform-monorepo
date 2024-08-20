@@ -5,6 +5,24 @@ import { slugify } from '../utils/common.util';
 import { prependDialCode } from '../utils/phone.util';
 import { urlBuilder } from '../utils/urlBuilder';
 
+export const leadSourceIds = {
+	web: 26000997166,
+	organic: 26000997167,
+	email: 26000997168,
+	phone: 26000997169,
+	chat: 26000997170,
+	'web-form': 26000997171,
+	referral: 26000997172,
+	direct: 26000997173,
+	paid: 26000997174,
+	blog: 26000997175,
+	social: 26000997176,
+	ad: 26000997177,
+	events: 26000997178,
+	webinar: 26000997179,
+	'facebook-form': 26001071357,
+};
+
 class FreshSales {
 	private key: string;
 	private FRESHSALES_ADMIN_USERID = 26004178205;
@@ -21,7 +39,6 @@ class FreshSales {
 		account: Partial<FreshSalesAccountParameters>
 	): Promise<string> {
 		try {
-			console.trace('create crm account');
 			const response = await axios.post(
 				urlBuilder.freshSales.createAccount(),
 				{
@@ -61,7 +78,6 @@ class FreshSales {
 		account: Partial<FreshSalesAccountParameters>
 	): Promise<string> {
 		try {
-			console.trace('upsert crm account');
 			const response = await axios.post(
 				urlBuilder.freshSales.upsertAccount(),
 				{
@@ -97,19 +113,22 @@ class FreshSales {
 		}
 	}
 
-	async createContact(
-		contact: Partial<FreshSalesContactParameters>
-	): Promise<FreshSalesContactParameters> {
+	async createContact({
+		lead_source_id = leadSourceIds['organic'],
+		medium = '',
+		keyword = 'user',
+		...contact
+	}: Partial<FreshSalesContactParameters>): Promise<FreshSalesContactParameters> {
 		try {
 			console.info('create contact');
 			const response = await axios.post<any>(
 				urlBuilder.freshSales.createContact(),
 				{
 					contact: {
-						lead_source_id: null,
-						medium: 'new-visitor',
-						keyword: 'visitor',
 						...contact,
+						lead_source_id,
+						medium,
+						keyword,
 						country: contact.country ?? 'US',
 					},
 				},
@@ -135,17 +154,12 @@ class FreshSales {
 		}
 	}
 
-	async upsertContact(
-		contact: Partial<Customer> & {
-			work_number?: string;
-			job_title?: string;
-			address?: string;
-			country?: string;
-			medium?: string;
-			keyword?: string;
-		},
-		{ medium = 'new-visitor', ...attribution }: FreshSalesAttribution
-	): Promise<string> {
+	async upsertContact({
+		lead_source_id = leadSourceIds['organic'],
+		medium = '',
+		keyword = 'user',
+		...contact
+	}: Partial<Customer> & FreshSalesAttribution): Promise<string> {
 		try {
 			const response = await axios.post<
 				any,
@@ -167,10 +181,10 @@ class FreshSales {
 						email: contact.email,
 						first_name: contact.first_name || '',
 						last_name: contact.last_name || '',
-						lead_source_id: undefined,
 						owner_id: this.FRESHSALES_ADMIN_USERID,
 						medium,
-						...attribution,
+						keyword,
+						lead_source_id,
 					} as any,
 				},
 				{

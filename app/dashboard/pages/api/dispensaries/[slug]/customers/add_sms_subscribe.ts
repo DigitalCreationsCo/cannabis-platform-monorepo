@@ -1,9 +1,14 @@
 import { prependDialCode } from '@cd/core-lib';
-import freshsales from '@cd/core-lib/src/crm/freshsales';
-import { type Customer } from '@cd/data-access';
+import freshsales, { leadSourceIds } from '@cd/core-lib/src/crm/freshsales';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import env from '@/lib/env';
 import { recordMetric } from '@/lib/metrics';
+
+/*
+ * This route is called by Twilio Optin functions
+ * @see file:///Users/vibrantceo/cannabis-platform-monorepo/twilio/optin-demo/functions/optin.protected.js
+ * @see file:///Users/vibrantceo/cannabis-platform-monorepo/twilio/sms-broadcast/functions/optin.protected.js
+ */
 
 export default async function handler(
 	req: NextApiRequest,
@@ -47,21 +52,18 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 		keyword: string;
 	};
 
-	console.info('req.body', req.body);
-
 	// refactor to get customer from all contacts view
 	// const customer = await await freshsales.getContactByMobileNumber(
 	// 	fromNumber,
 	// 	segment
 	// );
 
-	const customerId = await freshsales.upsertContact(
-		{
-			mobile_number: prependDialCode(fromNumber),
-			sms_subscription_status: 1,
-		},
-		{ medium: 'sms', keyword }
-	)!;
+	const customerId = await freshsales.upsertContact({
+		lead_source_id: leadSourceIds.phone,
+		keyword,
+		mobile_number: prependDialCode(fromNumber),
+		sms_subscription_status: 1,
+	})!;
 
 	await freshsales.addCustomersToSegment(segment, [customerId.toString()]);
 

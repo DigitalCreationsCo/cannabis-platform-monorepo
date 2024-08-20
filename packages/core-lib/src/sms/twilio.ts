@@ -54,21 +54,43 @@ class Twilio {
 		});
 	}
 
-	async inviteCustomer(to: string, text: string) {
-		this.t.messages
-			.create({
-				body: text,
-				messagingServiceSid: this.inviteServiceSide,
-				to,
-			})
-			.then((message) => {
-				console.log('TWILIO - invite to: ', to);
-				console.log('TWILIO - status: ', message.status);
-			})
-			.catch((error) => {
-				console.error('TWILIO - invite ERROR: ', error);
-				throw new Error(error);
-			});
+	async inviteCustomer(from: string, to: string, text: string) {
+		if (!from) {
+			console.info('TWILIO - inviteCustomer: from number not provided');
+			console.info('TWILIO - inviteCustomer: using default number');
+			console.info('TWILIO - Sending message: ', text);
+
+			this.t.messages
+				.create({
+					body: text,
+
+					messagingServiceSid: this.inviteServiceSide,
+					to,
+				})
+				.then((message) => {
+					console.log('TWILIO - invite to: ', to);
+					console.log('TWILIO - status: ', message.status);
+				})
+				.catch((error) => {
+					console.error('TWILIO - invite ERROR: ', error);
+					throw new Error(error);
+				});
+		} else {
+			this.t.messages
+				.create({
+					body: text,
+					from,
+					to,
+				})
+				.then((message) => {
+					console.log('TWILIO - invite to: ', to);
+					console.log('TWILIO - status: ', message.status);
+				})
+				.catch((error) => {
+					console.error('TWILIO - invite ERROR: ', error);
+					throw new Error(error);
+				});
+		}
 	}
 
 	async provisionSMSPhoneNumber(team: Dispensary): Promise<string> {

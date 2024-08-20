@@ -35,7 +35,11 @@ const Over21Button = ({
 		initialValues: { email: '' },
 		validateOnChange: false,
 		validationSchema: yup.object().shape({
-			email: yup.string().email().required('Enter your email'),
+			email: yup
+				.string()
+				.email()
+				.length(15, 'Your email is too short.')
+				.required('Enter your email'),
 		}),
 		async onSubmit() {
 			try {
@@ -71,6 +75,7 @@ const Over21Button = ({
 	return (
 		<Center className="w-full !p-0 !py-4 space-y-4">
 			<TextField
+				minLength={15}
 				type="email"
 				containerClassName="w-full"
 				name="email"

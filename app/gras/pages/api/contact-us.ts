@@ -1,4 +1,5 @@
 import { FreshSales, prependDialCode, slugify } from '@cd/core-lib';
+import { leadSourceIds } from '@cd/core-lib/src/crm/freshsales';
 import { type ContactUsFormResponse } from '@cd/ui-lib';
 import { type NextApiRequest, type NextApiResponse } from 'next';
 
@@ -30,7 +31,11 @@ export default async function handler(
 	}
 }
 
-const handlePOST = async (req: any, res: any) => {
+/*
+ * Save Contact and Account in FreshSales
+ * Internal emails and customer journeys are handled in crm workflows
+ */
+const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 	const {
 		firstName,
 		lastName,
@@ -70,36 +75,30 @@ const handlePOST = async (req: any, res: any) => {
 		},
 	});
 
-	// upsert contact
-	await FreshSales.upsertContact(
-		{
-			first_name: firstName,
-			last_name: lastName,
-			job_title: title,
-			email: fromEmail,
-			mobile_number: prependDialCode(phone),
-			work_number: prependDialCode(phone),
-			address: street,
-			city,
-			state,
-			zipcode,
-			country: 'United_States',
-			medium: 'contact-us-form',
-			keyword: 'growth',
-			custom_field: {
-				company: company,
-			},
+	await FreshSales.upsertContact({
+		first_name: firstName,
+		last_name: lastName,
+		job_title: title,
+		email: fromEmail,
+		mobile_number: prependDialCode(phone),
+		work_number: prependDialCode(phone),
+		address: street,
+		city,
+		state,
+		zipcode,
+		country: 'United_States',
+		custom_field: {
+			company: company,
 		},
-		{
-			sales_accounts: [{ id: accountId, is_primary: true }],
-			owner_id: FRESHSALES_ADMIN_USERID,
-			lead_source_id: undefined,
-			subscription_types: `${subscribeCannabisInsiderNewsletter ? 4 : 0};1;2;3;`,
-			keyword: 'dispensary lead',
-		}
-	);
-
-	// Internal emails and customer journeys are handled in crm workflows
+		sales_accounts: [{ id: accountId, is_primary: true }],
+		owner_id: FRESHSALES_ADMIN_USERID,
+		subscription_types: `${subscribeCannabisInsiderNewsletter ? 4 : 0};1;2;3;`,
+		lead_source_id: leadSourceIds['web-form'],
+		medium: `${req.query['utm_source'] || 'direct'}`, // get from utm params
+		keyword: ['lead', req.query['utm_campaign'], req.query['utm_term']].join(
+			','
+		),
+	});
 
 	return res.status(201).json({ success: 'true' });
 };

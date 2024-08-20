@@ -3,6 +3,12 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import env from '@/lib/env';
 import { recordMetric } from '@/lib/metrics';
 
+/*
+ * This route is called by Twilio Optin functions
+ * @see file:///Users/vibrantceo/cannabis-platform-monorepo/twilio/optin-demo/functions/optin.protected.js
+ * @see file:///Users/vibrantceo/cannabis-platform-monorepo/twilio/sms-broadcast/functions/optin.protected.js
+ */
+
 export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse

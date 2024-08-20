@@ -1,7 +1,7 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { prependDialCode, throwIfNotAllowed } from '@cd/core-lib';
-import freshsales from '@cd/core-lib/src/crm/freshsales';
+import freshsales, { leadSourceIds } from '@cd/core-lib/src/crm/freshsales';
 import twilio from '@cd/core-lib/src/sms/twilio';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
@@ -65,21 +65,19 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 
 	const mobile_number = prependDialCode(phone);
 
-	const insertedCustomer = await freshsales.upsertContact(
-		{
-			first_name,
-			last_name,
-			mobile_number,
-			email,
-			city,
-			state,
-			zipcode,
-			custom_field: { birthdate },
-		},
-		{
-			keyword: teamMember.teamSlug,
-		}
-	);
+	const insertedCustomer = await freshsales.upsertContact({
+		first_name,
+		last_name,
+		mobile_number,
+		email,
+		city,
+		state,
+		zipcode,
+		custom_field: { birthdate },
+		lead_source_id: leadSourceIds.web,
+		medium: teamMember.team.name,
+		keyword: 'customer',
+	});
 
 	await freshsales.addCustomersToSegment(teamMember.team.weedTextSegmentId!, [
 		insertedCustomer,
@@ -87,7 +85,11 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 
 	recordMetric('dispensary.customer.created');
 
-	await twilio.inviteCustomer(mobile_number, doubleOptInMessage);
+	await twilio.inviteCustomer(
+		teamMember.team.weedTextPhoneNumber!,
+		mobile_number,
+		doubleOptInMessage
+	);
 	// recordMetric('dispensary.message.sent');
 	// set up stripe metering
 
