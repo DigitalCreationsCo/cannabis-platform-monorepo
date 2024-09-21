@@ -15,6 +15,7 @@ import {
 	TogglePasswordVisibility,
 	GoogleReCAPTCHA,
 } from '@cd/ui-lib';
+import { loadHotJar } from '@cd/core-lib/lib/hotjar/hotjar-dashboard';
 import { unlockYourGrowth } from '@cd/ui-lib/src/components/landing/benefits/benefit-data';
 import { useFormik } from 'formik';
 import type {
@@ -131,6 +132,7 @@ const Login: NextPageWithLayout<
 
 	return (
 		<>
+		{loadHotJar()}
 			<SEOMetaTags
 				title={`${t('log-in-to-business-account')} | ${t('dispensary-success-services')}`}
 			/>
