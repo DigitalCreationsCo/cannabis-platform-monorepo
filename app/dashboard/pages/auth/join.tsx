@@ -1,4 +1,5 @@
 import { LoadingPage, Paragraph } from '@cd/ui-lib';
+import { loadHotJar } from '@cd/core-lib/lib/hotjar/hotjar-dashboard';
 import {
 	type GetServerSidePropsContext,
 	type InferGetServerSidePropsType,
@@ -52,6 +53,7 @@ const Signup: NextPageWithLayout<
 			<AuthLayout heading="get-started" description="create-a-business-account">
 				<Head>
 					<title>{t('create-a-business-account')}</title>
+					{loadHotJar()}
 				</Head>
 				<div className="text-dark rounded p-6 bg-inverse drop-shadow">
 					<div className="flex gap-2 flex-wrap">
