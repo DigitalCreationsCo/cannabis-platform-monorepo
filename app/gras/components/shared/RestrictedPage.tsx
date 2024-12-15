@@ -1,19 +1,16 @@
 import { useScrollLock } from '@cd/ui-lib';
 import { AnimatePresence } from 'framer-motion';
-import dynamic from 'next/dynamic';
 import { useEffect, type CSSProperties, type PropsWithChildren } from 'react';
+import BlockRestrictedContent from '@/components/shared/RestrictedContentModal';
 
 interface RestrictPageProps {
-	restrictContent?: boolean;
-	setBlockRestrictedContent?: (boolean) => void;
+	showContent?: boolean;
+	setShowRestrictedContent?: (boolean) => void;
 }
 
-const BlockRestrictedContent = dynamic(() =>
-	import('./RestrictedContentModal').then((mod) => mod.default)
-);
 export default function RestrictPage({
-	restrictContent = true,
-	setBlockRestrictedContent,
+	showContent = true,
+	setShowRestrictedContent,
 	...props
 }: PropsWithChildren<RestrictPageProps>) {
 	const blurRestrictedContent: CSSProperties = {
@@ -21,23 +18,23 @@ export default function RestrictPage({
 		maxHeight: '100%',
 		overflow: 'hidden',
 		content: '""',
-		pointerEvents: restrictContent ? 'none' : 'auto',
-		filter: restrictContent ? 'blur(5px)' : 'none',
+		pointerEvents: !showContent ? 'none' : 'auto',
+		filter: !showContent ? 'blur(5px)' : 'none',
 	};
 
-	const { lock, unlock } = useScrollLock();
+	// const { lock, unlock } = useScrollLock();
 
-	useEffect(() => {
-		if (restrictContent !== true) {
-			unlock();
-		}
-	}, [restrictContent]);
+	// useEffect(() => {
+	// 	if (showContent === true) {
+	// 		unlock();
+	// 	}
+	// }, [showContent]);
 
 	return (
 		<AnimatePresence>
-			{restrictContent && (
+			{!showContent && (
 				<BlockRestrictedContent
-					setBlockRestrictedContent={setBlockRestrictedContent}
+					setShowRestrictedContent={setShowRestrictedContent}
 				/>
 			)}
 			<div

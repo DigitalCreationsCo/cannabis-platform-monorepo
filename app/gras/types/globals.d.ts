@@ -14,9 +14,6 @@ interface Window {
 	// Cal
 	Cal: any;
 
-	// new relic
-	newrelic: any;
-
 	// brevo
 	BrevoConversationsID?: string;
 	BrevoConversations?: any;

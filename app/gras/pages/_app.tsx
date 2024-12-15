@@ -1,14 +1,7 @@
-import { AccountLayout } from '@/components/layouts';
-import { type AppPropsWithLayout } from '@/lib/next.types';
-import { wrapper } from '@/lib/store';
 import { Themer } from '@boxyhq/react-ui/shared';
-import { axios } from '@cd/core-lib';
+import { axios } from '@cd/core-lib/axiosInstance';
+import { GTMTag, loadGoogleTagManager, loadHotJar } from '@cd/core-lib/lib';
 import CacheProvider from '@cd/core-lib/lib/cache';
-import {
-	GTMTag,
-	loadGoogleTagManager,
-} from '@cd/core-lib/lib/googletagmanager';
-import { loadHotJar } from '@cd/core-lib/lib/hotjar/hotjar-gras';
 import {
 	ErrorBoundary,
 	LoadingPage,
@@ -26,9 +19,12 @@ import { useEffect, useState } from 'react';
 import { Provider as ReduxProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { SWRConfig } from 'swr';
+import { AccountLayout } from '@/components/layouts';
+import { type AppPropsWithLayout } from '@/lib/next.types';
+import seoConfig from '@/lib/seo.config';
+import { wrapper } from '@/lib/store';
 
 import '../styles/tailwind.css';
-import seoConfig from '@/lib/seo.config';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_API_KEY!);
 
@@ -79,44 +75,17 @@ function MyApp({
 		};
 	}, [router]);
 
-	// // add env config to redux state
-	// useEffect(() => {
-	// 	async function initializeApp() {
-	// 		const envConfig = await fetchEnvConfig();
-	// 		dispatch(setEnv(envConfig));
-	// 	}
-	// 	initializeApp();
-	// }, []);
-
-	// Add mixpanel
-	// useEffect(() => {
-	// 	if (env.mixpanel.token) {
-	// 		mixpanel.init(env.mixpanel.token, {
-	// 			debug: true,
-	// 			ignore_dnt: true,
-	// 			track_pageview: true,
-	// 			persistence: 'localStorage',
-	// 		});
-	// 	}
-
-	// 	if (env.darkModeEnabled) {
-	// 		applyTheme(localStorage.getItem('theme') as Theme);
-	// 	}
-	// }, []);
-
 	const getLayout =
 		Component.getLayout || ((page) => <AccountLayout>{page}</AccountLayout>);
 
 	return (
 		<>
-			<>
-				{/* {loadBrevoChat()} */}
-				{/* {loadSegment()} */}
+			{/* <>
 				{loadGoogleTagManager()}
 				{loadHotJar()}
-				<GTMTag />
-				<NextSeo {...seoConfig} />
-			</>
+			</> */}
+			<GTMTag />
+			<NextSeo {...seoConfig} />
 			<SWRConfig
 				value={{
 					revalidateOnFocus: false,
@@ -177,28 +146,3 @@ function MyApp({
 }
 
 export default appWithTranslation<never>(MyApp);
-
-// Remaining code...
-
-// MyApp.getInitialProps = wrapper.getInitialAppProps(
-// 	(store) => async (context) => {
-// 		const appProps = await App.getInitialProps(context);
-
-// 		console.info('is server? ', typeof window === 'undefined');
-// 		console.info('store ', store);
-// 		// if (!cachedLeftNav) {
-// 		//   try {
-// 		// 	const response = await axios.get('/api/left-nav');
-// 		// 	cachedLeftNav = response?.data?.leftNav ?? null;
-// 		// 	store.dispatch(setLeftNav(cachedLeftNav));
-// 		//   } catch (error) {
-// 		// 	console.error('Failed to fetch left nav:', error);
-// 		// 	cachedLeftNav = null;
-// 		//   }
-// 		// }
-
-// 		return {
-// 			...appProps,
-// 		};
-// 	}
-// );

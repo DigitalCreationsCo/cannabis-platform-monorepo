@@ -6,26 +6,21 @@
 /* eslint-disable i18next/no-literal-string */
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable react/no-unknown-property */
-import { TopBar } from '@/components/layouts';
-import { Error } from '@/components/shared';
-import UserNavigation from '@/components/shared/shell/UserNavigation';
-import { clientPromise } from '@/lib/db';
-import env from '@/lib/env';
-import { getSession } from '@/lib/session';
 import {
 	type ResponseDataEnvelope,
 	applicationHeaders,
 	axios,
+	// getCoordinatePairFromCoordinates,
+} from '@cd/core-lib/axiosInstance';
+import { useEvents, useLocalDispensaries } from '@cd/core-lib/hooks';
+import keywords from '@cd/core-lib/seo';
+import {
+	isValidZipcode,
 	debounce,
 	defaultHeaders,
-	// getCoordinatePairFromCoordinates,
-	isValidZipcode,
-	keywords,
 	showDay,
 	urlBuilder,
-	useEvents,
-	useLocalDispensaries,
-} from '@cd/core-lib';
+} from '@cd/core-lib/utils';
 import {
 	type Event,
 	type Dispensary,
@@ -49,6 +44,7 @@ import {
 } from '@cd/ui-lib';
 import { GlobeAmericasIcon } from '@heroicons/react/24/outline';
 import { type AxiosResponse } from 'axios';
+import { setCookie } from 'cookies-next';
 import { useFormik } from 'formik';
 import { AnimatePresence, motion } from 'framer-motion';
 // import mapboxgl from 'mapbox-gl';
@@ -68,6 +64,8 @@ import { toast } from 'react-hot-toast';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 import { InfoCard } from '@/components/blog';
+import { TopBar } from '@/components/layouts';
+import { Error } from '@/components/shared';
 import EventCard from '@/components/shared/EventCard';
 // import {
 // 	getFacebookLoginStatus,
@@ -75,6 +73,9 @@ import EventCard from '@/components/shared/EventCard';
 // 	fbLogin,
 // } from '@cd/core-lib/lib/facebookIG';
 import RestrictPage from '@/components/shared/RestrictedPage';
+import UserNavigation from '@/components/shared/shell/UserNavigation';
+import { clientPromise } from '@/lib/db';
+import env from '@/lib/env';
 import {
 	type Post,
 	type Settings,
@@ -84,8 +85,8 @@ import {
 	readToken,
 } from '@/lib/sanity';
 import seoconfig from '@/lib/seo.config';
+import { getSession } from '@/lib/session';
 // import markerImage from 'public/map-marker.png';
-import { useIsLegalAge } from '@/lib/util';
 
 const defaultZipcode = '10001';
 
@@ -101,7 +102,14 @@ export default function Browse({
 }) {
 	const { status } = useSession();
 
-	const { isLegalAge } = useIsLegalAge(user);
+	const [isLegalAge, setIsLegalAge] = useState(false);
+
+	useEffect(() => {
+		// eslint-disable-next-line sonarjs/no-redundant-boolean
+		if (isLegalAge == true) {
+			setCookie('is_legal_age', 'true');
+		}
+	}, [isLegalAge, setIsLegalAge]);
 
 	const { t } = useTranslation('common');
 	const saveZipcodeToLocalStorage = (zipcode: string): string => {
@@ -267,7 +275,7 @@ export default function Browse({
 				]}
 			/>
 
-			<RestrictPage restrictContent={!isLegalAge}>
+			<RestrictPage showContent={isLegalAge === true}>
 				<Page
 					status={status}
 					id="browse-page"

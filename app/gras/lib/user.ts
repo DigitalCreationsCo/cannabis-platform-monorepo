@@ -1,4 +1,4 @@
-import { getSession } from '../lib/session';
+import { getSession } from './session';
 
 // Get current user from session
 export const getCurrentUser = async (req: any, res: any) => {

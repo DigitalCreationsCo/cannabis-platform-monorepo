@@ -18,7 +18,6 @@ const unAuthenticatedRoutes = [
 	'/',
 	'/404',
 	'/500',
-
 	'/api/env',
 	'/api/hello',
 	'/api/health',

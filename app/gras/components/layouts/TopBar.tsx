@@ -5,22 +5,13 @@ import {
 	modalTypes,
 	selectCartState,
 	selectIsCartEmpty,
-	TextContent,
 } from '@cd/core-lib';
-import {
-	Button,
-	DropDown,
-	FlexBox,
-	GrasSignature,
-	Paragraph,
-	styles,
-} from '@cd/ui-lib';
-import { is } from 'cheerio/lib/api/traversing';
-import { useSession, signOut } from 'next-auth/react';
+import { Button, DropDown, FlexBox, GrasSignature, styles } from '@cd/ui-lib';
+import { useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/logo.png';

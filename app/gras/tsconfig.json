@@ -28,14 +28,12 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
+      "@/*": ["./*"],
       "@cd/ui-lib": [
         "../../packages/ui-lib/src/index"
       ],
       "@cd/ui-lib/*": [
         "../../packages/ui-lib/src/*"
-      ],
-      "@cd/core-lib": [
-        "../../packages/core-lib/src/index"
       ],
       "@cd/core-lib/*": [
         "../../packages/core-lib/src/*"
@@ -49,12 +47,6 @@
       "@cd/eslint-config": [
         "../../packages/eslint-config/src/index"
       ],
-      "@/lib/*": [
-        "./lib/*"
-      ],
-      "@/components/*": [
-        "./components/*"
-      ]
     },
     "plugins": [
       {

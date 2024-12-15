@@ -14,8 +14,6 @@ const _env =
 		? 'development'
 		: process.env.NODE_ENV;
 
-const nrExternals = require('@newrelic/next/load-externals');
-
 const sentryWebpackPluginOptions = {
 	silent: true,
 	hideSourceMaps: true,
@@ -34,11 +32,9 @@ const nextConfig = withBundleAnalyzer({
 	experimental: {
 		externalDir: true,
 		optimizePackageImports: [
-			'@newrelic/next',
 			'@retracedhq/logs-viewer',
 			'@retracedhq/retraced',
 			'sharp',
-			'boarding.js',
 		],
 		esmExternals: true,
 		// webpackBuildWorker: true,
@@ -73,21 +69,16 @@ const nextConfig = withBundleAnalyzer({
 				: {},
 	},
 	swcMinify: true,
-	output: 'standalone',
 	transpilePackages: [
 		'@cd/eslint-config',
 		'@cd/data-access',
 		'@cd/core-lib',
 		'@cd/ui-lib',
-		// 'mongodb',
 	],
 	webpack: (config, { isServer }) => {
 		if (isServer) {
 			require(path.resolve('./scripts/generate-gras-sitemap'));
 		}
-
-		// externalize new relic packages
-		nrExternals(config);
 
 		// const prefix = config.assetPrefix ?? config.basePath ?? '';
 		config.module.rules.push(
@@ -142,10 +133,6 @@ const nextConfig = withBundleAnalyzer({
 			'img.evbuc.com',
 		],
 		remotePatterns: [
-			{
-				protocol: 'https',
-				hostname: 'boxyhq.com',
-			},
 			{
 				protocol: 'https',
 				hostname: 'files.stripe.com',

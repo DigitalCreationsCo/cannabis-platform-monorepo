@@ -1,4 +1,4 @@
-import { keywords } from '@cd/core-lib';
+import keywords from '@cd/core-lib/seo';
 import { type NextSeoProps } from 'next-seo';
 import app from './app';
 

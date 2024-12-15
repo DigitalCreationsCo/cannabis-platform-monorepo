@@ -5,9 +5,9 @@ import { twMerge } from 'tailwind-merge';
 import friendsVideo from 'public/Gras-community-clip.mp4';
 
 const BlockRestrictedContent = ({
-	setBlockRestrictedContent,
+	setShowRestrictedContent,
 }: {
-	setBlockRestrictedContent?: (boolean) => void;
+	setShowRestrictedContent?: (boolean) => void;
 }) => {
 	const RestrictedContentModal = useCallback(() => {
 		return (
@@ -54,7 +54,7 @@ const BlockRestrictedContent = ({
 							redirect={
 								typeof window !== 'undefined' ? window.location.pathname : '/'
 							}
-							onContinue={() => setBlockRestrictedContent?.(false)}
+							onContinue={() => setShowRestrictedContent(true)}
 						/>
 					</div>
 				</div>
