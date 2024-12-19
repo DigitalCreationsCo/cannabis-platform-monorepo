@@ -1,4 +1,10 @@
-## GRAS CANNABIS SAAS MONOREPO
+## GRAS, RETAIL MARKETING SAAS PLATFORM
+
+A retail marketing SaaS platform built on a distributed microservices architecture, hosted within a Google Cloud container cluster. The platform is designed for scalability, utilizing load balancing, an ingress controller, and a feature-rich edge API Gateway to efficiently manage high traffic volumes and ensure seamless routing between services.  
+
+The project implements **Infrastructure as Code (IaC)** using Terraform modules, enabling automated provisioning and management of cloud resources.  
+The codebase follows a monorepo structure, promoting consistency and simplifying dependency management across microservices, while reusable code modules ensure maintainability and reduce duplication.  
+**TypeScript** is used throughout the application, providing static typing to improve code quality, reduce runtime errors, and enhance developer productivity through better tooling and IDE support.
 
 SHOP
 THE BASE APP SHOPPING MARKETPLACE APP IS @CD/SHOP
