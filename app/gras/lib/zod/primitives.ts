@@ -2,7 +2,7 @@ import {
 	isValidDomain,
 	maxLengthPolicies,
 	passwordPolicies,
-} from '@cd/core-lib';
+} from '@cd/core-lib/utils';
 import { Role } from '@cd/data-access';
 import { z } from 'zod';
 

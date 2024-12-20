@@ -3,7 +3,7 @@ import {
 	selectModalState,
 	type ModalStateProps,
 	type ModalType,
-} from '@cd/core-lib';
+} from '@cd/core-lib/reducer';
 import { useMemo } from 'react';
 import { connect } from 'react-redux';
 import CartModal from './CartModal';

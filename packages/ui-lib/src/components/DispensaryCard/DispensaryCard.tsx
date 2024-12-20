@@ -6,7 +6,7 @@ import {
 	getNextScheduleDay,
 	integerToTime,
 	// showTime,
-} from '@cd/core-lib';
+} from '@cd/core-lib/utils';
 import { type Schedule, type Dispensary } from '@cd/data-access';
 import { ArrowRightCircleIcon } from '@heroicons/react/24/solid';
 import Image from 'next/image';

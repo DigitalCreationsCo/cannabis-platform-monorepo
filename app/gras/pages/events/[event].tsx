@@ -1,19 +1,20 @@
 import app from '@/lib/app';
 import { clientPromise } from '@/lib/db';
 import env from '@/lib/env';
+import seoConfig from '@/lib/seo.config';
 import { getSession } from '@/lib/session';
+import { useEvent, useIsLegalAge } from '@cd/core-lib/hooks';
+import { fetcher } from '@cd/core-lib/lib';
+import { modalActions } from '@cd/core-lib/reducer';
+import keywords from '@cd/core-lib/seo';
+import { modalTypes } from '@cd/core-lib/types';
 import {
 	debounce,
-	fetcher,
-	keywords,
-	modalActions,
-	modalTypes,
 	renderAddress,
 	showDate,
 	showTime,
 	urlBuilder,
-	useEvent,
-} from '@cd/core-lib';
+} from '@cd/core-lib/utils';
 import {
 	type Attendee,
 	type Event,
@@ -55,8 +56,6 @@ import { toast } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import useSWR from 'swr';
 import RestrictPage from '@/components/shared/RestrictedPage';
-import seoConfig from '@/lib/seo.config';
-import { useIsLegalAge } from '@/lib/util';
 import hemp from '../../public/hemp.png';
 import { type SharedPageProps } from '../_app';
 
@@ -195,7 +194,7 @@ function EventPage({
 					},
 				]}
 			/>
-			<RestrictPage restrictContent={!isLegalAge}>
+			<RestrictPage showContent={!isLegalAge}>
 				<Page gradient="green">
 					<BackButton />
 					<FlexBox className="gap-y-4 max-w-screen-md lg:max-w-full lg:w-full">

@@ -1,4 +1,4 @@
-import { type ModalStateProps } from '@cd/core-lib';
+import { type ModalStateProps } from '@cd/core-lib/reducer';
 import { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import CheckAge from '../CheckAge';

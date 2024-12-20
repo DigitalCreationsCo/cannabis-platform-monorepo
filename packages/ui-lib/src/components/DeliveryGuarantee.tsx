@@ -1,4 +1,4 @@
-import { TextContent } from '@cd/core-lib';
+import { TextContent } from '@cd/core-lib/constants';
 import { Paragraph } from './Typography';
 
 function DeliveryGuarantee() {

@@ -1,4 +1,4 @@
-import { getDashboardSite } from '@cd/core-lib';
+import { getDashboardSite } from '@cd/core-lib/utils';
 import { type ProductVariantWithDetails } from '@cd/data-access';
 import { StarIcon } from '@heroicons/react/24/solid';
 import Image from 'next/image';

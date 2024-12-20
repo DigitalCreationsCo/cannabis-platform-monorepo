@@ -1,10 +1,10 @@
-import { type ModalStateProps } from '@cd/core-lib/reducer/modal.reducer';
+import { type ModalStateProps } from '@cd/core-lib/reducer';
 import { useTranslation } from 'next-i18next';
 import { useEffect, useState } from 'react';
 import { Button } from '../button';
 import Modal from './Modal2';
 
-interface UserSignupModalProps extends ModalStateProps {}
+type UserSignupModalProps = ModalStateProps;
 
 const UserSignupModal = ({ ...props }: UserSignupModalProps) => {
 	const { t } = useTranslation('common');

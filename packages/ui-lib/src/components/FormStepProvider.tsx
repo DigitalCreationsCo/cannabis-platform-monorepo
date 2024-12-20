@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { useEncryptCookies, useHashNavigate } from '@cd/core-lib';
+import { useEncryptCookies, useHashNavigate } from '@cd/core-lib/hooks';
 import { type User, type Dispensary } from '@cd/data-access';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { twMerge } from 'tailwind-merge';

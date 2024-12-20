@@ -1,12 +1,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Error, WithLoadingAndError } from '@/components/shared';
-import {
-	defaultHeaders,
-	maxLengthPolicies,
-	passwordPolicies,
-	useInvitation,
-	type ApiResponse,
-} from '@cd/core-lib';
+import { useInvitation } from '@cd/core-lib/hooks';
+import { defaultHeaders, type ApiResponse } from '@cd/core-lib/types';
+import { maxLengthPolicies, passwordPolicies } from '@cd/core-lib/utils';
 import {
 	Button,
 	TextField,

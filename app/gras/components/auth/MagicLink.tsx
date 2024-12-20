@@ -1,4 +1,6 @@
-import { useInvitation, maxLengthPolicies } from '@cd/core-lib';
+import env from '@/lib/env';
+import { useInvitation } from '@cd/core-lib/hooks';
+import { maxLengthPolicies } from '@cd/core-lib/utils';
 import { LoadingDots, Paragraph, TextField, Button } from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import { signIn, useSession } from 'next-auth/react';
@@ -8,7 +10,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
-import env from '@/lib/env';
 
 interface MagicLinkProps {
 	csrfToken: string | undefined;

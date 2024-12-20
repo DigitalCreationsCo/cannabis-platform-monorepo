@@ -1,4 +1,4 @@
-import { selectCartState } from '@cd/core-lib';
+import { selectCartState } from '@cd/core-lib/reducer';
 import { useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';
 import FlexBox from '../FlexBox';

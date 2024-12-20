@@ -1,8 +1,8 @@
-import { useInvitation } from '@cd/core-lib';
+import env from '@/lib/env';
+import { useInvitation } from '@cd/core-lib/hooks';
 import { Button } from '@cd/ui-lib';
 import { signIn } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
-import env from '@/lib/env';
 
 const GoogleButton = () => {
 	const { t } = useTranslation('common');

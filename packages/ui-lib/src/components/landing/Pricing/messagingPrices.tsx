@@ -1,4 +1,4 @@
-import { convertCentsToDollars } from '@cd/core-lib';
+import { convertCentsToDollars } from '@cd/core-lib/utils';
 import { type PricingProps } from './Pricing';
 
 const messagingPrices: PricingProps = {

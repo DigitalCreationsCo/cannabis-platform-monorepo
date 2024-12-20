@@ -1,7 +1,8 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
-import { useDispensaries, maxLengthPolicies } from '@cd/core-lib';
+import { useDispensaries } from '@cd/core-lib/hooks';
+import { maxLengthPolicies } from '@cd/core-lib/utils';
 import {
 	ChevronUpDownIcon,
 	FolderIcon,

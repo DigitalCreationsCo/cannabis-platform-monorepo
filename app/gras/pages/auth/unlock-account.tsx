@@ -1,4 +1,8 @@
-import { defaultHeaders } from '@cd/core-lib';
+import { AuthLayout } from '@/components/layouts';
+import { Alert } from '@/components/shared';
+import { unlockAccount } from '@/lib/accountLock';
+import { clientPromise } from '@/lib/db';
+import { defaultHeaders } from '@cd/core-lib/types';
 import {
 	deleteVerificationToken,
 	getVerificationToken,
@@ -10,11 +14,6 @@ import type { GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { useState, type ReactElement, useEffect } from 'react';
 import type { ComponentStatus } from 'react-daisyui/dist/types';
-
-import { AuthLayout } from '@/components/layouts';
-import { Alert } from '@/components/shared';
-import { unlockAccount } from '@/lib/accountLock';
-import { clientPromise } from '@/lib/db';
 
 interface UnlockAccountProps {
 	email: string;

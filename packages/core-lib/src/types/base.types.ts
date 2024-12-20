@@ -7,6 +7,10 @@ interface ApiError {
 	values: Record<string, string>;
 }
 
+export const defaultHeaders = {
+	'Content-Type': 'application/json',
+};
+
 export type ApiResponse<T = unknown> =
 	| {
 			data: T;

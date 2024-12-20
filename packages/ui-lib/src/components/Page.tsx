@@ -1,4 +1,5 @@
-import { modalActions, modalTypes } from '@cd/core-lib';
+import { modalActions } from '@cd/core-lib/reducer';
+import { modalTypes } from '@cd/core-lib/types';
 import { HomeIcon, UserCircleIcon } from '@heroicons/react/24/outline';
 import { type SessionContextValue } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';

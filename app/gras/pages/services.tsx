@@ -1,7 +1,9 @@
 /* eslint-disable i18next/no-literal-string */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { ServicesTopBar } from '@/components/layouts';
-import { getDashboardSite, keywords } from '@cd/core-lib';
+import seoConfig from '@/lib/seo.config';
+import keywords from '@cd/core-lib/seo';
+import { getDashboardSite } from '@cd/core-lib/utils';
 import {
 	Page,
 	type LayoutContextProps,
@@ -35,7 +37,6 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { NextSeo } from 'next-seo';
 import { type ReactElement, useEffect } from 'react';
 import { twMerge } from 'tailwind-merge';
-import seoConfig from '@/lib/seo.config';
 
 export default function DispensaryLandingPage() {
 	const { t } = useTranslation('common');

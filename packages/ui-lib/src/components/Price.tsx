@@ -1,4 +1,4 @@
-import { calculateSalePrice, convertCentsToDollars } from '@cd/core-lib';
+import { calculateSalePrice, convertCentsToDollars } from '@cd/core-lib/utils';
 import { twMerge } from 'tailwind-merge';
 import { Paragraph } from './Typography';
 

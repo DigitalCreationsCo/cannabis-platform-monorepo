@@ -1,4 +1,4 @@
-import { selectBlogTags } from '@cd/core-lib';
+import { selectBlogTags } from '@cd/core-lib/reducer';
 import { NavLink, GrasSignature, type NavLinkType } from '@cd/ui-lib';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';

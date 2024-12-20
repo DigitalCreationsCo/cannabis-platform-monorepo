@@ -1,15 +1,11 @@
-import {
-	defaultHeaders,
-	maxLengthPolicies,
-	passwordPolicies,
-} from '@cd/core-lib';
+import { Card, InputWithLabel } from '@/components/shared';
+import { defaultHeaders } from '@cd/core-lib/types';
+import { maxLengthPolicies, passwordPolicies } from '@cd/core-lib/utils';
 import { Button, TextField } from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
-
-import { Card, InputWithLabel } from '@/components/shared';
 
 const schema = Yup.object().shape({
 	currentPassword: Yup.string().required().max(maxLengthPolicies.password),

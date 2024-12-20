@@ -5,7 +5,81 @@
   "type": "module",
   "sideEffects": false,
   "exports": {
-    ".": "./src/index.ts"
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./auth": {
+      "import": "./dist/auth.js",
+      "require": "./dist/auth.cjs",
+      "types": "./dist/auth.d.ts"
+    },
+    "./constants": {
+      "import": "./dist/constants.js",
+      "require": "./dist/constants.cjs",
+      "types": "./dist/constants.d.ts"
+    },
+    "./crm": {
+      "import": "./dist/crm.js",
+      "require": "./dist/crm.cjs",
+      "types": "./dist/crm.d.ts"
+    },
+    "./cron-job": {
+      "import": "./dist/cron-job.js",
+      "require": "./dist/cron-job.cjs",
+      "types": "./dist/cron-job.d.ts"
+    },
+    "./hooks": {
+      "import": "./dist/hooks.js",
+      "require": "./dist/hooks.cjs",
+      "types": "./dist/hooks.d.ts"
+    },
+    "./lib": {
+      "import": "./dist/lib.js",
+      "require": "./dist/lib.cjs",
+      "types": "./dist/lib.d.ts"
+    },
+    "./locales": {
+      "import": "./dist/locales.js",
+      "require": "./dist/locales.cjs",
+      "types": "./dist/locales.d.ts"
+    },
+    "./middleware": {
+      "import": "./dist/middleware.js",
+      "require": "./dist/middleware.cjs",
+      "types": "./dist/middleware.d.ts"
+    },
+    "./point-of-sale/*": {
+      "import": "./dist/point-of-sale.js",
+      "require": "./dist/point-of-sale.cjs",
+      "types": "./dist/point-of-sale.d.ts"
+    },
+    "./reducer": {
+      "import": "./dist/reducer.js",
+      "require": "./dist/reducer.cjs",
+      "types": "./dist/reducer.d.ts"
+    },
+    "./seo": {
+      "import": "./dist/seo.js",
+      "require": "./dist/seo.cjs",
+      "types": "./dist/seo.d.ts"
+    },
+    "./sms/*": {
+      "import": "./dist/sms.js",
+      "require": "./dist/sms.cjs",
+      "types": "./dist/sms.d.ts"
+    },
+    "./types": {
+      "import": "./dist/types.js",
+      "require": "./dist/types.cjs",
+      "types": "./dist/types.d.ts"
+    },
+    "./utils": {
+      "import": "./dist/utils.js",
+      "require": "./dist/utils.cjs",
+      "types": "./dist/utils.d.ts"
+    }
   },
   "dependencies": {
     "@cd/data-access": "workspace:*",
@@ -50,8 +124,8 @@
     "watch": "tsup --watch",
     "lint:fix": "eslint . --ext .ts,.tsx,.js,.jsx,.cjs,.mjs --fix",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx,.cjs,.mjs --cache --cache-location ../../.cache/eslint/core-lib.eslintcache",
-    "test:unit": "vitest run",
-    "test:unit-ci": "vitest run --reporter=junit",
+    "test": "vitest run",
+    "test:ci": "vitest run --reporter=junit",
     "test:watch": "vitest watch --ui",
     "typecheck": "tsc --project ./tsconfig.json --noEmit"
   },

@@ -17,3 +17,5 @@ export { default as useDispensaries } from './useDispensaries';
 export { default as useStaffMembers } from './useStaffMembers';
 export { default as useWebhook } from './useWebhook';
 export { default as useWebhooks } from './useWebhooks';
+export { useIsLegalAge } from './useIsLegalAge';
+export * from './useSelector';

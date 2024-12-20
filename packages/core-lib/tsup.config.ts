@@ -1,7 +1,24 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { defineConfig } from 'tsup';
 
 export default defineConfig((options) => ({
-	entry: ['src/index.ts'],
+	entry: {
+		index: 'src/index.ts',
+		auth: 'src/auth/index.ts',
+		constants: 'src/constants/index.ts',
+		crm: 'src/crm/index.ts',
+		'cron-job': 'src/cron-job/index.ts',
+		hooks: 'src/hooks/index.ts',
+		lib: 'src/lib/index.ts',
+		locales: 'src/locales/index.ts',
+		middleware: 'src/middleware/index.ts',
+		'point-of-sale': 'src/point-of-sale/index.ts',
+		reducer: 'src/reducer/index.ts',
+		seo: 'src/seo/index.ts',
+		sms: 'src/sms/index.ts',
+		types: 'src/types/index.ts',
+		utils: 'src/utils/index.ts',
+	},
 	splitting: true,
 	treeshake: true,
 	clean: true,

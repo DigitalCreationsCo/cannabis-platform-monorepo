@@ -1,4 +1,4 @@
-import { defaultHeaders, type ApiResponse } from '@cd/core-lib';
+import { defaultHeaders, type ApiResponse } from '@cd/core-lib/types';
 import { type Dispensary, type Invitation } from '@cd/data-access';
 import { Button } from '@cd/ui-lib';
 import { useTranslation } from 'next-i18next';

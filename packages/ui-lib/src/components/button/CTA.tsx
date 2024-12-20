@@ -1,7 +1,7 @@
-import { TextContent } from '@cd/core-lib';
+import { TextContent } from '@cd/core-lib/constants';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
-import Button, { type ButtonProps } from './Button';
+import Button from './Button';
 
 const CTA = ({
 	className,

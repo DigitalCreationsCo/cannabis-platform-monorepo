@@ -1,0 +1,51 @@
+{
+  "name": "@gras/shop-backup",
+  "version": "0.2.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "build:ci": "rm -rf ./.next && NODE_ENV=production yarn build:css && NODE_ENV=production next build",
+    "build:css": "npm run copy-shared-assets && npx tailwindcss -i ./styles/globals.css -o ./styles/tailwind.css --minify",
+    "watch:css": "npm run copy-shared-assets && npx tailwindcss -i ./styles/globals.css -o ./styles/tailwind.css --minify --watch",
+    "clean": "rm -rf ./.next ./.swc ./out ./dist ./build ./node_modules ./coverage ./tsconfig.tsbuildinfo",
+    "copy-shared-assets": "sh ../../scripts/copysharedCSSandAssets.sh",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "packageManager": "yarn@3.3.1",
+  "dependencies": {
+    "@cd/core-lib": "workspace:*",
+    "@cd/data-access": "workspace:*",
+    "@cd/eslint-config": "workspace:*",
+    "@cd/ui-lib": "workspace:*",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/material": "^6.2.0",
+    "find-up": "5.0.0",
+    "formik": "2.4.5",
+    "mongodb": "5.8.1",
+    "next": "14.1.0",
+    "next-seo": "6.5.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-google-recaptcha": "3.1.0",
+    "react-hot-toast": "2.4.1",
+    "sanity": "~3.53.0",
+    "swr": "2.2.5",
+    "tailwind-merge": "1.8.0",
+    "yup": "0.32.11"
+  },
+  "devDependencies": {
+    "@types/node": "20.12.7",
+    "@types/react": "18.2.79",
+    "@types/react-dom": "18.2.79",
+    "autoprefixer": "10.4.19",
+    "dotenv": "16.0.3",
+    "dotenv-expand": "10.0.0",
+    "eslint": "8.57.0",
+    "postcss": "8.4.38",
+    "tailwindcss": "3.4.3",
+    "typescript": "5.4.5"
+  }
+}

@@ -1,4 +1,4 @@
-import { truncateWordsAndLeaveN } from '@cd/core-lib';
+import { truncateWordsAndLeaveN } from '@cd/core-lib/utils';
 import { type Event } from '@cd/data-access';
 import { H5, Paragraph, styles } from '@cd/ui-lib';
 import Image from 'next/image';

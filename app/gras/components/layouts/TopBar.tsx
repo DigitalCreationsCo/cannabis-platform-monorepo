@@ -2,10 +2,10 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import {
 	modalActions,
-	modalTypes,
 	selectCartState,
 	selectIsCartEmpty,
-} from '@cd/core-lib';
+} from '@cd/core-lib/reducer';
+import { modalTypes } from '@cd/core-lib/types';
 import { Button, DropDown, FlexBox, GrasSignature, styles } from '@cd/ui-lib';
 import { useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';

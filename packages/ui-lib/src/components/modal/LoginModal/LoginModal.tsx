@@ -3,7 +3,8 @@
 // import GoogleButton from '@/components/auth/GoogleButton';
 // import { AuthLayout } from '@/components/layouts';
 // import { Alert } from '@/components/shared';
-import { type AppState, maxLengthPolicies } from '@cd/core-lib';
+import { type AppState } from '@cd/core-lib/types';
+import { maxLengthPolicies } from '@cd/core-lib/utils';
 import { useFormik } from 'formik';
 import { signIn, useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';

@@ -1,4 +1,4 @@
-import { copyToClipboard } from '@cd/core-lib';
+import { copyToClipboard } from '@cd/core-lib/utils';
 import { Button } from '@cd/ui-lib';
 import { ClipboardDocumentIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'next-i18next';

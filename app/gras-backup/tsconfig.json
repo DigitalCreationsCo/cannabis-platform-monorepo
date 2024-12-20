@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "types": [
+      "node",
+      "jest"
+    ],
+    "target": "ES2015",
+    "lib": ["dom", "dom.iterable", "es2015"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "es2020",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"],
+      "@cd/ui-lib": ["../../packages/ui-lib/src/index"],
+      "@cd/ui-lib/*": [
+        "../../packages/ui-lib/src/*"
+      ],
+      "@cd/core-lib/*": [
+        "../../packages/core-lib/src/*"
+      ],
+      "@cd/data-access": [
+        "../../packages/data-access/src/index"
+      ],
+      "@cd/data-access/*": [
+        "../../packages/data-access/src/*"
+      ],
+      "@cd/eslint-config": [
+        "../../packages/eslint-config/src/index"
+      ],
+    }
+  },
+  "include": [
+    "next-env.d.ts", 
+    "**/*.ts", 
+    "**/*.tsx",
+    "**/*.mts",
+    "**/*.js",
+    "**/*.cjs",
+    "**/*.mjs",
+    "**/*.jsx",
+    "**/*.json",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "**/node_modules",
+    "**/.*/**",
+  ]
+}

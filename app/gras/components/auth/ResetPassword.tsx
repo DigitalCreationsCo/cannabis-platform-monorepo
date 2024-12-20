@@ -1,9 +1,6 @@
-import {
-	defaultHeaders,
-	maxLengthPolicies,
-	passwordPolicies,
-	type ApiResponse,
-} from '@cd/core-lib';
+import { InputWithLabel } from '@/components/shared';
+import { defaultHeaders, type ApiResponse } from '@cd/core-lib/types';
+import { maxLengthPolicies, passwordPolicies } from '@cd/core-lib/utils';
 import { Button, TextField } from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
@@ -11,7 +8,6 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import * as Yup from 'yup';
-import { InputWithLabel } from '@/components/shared';
 
 const ResetPassword = () => {
 	const [submitting, setSubmitting] = useState<boolean>(false);

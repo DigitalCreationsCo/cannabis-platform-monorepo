@@ -1,12 +1,12 @@
-import { ApiError } from '@cd/core-lib';
-import { getUser, updateUser } from '@cd/data-access';
-import type { NextApiRequest, NextApiResponse } from 'next';
 import { clientPromise } from '@/lib/db';
 import { isEmailAllowed } from '@/lib/email/utils';
 import env from '@/lib/env';
 import { recordMetric } from '@/lib/metrics';
 import { getSession } from '@/lib/session';
 import { updateAccountSchema, validateWithSchema } from '@/lib/zod';
+import { ApiError } from '@cd/core-lib/errors';
+import { getUser, updateUser } from '@cd/data-access';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
 	req: NextApiRequest,

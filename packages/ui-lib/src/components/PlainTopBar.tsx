@@ -1,12 +1,12 @@
+import { TextContent } from '@cd/core-lib/constants';
 import { useTranslation } from 'next-i18next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
-import { TextContent } from '../../../core-lib/src';
 import logo from '../../public/assets/images/logo.png';
 import { styles } from '../styleClassNames';
 import FlexBox from './FlexBox';
-import { GrasSignature, Paragraph } from './Typography';
+import { GrasSignature } from './Typography';
 
 function TopBar({ className = '' }: { className?: string | string[] }) {
 	const { t } = useTranslation('common');

@@ -1,9 +1,7 @@
 /* eslint-disable i18next/no-literal-string */
-import { TextContent } from '@cd/core-lib';
-import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
 import { styles } from '../../../styleClassNames';
-import { CTA, Button } from '../../button';
+import { CTA } from '../../button';
 import FlexBox from '../../FlexBox';
 import { H1, H2, H3 } from '../../Typography';
 import Partners from '../partners/Partners';

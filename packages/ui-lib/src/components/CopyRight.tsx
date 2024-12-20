@@ -1,6 +1,6 @@
+import { TextContent } from '@cd/core-lib/constants';
 import { type HTMLAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { TextContent } from '../../../core-lib/src';
 import { Tiny } from './Typography';
 
 function CopyRight({

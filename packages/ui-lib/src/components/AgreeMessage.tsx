@@ -1,4 +1,5 @@
-import { getShopSite, TextContent } from '@cd/core-lib';
+import { TextContent } from '@cd/core-lib/constants';
+import { getShopSite } from '@cd/core-lib/utils';
 import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
 import { Paragraph } from './Typography';

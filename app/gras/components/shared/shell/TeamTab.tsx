@@ -1,4 +1,5 @@
-import { useCanAccess, type TeamFeature } from '@cd/core-lib';
+import { useCanAccess } from '@cd/core-lib/hooks';
+import { type TeamFeature } from '@cd/core-lib/types';
 import { type Dispensary } from '@cd/data-access';
 import { H2 } from '@cd/ui-lib';
 import {

@@ -1,23 +1,19 @@
-import {
-	getFirstErrorOrNull,
-	isLegalAgeAndVerified,
-	TextContent,
-	userActions,
-	type ConsumeCodeResponse,
-} from '@cd/core-lib';
-import { type User } from '@cd/data-access';
+import { TextContent } from '@cd/core-lib/constants';
+// import { userActions } from '@cd/core-lib/reducer';
+import { getFirstErrorOrNull } from '@cd/core-lib/utils';
+// import { type User } from '@cd/data-access';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
-import { useCookies } from 'react-cookie';
+// import { useCookies } from 'react-cookie';
 import { toast } from 'react-hot-toast';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 // import {
 // 	consumeCode,
 // 	resendCode,
 // } from 'supertokens-auth-react/recipe/passwordless';
 import * as yup from 'yup';
-import Icons from '../../../icons';
+// import Icons from '../../../icons';
 import Button from '../../button/Button/Button';
 import FlexBox from '../../FlexBox';
 import Grid from '../../Grid';
@@ -30,12 +26,12 @@ export default function EnterOTPForm({
 	prevFormStep,
 	inputValue,
 	dispatchCloseModal,
-	signInSyncAction = userActions.signinUserSync,
+	// signInSyncAction = userActions.signinUserSync,
 }: LoginFormComponentProps) {
-	const [, setCookie] = useCookies(['is_legal_age']);
+	// const [, setCookie] = useCookies(['is_legal_age']);
 	const [loadingButton, setLoadingButton] = useState(false);
 
-	const dispatch = useDispatch();
+	// const dispatch = useDispatch();
 
 	const initialValues = { passcode: '' };
 

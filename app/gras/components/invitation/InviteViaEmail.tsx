@@ -1,9 +1,6 @@
-import {
-	availableRoles,
-	type ApiResponse,
-	defaultHeaders,
-	maxLengthPolicies,
-} from '@cd/core-lib';
+import { availableRoles } from '@cd/core-lib/lib';
+import { type ApiResponse, defaultHeaders } from '@cd/core-lib/types';
+import { maxLengthPolicies } from '@cd/core-lib/utils';
 import { type Dispensary } from '@cd/data-access';
 import { TextField, Button } from '@cd/ui-lib';
 import { useFormik } from 'formik';

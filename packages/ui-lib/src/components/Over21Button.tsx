@@ -2,7 +2,7 @@ import {
 	type ResponseDataEnvelope,
 	applicationHeaders,
 	axios,
-} from '@cd/core-lib';
+} from '@cd/core-lib/axiosInstance';
 import { type AxiosResponse } from 'axios';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
@@ -38,7 +38,7 @@ const Over21Button = ({
 			email: yup
 				.string()
 				.email()
-				.length(15, 'Your email is too short.')
+				.min(15, 'Your email is too short.')
 				.required('Enter your email'),
 		}),
 		async onSubmit() {
@@ -47,7 +47,7 @@ const Over21Button = ({
 				setLoading(true);
 
 				// dont await
-				const response = axios.post<
+				axios.post<
 					ResponseDataEnvelope<any>,
 					AxiosResponse<ResponseDataEnvelope<any>>,
 					{ email: string }
@@ -57,6 +57,7 @@ const Over21Button = ({
 
 				document.cookie = `is_legal_age=true;`;
 				document.cookie = `email=${values.email};`;
+				console.debug(`over 21 okay. continue to site.`);
 			} catch (error: any) {
 				setLoading(false);
 				toast.error(error.message);
@@ -73,33 +74,30 @@ const Over21Button = ({
 	});
 
 	return (
-		<Center className="w-full !p-0 !py-4 space-y-4">
-			<TextField
-				minLength={15}
-				type="email"
-				containerClassName="w-full"
-				name="email"
-				placeholder="Enter your email"
-				value={values.email}
-				onBlur={handleBlur}
-				onChange={handleChange}
-				error={!!errors.email || !!touched.email}
-			/>
-			<Button
-				type="submit"
-				bg={'secondary-light'}
-				hover={'secondary'}
-				className="p-8 text-2xl place-self-center w-full !rounded"
-				loading={loading}
-				disabled={loading}
-				onClick={(e: any) => {
-					e.preventDefault();
-					e.stopPropagation();
-					handleSubmit();
-				}}
-			>
-				I'm legal
-			</Button>
+		<Center>
+			<form className="w-full !p-0 !py-4 space-y-4" onSubmit={handleSubmit}>
+				<TextField
+					minLength={15}
+					type="email"
+					containerClassName="w-full"
+					name="email"
+					placeholder="Enter your email"
+					value={values.email}
+					onBlur={handleBlur}
+					onChange={handleChange}
+					error={!!errors.email || !!touched.email}
+				/>
+				<Button
+					type="submit"
+					bg={'secondary-light'}
+					hover={'secondary'}
+					className="p-8 text-2xl place-self-center w-full !rounded"
+					loading={loading}
+					disabled={loading}
+				>
+					I'm legal
+				</Button>
+			</form>
 		</Center>
 	);
 };

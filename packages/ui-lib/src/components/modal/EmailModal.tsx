@@ -1,4 +1,4 @@
-import { type ModalStateProps } from '@cd/core-lib';
+import { type ModalStateProps } from '@cd/core-lib/reducer';
 import { PaperAirplaneIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
@@ -27,6 +27,7 @@ function EmailModal({
 
 	const [email, setEmail] = useState('support@grascannabis.org');
 	const sendEmail = () => {
+		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 		modalText &&
 			window.open(
 				`mailto:${email}?subject=${'Install Delivery By Gras widget for customer deliveries'}&body=${modalText}`

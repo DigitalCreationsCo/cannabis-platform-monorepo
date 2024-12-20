@@ -128,11 +128,6 @@ export default function Button({
 			name={children?.toString() || ''}
 			type={type}
 			disabled={loading || disabled}
-			onClick={(e) => {
-				if (onClick) {
-					onClick(e);
-				}
-			}}
 			className={twMerge(Object.values(classes), className)}
 			{...props}
 		>

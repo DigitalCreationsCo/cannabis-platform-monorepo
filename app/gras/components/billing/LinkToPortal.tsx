@@ -1,12 +1,11 @@
-import { defaultHeaders, type ApiResponse } from '@cd/core-lib';
+import { Card } from '@/components/shared';
+import { defaultHeaders, type ApiResponse } from '@cd/core-lib/types';
 import { type Dispensary } from '@cd/data-access';
 import { Button } from '@cd/ui-lib';
 import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'next-i18next';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-
-import { Card } from '@/components/shared';
 
 interface LinkToPortalProps {
 	team: Dispensary;

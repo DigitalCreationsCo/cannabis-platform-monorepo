@@ -1,5 +1,7 @@
 import { ServicesTopBar } from '@/components/layouts';
-import { getDashboardSite, keywords } from '@cd/core-lib';
+import seoConfig from '@/lib/seo.config';
+import keywords from '@cd/core-lib/seo';
+import { getDashboardSite } from '@cd/core-lib/utils';
 import {
 	Page,
 	Footer,
@@ -22,7 +24,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { type ReactElement, useEffect } from 'react';
 import { twMerge } from 'tailwind-merge';
-import seoConfig from '@/lib/seo.config';
 
 export default function MessagingLandingPage() {
 	useEffect(() => {

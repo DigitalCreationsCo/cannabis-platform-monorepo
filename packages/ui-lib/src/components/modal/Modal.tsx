@@ -32,7 +32,7 @@ const Modal = ({
 	alt,
 }: ModalProps) => {
 	const ref = useRef(null);
-	useScrollLock();
+	// useScrollLock();
 	useOnClickOutside(ref, () => {
 		if (!disableClickOutside) {
 			onClose();

@@ -1,9 +1,6 @@
-import {
-	type AppState,
-	selectModalState,
-	useAppDispatch,
-	userActions,
-} from '@cd/core-lib';
+import { useAppDispatch } from '@cd/core-lib/hooks';
+import { selectModalState, userActions } from '@cd/core-lib/reducer';
+import { type AppState } from '@cd/core-lib/types';
 import { Layout, type LayoutContextProps } from '@cd/ui-lib';
 import { type PropsWithChildren } from 'react';
 import { useSelector } from 'react-redux';

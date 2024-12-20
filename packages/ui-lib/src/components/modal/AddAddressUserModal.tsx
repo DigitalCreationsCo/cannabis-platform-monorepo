@@ -1,4 +1,4 @@
-import { urlBuilder } from '@cd/core-lib';
+import { urlBuilder } from '@cd/core-lib/utils';
 import { type AddressUserCreateType } from '@cd/data-access';
 import axios from 'axios';
 import { useFormik } from 'formik';

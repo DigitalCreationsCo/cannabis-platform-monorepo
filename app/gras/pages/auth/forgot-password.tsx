@@ -1,11 +1,8 @@
 import { AuthLayout } from '@/components/layouts';
 import env from '@/lib/env';
 import type { NextPageWithLayout } from '@/lib/next.types';
-import {
-	defaultHeaders,
-	type ApiResponse,
-	maxLengthPolicies,
-} from '@cd/core-lib';
+import { defaultHeaders, type ApiResponse } from '@cd/core-lib/types';
+import { maxLengthPolicies } from '@cd/core-lib/utils';
 import { Button, Paragraph, TextField, GoogleReCAPTCHA } from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import type {

@@ -1,4 +1,7 @@
-import { defaultHeaders, type ApiResponse } from '@cd/core-lib';
+import { AuthLayout } from '@/components/layouts';
+import { Alert } from '@/components/shared';
+import { type NextPageWithLayout } from '@/lib/next.types';
+import { defaultHeaders, type ApiResponse } from '@cd/core-lib/types';
 import { Button, TextField } from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import {
@@ -13,9 +16,6 @@ import { useState, type ReactElement, useEffect } from 'react';
 import type { ComponentStatus } from 'react-daisyui/dist/types';
 import { toast } from 'react-hot-toast';
 import * as Yup from 'yup';
-import { AuthLayout } from '@/components/layouts';
-import { Alert } from '@/components/shared';
-import { type NextPageWithLayout } from '@/lib/next.types';
 
 const VerifyAccount: NextPageWithLayout<
 	InferGetServerSidePropsType<typeof getServerSideProps>

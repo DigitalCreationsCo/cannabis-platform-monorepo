@@ -1,9 +1,9 @@
+import { TextContent } from '@cd/core-lib/constants';
 import {
 	getDashboardSite,
 	getShopSite,
 	replaceRelativePath,
-	TextContent,
-} from '@cd/core-lib';
+} from '@cd/core-lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';

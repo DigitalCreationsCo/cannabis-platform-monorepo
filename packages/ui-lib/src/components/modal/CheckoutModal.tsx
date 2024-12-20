@@ -1,10 +1,10 @@
 import {
 	type ModalStateProps,
 	modalActions,
-	modalTypes,
 	selectIsAddressAdded,
 	selectUserState,
-} from '@cd/core-lib';
+} from '@cd/core-lib/reducer';
+import { modalTypes } from '@cd/core-lib/types';
 import router from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';

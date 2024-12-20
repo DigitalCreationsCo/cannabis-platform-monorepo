@@ -2,15 +2,15 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+import { TextContent } from '@cd/core-lib/constants';
 import {
 	modalActions,
-	modalTypes,
-	replaceRelativePath,
 	selectCartState,
 	selectIsCartEmpty,
 	selectUserState,
-	TextContent,
-} from '@cd/core-lib';
+} from '@cd/core-lib/reducer';
+import { modalTypes } from '@cd/core-lib/types';
+import { replaceRelativePath } from '@cd/core-lib/utils';
 import {
 	Button,
 	FlexBox,

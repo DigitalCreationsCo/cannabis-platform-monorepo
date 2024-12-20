@@ -1,4 +1,4 @@
-import { TextContent } from '@cd/core-lib';
+import { TextContent } from '@cd/core-lib/constants';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { useState } from 'react';

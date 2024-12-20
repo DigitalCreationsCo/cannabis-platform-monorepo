@@ -1,8 +1,7 @@
 import cryptoJs from 'crypto-js';
 
 class Crypto {
-	secret: string;
-	// private secret:string;
+	private secret: string;
 	constructor(secret: string) {
 		if (!secret) throw new Error('Crypto secret key is required.');
 

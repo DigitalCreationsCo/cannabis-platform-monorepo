@@ -1,4 +1,8 @@
-import { CronJobApi, axios } from '@cd/core-lib';
+import { clientPromise } from '@/lib/db';
+import env from '@/lib/env';
+import { recordMetric } from '@/lib/metrics';
+import { axios } from '@cd/core-lib/axiosInstance';
+import { CronJobApi } from '@cd/core-lib/cron-job';
 import {
 	addToEventJobLocations,
 	type Event,
@@ -8,9 +12,6 @@ import {
 } from '@cd/data-access';
 import * as cheerio from 'cheerio';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { clientPromise } from '@/lib/db';
-import env from '@/lib/env';
-import { recordMetric } from '@/lib/metrics';
 
 export default async function handler(
 	req: NextApiRequest,

@@ -2,8 +2,19 @@
 /* eslint-disable sonarjs/cognitive-complexity */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { randomUUID } from 'crypto';
+import {
+	clearLoginAttempts,
+	exceededLoginAttemptsThreshold,
+	incrementLoginAttempts,
+} from '@/lib/accountLock';
+import { verifyPassword, isAuthProviderEnabled } from '@/lib/auth';
+import { clientPromise } from '@/lib/db';
+import { sendMagicLink } from '@/lib/email/sendMagicLink';
+import { isEmailAllowed } from '@/lib/email/utils';
+import env from '@/lib/env';
+import { validateRecaptcha } from '@/lib/recaptcha';
 import { MongoDBAdapter } from '@auth/mongodb-adapter';
-import { maxLengthPolicies, forceConsume } from '@cd/core-lib';
+import { maxLengthPolicies, forceConsume } from '@cd/core-lib/utils';
 import { createUser, getUser, Role, getAccount } from '@cd/data-access';
 import { setCookie, getCookie } from 'cookies-next';
 import type {
@@ -24,17 +35,6 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import EmailProvider from 'next-auth/providers/email';
 import GitHubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
-import {
-	clearLoginAttempts,
-	exceededLoginAttemptsThreshold,
-	incrementLoginAttempts,
-} from '@/lib/accountLock';
-import { verifyPassword, isAuthProviderEnabled } from '@/lib/auth';
-import { clientPromise } from '@/lib/db';
-import { sendMagicLink } from '@/lib/email/sendMagicLink';
-import { isEmailAllowed } from '@/lib/email/utils';
-import env from '@/lib/env';
-import { validateRecaptcha } from '@/lib/recaptcha';
 
 const adapter = MongoDBAdapter(clientPromise);
 const providers: Provider[] = [];

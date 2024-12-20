@@ -1,13 +1,13 @@
 import { TopBar } from '@/components/layouts';
 import { type NextPageWithLayout } from '@/lib/next.types';
-import { TextContent } from '@cd/core-lib';
+import seoConfig from '@/lib/seo.config';
+import { TextContent } from '@cd/core-lib/constants';
 import { Page, Footer } from '@cd/ui-lib';
 import { type GetServerSidePropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { NextSeo } from 'next-seo';
 import { type ReactElement } from 'react';
 import UserTermsAndConditions from '@/components/help-topics/legal/UserTermsAndConditions';
-import seoConfig from '@/lib/seo.config';
 
 const TermsPage: NextPageWithLayout = () => {
 	return (

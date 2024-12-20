@@ -1,11 +1,11 @@
-import { defaultHeaders, type ApiResponse } from '@cd/core-lib';
+import { Card } from '@/components/shared';
+import { updateAccountSchema } from '@/lib/zod';
+import { type ApiResponse, defaultHeaders } from '@cd/core-lib/types';
 import type { User } from '@cd/data-access';
 import { Button, TextField } from '@cd/ui-lib';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import toast from 'react-hot-toast';
-import { Card } from '@/components/shared';
-import { updateAccountSchema } from '@/lib/zod';
 
 interface UpdateEmailProps {
 	user: Partial<User>;

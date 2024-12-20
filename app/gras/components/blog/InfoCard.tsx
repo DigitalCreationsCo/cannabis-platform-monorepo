@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { truncateWordsAndLeaveN } from '@cd/core-lib';
+import { truncateWordsAndLeaveN } from '@cd/core-lib/utils';
 import { FlexBox, H5, Paragraph, styles } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';

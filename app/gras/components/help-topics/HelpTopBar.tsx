@@ -1,13 +1,13 @@
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 /* eslint-disable jsx-a11y/label-has-associated-control */
+import { TextContent } from '@cd/core-lib/constants';
 import {
 	modalActions,
-	modalTypes,
 	selectCartState,
 	selectIsCartEmpty,
 	selectUserState,
-	TextContent,
-} from '@cd/core-lib';
+} from '@cd/core-lib/reducer';
+import { modalTypes } from '@cd/core-lib/types';
 import { FlexBox, GrasSignature, Paragraph, styles } from '@cd/ui-lib';
 import Image from 'next/image';
 import Link from 'next/link';

@@ -4,7 +4,8 @@ import { Alert } from '@/components/shared';
 import { authProviderEnabled } from '@/lib/auth';
 import env from '@/lib/env';
 import type { NextPageWithLayout } from '@/lib/next.types';
-import { maxLengthPolicies } from '@cd/core-lib';
+import seoConfig from '@/lib/seo.config';
+import { maxLengthPolicies } from '@cd/core-lib/utils';
 import {
 	Button,
 	FlexBox,
@@ -43,7 +44,6 @@ import type { ComponentStatus } from 'react-daisyui/dist/types';
 import type ReCAPTCHA from 'react-google-recaptcha';
 import { twMerge } from 'tailwind-merge';
 import * as Yup from 'yup';
-import seoConfig from '@/lib/seo.config';
 import backdrop from '../../public/events-3.png';
 import logo from '../../public/logo.png';
 

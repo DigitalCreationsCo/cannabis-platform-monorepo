@@ -1,4 +1,4 @@
-import { useDispensary } from '@cd/core-lib';
+import { useDispensary } from '@cd/core-lib/hooks';
 import { type Price, type Service, type Subscription } from '@cd/data-access';
 import { Button, Paragraph } from '@cd/ui-lib';
 import { useTranslation } from 'next-i18next';

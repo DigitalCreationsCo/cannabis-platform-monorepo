@@ -1,8 +1,8 @@
 import { H1, H2, H3, H4, H5, Over21Button, Paragraph } from '@cd/ui-lib';
 import { motion } from 'framer-motion';
+import friendsVideo from 'public/Gras-community-clip.mp4';
 import { useCallback } from 'react';
 import { twMerge } from 'tailwind-merge';
-import friendsVideo from 'public/Gras-community-clip.mp4';
 
 const BlockRestrictedContent = ({
 	setShowRestrictedContent,

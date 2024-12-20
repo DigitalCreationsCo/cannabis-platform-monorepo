@@ -13,7 +13,6 @@ export * from './url.util';
 export * from './urlBuilder';
 export * from './widget.util';
 export * from './type.util';
-export * from './user.util';
 export * from './common.util';
 export * from './unsplash.util';
 export * from './image.util';

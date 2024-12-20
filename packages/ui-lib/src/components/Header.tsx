@@ -1,7 +1,7 @@
+import { TextContent } from '@cd/core-lib/constants';
 import Link from 'next/link';
 import { type PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { TextContent } from '../../../core-lib/src';
 import Icons from '../icons';
 import { styles } from '../styleClassNames';
 import { Button, IconButton } from './button';

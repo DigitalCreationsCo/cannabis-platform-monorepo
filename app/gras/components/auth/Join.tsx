@@ -1,9 +1,5 @@
-import {
-	type ApiResponse,
-	defaultHeaders,
-	maxLengthPolicies,
-	passwordPolicies,
-} from '@cd/core-lib';
+import { type ApiResponse, defaultHeaders } from '@cd/core-lib/types';
+import { maxLengthPolicies, passwordPolicies } from '@cd/core-lib/utils';
 import {
 	Button,
 	TextField,

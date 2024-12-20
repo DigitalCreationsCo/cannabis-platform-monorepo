@@ -1,4 +1,7 @@
-import { renderAddress, renderSchedule, TextContent } from '@cd/core-lib';
+import env from '@/lib/env';
+import seoConfig from '@/lib/seo.config';
+import { TextContent } from '@cd/core-lib/constants';
+import { renderAddress, renderSchedule } from '@cd/core-lib/utils';
 import {
 	type ProductVariantWithDetails,
 	type Dispensary,
@@ -28,11 +31,9 @@ import { NextSeo } from 'next-seo';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import logo from 'public/logo.png';
 import { type PropsWithChildren, useState, type ReactElement } from 'react';
 import { twMerge } from 'tailwind-merge';
-import env from '@/lib/env';
-import seoConfig from '@/lib/seo.config';
-import logo from 'public/logo.png';
 
 function DispensaryPage({
 	dispensary: organization,

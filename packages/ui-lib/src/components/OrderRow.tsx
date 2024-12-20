@@ -1,4 +1,4 @@
-import { truncate } from '@cd/core-lib';
+import { truncate } from '@cd/core-lib/utils';
 import { type Order } from '@cd/data-access';
 import { formatInTimeZone } from 'date-fns-tz';
 import Link from 'next/link';

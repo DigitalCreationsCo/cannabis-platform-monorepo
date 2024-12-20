@@ -6,18 +6,29 @@
 /* eslint-disable i18next/no-literal-string */
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable react/no-unknown-property */
+import { TopBar } from '@/components/layouts';
+import { Error } from '@/components/shared';
+import UserNavigation from '@/components/shared/shell/UserNavigation';
+import { clientPromise } from '@/lib/db';
+import env from '@/lib/env';
+import seoconfig from '@/lib/seo.config';
+import { getSession } from '@/lib/session';
 import {
 	type ResponseDataEnvelope,
 	applicationHeaders,
 	axios,
 	// getCoordinatePairFromCoordinates,
 } from '@cd/core-lib/axiosInstance';
-import { useEvents, useLocalDispensaries } from '@cd/core-lib/hooks';
+import {
+	useEvents,
+	useLocalDispensaries,
+	useIsLegalAge,
+} from '@cd/core-lib/hooks';
 import keywords from '@cd/core-lib/seo';
+import { defaultHeaders } from '@cd/core-lib/types';
 import {
 	isValidZipcode,
 	debounce,
-	defaultHeaders,
 	showDay,
 	urlBuilder,
 } from '@cd/core-lib/utils';
@@ -64,8 +75,6 @@ import { toast } from 'react-hot-toast';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 import { InfoCard } from '@/components/blog';
-import { TopBar } from '@/components/layouts';
-import { Error } from '@/components/shared';
 import EventCard from '@/components/shared/EventCard';
 // import {
 // 	getFacebookLoginStatus,
@@ -73,9 +82,6 @@ import EventCard from '@/components/shared/EventCard';
 // 	fbLogin,
 // } from '@cd/core-lib/lib/facebookIG';
 import RestrictPage from '@/components/shared/RestrictedPage';
-import UserNavigation from '@/components/shared/shell/UserNavigation';
-import { clientPromise } from '@/lib/db';
-import env from '@/lib/env';
 import {
 	type Post,
 	type Settings,
@@ -84,8 +90,6 @@ import {
 	getSettings,
 	readToken,
 } from '@/lib/sanity';
-import seoconfig from '@/lib/seo.config';
-import { getSession } from '@/lib/session';
 // import markerImage from 'public/map-marker.png';
 
 const defaultZipcode = '10001';
@@ -102,14 +106,7 @@ export default function Browse({
 }) {
 	const { status } = useSession();
 
-	const [isLegalAge, setIsLegalAge] = useState(false);
-
-	useEffect(() => {
-		// eslint-disable-next-line sonarjs/no-redundant-boolean
-		if (isLegalAge == true) {
-			setCookie('is_legal_age', 'true');
-		}
-	}, [isLegalAge, setIsLegalAge]);
+	const { isLegalAge, setIsLegalAge } = useIsLegalAge(user);
 
 	const { t } = useTranslation('common');
 	const saveZipcodeToLocalStorage = (zipcode: string): string => {
@@ -275,7 +272,10 @@ export default function Browse({
 				]}
 			/>
 
-			<RestrictPage showContent={isLegalAge === true}>
+			<RestrictPage
+				showContent={isLegalAge}
+				setShowRestrictedContent={setIsLegalAge}
+			>
 				<Page
 					status={status}
 					id="browse-page"

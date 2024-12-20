@@ -1,13 +1,15 @@
 import {
+	crashMiddleware,
+	locationMiddleware,
+	loggerMiddleware,
+} from '@cd/core-lib/middleware';
+import {
 	blogReducer,
 	cartReducer,
 	locationReducer,
 	modalReducer,
-	type AppStore,
-	crashMiddleware,
-	locationMiddleware,
-	loggerMiddleware,
-} from '@cd/core-lib';
+} from '@cd/core-lib/reducer';
+import { type AppStore } from '@cd/core-lib/types';
 import { combineReducers, configureStore, type Store } from '@reduxjs/toolkit';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 import {

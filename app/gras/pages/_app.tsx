@@ -1,6 +1,10 @@
+import { AccountLayout } from '@/components/layouts';
+import { type AppPropsWithLayout } from '@/lib/next.types';
+import seoConfig from '@/lib/seo.config';
+import { wrapper } from '@/lib/store';
 import { Themer } from '@boxyhq/react-ui/shared';
 import { axios } from '@cd/core-lib/axiosInstance';
-import { GTMTag, loadGoogleTagManager, loadHotJar } from '@cd/core-lib/lib';
+import { GTMTag, loadGoogleTagManager } from '@cd/core-lib/lib';
 import CacheProvider from '@cd/core-lib/lib/cache';
 import {
 	ErrorBoundary,
@@ -19,10 +23,6 @@ import { useEffect, useState } from 'react';
 import { Provider as ReduxProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { SWRConfig } from 'swr';
-import { AccountLayout } from '@/components/layouts';
-import { type AppPropsWithLayout } from '@/lib/next.types';
-import seoConfig from '@/lib/seo.config';
-import { wrapper } from '@/lib/store';
 
 import '../styles/tailwind.css';
 

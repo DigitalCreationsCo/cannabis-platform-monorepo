@@ -1,4 +1,4 @@
-import { ApiError } from '@cd/core-lib';
+import { ApiError } from '@cd/core-lib/errors';
 import { type ZodType } from 'zod';
 import type z from 'zod';
 

@@ -1,11 +1,12 @@
-import { type ApiResponse, defaultHeaders, useInvitations } from '@cd/core-lib';
+import { Error, LetterAvatar } from '@/components/shared';
+import { Table } from '@/components/shared/table/Table';
+import { useInvitations } from '@cd/core-lib/hooks';
+import { type ApiResponse, defaultHeaders } from '@cd/core-lib/types';
 import { type Invitation } from '@cd/data-access';
 import { LoadingDots, H2, Paragraph } from '@cd/ui-lib';
 import { useTranslation } from 'next-i18next';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
-import { Error, LetterAvatar } from '@/components/shared';
-import { Table } from '@/components/shared/table/Table';
 import ConfirmationDialog from '../shared/ConfirmationDialog';
 
 const PendingInvitations = ({ team }: { team: any }) => {

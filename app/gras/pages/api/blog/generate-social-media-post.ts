@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { axios } from '@cd/core-lib';
+import { axios } from '@cd/core-lib/axiosInstance';
 import { createClient } from 'next-sanity';
 import NodeCache from 'node-cache';
 import {

@@ -1,4 +1,10 @@
-import { ApiError } from '@cd/core-lib';
+import { unlockAccount } from '@/lib/accountLock';
+import { hashPassword } from '@/lib/auth';
+import { clientPromise } from '@/lib/db';
+import env from '@/lib/env';
+import { recordMetric } from '@/lib/metrics';
+import { resetPasswordSchema, validateWithSchema } from '@/lib/zod';
+import { ApiError } from '@cd/core-lib/errors';
 import {
 	updateUser,
 	deleteManySessions,
@@ -6,12 +12,6 @@ import {
 	getPasswordReset,
 } from '@cd/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { unlockAccount } from '@/lib/accountLock';
-import { hashPassword } from '@/lib/auth';
-import { clientPromise } from '@/lib/db';
-import env from '@/lib/env';
-import { recordMetric } from '@/lib/metrics';
-import { resetPasswordSchema, validateWithSchema } from '@/lib/zod';
 
 export default async function handler(
 	req: NextApiRequest,

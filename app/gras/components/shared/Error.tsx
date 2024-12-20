@@ -18,12 +18,6 @@ const Error = (props: ErrorProps) => {
 };
 
 Error.getInitialProps = ({ res, err }) => {
-	if (typeof window == 'undefined') {
-		// newrelic.noticeError(err);
-	} else {
-		window.newrelic.noticeError(err);
-	}
-
 	const statusCode = res ? res.statusCode : err ? err.statusCode : 404;
 	return { statusCode };
 };

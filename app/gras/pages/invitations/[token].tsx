@@ -1,13 +1,4 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { useInvitation } from '@cd/core-lib';
-import { LoadingDots, H2, Paragraph } from '@cd/ui-lib';
-import { type GetServerSidePropsContext } from 'next';
-import { useSession } from 'next-auth/react';
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import Head from 'next/head';
-import { type ReactElement } from 'react';
-
 import AcceptInvitation from '@/components/invitation/AcceptInvitation';
 import EmailDomainMismatch from '@/components/invitation/EmailDomainMismatch';
 import EmailMismatch from '@/components/invitation/EmailMismatch';
@@ -16,6 +7,14 @@ import { AuthLayout } from '@/components/layouts';
 import { Error } from '@/components/shared';
 import { extractEmailDomain } from '@/lib/email/utils';
 import { type NextPageWithLayout } from '@/lib/next.types';
+import { useInvitation } from '@cd/core-lib/hooks';
+import { LoadingDots, H2, Paragraph } from '@cd/ui-lib';
+import { type GetServerSidePropsContext } from 'next';
+import { useSession } from 'next-auth/react';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import Head from 'next/head';
+import { type ReactElement } from 'react';
 
 const AcceptTeamInvitation: NextPageWithLayout = () => {
 	const { status, data } = useSession();

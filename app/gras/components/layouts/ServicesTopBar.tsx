@@ -1,4 +1,4 @@
-import { TextContent } from '@cd/core-lib';
+import { TextContent } from '@cd/core-lib/constants';
 import { Button, FlexBox, GrasSignature, Paragraph, styles } from '@cd/ui-lib';
 import { useTranslation } from 'next-i18next';
 import Image from 'next/image';

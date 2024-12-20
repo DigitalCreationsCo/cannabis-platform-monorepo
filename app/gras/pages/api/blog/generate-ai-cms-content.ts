@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { openai } from '@cd/ai';
+import { axios } from '@cd/core-lib/axiosInstance';
 import {
-	axios,
 	searchUnsplashPhotoByKeyword,
 	triggerUnsplashDownload,
-} from '@cd/core-lib';
+} from '@cd/core-lib/utils';
 import { type NextApiResponse } from 'next';
 import nc from 'next-connect';
 import { createClient } from 'next-sanity';

@@ -1,10 +1,12 @@
 import Cal, { getCalApi } from '@calcom/embed-react';
 import {
-	type ResponseDataEnvelope,
 	usStatesAbbreviationList,
-	applicationHeaders,
 	getFirstErrorOrNull,
-} from '@cd/core-lib';
+} from '@cd/core-lib/utils';
+import {
+	type ResponseDataEnvelope,
+	applicationHeaders,
+} from '@cd/core-lib/axiosInstance';
 import axios, { type AxiosResponse } from 'axios';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';

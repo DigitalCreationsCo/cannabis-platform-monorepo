@@ -16,12 +16,6 @@ export default defineConfig({
 		globals: true,
 		setupFiles: './setupVitest.ts',
 		passWithNoTests: true,
-		/*
-    deps: {
-      experimentalOptimizer: {
-        enabled: true,
-      },
-    }, */
 		cache: {
 			dir: '../../.cache/vitest/core-lib',
 		},

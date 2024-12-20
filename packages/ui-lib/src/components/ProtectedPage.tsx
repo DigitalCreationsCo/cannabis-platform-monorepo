@@ -1,8 +1,5 @@
-import {
-	hasMembershipRoleAccess,
-	selectDriverState,
-	selectUserState,
-} from '@cd/core-lib';
+import { selectDriverState, selectUserState } from '@cd/core-lib/reducer';
+import { hasMembershipRoleAccess } from '@cd/core-lib/auth';
 import { Role, type User } from '@cd/data-access';
 import { useRouter } from 'next/router';
 import { type PropsWithChildren } from 'react';

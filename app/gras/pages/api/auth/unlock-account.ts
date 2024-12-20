@@ -1,9 +1,9 @@
-import { ApiError } from '@cd/core-lib';
-import { deleteVerificationToken, getUser } from '@cd/data-access';
-import type { NextApiRequest, NextApiResponse } from 'next';
 import { isAccountLocked, sendLockoutEmail } from '@/lib/accountLock';
 import { clientPromise } from '@/lib/db';
 import { resendLinkRequestSchema, validateWithSchema } from '@/lib/zod';
+import { ApiError } from '@cd/core-lib/errors';
+import { deleteVerificationToken, getUser } from '@cd/data-access';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
 	req: NextApiRequest,

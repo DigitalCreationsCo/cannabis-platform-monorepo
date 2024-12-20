@@ -1,11 +1,7 @@
-import {
-	useInvitations,
-	isValidDomain,
-	availableRoles,
-	type ApiResponse,
-	defaultHeaders,
-	maxLengthPolicies,
-} from '@cd/core-lib';
+import { useInvitations } from '@cd/core-lib/hooks';
+import { availableRoles } from '@cd/core-lib/lib';
+import { type ApiResponse, defaultHeaders } from '@cd/core-lib/types';
+import { isValidDomain, maxLengthPolicies } from '@cd/core-lib/utils';
 import { type Dispensary } from '@cd/data-access';
 import { Paragraph, TextField, Button } from '@cd/ui-lib';
 import { useFormik } from 'formik';

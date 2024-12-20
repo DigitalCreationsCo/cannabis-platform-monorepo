@@ -1,12 +1,13 @@
 import { type NextPageWithLayout } from '@/lib/next.types';
-import { keywords, TextContent } from '@cd/core-lib';
+import seoConfig from '@/lib/seo.config';
+import { TextContent } from '@cd/core-lib/constants';
+import keywords from '@cd/core-lib/seo';
 import { Page, Footer } from '@cd/ui-lib';
 import { type GetServerSidePropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { NextSeo } from 'next-seo';
 import { type ReactElement } from 'react';
 import AboutGras from '@/components/help-topics/AboutGras';
-import seoConfig from '@/lib/seo.config';
 
 const AboutPage: NextPageWithLayout = () => {
 	return (
