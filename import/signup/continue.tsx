@@ -1,5 +1,5 @@
-import { getShopSite, selectUserState } from '@cd/core-lib';
-import { Card, H2, Page, type LayoutContextProps } from '@cd/ui-lib';
+import { getShopSite, selectUserState } from '@gras/core';
+import { Card, H2, Page, type LayoutContextProps } from '@gras/ui';
 import router from 'next/router';
 import { useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';

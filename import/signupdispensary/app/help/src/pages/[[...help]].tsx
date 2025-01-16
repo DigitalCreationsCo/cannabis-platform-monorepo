@@ -8,7 +8,7 @@ import {
 	Paragraph,
 	styles,
 	type LayoutContextProps,
-} from '@cd/ui-lib';
+} from '@gras/ui';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';

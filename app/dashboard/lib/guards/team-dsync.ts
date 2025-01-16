@@ -1,4 +1,4 @@
-import { ApiError } from '@cd/core-lib';
+import { ApiError } from '@gras/core';
 import { dsyncManager } from '@/lib/jackson/dsync';
 
 interface GuardOptions {

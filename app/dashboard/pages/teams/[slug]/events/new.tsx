@@ -8,8 +8,8 @@ import {
 	getFirstErrorOrNull,
 	TextContent,
 	debounce,
-} from '@cd/core-lib';
-import { type Event } from '@cd/data-access';
+} from '@gras/core';
+import { type Event } from '@gras/data-access';
 import {
 	Button,
 	FlexBox,
@@ -18,7 +18,7 @@ import {
 	Page,
 	TextField,
 	CheckBox,
-} from '@cd/ui-lib';
+} from '@gras/ui';
 import { TicketIcon } from '@heroicons/react/24/outline';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';

@@ -1,4 +1,4 @@
-import { Card, H1, Page, Paragraph, type LayoutContextProps } from '@cd/ui-lib';
+import { Card, H1, Page, Paragraph, type LayoutContextProps } from '@gras/ui';
 import Head from 'next/head';
 import Confetti from 'react-confetti';
 import { twMerge } from 'tailwind-merge';

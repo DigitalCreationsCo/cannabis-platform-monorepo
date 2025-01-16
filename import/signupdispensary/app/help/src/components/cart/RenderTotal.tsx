@@ -1,5 +1,5 @@
-import { selectCartState } from '@cd/core-lib';
-import { H4, Price } from '@cd/ui-lib';
+import { selectCartState } from '@gras/core';
+import { H4, Price } from '@gras/ui';
 import { useSelector } from 'react-redux';
 
 function RenderTotal({ total }: { total?: number }) {

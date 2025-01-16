@@ -1,4 +1,4 @@
-import { CopyRight, FlexBox, H2, Paragraph, Video } from '@cd/ui-lib';
+import { CopyRight, FlexBox, H2, Paragraph, Video } from '@gras/ui';
 
 function HowToOrder() {
 	return (

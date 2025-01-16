@@ -3,8 +3,8 @@ import {
 	generateCheckoutLineItemsFromOrderItems,
 	TextContent,
 	type CheckoutSessionMetaData,
-} from '@cd/core-lib';
-import { type OrderCreateType, type ProductVariant } from '@cd/data-access';
+} from '@gras/core';
+import { type OrderCreateType, type ProductVariant } from '@gras/data-access';
 import Stripe from 'stripe';
 import { PaymentDA } from '../data-access';
 

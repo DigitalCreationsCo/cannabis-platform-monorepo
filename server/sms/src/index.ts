@@ -1,5 +1,5 @@
-import { axios } from '@cd/core-lib';
-import prisma from '@cd/data-access';
+import { axios } from '@gras/core';
+import prisma from '@gras/data-access';
 import DailyDealScheduler from './scheduler';
 import server from './server';
 

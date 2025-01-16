@@ -2,8 +2,8 @@ import {
 	maxLengthPolicies,
 	defaultHeaders,
 	passwordPolicies,
-} from '@cd/core-lib';
-import { Button, TextField } from '@cd/ui-lib';
+} from '@gras/core';
+import { Button, TextField } from '@gras/ui';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import toast from 'react-hot-toast';

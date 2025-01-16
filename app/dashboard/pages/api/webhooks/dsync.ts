@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import { ApiError } from '@cd/core-lib';
+import { ApiError } from '@gras/core';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import env from '@/lib/env';
 import { handleEvents } from '@/lib/jackson/dsyncEvents';

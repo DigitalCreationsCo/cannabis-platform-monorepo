@@ -1,4 +1,4 @@
-// import { type ProductVariantWithDetails } from '@cd/data-access';
+// import { type ProductVariantWithDetails } from '@gras/data-access';
 import React, { type PropsWithChildren, useState } from 'react';
 import { Image, TextInput } from 'react-native';
 import Price from './Price';

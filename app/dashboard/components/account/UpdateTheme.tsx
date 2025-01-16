@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
-import { useTheme } from '@cd/ui-lib';
+import { useTheme } from '@gras/ui';
 import { ChevronUpDownIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'next-i18next';
 import { Card } from '@/components/shared';

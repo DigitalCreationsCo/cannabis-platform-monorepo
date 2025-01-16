@@ -1,4 +1,4 @@
-import { Paragraph } from '@cd/ui-lib';
+import { Paragraph } from '@gras/ui';
 import { useTranslation } from 'next-i18next';
 import Alert from './Alert';
 

@@ -3,7 +3,7 @@ import {
 	type ArticleTag,
 	type ArticleCreateType,
 	type Prisma,
-} from '@cd/data-access';
+} from '@gras/data-access';
 import { ArticleDA } from '../data-access';
 
 /* =================================

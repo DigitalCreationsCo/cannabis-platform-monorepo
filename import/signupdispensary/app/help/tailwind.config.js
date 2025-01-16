@@ -4,7 +4,7 @@ module.exports = {
 	plugins: [require('daisyui')],
 	content: [
 		'./src/**/*.{js,jsx,ts,tsx}',
-		'../../packages/ui-lib/src/**/*.{js,jsx,ts,tsx}',
+		'../../packages/ui/src/**/*.{js,jsx,ts,tsx}',
 	],
 	theme: {
 		fontFamily: {

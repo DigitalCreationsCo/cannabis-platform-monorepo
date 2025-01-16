@@ -10,9 +10,9 @@ import {
 	useCanAccess,
 	useDispensary,
 	throwIfNotAllowed,
-} from '@cd/core-lib';
-import { type User, getStaffMemberWithDispensary } from '@cd/data-access';
-import { LoadingPage } from '@cd/ui-lib';
+} from '@gras/core';
+import { type User, getStaffMemberWithDispensary } from '@gras/data-access';
+import { LoadingPage } from '@gras/ui';
 import { type GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';

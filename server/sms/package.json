@@ -1,8 +1,8 @@
 {
   "main": "src/index.ts",
   "dependencies": {
-    "@cd/core-lib": "workspace:*",
-    "@cd/data-access": "workspace:*",
+    "@gras/core": "workspace:*",
+    "@gras/data-access": "workspace:*",
     "@paralleldrive/cuid2": "2.2.1",
     "@urql/core": "4.1.4",
     "api": "6.1.1",
@@ -51,7 +51,7 @@
     "ts-jest": "^29.1.2",
     "typescript": "5.4.5"
   },
-  "name": "@cd/server-sms",
+  "name": "@gras/server-sms",
   "private": true,
   "scripts": {
     "build": "rimraf ./dist && dotenv -e ../../.env.production -- babel ./src --out-dir dist --extensions \".ts,.tsx\"",

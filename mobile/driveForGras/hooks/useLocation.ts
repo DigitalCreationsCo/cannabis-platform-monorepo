@@ -1,6 +1,6 @@
 import { 
 	selectDriverState,
-	driverActions } from '@cd/core-lib/src/reducer/driver.reducer';
+	driverActions } from '@gras/core/src/reducer/driver.reducer';
 import {useSelector } from 'react-redux'
 import { useRealm } from '@realm/react';
 import * as Location from 'expo-location';

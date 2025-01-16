@@ -2,7 +2,7 @@ import env from '@/lib/env';
 import {
 	type StaffMemberWithDispensary,
 	updateDispensary,
-} from '@cd/data-access';
+} from '@gras/data-access';
 import Stripe from 'stripe';
 import { clientPromise } from './db';
 import { sendEmail } from './email/sendEmail';

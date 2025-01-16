@@ -1,7 +1,7 @@
 import {} from '@carbon/icons-react';
-import { selectCartState, TextContent } from '@cd/core-lib';
-import { type ProductVariantWithDetails } from '@cd/data-access';
-import { Grid, Paragraph, ProductItem } from '@cd/ui-lib';
+import { selectCartState, TextContent } from '@gras/core';
+import { type ProductVariantWithDetails } from '@gras/data-access';
+import { Grid, Paragraph, ProductItem } from '@gras/ui';
 import Link from 'next/link';
 import { useSelector } from 'react-redux';
 import { twMerge } from 'tailwind-merge';

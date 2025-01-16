@@ -1,5 +1,5 @@
 {
-  "name": "@cd/pricing-tool",
+  "name": "@gras/pricing-tool",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -30,10 +30,10 @@
     ]
   },
   "dependencies": {
-    "@cd/core-lib": "workspace:*",
-    "@cd/data-access": "workspace:*",
-    "@cd/eslint-config": "workspace:*",
-    "@cd/ui-lib": "workspace:*",
+    "@gras/core": "workspace:*",
+    "@gras/data-access": "workspace:*",
+    "@gras/eslint-config": "workspace:*",
+    "@gras/ui": "workspace:*",
     "@reduxjs/toolkit": "2.2.1",
     "axios": "1.2.1",
     "boarding.js": "3.5.2",

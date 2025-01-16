@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { FreshSales, useDispensary } from '@cd/core-lib';
-import { type Customer } from '@cd/data-access';
+import { FreshSales, useDispensary } from '@gras/core';
+import { type Customer } from '@gras/data-access';
 import {
 	PageHeader,
 	Paragraph,
@@ -9,7 +9,7 @@ import {
 	Button,
 	CheckBox,
 	Page,
-} from '@cd/ui-lib';
+} from '@gras/ui';
 import { PlusIcon, UserGroupIcon } from '@heroicons/react/24/outline';
 import axios from 'axios';
 import { type GetServerSidePropsContext } from 'next';

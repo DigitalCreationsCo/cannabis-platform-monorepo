@@ -1,4 +1,4 @@
-import { throwIfNotAllowed } from '@cd/core-lib';
+import { throwIfNotAllowed } from '@gras/core';
 import // createInvitation,
 // deleteInvitation,
 // getInvitation,
@@ -8,7 +8,7 @@ import // createInvitation,
 // type Invitation,
 // type Role,
 // countStaffMembers,
-'@cd/data-access';
+'@gras/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
 // import { sendTeamInviteEmail } from '@/lib/email/sendTeamInviteEmail';

@@ -1,5 +1,5 @@
-import { defaultHeaders, type ApiResponse } from '@cd/core-lib';
-import { Button, TextField } from '@cd/ui-lib';
+import { defaultHeaders, type ApiResponse } from '@gras/core';
+import { Button, TextField } from '@gras/ui';
 import { useFormik } from 'formik';
 import {
 	type GetServerSidePropsContext,

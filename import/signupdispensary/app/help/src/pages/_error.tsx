@@ -1,4 +1,4 @@
-import { ErrorMessage, Page } from '@cd/ui-lib';
+import { ErrorMessage, Page } from '@gras/ui';
 import { type AxiosError } from 'axios';
 import { type NextPageContext } from 'next';
 

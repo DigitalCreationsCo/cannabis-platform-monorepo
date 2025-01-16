@@ -1,4 +1,4 @@
-import { permissions } from '@cd/core-lib';
+import { permissions } from '@gras/core';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
 

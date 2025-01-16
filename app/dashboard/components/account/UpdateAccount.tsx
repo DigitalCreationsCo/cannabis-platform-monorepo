@@ -1,5 +1,5 @@
 import env from '@/lib/env';
-import type { StaffMember } from '@cd/data-access';
+import type { StaffMember } from '@gras/data-access';
 import UpdateEmail from './UpdateEmail';
 import UpdateName from './UpdateName';
 import UpdateTheme from './UpdateTheme';

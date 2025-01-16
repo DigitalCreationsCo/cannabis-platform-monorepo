@@ -1,5 +1,5 @@
-import { LoadingPage, Paragraph } from '@cd/ui-lib';
-import { loadHotJar } from '@cd/core-lib/lib/hotjar/hotjar-dashboard';
+import { LoadingPage, Paragraph } from '@gras/ui';
+import { loadHotJar } from '@gras/core/lib/hotjar/hotjar-dashboard';
 import {
 	type GetServerSidePropsContext,
 	type InferGetServerSidePropsType,

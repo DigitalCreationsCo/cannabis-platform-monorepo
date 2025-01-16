@@ -1,10 +1,10 @@
-import { throwIfNotAllowed } from '@cd/core-lib';
+import { throwIfNotAllowed } from '@gras/core';
 import {
 	type Event,
 	deleteEvent,
 	getEvent,
 	updateEvent,
-} from '@cd/data-access';
+} from '@gras/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { clientPromise } from '@/lib/db';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';

@@ -20,7 +20,7 @@ const config: StorybookConfig = {
 		options: {},
 	},
 	stories: ['../**/src/**/*.mdx', '../**/src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
-	staticDirs: ['../packages/ui-lib/public', '../app/gras/public', '../app/dashboard/public'],
+	staticDirs: ['../packages/ui/public', '../app/gras/public', '../app/dashboard/public'],
 	addons: [
 		getAbsolutePath('storybook-addon-performance')
 		// getAbsolutePath('@storybook/addon-links'),

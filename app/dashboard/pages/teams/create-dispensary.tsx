@@ -1,4 +1,4 @@
-import { Page, FormStepProvider, CloseButton } from '@cd/ui-lib';
+import { Page, FormStepProvider, CloseButton } from '@gras/ui';
 import type {
 	GetServerSidePropsContext,
 	InferGetServerSidePropsType,

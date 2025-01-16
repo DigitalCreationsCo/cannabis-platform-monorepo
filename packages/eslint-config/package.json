@@ -32,7 +32,7 @@
     "typescript": "5.4.5"
   },
   "main": "./src/index.js",
-  "name": "@cd/eslint-config",
+  "name": "@gras/eslint-config",
   "private": true,
   "scripts": {
     "lint": "eslint --ext .ts,.js,.cjs,.mjs",

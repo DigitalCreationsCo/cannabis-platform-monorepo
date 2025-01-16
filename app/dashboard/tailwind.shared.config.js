@@ -14,7 +14,7 @@ const isProd = process.env.NODE_ENV === 'production';
 module.exports = {
 	plugins: [require('@tailwindcss/typography'), require('daisyui')],
 	content: [
-		'../../packages/ui-lib/src/**/*.{js,jsx,ts,tsx}',
+		'../../packages/ui/src/**/*.{js,jsx,ts,tsx}',
 		'../../node_modules/daisyui/dist/**/*.js',
 		'../../node_modules/react-daisyui/dist/**/*.js',
 	],

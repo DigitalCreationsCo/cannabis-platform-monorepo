@@ -7,7 +7,7 @@ import type {
 	GetConnectionsQuery,
 } from '@boxyhq/saml-jackson';
 
-import { ApiError } from '@cd/core-lib';
+import { ApiError } from '@gras/core';
 
 export const strategyChecker = (
 	body: any

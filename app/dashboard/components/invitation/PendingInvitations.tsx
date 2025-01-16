@@ -1,6 +1,6 @@
-import { type ApiResponse, defaultHeaders, useInvitations } from '@cd/core-lib';
-import { type Invitation } from '@cd/data-access';
-import { H2, Paragraph } from '@cd/ui-lib';
+import { type ApiResponse, defaultHeaders, useInvitations } from '@gras/core';
+import { type Invitation } from '@gras/data-access';
+import { H2, Paragraph } from '@gras/ui';
 import { useTranslation } from 'next-i18next';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';

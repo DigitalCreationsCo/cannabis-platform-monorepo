@@ -2,7 +2,7 @@ import type {
 	DelConnectionsQuery,
 	GetConnectionsQuery,
 } from '@boxyhq/saml-jackson';
-import { ApiError, forceConsume } from '@cd/core-lib';
+import { ApiError, forceConsume } from '@gras/core';
 
 import env from '@/lib/env';
 import { options } from '../config';

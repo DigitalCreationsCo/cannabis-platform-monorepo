@@ -1,4 +1,4 @@
-import { getDispensary } from '@cd/data-access';
+import { getDispensary } from '@gras/data-access';
 import { type NextApiRequest, type NextApiResponse } from 'next';
 import { clientPromise } from '@/lib/db';
 import env from '@/lib/env';

@@ -1,4 +1,4 @@
-import { ErrorMessage, Page, type LayoutContextProps } from '@cd/ui-lib';
+import { ErrorMessage, Page, type LayoutContextProps } from '@gras/ui';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 function _404({ code = 404 }: { code: number }) {

@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable sonarjs/cognitive-complexity */
 /* eslint-disable sonarjs/no-duplicated-branches */
-import { fetcher, type ApiResponse, useCanAccess } from '@cd/core-lib';
-import { type Event, type DailyDeal, type Dispensary } from '@cd/data-access';
-import { H2, H3, Paragraph } from '@cd/ui-lib';
+import { fetcher, type ApiResponse, useCanAccess } from '@gras/core';
+import { type Event, type DailyDeal, type Dispensary } from '@gras/data-access';
+import { H2, H3, Paragraph } from '@gras/ui';
 import {
 	PencilSquareIcon,
 	XCircleIcon,

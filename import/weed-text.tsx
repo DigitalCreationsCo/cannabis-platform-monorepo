@@ -6,7 +6,7 @@ import {
 	TextContent,
 	useAppDispatch,
 	useAppSelector,
-} from '@cd/core-lib';
+} from '@gras/core';
 import {
 	Button,
 	Card,
@@ -18,8 +18,8 @@ import {
 	Page,
 	Paragraph,
 	type LayoutContextProps,
-} from '@cd/ui-lib';
-import Icons from '@cd/ui-lib/src/icons';
+} from '@gras/ui';
+import Icons from '@gras/ui/src/icons';
 import { type StaticImageData } from 'next/image';
 import { type PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';

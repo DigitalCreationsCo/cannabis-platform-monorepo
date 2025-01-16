@@ -1,4 +1,4 @@
-import { getDashboardSite, TextContent } from '@cd/core-lib';
+import { getDashboardSite, TextContent } from '@gras/core';
 import {
 	Button,
 	Center,
@@ -11,7 +11,7 @@ import {
 	Page,
 	Paragraph,
 	SignInButton,
-} from '@cd/ui-lib';
+} from '@gras/ui';
 import Link from 'next/link';
 
 function SignUpStart() {

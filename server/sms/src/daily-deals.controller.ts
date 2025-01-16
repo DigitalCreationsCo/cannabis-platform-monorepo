@@ -6,8 +6,8 @@ import {
 	isEmpty,
 	showTime,
 	getDailyDealProductsAndCalculateTotal,
-} from '@cd/core-lib';
-import SMS from '@cd/core-lib/lib/sms/sms.module';
+} from '@gras/core';
+import SMS from '@gras/core/lib/sms/sms.module';
 import {
 	type DailyDealCreateWithSkus,
 	findDailyDeal,
@@ -20,7 +20,7 @@ import {
 	findOrganizationById,
 	type OrderWithShopDetails,
 	createDailyDeal,
-} from '@cd/data-access';
+} from '@gras/data-access';
 import axios from 'axios';
 import nodeCache from 'node-cache';
 import { redisDailyDeals } from './redis-daily-deals';

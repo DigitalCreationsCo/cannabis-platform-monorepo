@@ -1,4 +1,4 @@
-import { eventTypes, type WebookFormSchema } from '@cd/core-lib';
+import { eventTypes, type WebookFormSchema } from '@gras/core';
 import React, { type ReactElement } from 'react';
 
 const EventTypes = ({

@@ -1,6 +1,6 @@
-require('@cd/eslint-config/src/patch/modern-module-resolution');
+require('@gras/eslint-config/src/patch/modern-module-resolution');
 
-const { getDefaultIgnorePatterns } = require('@cd/eslint-config/src/helpers');
+const { getDefaultIgnorePatterns } = require('@gras/eslint-config/src/helpers');
 
 module.exports = {
 	root: true,
@@ -10,13 +10,13 @@ module.exports = {
 	},
 	ignorePatterns: [...getDefaultIgnorePatterns()],
 	extends: [
-		'@cd/eslint-config/src/bases/src/bases/typescript',
-		'@cd/eslint-config/src/bases/src/bases/regexp',
-		'@cd/eslint-config/src/bases/src/bases/sonar',
-		'@cd/eslint-config/src/bases/src/bases/jest',
-		'@cd/eslint-config/src/bases/src/bases/rtl',
+		'@gras/eslint-config/src/bases/src/bases/typescript',
+		'@gras/eslint-config/src/bases/src/bases/regexp',
+		'@gras/eslint-config/src/bases/src/bases/sonar',
+		'@gras/eslint-config/src/bases/src/bases/jest',
+		'@gras/eslint-config/src/bases/src/bases/rtl',
 		// Apply prettier and disable incompatible rules
-		'@cd/eslint-config/src/bases/src/bases/prettier',
+		'@gras/eslint-config/src/bases/src/bases/prettier',
 	],
 	rules: {
 		// optional overrides per project

@@ -3,8 +3,8 @@ import {
 	defaultHeaders,
 	type ApiResponse,
 	type WebookFormSchema,
-} from '@cd/core-lib';
-import { type Dispensary } from '@cd/data-access';
+} from '@gras/core';
+import { type Dispensary } from '@gras/data-access';
 import type { FormikHelpers } from 'formik';
 import { useTranslation } from 'next-i18next';
 import React from 'react';

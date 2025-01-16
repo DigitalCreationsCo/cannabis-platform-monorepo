@@ -1,5 +1,5 @@
-import { maxLengthPolicies } from '@cd/core-lib';
-import { LoadingDots, Button, TextField, Paragraph } from '@cd/ui-lib';
+import { maxLengthPolicies } from '@gras/core';
+import { LoadingDots, Button, TextField, Paragraph } from '@gras/ui';
 import { useFormik } from 'formik';
 import {
 	type GetServerSidePropsContext,

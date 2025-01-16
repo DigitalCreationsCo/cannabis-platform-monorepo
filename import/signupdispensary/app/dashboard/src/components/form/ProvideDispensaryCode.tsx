@@ -1,4 +1,4 @@
-import { TextContent, urlBuilder } from '@cd/core-lib';
+import { TextContent, urlBuilder } from '@gras/core';
 import {
 	Button,
 	Center,
@@ -9,7 +9,7 @@ import {
 	Paragraph,
 	TextField,
 	useFormContext,
-} from '@cd/ui-lib';
+} from '@gras/ui';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import { useSearchParams } from 'next/navigation';

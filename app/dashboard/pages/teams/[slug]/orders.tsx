@@ -3,8 +3,8 @@ import {
 	axios,
 	dispensaryActions,
 	urlBuilder,
-} from '@cd/core-lib';
-import { type Order } from '@cd/data-access';
+} from '@gras/core';
+import { type Order } from '@gras/data-access';
 import {
 	Grid,
 	H6,
@@ -15,7 +15,7 @@ import {
 	PageHeader,
 	Row,
 	type LayoutContextProps,
-} from '@cd/ui-lib';
+} from '@gras/ui';
 import { DocumentIcon } from '@heroicons/react/24/outline';
 import { type GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';

@@ -1,7 +1,7 @@
 import {
 	calculateProductSaleAtQuantity,
 	convertCentsToDollars,
-} from '@cd/core-lib/src/utils/transaction.util';
+} from '@gras/core/src/utils/transaction.util';
 import { type TextStyle } from 'react-native';
 import { View, Text } from './Themed';
 

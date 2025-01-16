@@ -3,7 +3,7 @@ import {
 	deleteVerificationToken,
 	updateStaffMember,
 	getVerificationToken,
-} from '@cd/data-access';
+} from '@gras/data-access';
 import type { GetServerSidePropsContext } from 'next';
 import type { ReactElement } from 'react';
 

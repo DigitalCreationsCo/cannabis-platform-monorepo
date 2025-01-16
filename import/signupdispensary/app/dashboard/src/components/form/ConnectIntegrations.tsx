@@ -1,6 +1,6 @@
 /* eslint-disable sonarjs/cognitive-complexity */
-import { TextContent, urlBuilder } from '@cd/core-lib';
-import { type Inventory, type POS } from '@cd/data-access';
+import { TextContent, urlBuilder } from '@gras/core';
+import { type Inventory, type POS } from '@gras/data-access';
 import {
 	Button,
 	FlexBox,
@@ -11,7 +11,7 @@ import {
 	Small,
 	TextField,
 	useFormContext,
-} from '@cd/ui-lib';
+} from '@gras/ui';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import { AnimatePresence, motion } from 'framer-motion';

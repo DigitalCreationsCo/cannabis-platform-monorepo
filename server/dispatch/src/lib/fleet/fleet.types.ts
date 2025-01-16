@@ -1,4 +1,4 @@
-import { type CoordinatesCreateType } from '@cd/data-access';
+import { type CoordinatesCreateType } from '@gras/data-access';
 
 /* eslint-disable @typescript-eslint/naming-convention */
 export type Manifest = {

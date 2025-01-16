@@ -8,7 +8,7 @@ import {
 	PageHeader,
 	Paragraph,
 	H5,
-} from '@cd/ui-lib';
+} from '@gras/ui';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useEffect } from 'react';

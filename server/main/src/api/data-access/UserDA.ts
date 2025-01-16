@@ -14,7 +14,7 @@ import {
 	upsertDispensaryStaffUser,
 	upsertUser,
 	type UserCreateType,
-} from '@cd/data-access';
+} from '@gras/data-access';
 
 /* =================================
 User Data Access - data methods for User Controller

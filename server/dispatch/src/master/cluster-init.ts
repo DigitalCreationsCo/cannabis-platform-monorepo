@@ -12,8 +12,8 @@ import {
 	type ClusterMessage,
 	type ClusterMessagePayload,
 	type WorkerToMasterPayload,
-} from '@cd/core-lib';
-import { type OrderWithDispatchDetails } from '@cd/data-access';
+} from '@gras/core';
+import { type OrderWithDispatchDetails } from '@gras/data-access';
 import type DispatchDA from '../data-access/DispatchDA';
 import { redisDispatchClientsController } from '../redis-dispatch/redis-dispatch-clients';
 import settings from './cluster-settings';

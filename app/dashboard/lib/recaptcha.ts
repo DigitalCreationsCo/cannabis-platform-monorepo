@@ -1,4 +1,4 @@
-import { ApiError } from '@cd/core-lib';
+import { ApiError } from '@gras/core';
 import env from './env';
 
 export const validateRecaptcha = async (token?: string) => {

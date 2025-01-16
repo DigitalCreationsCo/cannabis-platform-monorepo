@@ -4,7 +4,7 @@ import {
 	calculateTransactionFees,
 	getGeoCoordinatesFromAddress,
 	isEmpty,
-} from '@cd/core-lib';
+} from '@gras/core';
 import {
 	createOrder,
 	createPurchase,
@@ -23,7 +23,7 @@ import {
 	type OrderWithShopDetails,
 	type Prisma,
 	type PurchaseCreate,
-} from '@cd/data-access';
+} from '@gras/data-access';
 import { type MongoClient } from 'mongodb';
 
 /* =================================

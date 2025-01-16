@@ -7,8 +7,8 @@ import {
 	SignInButton,
 	Footer,
 	Benefit,
-} from '@cd/ui-lib';
-import { unlockYourGrowth } from '@cd/ui-lib/src/components/landing/benefits/benefit-data';
+} from '@gras/ui';
+import { unlockYourGrowth } from '@gras/ui/src/components/landing/benefits/benefit-data';
 import { type GetServerSidePropsContext } from 'next';
 import { useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';

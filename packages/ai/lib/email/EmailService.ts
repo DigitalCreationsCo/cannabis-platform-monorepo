@@ -2,7 +2,7 @@ import {
 	type DriverWithDetails,
 	type Organization,
 	type UserWithDetails,
-} from '@cd/data-access';
+} from '@gras/data-access';
 import { TextContent } from '../../constants';
 import { BrevoMailer } from '../brevo-mailer';
 

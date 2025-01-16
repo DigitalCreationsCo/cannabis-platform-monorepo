@@ -3,15 +3,15 @@ import { recordMetric } from '@/lib/metrics';
 import { createInvoice } from '@/lib/stripe';
 import { getCurrentUser } from '@/lib/user';
 import { createTeamSchema, validateWithSchema } from '@/lib/zod';
-import { slugify, ApiError, FreshSales } from '@cd/core-lib';
-import freshsales from '@cd/core-lib/crm/freshsales';
-import Twilio from '@cd/core-lib/sms/twilio';
+import { slugify, ApiError, FreshSales } from '@gras/core';
+import freshsales from '@gras/core/crm/freshsales';
+import Twilio from '@gras/core/sms/twilio';
 import {
 	createDispensary,
 	type Dispensary,
 	getStaffMemberDispensaries,
 	isTeamExists,
-} from '@cd/data-access';
+} from '@gras/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(

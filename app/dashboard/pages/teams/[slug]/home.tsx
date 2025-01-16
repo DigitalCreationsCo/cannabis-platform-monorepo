@@ -3,7 +3,7 @@ import { AccessControl } from '@/components/shared/AccessControl';
 import { RemoveTeam, TeamSettings, TeamTab } from '@/components/team';
 import env from '@/lib/env';
 import { type NextPageWithLayout } from '@/lib/next.types';
-import { type TeamFeature, useDispensary } from '@cd/core-lib';
+import { type TeamFeature, useDispensary } from '@gras/core';
 import {
 	Card,
 	Grid,
@@ -16,7 +16,7 @@ import {
 	PageHeader,
 	VariantRow,
 	type LayoutContextProps,
-} from '@cd/ui-lib';
+} from '@gras/ui';
 import { BuildingOfficeIcon } from '@heroicons/react/24/outline';
 import type { GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';

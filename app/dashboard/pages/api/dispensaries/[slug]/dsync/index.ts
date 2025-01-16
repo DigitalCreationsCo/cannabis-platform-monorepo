@@ -1,6 +1,6 @@
 import env from '@/lib/env';
 import { sendAudit } from '@/lib/retraced';
-import { throwIfNotAllowed, ApiError } from '@cd/core-lib';
+import { throwIfNotAllowed, ApiError } from '@gras/core';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
 import { dsyncManager } from '@/lib/jackson/dsync';

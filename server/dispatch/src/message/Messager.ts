@@ -1,4 +1,4 @@
-import { type Client, SMSModule } from '@cd/core-lib';
+import { type Client, SMSModule } from '@gras/core';
 
 import { FeatureConfig } from '../config/dispatch.features';
 

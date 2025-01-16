@@ -1,4 +1,4 @@
-import { useDispensary } from '@cd/core-lib';
+import { useDispensary } from '@gras/core';
 import {
 	Button,
 	FlexBox,
@@ -7,7 +7,7 @@ import {
 	Page,
 	PageHeader,
 	TextField,
-} from '@cd/ui-lib';
+} from '@gras/ui';
 import { UserGroupIcon, UserPlusIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'next-i18next';
 import Link from 'next/link';

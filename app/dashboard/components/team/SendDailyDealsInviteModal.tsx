@@ -6,9 +6,9 @@ import {
 	formatToTimeZone,
 	TimeZoneMap,
 	getFirstErrorOrNull,
-} from '@cd/core-lib';
-// import { type CustomerSMSInvite } from '@cd/core-lib/sms/slicktext';
-import { type Dispensary } from '@cd/data-access';
+} from '@gras/core';
+// import { type CustomerSMSInvite } from '@gras/core/sms/slicktext';
+import { type Dispensary } from '@gras/data-access';
 import {
 	Button,
 	FlexBox,
@@ -19,7 +19,7 @@ import {
 	Select,
 	TextArea,
 	Modal2 as Modal,
-} from '@cd/ui-lib';
+} from '@gras/ui';
 import { type AxiosResponse } from 'axios';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';

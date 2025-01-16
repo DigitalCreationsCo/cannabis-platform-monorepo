@@ -9,7 +9,7 @@ import {
 	type ClusterMessagePayload,
 	type RoomAction,
 	type WorkerToMasterPayload,
-} from '@cd/core-lib';
+} from '@gras/core';
 import { redisDispatchRoomsController } from '../redis-dispatch';
 import DeliverOrderRoom from './DeliverOrderRoom';
 import SelectDriverRoom from './SelectDriverRoom';

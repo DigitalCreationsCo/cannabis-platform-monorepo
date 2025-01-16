@@ -7,7 +7,7 @@ import {
 	getAllPrices,
 	getAllServices,
 	getSubscriptionByCustomerId,
-} from '@cd/data-access';
+} from '@gras/data-access';
 import { type NextApiRequest, type NextApiResponse } from 'next';
 import { clientPromise } from '@/lib/db';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';

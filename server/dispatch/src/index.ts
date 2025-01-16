@@ -9,12 +9,12 @@ import {
 	type SocketEventPayload,
 	Client,
 	type SocketMessage,
-} from '@cd/core-lib';
+} from '@gras/core';
 import {
 	logger,
 	createErrorLogger,
 	createRequestLogger,
-} from '@cd/core-lib/lib/logger';
+} from '@gras/core/lib/logger';
 import { createAdapter } from '@socket.io/redis-adapter';
 import express from 'express';
 import { Server } from 'socket.io';

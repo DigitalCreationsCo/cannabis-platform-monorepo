@@ -1,5 +1,5 @@
 /* eslint-disable sonarjs/no-small-switch */
-import { deleteSession, findFirstSessionOrThrown } from '@cd/data-access';
+import { deleteSession, findFirstSessionOrThrown } from '@gras/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from '@/lib/session';
 import { validateWithSchema, deleteSessionSchema } from '@/lib/zod';

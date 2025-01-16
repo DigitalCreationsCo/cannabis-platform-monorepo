@@ -3,11 +3,11 @@ import {
 	renderAddress,
 	renderSchedule,
 	TextContent,
-} from '@cd/core-lib';
+} from '@gras/core';
 import {
 	type ProductVariantWithDetails,
 	type OrganizationWithShopDetails,
-} from '@cd/data-access';
+} from '@gras/data-access';
 import {
 	Button,
 	Card,
@@ -24,8 +24,8 @@ import {
 	type LayoutContextProps,
 	LoadingPage,
 	H1,
-} from '@cd/ui-lib';
-import icons from '@cd/ui-lib/src/icons';
+} from '@gras/ui';
+import icons from '@gras/ui/src/icons';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';

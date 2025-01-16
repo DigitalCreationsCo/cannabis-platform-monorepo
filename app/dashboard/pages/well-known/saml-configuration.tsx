@@ -1,4 +1,4 @@
-import { H2, Paragraph } from '@cd/ui-lib';
+import { H2, Paragraph } from '@gras/ui';
 import type { GetServerSidePropsContext, InferGetStaticPropsType } from 'next';
 import { useTranslation, Trans } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';

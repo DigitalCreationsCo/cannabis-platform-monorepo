@@ -6,8 +6,8 @@ import {
 	TimeZoneMap,
 	useDispensary,
 	usStatesAbbreviationList,
-} from '@cd/core-lib';
-import { type Customer } from '@cd/data-access';
+} from '@gras/core';
+import { type Customer } from '@gras/data-access';
 import {
 	Button,
 	Grid,
@@ -16,7 +16,7 @@ import {
 	PageHeader,
 	Select,
 	TextField,
-} from '@cd/ui-lib';
+} from '@gras/ui';
 import { UserPlusIcon } from '@heroicons/react/24/outline';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';

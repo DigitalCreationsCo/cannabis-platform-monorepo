@@ -3,8 +3,8 @@ import {
 	urlBuilder,
 	type DispensaryConnectStripeAccountPayload,
 	type DispensaryCreateStripeAccountPayload,
-} from '@cd/core-lib';
-import { type OrganizationCreateType } from '@cd/data-access';
+} from '@gras/core';
+import { type OrganizationCreateType } from '@gras/data-access';
 import {
 	Button,
 	FlexBox,
@@ -14,7 +14,7 @@ import {
 	Small,
 	TextField,
 	useFormContext,
-} from '@cd/ui-lib';
+} from '@gras/ui';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';

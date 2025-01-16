@@ -5,9 +5,9 @@ import {
 	type ApiResponse,
 	defaultHeaders,
 	maxLengthPolicies,
-} from '@cd/core-lib';
-import { type Dispensary } from '@cd/data-access';
-import { Paragraph, TextField, Button } from '@cd/ui-lib';
+} from '@gras/core';
+import { type Dispensary } from '@gras/data-access';
+import { Paragraph, TextField, Button } from '@gras/ui';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import React, { useState } from 'react';

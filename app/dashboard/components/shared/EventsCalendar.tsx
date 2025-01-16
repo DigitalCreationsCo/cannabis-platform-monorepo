@@ -1,5 +1,5 @@
-import { type Event } from '@cd/data-access';
-import { FlexBox } from '@cd/ui-lib';
+import { type Event } from '@gras/data-access';
+import { FlexBox } from '@gras/ui';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import FullCalendar from '@fullcalendar/react';
 

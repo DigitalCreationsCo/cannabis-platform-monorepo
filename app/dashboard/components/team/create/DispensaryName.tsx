@@ -1,5 +1,5 @@
-import { TextContent } from '@cd/core-lib';
-import { useFormContext, Button, TextField, Modal2 as Modal } from '@cd/ui-lib';
+import { TextContent } from '@gras/core';
+import { useFormContext, Button, TextField, Modal2 as Modal } from '@gras/ui';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import React from 'react';

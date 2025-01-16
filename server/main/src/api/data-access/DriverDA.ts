@@ -1,4 +1,4 @@
-import { getCoordinatePairFromCoordinates } from '@cd/core-lib';
+import { getCoordinatePairFromCoordinates } from '@gras/core';
 import {
 	createDriver,
 	deleteDriverById,
@@ -12,7 +12,7 @@ import {
 	type DriverWithSessionJoin,
 	type UserCreateType,
 	type UserWithDriverDetails,
-} from '@cd/data-access';
+} from '@gras/data-access';
 import { type Collection, type MongoClient } from 'mongodb';
 
 /* =================================

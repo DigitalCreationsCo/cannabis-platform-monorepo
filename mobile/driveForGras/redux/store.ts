@@ -1,7 +1,7 @@
-import socketMiddleware from '@cd/core-lib/src/middleware/socket.middleware';
-import stateChangeLogger from '@cd/core-lib/src/middleware/state.middleware';
-import { driverReducer } from '@cd/core-lib/src/reducer/driver.reducer';
-import { socketReducer } from '@cd/core-lib/src/reducer/socket.reducer';
+import socketMiddleware from '@gras/core/src/middleware/socket.middleware';
+import stateChangeLogger from '@gras/core/src/middleware/state.middleware';
+import { driverReducer } from '@gras/core/src/reducer/driver.reducer';
+import { socketReducer } from '@gras/core/src/reducer/socket.reducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { combineReducers, configureStore, type Store } from '@reduxjs/toolkit';
 import {

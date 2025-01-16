@@ -1,4 +1,4 @@
-import { EmailService } from '@cd/core-lib/lib/email/EmailService';
+import { EmailService } from '@gras/core/lib/email/EmailService';
 import { Router } from 'express';
 
 const router = Router();

@@ -1,4 +1,4 @@
-import { LoadingPage } from '@cd/ui-lib';
+import { LoadingPage } from '@gras/ui';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useRouter as Router } from 'next/router';

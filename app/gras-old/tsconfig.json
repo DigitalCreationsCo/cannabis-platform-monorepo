@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "types": [
+      "node",
+      "jest"
+    ],
+    "target": "ES2015",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "ES2015"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "strictNullChecks": false,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "es2020",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "noImplicitAny": false,
+    "incremental": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"],
+      "@gras/ui": [
+        "../../packages/ui/src/index"
+      ],
+      "@gras/ui/*": [
+        "../../packages/ui/src/*"
+      ],
+      "@gras/core/*": [
+        "../../packages/core/src/*"
+      ],
+      "@gras/data-access": [
+        "../../packages/data-access/src/index"
+      ],
+      "@gras/data-access/*": [
+        "../../packages/data-access/src/*"
+      ],
+      "@gras/eslint-config": [
+        "../../packages/eslint-config/src/index"
+      ],
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": [
+    ".eslintrc.*",
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "next-auth.d.ts",
+    "**/*.mts",
+    "**/*.js",
+    "**/*.cjs",
+    "**/*.mjs",
+    "**/*.jsx",
+    "**/*.json",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "**/node_modules",
+    "**/.*/**",
+  ]
+}

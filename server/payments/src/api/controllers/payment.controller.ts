@@ -1,9 +1,9 @@
-import { TextContent } from '@cd/core-lib';
+import { TextContent } from '@gras/core';
 import {
 	getStripeAccountId,
 	type OrderCreateType,
 	type OrderWithShopDetails,
-} from '@cd/data-access';
+} from '@gras/data-access';
 import { PaymentDA } from '../data-access';
 import StripeService from '../stripe';
 

@@ -1,4 +1,4 @@
-import { renderNestedDataObject, TextContent } from '@cd/core-lib';
+import { renderNestedDataObject, TextContent } from '@gras/core';
 import {
 	Button,
 	FlexBox,
@@ -7,7 +7,7 @@ import {
 	H3,
 	Paragraph,
 	useFormContext,
-} from '@cd/ui-lib';
+} from '@gras/ui';
 
 function DispensaryReview() {
 	const { formValues, prevFormStep, nextFormStep } = useFormContext();

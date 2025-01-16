@@ -9,7 +9,7 @@ import {
 	modalReducer,
 	shopReducer,
 	userReducer,
-} from '@cd/core-lib';
+} from '@gras/core';
 import {
 	combineReducers,
 	configureStore,

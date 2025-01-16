@@ -6,9 +6,9 @@ import {
 	useCanAccess,
 	defaultHeaders,
 	type ApiResponse,
-} from '@cd/core-lib';
-import { type Dispensary, type StaffMember } from '@cd/data-access';
-import { LoadingDots, Button, H2, Paragraph } from '@cd/ui-lib';
+} from '@gras/core';
+import { type Dispensary, type StaffMember } from '@gras/data-access';
+import { LoadingDots, Button, H2, Paragraph } from '@gras/ui';
 import { useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import { useState } from 'react';

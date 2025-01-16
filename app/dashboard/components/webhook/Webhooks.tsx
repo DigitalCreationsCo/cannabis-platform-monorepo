@@ -1,6 +1,6 @@
-import { useWebhooks, defaultHeaders, type ApiResponse } from '@cd/core-lib';
-import { type Dispensary } from '@cd/data-access';
-import { Button, H2, Paragraph } from '@cd/ui-lib';
+import { useWebhooks, defaultHeaders, type ApiResponse } from '@gras/core';
+import { type Dispensary } from '@gras/data-access';
+import { Button, H2, Paragraph } from '@gras/ui';
 import { useTranslation } from 'next-i18next';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';

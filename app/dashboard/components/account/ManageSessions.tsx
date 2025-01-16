@@ -1,9 +1,9 @@
 import { WithLoadingAndError } from '@/components/shared';
 import ConfirmationDialog from '@/components/shared/ConfirmationDialog';
 import { Table } from '@/components/shared/table/Table';
-import { fetcher } from '@cd/core-lib';
-import { type Session } from '@cd/data-access';
-import { H2, Paragraph } from '@cd/ui-lib';
+import { fetcher } from '@gras/core';
+import { type Session } from '@gras/data-access';
+import { H2, Paragraph } from '@gras/ui';
 import ComputerDesktopIcon from '@heroicons/react/24/outline/ComputerDesktopIcon';
 import { useTranslation } from 'next-i18next';
 import { useState } from 'react';

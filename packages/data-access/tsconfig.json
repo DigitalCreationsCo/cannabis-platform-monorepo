@@ -14,7 +14,7 @@
 // // 		"noEmit": false,
 // // 		"incremental": true,
 // // 		"paths": {
-// // 			"@cd/eslint-config": ["../../../packages/eslint-config/"]
+// // 			"@gras/eslint-config": ["../../../packages/eslint-config/"]
 // // 		},
 // // 		"typeRoots": ["./globals.d.ts", "../../../node_modules/@types"]
 // // 	},

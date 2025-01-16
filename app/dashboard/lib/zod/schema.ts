@@ -1,4 +1,4 @@
-import { slugify } from '@cd/core-lib';
+import { slugify } from '@gras/core';
 import { z } from 'zod';
 import {
 	teamName,

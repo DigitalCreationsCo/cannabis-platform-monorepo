@@ -1,4 +1,4 @@
-import { FlexBox, GrasSignature, H2, Paragraph } from '@cd/ui-lib';
+import { FlexBox, GrasSignature, H2, Paragraph } from '@gras/ui';
 import { useTranslation } from 'next-i18next';
 import Image from 'next/image';
 import app from '@/lib/app';

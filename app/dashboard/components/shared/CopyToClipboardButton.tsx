@@ -1,5 +1,5 @@
-import { copyToClipboard } from '@cd/core-lib';
-import { Button } from '@cd/ui-lib';
+import { copyToClipboard } from '@gras/core';
+import { Button } from '@gras/ui';
 import { ClipboardDocumentIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-hot-toast';

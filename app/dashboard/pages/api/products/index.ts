@@ -5,7 +5,7 @@ import {
 	type Service,
 	getAllPrices,
 	getAllServices,
-} from '@cd/data-access';
+} from '@gras/data-access';
 import { type NextApiRequest, type NextApiResponse } from 'next';
 import { clientPromise } from '@/lib/db';
 import { getSession } from '@/lib/session';

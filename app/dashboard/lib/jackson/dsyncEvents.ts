@@ -8,7 +8,7 @@ import {
 	upsertStaffMember,
 	deleteStaffMember,
 	updateStaffMember,
-} from '@cd/data-access';
+} from '@gras/data-access';
 import { clientPromise } from '../db';
 
 // Handle SCIM events

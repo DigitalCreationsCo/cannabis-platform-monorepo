@@ -8,7 +8,7 @@ import {
 	type ArticleCreateType,
 	type ArticleTag,
 	type Prisma,
-} from '@cd/data-access';
+} from '@gras/data-access';
 
 /* =================================
 Article Data Access - data class for article table

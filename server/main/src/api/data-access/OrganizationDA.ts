@@ -4,7 +4,7 @@ import {
 	getGeoCoordinatesFromAddress,
 	setCoordinateRadius,
 	urlBuilder,
-} from '@cd/core-lib';
+} from '@gras/core';
 import {
 	createOrganization,
 	deleteOrganizationById,
@@ -17,7 +17,7 @@ import {
 	type Dispensary,
 	type OrganizationUpdateType,
 	type Prisma,
-} from '@cd/data-access';
+} from '@gras/data-access';
 import axios from 'axios';
 /* =================================
 Organization Data Access - data class for organization table

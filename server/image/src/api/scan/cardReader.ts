@@ -1,4 +1,4 @@
-import { stateMap, type USStateAbbreviated, type USStateType } from '@cd/core-lib';
+import { stateMap, type USStateAbbreviated, type USStateType } from '@gras/core';
 
 // this class provides a dynamic regex based on the united states drivers license format
 // also, has a method to check if age is legal

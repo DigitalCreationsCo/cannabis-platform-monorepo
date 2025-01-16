@@ -1,4 +1,4 @@
-import { maxLengthPolicies } from '@cd/core-lib';
+import { maxLengthPolicies } from '@gras/core';
 import {
 	Button,
 	Center,
@@ -14,9 +14,9 @@ import {
 	AgreeMessage,
 	TogglePasswordVisibility,
 	GoogleReCAPTCHA,
-} from '@cd/ui-lib';
-import { loadHotJar } from '@cd/core-lib/lib/hotjar/hotjar-dashboard';
-import { unlockYourGrowth } from '@cd/ui-lib/src/components/landing/benefits/benefit-data';
+} from '@gras/ui';
+import { loadHotJar } from '@gras/core/lib/hotjar/hotjar-dashboard';
+import { unlockYourGrowth } from '@gras/ui/src/components/landing/benefits/benefit-data';
 import { useFormik } from 'formik';
 import type {
 	GetServerSidePropsContext,

@@ -7,7 +7,7 @@ import {
 	getPhoneWithoutDialCode,
 	type ConsumeCodeResponse,
 	type UserFromDBAuthResponse,
-} from '@cd/core-lib';
+} from '@gras/core';
 import jwksClient from 'jwks-rsa';
 import SuperTokens, { RecipeUserId } from 'supertokens-node';
 import { type HttpRequest } from 'supertokens-node/lib/build/types';

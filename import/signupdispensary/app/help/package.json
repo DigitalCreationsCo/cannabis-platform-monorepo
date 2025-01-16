@@ -1,5 +1,5 @@
 {
-  "name": "@cd/app-help",
+  "name": "@gras/app-help",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -34,10 +34,10 @@
     ]
   },
   "dependencies": {
-    "@cd/core-lib": "workspace:*",
-    "@cd/data-access": "workspace:*",
-    "@cd/eslint-config": "workspace:*",
-    "@cd/ui-lib": "workspace:*",
+    "@gras/core": "workspace:*",
+    "@gras/data-access": "workspace:*",
+    "@gras/eslint-config": "workspace:*",
+    "@gras/ui": "workspace:*",
     "@paralleldrive/cuid2": "2.2.1",
     "@reduxjs/toolkit": "1.9.2",
     "@typeform/embed-react": "2.28.0",

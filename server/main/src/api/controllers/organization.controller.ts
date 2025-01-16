@@ -1,10 +1,10 @@
-import { dynamicBlurDataUrl, getGeoCoordinatesFromAddress } from '@cd/core-lib';
-// import { EmailService } from '@cd/core-lib/lib/email/EmailService';
+import { dynamicBlurDataUrl, getGeoCoordinatesFromAddress } from '@gras/core';
+// import { EmailService } from '@gras/core/lib/email/EmailService';
 import {
 	type Dispensary,
 	type OrganizationUpdateType,
 	type OrganizationWithDashboardDetails,
-} from '@cd/data-access';
+} from '@gras/data-access';
 import { OrganizationDA } from '../data-access';
 
 /* =================================

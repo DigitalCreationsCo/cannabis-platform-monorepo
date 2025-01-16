@@ -4,8 +4,8 @@ import env from '@/lib/env';
 import { recordMetric } from '@/lib/metrics';
 import { getSession } from '@/lib/session';
 import { updateAccountSchema, validateWithSchema } from '@/lib/zod';
-import { ApiError } from '@cd/core-lib';
-import { getStaffMember, updateStaffMember } from '@cd/data-access';
+import { ApiError } from '@gras/core';
+import { getStaffMember, updateStaffMember } from '@gras/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(

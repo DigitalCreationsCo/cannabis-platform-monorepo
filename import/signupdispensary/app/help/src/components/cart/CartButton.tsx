@@ -1,4 +1,4 @@
-import { Button } from '@cd/ui-lib';
+import { Button } from '@gras/ui';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
 

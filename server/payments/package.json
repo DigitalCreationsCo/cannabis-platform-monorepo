@@ -1,7 +1,7 @@
 {
   "dependencies": {
-    "@cd/core-lib": "workspace:*",
-    "@cd/data-access": "workspace:*",
+    "@gras/core": "workspace:*",
+    "@gras/data-access": "workspace:*",
     "axios": "1.2.1",
     "body-parser": "1.20.2",
     "cors": "2.8.5",
@@ -33,7 +33,7 @@
     "typescript": "5.4.5"
   },
   "main": "./src/index.ts",
-  "name": "@cd/server-payments",
+  "name": "@gras/server-payments",
   "private": true,
   "scripts": {
     "build": "rimraf ./dist && dotenv -e ../../.env.production -- babel ./src --out-dir dist --extensions \".ts,.tsx\"",

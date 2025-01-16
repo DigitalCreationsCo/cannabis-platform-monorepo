@@ -1,4 +1,4 @@
-import { getEnvPath } from '@cd/core-lib/env';
+import { getEnvPath } from '@gras/core/env';
 import { config } from 'dotenv';
 import { expand } from 'dotenv-expand';
 

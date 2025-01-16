@@ -1,4 +1,4 @@
-import { Button, Paragraph } from '@cd/ui-lib';
+import { Button, Paragraph } from '@gras/ui';
 import { type GetServerSidePropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Link from 'next/link';

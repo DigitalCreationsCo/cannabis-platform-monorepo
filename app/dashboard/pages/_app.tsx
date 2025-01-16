@@ -1,12 +1,12 @@
 import { wrapper } from '@/lib/store';
 import { Themer } from '@boxyhq/react-ui/shared';
-import { loadBrevoChat } from '@cd/core-lib/lib/brevoChat';
+import { loadBrevoChat } from '@gras/core/lib/brevoChat';
 import {
 	GTMTag,
 	loadGoogleTagManager,
-} from '@cd/core-lib/lib/googletagmanager';
-import { loadHotJar } from '@cd/core-lib/lib/hotjar/hotjar-dashboard';
-import { loadSegment } from '@cd/core-lib/lib/segment';
+} from '@gras/core/lib/googletagmanager';
+import { loadHotJar } from '@gras/core/lib/hotjar/hotjar-dashboard';
+import { loadSegment } from '@gras/core/lib/segment';
 import {
 	LoadingPage,
 	ModalProvider,
@@ -14,7 +14,7 @@ import {
 	type Theme,
 	applyTheme,
 	Footer,
-} from '@cd/ui-lib';
+} from '@gras/ui';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { AnimatePresence } from 'framer-motion';

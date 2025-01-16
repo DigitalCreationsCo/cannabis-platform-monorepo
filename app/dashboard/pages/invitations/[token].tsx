@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { useInvitation } from '@cd/core-lib';
-import { LoadingDots, H2 } from '@cd/ui-lib';
+import { useInvitation } from '@gras/core';
+import { LoadingDots, H2 } from '@gras/ui';
 import { type GetServerSidePropsContext } from 'next';
 import { useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';

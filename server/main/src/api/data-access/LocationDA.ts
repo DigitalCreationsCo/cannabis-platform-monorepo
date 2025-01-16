@@ -1,7 +1,7 @@
 import {
 	findMultipleOrganizationsById,
 	type OrganizationWithShopDetails,
-} from '@cd/data-access';
+} from '@gras/data-access';
 import { type Collection, type MongoClient } from 'mongodb';
 
 /* =================================

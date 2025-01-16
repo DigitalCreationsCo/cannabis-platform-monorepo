@@ -16,7 +16,7 @@ function Header({ onSearchChange, placeholder, children }: HeaderProps) {
 				<Text
 				// htmlFor={drawerComponentId}
 				>
-					{/* // add this svg to ui-lib lib */}
+					{/* // add this svg to ui lib */}
 					<Svg fill="none" viewBox="0 0 24 24">
 						<Path
 							strokeLinecap="round"

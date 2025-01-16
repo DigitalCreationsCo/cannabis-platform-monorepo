@@ -1,8 +1,8 @@
 import { Card } from '@/components/shared';
 import { updateAccountSchema } from '@/lib/zod';
-import { defaultHeaders, type ApiResponse } from '@cd/core-lib';
-import type { StaffMember } from '@cd/data-access';
-import { TextField, Button } from '@cd/ui-lib';
+import { defaultHeaders, type ApiResponse } from '@gras/core';
+import type { StaffMember } from '@gras/data-access';
+import { TextField, Button } from '@gras/ui';
 import { useFormik } from 'formik';
 import { useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';

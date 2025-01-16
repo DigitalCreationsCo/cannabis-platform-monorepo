@@ -1,0 +1,25 @@
+import { Paragraph } from '@gras/ui';
+import { useTranslation } from 'next-i18next';
+import Alert from './Alert';
+
+interface ErrorProps {
+	message?: string;
+}
+
+const Error = (props: ErrorProps) => {
+	const { message } = props;
+	const { t } = useTranslation('common');
+
+	return (
+		<Alert status="error" className="my-2">
+			<Paragraph>{message || t('unknown-error')}</Paragraph>
+		</Alert>
+	);
+};
+
+Error.getInitialProps = ({ res, err }) => {
+	const statusCode = res ? res.statusCode : err ? err.statusCode : 404;
+	return { statusCode };
+};
+
+export default Error;

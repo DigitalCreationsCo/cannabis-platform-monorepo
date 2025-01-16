@@ -1,6 +1,6 @@
-import { useCanAccess, type TeamFeature } from '@cd/core-lib';
-import { type Dispensary } from '@cd/data-access';
-import { H2, Paragraph } from '@cd/ui-lib';
+import { useCanAccess, type TeamFeature } from '@gras/core';
+import { type Dispensary } from '@gras/data-access';
+import { H2, Paragraph } from '@gras/ui';
 import {
 	Cog6ToothIcon,
 	DocumentMagnifyingGlassIcon,

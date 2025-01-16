@@ -7,14 +7,14 @@ import {
 	updateMemberSchema,
 	validateWithSchema,
 } from '@/lib/zod';
-import { throwIfNotAllowed, ApiError } from '@cd/core-lib';
+import { throwIfNotAllowed, ApiError } from '@gras/core';
 import {
 	Role,
 	getStaffMembers,
 	removeStaffMember,
 	countStaffMembers,
 	updateStaffMember,
-} from '@cd/data-access';
+} from '@gras/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
 import { validateMembershipOperation } from '@/lib/rbac';

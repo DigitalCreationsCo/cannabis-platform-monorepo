@@ -1,5 +1,5 @@
-import { selectUserState } from '@cd/core-lib';
-import { Card, H2, Page, type LayoutContextProps } from '@cd/ui-lib';
+import { selectUserState } from '@gras/core';
+import { Card, H2, Page, type LayoutContextProps } from '@gras/ui';
 import Head from 'next/head';
 import router from 'next/router';
 import { useEffect } from 'react';

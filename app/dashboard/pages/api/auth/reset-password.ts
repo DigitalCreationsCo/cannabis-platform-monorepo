@@ -9,7 +9,7 @@ import {
 	deleteManySessions,
 	deletePasswordReset,
 	getPasswordReset,
-} from '@cd/data-access';
+} from '@gras/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { ApiError } from 'next/dist/server/api-utils';
 

@@ -25,25 +25,25 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@cd/ui-lib": [
-        "../../packages/ui-lib/src/index"
+      "@gras/ui": [
+        "../../packages/ui/src/index"
       ],
-      "@cd/ui-lib/*": [
-        "../../packages/ui-lib/src/*"
+      "@gras/ui/*": [
+        "../../packages/ui/src/*"
       ],
-      "@cd/core-lib": [
-        "../../packages/core-lib/src/index"
+      "@gras/core": [
+        "../../packages/core/src/index"
       ],
-      "@cd/core-lib/*": [
-        "../../packages/core-lib/src/*"
+      "@gras/core/*": [
+        "../../packages/core/src/*"
       ],
-      "@cd/data-access": [
+      "@gras/data-access": [
         "../../packages/data-access/src/index"
       ],
-      "@cd/data-access/*": [
+      "@gras/data-access/*": [
         "../../packages/data-access/src/*"
       ],
-      "@cd/eslint-config": [
+      "@gras/eslint-config": [
         "../../packages/eslint-config/src/index"
       ],
       "@/lib/*": [

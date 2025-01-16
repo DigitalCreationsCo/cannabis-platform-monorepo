@@ -1,5 +1,5 @@
-import { type ProductVariantWithDetails } from '@cd/data-access';
-import { IconButton, Icons, ProductItem } from '@cd/ui-lib';
+import { type ProductVariantWithDetails } from '@gras/data-access';
+import { IconButton, Icons, ProductItem } from '@gras/ui';
 
 import { type PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';

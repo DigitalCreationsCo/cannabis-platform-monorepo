@@ -3,7 +3,7 @@ import {
 	FormStepProvider,
 	Page,
 	type LayoutContextProps,
-} from '@cd/ui-lib';
+} from '@gras/ui';
 import Head from 'next/head';
 import { useState } from 'react';
 import Confetti from 'react-confetti';

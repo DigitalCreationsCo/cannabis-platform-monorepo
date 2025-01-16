@@ -1,4 +1,4 @@
-import { Modal2 as Modal, Button } from '@cd/ui-lib';
+import { Modal2 as Modal, Button } from '@gras/ui';
 import { useTranslation } from 'next-i18next';
 
 interface ConfirmationDialogProps {

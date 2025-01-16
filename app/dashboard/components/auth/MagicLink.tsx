@@ -1,6 +1,6 @@
 /* eslint-disable sonarjs/no-redundant-jump */
-import { useInvitation, maxLengthPolicies } from '@cd/core-lib';
-import { LoadingDots, Button, TextField, Paragraph } from '@cd/ui-lib';
+import { useInvitation, maxLengthPolicies } from '@gras/core';
+import { LoadingDots, Button, TextField, Paragraph } from '@gras/ui';
 import { useFormik } from 'formik';
 import { signIn, useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';

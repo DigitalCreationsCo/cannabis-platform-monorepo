@@ -1,5 +1,5 @@
-import { defaultHeaders, availableRoles, type ApiResponse } from '@cd/core-lib';
-import { type Dispensary, type StaffMember } from '@cd/data-access';
+import { defaultHeaders, availableRoles, type ApiResponse } from '@gras/core';
+import { type Dispensary, type StaffMember } from '@gras/data-access';
 import { useTranslation } from 'next-i18next';
 import toast from 'react-hot-toast';
 

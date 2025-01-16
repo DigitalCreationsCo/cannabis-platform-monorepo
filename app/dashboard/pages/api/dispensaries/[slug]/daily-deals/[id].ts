@@ -2,8 +2,8 @@
 import { clientPromise } from '@/lib/db';
 import { recordMetric } from '@/lib/metrics';
 import { sendAudit } from '@/lib/retraced';
-import { CronJobApi, axios, throwIfNotAllowed } from '@cd/core-lib';
-import { deleteDispensaryDailyDeal, getDailyDeal } from '@cd/data-access';
+import { CronJobApi, axios, throwIfNotAllowed } from '@gras/core';
+import { deleteDispensaryDailyDeal, getDailyDeal } from '@gras/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
 import { sendEvent } from '@/lib/svix';

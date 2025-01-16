@@ -1,14 +1,14 @@
 /* eslint-disable sonarjs/cognitive-complexity */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { type ApiResponse, axios, fetcher, urlBuilder } from '@cd/core-lib';
-import type { DailyDeal, Dispensary } from '@cd/data-access';
+import { type ApiResponse, axios, fetcher, urlBuilder } from '@gras/core';
+import type { DailyDeal, Dispensary } from '@gras/data-access';
 import {
 	TextField,
 	Modal2 as Modal,
 	Button,
 	CheckBox,
 	TextArea,
-} from '@cd/ui-lib';
+} from '@gras/ui';
 import { Crontab } from 'crontab-react';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';

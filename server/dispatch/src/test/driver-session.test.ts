@@ -1,4 +1,4 @@
-import { type OrganizationWithAddress } from '@cd/data-access';
+import { type OrganizationWithAddress } from '@gras/data-access';
 // import { MongoClient, type Collection } from 'mongodb';
 // // import DispatchDA from '../data-access/index';
 

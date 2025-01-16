@@ -6,8 +6,8 @@ import {
 	urlBuilder,
 	userActions,
 	useAppDispatch,
-} from '@cd/core-lib';
-import { type UserWithDetails } from '@cd/data-access';
+} from '@gras/core';
+import { type UserWithDetails } from '@gras/data-access';
 import {
 	Button,
 	FlexBox,
@@ -16,7 +16,7 @@ import {
 	H3,
 	Paragraph,
 	useFormContext,
-} from '@cd/ui-lib';
+} from '@gras/ui';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';

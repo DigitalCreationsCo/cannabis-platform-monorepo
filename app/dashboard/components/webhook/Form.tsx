@@ -1,5 +1,5 @@
-import { type WebookFormSchema, maxLengthPolicies } from '@cd/core-lib';
-import { Button, Paragraph, TextField, Modal2 as Modal } from '@cd/ui-lib';
+import { type WebookFormSchema, maxLengthPolicies } from '@gras/core';
+import { Button, Paragraph, TextField, Modal2 as Modal } from '@gras/ui';
 import type { FormikConfig } from 'formik';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';

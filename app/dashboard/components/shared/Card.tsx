@@ -1,4 +1,4 @@
-import { H2, Paragraph } from '@cd/ui-lib';
+import { H2, Paragraph } from '@gras/ui';
 import React from 'react';
 
 const Card = ({ children }: { children: React.ReactNode }) => {

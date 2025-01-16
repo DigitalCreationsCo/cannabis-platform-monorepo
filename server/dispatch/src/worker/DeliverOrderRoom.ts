@@ -4,8 +4,8 @@ import {
 	SMSTemplate,
 	TextContent,
 	type Client,
-} from '@cd/core-lib';
-import { type OrderWithDispatchDetails } from '@cd/data-access';
+} from '@gras/core';
+import { type OrderWithDispatchDetails } from '@gras/data-access';
 import Messager from '../message';
 import WorkerRoom from './WorkerRoom';
 

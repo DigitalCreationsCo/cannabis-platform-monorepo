@@ -1,4 +1,4 @@
-import { selectDriverState } from '@cd/core-lib/src/reducer/driver.reducer';
+import { selectDriverState } from '@gras/core/src/reducer/driver.reducer';
 import Icons from '@expo/vector-icons/MaterialIcons';
 import { useSelector } from 'react-redux';
 import { Padding } from './atomic';

@@ -1,7 +1,7 @@
 import {
 	getStaffMemberWithDispensary,
 	type StaffMemberWithDispensary,
-} from '@cd/data-access';
+} from '@gras/data-access';
 import { getSession } from '../lib/session';
 import { clientPromise } from './db';
 

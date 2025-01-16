@@ -6,8 +6,8 @@ import {
 	defaultHeaders,
 	fetcher,
 	useDispensaries,
-} from '@cd/core-lib';
-import { type Price, type Dispensary } from '@cd/data-access';
+} from '@gras/core';
+import { type Price, type Dispensary } from '@gras/data-access';
 import {
 	Button,
 	useFormContext,
@@ -19,7 +19,7 @@ import {
 	H6,
 	H2,
 	LoadingPage,
-} from '@cd/ui-lib';
+} from '@gras/ui';
 import getSymbolFromCurrency from 'currency-symbol-map';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';

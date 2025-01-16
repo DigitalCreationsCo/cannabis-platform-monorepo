@@ -1,5 +1,5 @@
-import { selectDispensaryState, TextContent } from '@cd/core-lib';
-import { NavLink, type NavLinkType } from '@cd/ui-lib';
+import { selectDispensaryState, TextContent } from '@gras/core';
+import { NavLink, type NavLinkType } from '@gras/ui';
 import {
 	BuildingOfficeIcon,
 	ChatBubbleLeftIcon,

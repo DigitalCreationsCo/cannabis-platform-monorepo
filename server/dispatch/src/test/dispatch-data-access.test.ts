@@ -1,4 +1,4 @@
-import { type OrganizationWithShopDetails } from '@cd/data-access';
+import { type OrganizationWithShopDetails } from '@gras/data-access';
 import DispatchDA from '../data-access/DispatchDA';
 
 // THESE ARE ALL PLACEHOLDER TESTS IE, THEY DONT WORK

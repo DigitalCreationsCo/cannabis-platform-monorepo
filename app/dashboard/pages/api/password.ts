@@ -10,7 +10,7 @@ import {
 	findFirstStaffMemberOrThrow,
 	updateStaffMember,
 	deleteManySessions,
-} from '@cd/data-access';
+} from '@gras/data-access';
 import { getCookie } from 'cookies-next';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { ApiError } from 'next/dist/server/api-utils';

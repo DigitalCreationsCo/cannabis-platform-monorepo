@@ -1,8 +1,8 @@
-import { TextContent, getFirstErrorOrNull } from '@cd/core-lib';
+import { TextContent, getFirstErrorOrNull } from '@gras/core';
 import {
 	type AddressUserCreateType,
 	type UserCreateType,
-} from '@cd/data-access';
+} from '@gras/data-access';
 import {
 	Button,
 	FlexBox,
@@ -13,7 +13,7 @@ import {
 	Paragraph,
 	TermsAgreement,
 	TextField,
-} from '@cd/ui-lib';
+} from '@gras/ui';
 import { useFormik } from 'formik';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';

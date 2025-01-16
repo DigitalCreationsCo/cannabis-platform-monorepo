@@ -1,5 +1,5 @@
-import { axios, urlBuilder } from '@cd/core-lib';
-import { type OrderWithShopDetails } from '@cd/data-access';
+import { axios, urlBuilder } from '@gras/core';
+import { type OrderWithShopDetails } from '@gras/data-access';
 
 /* =================================
 Payment Data Access - data class for order table

@@ -6,7 +6,7 @@ import env from '@/lib/env';
 import { recordMetric } from '@/lib/metrics';
 import { validateRecaptcha } from '@/lib/recaptcha';
 import { userJoinSchema, validateWithSchema } from '@/lib/zod';
-import { ApiError, generateToken } from '@cd/core-lib';
+import { ApiError, generateToken } from '@gras/core';
 import {
 	// getInvitation,
 	// isInvitationExpired,
@@ -14,7 +14,7 @@ import {
 	createStaffMember,
 	getStaffMember,
 	// getDispensary,
-} from '@cd/data-access';
+} from '@gras/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { slackNotify } from '@/lib/slack';
 

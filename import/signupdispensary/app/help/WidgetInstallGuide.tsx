@@ -1,11 +1,11 @@
-import { generateWidgetScriptTag } from '@cd/core-lib';
+import { generateWidgetScriptTag } from '@gras/core';
 import {
 	Paragraph,
 	H2,
 	CopyRight,
 	FlexBox,
 	CopyClipboardButton,
-} from '@cd/ui-lib';
+} from '@gras/ui';
 import { useCallback } from 'react';
 
 function WidgetInstallGuide() {

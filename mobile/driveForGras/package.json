@@ -1,5 +1,5 @@
 {
-  "name": "@cd/mobile-driveforgras",
+  "name": "@gras/mobile-driveforgras",
   "main": "expo-router/entry",
   "version": "1.0.0",
   "installConfig": {
@@ -7,7 +7,7 @@
   },
   "scripts": {
     "prebuild": "npx expo prebuild",
-    "build:deps": "yarn workspaces foreach -t --from '@cd/mobile-driveforgras' run build",
+    "build:deps": "yarn workspaces foreach -t --from '@gras/mobile-driveforgras' run build",
     "start": "EXPO_USE_METRO_WORKSPACE_ROOT=1 NODE_ENV='development' expo start",
     "start:dev": "EXPO_USE_METRO_WORKSPACE_ROOT=1 NODE_ENV='development' expo start --dev-client -c",
     "start:production": "EXPO_USE_METRO_WORKSPACE_ROOT=1 NODE_ENV='production' npx expo start --no-dev --minify -c",
@@ -26,10 +26,10 @@
     "preset": "jest-expo"
   },
   "dependencies": {
-    "@cd/core-lib": "workspace:*",
-    "@cd/data-access": "workspace:*",
-    "@cd/eslint-config": "workspace:*",
     "@expo/vector-icons": "14.0.0",
+    "@gras/core": "workspace:*",
+    "@gras/data-access": "workspace:*",
+    "@gras/eslint-config": "workspace:*",
     "@react-native-async-storage/async-storage": "1.21.0",
     "@react-navigation/drawer": "6.6.7",
     "@react-navigation/native": "6.0.2",

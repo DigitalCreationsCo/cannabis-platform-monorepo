@@ -1,4 +1,4 @@
-import { type TeamFeature } from '@cd/core-lib';
+import { type TeamFeature } from '@gras/core';
 import { type GetServerSidePropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import APIKeysContainer from '@/components/apiKey/APIKeysContainer';

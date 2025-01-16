@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { prependDialCode, throwIfNotAllowed } from '@cd/core-lib';
-import freshsales from '@cd/core-lib/crm/freshsales';
-import twilio from '@cd/core-lib/sms/twilio';
-import { updateDispensaryDailyDeal, type DailyDeal } from '@cd/data-access';
+import { prependDialCode, throwIfNotAllowed } from '@gras/core';
+import freshsales from '@gras/core/crm/freshsales';
+import twilio from '@gras/core/sms/twilio';
+import { updateDispensaryDailyDeal, type DailyDeal } from '@gras/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { clientPromise } from '@/lib/db';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';

@@ -1,4 +1,4 @@
-import { type Action, type Resource, useCanAccess } from '@cd/core-lib';
+import { type Action, type Resource, useCanAccess } from '@gras/core';
 
 interface AccessControlProps {
 	children: React.ReactNode;

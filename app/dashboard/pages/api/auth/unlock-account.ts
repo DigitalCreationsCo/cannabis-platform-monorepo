@@ -1,8 +1,8 @@
 import { isAccountLocked, sendLockoutEmail } from '@/lib/accountLock';
 import { clientPromise } from '@/lib/db';
 import { resendLinkRequestSchema, validateWithSchema } from '@/lib/zod';
-import { ApiError } from '@cd/core-lib';
-import { deleteVerificationToken, getStaffMember } from '@cd/data-access';
+import { ApiError } from '@gras/core';
+import { deleteVerificationToken, getStaffMember } from '@gras/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(

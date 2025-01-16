@@ -1,8 +1,8 @@
 import { clientPromise } from '@/lib/db';
 import { sendVerificationEmail } from '@/lib/email/sendVerificationEmail';
 import { resendEmailToken, validateWithSchema } from '@/lib/zod';
-import { ApiError } from '@cd/core-lib';
-import { createVerificationToken, getStaffMember } from '@cd/data-access';
+import { ApiError } from '@gras/core';
+import { createVerificationToken, getStaffMember } from '@gras/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(

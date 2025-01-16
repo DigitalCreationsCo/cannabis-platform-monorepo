@@ -1,7 +1,7 @@
 import { Card } from '@/components/shared';
-import { type ApiResponse, defaultHeaders } from '@cd/core-lib';
-import type { StaffMember } from '@cd/data-access';
-import { Button } from '@cd/ui-lib';
+import { type ApiResponse, defaultHeaders } from '@gras/core';
+import type { StaffMember } from '@gras/data-access';
+import { Button } from '@gras/ui';
 import { ArrowUpCircleIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'next-i18next';
 import React, { useState, useEffect, useCallback } from 'react';

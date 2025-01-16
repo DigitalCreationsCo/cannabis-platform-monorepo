@@ -1,4 +1,4 @@
-import { type ComplianceSelectorType } from '@cd/data-access';
+import { type ComplianceSelectorType } from '@gras/data-access';
 import { Router } from 'express';
 import { ComplianceDA } from '../data-access';
 const router = Router();

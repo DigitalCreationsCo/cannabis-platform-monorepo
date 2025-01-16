@@ -1,10 +1,10 @@
 // /* eslint-disable sonarjs/no-duplicate-string */
 // /* eslint-disable @typescript-eslint/naming-convention */
-// import { axios } from '@cd/core-lib';
+// import { axios } from '@gras/core';
 // import {
 // 	EmailService,
 // 	type NewsletterContent,
-// } from '@cd/core-lib/lib/email/EmailService';
+// } from '@gras/core/lib/email/EmailService';
 // import { schedule } from 'node-cron';
 
 // export default class NewsletterScheduler {

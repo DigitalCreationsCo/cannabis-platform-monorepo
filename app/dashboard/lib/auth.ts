@@ -1,4 +1,4 @@
-import type { AUTH_PROVIDER } from '@cd/core-lib';
+import type { AUTH_PROVIDER } from '@gras/core';
 import { compare, hash } from 'bcryptjs';
 
 import env from './env';

@@ -8,7 +8,7 @@ COPY --from=cache /node_modules ./node_modules
 COPY package.json ./
 COPY . ./
 RUN yarn workspaces focus --all
-RUN yarn workspaces foreach -itR --from @cd/$BUILD_TYPE-$BUILD_CONTEXT run build:ci
+RUN yarn workspaces foreach -itR --from @gras/$BUILD_TYPE-$BUILD_CONTEXT run build:ci
 
 
 FROM --platform=linux/amd64 node:18-alpine3.19

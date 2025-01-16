@@ -1,4 +1,4 @@
-import { Button, Modal2 as Modal } from '@cd/ui-lib';
+import { Button, Modal2 as Modal } from '@gras/ui';
 import { useTranslation } from 'next-i18next';
 
 interface UpgradeAccountDialogProps {

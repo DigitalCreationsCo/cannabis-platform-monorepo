@@ -1,4 +1,4 @@
-import type { AppEvent } from '@cd/core-lib';
+import type { AppEvent } from '@gras/core';
 import { type EndpointIn, Svix } from 'svix';
 
 import env from './env';

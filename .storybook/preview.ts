@@ -1,6 +1,6 @@
 import { Preview } from '@storybook/react';
 
-import '../packages/ui-lib/src/styles/ui-lib.css';
+import '../packages/ui/src/styles/ui.css';
 
 import * as NextImage from 'next/image';
 import { withPerformance } from 'storybook-addon-performance';

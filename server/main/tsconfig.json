@@ -7,9 +7,9 @@
 		"moduleResolution": "node",
 		"baseUrl": "./src",
 		"paths": {
-			"@cd/core-lib": ["../../../packages/core-lib/src/index"],
-			"@cd/data-access": ["../../../packages/data-access/src/index"],
-			"@cd/eslint-config": ["../../../packages/eslint-config/src/index"]
+			"@gras/core": ["../../../packages/core/src/index"],
+			"@gras/data-access": ["../../../packages/data-access/src/index"],
+			"@gras/eslint-config": ["../../../packages/eslint-config/src/index"]
 		},
 		"noEmit": false,
 		"outDir": "./dist",

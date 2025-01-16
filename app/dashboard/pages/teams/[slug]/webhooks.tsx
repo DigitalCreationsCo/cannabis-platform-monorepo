@@ -1,5 +1,5 @@
-import { type TeamFeature, useDispensary } from '@cd/core-lib';
-import { LoadingPage } from '@cd/ui-lib';
+import { type TeamFeature, useDispensary } from '@gras/core';
+import { LoadingPage } from '@gras/ui';
 import { type GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';

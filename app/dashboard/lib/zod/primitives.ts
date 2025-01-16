@@ -2,8 +2,8 @@ import {
 	isValidDomain,
 	maxLengthPolicies,
 	passwordPolicies,
-} from '@cd/core-lib';
-import { Role } from '@cd/data-access';
+} from '@gras/core';
+import { Role } from '@gras/data-access';
 import { z } from 'zod';
 
 export const password = z

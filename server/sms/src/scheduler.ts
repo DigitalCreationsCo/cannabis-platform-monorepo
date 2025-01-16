@@ -1,5 +1,5 @@
-import SMS from '@cd/core-lib/lib/sms';
-import { findActiveDailyDeals, setExpiredDailyDeals } from '@cd/data-access';
+import SMS from '@gras/core/lib/sms';
+import { findActiveDailyDeals, setExpiredDailyDeals } from '@gras/data-access';
 import { schedule } from 'node-cron';
 import {
 	getAllCacheDailyDeals,

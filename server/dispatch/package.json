@@ -1,9 +1,9 @@
 {
   "main": "./src/index.ts",
   "dependencies": {
-    "@cd/core-lib": "workspace:*",
-    "@cd/data-access": "workspace:*",
     "@googlemaps/fleetengine-delivery": "./maps-fleetengine-delivery-v1-nodejs.tar.gz",
+    "@gras/core": "workspace:*",
+    "@gras/data-access": "workspace:*",
     "@socket.io/redis-adapter": "8.2.1",
     "axios": "1.2.1",
     "cors": "2.8.5",
@@ -44,7 +44,7 @@
     "ts-jest": "^29.1.2",
     "typescript": "5.4.5"
   },
-  "name": "@cd/server-dispatch",
+  "name": "@gras/server-dispatch",
   "description": "nodejs cluster server for dispatching orders",
   "private": true,
   "scripts": {

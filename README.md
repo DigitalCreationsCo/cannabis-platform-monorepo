@@ -7,14 +7,14 @@ The codebase follows a monorepo structure, promoting consistency and simplifying
 **TypeScript** is used throughout the application, providing static typing to improve code quality, reduce runtime errors, and enhance developer productivity through better tooling and IDE support.
 
 SHOP
-THE BASE APP SHOPPING MARKETPLACE APP IS @CD/SHOP
+THE BASE APP SHOPPING MARKETPLACE APP IS @gras/SHOP
 
 DASHBOARD
-THE VENDOR DASHBOARD APP IS @CD/DASHBOARD
+THE VENDOR DASHBOARD APP IS @gras/DASHBOARD
 
-HELP PAGES APP IS @CD/HELP
+HELP PAGES APP IS @gras/HELP
 
-ARTICLES APP IS @CD/BLOG
+ARTICLES APP IS @gras/BLOG
 ---
 
 PROJECT DEPENDENCIES

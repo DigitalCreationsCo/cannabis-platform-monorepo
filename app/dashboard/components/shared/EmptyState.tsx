@@ -1,4 +1,4 @@
-import { Button, Paragraph } from '@cd/ui-lib';
+import { Button, Paragraph } from '@gras/ui';
 import InformationCircleIcon from '@heroicons/react/24/outline/InformationCircleIcon';
 import React from 'react';
 

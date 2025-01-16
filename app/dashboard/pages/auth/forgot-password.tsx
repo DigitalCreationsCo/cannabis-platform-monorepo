@@ -2,8 +2,8 @@ import {
 	defaultHeaders,
 	type ApiResponse,
 	maxLengthPolicies,
-} from '@cd/core-lib';
-import { Button, Paragraph, TextField, GoogleReCAPTCHA } from '@cd/ui-lib';
+} from '@gras/core';
+import { Button, Paragraph, TextField, GoogleReCAPTCHA } from '@gras/ui';
 import { useFormik } from 'formik';
 import type {
 	GetServerSidePropsContext,

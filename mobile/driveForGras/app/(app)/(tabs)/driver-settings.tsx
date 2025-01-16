@@ -1,8 +1,8 @@
-import TextContent from '@cd/core-lib/src/constants/text.constant';
+import TextContent from '@gras/core/src/constants/text.constant';
 import {
 	driverActions,
 	selectDriverState,
-} from '@cd/core-lib/src/reducer/driver.reducer';
+} from '@gras/core/src/reducer/driver.reducer';
 import { type Action } from '@reduxjs/toolkit';
 import { Link, router } from 'expo-router';
 import { useDispatch, useSelector } from 'react-redux';

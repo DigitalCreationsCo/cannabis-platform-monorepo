@@ -1,4 +1,4 @@
-import { ErrorMessage, Page } from '@cd/ui-lib';
+import { ErrorMessage, Page } from '@gras/ui';
 
 function _500() {
 	return (

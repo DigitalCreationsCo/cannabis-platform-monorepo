@@ -13,7 +13,7 @@ import { isEmailAllowed } from '@/lib/email/utils';
 import env from '@/lib/env';
 import { validateRecaptcha } from '@/lib/recaptcha';
 import { MongoDBAdapter } from '@auth/mongodb-adapter';
-import { maxLengthPolicies, forceConsume } from '@cd/core-lib';
+import { maxLengthPolicies, forceConsume } from '@gras/core';
 import {
 	Role,
 	getAccount,
@@ -21,7 +21,7 @@ import {
 	createStaffMember,
 	addStaffMemberToDispensary,
 	getStaffMember,
-} from '@cd/data-access';
+} from '@gras/data-access';
 import { setCookie, getCookie } from 'cookies-next';
 import type {
 	NextApiRequest,

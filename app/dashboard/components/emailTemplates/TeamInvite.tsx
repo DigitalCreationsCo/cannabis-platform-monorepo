@@ -1,5 +1,5 @@
 /* eslint-disable i18next/no-literal-string */
-import { type Dispensary } from '@cd/data-access';
+import { type Dispensary } from '@gras/data-access';
 import {
 	Button,
 	Container,

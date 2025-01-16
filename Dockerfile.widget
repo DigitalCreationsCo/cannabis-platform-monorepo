@@ -9,7 +9,7 @@ ENV NODE_ENV="production"
 ENV YARN_VERSION "3.3.1"
 RUN yarn set version $YARN_VERSION
 RUN yarn plugin import workspace-tools
-RUN yarn workspaces foreach -itR --from @cd/app-checkout-widget run build
+RUN yarn workspaces foreach -itR --from @gras/app-checkout-widget run build
 
 FROM nginx:1.24-bullseye
 WORKDIR /usr/share/nginx/html

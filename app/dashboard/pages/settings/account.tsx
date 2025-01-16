@@ -1,4 +1,4 @@
-import { getStaffMemberBySession } from '@cd/data-access';
+import { getStaffMemberBySession } from '@gras/data-access';
 import type {
 	GetServerSidePropsContext,
 	InferGetServerSidePropsType,

@@ -57,10 +57,10 @@ Memory Usage:`,
 	const config = {
 		basePath: '/help',
 		transpilePackages: [
-			'@cd/eslint-config',
-			'@cd/data-access',
-			'@cd/core-lib',
-			'@cd/ui-lib',
+			'@gras/eslint-config',
+			'@gras/data-access',
+			'@gras/core',
+			'@gras/ui',
 		],
 		webpack: (config) => {
 			config.resolve.fallback = {

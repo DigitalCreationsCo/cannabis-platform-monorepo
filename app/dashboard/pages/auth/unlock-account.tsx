@@ -2,14 +2,14 @@ import { AuthLayout } from '@/components/layouts';
 import { Alert } from '@/components/shared';
 import { unlockAccount } from '@/lib/accountLock';
 import { clientPromise } from '@/lib/db';
-import { defaultHeaders } from '@cd/core-lib';
+import { defaultHeaders } from '@gras/core';
 import {
 	deleteVerificationToken,
 	getVerificationToken,
 	isVerificationTokenExpired,
 	getStaffMember,
-} from '@cd/data-access';
-import { Button } from '@cd/ui-lib';
+} from '@gras/data-access';
+import { Button } from '@gras/ui';
 import type { GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { useState, type ReactElement, useEffect } from 'react';

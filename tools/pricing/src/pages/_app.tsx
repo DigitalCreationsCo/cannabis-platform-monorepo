@@ -4,7 +4,7 @@ import {
 	ToastProvider,
 	type LayoutContextProps,
 	PlainTopBar as TopBar,
-} from '@cd/ui-lib';
+} from '@gras/ui';
 import { AnimatePresence } from 'framer-motion';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';

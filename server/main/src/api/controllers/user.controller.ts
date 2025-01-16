@@ -3,9 +3,9 @@ import {
 	getGeoCoordinatesFromAddress,
 	isArray,
 	normalizeUserData,
-} from '@cd/core-lib';
-// import { EmailService } from '@cd/core-lib/lib/email/EmailService';
-import { type AddressCreateType } from '@cd/data-access';
+} from '@gras/core';
+// import { EmailService } from '@gras/core/lib/email/EmailService';
+import { type AddressCreateType } from '@gras/data-access';
 import { ShopDA, UserDA } from '../data-access';
 
 /* =================================

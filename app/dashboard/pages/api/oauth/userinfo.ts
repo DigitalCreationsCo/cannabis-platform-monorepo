@@ -1,4 +1,4 @@
-import { ApiError } from '@cd/core-lib';
+import { ApiError } from '@gras/core';
 import { type NextApiRequest, type NextApiResponse } from 'next';
 import jackson from '@/lib/jackson';
 

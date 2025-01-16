@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
-import { useDispensaries, maxLengthPolicies } from '@cd/core-lib';
-import { DropDown } from '@cd/ui-lib';
+import { useDispensaries, maxLengthPolicies } from '@gras/core';
+import { DropDown } from '@gras/ui';
 import {
 	ChevronDownIcon,
 	FolderIcon,

@@ -1,4 +1,4 @@
-import { updateVariantQuantity } from '@cd/data-access';
+import { updateVariantQuantity } from '@gras/data-access';
 
 /* =================================
 Product Data Access - data handling class for Product table

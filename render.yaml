@@ -21,12 +21,12 @@ services:
   buildFilter:
     paths: # Only trigger a build with changes to these files
       - server/main
-      - packages/core-lib
+      - packages/core
       - packages/data-access
       - packages/eslint-config
     ignoredPaths: # Ignore these files, even if they match a path in 'paths'
       - server/main/test/**
-      - packages/core-lib/src/test/**
+      - packages/core/src/test/**
       - packages/data-access/src/test/**
   region: ohio
   branch: production

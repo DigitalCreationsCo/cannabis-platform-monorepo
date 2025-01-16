@@ -2,7 +2,7 @@ import { PendingInvitations } from '@/components/invitation';
 import { Error } from '@/components/shared';
 import { Members, TeamTab } from '@/components/team';
 import env from '@/lib/env';
-import { type TeamFeature, useDispensary } from '@cd/core-lib';
+import { type TeamFeature, useDispensary } from '@gras/core';
 import { type GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';

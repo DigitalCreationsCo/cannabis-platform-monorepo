@@ -3,9 +3,9 @@
 /* eslint-disable sonarjs/no-duplicated-branches */
 import ConfirmationDialog from '@/components/shared/ConfirmationDialog';
 import { Table } from '@/components/shared/table/Table';
-import { fetcher, type ApiResponse, useCanAccess } from '@cd/core-lib';
-import { type DailyDeal, type Dispensary } from '@cd/data-access';
-import { Paragraph } from '@cd/ui-lib';
+import { fetcher, type ApiResponse, useCanAccess } from '@gras/core';
+import { type DailyDeal, type Dispensary } from '@gras/data-access';
+import { Paragraph } from '@gras/ui';
 import {
 	PencilSquareIcon,
 	XCircleIcon,

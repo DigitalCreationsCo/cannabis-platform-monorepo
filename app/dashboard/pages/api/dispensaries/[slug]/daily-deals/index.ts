@@ -3,13 +3,13 @@
 import { clientPromise } from '@/lib/db';
 import { recordMetric } from '@/lib/metrics';
 import { sendAudit } from '@/lib/retraced';
-import { CronJobApi, axios, throwIfNotAllowed } from '@cd/core-lib';
+import { CronJobApi, axios, throwIfNotAllowed } from '@gras/core';
 import {
 	updateDispensaryDailyDeal,
 	type DailyDeal,
 	createDispensaryDailyDeal,
 	getDispensaryDailyDeals,
-} from '@cd/data-access';
+} from '@gras/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
 

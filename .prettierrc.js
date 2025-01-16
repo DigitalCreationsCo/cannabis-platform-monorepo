@@ -1,6 +1,6 @@
 // @ts-check
 
-const { getPrettierConfig } = require('@cd/eslint-config/src/helpers');
+const { getPrettierConfig } = require('@gras/eslint-config/src/helpers');
 
 const { overrides = [], ...prettierConfig } = getPrettierConfig();
 

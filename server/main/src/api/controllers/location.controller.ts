@@ -1,8 +1,8 @@
-import { getCoordinatePairFromCoordinates } from '@cd/core-lib';
+import { getCoordinatePairFromCoordinates } from '@gras/core';
 import {
 	type Coordinates,
 	type OrganizationWithShopDetails,
-} from '@cd/data-access';
+} from '@gras/data-access';
 import { LocationDA } from '../data-access';
 /* =================================
 Locationontroller - controller class for location-based actions

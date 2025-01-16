@@ -2,7 +2,7 @@ import { AuthLayout } from '@/components/layouts';
 import { clientPromise } from '@/lib/db';
 import { type NextPageWithLayout } from '@/lib/next.types';
 import { getSession } from '@/lib/session';
-import { getStaffMemberDispensaries } from '@cd/data-access';
+import { getStaffMemberDispensaries } from '@gras/data-access';
 import { deleteCookie } from 'cookies-next';
 import type {
 	GetServerSidePropsContext,

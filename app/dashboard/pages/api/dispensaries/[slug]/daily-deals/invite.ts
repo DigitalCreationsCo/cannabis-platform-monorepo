@@ -1,8 +1,8 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { prependDialCode, throwIfNotAllowed } from '@cd/core-lib';
-import freshsales, { leadSourceIds } from '@cd/core-lib/crm/freshsales';
-import twilio from '@cd/core-lib/sms/twilio';
+import { prependDialCode, throwIfNotAllowed } from '@gras/core';
+import freshsales, { leadSourceIds } from '@gras/core/crm/freshsales';
+import twilio from '@gras/core/sms/twilio';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
 import { recordMetric } from '@/lib/metrics';

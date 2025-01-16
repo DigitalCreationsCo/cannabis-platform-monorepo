@@ -1,6 +1,6 @@
 /* eslint-disable sonarjs/cognitive-complexity */
 import Badge from '@/components/shared/Badge';
-import { Button } from '@cd/ui-lib';
+import { Button } from '@gras/ui';
 import { useTranslation } from 'next-i18next';
 import { type ReactElement } from 'react';
 

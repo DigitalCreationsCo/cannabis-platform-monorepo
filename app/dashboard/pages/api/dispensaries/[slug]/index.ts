@@ -4,13 +4,13 @@ import { recordMetric } from '@/lib/metrics';
 import { sendAudit } from '@/lib/retraced';
 import { getCurrentUserWithDispensary } from '@/lib/user';
 import { updateTeamSchema, validateWithSchema } from '@/lib/zod';
-import { throwIfNotAllowed, ApiError } from '@cd/core-lib';
+import { throwIfNotAllowed, ApiError } from '@gras/core';
 import {
 	deleteDispensary,
 	getDispensary,
 	updateDispensary,
 	type Dispensary,
-} from '@cd/data-access';
+} from '@gras/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
 

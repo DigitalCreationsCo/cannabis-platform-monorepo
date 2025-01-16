@@ -1,5 +1,5 @@
-import { type Price, type Service } from '@cd/data-access';
-import { Button } from '@cd/ui-lib';
+import { type Price, type Service } from '@gras/data-access';
+import { Button } from '@gras/ui';
 import getSymbolFromCurrency from 'currency-symbol-map';
 
 interface PaymentButtonProps {

@@ -10,8 +10,8 @@ import {
 	modalTypes,
 	useAppDispatch,
 	useDispensary,
-} from '@cd/core-lib';
-import { type Dispensary } from '@cd/data-access';
+} from '@gras/core';
+import { type Dispensary } from '@gras/data-access';
 import {
 	Button,
 	FlexBox,
@@ -20,7 +20,7 @@ import {
 	LoadingPage,
 	Page,
 	NewDailyDeal,
-} from '@cd/ui-lib';
+} from '@gras/ui';
 import { ChatBubbleBottomCenterTextIcon } from '@heroicons/react/24/outline';
 import { type GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';

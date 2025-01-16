@@ -1,8 +1,8 @@
 import { clientPromise } from '@/lib/db';
 import { recordMetric } from '@/lib/metrics';
 import { sendAudit } from '@/lib/retraced';
-import { throwIfNotAllowed } from '@cd/core-lib';
-import { type Event, createEvent, getEventsByTeamSlug } from '@cd/data-access';
+import { throwIfNotAllowed } from '@gras/core';
+import { type Event, createEvent, getEventsByTeamSlug } from '@gras/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
 

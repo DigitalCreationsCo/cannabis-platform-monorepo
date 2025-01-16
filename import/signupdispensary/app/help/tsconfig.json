@@ -11,13 +11,13 @@
 		"jsx": "preserve",
 		"incremental": true,
 		"paths": {
-			"@cd/ui-lib": ["../../../packages/ui-lib/src/index"],
-			"@cd/ui-lib/*": ["../../../packages/ui-lib/*"],
-			"@cd/core-lib": ["../../../packages/core-lib/src/index"],
-			"@cd/core-lib/*": ["../../../packages/core-lib/*"],
-			"@cd/data-access": ["../../../packages/data-access/src/index"],
-			"@cd/data-access/*": ["../../../packages/data-access/*"],
-			"@cd/eslint-config": ["../../../packages/eslint-config/src/index"]
+			"@gras/ui": ["../../../packages/ui/src/index"],
+			"@gras/ui/*": ["../../../packages/ui/*"],
+			"@gras/core": ["../../../packages/core/src/index"],
+			"@gras/core/*": ["../../../packages/core/*"],
+			"@gras/data-access": ["../../../packages/data-access/src/index"],
+			"@gras/data-access/*": ["../../../packages/data-access/*"],
+			"@gras/eslint-config": ["../../../packages/eslint-config/src/index"]
 		}
 	},
 	"exclude": ["**/node_modules", "**/.*/**", "./.next/**"],

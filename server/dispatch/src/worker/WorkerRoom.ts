@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events';
-import { dispatchEvents, type NavigateEvent, type Client } from '@cd/core-lib';
+import { dispatchEvents, type NavigateEvent, type Client } from '@gras/core';
 import { type Socket } from 'socket.io';
 import {
 	redisDispatchClientsController,

@@ -1,13 +1,13 @@
 /* eslint-disable import/order */
-import { type Dispensary } from '@cd/data-access';
+import { type Dispensary } from '@gras/data-access';
 import { EmptyState, WithLoadingAndError } from '@/components/shared';
 import ConfirmationDialog from '@/components/shared/ConfirmationDialog';
 type ApiKey = any;
 import { useTranslation } from 'next-i18next';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
-import type { ApiResponse } from '@cd/core-lib';
-import { Button, H2, Paragraph } from '@cd/ui-lib';
+import type { ApiResponse } from '@gras/core';
+import { Button, H2, Paragraph } from '@gras/ui';
 import { Table } from '@/components/shared/table/Table';
 import NewAPIKey from './NewAPIKey';
 

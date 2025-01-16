@@ -1,4 +1,4 @@
-import { getStaffMemberWithDispensary } from '@cd/data-access';
+import { getStaffMemberWithDispensary } from '@gras/data-access';
 import { getSession } from '../lib/session';
 import { clientPromise } from './db';
 import { teamSlugSchema, validateWithSchema } from './zod';

@@ -7,7 +7,7 @@ import {
 	getDispensaryByCustomerId,
 	updateStripeSubscription,
 	getServiceByPriceId,
-} from '@cd/data-access';
+} from '@gras/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import type Stripe from 'stripe';
 import { clientPromise } from '@/lib/db';

@@ -1,5 +1,5 @@
-import { useInvitation } from '@cd/core-lib';
-import { Button } from '@cd/ui-lib';
+import { useInvitation } from '@gras/core';
+import { Button } from '@gras/ui';
 import { signIn } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import env from '@/lib/env';

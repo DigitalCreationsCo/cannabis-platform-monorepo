@@ -1,6 +1,6 @@
-import { FreshSales, prependDialCode, throwIfNotAllowed } from '@cd/core-lib';
-import freshsales, { leadSourceIds } from '@cd/core-lib/crm/freshsales';
-import { type Customer } from '@cd/data-access';
+import { FreshSales, prependDialCode, throwIfNotAllowed } from '@gras/core';
+import freshsales, { leadSourceIds } from '@gras/core/crm/freshsales';
+import { type Customer } from '@gras/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
 import { recordMetric } from '@/lib/metrics';

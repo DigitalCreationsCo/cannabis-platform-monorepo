@@ -1,9 +1,9 @@
 import {
 	handleDriverAppOTPCodeAPI,
-} from '@cd/core-lib/src/auth/OTP';
-import TextContent from '@cd/core-lib/src/constants/text.constant';
-import { driverActions } from '@cd/core-lib/src/reducer/driver.reducer';
-import { type DriverWithSessionJoin } from '@cd/data-access';
+} from '@gras/core/src/auth/OTP';
+import TextContent from '@gras/core/src/constants/text.constant';
+import { driverActions } from '@gras/core/src/reducer/driver.reducer';
+import { type DriverWithSessionJoin } from '@gras/data-access';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useFormik } from 'formik';
 import { useState } from 'react';

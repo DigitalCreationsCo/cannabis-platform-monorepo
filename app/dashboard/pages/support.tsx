@@ -1,4 +1,4 @@
-import { FlexBox, Page, PageHeader, Paragraph } from '@cd/ui-lib';
+import { FlexBox, Page, PageHeader, Paragraph } from '@gras/ui';
 import { CheckBadgeIcon, PhoneIcon } from '@heroicons/react/24/outline';
 import { type GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';

@@ -14,12 +14,12 @@
     "include": [
       "../app/gras",
       "../app/dashboard",
-      "../packages/ui-lib/src",
+      "../packages/ui/src",
       "../**/*.stories.*",
       "../.storybook"
     ],
     "exclude": [
-      "../packages/core-lib",
+      "../packages/core",
       "../packages/data-access",
       "**/node_modules",
     ]

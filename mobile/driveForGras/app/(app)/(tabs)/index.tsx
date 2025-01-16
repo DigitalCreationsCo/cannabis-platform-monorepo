@@ -1,10 +1,10 @@
-import TextContent from '@cd/core-lib/src/constants/text.constant';
-import { updateOnlineStatus } from '@cd/core-lib/src/reducer/action/updateOnlineStatus';
-import { selectDriverState } from '@cd/core-lib/src/reducer/driver.reducer';
+import TextContent from '@gras/core/src/constants/text.constant';
+import { updateOnlineStatus } from '@gras/core/src/reducer/action/updateOnlineStatus';
+import { selectDriverState } from '@gras/core/src/reducer/driver.reducer';
 import {
 	socketActions,
 	selectSocketState,
-} from '@cd/core-lib/src/reducer/socket.reducer';
+} from '@gras/core/src/reducer/socket.reducer';
 import { useRouter } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';

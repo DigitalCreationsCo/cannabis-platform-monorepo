@@ -3,8 +3,8 @@ import {
 	type ApiResponse,
 	defaultHeaders,
 	maxLengthPolicies,
-} from '@cd/core-lib';
-import type { Dispensary } from '@cd/data-access';
+} from '@gras/core';
+import type { Dispensary } from '@gras/data-access';
 import {
 	Button,
 	CheckBox,
@@ -12,7 +12,7 @@ import {
 	Paragraph,
 	TextField,
 	Modal2 as Modal,
-} from '@cd/ui-lib';
+} from '@gras/ui';
 import { useFormik } from 'formik';
 import { useTranslation } from 'next-i18next';
 import Link from 'next/link';

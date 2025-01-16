@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { ApiError } from '@cd/core-lib';
+import { ApiError } from '@gras/core';
 import {
 	Role,
 	type StaffMemberWithDispensary,
 	getStaffMemberWithDispensary,
-} from '@cd/data-access';
+} from '@gras/data-access';
 import { clientPromise } from './db';
 
 export async function validateMembershipOperation(

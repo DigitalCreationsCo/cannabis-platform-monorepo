@@ -1,5 +1,5 @@
 import console from 'console';
-import { isEmpty, type Client, type RoomType } from '@cd/core-lib';
+import { isEmpty, type Client, type RoomType } from '@gras/core';
 import { createClient } from 'redis';
 import type WorkerRoom from '../worker/WorkerRoom';
 

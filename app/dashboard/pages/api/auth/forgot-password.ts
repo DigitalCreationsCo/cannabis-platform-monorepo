@@ -3,8 +3,8 @@ import { sendPasswordResetEmail } from '@/lib/email/sendPasswordResetEmail';
 import { recordMetric } from '@/lib/metrics';
 import { validateRecaptcha } from '@/lib/recaptcha';
 import { forgotPasswordSchema, validateWithSchema } from '@/lib/zod';
-import { generateToken, ApiError, validateEmail } from '@cd/core-lib';
-import { createPasswordReset, getStaffMember } from '@cd/data-access';
+import { generateToken, ApiError, validateEmail } from '@gras/core';
+import { createPasswordReset, getStaffMember } from '@gras/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(

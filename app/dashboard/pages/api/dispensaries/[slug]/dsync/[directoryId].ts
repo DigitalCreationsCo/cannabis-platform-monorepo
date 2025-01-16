@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import env from '@/lib/env';
 import { sendAudit } from '@/lib/retraced';
-import { throwIfNotAllowed, ApiError } from '@cd/core-lib';
+import { throwIfNotAllowed, ApiError } from '@gras/core';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
 import { throwIfNoAccessToDirectory } from '@/lib/guards/team-dsync';

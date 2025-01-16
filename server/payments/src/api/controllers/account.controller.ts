@@ -6,8 +6,8 @@ import {
 	type DispensaryCreateStripeAccountPayload,
 	type OrganizationStripeDetail,
 	CustomerCreateStripeAccountResponse,
-} from '@cd/core-lib';
-import { updateDispensaryStripeAccount } from '@cd/data-access';
+} from '@gras/core';
+import { updateDispensaryStripeAccount } from '@gras/data-access';
 import type Stripe from 'stripe';
 import StripeService from '../stripe';
 

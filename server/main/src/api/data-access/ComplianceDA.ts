@@ -1,4 +1,4 @@
-import { type ComplianceSelectorType, findCompliance } from '@cd/data-access';
+import { type ComplianceSelectorType, findCompliance } from '@gras/data-access';
 
 /* =================================
 Compliance Data Access - data class for ComplianceSheet table

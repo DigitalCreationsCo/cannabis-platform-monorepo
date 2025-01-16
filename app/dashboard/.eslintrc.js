@@ -1,6 +1,6 @@
-require('@cd/eslint-config/src/patch/modern-module-resolution');
+require('@gras/eslint-config/src/patch/modern-module-resolution');
 
-const { getDefaultIgnorePatterns } = require('@cd/eslint-config/src/helpers');
+const { getDefaultIgnorePatterns } = require('@gras/eslint-config/src/helpers');
 
 module.exports = {
   root: true,
@@ -11,18 +11,18 @@ module.exports = {
   },
   ignorePatterns: [...getDefaultIgnorePatterns(), '.next', '.out', '.eslintrc.js'],
   extends: [
-    '@cd/eslint-config/src/bases/typescript',
-    '@cd/eslint-config/src/bases/sonar',
-    '@cd/eslint-config/src/bases/regexp',
-    '@cd/eslint-config/src/bases/jest',
-    '@cd/eslint-config/src/bases/react',
-    '@cd/eslint-config/src/bases/tailwind',
-    '@cd/eslint-config/src/bases/rtl',
-    '@cd/eslint-config/src/bases/i18n',
+    '@gras/eslint-config/src/bases/typescript',
+    '@gras/eslint-config/src/bases/sonar',
+    '@gras/eslint-config/src/bases/regexp',
+    '@gras/eslint-config/src/bases/jest',
+    '@gras/eslint-config/src/bases/react',
+    '@gras/eslint-config/src/bases/tailwind',
+    '@gras/eslint-config/src/bases/rtl',
+    '@gras/eslint-config/src/bases/i18n',
     // Add specific rules for nextjs
     'plugin:@next/next/core-web-vitals',
     // Apply prettier and disable incompatible rules
-    '@cd/eslint-config/src/bases/prettier-plugin',
+    '@gras/eslint-config/src/bases/prettier-plugin',
   ],
   rules: {
     '@typescript-eslint/naming-convention': 'off',

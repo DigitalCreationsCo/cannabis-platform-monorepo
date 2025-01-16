@@ -1,10 +1,10 @@
 /* eslint-disable sonarjs/no-duplicated-branches */
-import { pruneData, TextContent, IntegrationService } from '@cd/core-lib';
+import { pruneData, TextContent, IntegrationService } from '@gras/core';
 import {
 	type OrderWithFullDetails,
 	type OrderCreateType,
 	type OrderWithDispatchDetails,
-} from '@cd/data-access';
+} from '@gras/data-access';
 import { createId } from '@paralleldrive/cuid2';
 import { ShopDA } from '../data-access';
 

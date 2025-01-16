@@ -1,4 +1,4 @@
-import { axios } from '@cd/core-lib';
+import { axios } from '@gras/core';
 import { MongoClient } from 'mongodb';
 import { DriverDA, LocationDA, ShopDA } from './api/data-access';
 import { initializeRedis } from './lib/redis-cart';

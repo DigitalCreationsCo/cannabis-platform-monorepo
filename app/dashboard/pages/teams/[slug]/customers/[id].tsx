@@ -2,8 +2,8 @@ import {
 	renderAddress,
 	urlBuilder,
 	usStatesAbbreviationList,
-} from '@cd/core-lib';
-import { type Address, type User } from '@cd/data-access';
+} from '@gras/core';
+import { type Address, type User } from '@gras/data-access';
 import {
 	AddAddressUserModal,
 	Button,
@@ -22,7 +22,7 @@ import {
 	Select,
 	TextField,
 	UploadImageBox,
-} from '@cd/ui-lib';
+} from '@gras/ui';
 import { ShoppingBagIcon } from '@heroicons/react/24/outline';
 import axios from 'axios';
 import { formatInTimeZone } from 'date-fns-tz';

@@ -1,6 +1,6 @@
 import env from '@/lib/env';
 import { sendAudit } from '@/lib/retraced';
-import { ApiError, throwIfNotAllowed } from '@cd/core-lib';
+import { ApiError, throwIfNotAllowed } from '@gras/core';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';
 import {

@@ -1,4 +1,4 @@
-import type { Dispensary } from '@cd/data-access';
+import type { Dispensary } from '@gras/data-access';
 import { Client } from '@retracedhq/retraced';
 import type { CRUD, Event } from '@retracedhq/retraced';
 import type { User } from 'next-auth';

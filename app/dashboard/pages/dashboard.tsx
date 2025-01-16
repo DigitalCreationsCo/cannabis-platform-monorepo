@@ -1,6 +1,6 @@
 import type { NextPageWithLayout } from '@/lib/next.types';
-import { useDispensaries } from '@cd/core-lib';
-import { LoadingDots } from '@cd/ui-lib';
+import { useDispensaries } from '@gras/core';
+import { LoadingDots } from '@gras/ui';
 import { type GetServerSidePropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useRouter } from 'next/router';

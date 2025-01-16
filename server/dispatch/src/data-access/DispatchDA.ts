@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import cluster from 'cluster';
 import console from 'console';
-import { getGeoJsonPairFromCoordinates } from '@cd/core-lib';
+import { getGeoJsonPairFromCoordinates } from '@gras/core';
 import prisma, {
 	addDriverToOrder,
 	findDriverWithDetailsById,
@@ -9,7 +9,7 @@ import prisma, {
 	type Coordinates,
 	type OrderUpdateType,
 	type OrganizationWithAddress,
-} from '@cd/data-access';
+} from '@gras/data-access';
 import { from } from 'form-data';
 import {
 	MongoClient,

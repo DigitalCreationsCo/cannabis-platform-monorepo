@@ -1,5 +1,5 @@
-import { throwIfNotAllowed, ApiError } from '@cd/core-lib';
-import { deleteApiKey } from '@cd/data-access';
+import { throwIfNotAllowed, ApiError } from '@gras/core';
+import { deleteApiKey } from '@gras/data-access';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { clientPromise } from '@/lib/db';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';

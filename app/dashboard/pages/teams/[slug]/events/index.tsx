@@ -1,4 +1,4 @@
-import { fetcher, useDispensary } from '@cd/core-lib';
+import { fetcher, useDispensary } from '@gras/core';
 import {
 	Button,
 	FlexBox,
@@ -6,7 +6,7 @@ import {
 	Paragraph,
 	LoadingPage,
 	Page,
-} from '@cd/ui-lib';
+} from '@gras/ui';
 import { TicketIcon } from '@heroicons/react/24/outline';
 import { type GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';

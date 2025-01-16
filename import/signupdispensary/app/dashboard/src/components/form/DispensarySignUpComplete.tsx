@@ -1,4 +1,4 @@
-import { TextContent } from '@cd/core-lib';
+import { TextContent } from '@gras/core';
 import {
 	Center,
 	FlexBox,
@@ -9,7 +9,7 @@ import {
 	Paragraph,
 	SignInButton,
 	useFormContext,
-} from '@cd/ui-lib';
+} from '@gras/ui';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect } from 'react';

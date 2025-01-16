@@ -1,4 +1,4 @@
-import { Client, isEmpty } from '@cd/core-lib';
+import { Client, isEmpty } from '@gras/core';
 import { createClient } from 'redis';
 
 const redisDispatchClients = createClient({

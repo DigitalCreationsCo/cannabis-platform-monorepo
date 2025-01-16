@@ -1,6 +1,6 @@
 import type { Directory, DirectoryType } from '@boxyhq/saml-jackson';
 
-import { ApiError } from '@cd/core-lib';
+import { ApiError } from '@gras/core';
 import env from '@/lib/env';
 import { options } from '../config';
 import type { JacksonDsync } from './utils';

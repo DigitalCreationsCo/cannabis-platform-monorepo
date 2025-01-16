@@ -1,5 +1,5 @@
-import { getShopSite, selectUserState } from '@cd/core-lib';
-import { FormStepProvider, type LayoutContextProps } from '@cd/ui-lib';
+import { getShopSite, selectUserState } from '@gras/core';
+import { FormStepProvider, type LayoutContextProps } from '@gras/ui';
 import router from 'next/router';
 import { useState } from 'react';
 import Confetti from 'react-confetti';

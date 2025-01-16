@@ -1,5 +1,5 @@
-import { type Dispensary } from '@cd/data-access';
-import { Modal2 as Modal } from '@cd/ui-lib';
+import { type Dispensary } from '@gras/data-access';
+import { Modal2 as Modal } from '@gras/ui';
 import { useTranslation } from 'next-i18next';
 import React from 'react';
 import InviteViaEmail from './InviteViaEmail';

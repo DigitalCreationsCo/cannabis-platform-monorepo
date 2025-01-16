@@ -6,7 +6,7 @@ import {
 	updateWebhookEndpointSchema,
 	validateWithSchema,
 } from '@/lib/zod';
-import { ApiError, throwIfNotAllowed } from '@cd/core-lib';
+import { ApiError, throwIfNotAllowed } from '@gras/core';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { type EndpointIn } from 'svix';
 import { throwIfNoDispensaryAccess } from '@/lib/dispensary';

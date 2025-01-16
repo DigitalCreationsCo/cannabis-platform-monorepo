@@ -1,5 +1,5 @@
-import { useDispensary, type TeamFeature } from '@cd/core-lib';
-import { LoadingDots } from '@cd/ui-lib';
+import { useDispensary, type TeamFeature } from '@gras/core';
+import { LoadingDots } from '@gras/ui';
 import { useTranslation } from 'next-i18next';
 import { Error } from '@/components/shared';
 import { TeamTab } from '@/components/team';

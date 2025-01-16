@@ -1,6 +1,6 @@
-import { useDispensary } from '@cd/core-lib';
-import { type Price, type Service, type Subscription } from '@cd/data-access';
-import { Button, H3, Paragraph } from '@cd/ui-lib';
+import { useDispensary } from '@gras/core';
+import { type Price, type Service, type Subscription } from '@gras/data-access';
+import { Button, H3, Paragraph } from '@gras/ui';
 import { useTranslation } from 'next-i18next';
 import toast from 'react-hot-toast';
 import PaymentButton from './PaymentButton';

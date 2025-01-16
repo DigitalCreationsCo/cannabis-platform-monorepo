@@ -1,6 +1,6 @@
-import { defaultHeaders, type ApiResponse } from '@cd/core-lib';
-import { type Dispensary } from '@cd/data-access';
-import { Button } from '@cd/ui-lib';
+import { defaultHeaders, type ApiResponse } from '@gras/core';
+import { type Dispensary } from '@gras/data-access';
+import { Button } from '@gras/ui';
 import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'next-i18next';
 import { useState } from 'react';

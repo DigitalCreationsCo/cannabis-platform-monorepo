@@ -5,7 +5,7 @@ import {
 	ProtectedPage,
 	ToastProvider,
 	type LayoutContextProps,
-} from '@cd/ui-lib';
+} from '@gras/ui';
 import { AnimatePresence } from 'framer-motion';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';

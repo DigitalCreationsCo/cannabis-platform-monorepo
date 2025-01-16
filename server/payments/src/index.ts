@@ -1,4 +1,4 @@
-import prisma from '@cd/data-access';
+import prisma from '@gras/data-access';
 import server from './server';
 
 const port = process.env.SERVER_PORT || 6021;

@@ -1,4 +1,4 @@
-import freshsales from '@cd/core-lib/crm/freshsales';
+import freshsales from '@gras/core/crm/freshsales';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import env from '@/lib/env';
 import { recordMetric } from '@/lib/metrics';

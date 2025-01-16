@@ -5,8 +5,8 @@ import {
 	type CustomerCreateStripeAccountPayload,
 	urlBuilder,
 	TextContent,
-} from '@cd/core-lib';
-import { Button, FlexBox, useFormContext } from '@cd/ui-lib';
+} from '@gras/core';
+import { Button, FlexBox, useFormContext } from '@gras/ui';
 import {
 	PaymentElement,
 	useElements,

@@ -5,7 +5,7 @@ import {
 	shuffle,
 	TextContent,
 	urlBuilder,
-} from '@cd/core-lib';
+} from '@gras/core';
 import {
 	Button,
 	FlexBox,
@@ -17,7 +17,7 @@ import {
 	TermsAgreement,
 	TextField,
 	useFormContext,
-} from '@cd/ui-lib';
+} from '@gras/ui';
 import { createId } from '@paralleldrive/cuid2';
 import { useFormik } from 'formik';
 import Image from 'next/image';

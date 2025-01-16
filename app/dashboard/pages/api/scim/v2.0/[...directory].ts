@@ -1,5 +1,5 @@
 import type { DirectorySyncRequest } from '@boxyhq/saml-jackson';
-import { extractAuthToken } from '@cd/core-lib';
+import { extractAuthToken } from '@gras/core';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import env from '@/lib/env';
 import jackson from '@/lib/jackson';

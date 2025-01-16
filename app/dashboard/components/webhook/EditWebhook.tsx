@@ -4,9 +4,9 @@ import {
 	defaultHeaders,
 	type ApiResponse,
 	type WebookFormSchema,
-} from '@cd/core-lib';
-import { type Dispensary } from '@cd/data-access';
-import { LoadingDots } from '@cd/ui-lib';
+} from '@gras/core';
+import { type Dispensary } from '@gras/data-access';
+import { LoadingDots } from '@gras/ui';
 import type { FormikHelpers } from 'formik';
 import { useTranslation } from 'next-i18next';
 import React from 'react';

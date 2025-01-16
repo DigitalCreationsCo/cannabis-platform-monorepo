@@ -1,4 +1,4 @@
-import { selectDriverState } from '@cd/core-lib/src/reducer/driver.reducer';
+import { selectDriverState } from '@gras/core/src/reducer/driver.reducer';
 import { Redirect, Stack } from 'expo-router';
 import { useColorScheme } from 'react-native';
 import { useSelector } from 'react-redux';

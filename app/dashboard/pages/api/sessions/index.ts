@@ -1,5 +1,5 @@
 /* eslint-disable sonarjs/no-small-switch */
-import { findManySessions } from '@cd/data-access';
+import { findManySessions } from '@gras/data-access';
 import { getCookie } from 'cookies-next';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { sessionTokenCookieName } from '@/lib/nextAuth';

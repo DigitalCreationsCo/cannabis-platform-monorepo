@@ -4,7 +4,7 @@ import {
 	locationMiddleware,
 	loggerMiddleware,
 	modalReducer,
-} from '@cd/core-lib';
+} from '@gras/core';
 import {
 	combineReducers,
 	configureStore,
