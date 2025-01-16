@@ -3,7 +3,7 @@ import {
 	type UserWithDetails,
 	type Organization,
 	type DriverWithDetails,
-} from '@cd/data-access';
+} from '@gras/data-access';
 import { buildNewsletterTemplate } from './newsletter-template';
 
 const _BryantEmail = 'bryantmejia@grascannabis.org';

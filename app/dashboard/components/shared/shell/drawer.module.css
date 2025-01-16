@@ -1,9 +1,0 @@
-.sidebar-container {
-	position: relative;
-	@apply lg:w-20;
-}
-
-.sidebar-container:hover {
-	@apply lg:w-64;
-	transition: width 0.5s;
-}

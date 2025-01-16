@@ -57,10 +57,10 @@ const nextConfig = (phase) => {
 		reactStrictMode: true,
 		swcMinify: true,
 		transpilePackages: [
-			'@cd/eslint-config',
-			'@cd/data-access',
-			'@cd/core-lib',
-			'@cd/ui-lib',
+			'@gras/eslint-config',
+			'@gras/data-access',
+			'@gras/core',
+			'@gras/ui',
 		],
 		webpack: (config) => {
 			config.resolve.fallback = {

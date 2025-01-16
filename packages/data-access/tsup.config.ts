@@ -47,7 +47,7 @@ export default defineConfig((options) => {
 		// format: ['cjs', 'esm'], // Choose your desired formats
 		// external: [],
 		// noExternal: [
-		// 	'@cd/data-access', // Do not bundle ui-lib when referenced externally
+		// 	'@gras/data-access', // Do not bundle ui when referenced externally
 		// ],
 	};
 });

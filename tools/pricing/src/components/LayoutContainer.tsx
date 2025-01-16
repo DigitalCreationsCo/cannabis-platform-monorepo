@@ -1,5 +1,5 @@
-import { selectModalState } from '@cd/core-lib';
-import { Layout, type LayoutContextProps } from '@cd/ui-lib';
+import { selectModalState } from '@gras/core';
+import { Layout, type LayoutContextProps } from '@gras/ui';
 import { type PropsWithChildren } from 'react';
 import { useSelector } from 'react-redux';
 

@@ -56,16 +56,16 @@ const commands = [
 		cwd: '../packages/data-access',
 	},
 	{
-		name: 'core-lib',
+		name: 'core',
 		command: 'yarn',
 		args: ['test:watch'],
-		cwd: '../packages/core-lib',
+		cwd: '../packages/core',
 	},
 	{
-		name: 'ui-lib',
+		name: 'ui',
 		command: 'yarn',
 		args: ['test:watch'],
-		cwd: '../packages/ui-lib',
+		cwd: '../packages/ui',
 	},
 ];
 

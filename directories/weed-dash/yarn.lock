@@ -12,9 +12,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cd/weed-dash@workspace:.":
+"@gras/weed-dash@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@cd/weed-dash@workspace:."
+  resolution: "@gras/weed-dash@workspace:."
   dependencies:
     autoprefixer: 10.4.19
     cssnano: ^7.0.2

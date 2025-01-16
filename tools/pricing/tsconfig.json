@@ -17,25 +17,25 @@
     "esModuleInterop": true,
     "strict": true,
     "paths": {
-      "@cd/ui-lib": [
-        "../../../packages/ui-lib/src/index"
+      "@gras/ui": [
+        "../../../packages/ui/src/index"
       ],
-      "@cd/ui-lib/*": [
-        "../../../packages/ui-lib/*"
+      "@gras/ui/*": [
+        "../../../packages/ui/*"
       ],
-      "@cd/core-lib": [
-        "../../../packages/core-lib/src/index"
+      "@gras/core": [
+        "../../../packages/core/src/index"
       ],
-      "@cd/core-lib/*": [
-        "../../../packages/core-lib/*"
+      "@gras/core/*": [
+        "../../../packages/core/*"
       ],
-      "@cd/data-access": [
+      "@gras/data-access": [
         "../../../packages/data-access/src/index"
       ],
-      "@cd/data-access/*": [
+      "@gras/data-access/*": [
         "../../../packages/data-access/*"
       ],
-      "@cd/eslint-config": [
+      "@gras/eslint-config": [
         "../../../packages/eslint-config/src/index"
       ]
     },

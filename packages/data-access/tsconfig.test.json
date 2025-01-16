@@ -4,7 +4,7 @@
 	"compilerOptions": {
 		"baseUrl": "../",
 		"paths": {
-			"@cd/eslint-config": ["../../packages/eslint-config/"]
+			"@gras/eslint-config": ["../../packages/eslint-config/"]
 		},
 		"types": ["jest", "node", "../../node_modules/@types/jest"],
 		// "types": ["jest", "node", "../../node_modules/@types/jest"],

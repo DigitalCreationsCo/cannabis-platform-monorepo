@@ -8,7 +8,7 @@
 		"module": "es2020",
 		"moduleResolution": "node",
 		"paths": {
-			"@cd/eslint-config": ["../../../packages/eslint-config/src/index"],
+			"@gras/eslint-config": ["../../../packages/eslint-config/src/index"],
 		}
 	},
 	"exclude": ["**/node_modules", "**/.*/",],

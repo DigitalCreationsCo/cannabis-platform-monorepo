@@ -1,5 +1,5 @@
 {
-  "name": "@cd/weed-dash",
+  "name": "@gras/weed-dash",
   "version": "1.0.0",
   "scripts": {
     "serve": "NODE_PATH='../../' && bundle exec jekyll serve",

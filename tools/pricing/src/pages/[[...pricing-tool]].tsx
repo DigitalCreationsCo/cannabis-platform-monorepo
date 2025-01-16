@@ -11,7 +11,7 @@ import {
 	Price,
 	Paragraph,
 	type LayoutContextProps,
-} from '@cd/ui-lib';
+} from '@gras/ui';
 import { useState } from 'react';
 
 function PricingTool() {

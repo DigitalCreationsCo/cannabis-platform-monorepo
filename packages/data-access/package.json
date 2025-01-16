@@ -8,7 +8,7 @@
     "typescript": "5.4.5"
   },
   "main": "./src/index.ts",
-  "name": "@cd/data-access",
+  "name": "@gras/data-access",
   "exports": {
     ".": "./src/index.ts"
   },
@@ -36,7 +36,7 @@
   },
   "version": "0.0.1",
   "dependencies": {
-    "@cd/eslint-config": "workspace:*",
+    "@gras/eslint-config": "workspace:*",
     "@paralleldrive/cuid2": "2.2.1",
     "mongodb": "5.8.1"
   }
