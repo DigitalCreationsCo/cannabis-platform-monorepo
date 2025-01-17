@@ -1,7 +1,8 @@
 {
+  "name": "@gras/core",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
-  "name": "@gras/core",
+  "types": "dist/index.d.ts",
   "type": "module",
   "sideEffects": false,
   "exports": {
@@ -29,6 +30,11 @@
       "import": "./dist/cron-job.js",
       "require": "./dist/cron-job.cjs",
       "types": "./dist/cron-job.d.ts"
+    },
+    "./find": {
+      "import": "./dist/find.js",
+      "require": "./dist/find.cjs",
+      "types": "./dist/find.d.ts"
     },
     "./hooks": {
       "import": "./dist/hooks.js",
@@ -129,5 +135,5 @@
     "test:watch": "vitest watch --ui",
     "typecheck": "tsc --project ./tsconfig.json --noEmit"
   },
-  "version": "0.0.1"
+  "version": "0.1.0"
 }

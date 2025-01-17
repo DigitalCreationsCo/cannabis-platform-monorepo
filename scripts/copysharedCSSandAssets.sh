@@ -9,7 +9,7 @@ echo "Target directory: $targetDir"
 scriptDir=$(dirname "$0")
 
 assetSrcDir=${scriptDir}/../shared
-configFileSrc="$assetSrcDir/tailwind.shared.config.js"
+configFileSrc="$assetSrcDir/tailwind.shared.config.cjs"
 echo "\n"
 echo "Config file source directory: $configFileSrc"
 cssSrcDir="$assetSrcDir/css"

@@ -24,7 +24,7 @@ import settings from '@/lib/sanity/schemas/settings';
 import { previewDocumentNode } from './lib/sanity/plugins/previewPane';
 
 export function resolveUrl(href = '/') {
-	return `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/blog${href}`;
+	return `${process.env.NEXT_PUBLIC_URL}/blog${href}`;
 }
 
 export default defineConfig({
@@ -96,6 +96,9 @@ export default defineConfig({
 				draftMode: {
 					enable: DRAFT_MODE_ROUTE,
 				},
+				previewMode: {
+					enable: DRAFT_MODE_ROUTE
+				}
 			},
 		}),
 		// Configures the global "new document" button, and document actions, to suit the Settings document singleton

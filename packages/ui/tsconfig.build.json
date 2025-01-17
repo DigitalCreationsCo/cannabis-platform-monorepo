@@ -7,7 +7,7 @@
 		"declaration": true,
 	    "declarationMap": true,
 		"jsx": "react-jsx",
-		"incremental": false // dts with tsup requires rootDir if incremental (which does not work well aliases)
+		"incremental": false
 	},
 	"exclude": ["**/node_modules", "**/.*/", "dist", "build", "**/test/*",
 	"**/*.stories.tsx",

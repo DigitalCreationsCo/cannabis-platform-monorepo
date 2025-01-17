@@ -10,7 +10,7 @@
 // 	let dispatch_orders_collection: Collection | null = null;
 
 // 	await prisma.$connect().then(() => console.info('connected to db'));
-// 	await MongoClient.connect(process?.env?.MONGODB_CONNECTION_URL as string)
+// 	await MongoClient.connect(process?.env?.DATABASE_URL as string)
 // 		.then(async (client) => {
 // 			organizations_geolocate = await client
 // 				.db(process?.env?.LOCATION_DB_NS as string)

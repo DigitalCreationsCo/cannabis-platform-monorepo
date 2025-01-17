@@ -8,6 +8,7 @@ export default defineConfig((options) => ({
 		constants: 'src/constants/index.ts',
 		crm: 'src/crm/index.ts',
 		'cron-job': 'src/cron-job/index.ts',
+		find: 'src/find/index.ts',
 		hooks: 'src/hooks/index.ts',
 		lib: 'src/lib/index.ts',
 		locales: 'src/locales/index.ts',
@@ -22,7 +23,7 @@ export default defineConfig((options) => ({
 	splitting: true,
 	treeshake: true,
 	clean: true,
-	format: ['esm'],
+	format: 'esm',
 	target: ['es2020', 'chrome80', 'edge18', 'firefox70', 'node18'],
 	tsconfig: new URL('./tsconfig.build.json', import.meta.url).pathname,
 	sourcemap: !options.watch,
@@ -36,5 +37,6 @@ export default defineConfig((options) => ({
 		'aws4',
 		'@mongodb-js/zstd-darwin-arm64',
 		'@napi-rs',
+		'cookies-next'
 	],
 }));

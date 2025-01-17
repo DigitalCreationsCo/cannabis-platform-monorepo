@@ -1,11 +1,12 @@
 import { createClient } from 'next-sanity';
-import { type SanityClient } from 'sanity';
+import { QueryParams, type SanityClient } from 'sanity';
 import {
 	apiVersion,
 	dataset,
 	studioUrl,
 	projectId,
 	useCdn,
+	readToken as token
 } from './sanity.api';
 import {
 	type Post,
@@ -52,98 +53,86 @@ export function getClient(preview?: { token: string }): SanityClient {
 
 export const getSanityImageConfig = () => getClient();
 
-export async function getSettings(client: SanityClient): Promise<Settings> {
-	return (await client.fetch(settingsQuery)) || {};
+export async function getSettings(): Promise<Settings> {
+	return (await getClient({ token }).fetch(settingsQuery)) || {};
 }
 
-export async function getPosts(client: SanityClient): Promise<Post[]> {
-	return await client.fetch(postsQuery);
+export async function getPosts(): Promise<Post[]> {
+	return await getClient({ token }).fetch(postsQuery);
 }
 
-export async function getBusinessPosts(client: SanityClient): Promise<Post[]> {
-	return await client.fetch(businessPostsQuery);
+export async function getBusinessPosts(): Promise<Post[]> {
+	return await getClient({ token }).fetch(businessPostsQuery);
 }
 
 export async function getAllPostsSlugs(): Promise<Pick<Post, 'slug'>[]> {
-	const client = getClient();
-	const slugs = (await client.fetch<string[]>(postSlugsQuery)) || [];
+	const slugs = (await getClient({ token }).fetch<string[]>(postSlugsQuery)) || [];
 	return slugs.map((slug) => ({ slug }));
 }
 
 export async function getBusinessPostsSlugs(): Promise<Pick<Post, 'slug'>[]> {
-	const client = getClient();
-	const slugs = (await client.fetch<string[]>(businessPostSlugsQuery)) || [];
+	const slugs = (await getClient({ token }).fetch<string[]>(businessPostSlugsQuery)) || [];
 	return slugs.map((slug) => ({ slug }));
 }
 
 export async function getPostBySlug(
-	client: SanityClient,
-	slug: string
+	params: QueryParams
 ): Promise<Post> {
-	return await client.fetch(postBySlugQuery, {
-		slug,
-	});
+	return await getClient({ token }).fetch(postBySlugQuery, params);
 }
 
 export async function getPostById(
-	client: SanityClient,
 	_id: string
 ): Promise<Post> {
-	return await client.fetch(postByIdQuery, {
+	return await getClient({ token }).fetch(postByIdQuery, {
 		_id,
 	});
 }
 
 export async function getPostAndMoreStories(
-	client: SanityClient,
-	slug: string
+	params: QueryParams
 ): Promise<{ post: Post; morePosts: Post[] }> {
-	return await client.fetch(postAndMoreStoriesQuery, { slug });
+	return await getClient({ token }).fetch(postAndMoreStoriesQuery, params);
 }
 
 export async function getBusinessPostAndMoreStories(
-	client: SanityClient,
 	slug: string
 ): Promise<{ post: Post; morePosts: Post[] }> {
-	return await client.fetch(businessPostAndMoreStoriesQuery, { slug });
+	return await getClient({ token }).fetch(businessPostAndMoreStoriesQuery, { slug });
 }
 
-export async function getCategories(client: SanityClient): Promise<string[]> {
-	return await client.fetch(categoryStringsQuery);
+export async function getCategories(): Promise<string[]> {
+	return await getClient({ token }).fetch(categoryStringsQuery);
 }
 
 export async function getNonPublishedPosts(
-	client: SanityClient,
 	count: number
 ): Promise<Post[]> {
-	return await client.fetch(nonPublishedPostsQuery, { count });
+	return await getClient({ token }).fetch(nonPublishedPostsQuery, { count });
 }
 
 export async function setPostPublishedInNewsletter(
-	client: SanityClient,
 	postId: string
 ): Promise<Post> {
-	return await client
+	return await getClient({ token })
 		.patch(postId)
 		.set({ isPublishedInNewsLetter: true })
 		.commit<Post>();
 }
 
 export async function setPostPublishedToSocialMedia(
-	client: SanityClient,
 	postId: string
 ): Promise<Post> {
-	return await client
+	return await getClient({ token })
 		.patch(postId)
 		.set({ isPublishedToSocialMedia: true })
 		.commit<Post>();
 }
 
 export async function setContentUrl(
-	client: SanityClient,
 	document,
 	postsPath = 'posts'
 ): Promise<Post> {
 	const contentUrl = `https://gras.live/blog/${postsPath}/${document?.slug.current}`;
-	return await client.patch(document._id).set({ contentUrl }).commit<Post>();
+	return await getClient({ token }).patch(document._id).set({ contentUrl }).commit<Post>();
 }

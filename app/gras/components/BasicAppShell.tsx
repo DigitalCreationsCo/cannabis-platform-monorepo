@@ -2,7 +2,8 @@
 
 import { AppShell, Burger, Grid, Group, Skeleton, Title } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import Footer from './Footer';
+
+import Footer from '@gras/ui/components/Footer';
 
 export function BasicAppShell({ children }: { children: React.ReactNode }) {
   const [opened, { toggle }] = useDisclosure();
@@ -27,8 +28,8 @@ export function BasicAppShell({ children }: { children: React.ReactNode }) {
             <Skeleton key={index} h={28} mt="sm" animate={false} />
           ))}
       </AppShell.Navbar> */}
-      <AppShell.Main>{children}</AppShell.Main>
-      <AppShell.Footer>
+      <AppShell.Main mih={500}>{children}</AppShell.Main>
+      <AppShell.Footer pos='relative' withBorder={false}>
         <Footer />
       </AppShell.Footer>
     </AppShell>

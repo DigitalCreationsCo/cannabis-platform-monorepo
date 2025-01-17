@@ -4,7 +4,6 @@ import {
 	getShopSite,
 	replaceRelativePath,
 } from '../../../core/src/utils';
-import Image from 'next/image';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
 import logo from '../../public/assets/images/logo.png';
@@ -13,13 +12,14 @@ import CopyRight from './CopyRight';
 import FlexBox from './FlexBox';
 import Grid from './Grid';
 import { GrasSignature, H6, Paragraph } from './Typography';
+import { SimpleGrid, Title, Image, Text, Container, Group, Anchor } from '@mantine/core';
 
 export default function Footer({
 	className,
 }: {
 	className?: string | string[];
 }) {
-	const navigation = [
+	const navigationLinks = [
 		{
 			name: TextContent.account.CREATE_DISPENSARY_ACCOUNT,
 			href: getDashboardSite('/auth/join'),
@@ -28,7 +28,7 @@ export default function Footer({
 		{ name: 'Support', href: getDashboardSite(TextContent.href.support) },
 		{ name: 'About Gras', href: getShopSite(TextContent.href.about) },
 	];
-	const legal = [
+	const legalLinks = [
 		// {
 		// 	name: 'Frequently Asked Questions',
 		// 	href: getShopSite(TextContent.href.faq),
@@ -52,108 +52,81 @@ export default function Footer({
 	];
 
 	return (
-		<FlexBox
-			className={twMerge(
-				styles.FOOTER.container,
-				'text-inverse-soft',
-				className
-			)}
-		>
-			<Grid className="*:overflow-x-hidden w-[277px] mx-auto mt-8 sm:mt-20 md:mt-5 grid md:w-3/4 max-w-screen-lg pb-16 lg:pb-0 grid-rows-auto gap-y-2 lg:gap-x-6 grid-cols-2 md:grid-cols-4 lg:grid-cols-6 overflow-visible">
-				<div className="col-span-full lg:col-span-2 row-start-1 row-span-1">
-					<FlexBox className="px-4 pb-2 justify-start flex-row items-center">
-						<Link
-							href={getShopSite('/')}
-							//  className="z-10">
-							className={twMerge(
-								'flex flex-row gap-x-4 items-center',
-								styles.shadow.logoShadow
-							)}
+			<Container>
+				<SimpleGrid cols={3}>
+				<div>
+					{navigationLinks.map((item, index) => (
+						<FooterLink key={index} {...item} />
+					))}
+				</div>
+				<div>
+					{legalLinks.map((item, index) => (
+						<FooterLink key={index} {...item} />
+					))}
+				</div>
+
+				
+				{/* <div className="row-start-6 lg:row-start-4 col-span-2">
+					<Text>
+						{TextContent.info.ABOUT_GRAS_2}
+						{TextContent.info.GRAS_MISSION_3}
+					</Text>
+				</div> */}
+				<Group>
+					<Anchor display={'flex'} style={{ alignItems: 'center' }}
+						href={getShopSite('/')}
 						>
-							<Image
-								alt="Gras"
-								className="w-[36px] bg-inverse rounded-full"
-								src={logo}
-								quality={25}
+						<Image
+							alt="Gras"
+							src={logo.src}
+							h={40}
+							w={40}
 							/>
-							<GrasSignature className="text-inverse pt-1 pb-0 mb-0 leading-3">
-								Gras
-							</GrasSignature>
-						</Link>
-					</FlexBox>
-				</div>
-				<div className="px-4 w-full row-start-2 col-span-3 lg:col-span-2">
-					<Paragraph color="light" className="font-medium lg:m-0 w-fit">
+						<Title>
+							Gras
+						</Title>
+					</ Anchor>
+					<Text>
 						{TextContent.info.CANNABIS_DELIVERED}
-					</Paragraph>
-				</div>
-
-				<div className="col-span-2 row-start-4 lg:col-start-3 lg:row-start-1 lg:row-span-4">
-					<div className="px-4 flex w-full flex-col flex-wrap md:ml-0">
-						{navigation.map((item, index) => (
-							<FooterLink key={index} {...item} />
-						))}
-					</div>
-				</div>
-				<div className="col-span-2 row-start-5 md:row-start-4 md:col-start-3 lg:col-start-5 lg:row-start-1 lg:row-span-4">
-					<div className="px-4 flex-col flex w-full flex-wrap lg:ml-0">
-						{legal.map((item, index) => (
-							<FooterLink key={index} {...item} />
-						))}
-					</div>
-				</div>
-
-				<div className="row-start-3 lg:row-start-3 col-span-2">
-					<FlexBox className="p-4 flex-row justify-start gap-x-8 text-inverse">
-						<a
+					</Text>
+					<div>
+						<Anchor
 							href="https://twitter.com/gras_cannabis"
 							target="_blank"
 							rel="noopener noreferrer"
-							className="hover:text-light"
+							aria-label='Twitter'
 						>
-							<span className="sr-only">Twitter</span>
 							<Twitter />
-						</a>
-						<a
+						</Anchor>
+						<Anchor
 							href="https://www.facebook.com/profile.php?viewas=100000686899395&id=61553103098585"
 							target="_blank"
 							rel="noopener noreferrer"
-							className="hover:text-light"
+							aria-label='Facebook'
 						>
-							<span className="sr-only">Facebook</span>
 							<Facebook />
-						</a>
-						<a
+						</Anchor>
+						<Anchor
 							href="https://www.instagram.com/grascannabis/"
 							target="_blank"
 							rel="noopener noreferrer"
-							className="hover:text-light"
+							aria-label='Instagram'
 						>
-							<span className="sr-only">Instagram</span>
 							<Instagram />
-						</a>
-						<a
+						</Anchor>
+						<Anchor
 							href="https://www.linkedin.com/company/gras-delivery/"
 							target="_blank"
 							rel="noopener noreferrer"
-							className="hover:text-light"
+							aria-label='Linkedin'
 						>
-							<span className="sr-only">Linkedin</span>
 							<Linkedin />
-						</a>
-					</FlexBox>
-				</div>
-				<div className="row-start-6 lg:row-start-4 col-span-2">
-					<FlexBox className="px-4 mx-auto max-w-sm md:font-medium">
-						<Paragraph>
-							{TextContent.info.ABOUT_GRAS_2}
-							{TextContent.info.GRAS_MISSION_3}
-						</Paragraph>
-						<CopyRight className="md:font-medium" />
-					</FlexBox>
-				</div>
-			</Grid>
-		</FlexBox>
+						</Anchor>
+					</div>
+					<CopyRight className="md:font-medium" />
+				</Group>
+			</SimpleGrid>
+		</Container>
 	);
 }
 

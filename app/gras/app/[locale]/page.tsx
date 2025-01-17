@@ -1,12 +1,13 @@
 import { Carousel, CarouselSlide } from '@mantine/carousel';
-import { ColorSchemeToggle } from '../components/ColorSchemeToggle/ColorSchemeToggle';
-import { Welcome } from '../components/Welcome/Welcome';
 import { dispensaries } from '@/dispensaries.data';
 import DispensaryCard from '@/components/DispensaryCard';
 import { Group, Input, Title } from '@mantine/core';
 import { Container } from '@mantine/core';
+import { getPosts } from '@/lib/sanity';
+import { InfoCard } from '@/components/blog';
 
-export default function HomePage() {
+export default async function HomePage() {
+  const posts = await getPosts();
   return (
     <Container fluid p={0} m={0}>
     <Group content='center' justify="space-between">
@@ -20,11 +21,24 @@ export default function HomePage() {
             align="start"
             slideGap={{ base: 0, '300px': 'md', '500px': 'lg' }}
             slideSize={{ base: '100%', '300px': '50%', '1000px': '33.333333%' }}
-
     loop>
       {dispensaries.map((d) => (
-        <CarouselSlide>
+        <CarouselSlide title={d.siteSetting?.bannerText}>
           <DispensaryCard dispensary={d} />
+          </CarouselSlide>
+          ))}
+    </Carousel>
+    
+    <Carousel py={10}
+    controlSize={40}
+            type="container"
+            align="start"
+            slideGap={{ base: 0, '300px': 'md', '500px': 'lg' }}
+            slideSize={{ base: '100%', '300px': '50%', '1000px': '33.333333%' }}
+    loop>
+      {posts.map((post) => (
+        <CarouselSlide title={post.title}>
+          <InfoCard info={post} />
           </CarouselSlide>
           ))}
     </Carousel>

@@ -20,7 +20,7 @@ export const readToken = process.env.SANITY_API_DRAFT_TOKEN || '';
 export const apiVersion =
 	process.env.NEXT_PUBLIC_SANITY_API_VERSION || '2023-06-21';
 
-export const DRAFT_MODE_ROUTE = '/api/blog/draft';
+export const DRAFT_MODE_ROUTE = '/api/blog/draft-mode/enable';
 export const studioUrl = '/blog/studio';
 
 function assertValue<T>(v: T | undefined, errorMessage: string): T {

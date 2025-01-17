@@ -1,32 +1,14 @@
-// import path from 'path';
-// import { defineConfig } from 'tsup';
 import { defineConfig } from 'tsup';
 
-// export default defineConfig({
-// 	entry: ['src/index.ts'], // Adjust the entry point if necessary
-// 	// format: ['cjs', 'esm'], // Choose your desired formats
-// 	format: ['esm'], // Choose your desired formats
-// 	dts: true, // Generate type declarations
-// 	splitting: true,
-// 	treeshake: true,
-// 	sourcemap: true,
-// 	clean: true,
-// 	external: [
-// 		'@gras/data-access', // Mark core as an external dependency
-// 		'@gras/core', // Mark core as an external dependency
-// 	],
-// 	noExternal: [
-// 		'@gras/ui', // Do not bundle ui when referenced externally
-// 	],
-// });
-
 export default defineConfig((options) => ({
-	entry: ['src/index.ts', 'src/components/index.ts'],
-	// 	entry: ['src/**/*.ts'],
+	entry: {
+		index: 'src/index.ts',
+		components: 'src/components/index.ts',
+		hooks: 'src/hooks/index.ts',
+	},
 	splitting: true,
 	treeshake: true,
 	clean: true,
-	// dts: true,
 	format: ['esm'],
 	platform: 'browser',
 	target: ['es2020', 'chrome70', 'edge18', 'firefox70', 'node18'],
@@ -52,6 +34,9 @@ export default defineConfig((options) => ({
 		'aws4',
 		'@mongodb-js/zstd-darwin-arm64',
 		'@napi-rs',
-		'supertokens-auth-react/recipe/passwordless',
+		'@calcom/embed-react',
+		'react-google-recaptcha',
+		'next-auth/react',
+		'cookies-next'
 	],
 }));

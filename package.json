@@ -18,8 +18,6 @@
     "packages": [
       "app/*",
       "packages/*",
-      "server/*",
-      "mobile/*",
       "twilio/*"
     ]
   },
@@ -101,7 +99,7 @@
     "storybook check": "BABEL_SHOW_CONFIG_FOR=.storybook/main.ts yarn storybook"
   },
   "engines": {
-    "node": "18.19.0",
+    "node": "22.12.0",
     "yarn": ">=1.22.0",
     "npm": "please-use-yarn"
   },

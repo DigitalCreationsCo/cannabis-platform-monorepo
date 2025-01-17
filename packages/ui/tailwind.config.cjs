@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 
-const sharedConfig = require('./tailwind.shared.config.js');
+const sharedConfig = require('./tailwind.shared.config.cjs');
 
 module.exports = {
 	...sharedConfig,

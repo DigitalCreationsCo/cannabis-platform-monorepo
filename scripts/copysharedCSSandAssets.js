@@ -9,7 +9,7 @@ const copyAssetsAndCSS = async () => {
 
 		// Define source paths relative to the script location
 		const scriptDir = path.resolve(__dirname);
-		const tailwindConfigFile = path.resolve(scriptDir, 'tailwind.config.js');
+		const tailwindConfigFile = path.resolve(scriptDir, 'tailwind.config.cjs');
 		console.info('Tailwind config file:', tailwindConfigFile);
 
 		const fontsSrcDir = path.resolve(scriptDir, 'font');

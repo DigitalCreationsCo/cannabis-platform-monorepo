@@ -1,8 +1,9 @@
 import { config } from 'dotenv';
 import { expand } from 'dotenv-expand';
 import { vi } from 'vitest';
-import { getEnvPath } from './env/getEnv';
-expand(config({ path: getEnvPath('development') }));
+import { findPath } from './src/find/findPath';
+
+expand(config({ path: findPath('env.development') }));
 
 const jestCompatOverride = {
 	fn: vi.fn,
