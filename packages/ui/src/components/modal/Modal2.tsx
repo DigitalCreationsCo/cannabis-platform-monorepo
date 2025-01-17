@@ -1,4 +1,4 @@
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 import { Modal as DModal } from 'react-daisyui';
 import { twMerge } from 'tailwind-merge';
 import CloseButton from '../button/CloseButton';
@@ -16,7 +16,7 @@ interface BodyProps {
 }
 
 const Modal = ({ open, close, children }: ModalProps) => {
-	const { t } = useTranslation('common');
+	const t = useTranslations('common');
 
 	return (
 		<DModal open={open} className="dark:border dark:border-gray-100">

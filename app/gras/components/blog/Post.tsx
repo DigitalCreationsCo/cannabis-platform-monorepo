@@ -1,6 +1,6 @@
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { PortableText } from '@portabletext/react';
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 import { default as Router } from 'next/router';
 import { twMerge } from 'tailwind-merge';
 import { urlForImage, type Post } from '@/lib/sanity';
@@ -64,7 +64,7 @@ export default function Post({ post }: { post: Post }) {
 }
 
 function BackButton({ className }: { className?: string }) {
-	const { t } = useTranslation('common');
+	const t = useTranslations('common');
 	return (
 		<Button
 			size="sm"

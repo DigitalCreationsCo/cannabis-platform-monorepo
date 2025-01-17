@@ -4,14 +4,14 @@ import {
 	MoonIcon,
 	SunIcon,
 } from '@heroicons/react/24/outline';
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 
 import { type ThemesProps, applyTheme } from '../theme';
 
 const useTheme = () => {
 	const [theme, setTheme] = useState<string | null>(null);
-	const { t } = useTranslation('common');
+	const t = useTranslations('common');
 
 	useEffect(() => {
 		setTheme(localStorage.getItem('theme'));

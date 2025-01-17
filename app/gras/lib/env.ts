@@ -94,7 +94,7 @@ export const env = createEnv({
     
     TWILIO_ACCOUNT_SID: z.string(),
     TWILIO_AUTH_TOKEN: z.string(),
-    TWILIO_DAILY_DEALS_SERVICE_URL: z.string().url(),
+    TWILIO_DAILY_DEALS_SERVICE_URL: z.string(),
     TWILIO_DAILY_DEALS_SERVICE_SID: z.string(),
 
     DAILYSTORY_API_KEY: z.string(),
@@ -131,7 +131,7 @@ export const env = createEnv({
     NEXT_PUBLIC_SUPPORT_EMAIL: z.string().email(),
     NEXT_PUBLIC_SUPPORT_PHONE: z.string(),
 
-	NEXT_PUBLIC_MIXPANEL_TOKEN: z.string(),
+	NEXT_PUBLIC_MIXPANEL_TOKEN: z.string().optional(),
 
     NEXT_PUBLIC_SANITY_API_VERSION: z.string().default("2023-06-21"),
 	
@@ -176,7 +176,6 @@ export const env = createEnv({
     NEXT_PUBLIC_LOCATION_IQ_REVERSE_GEOCODE_URL: z.string().url(),
     NEXT_PUBLIC_LOCATION_IQ_ROUTING_URL: z.string().url(),
 	
-	NEXT_PUBLIC_DATABASE_URL: z.string().url(),
     NEXT_PUBLIC_GRAS_DB_NS: z.string(),
 
 	NEXT_PUBLIC_RECAPTCHA_SITE_KEY: z.string(),
@@ -356,7 +355,6 @@ export const env = createEnv({
     NEXT_PUBLIC_LOCATION_IQ_REVERSE_GEOCODE_URL: process.env.NEXT_PUBLIC_LOCATION_IQ_REVERSE_GEOCODE_URL,
     NEXT_PUBLIC_LOCATION_IQ_ROUTING_URL: process.env.NEXT_PUBLIC_LOCATION_IQ_ROUTING_URL,
 
-    NEXT_PUBLIC_DATABASE_URL: process.env.NEXT_PUBLIC_DATABASE_URL,
     NEXT_PUBLIC_GRAS_DB_NS: process.env.NEXT_PUBLIC_GRAS_DB_NS,
 
     NEXT_PUBLIC_RECAPTCHA_SITE_KEY: process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY,

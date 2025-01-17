@@ -1,11 +1,11 @@
 import { TextContent } from '../../../core/src/constants';
 import { getShopSite } from '../../../core/src/utils';
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { Paragraph } from './Typography';
 
 const AgreeMessage = ({ text }: { text: string }) => {
-	const { t } = useTranslation('common');
+	const t = useTranslations('common');
 
 	return (
 		<Paragraph className="text-sm text-center">

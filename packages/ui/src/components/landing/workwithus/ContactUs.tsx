@@ -9,7 +9,7 @@ import {
 } from '../../../../../core/src/axiosInstance';
 import axios, { type AxiosResponse } from 'axios';
 import { useFormik } from 'formik';
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import React, { type HTMLAttributes, useState, useEffect } from 'react';
 import { toast } from 'react-hot-toast';
@@ -93,7 +93,7 @@ const serviceOptions = [
 const dataLayer = (typeof window !== 'undefined' && window.dataLayer) || [];
 
 export default function ContactUsForm(props: HTMLAttributes<HTMLDivElement>) {
-	const { t } = useTranslation('common');
+	const t = useTranslations('common');
 
 	const [showScheduler, setShowScheduler] = useState(false);
 	const [loadingButton, setLoadingButton] = useState(false);

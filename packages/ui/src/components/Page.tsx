@@ -2,7 +2,7 @@ import { modalActions } from '../../../core/src/reducer';
 import { modalTypes } from '../../../core/src/types';
 import { HomeIcon, UserCircleIcon } from '@heroicons/react/24/outline';
 import { type SessionContextValue } from 'next-auth/react';
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/router';
 import {
 	useCallback,
@@ -40,7 +40,7 @@ function Page({
 }: PropsWithChildren<PageProps>) {
 	// const appVersion = '0.1.0';
 
-	const { t } = useTranslation('common');
+	const t = useTranslations('common');
 	const router = useRouter();
 	const { asPath, isReady } = useRouter();
 

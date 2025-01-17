@@ -24,7 +24,7 @@ import {
 	EllipsisHorizontalIcon,
 	QuestionMarkCircleIcon,
 } from '@heroicons/react/24/outline';
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCallback } from 'react';
@@ -38,7 +38,7 @@ export interface TopBarProps {
 }
 
 function TopBar({ signOut }: TopBarProps) {
-	const { t } = useTranslation('common');
+	const t = useTranslations('common');
 	const dispatch = useDispatch();
 	const { user, isSignedIn } = useSelector(selectUserState);
 	const cart = useSelector(selectCartState);

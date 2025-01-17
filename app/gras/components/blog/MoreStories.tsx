@@ -1,10 +1,10 @@
 import { H2, Paragraph } from '@gras/ui';
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 import PostPreview from '@/components/blog/PostPreview';
 import type { Post } from '@/lib/sanity';
 
 export default function MoreStories({ posts }: { posts: Post[] }) {
-	const { t } = useTranslation('common');
+	const t = useTranslations('common');
 	return (
 		<section>
 			<H2 className="mb-8 text-6xl font-bold leading-tight tracking-tighter md:text-7xl">

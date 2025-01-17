@@ -7,7 +7,7 @@ import { type AppState } from '../../../../../core/src/types';
 import { maxLengthPolicies } from '../../../../../core/src/utils';
 import { useFormik } from 'formik';
 import { signIn, useSession } from 'next-auth/react';
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -72,7 +72,7 @@ export default function LoginModal({
 
 	const router = useRouter();
 	const { status } = useSession();
-	const { t } = useTranslation('common');
+	const t = useTranslations('common');
 	const [recaptchaToken, setRecaptchaToken] = useState<string>('');
 	const [message, setMessage] = useState<any>({ text: null, status: null });
 	const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);

@@ -1,5 +1,5 @@
 import { type ModalStateProps } from '../../../../core/src/reducer';
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { Button } from '../button';
 import Modal from './Modal2';
@@ -7,7 +7,7 @@ import Modal from './Modal2';
 type UserSignupModalProps = ModalStateProps;
 
 const UserSignupModal = ({ ...props }: UserSignupModalProps) => {
-	const { t } = useTranslation('common');
+	const t = useTranslations('common');
 
 	const [openModal, setOpenModal] = useState(false);
 	useEffect(() => {

@@ -1,5 +1,5 @@
 import { TextContent } from '../../../core/src/constants';
-import { useTranslation } from 'next-i18next';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
@@ -9,7 +9,7 @@ import FlexBox from './FlexBox';
 import { GrasSignature } from './Typography';
 
 function TopBar({ className = '' }: { className?: string | string[] }) {
-	const { t } = useTranslation('common');
+	const t = useTranslations('common');
 
 	return (
 		<div className={twMerge(styles.TOPBAR.topbar, 'items-start', className)}>
