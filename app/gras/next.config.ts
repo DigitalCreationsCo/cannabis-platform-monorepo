@@ -79,8 +79,10 @@ const config = bundleAnalyzer(
         snappy: false,
         '@mongodb-js/zstd': false,
         '@mongodb-js/zstd-darwin-arm64': false,
+        '@aws-sdk/credential-providers': false,
         '@napi-rs': false,
         kerberos: false,
+        'next-auth/react': false
       };
       return config;
     }

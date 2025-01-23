@@ -1,5 +1,5 @@
 import { Button, H1, IconWrapper, Paragraph } from '@gras/ui';
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+import { IconArrowLeft } from '@tabler/icons-react';
 import { PortableText } from '@portabletext/react';
 import Link from 'next/link';
 
@@ -51,7 +51,7 @@ function BackButton() {
 			hover="transparent"
 			className="px-0 self-start py-4"
 		>
-			<IconWrapper Icon={ArrowLeftIcon} className="pr-1" />
+			<IconWrapper Icon={IconArrowLeft} className="pr-1" />
 			back
 		</Button>
 	);

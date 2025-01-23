@@ -1,5 +1,6 @@
+"use client"
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { useEncryptCookies, useHashNavigate } from '../../../core/src/hooks';
+import { useEncryptCookies, useHashNavigate } from '@gras/core/hooks';
 import { type User, type Dispensary } from '@gras/data-access';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { twMerge } from 'tailwind-merge';

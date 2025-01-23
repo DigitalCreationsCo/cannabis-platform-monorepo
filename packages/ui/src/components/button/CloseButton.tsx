@@ -1,4 +1,4 @@
-import { XMarkIcon } from '@heroicons/react/24/outline';
+import { IconX } from '@tabler/icons-react';
 import { type SVGAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
 import IconButton from './IconButton';
@@ -12,7 +12,7 @@ interface CloseButtonProps {
 }
 
 function CloseButton({
-	Icon = XMarkIcon,
+	Icon = IconX,
 	iconSize = 20,
 	className,
 	...props

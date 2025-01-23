@@ -16,20 +16,19 @@ export default function PostPageHead({ settings, post }: PostPageHeadProps) {
 		<NextSeo
 			title={post.title ? `${post.title} | ${title}` : title}
 			description={post.excerpt}
-			additionalLinkTags={[
-				...seoConfig.additionalLinkTags,
+			additionalLinkTags={
+				seoConfig.additionalLinkTags?.concat(
 				{
 					rel: 'canonical',
 					href: `${process.env.NEXT_PUBLIC_SHOP_APP_URL}/blog/posts/${post.slug}`,
-				},
-			]}
+				})
+			}
 			additionalMetaTags={[
 				{
 					name: 'keywords',
-					content: []
-						.concat(post.categories)
-						.concat(post.title.split(' '))
-						.concat(post.excerpt.split(' '))
+					content: post.categories
+						.concat(post.title!.split(' '))
+						.concat(post.excerpt!.split(' '))
 						.join(', '),
 				},
 			]}
@@ -47,7 +46,7 @@ export default function PostPageHead({ settings, post }: PostPageHeadProps) {
 				images: [
 					post.shareImage
 						? {
-								url: urlForImage(post.shareImage)
+								url: urlForImage(post!.shareImage!)!
 									.width(1200)
 									.height(627)
 									.fit('crop')

@@ -1,6 +1,6 @@
 import { Carousel, CarouselSlide } from '@mantine/carousel';
 import { dispensaries } from '@/dispensaries.data';
-import DispensaryCard from '@/components/DispensaryCard';
+import { DispensaryCard }from '@gras/ui';
 import { Group, Input, Title } from '@mantine/core';
 import { Container } from '@mantine/core';
 import { getPosts } from '@/lib/sanity';

@@ -1,11 +1,11 @@
-import { selectBlogTags } from '@gras/core/reducer';
+"use client"
 import { NavLink, GrasSignature, type NavLinkType } from '@gras/ui';
-import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
+import { usePathname } from 'next/navigation';
+import { getCategories } from '@/lib/sanity';
 
-const BlogNavigation = () => {
-	const { pathname } = useRouter();
-	const tags = useSelector(selectBlogTags);
+const BlogNavigation = async () => {
+	const pathname = usePathname();
+	const tags = await getCategories()
 	const navLinkGroups: NavLinkType[] = tags.map((tag) => ({
 		href: `/${tag}`,
 		title: tag,

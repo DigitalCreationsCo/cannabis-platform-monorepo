@@ -1,3 +1,4 @@
+"use client"
 import { selectModalState } from '@gras/core';
 import { Layout, type LayoutContextProps } from '@gras/ui';
 import { type PropsWithChildren } from 'react';

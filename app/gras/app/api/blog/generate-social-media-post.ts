@@ -10,7 +10,7 @@ import {
 import {
 	createImageClient,
 	redisUrl,
-} from '@/lib/sanity/sanity-next-social-image-generator';
+} from '@/_implement_later/sanity/sanity-next-social-image-generator';
 import logo from '../../../public/wordmark.png';
 
 const idempotencyCache = new NodeCache({ stdTTL: 86400 });

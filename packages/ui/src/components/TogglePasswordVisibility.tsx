@@ -1,4 +1,4 @@
-import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
+import { IconEye as EyeIcon, IconEyeCancel as  EyeSlashIcon } from '@tabler/icons-react';
 
 const TogglePasswordVisibility = ({
 	isPasswordVisible,

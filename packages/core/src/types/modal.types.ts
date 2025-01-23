@@ -1,6 +1,5 @@
-import { type ModalType } from '../reducer/modal.reducer';
 
-export const modalTypes = Object.freeze<Record<string, ModalType>>({
+export const modalTypes = Object.freeze<Record<string, any>>({
 	showModal: 'SHOW_MODAL',
 	confirmationModal: 'CONFIRM_MODAL',
 	selectionModal: 'SELECT_MODAL',

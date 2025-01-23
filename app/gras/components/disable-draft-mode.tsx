@@ -1,5 +1,3 @@
-// src/components/DisableDraftMode.tsx
-
 "use client";
 
 import { useDraftModeEnvironment } from "next-sanity/hooks";

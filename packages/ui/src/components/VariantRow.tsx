@@ -1,6 +1,6 @@
 import { getDashboardSite } from '../../../core/src/utils';
 import { type ProductVariantWithDetails } from '@gras/data-access';
-import { StarIcon } from '@heroicons/react/24/solid';
+import { IconStar as StarIcon } from '@tabler/icons-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';

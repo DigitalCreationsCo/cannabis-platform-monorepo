@@ -5,7 +5,7 @@ import React from 'react';
 import { ColorSchemeScript, mantineHtmlProps, MantineProvider } from '@mantine/core';
 import { theme } from '../../theme';
 
-import { NextIntlClientProvider, useMessages } from "next-intl";
+import { NextIntlClientProvider as IntlClientProvider, useMessages } from "next-intl";
 import { BasicAppShell } from '@/components/BasicAppShell';
 import { NextSeo } from 'next-seo';
 import seoConfig from '@/lib/seo.config';
@@ -17,20 +17,26 @@ export const metadata = {
   description: 'I am using Mantine with Next.js!',
 };
 
+function NextIntlClientProvider ({ locale, children }: any) {
+  const messages = useMessages();
+  return (
+    <IntlClientProvider
+    locale={locale}
+    messages={messages}>
+      {children}
+    </IntlClientProvider>
+  )
+}
 export default function RootLayout(props: Readonly<{
   children: React.ReactNode;
   params: { locale: string };
 }>) {
-
-  if (!allLocales.includes(props.params.locale)) notFound();
-  const messages = useMessages();
+  const locale = props.params.locale;
+  if (!allLocales.includes(locale)) notFound();
 
   return (
-    <NextIntlClientProvider
-          locale={props.params.locale}
-          messages={messages}
-          >
-      <html lang={props.params.locale} {...mantineHtmlProps}>
+    <NextIntlClientProvider locale={locale}>
+      <html lang={locale} {...mantineHtmlProps}>
         <head>
           <ColorSchemeScript forceColorScheme='light' />
           <link rel="shortcut icon" href="/favicon.svg" />

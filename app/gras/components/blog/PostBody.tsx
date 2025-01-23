@@ -8,7 +8,7 @@
  *
  */
 import { H1, H2, H3, H4, Paragraph } from '@gras/ui';
-import { EllipsisHorizontalIcon } from '@heroicons/react/24/solid';
+import { IconDots as EllipsisHorizontalIcon } from '@tabler/icons-react';
 import {
 	PortableText,
 	type PortableTextReactComponents,

@@ -1,9 +1,11 @@
+"use client"
 import { enableOverlays, type HistoryAdapterNavigate } from '@sanity/overlays';
-import { useRouter } from 'next/router';
+import { useRouter, usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 export default function VisualEditing() {
 	const router = useRouter();
+	const path = usePathname()
 	const routerRef = useRef(router);
 	const [navigate, setNavigate] = useState<
 		HistoryAdapterNavigate | undefined
@@ -36,10 +38,10 @@ export default function VisualEditing() {
 		return () => disable();
 	}, []);
 	useEffect(() => {
-		if (navigate && router.isReady) {
-			navigate({ type: 'push', url: router.asPath });
+		if (navigate && router) {
+			navigate({ type: 'push', url: path });
 		}
-	}, [navigate, router.asPath, router.isReady]);
+	}, [navigate, router, path]);
 
 	return null;
 }

@@ -1,9 +1,11 @@
+"use client"
 import { Skeleton, Stack } from '@sanity/ui';
+
 import React, { lazy, Suspense, useDeferredValue } from 'react';
 import { type ObjectInputProps } from 'sanity';
 import { height, width } from '@/components/blog/OpenGraphImage';
 
-const OpenGraphPreview = lazy(() => import('./OpenGraphPreview'));
+// const OpenGraphPreview = lazy(() => import('../../../../_implement_later/sanity/OpenGraphPreview'));
 
 const RatioSkeleton = () => (
 	<Skeleton
@@ -25,7 +27,8 @@ export default function OpenGraphInput(props: ObjectInputProps) {
 	return (
 		<Stack space={2}>
 			<Suspense fallback={fallback}>
-				{value ? <OpenGraphPreview {...(value as any)} /> : fallback}
+				{/* {value ? <OpenGraphPreview {...(value as any)} /> : fallback} */}
+				<></>
 			</Suspense>
 			{props.renderDefault(props)}
 		</Stack>

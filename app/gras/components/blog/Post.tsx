@@ -1,7 +1,8 @@
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+"use client"
+import { IconArrowLeft } from '@tabler/icons-react';
 import { PortableText } from '@portabletext/react';
 import { useTranslations } from 'next-intl';
-import { default as Router } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { twMerge } from 'tailwind-merge';
 import { urlForImage, type Post } from '@/lib/sanity';
 import Date from './PostDate';
@@ -15,6 +16,7 @@ const Title = (props: any) => {
 	);
 };
 export default function Post({ post }: { post: Post }) {
+	const router = useRouter();
 	return (
 		<section>
 			<BackButton />
@@ -65,14 +67,15 @@ export default function Post({ post }: { post: Post }) {
 
 function BackButton({ className }: { className?: string }) {
 	const t = useTranslations('common');
+	const router = useRouter();
 	return (
 		<Button
 			size="sm"
 			bg="transparent"
 			className={twMerge('text-dark self-start sm:py-0', className)}
-			onClick={() => Router.back()}
+			onClick={() => router.back()}
 		>
-			<IconWrapper Icon={ArrowLeftIcon} />
+			<IconWrapper Icon={IconArrowLeft} />
 			{t('go-back')}
 		</Button>
 	);

@@ -1,12 +1,16 @@
+"use client"
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { type ProductVariantWithDetails } from '@gras/data-access';
 import { useState, type PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { ConfirmationModal } from './modal';
 import Price from './Price';
 import TextField from './TextField/TextField';
 import { H6, Paragraph } from './Typography';
+import Button from './button/Button/Button';
+import FlexBox from './FlexBox';
+import { type ReactNode } from 'react';
+import { Modal } from '@mantine/core';
 
 interface ProductItemProps {
 	className?: string;
@@ -159,3 +163,40 @@ export default ProductItem;
 // }
 
 // export default ProductItem;
+
+
+// interface ConfirmationModalProps extends ModalProps {
+// 	confirmMessage?: string;
+// 	handleConfirm: () => void;
+// 	children?: ReactNode;
+// }
+
+function ConfirmationModal({
+	description = 'Confirm?',
+	confirmMessage = 'Yes',
+	handleConfirm,
+	children,
+	...props
+}: any) {
+	return (
+		<Modal {...props} className="text-center" description={description}>
+			<FlexBox className="flex-col space-y-4">
+				{children}
+				<FlexBox className="justify-center">
+					<Button className="" onClick={props.onClose}>
+						No
+					</Button>
+					<Button
+						className=""
+						onClick={() => {
+							handleConfirm();
+							props.onClose();
+						}}
+					>
+						{confirmMessage}
+					</Button>
+				</FlexBox>
+			</FlexBox>
+		</Modal>
+	);
+}

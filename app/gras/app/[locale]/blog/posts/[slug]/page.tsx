@@ -1,4 +1,4 @@
-import { PostPage, PreviewPostPage } from '@/components/blog';
+import { PostPage } from '@/components/blog';
 import {
 	getPostAndMoreStories,
 	getPosts,

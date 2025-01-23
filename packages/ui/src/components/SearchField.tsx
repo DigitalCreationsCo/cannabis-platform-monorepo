@@ -1,4 +1,5 @@
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+"use client"
+import { IconSearch } from '@tabler/icons-react';
 import { useState, type ReactEventHandler } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { IconButton } from './button';
@@ -34,7 +35,7 @@ function SearchBar({ placeholder = 'Search', onChange }: SearchBarProps) {
 				onChange={onChange}
 			/>
 			<IconButton
-				Icon={MagnifyingGlassIcon}
+				Icon={IconSearch}
 				iconSize={28}
 				className="rounded-none rounded-r-sm"
 			/>

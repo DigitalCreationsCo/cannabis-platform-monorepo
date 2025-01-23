@@ -1,4 +1,4 @@
-import { ClipboardIcon } from '@heroicons/react/24/outline';
+import { IconClipboard as  ClipboardIcon } from '@tabler/icons-react';
 import { type SVGAttributes } from 'react';
 import { toast } from 'react-hot-toast';
 import { twMerge } from 'tailwind-merge';
