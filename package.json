@@ -200,8 +200,8 @@
     "yup": "0.32.11"
   },
   "resolutions": {
-    "typescript": "5.4.5",
-    "@types/react": "18.2.79",
+    "typescript": "5.5.2",
+    "@types/react": "18.3.1",
     "@types/react-dom": "18.3.1",
     "postcss": "8.4.38",
     "postcss-js": "4.0.1"
