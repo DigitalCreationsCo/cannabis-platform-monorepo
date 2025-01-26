@@ -1,8 +1,16 @@
 {
   "compilerOptions": {
-    "types": ["node", "jest", "@testing-library/jest-dom"],
+    "types": [
+      "node",
+      "jest",
+      "@testing-library/jest-dom"
+    ],
     "target": "es2015",
-    "lib": ["dom", "dom.iterable", "es2015"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "es2015"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -16,7 +24,9 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
-      "@/*": ["./*"],
+      "@/*": [
+        "./*"
+      ],
       "@gras/ui": [
         "../../packages/ui/src/index"
       ],
@@ -37,23 +47,30 @@
       ],
       "@gras/eslint-config": [
         "../../packages/eslint-config/src/index"
-      ],
+      ]
     },
-    "plugins": [{ "name": "next" }]
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
   "include": [
     ".eslintrc.*",
-    "next-env.d.ts", 
-    "**/*.ts", 
+    "next-env.d.ts",
+    "**/*.ts",
     "next-auth.d.ts",
-    "**/*.tsx", 
+    "**/*.tsx",
     "**/*.mts",
     "**/*.js",
     "**/*.cjs",
     "**/*.mjs",
     "**/*.jsx",
     "**/*.json",
-    ".next/types/**/*.ts"],
-  "exclude": ["node_modules",
-  "**/.*/**",]
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/.*/**"
+  ]
 }

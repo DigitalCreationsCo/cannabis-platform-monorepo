@@ -96,8 +96,6 @@ export const faqData: FAQDATA = [
 	},
 ];
 
-// create staggered dropdown animation
-// https://www.youtube.com/watch?v=yoMf7BOujLA
 export default function FAQ({ data = faqData }: { data?: FAQDATA }) {
 	const [activeTopic, setTopic] =
 		useState<FAQDATA[number]['topic']>('Dispensaries');

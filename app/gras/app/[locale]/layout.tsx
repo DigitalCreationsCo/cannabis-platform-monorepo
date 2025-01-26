@@ -5,7 +5,8 @@ import React from 'react';
 import { ColorSchemeScript, mantineHtmlProps, MantineProvider } from '@mantine/core';
 import { theme } from '../../theme';
 
-import { NextIntlClientProvider as IntlClientProvider, useMessages } from "next-intl";
+import { NextIntlClientProvider } from "next-intl";
+import {getLocale, getMessages} from 'next-intl/server';
 import { BasicAppShell } from '@/components/BasicAppShell';
 import { NextSeo } from 'next-seo';
 import seoConfig from '@/lib/seo.config';
@@ -17,25 +18,19 @@ export const metadata = {
   description: 'I am using Mantine with Next.js!',
 };
 
-function NextIntlClientProvider ({ locale, children }: any) {
-  const messages = useMessages();
-  return (
-    <IntlClientProvider
-    locale={locale}
-    messages={messages}>
-      {children}
-    </IntlClientProvider>
-  )
-}
-export default function RootLayout(props: Readonly<{
+export default async function RootLayout(props: Readonly<{
   children: React.ReactNode;
-  params: { locale: string };
 }>) {
-  const locale = props.params.locale;
+  const locale = await getLocale();
+ 
+  // Providing all messages to the client
+  // side is the easiest way to get started
+  const messages = await getMessages();
   if (!allLocales.includes(locale)) notFound();
 
+
   return (
-    <NextIntlClientProvider locale={locale}>
+    <NextIntlClientProvider locale={locale} messages={messages}>
       <html lang={locale} {...mantineHtmlProps}>
         <head>
           <ColorSchemeScript forceColorScheme='light' />

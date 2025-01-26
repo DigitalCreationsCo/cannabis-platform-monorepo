@@ -1,7 +1,7 @@
-import withBundleAnalyzer from '@next/bundle-analyzer';
-import { findEnv } from '@gras/core/find/findEnv';
-import withNextIntl from 'next-intl/plugin';
-import path from 'path';
+const withBundleAnalyzer = require('@next/bundle-analyzer');
+const { findEnv } = require('@gras/core/find');
+const withNextIntl = require('next-intl/plugin');
+const path = require('path');
 
 const bundleAnalyzer = withBundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
@@ -89,4 +89,4 @@ const config = bundleAnalyzer(
   }
 );
 
-export default withNextIntlConfig(config)
+module.exports = withNextIntlConfig(config)

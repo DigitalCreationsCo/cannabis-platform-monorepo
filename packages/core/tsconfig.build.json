@@ -4,7 +4,7 @@
 	"compilerOptions": {
 	  "target": "esnext",
 	  "module": "esnext",
-	  "jsx": "react-jsx",
+	  "jsx": "preserve",
 	  "incremental": false,
 	  "importHelpers": true,
 	  "noEmitHelpers": true,
