@@ -1,9 +1,0 @@
-**/build
-**/dist
-**/node_modules
-**/*cache
-**/*.json
-**/*/check-locale.js
-**/*/find-dupe-locale.js
-**/.next
-**/out

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { formatInTimeZone, type FormatOptionsWithTZ } from 'date-fns-tz';
-import { type ValueOf } from './index';
+import { type ValueOf } from './type.util';
 
 const showDate = (dateString: string) => {
 	const date = new Date(dateString);

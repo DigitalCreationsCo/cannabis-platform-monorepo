@@ -1,7 +1,6 @@
-import { TextContent } from '../../../core/src/constants';
+import { TextContent } from '@gras/core/src/constants'
 import { type HTMLAttributes } from 'react';
-import { twMerge } from 'tailwind-merge';
-import { Tiny } from './Typography';
+import { Text } from '@mantine/core';
 
 function CopyRight({
 	prepend = TextContent.legal.COMPANY_NAME,
@@ -10,9 +9,9 @@ function CopyRight({
 	prepend?: string;
 }) {
 	return (
-		<Tiny className={twMerge('lg:text-md', props.className)}>
+		<Text size='sm'>
 			{prepend} {TextContent.legal.COPYRIGHT}
-		</Tiny>
+		</Text>
 	);
 }
 

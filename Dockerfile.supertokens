@@ -1,3 +1,0 @@
-FROM --platform=linux/amd64 supertokens/supertokens-postgresql:7.0
-EXPOSE 3567
-CMD ["supertokens", "start"]

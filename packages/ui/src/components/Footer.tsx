@@ -1,24 +1,14 @@
-import { TextContent } from '../../../core/src/constants';
+import { TextContent } from '@gras/core/src/constants';
 import {
 	getDashboardSite,
 	getShopSite,
 	replaceRelativePath,
-} from '../../../core/src/utils';
-import Link from 'next/link';
-import { twMerge } from 'tailwind-merge';
-import logo from '../../public/assets/images/logo.png';
-import { styles } from '../styleClassNames';
-import CopyRight from './CopyRight';
-import FlexBox from './FlexBox';
-import Grid from './Grid';
-import { GrasSignature, H6, Paragraph } from './Typography';
+} from '@gras/core/src/utils';
+import logo from '../assets/logo.png';
+import CopyRight from './copyright';
 import { SimpleGrid, Title, Image, Text, Container, Group, Anchor } from '@mantine/core';
 
-export default function Footer({
-	className,
-}: {
-	className?: string | string[];
-}) {
+export default function Footer() {
 	const navigationLinks = [
 		{
 			name: TextContent.account.CREATE_DISPENSARY_ACCOUNT,
@@ -177,11 +167,10 @@ const Linkedin = ({ size = 28 }) => (
 	</svg>
 );
 
-const FooterLink = ({ href, name }) => (
-	<Link
+const FooterLink = ({ href, name }: any) => (
+	<Anchor
 		href={replaceRelativePath(href)}
-		className="w-fit hover:!drop-shadow-[0px_3px_1px_#6f6f6f] hover:-translate-y-[2px] hover:scale-[107%] transition py-1"
 	>
-		<Paragraph className="font-medium">{name}</Paragraph>
-	</Link>
+		<Text>{name}</Text>
+	</Anchor>
 );

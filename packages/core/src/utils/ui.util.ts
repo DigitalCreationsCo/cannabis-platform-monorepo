@@ -1,4 +1,3 @@
-import { type Address, type Schedule } from '@gras/data-access';
 import { integerToTime } from './time.util';
 
 const renderAddress = ({
@@ -9,10 +8,7 @@ const renderAddress = ({
 	showCountry = false,
 	lineBreak = true,
 }: {
-	address?: Omit<
-		Address,
-		'id' | 'userId' | 'organizationId' | 'createdAt' | 'updatedAt'
-	>;
+	address: any;
 	showCity?: boolean;
 	showState?: boolean;
 	showZipcode?: boolean;
@@ -29,8 +25,8 @@ const renderAddress = ({
 	}${(showCountry && ' ' + address.country) || ''}`;
 };
 
-const renderSchedule = (schedule: Schedule[]): [string, string][] => {
-	return schedule.reduce((acc, day) => {
+const renderSchedule = (schedule: any): [string, string][] => {
+	return schedule.reduce((acc: any, day: any) => {
 		return [
 			...acc,
 			[
