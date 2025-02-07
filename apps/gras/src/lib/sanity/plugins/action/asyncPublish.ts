@@ -1,4 +1,3 @@
-import axios from 'axios';
 // import { type SanityDocument } from 'next-sanity';
 import {} from // type DocumentActionComponent,
 // type DocumentActionsContext,
@@ -8,9 +7,9 @@ import { apiVersion } from '@/lib/sanity/sanity.api';
 import { setContentUrl } from '@/lib/sanity/sanity.client';
 // import { type Post } from '../../sanity.queries';
 
-export function createAsyncPublishAction(originalAction, context) {
+export function createAsyncPublishAction(originalAction: any, context: any) {
 	const client = context.getClient({ apiVersion });
-	return (props) => {
+	return (props: any) => {
 		const originalResult = originalAction(props);
 		const publishedDocument = props.published;
 		console.info('publishedDocument: ', publishedDocument);
@@ -32,8 +31,9 @@ export function createAsyncPublishAction(originalAction, context) {
 					}
 
 					// Call the API route with the published document data
-					await axios.post('/api/blog/generate-social-media-post', {
-						...document,
+					await fetch('/api/blog/generate-social-media-post', {
+						method: "POST",
+						body: JSON.stringify(document),
 					});
 
 					// Set the content URL after the document is published

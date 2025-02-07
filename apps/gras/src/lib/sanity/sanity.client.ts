@@ -130,7 +130,7 @@ export async function setPostPublishedToSocialMedia(
 }
 
 export async function setContentUrl(
-	document,
+	document: any,
 	postsPath = 'posts'
 ): Promise<Post> {
 	const contentUrl = `https://gras.live/blog/${postsPath}/${document?.slug.current}`;
